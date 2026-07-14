@@ -92,6 +92,19 @@ Further such per-file notices may exist elsewhere in the tree; where present,
 they govern that file and remain in force.
 
 
+3b. ToastCore database (toastcore.db)
+-----------------------------------------
+
+`toastcore.db` has a separate lineage from the engine source above: it
+descends from the unofficial 2018 LambdaCore database, updated as
+[ToastCore](https://github.com/lisdude/toastcore) by lisdude and
+contributors, and released without a separate top-level license file of
+its own (consistent with the historically permissive LambdaMOO-derived
+convention documented in section 1). The copy in this repository is the
+ToastCore database with its player-facing text translated to Polish, ASCII
+only (see section 5 for the terms covering that translation work).
+
+
 4. Bundled third-party dependencies
 --------------------------------------
 
@@ -112,9 +125,9 @@ See those files directly for the authoritative text.
 Copyright (c) 2026 Radoslaw Smolka.
 
 This covers everything added in this fork that is not already covered by
-a notice above — including the Polish localization of the engine and, once
-merged, of the ToastCore database content, plus any new features or fixes.
-It is released under the MIT License:
+a notice above — including the Polish localization of the engine and of the
+ToastCore database content, plus any new features or fixes. It is released
+under the MIT License:
 
     Permission is hereby granted, free of charge, to any person obtaining a
     copy of this software and associated documentation files (the
@@ -158,7 +171,8 @@ Credits
 - Stephen White ("ghond") — early LambdaMOO contributions.
 - Todd Sundsted and contributors — the Stunt fork.
 - lisdude and contributors — the ToastStunt fork,
-  https://github.com/lisdude/toaststunt
+  https://github.com/lisdude/toaststunt, and the ToastCore database,
+  https://github.com/lisdude/toastcore
 - Ken Fox and Andy Bakun — the FileIO extension.
 - Johan Hanssen Seferidis — the bundled C thread pool (thpool).
 - Lloyd Hilaiel — the bundled yajl JSON library.
