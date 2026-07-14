@@ -13,7 +13,7 @@
 0 interrupted tasks
 1 active connections with listeners
 2 0
-136
+137
 #0
 The System Object
 24
@@ -665,7 +665,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784041038
+1784055588
 2
 name
 2
@@ -1235,7 +1235,7 @@ source
 2
 time
 0
-1784046297
+1784056230
 4
 0
 1
@@ -1454,7 +1454,7 @@ time
 4
 2
 0
-1784046271
+1784056202
 2
 localhost
 2
@@ -1463,7 +1463,7 @@ localhost
 2
 0
 0
-1784046277
+1784056207
 2
 1
 0
@@ -1597,15 +1597,17 @@ localhost
 2
 4
 4
-1
+2
+2
+localhost
+2
+127.0.0.1
+2
+0
 2
 localhost
 2
 0
-2
-localhost
-2
-0
 5
 2
 5
@@ -1625,7 +1627,7 @@ localhost
 2
 5
 0
-1784046297
+1784056230
 2
 1
 0
@@ -1673,7 +1675,7 @@ localhost
 2
 0
 12
-136
+137
 2
 1
 5
@@ -1829,7 +1831,7 @@ go
 2
 93
 -2
-l*ook
+l*ook patrz
 2
 93
 -2
@@ -2517,11 +2519,11 @@ Generic Thing
 1
 97
 6
-g*et t*ake
+g*et t*ake wez
 2
 45
 -1
-d*rop th*row
+d*rop th*row poloz rzuc
 2
 45
 -1
@@ -2533,7 +2535,7 @@ take_failed_msg take_succeeded_msg otake_failed_msg otake_succeeded_msg drop_fai
 2
 173
 -1
-gi*ve ha*nd
+gi*ve ha*nd daj
 2
 109
 1
@@ -2748,7 +2750,7 @@ page_origin_msg page_echo_msg page_absent_msg
 36
 173
 -1
-i inv*entory
+i inv*entory ekw ekwipunek
 2
 9
 -1
@@ -2764,7 +2766,7 @@ home
 2
 9
 -1
-g*et take
+g*et take wez
 2
 45
 -1
@@ -2852,7 +2854,7 @@ set_brief
 2
 89
 -2
-exam*ine @exam*ine
+exam*ine @exam*ine zbadaj
 2
 25
 -1
@@ -3407,11 +3409,11 @@ Generic Container
 1
 83
 15
-p*ut in*sert d*rop
+p*ut in*sert d*rop wloz
 2
 157
 3
-re*move ta*ke g*et
+re*move ta*ke g*et wyjmij wez
 2
 157
 5
@@ -3423,7 +3425,7 @@ acceptable
 2
 173
 -1
-open
+open otworz
 2
 45
 -1
@@ -3435,7 +3437,7 @@ is_openable_by
 2
 173
 -1
-close
+close zamknij
 2
 45
 -1
@@ -3625,7 +3627,7 @@ Generic Note
 1
 54
 11
-r*ead
+r*ead czytaj
 2
 45
 -1
@@ -3637,7 +3639,7 @@ wr*ite
 2
 157
 4
-del*ete rem*ove
+del*ete rem*ove usun
 2
 153
 5
@@ -3720,7 +3722,7 @@ Generic Note
 2
 5
 2
-There appears to be some writing on the note ...
+Widac jakies pismo na kartce ...
 2
 5
 4
@@ -4119,11 +4121,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 0
 10
-1
-1
--73
 0
-2
 2
 5
 0
@@ -4135,7 +4133,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-1
+2
+4
+2
+0
+1784055588
+0
+0
 4
 2
 0
@@ -14658,9 +14662,15 @@ localhost
 2
 l
 4
-0
+1
+2
+127.0.0.1
 4
-0
+1
+4
+1
+1
+2
 36
 0
 0
@@ -26862,17 +26872,19 @@ feature_task
 4
 9
 0
-281399817
+880472639
 2
-.
+wez
 4
-0
-2
-
 1
--1
 2
-
+miecz
+2
+miecz
+1
+-3
+2
+miecz
 2
 
 1
@@ -28288,29 +28300,29 @@ error_list
 prepositions
 15
 2
-2.7.0_20
+2.7.3_5
 36
 5
 4
-7
+6
 2
-off
+z
 2
-from
+z
 2
-out
+na
 2
-on
+do
 2
-on top
+przy
 2
-in
-2
-in front
+za
 36
 5
 4
-13
+11
+0
+1
 0
 1
 0
@@ -28322,15 +28334,9 @@ in front
 0
 5
 0
-5
-0
-5
-0
 6
 0
 6
-0
-9
 0
 9
 0
@@ -28340,67 +28346,63 @@ in front
 36
 5
 4
-13
+11
 2
-using
+za pomoca
 2
-at
+przy uzyciu
 2
-inside
+do
 2
-into
+wewnatrz
 2
-on top of
+do srodka
 2
-onto
+na wierzchu
 2
-upon
+spod
 2
-out of
+z wnetrza
 2
-from inside
+ponizej
 2
-underneath
+dla
 2
-beneath
-2
-about
-2
-off of
+z powierzchni
 36
 5
 4
 15
 2
-with
+uzywajac
 2
-to
+u
 2
-in front of
+przed
 2
-in
+w
 2
-on
+na
 2
-from
+z
 2
-over
+nad
 2
-through
+przez
 2
-under
+pod
 2
-behind
+za
 2
-beside
+obok
 2
-for
+o
 2
-is
+jest
 2
-as
+jako
 2
-off
+ze
 36
 5
 4
@@ -28576,35 +28578,35 @@ E_INTRPT
 4
 15
 2
-with/using
+za pomoca/przy uzyciu/uzywajac
 2
-at/to
+u/do
 2
-in front of
+przed
 2
-in/inside/into
+w/wewnatrz/do srodka
 2
-on top of/on/onto/upon
+na/na wierzchu
 2
-out of/from inside/from
+z/spod/z wnetrza
 2
-over
+nad
 2
-through
+przez
 2
-under/underneath/beneath
+pod/ponizej
 2
-behind
+za
 2
-beside
+obok
 2
-for/about
+dla/o
 2
-is
+jest
 2
-as
+jako
 2
-off/off of
+ze/z powierzchni
 36
 5
 4
@@ -32145,7 +32147,7 @@ lost_souls
 36
 0
 4
-7
+8
 1
 127
 1
@@ -32160,6 +32162,8 @@ lost_souls
 134
 1
 135
+1
+136
 36
 5
 5
@@ -53605,8 +53609,9 @@ ich
 1
 # 134 recycled
 # 135 recycled
+# 136 recycled
 1
-#136
+#137
 
 0
 98
@@ -56118,21 +56123,21 @@ return $string_utils:pronoun_sub(this.(verb));
 #5:4
 set_task_perms(callers() ? caller_perms() | player);
 if (this.location != player)
-player:tell("You don't have that!");
+player:tell("Nie masz tego!");
 elseif (!valid(player.location))
-player:tell("I see no \"", iobjstr, "\" here.");
+player:tell("Nie widze tu \"", iobjstr, "\".");
 elseif ($command_utils:object_match_failed(who = player.location:match_object(iobjstr), iobjstr))
 elseif (who.location != player.location)
-player:tell("I see no \"", iobjstr, "\" here.");
+player:tell("Nie widze tu \"", iobjstr, "\".");
 elseif (who == player)
-player:tell("Give it to yourself?");
+player:tell("Dac to sobie samemu?");
 else
 this:moveto(who);
 if (this.location == who)
-player:tell("You hand ", this:title(), " to ", who:title(), ".");
-who:tell(player:titlec(), " ", $gender_utils:get_conj("hands/hand", player), " you ", this:title(), ".");
+player:tell("Podajesz ", this:title(), " osobie ", who:title(), ".");
+who:tell(player:titlec(), " ", $polish_utils:conj("podaje", "podaja", player), " ci ", this:title(), ".");
 else
-player:tell(who:titlec(), " ", $gender_utils:get_conj("does/do", who), " not want that item.");
+player:tell(who:titlec(), " ", $polish_utils:conj("nie chce", "nie chca", who), " tego przedmiotu.");
 endif
 endif
 .
@@ -58719,13 +58724,13 @@ return this.(verb);
 .
 #9:0
 if (!this:is_readable_by(valid(caller_perms()) ? caller_perms() | player))
-player:tell("Sorry, but it seems to be written in some code that you can't read.");
+player:tell("Niestety, wyglada na to, ze jest to napisane szyfrem, ktorego nie znasz.");
 else
 this:look_self();
 player:tell();
 player:tell_lines_suspended(this:text());
 player:tell();
-player:tell("(You finish reading.)");
+player:tell("(Konczysz czytanie.)");
 endif
 .
 #9:1
