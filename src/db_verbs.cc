@@ -47,15 +47,15 @@
  */
 static const char *prep_list[] =
 {
-    "za pomocą/przy użyciu/używając",
+    "za pomoca/przy uzyciu/uzywajac",
     "u/do",
     "przed",
-    "w/wewnątrz/do środka",
+    "w/wewnatrz/do srodka",
     "na/na wierzchu",
-    "z/spod/z wnętrza",
+    "z/spod/z wnetrza",
     "nad",
     "przez",
-    "pod/poniżej",
+    "pod/ponizej",
     "za",
     "obok",
     "dla/o",

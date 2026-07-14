@@ -855,7 +855,7 @@ do_command_task(tqueue * tq, char *command)
                                vh.ptr))) {
                 do_input_task(tq->player, pc, _this, vh);
             } else {
-                notify(tq->player, "Nie zrozumiałem tego.");
+                notify(tq->player, "Nie zrozumialem tego.");
                 tq->last_input_task_id = 0;
             }
 
@@ -2176,7 +2176,7 @@ find_verb_for_programming(Objid player, const char *verbref,
 
     if (!colon || colon[1] == '\0') {
         free_str(copy);
-        *message = "Musisz podać czasownik; użyj formatu obiekt:czasownik.";
+        *message = "Musisz podac czasownik; uzyj formatu obiekt:czasownik.";
         return h;
     }
     *colon = '\0';
@@ -2191,13 +2191,13 @@ find_verb_for_programming(Objid player, const char *verbref,
     if (!valid(oid)) {
         switch (oid) {
             case FAILED_MATCH:
-                stream_printf(str, "Nie widzę tu \"%s\".", obj);
+                stream_printf(str, "Nie widze tu \"%s\".", obj);
                 break;
             case AMBIGUOUS:
-                stream_printf(str, "Nie wiem, o które \"%s\" ci chodzi.", obj);
+                stream_printf(str, "Nie wiem, o ktore \"%s\" ci chodzi.", obj);
                 break;
             default:
-                stream_printf(str, "\"%s\" nie jest prawidłowym obiektem.", obj);
+                stream_printf(str, "\"%s\" nie jest prawidlowym obiektem.", obj);
                 break;
         }
         *message = reset_stream(str);
@@ -2214,10 +2214,10 @@ find_verb_for_programming(Objid player, const char *verbref,
     else if (!db_verb_allows(h, player, VF_WRITE)
              || (server_flag_option("protect_set_verb_code", 0)
                  && !is_wizard(player))) {
-        *message = "Brak uprawnień.";
+        *message = "Brak uprawnien.";
         h.ptr = nullptr;
     } else {
-        stream_printf(str, "Teraz programujesz %s:%s.  Wpisz \".\" aby zakończyć.",
+        stream_printf(str, "Teraz programujesz %s:%s.  Wpisz \".\" aby zakonczyc.",
                       db_object_name(oid), db_verb_names(h));
         *message = reset_stream(str);
     }

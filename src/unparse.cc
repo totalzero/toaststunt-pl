@@ -39,46 +39,46 @@ unparse_error(enum error e)
 {
     switch (e) {
         case E_NONE:
-            return "Brak błędu";
+            return "Brak bledu";
         case E_TYPE:
-            return "Niezgodność typów";
+            return "Niezgodnosc typow";
         case E_DIV:
             return "Dzielenie przez zero";
         case E_PERM:
-            return "Brak uprawnień";
+            return "Brak uprawnien";
         case E_PROPNF:
-            return "Nie znaleziono właściwości";
+            return "Nie znaleziono wlasciwosci";
         case E_VERBNF:
             return "Nie znaleziono czasownika";
         case E_VARNF:
             return "Nie znaleziono zmiennej";
         case E_INVIND:
-            return "Nieprawidłowe odwołanie pośrednie";
+            return "Nieprawidlowe odwolanie posrednie";
         case E_RECMOVE:
             return "Rekurencyjne przeniesienie";
         case E_MAXREC:
-            return "Zbyt wiele wywołań czasowników";
+            return "Zbyt wiele wywolan czasownikow";
         case E_RANGE:
-            return "Błąd zakresu";
+            return "Blad zakresu";
         case E_ARGS:
-            return "Nieprawidłowa liczba argumentów";
+            return "Nieprawidlowa liczba argumentow";
         case E_NACC:
             return "Przeniesienie odrzucone przez cel";
         case E_INVARG:
-            return "Nieprawidłowy argument";
+            return "Nieprawidlowy argument";
         case E_QUOTA:
-            return "Przekroczono limit zasobów";
+            return "Przekroczono limit zasobow";
         case E_FLOAT:
-            return "Błąd arytmetyki zmiennoprzecinkowej";
+            return "Blad arytmetyki zmiennoprzecinkowej";
         case E_FILE:
-            return "Błąd pliku";
+            return "Blad pliku";
         case E_EXEC:
-            return "Błąd wykonania";
+            return "Blad wykonania";
         case E_INTRPT:
             return "Przerwano";
     }
 
-    return "Nieznany błąd";
+    return "Nieznany blad";
 }
 
 const char *

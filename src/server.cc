@@ -911,7 +911,7 @@ main_loop(void)
                     unlock_connection_name_mutex(h->nhandle);
                     if (h->print_messages)
                         send_message(h->listener, h->nhandle, "boot_msg",
-                                     "*** Rozłączono ***", 0);
+                                     "*** Rozlaczono ***", 0);
                     network_close(h->nhandle);
                     free_shandle(h);
                 } else if (h->switched) {
@@ -1518,9 +1518,9 @@ server_refuse_connection(server_listener sl, network_handle nh)
 
     if (l->print_messages)
         send_message(l->oid, nh, "server_full_msg",
-                     "*** Przepraszamy, ale serwer nie może teraz przyjąć"
-                     " więcej połączeń.",
-                     "*** Spróbuj ponownie później.",
+                     "*** Przepraszamy, ale serwer nie moze teraz przyjac"
+                     " wiecej polaczen.",
+                     "*** Sprobuj ponownie pozniej.",
                      0);
 
     errlog("SERVER FULL: refusing connection on %s [%s], port %i from %s [%s], port %i\n",
@@ -1685,10 +1685,10 @@ player_connected(Objid old_id, Objid new_id, bool is_newly_created)
         if (existing_h->print_messages)
             send_message(existing_listener, existing_h->nhandle,
                          "redirect_from_msg",
-                         "*** Przekierowywanie połączenia na nowy port ***", 0);
+                         "*** Przekierowywanie polaczenia na nowy port ***", 0);
         if (new_h->print_messages)
             send_message(new_h->listener, new_h->nhandle, "redirect_to_msg",
-                         "*** Przekierowywanie starego połączenia na ten port ***", 0);
+                         "*** Przekierowywanie starego polaczenia na ten port ***", 0);
         if (get_nhandle_refcount(existing_h->nhandle) > 1) {
             existing_h->disconnect_me = true;
         } else {
@@ -1717,7 +1717,7 @@ player_connected(Objid old_id, Objid new_id, bool is_newly_created)
                              "*** Utworzono ***", 0);
             else
                 send_message(new_h->listener, new_h->nhandle, "connect_msg",
-                             "*** Połączono ***", 0);
+                             "*** Polaczono ***", 0);
         }
         call_notifier(new_id, new_h->listener,
                       is_newly_created ? "user_created" : "user_connected");
@@ -1745,10 +1745,10 @@ player_switched(Objid old_id, Objid new_id, bool silent)
         if (!silent && existing_h->print_messages)
             send_message(existing_h->listener, existing_h->nhandle,
                          "redirect_from_msg",
-                         "*** Przekierowywanie połączenia na nowy port ***", 0);
+                         "*** Przekierowywanie polaczenia na nowy port ***", 0);
         if (!silent && new_h->print_messages)
             send_message(new_h->listener, new_h->nhandle, "redirect_to_msg",
-                         "*** Przekierowywanie starego połączenia na ten port ***", 0);
+                         "*** Przekierowywanie starego polaczenia na ten port ***", 0);
         if (get_nhandle_refcount(existing_h->nhandle) > 1) {
             existing_h->disconnect_me = true;
         } else {
@@ -1758,7 +1758,7 @@ player_switched(Objid old_id, Objid new_id, bool silent)
     } else {
         if (!silent && new_h->print_messages)
             send_message(new_h->listener, new_h->nhandle, "connect_msg",
-                         "*** Połączono ***", 0);
+                         "*** Polaczono ***", 0);
         status = old_id < 0 ? "CONNECTED:" : "SWITCHED:";
     }
     lock_connection_name_mutex(new_h->nhandle);
