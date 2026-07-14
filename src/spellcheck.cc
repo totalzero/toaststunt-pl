@@ -19,7 +19,7 @@ bf_spellcheck(Var arglist, Byte next, void *vdata, Objid progr) {
     if (!spell_config)
     {
         spell_config = new_aspell_config();
-        aspell_config_replace(spell_config, "lang", "en_US");
+        aspell_config_replace(spell_config, "lang", "pl_PL");
     }
     static AspellCanHaveError *possible_err;
     if (!possible_err)

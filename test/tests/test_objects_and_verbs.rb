@@ -324,8 +324,8 @@ class TestObjectsAndVerbs < Test::Unit::TestCase
     SCENARIOS.each do |args|
       run_test_as('programmer') do
         o = create(*args)
-        add_verb(o, [player, 'rw', 'foobar'], ['any', 'on', 'this'])
-        assert_equal ['any', 'on top of/on/onto/upon', 'this'], verb_args(o, 'foobar')
+        add_verb(o, [player, 'rw', 'foobar'], ['any', 'na', 'this'])
+        assert_equal ['any', 'na/na wierzchu', 'this'], verb_args(o, 'foobar')
       end
     end
   end
@@ -394,7 +394,7 @@ class TestObjectsAndVerbs < Test::Unit::TestCase
     SCENARIOS.each do |args|
       run_test_as('programmer') do
         o = create(*args)
-        add_verb(o, [player, 'rw', 'foobar'], ['any', 'on', 'this'])
+        add_verb(o, [player, 'rw', 'foobar'], ['any', 'na', 'this'])
         assert_equal [], verb_code(o, 'foobar')
       end
     end
@@ -464,7 +464,7 @@ class TestObjectsAndVerbs < Test::Unit::TestCase
     SCENARIOS.each do |args|
       run_test_as('programmer') do
         o = create(*args)
-        add_verb(o, [player, 'rw', 'foobar'], ['any', 'in', 'this'])
+        add_verb(o, [player, 'rw', 'foobar'], ['any', 'w', 'this'])
         set_verb_info(o, 'foobar', [player, 'x', 'barfoo'])
         assert_equal [player, 'x', 'barfoo'], verb_info(o, 'barfoo')
       end
@@ -535,7 +535,7 @@ class TestObjectsAndVerbs < Test::Unit::TestCase
     SCENARIOS.each do |args|
       run_test_as('programmer') do
         o = create(*args)
-        add_verb(o, [player, 'rw', 'foobar'], ['any', 'in', 'this'])
+        add_verb(o, [player, 'rw', 'foobar'], ['any', 'w', 'this'])
         set_verb_args(o, 'foobar', ['any', 'any', 'any'])
         assert_equal ['any', 'any', 'any'], verb_args(o, 'foobar')
       end
@@ -566,7 +566,7 @@ class TestObjectsAndVerbs < Test::Unit::TestCase
       o = nil
       run_test_as('programmer') do
         o = create(*args)
-        add_verb(o, [player, '', 'foobar'], ['this', 'in', 'this'])
+        add_verb(o, [player, '', 'foobar'], ['this', 'w', 'this'])
       end
       run_test_as('programmer') do
         assert_equal E_PERM, set_verb_args(o, 'foobar', ['any', 'any', 'any'])
@@ -579,7 +579,7 @@ class TestObjectsAndVerbs < Test::Unit::TestCase
       o = nil
       run_test_as('programmer') do
         o = create(*args)
-        add_verb(o, [player, 'w', 'foobar'], ['this', 'in', 'this'])
+        add_verb(o, [player, 'w', 'foobar'], ['this', 'w', 'this'])
       end
       run_test_as('programmer') do
         assert_not_equal E_PERM, set_verb_args(o, 'foobar', ['any', 'any', 'any'])
@@ -592,7 +592,7 @@ class TestObjectsAndVerbs < Test::Unit::TestCase
       o = nil
       run_test_as('programmer') do
         o = create(*args)
-        add_verb(o, [player, '', 'foobar'], ['this', 'in', 'this'])
+        add_verb(o, [player, '', 'foobar'], ['this', 'w', 'this'])
       end
       run_test_as('wizard') do
         assert_not_equal E_PERM, set_verb_args(o, 'foobar', ['any', 'any', 'any'])
@@ -606,7 +606,7 @@ class TestObjectsAndVerbs < Test::Unit::TestCase
     SCENARIOS.each do |args|
       run_test_as('programmer') do
         o = create(*args)
-        add_verb(o, [player, 'rw', 'foobar'], ['any', 'in', 'this'])
+        add_verb(o, [player, 'rw', 'foobar'], ['any', 'w', 'this'])
         set_verb_code(o, 'foobar', ['1;', '2;', '3;'])
         assert_equal ['1;', '2;', '3;'], verb_code(o, 'foobar')
       end
@@ -637,7 +637,7 @@ class TestObjectsAndVerbs < Test::Unit::TestCase
       o = nil
       run_test_as('programmer') do
         o = create(*args)
-        add_verb(o, [player, '', 'foobar'], ['this', 'in', 'this'])
+        add_verb(o, [player, '', 'foobar'], ['this', 'w', 'this'])
       end
       run_test_as('programmer') do
         assert_equal E_PERM, set_verb_code(o, 'foobar', ['1;', '2;', '3;'])
@@ -650,7 +650,7 @@ class TestObjectsAndVerbs < Test::Unit::TestCase
       o = nil
       run_test_as('programmer') do
         o = create(*args)
-        add_verb(o, [player, 'w', 'foobar'], ['this', 'in', 'this'])
+        add_verb(o, [player, 'w', 'foobar'], ['this', 'w', 'this'])
       end
       run_test_as('programmer') do
         assert_not_equal E_PERM, set_verb_code(o, 'foobar', ['1;', '2;', '3;'])
@@ -663,7 +663,7 @@ class TestObjectsAndVerbs < Test::Unit::TestCase
       o = nil
       run_test_as('programmer') do
         o = create(*args)
-        add_verb(o, [player, '', 'foobar'], ['this', 'in', 'this'])
+        add_verb(o, [player, '', 'foobar'], ['this', 'w', 'this'])
       end
       run_test_as('wizard') do
         assert_not_equal E_PERM, set_verb_code(o, 'foobar', ['1;', '2;', '3;'])

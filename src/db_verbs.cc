@@ -47,21 +47,21 @@
  */
 static const char *prep_list[] =
 {
-    "with/using",
-    "at/to",
-    "in front of",
-    "in/inside/into",
-    "on top of/on/onto/upon",
-    "out of/from inside/from",
-    "over",
-    "through",
-    "under/underneath/beneath",
-    "behind",
-    "beside",
-    "for/about",
-    "is",
-    "as",
-    "off/off of",
+    "za pomocą/przy użyciu/używając",
+    "u/do",
+    "przed",
+    "w/wewnątrz/do środka",
+    "na/na wierzchu",
+    "z/spod/z wnętrza",
+    "nad",
+    "przez",
+    "pod/poniżej",
+    "za",
+    "obok",
+    "dla/o",
+    "jest",
+    "jako",
+    "ze/z powierzchni",
 };
 
 #define NPREPS Arraysize(prep_list)

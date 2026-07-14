@@ -39,46 +39,46 @@ unparse_error(enum error e)
 {
     switch (e) {
         case E_NONE:
-            return "No error";
+            return "Brak błędu";
         case E_TYPE:
-            return "Type mismatch";
+            return "Niezgodność typów";
         case E_DIV:
-            return "Division by zero";
+            return "Dzielenie przez zero";
         case E_PERM:
-            return "Permission denied";
+            return "Brak uprawnień";
         case E_PROPNF:
-            return "Property not found";
+            return "Nie znaleziono właściwości";
         case E_VERBNF:
-            return "Verb not found";
+            return "Nie znaleziono czasownika";
         case E_VARNF:
-            return "Variable not found";
+            return "Nie znaleziono zmiennej";
         case E_INVIND:
-            return "Invalid indirection";
+            return "Nieprawidłowe odwołanie pośrednie";
         case E_RECMOVE:
-            return "Recursive move";
+            return "Rekurencyjne przeniesienie";
         case E_MAXREC:
-            return "Too many verb calls";
+            return "Zbyt wiele wywołań czasowników";
         case E_RANGE:
-            return "Range error";
+            return "Błąd zakresu";
         case E_ARGS:
-            return "Incorrect number of arguments";
+            return "Nieprawidłowa liczba argumentów";
         case E_NACC:
-            return "Move refused by destination";
+            return "Przeniesienie odrzucone przez cel";
         case E_INVARG:
-            return "Invalid argument";
+            return "Nieprawidłowy argument";
         case E_QUOTA:
-            return "Resource limit exceeded";
+            return "Przekroczono limit zasobów";
         case E_FLOAT:
-            return "Floating-point arithmetic error";
+            return "Błąd arytmetyki zmiennoprzecinkowej";
         case E_FILE:
-            return "File error";
+            return "Błąd pliku";
         case E_EXEC:
-            return "Exec error";
+            return "Błąd wykonania";
         case E_INTRPT:
-            return "Interrupted";
+            return "Przerwano";
     }
 
-    return "Unknown Error";
+    return "Nieznany błąd";
 }
 
 const char *

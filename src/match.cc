@@ -127,9 +127,9 @@ match_object(Objid player, const char *name)
     }
     if (!valid(player))
         return FAILED_MATCH;
-    if (!strcasecmp(name, "me"))
+    if (!strcasecmp(name, "ja"))
         return player;
-    if (!strcasecmp(name, "here"))
+    if (!strcasecmp(name, "tu") || !strcasecmp(name, "tutaj"))
         return db_object_location(player);
     return match_contents(player, name);
 }

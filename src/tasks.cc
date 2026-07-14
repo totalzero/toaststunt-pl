@@ -855,7 +855,7 @@ do_command_task(tqueue * tq, char *command)
                                vh.ptr))) {
                 do_input_task(tq->player, pc, _this, vh);
             } else {
-                notify(tq->player, "I couldn't understand that.");
+                notify(tq->player, "Nie zrozumiałem tego.");
                 tq->last_input_task_id = 0;
             }
 
@@ -2176,7 +2176,7 @@ find_verb_for_programming(Objid player, const char *verbref,
 
     if (!colon || colon[1] == '\0') {
         free_str(copy);
-        *message = "You must specify a verb; use the format object:verb.";
+        *message = "Musisz podać czasownik; użyj formatu obiekt:czasownik.";
         return h;
     }
     *colon = '\0';
@@ -2191,13 +2191,13 @@ find_verb_for_programming(Objid player, const char *verbref,
     if (!valid(oid)) {
         switch (oid) {
             case FAILED_MATCH:
-                stream_printf(str, "I don't see \"%s\" here.", obj);
+                stream_printf(str, "Nie widzę tu \"%s\".", obj);
                 break;
             case AMBIGUOUS:
-                stream_printf(str, "I don't know which \"%s\" you mean.", obj);
+                stream_printf(str, "Nie wiem, o które \"%s\" ci chodzi.", obj);
                 break;
             default:
-                stream_printf(str, "\"%s\" is not a valid object.", obj);
+                stream_printf(str, "\"%s\" nie jest prawidłowym obiektem.", obj);
                 break;
         }
         *message = reset_stream(str);
@@ -2210,14 +2210,14 @@ find_verb_for_programming(Objid player, const char *verbref,
     free_str(copy);
 
     if (!h.ptr)
-        *message = "That object does not have that verb definition.";
+        *message = "Ten obiekt nie ma takiej definicji czasownika.";
     else if (!db_verb_allows(h, player, VF_WRITE)
              || (server_flag_option("protect_set_verb_code", 0)
                  && !is_wizard(player))) {
-        *message = "Permission denied.";
+        *message = "Brak uprawnień.";
         h.ptr = nullptr;
     } else {
-        stream_printf(str, "Now programming %s:%s.  Use \".\" to end.",
+        stream_printf(str, "Teraz programujesz %s:%s.  Wpisz \".\" aby zakończyć.",
                       db_object_name(oid), db_verb_names(h));
         *message = reset_stream(str);
     }
