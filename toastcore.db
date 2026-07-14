@@ -13,7 +13,7 @@
 0 interrupted tasks
 1 active connections with listeners
 2 0
-134
+136
 #0
 The System Object
 24
@@ -665,7 +665,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784056937
+1784057319
 2
 name
 2
@@ -1235,7 +1235,7 @@ source
 2
 time
 0
-1784057256
+1784058152
 4
 0
 1
@@ -1455,7 +1455,7 @@ time
 4
 2
 0
-1784057235
+1784058135
 2
 localhost
 2
@@ -1464,7 +1464,7 @@ localhost
 2
 0
 0
-1784057239
+1784058138
 2
 1
 0
@@ -1628,7 +1628,7 @@ localhost
 2
 5
 0
-1784057256
+1784058152
 2
 1
 0
@@ -1676,7 +1676,7 @@ localhost
 2
 0
 12
-134
+136
 2
 1
 5
@@ -4134,7 +4134,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-3
+4
+4
+2
+0
+1784057319
+0
+0
 4
 2
 0
@@ -26879,23 +26885,19 @@ feature_task
 4
 9
 0
-570062437
+868917152
 2
-szepcz
+poloz
 4
-3
+1
 2
-cos
+banan
 2
-tajnego
-2
-wizard
-2
-cos tajnego wizard
+banan
 1
 -3
 2
-cos tajnego wizard
+banan
 2
 
 1
@@ -29645,15 +29647,17 @@ help
 36
 1
 4
-4
+5
 2
-Syntax:  put <object> into <container>
+Syntax:  put <obiekt> w <kontener>
 2
-         insert <object> in <container>
+         insert <obiekt> w <kontener>
+2
+         wloz <obiekt> w <kontener>
 2
 
 2
-Moves the named object into the named container.  Sometimes the owners of the object and/or the container will not allow you to do this.
+Przenosi wskazany obiekt do wskazanego kontenera. Czasami wlasciciel obiektu i/lub kontenera nie pozwoli ci tego zrobic.
 36
 1
 4
@@ -29731,37 +29735,41 @@ Adds a line of text to the named note or letter.  Only the owner of a note may d
 36
 1
 4
-3
+4
 2
-Syntax:  read <note>
+Syntax:  read <notatka>
+2
+         czytaj <notatka>
 2
 
 2
-Prints the text written on the named object, usually a note or letter.  Some notes are encrypted so that only certain players may read them.
+Wypisuje tekst zapisany na wskazanym obiekcie, zazwyczaj notatce lub liscie. Niektore notatki sa zaszyfrowane, wiec moga je przeczytac tylko okresleni gracze.
 36
 1
 4
-10
+11
 2
-Syntax:  examine <object>
+Syntax:  examine <obiekt>
 2
-         exam <object>
+         exam <obiekt>
+2
+         zbadaj <obiekt>
 2
 
 2
-Prints several useful pieces of information about the named object, including the following:
+Wypisuje kilka przydatnych informacji o wskazanym obiekcie, w tym:
 2
-        + its full name, object number, and aliases
+        + jego pelna nazwe, numer obiektu i aliasy
 2
-        + its owner's name
+        + imie jego wlasciciela
 2
-        + its description
+        + jego opis
 2
-        + its key expression (if it is locked and if you own it)
+        + jego wyrazenie kluczowe (jesli jest zablokowany i jest twoja wlasnoscia)
 2
-        + its contents
+        + jego zawartosc
 2
-        + the 'obvious' verbs defined on it
+        + 'oczywiste' czasowniki na nim zdefiniowane
 36
 1
 4
@@ -29781,25 +29789,29 @@ drop
 36
 1
 4
-9
+11
 2
-Syntax:  take <object>
+Syntax:  take <obiekt>
 2
-         get <object>
+         get <obiekt>
 2
-         take <object> from <container>
+         wez <obiekt>
 2
-         get <object> from <container>
+         take <obiekt> z <kontener>
 2
-         remove <object> from <container>
+         get <obiekt> z <kontener>
+2
+         remove <obiekt> z <kontener>
+2
+         wyjmij <obiekt> z <kontener>
 2
 
 2
-The first two forms pick up the named object and place it in your inventory.  Sometimes the owner of the object won't allow it to be picked up for some reason.
+Pierwsze formy podnosza wskazany obiekt i umieszczaja go w twoim ekwipunku. Czasami wlasciciel obiektu nie pozwoli go podniesc z jakiegos powodu.
 2
 
 2
-The remaining forms move the named object from inside the named container (see 'help containers') into your inventory.  As before, sometimes the owner of an object will not allow you to do this.
+Pozostale formy przenosza wskazany obiekt z wnetrza wskazanego kontenera (patrz 'help containers') do twojego ekwipunku. Podobnie jak wyzej, czasami wlasciciel obiektu nie pozwoli ci tego zrobic.
 36
 1
 4
@@ -30337,15 +30349,17 @@ movement -- how to move around in the MOO, from room to room
 36
 1
 4
-4
+5
 2
-Syntax:  give <object> to <player>
+Syntax:  give <obiekt> do <gracz>
 2
-         hand <object> to <player>
+         hand <obiekt> do <gracz>
+2
+         daj <obiekt> do <gracz>
 2
 
 2
-Move an object from your contents to that of another player.  This doesn't change the ownership of the object.  Some players may refuse to accept gifts and some objects may refuse to be given.
+Przenosi obiekt z twojego ekwipunku do ekwipunku innego gracza. Nie zmienia to wlasciciela obiektu. Niektorzy gracze moga odmowic przyjecia prezentu, a niektore obiekty moga odmowic bycia podarowanymi.
 36
 5
 4
@@ -30401,15 +30415,19 @@ If @move doesn't work and you own the room where the object is located, try usin
 36
 5
 4
-4
+6
 2
 Syntax:  inventory
 2
          i
 2
+         ekw
+2
+         ekwipunek
+2
 
 2
-Prints a list showing every object you're carrying.
+Wypisuje liste wszystkich obiektow, ktore niesiesz.
 36
 5
 4
@@ -30525,41 +30543,49 @@ You can make a note by creating a child of the standard note, $note (see 'help @
 36
 5
 4
-11
+13
 2
 Syntax: look
 2
-        look <object>
+        patrz
 2
-        look <object> in <container>
+        look <obiekt>
 2
-
+        patrz <obiekt>
 2
-Show a description of something.
-2
-
-2
-The first form, with no arguments, shows you the name and description of the room you're in, along with a list of the other objects that are there.
+        look <obiekt> w <kontener>
 2
 
 2
-The second form lets you look at a specific object.  Most objects have descriptions that may be read this way.  You can look at your own description using 'look me'.  You can set the description for an object or room, including yourself, with the 'describe' command (see 'help describe').
+Pokazuje opis czegos.
 2
 
 2
-The third form shows you the description of an object that is inside some other object, including objects being carried by another player.
+Pierwsza forma, bez argumentow, pokazuje nazwe i opis pokoju, w ktorym jestes, wraz z lista innych obiektow, ktore sie tam znajduja.
+2
+
+2
+Druga forma pozwala spojrzec na konkretny obiekt. Wiekszosc obiektow ma opisy, ktore mozna w ten sposob przeczytac. Mozesz spojrzec na wlasny opis, wpisujac 'look me'. Opis obiektu lub pokoju, w tym siebie, mozesz ustawic komenda 'describe' (patrz 'help describe').
+2
+
+2
+Trzecia forma pokazuje opis obiektu znajdujacego sie wewnatrz innego obiektu, w tym przedmiotow noszonych przez innego gracza.
 36
 5
 4
-4
+6
 2
-Syntax:  drop <object>
+Syntax:  drop <obiekt>
 2
-         throw <object>
+         throw <obiekt>
+2
+         poloz <obiekt>
+2
+         rzuc <obiekt>
 2
 
 2
-Remove an object you are carrying from your inventory and put it in your current room.  Occasionally you may find that the owner of the room won't allow you to do this.
+Usuwa z twojego ekwipunku obiekt, ktory niesiesz, i umieszcza go w twoim biezacym pokoju. Czasami wlasciciel pokoju nie pozwoli ci tego zrobic.
 36
 5
 4
@@ -30663,19 +30689,21 @@ In addition to such vanilla movement, some areas may contain objects allowing te
 36
 1
 4
-6
+7
 2
 *subst*
 2
 Syntax: home
 2
+        dom
+2
 
 2
-Instantly teleports you to your designated home room.
+Natychmiast teleportuje cie do wyznaczonego pokoju domowego.
 2
-Initially, this room is %[tostr($player_start.name," (",$player_start,")")].
+Poczatkowo tym pokojem jest %[tostr($player_start.name," (",$player_start,")")].
 2
-You can change your designated home; see 'help @sethome' for details.
+Mozesz zmienic swoj wyznaczony dom; zobacz 'help @sethome', aby uzyskac szczegoly.
 36
 1
 4
@@ -30707,69 +30735,73 @@ Others in the same room see this:
 36
 1
 4
+3
 2
+whisper "<tekst>" do <gracz>
 2
-whisper "<text>" to <player>
+szepcz "<tekst>" do <gracz>
 2
-sends the message "<yourname> whispers, "<text>" to you " to <player>, if they are in the room.
+Wysyla wiadomosc "<twoje imie> szepcze: "<tekst>"" do <gracz>, jesli jest w tym samym pokoju.
 36
 1
 4
-27
+28
 2
 *subst*
 2
-Syntax:  page <player> [[with] <text>]
+Syntax:  page <gracz> [[with] <tekst>]
+2
+         przywolaj <gracz> [<tekst>]
 2
 
 2
-Sends a message to a connected player, telling them your location and, optionally, <text>.
+Wysyla wiadomosc do polaczonego gracza, informujac go o twojej lokalizacji oraz, opcjonalnie, o <tekst>.
 2
 
 2
-Example:
+Przyklad:
 2
-Munchkin types:
+Munchkin wpisuje:
 2
-        page Frebble with "Where are you?"
+        page Frebble with "Gdzie jestes?"
 2
-Frebble sees:
+Frebble widzi:
 2
-        You sense that Munchkin is looking for you in the Kitchen.
+        Czujesz, ze Munchkin cie szuka w Kuchni.
 2
-        He pages, "Where are you?"
+        (oraz dodatkowy tekst, jesli zostal podany)
 2
-Munchkin sees:
+Munchkin widzi:
 2
-        Your message has been received.
+        Twoja wiadomosc zostala wyslana.
 2
 
 2
-Advanced Features:
+Zaawansowane funkcje:
 2
-Page refers to the following messages on the players involved (see 'help messages'):
+Page odwoluje sie do nastepujacych wiadomosci graczy bioracych udzial (patrz 'help messages'):
 2
 
 2
 @page_origin [%[$player.page_origin_msg]]
 2
-  Determines how the recipient is told of your location.
+  Okresla, jak odbiorca dowiaduje sie o twojej lokalizacji.
 2
 
 2
 @page_echo   [%[$player.page_echo_msg]]
 2
-  Determines the response received by anyone who pages you.
+  Okresla odpowiedz, jaka otrzyma kazdy, kto cie przywola.
 2
 
 2
 @page_absent [%[$player.page_absent_msg]]
 2
-  Determines the response received by anyone who tries to page you when you aren't connected.
+  Okresla odpowiedz, jaka otrzyma kazdy, kto probuje cie przywolac, gdy nie jestes polaczony.
 2
 
 2
-All of these undergo the usual pronoun substitutions (see 'help pronouns') except that in both cases the direct object (%d) refers to the recipent of the page and the indirect object (%i) refers to the sender.  You should only change these messages if you want to add to the Virtual Reality feel of the MOO for your character.
+Wszystkie one podlegaja standardowym podstawieniom zaimkow (patrz 'help pronouns'), z tym ze w obu przypadkach dopelnienie blizsze (%d) odnosi sie do odbiorcy page, a dopelnienie dalsze (%i) do nadawcy. Powinienes zmieniac te wiadomosci tylko wtedy, gdy chcesz dodac klimatu Wirtualnej Rzeczywistosci swojej postaci.
 36
 1
 4
@@ -37016,35 +37048,35 @@ Prints a list of all conventional exits from the current room (but only if you o
 4
 15
 2
-Containers are objects that allow you to store other objects inside them.  The following help topics cover verbs that can be used with containers:
+Kontenery to obiekty, ktore pozwalaja przechowywac wewnatrz inne obiekty. Nastepujace tematy pomocy obejmuja czasowniki, ktorych mozna uzywac z kontenerami:
 2
 
 2
-put -- putting an object into a container
+put -- wkladanie obiektu do kontenera
 2
-remove -- taking an object out of a container
-2
-
-2
-Containers may be open or closed, using the verbs 'open container' and 'close container'.  Containers have a separate lock to determine if a player may open them.  See the following help topics:
+remove -- wyjmowanie obiektu z kontenera
 2
 
 2
-@lock_for_open -- setting the lock for opening a container
-2
-@unlock_for_open -- clearing the lock
+Kontenery moga byc otwarte lub zamkniete, za pomoca czasownikow 'open <kontener>' i 'close <kontener>'. Kontenery maja osobna blokade okreslajaca, czy gracz moze je otworzyc. Zobacz nastepujace tematy pomocy:
 2
 
 2
-You can make a container by creating a child of the standard container, $container (see 'help @create').
+@lock_for_open -- ustawianie blokady otwierania kontenera
+2
+@unlock_for_open -- usuwanie blokady
 2
 
 2
-Containers have a large number of messages which get printed when players act upon them.  See 'help container-messages' for more information.
+Kontener mozesz stworzyc jako potomka standardowego kontenera, $container (patrz 'help @create').
 2
 
 2
-Containers have opacity.  See 'help @opacity' for more information.
+Kontenery maja wiele wiadomosci, ktore sa wypisywane, gdy gracze na nich dzialaja. Zobacz 'help container-messages', aby dowiedziec sie wiecej.
+2
+
+2
+Kontenery maja tez opacity (nieprzezroczystosc). Zobacz 'help @opacity', aby dowiedziec sie wiecej.
 36
 1
 4
@@ -53618,8 +53650,10 @@ ich
 0
 36
 1
+# 134 recycled
+# 135 recycled
 1
-#134
+#136
 
 0
 98
@@ -54764,8 +54798,8 @@ endif
 #3:15
 if ((dobjstr == "") && (!prepstr))
 this:look_self();
-elseif ((prepstr != "in") && (prepstr != "on"))
-if ((!dobjstr) && (prepstr == "at"))
+elseif (!(prepstr in {"w", "wewnatrz", "do srodka", "na", "na wierzchu"}))
+if ((!dobjstr) && ((prepstr == "u") || (prepstr == "do")))
 dobjstr = iobjstr;
 iobjstr = "";
 else
@@ -54777,16 +54811,16 @@ if (!$command_utils:object_match_failed(dobj, dobjstr))
 dobj:look_self();
 endif
 elseif (!iobjstr)
-player:tell(verb, " ", prepstr, " what?");
+player:tell(verb, " ", prepstr, " co?");
 else
 iobj = this:match_object(iobjstr);
 if (!$command_utils:object_match_failed(iobj, iobjstr))
 if (dobjstr == "")
 iobj:look_self();
 elseif ((thing = iobj:match(dobjstr)) == $failed_match)
-player:tell("I don't see any \"", dobjstr, "\" ", prepstr, " ", iobj.name, ".");
+player:tell("Nie widze niczego takiego jak \"", dobjstr, "\" ", prepstr, " ", iobj.name, ".");
 elseif (thing == $ambiguous_match)
-player:tell("There are several things ", prepstr, " ", iobj.name, " one might call \"", dobjstr, "\".");
+player:tell("Jest kilka rzeczy ", prepstr, " ", iobj.name, ", ktore mozna nazwac \"", dobjstr, "\".");
 else
 thing:look_self();
 endif
@@ -56078,18 +56112,18 @@ endif
 #5:0
 set_task_perms(callers() ? caller_perms() | player);
 if (this.location == player)
-player:tell("You already have that!");
+player:tell("Juz to masz!");
 elseif (this.location != player.location)
-player:tell("I don't see that here.");
+player:tell("Nie widze tego tutaj.");
 else
 this:moveto(player);
 if (this.location == player)
-player:tell(this:take_succeeded_msg() || "Taken.");
+player:tell(this:take_succeeded_msg() || "Wzieto.");
 if (msg = this:otake_succeeded_msg())
 player.location:announce(player.name, " ", msg);
 endif
 else
-player:tell(this:take_failed_msg() || "You can't pick that up.");
+player:tell(this:take_failed_msg() || "Nie mozesz tego podniesc.");
 if (msg = this:otake_failed_msg())
 player.location:announce(player.name, " ", msg);
 endif
@@ -56099,18 +56133,18 @@ endif
 #5:1
 set_task_perms(callers() ? caller_perms() | player);
 if (this.location != player)
-player:tell("You don't have that.");
+player:tell("Nie masz tego.");
 elseif (!player.location:acceptable(this))
-player:tell("You can't drop that here.");
+player:tell("Nie mozesz tego tutaj upuscic.");
 else
 this:moveto(player.location);
 if (this.location == player.location)
-player:tell_lines(this:drop_succeeded_msg() || "Dropped.");
+player:tell_lines(this:drop_succeeded_msg() || "Upuszczono.");
 if (msg = this:odrop_succeeded_msg())
 player.location:announce(player.name, " ", msg);
 endif
 else
-player:tell_lines(this:drop_failed_msg() || "You can't seem to drop that here.");
+player:tell_lines(this:drop_failed_msg() || "Wyglada na to, ze nie mozesz tego tutaj upuscic.");
 if (msg = this:odrop_failed_msg())
 player.location:announce(player.name, " ", msg);
 endif
@@ -57664,7 +57698,7 @@ return 1;
 #6:58
 set_task_perms(player);
 if (!dobjstr)
-player:notify(tostr("Usage:  ", verb, " <object>"));
+player:notify(tostr("Uzycie:  ", verb, " <obiekt>"));
 return E_INVARG;
 endif
 what = player.location:match_object(dobjstr);
@@ -58558,14 +58592,14 @@ args[1]:announce_all_but({what}, msg);
 .
 #8:0
 if ((this.location != player) && (this.location != player.location))
-player:tell("You can't get at ", this.name, ".");
+player:tell("Nie mozesz dosiegnac ", this.name, ".");
 elseif (dobj == $nothing)
-player:tell("What do you want to put ", prepstr, " ", this.name, "?");
+player:tell("Co chcesz wlozyc ", prepstr, " ", this.name, "?");
 elseif ($command_utils:object_match_failed(dobj, dobjstr))
 elseif ((dobj.location != player) && (dobj.location != player.location))
-player:tell("You don't have ", dobj.name, ".");
+player:tell("Nie masz ", dobj.name, ".");
 elseif (!this.opened)
-player:tell(this.name, " is closed.");
+player:tell(this.name, " jest zamkniete.");
 else
 set_task_perms(callers() ? caller_perms() | player);
 dobj:moveto(this);
@@ -58584,16 +58618,16 @@ endif
 .
 #8:1
 if (!(this.location in {player, player.location}))
-player:tell("Sorry, you're too far away.");
+player:tell("Niestety, jestes zbyt daleko.");
 elseif (!this.opened)
-player:tell(this.name, " is not open.");
+player:tell(this.name, " nie jest otwarte.");
 elseif (this.dark)
-player:tell("You can't see into ", this.name, " to remove anything.");
+player:tell("Nie widzisz wnetrza ", this.name, ", wiec nie mozesz nic z niego wyjac.");
 elseif ((dobj = this:match_object(dobjstr)) == $nothing)
-player:tell("What do you want to take from ", this.name, "?");
+player:tell("Co chcesz wyjac z ", this.name, "?");
 elseif ($command_utils:object_match_failed(dobj, dobjstr))
 elseif (!(dobj in this:contents()))
-player:tell(dobj.name, " isn't in ", this.name, ".");
+player:tell(dobj.name, " nie znajduje sie w ", this.name, ".");
 else
 set_task_perms(callers() ? caller_perms() | player);
 dobj:moveto(player);
@@ -58609,7 +58643,7 @@ player:tell(this:remove_msg());
 if (msg = this:oremove_msg())
 player.location:announce(player.name, " ", msg);
 endif
-player:tell("You can't pick up ", dobj.name, ", so it tumbles onto the floor.");
+player:tell("Nie mozesz podniesc ", dobj.name, ", wiec spada na podloge.");
 else
 player:tell(this:remove_fail_msg());
 if (msg = this:oremove_fail_msg())
@@ -58631,7 +58665,7 @@ return !is_player(args[1]);
 #8:4
 perms = (callers() && (caller != this)) ? caller_perms() | player;
 if (this.opened)
-player:tell("It's already open.");
+player:tell("Jest juz otwarte.");
 "elseif (this:is_openable_by(player))";
 elseif (this:is_openable_by(perms))
 this:set_opened(1);
@@ -58667,7 +58701,7 @@ return (this.open_key == 0) || $lock_utils:eval_key(this.open_key, args[1]);
 .
 #8:7
 if (!this.opened)
-player:tell("It's already closed.");
+player:tell("Jest juz zamkniete.");
 else
 this:set_opened(0);
 player:tell(this:close_msg());
@@ -76170,17 +76204,17 @@ if ((index(string, "#") == 1) && ($code_utils:toobj(string) != E_TYPE))
 if ((allow_invalid && (match_result > #0)) && (!valid(match_result)))
 return 0;
 elseif (!valid(match_result))
-player:(tell)(tostr(string, " does not exist."));
+player:(tell)(tostr(string, " nie istnieje."));
 endif
 return !valid(match_result);
 elseif (match_result == $nothing)
-player:(tell)("You must give the name of some object.");
+player:(tell)("Musisz podac nazwe jakiegos obiektu.");
 elseif (match_result == $failed_match)
-player:(tell)(tostr("I see no \"", string, "\" here."));
+player:(tell)(tostr("Nie widze tu \"", string, "\"."));
 elseif (match_result == $ambiguous_match)
-player:(tell)(tostr("I don't know which \"", string, "\" you mean."));
+player:(tell)(tostr("Nie wiem, o ktorym \"", string, "\" mowisz."));
 elseif ((!allow_invalid) && (!valid(match_result)))
-player:(tell)(tostr(match_result, " does not exist."));
+player:(tell)(tostr(match_result, " nie istnieje."));
 else
 return 0;
 endif
@@ -76216,24 +76250,24 @@ pset = setadd(pset, match_results[i]);
 elseif (result == $nothing)
 "... player_match_result quietly skips over blank strings";
 if (pmf)
-plyr:(tell)("You must give the name of some player.");
+plyr:(tell)("Musisz podac imie jakiegos gracza.");
 bombed = 1;
 endif
 elseif (result == $failed_match)
-plyr:(tell)(tostr(cmdid, "\"", strings[i], "\" is not the name of any player."));
+plyr:(tell)(tostr(cmdid, "\"", strings[i], "\" nie jest imieniem zadnego gracza."));
 bombed = 1;
 elseif (result == $ambiguous_match)
 lst = $player_db:find_all(strings[i]);
-plyr:(tell)(tostr(cmdid, "\"", strings[i], "\" could refer to ", (length(lst) > 20) ? tostr("any of ", length(lst), " players") | $string_utils:english_list($list_utils:map_arg(2, $string_utils, "pronoun_sub", "%n (%#)", lst), "no one", " or "), "."));
+plyr:(tell)(tostr(cmdid, "\"", strings[i], "\" moze oznaczac: ", (length(lst) > 20) ? tostr("ktorys z ", length(lst), " graczy") | $string_utils:english_list($list_utils:map_arg(2, $string_utils, "pronoun_sub", "%n (%#)", lst), "nikogo", " lub "), "."));
 bombed = 1;
 else
-plyr:(tell)(tostr(result, " does not exist."));
+plyr:(tell)(tostr(result, " nie istnieje."));
 bombed = 1;
 endif
 endfor
 if ((!bombed) && (!pset))
 "If there were NO valid results, but not any actual 'error', fail anyway.";
-plyr:(tell)("You must give the name of some player.");
+plyr:(tell)("Musisz podac imie jakiegos gracza.");
 bombed = 1;
 endif
 return pmf ? bombed | {bombed, @pset};
