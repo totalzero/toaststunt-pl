@@ -1,0 +1,164 @@
+toaststunt-pl — License
+========================
+
+This project has a layered history, and its license follows that history:
+
+    LambdaMOO (Xerox PARC, Pavel Curtis et al., 1990-1996)
+      -> Stunt (Todd Sundsted et al.)
+        -> ToastStunt (lisdude and contributors, https://github.com/lisdude/toaststunt)
+          -> toaststunt-pl (this fork, Radoslaw Smolka, 2026-),
+             https://github.com/totalzero/toaststunt-pl
+
+Neither LambdaMOO, Stunt, nor ToastStunt ever published a single top-level
+LICENSE file. Instead, permissive license notices are embedded directly in
+the header of most individual source files. This file collects and
+documents those notices so the terms are easy to find in one place, and
+states the terms for new work added in this fork. It does not replace or
+override the original per-file notices — where a source file carries one of
+the notices below in its header, that notice still applies to that file.
+
+If you modify a file that carries one of these notices, keep the existing
+header intact and add your own copyright line underneath it, rather than
+replacing it.
+
+
+1. Original LambdaMOO code (Xerox Corporation)
+-----------------------------------------------
+
+Found verbatim in the headers of most of the original LambdaMOO-derived
+source files (e.g. src/db_verbs.cc, src/db_objects.cc):
+
+    Copyright (c) 1992, 1995, 1996 Xerox Corporation.  All rights reserved.
+    Portions of this code were written by Stephen White, aka ghond.
+    Use and copying of this software and preparation of derivative works
+    based upon this software are permitted.  Any distribution of this
+    software or derivative works must comply with all applicable United
+    States export control laws.  This software is made available AS IS,
+    and Xerox Corporation makes no warranty about the software, its
+    performance or its conformity to any specification.  Any person
+    obtaining a copy of this software is requested to send their name
+    and post office or electronic mail address to:
+      Pavel Curtis
+      Xerox PARC
+      3333 Coyote Hill Rd.
+      Palo Alto, CA 94304
+      Pavel@Xerox.Com
+
+
+2. Stunt-era additions (Todd Sundsted)
+----------------------------------------
+
+Found in the headers of files contributed during the Stunt fork (e.g.
+src/base64.cc, src/crypto.cc, src/exec.cc, src/json.cc, src/garbage.cc,
+src/map.cc, src/system.cc) — the standard BSD 2-Clause License:
+
+    Copyright Todd Sundsted. All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without
+    modification, are permitted provided that the following conditions
+    are met:
+
+     1. Redistributions of source code must retain the above copyright
+        notice, this list of conditions and the following disclaimer.
+
+     2. Redistributions in binary form must reproduce the above copyright
+        notice, this list of conditions and the following disclaimer in
+        the documentation and/or other materials provided with the
+        distribution.
+
+    THIS SOFTWARE IS PROVIDED BY TODD SUNDSTED ``AS IS'' AND ANY EXPRESS OR
+    IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+    WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+    DISCLAIMED. IN NO EVENT SHALL TODD SUNDSTED OR CONTRIBUTORS BE LIABLE
+    FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+    CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+    SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+    BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+    WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+    OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+    IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+3. Other embedded notices
+---------------------------
+
+- **FileIO extension** — Copyright 1996, 1997 by Ken Fox. Copyright 1997 by
+  Andy Bakun. Copyright 2011 by Todd Sundsted. Permissive terms (use, copy,
+  modify and distribute for any purpose, provided the copyright and
+  permission notice is preserved). Full text in
+  `docs/Legacy/README/README.FileIO`.
+
+Further such per-file notices may exist elsewhere in the tree; where present,
+they govern that file and remain in force.
+
+
+4. Bundled third-party dependencies
+--------------------------------------
+
+These are vendored libraries with their own, separate licenses. They are
+unmodified by this project and keep their original terms in full:
+
+- `src/dependencies/LICENSE_THPOOL` — MIT License, Copyright (c) 2016 Johan
+  Hanssen Seferidis.
+- `src/dependencies/yajl/COPYING` — BSD-style license, Copyright 2010,
+  Lloyd Hilaiel.
+
+See those files directly for the authoritative text.
+
+
+5. New work in this fork (toaststunt-pl)
+--------------------------------------------
+
+Copyright (c) 2026 Radoslaw Smolka.
+
+This covers everything added in this fork that is not already covered by
+a notice above — including the Polish localization of the engine and, once
+merged, of the ToastCore database content, plus any new features or fixes.
+It is released under the MIT License:
+
+    Permission is hereby granted, free of charge, to any person obtaining a
+    copy of this software and associated documentation files (the
+    "Software"), to deal in the Software without restriction, including
+    without limitation the rights to use, copy, modify, merge, publish,
+    distribute, sublicense, and/or sell copies of the Software, and to
+    permit persons to whom the Software is furnished to do so, subject to
+    the following conditions:
+
+    The above copyright notice and this permission notice shall be
+    included in all copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+
+Summary for downstream users
+--------------------------------
+
+- You may use, copy, modify and redistribute this software, including for
+  commercial purposes.
+- Preserve existing copyright notices in files that carry them (sections
+  1-3 above); add your own notice alongside them when you modify such a
+  file.
+- New code contributed in this fork (section 5) is available under the MIT
+  License.
+- No copyleft obligation applies anywhere in this codebase: you are not
+  required to publish your own modifications, though the community around
+  LambdaMOO/Stunt/ToastStunt has traditionally kept its code open.
+
+
+Credits
+----------
+
+- Pavel Curtis and Xerox PARC — original LambdaMOO server.
+- Stephen White ("ghond") — early LambdaMOO contributions.
+- Todd Sundsted and contributors — the Stunt fork.
+- lisdude and contributors — the ToastStunt fork,
+  https://github.com/lisdude/toaststunt
+- Ken Fox and Andy Bakun — the FileIO extension.
+- Johan Hanssen Seferidis — the bundled C thread pool (thpool).
+- Lloyd Hilaiel — the bundled yajl JSON library.
