@@ -13,7 +13,7 @@
 0 interrupted tasks
 1 active connections with listeners
 2 0
-137
+134
 #0
 The System Object
 24
@@ -665,7 +665,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784055588
+1784056937
 2
 name
 2
@@ -1235,7 +1235,7 @@ source
 2
 time
 0
-1784056230
+1784057256
 4
 0
 1
@@ -1350,7 +1350,8 @@ time
 5
 36
 1
-5
+0
+0
 36
 1
 5
@@ -1454,7 +1455,7 @@ time
 4
 2
 0
-1784056202
+1784057235
 2
 localhost
 2
@@ -1463,7 +1464,7 @@ localhost
 2
 0
 0
-1784056207
+1784057239
 2
 1
 0
@@ -1627,7 +1628,7 @@ localhost
 2
 5
 0
-1784056230
+1784057256
 2
 1
 0
@@ -1675,7 +1676,7 @@ localhost
 2
 0
 12
-137
+134
 2
 1
 5
@@ -1779,11 +1780,11 @@ disfunc
 2
 173
 -1
-say
+say mow
 2
 85
 -2
-emote
+emote gest
 2
 93
 -2
@@ -2734,11 +2735,11 @@ whodunnit
 2
 9
 -1
-wh*isper
+wh*isper szepcz
 2
 157
 1
-page
+page przywolaj
 2
 93
 -2
@@ -2758,7 +2759,7 @@ look_self
 2
 173
 -1
-home
+home dom
 2
 9
 -1
@@ -2894,7 +2895,7 @@ remove_feature
 36
 9
 -1
-@quit
+@quit @wyjdz
 2
 9
 -1
@@ -3136,15 +3137,15 @@ inline_editor_options
 2
 5
 2
-%N is not currently logged in.
+%N nie jest teraz online.
 2
 5
 2
-You sense that %n is looking for you in %l.
+Czujesz, ze %n cie szuka w %l.
 2
 5
 2
-Your message has been sent.
+Twoja wiadomosc zostala wyslana.
 2
 5
 4
@@ -4133,7 +4134,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
+3
+4
 2
+0
+1784056937
+0
+0
 4
 2
 0
@@ -26872,19 +26879,23 @@ feature_task
 4
 9
 0
-880472639
+570062437
 2
-wez
+szepcz
 4
-1
+3
 2
-miecz
+cos
 2
-miecz
+tajnego
+2
+wizard
+2
+cos tajnego wizard
 1
 -3
 2
-miecz
+cos tajnego wizard
 2
 
 1
@@ -49076,7 +49087,7 @@ set_name
 98
 173
 -1
-say
+say mow
 98
 85
 -2
@@ -49116,7 +49127,7 @@ set_ansi_title
 98
 173
 -1
-emote
+emote gest
 98
 85
 -2
@@ -53607,11 +53618,8 @@ ich
 0
 36
 1
-# 134 recycled
-# 135 recycled
-# 136 recycled
 1
-#137
+#134
 
 0
 98
@@ -56757,8 +56765,8 @@ this:notify("Communications look secure.");
 endif
 .
 #6:28
-this:tell(player.name, " whispers, \"", dobjstr, "\"");
-player:tell("You whisper, \"", dobjstr, "\" to ", this.name, ".");
+this:tell(player.name, " ", $polish_utils:conj("szepcze", "szepcza", player), ": \"", dobjstr, "\"");
+player:tell("Szepczesz: \"", dobjstr, "\" do ", this.name, ".");
 .
 #6:29
 nargs = length(args);
@@ -56838,36 +56846,36 @@ endif
 #6:34
 start = this.location;
 if (start == this.home)
-player:tell("You're already home!");
+player:tell("Juz jestes w domu!");
 return;
 elseif (typeof(this.home) != OBJ)
-player:tell("You've got a weird home, pal.  I've reset it to the default one.");
+player:tell("Masz dziwny dom, kolego. Zresetowano go do domyslnego.");
 this.home = $player_start;
 elseif (!valid(this.home))
-player:tell("Oh no!  Your home's been recycled.  Time to look around for a new one.");
+player:tell("O nie! Twoj dom zostal zniszczony. Czas poszukac nowego.");
 this.home = $player_start;
 else
-player:tell("You click your heels three times.");
+player:tell("Klikasz obcasami trzy razy.");
 endif
 this:moveto(this.home);
 if (!valid(start))
 elseif (start == this.location)
-start:announce(player.name, " ", $gender_utils:get_conj("learns", player), " that you can never go home...");
+start:announce(player.name, " ", $polish_utils:conj("dowiaduje", "dowiaduja", player), " sie, ze nigdy nie mozesz wrocic do domu...");
 else
 try
-start:announce(player.name, " ", $gender_utils:get_conj("goes", player), " home.");
+start:announce(player.name, " ", $polish_utils:conj("idzie", "ida", player), " do domu.");
 except e (E_VERBNF)
 "start did not support announce";
 endtry
 endif
 if (this.location == this.home)
-this.location:announce(player.name, " ", $gender_utils:get_conj("comes", player), " home.");
+this.location:announce(player.name, " ", $polish_utils:conj("przychodzi", "przychodza", player), " do domu.");
 elseif (this.location == start)
-player:tell("Either home doesn't want you, or you don't really want to go.");
+player:tell("Albo dom cie nie chce, albo tak naprawde nie chcesz isc.");
 else
-player:tell("Wait a minute!  This isn't your home...");
+player:tell("Chwileczke! To nie jest twoj dom...");
 if (valid(this.location))
-this.location:announce(player.name, " ", $gender_utils:get_conj("arrives", player), ", looking quite bewildered.");
+this.location:announce(player.name, " ", $polish_utils:conj("przybywa", "przybywaja", player), ", z mina kompletnego zagubienia.");
 endif
 endif
 .
