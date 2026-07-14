@@ -1,16 +1,17 @@
-This file documents, in very terse fashion, the opcode sequences emitted by the
-MOO compiler and accepted by the MOO decompiler.  It is an invaluable reference
-while reading the code in either `code_gen.c' or `decompile.c'.
+Ten plik dokumentuje, w bardzo zwiezlej formie, sekwencje opkodow generowane
+przez kompilator MOO i akceptowane przez dekompilator MOO. Jest nieocenionym
+odnosnikiem podczas czytania kodu w `code_gen.c' lub `decompile.c'.
 
-NOTE: Since MOO database files contain suspended tasks, and since the file
-      representation of those tasks includes both source code and a current PC
-      for each frame on the stack, IT IS CRITICALLY IMPORTANT that these code
-      sequences not change between releases of the server.  Otherwise, when the
-      code for a frame was recompiled at server start-up, its associated saved
-      PC value might no longer be valid, leading to almost certain catastrophe.
-      If the database file format were at some point changed to contain the
-      bytecodes (and not the source code) for suspended task frames, then this
-      restriction could (at least one release later) be relaxed.
+UWAGA: Poniewaz pliki baz danych MOO zawieraja zawieszone zadania, a
+      plikowa reprezentacja tych zadan zawiera zarowno kod zrodlowy, jak i
+      biezacy PC dla kazdej ramki na stosie, KLUCZOWO WAZNE JEST, aby te
+      sekwencje kodu nie zmienialy sie miedzy wydaniami serwera. W przeciwnym
+      razie, gdy kod ramki zostanie ponownie skompilowany przy starcie
+      serwera, powiazana zapisana wartosc PC moze przestac byc wazna,
+      prowadzac niemal na pewno do katastrofy. Gdyby w pewnym momencie
+      format pliku bazy danych zmienil sie tak, by zawierac bajtkod (a nie
+      kod zrodlowy) dla ramek zawieszonych zadan, to ograniczenie to
+      mogloby (co najmniej jedno wydanie pozniej) zostac zlagodzone.
 
 stmt:
 	  {[ELSE]IF ( expr ) stmts}+ [ELSE stmts] ENDIF

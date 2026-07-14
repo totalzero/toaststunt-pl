@@ -1,41 +1,42 @@
-There are a number of places in the server that have to be changed when adding
-a new type of MOO value; this file attempts to list all of them for easy
-reference.
+W serwerze jest wiele miejsc, ktore trzeba zmienic przy dodawaniu nowego
+typu wartosci MOO; ten plik probuje wymienic je wszystkie dla wygody.
 
-First, though, it is important to realize that there are several types of MOO
-values that are invisible to MOO programmers; they are used for a variety of
-purposes internally in the virtual machine or database, and they can appear in
-the DB file on disk, but they are never the value of a MOO expression.  Adding
-one of these `invisible' types involves only a few changes to the server.
-Adding one of the other kind, though, the `visible' types of values that *can*
-be the value of a MOO expression, involves a number of additional changes, as
-seen below.
+Przede wszystkim jednak warto zdac sobie sprawe, ze istnieje kilka typow
+wartosci MOO, ktore sa niewidoczne dla programistow MOO; sa uzywane do
+roznych celow wewnetrznie w maszynie wirtualnej lub bazie danych i moga
+pojawiac sie w pliku bazy danych na dysku, ale nigdy nie sa wartoscia
+wyrazenia MOO. Dodanie jednego z tych typow `niewidocznych' wymaga tylko
+kilku zmian w serwerze. Dodanie natomiast typu drugiego rodzaju - typu
+`widocznego', ktory *moze* byc wartoscia wyrazenia MOO - wymaga wielu
+dodatkowych zmian, jak pokazano ponizej.
 
-For all new types, both visible and invisible, you must:
--- add an item *at the end* of the `var_type' enumeration in structures.h
--- perhaps add a clause to the union in `struct Var' in structures.h
--- add a case to each of dbio_read_var() and dbio_write_var(), in db_io.c
--- if you're adding a refcounted type, modify var_refcount() and
-   refcount_overhead() in storage.c
--- also add a case to each of complex_free_var(), complex_var_ref(),
-   and complex_var_dup() in utils.c
+Dla wszystkich nowych typow, zarowno widocznych jak i niewidocznych, nalezy:
+-- dodaj element *na koncu* enumeracji `var_type' w structures.h
+-- byc moze dodaj klauzule do unii w `struct Var' w structures.h
+-- dodaj przypadek do kazdej z funkcji dbio_read_var() i dbio_write_var(), w db_io.c
+-- jesli dodajesz typ z licznikiem referencji (refcounted), zmodyfikuj
+   var_refcount() i refcount_overhead() w storage.c
+-- dodaj takze przypadek do kazdej z funkcji complex_free_var(),
+   complex_var_ref() i complex_var_dup() w utils.c
 
-In addition, for visible types, you must:
--- consider adding a new built-in MOO variable like OBJ, STR, and LIST:
-	-- add a new SLOT_XXX constant *at the end* of the list in sym_table.h
-	-- add a new DB version number *just before the end* of the
-	   `DB_Version' enumeration in version.h
-	-- add a version-contingent clause to fill_in_rt_consts(),
-	   in eval_env.c
-	-- add a version-contingent clause to each of new_builtin_names() and
-	   first_user_slot(), in sym_table.c
--- consider adding a new kind of MOO literal or expression that produces values
-   of the new type.
--- add a case to each of list2str() and print_to_stream(), in list.c; the
-   former is used by the MOO function tostr() and the latter by toliteral().
--- add a case to to each of become_integer() and become_float(), in numbers.c;
-   the former is used by toint() and toobj() and the latter by tofloat().
--- consider adding a clause to is_true(), equality(), and value_bytes(),
-   in utils.c; the first implements MOO's notion of truth values, the second is
-   used in the `==' and `!=' expressions and the equals() function, and the
-   third is used in the MOO function of the same name.
+Dodatkowo, dla typow widocznych, nalezy:
+-- rozwaz dodanie nowej wbudowanej zmiennej MOO, podobnej do OBJ, STR i LIST:
+	-- dodaj nowa stala SLOT_XXX *na koncu* listy w sym_table.h
+	-- dodaj nowy numer wersji bazy danych *tuz przed koncem*
+	   enumeracji `DB_Version' w version.h
+	-- dodaj klauzule zalezna od wersji do fill_in_rt_consts(),
+	   w eval_env.c
+	-- dodaj klauzule zalezna od wersji do kazdej z funkcji new_builtin_names()
+	   i first_user_slot(), w sym_table.c
+-- rozwaz dodanie nowego rodzaju literalu lub wyrazenia MOO, ktore
+   tworzy wartosci nowego typu.
+-- dodaj przypadek do kazdej z funkcji list2str() i print_to_stream(), w
+   list.c; ta pierwsza jest uzywana przez funkcje MOO tostr(), a ta druga
+   przez toliteral().
+-- dodaj przypadek do kazdej z funkcji become_integer() i become_float(),
+   w numbers.c; ta pierwsza jest uzywana przez toint() i toobj(), a ta
+   druga przez tofloat().
+-- rozwaz dodanie klauzuli do is_true(), equality() i value_bytes(),
+   w utils.c; pierwsza implementuje pojecie wartosci logicznej w MOO, druga
+   jest uzywana w wyrazeniach `==' i `!=' oraz w funkcji equals(), a trzecia
+   jest uzywana przez funkcje MOO o tej samej nazwie.

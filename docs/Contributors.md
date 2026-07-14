@@ -1,6 +1,7 @@
-# Contributors
-LambdaMOO, Stunt, and now ToastStunt are the cumulative work of dozens of
-developers over several decades.  The original contributors include:
+# Wspoltworcy
+LambdaMOO, Stunt, a teraz ToastStunt to zbiorowa praca dziesiatkow
+programistow na przestrzeni kilku dekad. Do pierwotnych wspoltworcow
+naleza:
 
 - Pavel Curtis
 - Erik Ostrom
@@ -11,17 +12,17 @@ developers over several decades.  The original contributors include:
 - Roger Crew (wrog)
 - Phil Schwan (pschwan)
 
-Contributors to Stunt include:
+Do wspoltworcow Stunt naleza:
 
 - [Todd Sundsted](http://www.google.com/search?q=todd+sundsted)
 - Steve Wainstead
 - Tim van Dijen
 
-Contributors to ToastStunt include:
+Do wspoltworcow ToastStunt naleza:
 
 - [lisdude](https://lisdude.com)
 - [DistantOrigin](https://github.com/distantorigin)
 - [Tyler Littlefield](http:/tysdomain.com)
 - [Seven Ecks](https://github.com/sevenecks)
 
-To see all contributions, refer to the [GitHub Contributors](https://github.com/lisdude/toaststunt/graphs/contributors) page.
+Aby zobaczyc wszystkie wklady, zajrzyj na strone [GitHub Contributors](https://github.com/lisdude/toaststunt/graphs/contributors).

@@ -1,45 +1,47 @@
-Instructions on using Minimal.db
+Instrukcja korzystania z Minimal.db
 --------------------------------
 
-The Minimal database is really quite minimal; there are no commands defined
-other than the built-in ones (`PREFIX', `SUFFIX', and `.program') and only
-enough verbs defined and/or programmed to make it possible to bootstrap.  It's
-almost a certainty that you'd be better off starting from the most recent
-release of some other database and possibly trimming things from that.  Some
-people can't resist a challenge, though, so this document exists to orient them
-to the meager contents of the Minimal database.
+Baza Minimal jest naprawde minimalna; nie ma w niej zadnych zdefiniowanych
+polecen poza wbudowanymi (`PREFIX', `SUFFIX' i `.program') i tylko tyle
+zdefiniowanych i/lub zaprogramowanych czasownikow, ile potrzeba do
+uruchomienia (bootstrapu). Niemal na pewno lepiej zaczac od najnowszego
+wydania jakiejs innej bazy i ewentualnie cos z niej usunac. Sa jednak
+osoby, ktore nie potrafia oprzec sie wyzwaniu, wiec ten dokument powstal,
+by zorientowac je w skromnej zawartosci bazy Minimal.
 
-There are four objects in the Minimal database, arranged in the parent/child
-hierarchy as follows:
+W bazie Minimal sa cztery obiekty, uporzadkowane w hierarchii rodzic/dziecko
+w nastepujacy sposob:
 
 	Root Class (#1)
 	  System Object (#0)
 	  The First Room (#2)
 	  Wizard (#3)
 
-Wizard is initially located in The First Room and the other three objects are
-initially located in #-1 (i.e., nowhere).
+Wizard znajduje sie poczatkowo w The First Room, a pozostale trzy obiekty
+znajduja sie poczatkowo w #-1 (czyli nigdzie).
 
-The System Object has two defined verbs: `#0:do_start_script()', which invokes
-the built-in function `eval()' on script input passed to the server via the
-command line options `-c' and `-f'; and `#0:do_login_command()', which simply
-returns #3.  Note: the implementation of `do_login_command()' has the effect
-that all connections to the Minimal database are automatically logged-in to
-Wizard, the only player.
+System Object ma dwa zdefiniowane czasowniki: `#0:do_start_script()', ktory
+wywoluje wbudowana funkcje `eval()' na tekscie skryptu przekazanym do serwera
+przez opcje linii polecen `-c' i `-f'; oraz `#0:do_login_command()', ktory po
+prostu zwraca #3. Uwaga: taka implementacja `do_login_command()' powoduje,
+ze wszystkie polaczenia do bazy Minimal sa automatycznie logowane jako
+Wizard, jedyny gracz.
 
-The First Room has a verb named `eval' defined but not yet programmed.  It has
-arguments "any any any" and permissions "rd".
+The First Room ma zdefiniowany czasownik o nazwie `eval', ale jeszcze nie
+zaprogramowany. Ma argumenty "any any any" i uprawnienia "rd".
 
-There are no other properties or verbs defined in the database.  There are no
-forked or suspended tasks either.
+Nie ma zadnych innych zdefiniowanych wlasciwosci ani czasownikow w tej
+bazie. Nie ma tez zadnych zadan odgalezionych (forked) ani zawieszonych
+(suspended).
 
-One way to get started building with the Minimal database is to use an editor
-to create a file containing a bootstrap script.  Run the server and specify the
-path to the file with the `-f' command line option.  The server will read the
-file and pass the contents to `do_start_script()' which will evaluate it.
+Jednym ze sposobow na rozpoczecie budowania z baza Minimal jest uzycie
+edytora do utworzenia pliku zawierajacego skrypt startowy (bootstrap).
+Uruchom serwer i podaj sciezke do tego pliku za pomoca opcji linii polecen
+`-f'. Serwer odczyta plik i przekaze jego zawartosc do `do_start_script()',
+ktory go wykona.
 
-A reasonable starting point for the bootstrap script might include an improved
-`do_start_script()' verb and an implementation of the `eval' command.
+Rozsadnym punktem wyjscia dla skryptu startowego moze byc ulepszona wersja
+czasownika `do_start_script()' oraz implementacja polecenia `eval'.
 
 	/* provide a stack trace on errors */
 	set_verb_code(#0, "do_start_script", {
@@ -78,7 +80,8 @@ A reasonable starting point for the bootstrap script might include an improved
 	  "endtry"
 	});
 
-From such a basis, you can do anything by using the various built-in functions
-directly, like `add_verb()', `add_property()', etc.  With sufficient amounts of
-work, you can build up a set of easier-to-use command-line interfaces to these
-facilities to make programming and building much easier.
+Majac taka podstawe, mozesz zrobic wszystko, korzystajac bezposrednio z
+roznych funkcji wbudowanych, takich jak `add_verb()', `add_property()' itp.
+Wkladajac odpowiednio duzo pracy, mozesz zbudowac zestaw wygodniejszych w
+uzyciu interfejsow linii polecen do tych mechanizmow, co znacznie ulatwi
+programowanie i budowanie.
