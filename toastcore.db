@@ -1235,7 +1235,7 @@ source
 2
 time
 0
-1784090471
+1784091071
 4
 0
 1
@@ -1455,7 +1455,7 @@ time
 4
 2
 0
-1784090451
+1784091058
 2
 localhost
 2
@@ -1464,7 +1464,7 @@ localhost
 2
 0
 0
-1784090455
+1784091062
 2
 1
 0
@@ -1628,7 +1628,7 @@ localhost
 2
 5
 0
-1784090471
+1784091071
 2
 1
 0
@@ -9915,25 +9915,25 @@ checkpoint-programming
 4
 10
 2
-Syntax:  @check-property <object>.<propname>
+Skladnia:  @check-property <obiekt>.<nazwa-wlasciwosci>
 2
-         @check-chparent <object> to <newparent>
+         @check-chparent <obiekt> to <nowy-rodzic>
 2
          
 2
-You cannot add a new property to an object if an ancestor or a descendant already defines a property with the same name.  @check-property will give you the list of all descendants of <object> that that define .<propname>.  
+Nie mozna dodac nowej wlasciwosci do obiektu, jesli przodek lub potomek juz definiuje wlasciwosc o tej samej nazwie.  @check-property poda liste wszystkich potomkow <obiekt>, ktore definiuja .<nazwa-wlasciwosci>.  
 2
 
 2
-Likewise you cannot chparent an object to a new parent if the new parent has a property that is also defined on the object or some descendant.  Use @check-chparent to find out all instances of conflicting properties that would interfere with @chparent in this manner.
+Podobnie nie mozna wykonac chparent obiektu na nowego rodzica, jesli nowy rodzic ma wlasciwosc zdefiniowana rowniez na obiekcie lub jakims potomku.  Uzyj @check-chparent, by znalezc wszystkie przypadki konfliktujacych wlasciwosci, ktore przeszkodzilyby @chparent w ten sposob.
 2
 
 2
-Note that @check-property requires either that you own the object or that it be writeable, the same conditions that need to hold if you are to create new properties on the object.  Similarly, @check-chparent requires that you own the object and that the new parent is either fertile or likewise owned by you.
+Uwaga: @check-property wymaga, byc posiadal obiekt lub byl on zapisywalny -- te same warunki, ktore musza byc spelnione, by tworzyc nowe wlasciwosci na obiekcie.  Podobnie @check-chparent wymaga, byc posiadal obiekt, a nowy rodzic byl albo plodny, albo rowniez nalezal do ciebie.
 2
 
 2
-For objects with large numbers of descendants, these commands can be time-consuming.
+Dla obiektow z duza liczba potomkow te polecenia moga byc czasochlonne.
 36
 5
 4
@@ -9945,373 +9945,371 @@ For objects with large numbers of descendants, these commands can be time-consum
 36
 5
 4
-162
+161
 2
-Regular expression matching allows you to test whether a string fits into a specific syntactic shape.  You can also search a string for a substring that fits a pattern.  See also the built-in function match()/rmatch().
-2
-
-2
-A regular expression describes a set of strings.  The simplest case is one that describes a particular string; for example, the string `foo' when regarded as a regular expression matches `foo' and nothing else.  Nontrivial regular expressions use certain special constructs so that they can match more than one string.  For example, the regular expression `foo%|bar' matches either the string `foo' or the string `bar'; the regular expression `c[ad]*r' matches any of the strings `cr', `car', `cdr', `caar', `cadddar' and all other such strings with any number of `a''s and `d''s.
+Dopasowywanie wyrazen regularnych pozwala sprawdzic, czy string pasuje do okreslonego ksztaltu skladniowego.  Mozna tez przeszukac string w poszukiwaniu podstringu pasujacego do wzorca.  Zobacz tez funkcje wbudowana match()/rmatch().
 2
 
 2
-Regular expressions have a syntax in which a few characters are special constructs and the rest are "ordinary".  An ordinary character is a simple regular expression that matches that character and nothing else.  The special characters are `$', `^', `.', `*', `+', `?', `[', `]' and `%'.  Any other character appearing in a regular expression is ordinary, unless a `%' precedes it.
+Wyrazenie regularne opisuje zbior stringow.  Najprostszy przypadek to takie, ktore opisuje konkretny string; na przyklad string `foo' traktowany jako wyrazenie regularne dopasowuje `foo' i nic wiecej.  Nietrywialne wyrazenia regularne uzywaja pewnych specjalnych konstrukcji, by moc dopasowac wiecej niz jeden string.  Na przyklad wyrazenie regularne `foo%|bar' dopasowuje albo string `foo', albo string `bar'; wyrazenie regularne `c[ad]*r' dopasowuje kazdy z stringow `cr', `car', `cdr', `caar', `cadddar' i wszystkie inne takie stringi z dowolna liczba `a' i `d'.
 2
 
 2
-For example, `f' is not a special character, so it is ordinary, and therefore `f' is a regular expression that matches the string `f' and no other string.  (It does *not*, for example, match the string `ff'.)  Likewise, `o' is a regular expression that matches only `o'.
+Wyrazenia regularne maja skladnie, w ktorej kilka znakow to specjalne konstrukcje, a reszta jest "zwykla".  Zwykly znak to proste wyrazenie regularne dopasowujace ten znak i nic wiecej.  Znaki specjalne to `$', `^', `.', `*', `+', `?', `[', `]' i `%'.  Kazdy inny znak wystepujacy w wyrazeniu regularnym jest zwykly, chyba ze poprzedza go `%'.
 2
 
 2
-Any two regular expressions A and B can be concatenated.  The result is a regular expression which matches a string if A matches some amount of the beginning of that string and B matches the rest of the string.
+Na przyklad `f' nie jest znakiem specjalnym, wiec jest zwykly, i dlatego `f' to wyrazenie regularne dopasowujace string `f' i zaden inny string.  (Nie dopasowuje np. stringa `ff'.)  Podobnie `o' to wyrazenie regularne dopasowujace tylko `o'.
 2
 
 2
-As a simple example, we can concatenate the regular expressions `f' and `o' to get the regular expression `fo', which matches only the string `fo'.  Still trivial.
+Dowolne dwa wyrazenia regularne A i B mozna zlaczyc (konkatenowac).  Wynikiem jest wyrazenie regularne, ktore dopasowuje string, jesli A dopasowuje pewna czesc poczatku tego stringa, a B dopasowuje reszte stringa.
 2
 
 2
-The following are the characters and character sequences that have special meaning within regular expressions.  Any character not mentioned here is not special; it stands for exactly itself for the purposes of searching and matching.
+Jako prosty przyklad mozemy zlaczyc wyrazenia regularne `f' i `o', by otrzymac wyrazenie regularne `fo', ktore dopasowuje tylko string `fo'.  Nadal trywialne.
 2
 
 2
-`.'  is a special character that matches any single character.  Using
-2
-     concatenation, we can make regular expressions like `a.b', which matches
-2
-     any three-character string that begins with `a' and ends with `b'.
+Ponizej sa znaki i sekwencje znakow majace specjalne znaczenie w wyrazeniach regularnych.  Kazdy znak tu niewymieniony nie jest specjalny; oznacza dokladnie samego siebie do celow wyszukiwania i dopasowywania.
 2
 
 2
-`*'  is not a construct by itself; it is a suffix that means that the preceding
+`.'  to znak specjalny dopasowujacy dowolny pojedynczy znak.  Uzywajac
 2
-     regular expression is to be repeated as many times as possible.  In `fo*',
+     konkatenacji mozemy zbudowac wyrazenia regularne jak `a.b', ktore dopasowuje
 2
-     the `*' applies to the `o', so `fo*' matches `f' followed by any number of
-2
-     `o''s.
+     dowolny trzyznakowy string zaczynajacy sie od `a' i konczacy na `b'.
 2
 
 2
-     The case of zero `o''s is allowed: `fo*' does match `f'.
+`*'  nie jest konstrukcja sama w sobie; to sufiks oznaczajacy, ze poprzedzajace
+2
+     wyrazenie regularne ma byc powtorzone tyle razy, ile to mozliwe.  W `fo*'
+2
+     `*' dotyczy `o', wiec `fo*' dopasowuje `f' po ktorym nastepuje dowolna liczba
+2
+     `o'.
 2
 
 2
-     `*' always applies to the *smallest* possible preceding expression.  Thus,
-2
-     `fo*' has a repeating `o', not a repeating `fo'.
+     Przypadek zera `o' jest dozwolony: `fo*' dopasowuje `f'.
 2
 
 2
-     The matcher processes a `*' construct by matching, immediately, as many
+     `*' zawsze dotyczy *najmniejszego* mozliwego poprzedzajacego wyrazenia.  Zatem
 2
-     repetitions as can be found.  Then it continues with the rest of the
-2
-     pattern.  If that fails, it backtracks, discarding some of the matches of
-2
-     the `*''d construct in case that makes it possible to match the rest of
-2
-     the pattern.  For example, matching `c[ad]*ar' against the string
-2
-     `caddaar', the `[ad]*' first matches `addaa', but this does not allow the
-2
-     next `a' in the pattern to match.  So the last of the matches of `[ad]' is
-2
-     undone and the following `a' is tried again.  Now it succeeds.
+     `fo*' ma powtarzajace sie `o', a nie powtarzajace sie `fo'.
 2
 
 2
-`+'  is like `*' except that at least one match for the preceding pattern is
+     Mechanizm dopasowywania przetwarza konstrukcje `*', dopasowujac natychmiast tyle
 2
-     required for `+'.  Thus, `c[ad]+r' does not match `cr' but does match
+     powtorzen, ile mozna znalezc.  Nastepnie kontynuuje z reszta
 2
-     anything else that `c[ad]*r' would match.
+     wzorca.  Jesli to sie nie powiedzie, wraca (backtracking), odrzucajac czesc dopasowan
+2
+     konstrukcji z `*', na wypadek gdyby to umozliwilo dopasowanie reszty
+2
+     wzorca.  Na przyklad dopasowujac `c[ad]*ar' do stringa
+2
+     `caddaar', `[ad]*' najpierw dopasowuje `addaa', ale to nie pozwala
+2
+     nastepnemu `a' we wzorcu sie dopasowac.  Wiec ostatnie z dopasowan `[ad]' jest
+2
+     cofniete i nastepne `a' jest probowane ponownie.  Teraz sie udaje.
 2
 
 2
-`?'  is like `*' except that it allows either zero or one match for the
+`+'  jest jak `*', z tym ze dla `+' wymagane jest co najmniej jedno dopasowanie
 2
-     preceding pattern.  Thus, `c[ad]?r' matches `cr' or `car' or `cdr', and
+     poprzedzajacego wzorca.  Zatem `c[ad]+r' nie dopasowuje `cr', ale dopasowuje
 2
-     nothing else.
+     wszystko inne, co dopasowalby `c[ad]*r'.
+2
+
+2
+`?'  jest jak `*', z tym ze pozwala na zero lub jedno dopasowanie
+2
+     poprzedzajacego wzorca.  Zatem `c[ad]?r' dopasowuje `cr', `car' lub `cdr', i
+2
+     nic wiecej.
 2
 
 2
 `[ ... ]'
 2
-     `[' begins a "character set", which is terminated by a `]'.  In the
+     `[' rozpoczyna "zbior znakow", zakonczony przez `]'.  W
 2
-     simplest case, the characters between the two brackets form the set.
+     najprostszym przypadku znaki miedzy dwoma nawiasami tworza zbior.
 2
-     Thus, `[ad]' matches either `a' or `d', and `[ad]*' matches any string of
+     Zatem `[ad]' dopasowuje `a' lub `d', a `[ad]*' dopasowuje dowolny string
 2
-     `a''s and `d''s (including the empty string), from which it follows that
+     `a' i `d' (wlacznie z pustym stringiem), z czego wynika, ze
 2
-     `c[ad]*r' matches `car', etc.
-2
-
-2
-     Character ranges can also be included in a character set, by writing two
-2
-     characters with a `-' between them.  Thus, `[a-z]' matches any lower-case
-2
-     letter.  Ranges may be intermixed freely with individual characters, as in
-2
-     `[a-z$%.]', which matches any lower case letter or `$', `%' or period.
+     `c[ad]*r' dopasowuje `car' itd.
 2
 
 2
-     Note that the usual special characters are not special any more inside a
+     Zakresy znakow mozna tez wlaczyc do zbioru znakow, pisac dwa
 2
-     character set.  A completely different set of special characters exists
+     znaki z `-' pomiedzy nimi.  Zatem `[a-z]' dopasowuje dowolna mala
 2
-     inside character sets: `]', `-' and `^'.
+     litere.  Zakresy mozna dowolnie mieszac z pojedynczymi znakami, jak w
+2
+     `[a-z$%.]', ktory dopasowuje dowolna mala litere lub `$', `%' lub kropke.
 2
 
 2
-     To include a `]' in a character set, you must make it the first character.
+     Uwaga: zwykle znaki specjalne juz nie sa specjalne wewnatrz
 2
-     For example, `[]a]' matches `]' or `a'.  To include a `-', you must use it
+     zbioru znakow.  Zupelnie inny zbior znakow specjalnych istnieje
 2
-     in a context where it cannot possibly indicate a range: that is, as the
+     wewnatrz zbiorow znakow: `]', `-' i `^'.
 2
-     first character, or immediately after a range.
+
+2
+     By wlaczyc `]' do zbioru znakow, musisz uczynic go pierwszym znakiem.
+2
+     Na przyklad `[]a]' dopasowuje `]' lub `a'.  By wlaczyc `-', musisz go uzyc
+2
+     w kontekscie, w ktorym nie moze oznaczac zakresu: tj. jako
+2
+     pierwszy znak lub zaraz po zakresie.
 2
 
 2
 `[^ ... ]'
 2
-     `[^' begins a "complement character set", which matches any character
+     `[^' rozpoczyna "dopelniajacy zbior znakow", ktory dopasowuje dowolny znak
 2
-     except the ones specified.  Thus, `[^a-z0-9A-Z]' matches all characters
+     poza podanymi.  Zatem `[^a-z0-9A-Z]' dopasowuje wszystkie znaki
 2
-     *except* letters and digits.
-2
-
-2
-     `^' is not special in a character set unless it is the first character.
-2
-     The character following the `^' is treated as if it were first (it may be
-2
-     a `-' or a `]').
+     *poza* literami i cyframi.
 2
 
 2
-`^'  is a special character that matches the empty string -- but only if at the
+     `^' nie jest specjalny w zbiorze znakow, chyba ze jest pierwszym znakiem.
 2
-     beginning of the string being matched.  Otherwise it fails to match
+     Znak nastepujacy po `^' jest traktowany tak, jakby byl pierwszy (moze
 2
-     anything.  Thus, `^foo' matches a `foo' which occurs at the beginning of
-2
-     the string.
+     to byc `-' lub `]').
 2
 
 2
-`$'  is similar to `^' but matches only at the *end* of the string.  Thus,
+`^'  to znak specjalny dopasowujacy pusty string -- ale tylko jesli jest na
 2
-     `xx*$' matches a string of one or more `x''s at the end of the string.
+     poczatku dopasowywanego stringa.  W przeciwnym razie nie dopasowuje
 2
-
+     niczego.  Zatem `^foo' dopasowuje `foo' wystepujace na poczatku
 2
-`%'  has two functions: it quotes the above special characters (including `%'),
-2
-     and it introduces additional special constructs.
+     stringa.
 2
 
 2
-     Because `%' quotes special characters, `%$' is a regular expression that
+`$'  jest podobny do `^', ale dopasowuje tylko na *koncu* stringa.  Zatem
 2
-     matches only `$', and `%[' is a regular expression that matches only `[',
-2
-     and so on.
+     `xx*$' dopasowuje string jednego lub wiecej `x' na koncu stringa.
 2
 
 2
-     For the most part, `%' followed by any character matches only that
+`%'  ma dwie funkcje: cytuje powyzsze znaki specjalne (wlaczajac `%'),
 2
-     character.  However, there are several exceptions: characters that, when
-2
-     preceded by `%', are special constructs.  Such characters are always
-2
-     ordinary when encountered on their own.
+     i wprowadza dodatkowe specjalne konstrukcje.
 2
 
 2
-     No new special characters will ever be defined.  All extensions to the
+     Poniewaz `%' cytuje znaki specjalne, `%$' to wyrazenie regularne, ktore
 2
-     regular expression syntax are made by defining new two-character
+     dopasowuje tylko `$', a `%[' to wyrazenie regularne dopasowujace tylko `[',
 2
-     constructs that begin with `%'.
-2
-
-2
-`%|' specifies an alternative.  Two regular expressions A and B with `%|' in
-2
-     between form an expression that matches anything that either A or B will
-2
-     match.
+     i tak dalej.
 2
 
 2
-     Thus, `foo%|bar' matches either `foo' or `bar' but no other string.
+     W wiekszosci przypadkow `%' po ktorym nastepuje dowolny znak dopasowuje tylko ten
+2
+     znak.  Sa jednak pewne wyjatki: znaki, ktore poprzedzone
+2
+     `%', staja sie specjalnymi konstrukcjami.  Takie znaki sa zawsze
+2
+     zwykle, gdy wystepuja samodzielnie.
 2
 
 2
-     `%|' applies to the largest possible surrounding expressions.  Only a
+     Nigdy nie zostana zdefiniowane nowe znaki specjalne.  Wszystkie rozszerzenia
 2
-     surrounding `%( ... %)' grouping can limit the grouping power of `%|'.
+     skladni wyrazen regularnych sa dokonywane przez definiowanie nowych dwuznakowych
+2
+     konstrukcji zaczynajacych sie od `%'.
 2
 
 2
-     Full backtracking capability exists for when multiple `%|''s are used.
+`%|' okresla alternatywe.  Dwa wyrazenia regularne A i B z `%|' pomiedzy
+2
+     nimi tworza wyrazenie dopasowujace wszystko, co dopasowuje albo A, albo B.
+2
+
+2
+     Zatem `foo%|bar' dopasowuje albo `foo', albo `bar', ale zaden inny string.
+2
+
+2
+     `%|' dotyczy najwiekszych mozliwych otaczajacych wyrazen.  Tylko otaczajace
+2
+     grupowanie `%( ... %)' moze ograniczyc moc grupowania `%|'.
+2
+
+2
+     Pelna mozliwosc cofania (backtracking) istnieje, gdy uzyto wielu `%|'.
 2
 
 2
 `%( ... %)'
 2
-     is a grouping construct that serves three purposes:
+     to konstrukcja grupujaca sluzaca trzem celom:
 2
 
 2
-       1. To enclose a set of `%|' alternatives for other operations.  Thus,
+       1. By zamknac zbior alternatyw `%|' dla innych operacji.  Zatem
 2
-          `%(foo%|bar%)x' matches either `foox' or `barx'.
-2
-
-2
-       2. To enclose a complicated expression for a following `*', `+', or `?'
-2
-          to operate on.  Thus, `ba%(na%)*' matches `bananana', etc., with any
-2
-          number of `na''s, including none.
+          `%(foo%|bar%)x' dopasowuje albo `foox', albo `barx'.
 2
 
 2
-       3. To mark a matched substring for future reference.
+       2. By zamknac skomplikowane wyrazenie, na ktorym dziala nastepujace
+2
+          `*', `+' lub `?'.  Zatem `ba%(na%)*' dopasowuje `bananana' itd., z dowolna
+2
+          liczba `na', wlacznie z zerem.
 2
 
 2
-     This last application is not a consequence of the idea of a parenthetical
-2
-     grouping; it is a separate feature that happens to be assigned as a second
-2
-     meaning to the same `%( ... %)' construct because there is no conflict in
-2
-     practice between the two meanings.  Here is an explanation of this
-2
-     feature:
+       3. By oznaczyc dopasowany podstring do pozniejszego odwolania.
 2
 
 2
-`%DIGIT'
+     To ostatnie zastosowanie nie wynika z idei grupowania w nawiasach;
 2
-     After the end of a `%( ... %)' construct, the matcher remembers the
+     to osobna funkcja, ktora akurat jest przypisana jako drugie
 2
-     beginning and end of the text matched by that construct.  Then, later on
+     znaczenie tej samej konstrukcji `%( ... %)', bo nie ma konfliktu w
 2
-     in the regular expression, you can use `%' followed by DIGIT to mean
+     praktyce miedzy tymi dwoma znaczeniami.  Oto wyjasnienie tej
 2
-     "match the same text matched by the DIGIT'th `%( ... %)' construct in the
-2
-     pattern."  The `%( ... %)' constructs are numbered in the order that their
-2
-     `%(''s appear in the pattern.
+     funkcji:
 2
 
 2
-     The strings matching the first nine `%( ... %)' constructs appearing in a
+`%CYFRA'
 2
-     regular expression are assigned numbers 1 through 9 in order of their
+     Po zakonczeniu konstrukcji `%( ... %)' mechanizm dopasowywania pamieta
 2
-     beginnings.  `%1' through `%9' may be used to refer to the text matched by
+     poczatek i koniec tekstu dopasowanego przez ta konstrukcje.  Pozniej,
 2
-     the corresponding `%( ... %)' construct.
+     dalej w wyrazeniu regularnym, mozna uzyc `%' po ktorym nastepuje CYFRA, by oznaczyc
 2
-
+     "dopasuj ten sam tekst dopasowany przez CYFRA-ta konstrukcje `%( ... %)' we
 2
-     For example, `%(.*%)%1' matches any string that is composed of two
+     wzorcu."  Konstrukcje `%( ... %)' sa numerowane w kolejnosci, w jakiej ich
 2
-     identical halves.  The `%(.*%)' matches the first half, which may be
-2
-     anything, but the `%1' that follows must match the same exact text.
+     `%(' wystepuja we wzorcu.
 2
 
 2
-`%b' matches the empty string, but only if it is at the beginning or end of a
+     Stringi dopasowujace pierwszych dziewiec konstrukcji `%( ... %)' wystepujacych w
 2
-     word.  Thus, `%bfoo%b' matches any occurrence of `foo' as a separate word.
+     wyrazeniu regularnym otrzymuja numery 1 do 9 w kolejnosci ich
 2
-     `%bball%(s%|%)%b' matches `ball' or `balls' as a separate word.
+     poczatkow.  `%1' do `%9' mozna uzyc, by odwolac sie do tekstu dopasowanego przez
 2
-
-2
-     For the purposes of this construct and the five that follow, a word is
-2
-     defined to be a sequence of letters and/or digits.
+     odpowiadajaca konstrukcje `%( ... %)'.
 2
 
 2
-`%B' matches the empty string, provided it is *not* at the beginning or end of
+     Na przyklad `%(.*%)%1' dopasowuje kazdy string skladajacy sie z dwoch
 2
-     a word.
+     identycznych polowek.  `%(.*%)' dopasowuje pierwsza polowe, ktora moze byc
 2
-
-2
-`%<' matches the empty string, but only if it is at the beginning of a word.
+     czymkolwiek, ale nastepujace po niej `%1' musi dopasowac dokladnie ten sam tekst.
 2
 
 2
-`%>' matches the empty string, but only if it is at the end of a word.
+`%b' dopasowuje pusty string, ale tylko jesli jest na poczatku lub koncu
+2
+     slowa.  Zatem `%bfoo%b' dopasowuje kazde wystapienie `foo' jako osobnego slowa.
+2
+     `%bball%(s%|%)%b' dopasowuje `ball' lub `balls' jako osobne slowo.
 2
 
 2
-`%w' matches any word-constituent character (i.e., any letter or digit).
+     Do celow tej konstrukcji i pieciu ponizszych, slowo jest
+2
+     zdefiniowane jako ciag liter i/lub cyfr.
 2
 
 2
-`%W' matches any character that is not a word constituent.
+`%B' dopasowuje pusty string, pod warunkiem ze *nie jest* na poczatku ani koncu
+2
+     slowa.
+2
+
+2
+`%<' dopasowuje pusty string, ale tylko jesli jest na poczatku slowa.
+2
+
+2
+`%>' dopasowuje pusty string, ale tylko jesli jest na koncu slowa.
+2
+
+2
+`%w' dopasowuje kazdy znak skladajacy sie na slowo (tj. kazda litere lub cyfre).
+2
+
+2
+`%W' dopasowuje kazdy znak, ktory nie wchodzi w sklad slowa.
 36
 5
 4
 7
 2
-Syntax:  @show <object>
+Skladnia:  @show <obiekt>
 2
-         @show <object>.<prop-name>
+         @show <obiekt>.<nazwa-wlasciwosci>
 2
-         @show <object>:<verb-name>
-2
-
-2
-Displays quite detailed information about an object, property or verb, including its name, owner, permission bits, etc.  The information displayed for an object can be quite long.
+         @show <obiekt>:<nazwa-czasownika>
 2
 
 2
-See also @display, which displays different information and is controlled differently.
+Wyswietla dosc szczegolowe informacje o obiekcie, wlasciwosci lub czasowniku, w tym jego nazwe, wlasciciela, bity uprawnien itd.  Informacje wyswietlane dla obiektu moga byc dosc dlugie.
+2
+
+2
+Zobacz tez @display, ktore wyswietla inne informacje i jest kontrolowane inaczej.
 36
 5
 4
 11
 2
-Syntax:  @grep     <string> in <object>|{<objectlist>}
+Skladnia:  @grep     <string> in <obiekt>|{<lista-obiektow>}
 2
-         @egrep    <regexp> in <object>|{<objectlist>}
+         @egrep    <wyrazenie-regularne> in <obiekt>|{<lista-obiektow>}
 2
-         @grepall  <string> in <object>|{<objectlist>}
+         @grepall  <string> in <obiekt>|{<lista-obiektow>}
 2
-         @egrepall <regexp> in <object>|{<objectlist>}
-2
-
-2
-@grep (@grepall) searches the given object(s) for verbs whose verbcode contains the given string as a substring of one of its lines.  
-2
-@egrep (@egrepall) searches the given object(s) for verbs whose verbcode contains a substring matching the given regular expression (see `help regular-expressions').
+         @egrepall <wyrazenie-regularne> in <obiekt>|{<lista-obiektow>}
 2
 
 2
-@grep and @egrep print just the first matching line in each verb found.
+@grep (@grepall) przeszukuje podane obiekty w poszukiwaniu czasownikow, ktorych kod zawiera podany string jako podciag jednej ze swoich linii.  
 2
-@grepall and @egrepall printed every matching line.
+@egrep (@egrepall) przeszukuje podane obiekty w poszukiwaniu czasownikow, ktorych kod zawiera podciag pasujacy do podanego wyrazenia regularnego (zobacz `help regular-expressions').
+2
+
+2
+@grep i @egrep wypisuja tylko pierwsza pasujaca linie w kazdym znalezionym czasowniku.
+2
+@grepall i @egrepall wypisuja kazda pasujaca linie.
 2
 
 36
@@ -10321,7 +10319,7 @@ Syntax:  @grep     <string> in <object>|{<objectlist>}
 2
 *index*
 2
-Programmer Help Topics
+Tematy pomocy dla programistow
 36
 5
 4
@@ -10333,29 +10331,29 @@ help
 2
 
 2
-For programmers, the help system provides the following additional forms:
+Dla programistow system pomocy udostepnia nastepujace dodatkowe formy:
 2
 
 2
-  help object:verbname   -- prints any documentation strings that are present
+  help obiekt:nazwa_czasownika   -- wypisuje wszelkie stringi dokumentacji obecne
 2
-                            at the beginning of the program for that verb.
+                            na poczatku programu tego czasownika.
 2
-  help $<whatever>_utils -- prints general information about one of the 
+  help $<cokolwiek>_utils -- wypisuje ogolne informacje o jednym z obiektow 
 2
-                            $..._utils objects (e.g., $string_utils, 
+                            $..._utils (np. $string_utils, 
 2
-                            $list_utils, etc...), which are all libraries 
+                            $list_utils itd...), ktore sa bibliotekami
 2
-                            of generally used verbs.
+                            powszechnie uzywanych czasownikow.
 2
-  help builtin()         -- prints documentation from the programmers manual
+  help builtin()         -- wypisuje dokumentacje z podrecznika programisty
 2
-                            about the named primitive, for example length()
+                            o nazwanej funkcji wbudowanej, np. length()
 2
 
 2
-For information about how the help system itself works and about how to associate local help databases with specific rooms or player classes, see `help $help'.
+Informacje o tym, jak dziala sam system pomocy i jak przypisywac lokalne bazy pomocy do konkretnych pokoi lub klas graczy, znajdziesz w `help $help'.
 36
 5
 4
@@ -10363,7 +10361,7 @@ For information about how the help system itself works and about how to associat
 2
 *prepositions*
 2
-The complete list of prepositions recognized by the command-line parser:
+Pelna lista przyimkow rozpoznawanych przez parser linii polecen:
 2
 
 36
@@ -10379,53 +10377,53 @@ eval
 4
 17
 2
-The core database has a number of objects serving as libraries of useful verbs.
+Baza rdzenia zawiera szereg obiektow sluzacych jako biblioteki przydatnych czasownikow.
 2
-More detailed information can be obtained for (some of) these, via `help $whatever_utils'
+Bardziej szczegolowe informacje mozna uzyskac dla (niektorych z) nich, przez `help $cokolwiek_utils'
 2
 
 2
 $building_utils -- 
 2
-$code_utils     -- parsing and manipulating verb code
+$code_utils     -- parsowanie i manipulowanie kodem czasownikow
 2
-$command_utils  -- reporting matching errors to the player
+$command_utils  -- raportowanie bledow dopasowania graczowi
 2
-$gender_utils   -- managing gendered objects
+$gender_utils   -- zarzadzanie obiektami z rodzajem gramatycznym
 2
-$list_utils     -- list manipulation
+$list_utils     -- manipulowanie listami
 2
-$set_utils      -- set manipulation
+$set_utils      -- manipulowanie zbiorami
 2
-$lock_utils     -- key expression manipulation
+$lock_utils     -- manipulowanie wyrazeniami kluczowymi
 2
 $match_utils    -- 
 2
-$object_utils   -- object information 
+$object_utils   -- informacje o obiektach 
 2
-                  (inheritance/location hierarchy, verb/property lists)
+                  (hierarchia dziedziczenia/lokalizacji, listy czasownikow/wlasciwosci)
 2
-$perm_utils     -- permissions
+$perm_utils     -- uprawnienia
 2
-$string_utils   -- string manipulation
+$string_utils   -- manipulowanie stringami
 2
-$time_utils     -- time (numeric and verbal) manipulation
+$time_utils     -- manipulowanie czasem (liczbowym i slownym)
 2
-$trig_utils     -- trigonometric and other numerical utilities
+$trig_utils     -- funkcje trygonometryczne i inne narzedzia numeryczne
 36
 5
 4
 5
 2
-Several kinds of statements, expressions, and functions in the MOO programming language use a notion that some MOO values are 'true' and others 'false'.
+Wiele rodzajow instrukcji, wyrazen i funkcji w jezyku programowania MOO uzywa pojecia, ze niektore wartosci MOO sa 'prawdziwe', a inne 'falszywe'.
 2
 
 2
-The only values that are considered true are non-zero numbers, non-empty strings, and non-empty lists.
+Jedyne wartosci uznawane za prawdziwe to niezerowe liczby, niepuste stringi i niepuste listy.
 2
 
 2
-All other values (i.e., 0, "", {}, objects, and errors) are considered false.
+Wszystkie inne wartosci (tj. 0, "", {}, obiekty i bledy) sa uznawane za falszywe.
 36
 1
 4
@@ -10433,233 +10431,233 @@ All other values (i.e., 0, "", {}, objects, and errors) are considered false.
 2
 *subst*
 2
-A task is an execution of a MOO program.  There are five ways for tasks to be created in LambdaMOO:
+Zadanie to wykonanie programu MOO.  Istnieje piec sposobow tworzenia zadan w LambdaMOO:
 2
-   + Every time a player types a command, a task is created to execute that command; we call these 'command tasks'.
+   + Za kazdym razem, gdy gracz wpisze polecenie, tworzone jest zadanie, by je wykonac; nazywamy je 'zadaniami polecen'.
 2
-   + Whenever a player connects or disconnects from the MOO, the server starts a task to do whatever processing is necessary, such as printing out 'Munchkin has connected' to all of the players in the same room; these are called 'server tasks'.
+   + Za kazdym razem, gdy gracz laczy sie lub rozlacza z MOO, serwer uruchamia zadanie, by wykonac wszelkie potrzebne przetwarzanie, na przyklad wypisanie 'Munchkin has connected' wszystkim graczom w tym samym pokoju; sa to 'zadania serwera'.
 2
-   + The FORK statement in the programming language creates a task whose execution is delayed for at least some given number of seconds; these are 'forked tasks'.
+   + Instrukcja FORK w jezyku programowania tworzy zadanie, ktorego wykonanie jest opoznione o co najmniej podana liczbe sekund; sa to 'zadania forkniete'.
 2
-   + The suspend() function suspends the execution of the current task.  A snapshot is taken of whole state of the execution, and the execution will be resumed later.  These are called `suspended tasks'.
+   + Funkcja suspend() zawiesza wykonanie biezacego zadania.  Wykonywany jest zrzut calego stanu wykonania, a wykonanie zostanie wznowione pozniej.  Sa to 'zadania zawieszone'.
 2
-   + The read() function also suspends the execution of the current task, in this case waiting for the player to type a line of input.  When the line is received, the task resumes with the read() function returning the input line as result.  These are called `reading tasks'.
-2
-
-2
-The last three kinds of tasks above are collectively known as `queued tasks' or `waiting tasks', since they may not run immediately.
+   + Funkcja read() rowniez zawiesza wykonanie biezacego zadania, w tym przypadku czekajac az gracz wpisze linie danych wejsciowych.  Gdy linia zostanie odebrana, zadanie jest wznawiane, a funkcja read() zwraca wpisana linie jako wynik.  Sa to 'zadania czytajace'.
 2
 
 2
-To prevent a maliciously- or incorrectly-written MOO program from running forever and monopolizing the server, limits are placed on the running time of every task. One limit is on the length of time that tasks are allowed to run: queued tasks are given %[tostr(typeof(bgs = $server_options.bg_seconds) == ERR ? 3 | bgs)], and all other tasks, %[tostr(typeof(fgs = $server_options.fg_seconds) == ERR ? 5 | fgs)] seconds to run, after which they will - if they don't suspend() or end first - raise a 'Task ran out of seconds' traceback and die. But there is a second limit which is on the number of operations a task may execute.
+Ostatnie trzy rodzaje zadan powyzej sa zbiorczo nazywane 'zadaniami w kolejce' lub 'zadaniami oczekujacymi', poniewaz moga nie uruchomic sie natychmiast.
 2
 
 2
-The server counts down 'ticks' as any task executes.  Roughly speaking, it counts one tick for every expression evaluation (other than variables and literals), one for every `if', `fork' or `return' statement, and one for every iteration of a loop.  If the count gets all the way down to zero, a 'Task ran out of ticks' traceback is raised and the task is immediately and unceremoniously aborted.  Queued tasks begin with %[$string_utils:group_number(typeof(bgt = $server_options.bg_ticks) == ERR ? 10000 | bgt)], and all other tasks with %[$string_utils:group_number(typeof(fgt = $server_options.fg_ticks) == ERR ? 30000 | fgt)] ticks.
+By zapobiec zlosliwie lub blednie napisanemu programowi MOO dzialajacemu wiecznie i monopolizujacemu serwer, nakladane sa limity na czas dzialania kazdego zadania. Jeden limit dotyczy czasu, przez jaki zadania moga dzialac: zadania w kolejce dostaja %[tostr(typeof(bgs = $server_options.bg_seconds) == ERR ? 3 | bgs)], a wszystkie inne zadania %[tostr(typeof(fgs = $server_options.fg_seconds) == ERR ? 5 | fgs)] sekund na dzialanie, po czym -- jesli nie wykonaja suspend() lub nie zakoncza sie wczesniej -- podnosza traceback 'Task ran out of seconds' i konczaz zycie. Ale jest drugi limit, dotyczacy liczby operacji, jakie zadanie moze wykonac.
 2
 
 2
-Because queued tasks may exist for long periods of time before they begin execution, there are commands to list the ones that you own and to kill them before they execute.  These commands are covered in the following help topics:
+Serwer odlicza 'ticki' w miare wykonywania kazdego zadania.  Mowiac w przyblizeniu, liczy jeden tick za kazda ewaluacje wyrazenia (poza zmiennymi i literalami), jeden za kazda instrukcje `if', `fork' lub `return', i jeden za kazda iteracje petli.  Jesli licznik spadnie calkowicie do zera, podnoszony jest traceback 'Task ran out of ticks' i zadanie jest natychmiast i bezceremonialnie przerywane.  Zadania w kolejce zaczynaja z %[$string_utils:group_number(typeof(bgt = $server_options.bg_ticks) == ERR ? 10000 | bgt)], a wszystkie inne zadania z %[$string_utils:group_number(typeof(fgt = $server_options.fg_ticks) == ERR ? 30000 | fgt)] tickami.
 2
 
 2
-@forked -- listing the forked tasks that you own
+Poniewaz zadania w kolejce moga istniec przez dlugi czas, zanim zaczna sie wykonywac, istnieja polecenia do listowania tych, ktore posiadasz, i do ich zabijania przed wykonaniem.  Te polecenia sa opisane w nastepujacych tematach pomocy:
 2
-@kill -- killing a particular forked task
+
+2
+@forked -- listowanie forkietych zadan, ktore posiadasz
+2
+@kill -- zabicie konkretnego sforkowanego zadania
 36
 1
 4
 62
 2
-The following kinds of statements exist in the MOO programming language:
+W jezyku programowania MOO istnieja nastepujace rodzaje instrukcji:
 2
 
 2
         ;
 2
-The null statement does nothing.
+Instrukcja pusta nic nie robi.
 2
 
 2
-        expression ;
+        wyrazenie ;
 2
-The expression statement evaluates the expression and then discards the value.
+Instrukcja wyrazenia ewaluuje wyrazenie, a nastepnie odrzuca wartosc.
 2
 
 2
-        IF ( expression ) statements ENDIF
+        IF ( wyrazenie ) instrukcje ENDIF
 2
-        IF ( expression ) statements ELSE statements ENDIF
+        IF ( wyrazenie ) instrukcje ELSE instrukcje ENDIF
 2
-        IF ( expression )
+        IF ( wyrazenie )
 2
-          statements
+          instrukcje
 2
-        ELSEIF ( expression )
+        ELSEIF ( wyrazenie )
 2
-          statements
+          instrukcje
 2
         ...
 2
         ELSE
 2
-          statements
+          instrukcje
 2
         ENDIF
 2
-The conditional statement evaluates each expression in turn and executes the statements associated with the first one to return a true value; the ELSE statements are executed if none of the expressions returns a true value.  There can be any number of ELSEIF clauses and the ELSE part is optional.  See 'help truth' for the definition of 'true value'.
+Instrukcja warunkowa ewaluuje kazde wyrazenie po kolei i wykonuje instrukcje przypisane do pierwszego, ktore zwroci wartosc prawdziwa; instrukcje ELSE sa wykonywane, jesli zadne z wyrazen nie zwroci wartosci prawdziwej.  Moze byc dowolna liczba klauzul ELSEIF, a czesc ELSE jest opcjonalna.  Zobacz 'help truth' po definicje 'wartosci prawdziwej'.
 2
 
 2
-        FOR name IN ( expression ) statements ENDFOR
+        FOR nazwa IN ( wyrazenie ) instrukcje ENDFOR
 2
-The list iteration statement first evaluates the expression, which must return a list.  It then executes the statements once for each element of that list, each time with the named variable having the value of the corresponding list element.
-2
-
-2
-        FOR name IN [ expression .. expression ] statements ENDFOR
-2
-The numeric iteration statement first evaluates the two expressions, both of which must return numbers; call those numbers N1 and N2, respectively.  The statements are then executed once for each integer I such that N1 <= I <= N2, in increasing order; each time, the named variable has the corresponding value of I.
+Instrukcja iteracji po liscie najpierw ewaluuje wyrazenie, ktore musi zwrocic liste.  Nastepnie wykonuje instrukcje raz dla kazdego elementu tej listy, za kazdym razem z nazwana zmienna majaca wartosc odpowiadajacego elementu listy.
 2
 
 2
-        WHILE ( expression ) statements ENDWHILE
+        FOR nazwa IN [ wyrazenie .. wyrazenie ] instrukcje ENDFOR
 2
-        WHILE name ( expression ) statements ENDWHILE
+Instrukcja iteracji liczbowej najpierw ewaluuje dwa wyrazenia, ktore obydwa musza zwrocic liczby; nazwijmy te liczby N1 i N2.  Instrukcje sa nastepnie wykonywane raz dla kazdej liczby calkowitej I takiej, ze N1 <= I <= N2, w rosnacej kolejnosci; za kazdym razem nazwana zmienna ma odpowiadajaca wartosc I.
 2
-The indefinite iteration statement repeatedly evaluates the expression and, each time it returns a true value, executes the statements.  The loop stops the first time that the expression returns a false value.  The definitions of 'true' and 'false' values is in 'help truth'.
+
+2
+        WHILE ( wyrazenie ) instrukcje ENDWHILE
+2
+        WHILE nazwa ( wyrazenie ) instrukcje ENDWHILE
+2
+Instrukcja iteracji nieokreslonej wielokrotnie ewaluuje wyrazenie i, za kazdym razem gdy zwroci wartosc prawdziwa, wykonuje instrukcje.  Petla zatrzymuje sie za pierwszym razem, gdy wyrazenie zwroci wartosc falszywa.  Definicje wartosci 'prawdziwej' i 'falszywej' sa w 'help truth'.
 2
 
 2
         BREAK ;
 2
-        BREAK name ;
+        BREAK nazwa ;
 2
-Each `break' statement indicates a specific surrounding loop; if <name> is not given, the statement refers to the innermost one. If it is given, <name> must be the name appearing right after the `for' or `while' keyword of the desired enclosing loop. When the `break' statement is executed, the indicated loop is immediately terminated and executing continues just as if the loop had completed its iterations normally.
+Kazda instrukcja `break' wskazuje konkretna otaczajaca petle; jesli nie podano <nazwa>, instrukcja odnosi sie do najblizszej.  Jesli podano, <nazwa> musi byc nazwa wystepujaca zaraz po slowie kluczowym `for' lub `while' zadanej otaczajacej petli.  Gdy instrukcja `break' jest wykonywana, wskazana petla jest natychmiast przerywana, a wykonanie kontynuuje sie dokladnie tak, jakby petla zakonczyla swoje iteracje normalnie.
 2
 
 2
         CONTINUE ;
 2
-        CONTINUE name ;
+        CONTINUE nazwa ;
 2
-Allows you to terminate just the current iteration of a loop, making it immediately go on to the next one if any. 
+Pozwala zakonczyc tylko biezaca iteracje petli, sprawiajac ze natychmiast przechodzi do nastepnej, jesli taka jest. 
 2
 
 2
         RETURN ;
 2
-        RETURN expression ;
+        RETURN wyrazenie ;
 2
-The return statement evaluates the expression, if any, and returns the resulting value (or 0 if there is no expression) to the verb that called the current one.  Execution of the current verb is immediately terminated.
+Instrukcja return ewaluuje wyrazenie, jesli jest, i zwraca wynikowa wartosc (lub 0, jesli nie ma wyrazenia) do czasownika, ktory wywolal biezacy.  Wykonanie biezacego czasownika jest natychmiast przerywane.
 2
 
 2
         TRY
 2
-          statements-0 ;
+          instrukcje-0 ;
 2
-        EXCEPT variable-1 (codes-1)
+        EXCEPT zmienna-1 (kody-1)
 2
-          statements-1 ;
+          instrukcje-1 ;
 2
-        EXCEPT variable-2 (codes-2)
+        EXCEPT zmienna-2 (kody-2)
 2
-          statements-2 ;
+          instrukcje-2 ;
 2
-        ... (up to 255)
+        ... (do 255)
 2
         ENDTRY
 2
-Each of the `statements-x' may be any number or combination of MOO statements and function calls. Each of the `codes-x' may be either the keyword `ANY' or else a comma-separated list of expressions that yield error codes. If the execution of `statements-0' raises an error listed in the `codes-x', then the statements associated in that EXCEPT clause where the code was listed are executed. When this occurs, `variable-x' is assigned this information about the error being raised:  {<error code>, <error message>, <value>, <traceback>}. If the error raised is not listed in any EXCEPT clause (which means the `ANY' keyword was not used), then the error continues to be raised. 
+Kazde z `instrukcje-x' moze byc dowolna liczba lub kombinacja instrukcji MOO i wywolan funkcji. Kazde z `kody-x' moze byc albo slowem kluczowym `ANY', albo lista wyrazen oddzielonych przecinkami, ktore daja kody bledow.  Jesli wykonanie `instrukcje-0' podniesie blad wymieniony w `kody-x', wtedy wykonywane sa instrukcje przypisane do klauzuli EXCEPT, w ktorej wymieniono ten kod.  Gdy to nastapi, `zmienna-x' otrzymuje nastepujace informacje o podniesionym bledzie: {<kod bledu>, <komunikat bledu>, <wartosc>, <traceback>}.  Jesli podniesiony blad nie jest wymieniony w zadnej klauzuli EXCEPT (co oznacza, ze nie uzyto slowa kluczowego `ANY'), blad jest podnoszony dalej. 
 2
 
 2
         TRY
 2
-          statements-0 ;
+          instrukcje-0 ;
 2
         FINALLY
 2
-          statements-last ;
+          instrukcje-ostatnie ;
 2
         ENDTRY
 2
-In this construct, `statements-0' are executed. Then, whether an error was raised by their execution or not, `statements-last' are executed. If `statements-0' transfers control somewhere else, that transfer is interrupted so that `statements-last' can be run. If `statements-last' transfers control, then that overrides the first transfer. (Transfers include raising an error, returning from this verb, terminating the current iteration of a surrounding loop). `Statements-last' will always be executed, providing a good place for necessary cleanup code that will run even if `statements-0' doesn't simply run normally to completion.
+W tej konstrukcji wykonywane sa `instrukcje-0'.  Nastepnie, niezaleznie od tego, czy ich wykonanie podnioslo blad, czy nie, wykonywane sa `instrukcje-ostatnie'.  Jesli `instrukcje-0' przekazuje kontrole gdzie indziej, to przekazanie jest przerywane, by mozna bylo uruchomic `instrukcje-ostatnie'.  Jesli `instrukcje-ostatnie' przekazuja kontrole, to nadpisuje to pierwsze przekazanie.  (Przekazania obejmuja podniesienie bledu, powrot z tego czasownika, przerwanie biezacej iteracji otaczajacej petli).  `Instrukcje-ostatnie' beda zawsze wykonane, dajac dobre miejsce na niezbedny kod sprzatajacy, ktory uruchomi sie nawet jesli `instrukcje-0' nie dobiegna po prostu normalnie do konca.
 2
 
 2
-        FORK ( expression ) statements ENDFORK
+        FORK ( wyrazenie ) instrukcje ENDFORK
 2
-        FORK name ( expression ) statements ENDFORK
+        FORK nazwa ( wyrazenie ) instrukcje ENDFORK
 2
-The fork statement first executes the expression, which must return a number; call that number N.  It then creates a new MOO task that will, after at least N seconds, execute the statements.  When the new task begins, all variables will have the values they had at the time the FORK statement was executed.  The task executing the FORK statement immediately continues execution.  If a variable name is given after the FORK keyword, then it is assigned the 'queue ID' of the newly-created task.  The value of this variable is visible both to the task executing the fork statement and to the statements in the newly-created task.  See 'help tasks' for more information about forked tasks.
+Instrukcja fork najpierw wykonuje wyrazenie, ktore musi zwrocic liczbe; nazwijmy te liczbe N.  Nastepnie tworzy nowe zadanie MOO, ktore po co najmniej N sekundach wykona instrukcje.  Gdy nowe zadanie sie zaczyna, wszystkie zmienne beda miec wartosci, ktore mialy w momencie wykonania instrukcji FORK.  Zadanie wykonujace instrukcje FORK natychmiast kontynuuje wykonanie.  Jesli po slowie kluczowym FORK podano nazwe zmiennej, otrzymuje ona 'ID kolejki' nowo utworzonego zadania.  Wartosc tej zmiennej jest widoczna zarowno dla zadania wykonujacego instrukcje fork, jak i dla instrukcji w nowo utworzonym zadaniu.  Zobacz 'help tasks' po wiecej informacji o sforkowanych zadaniach.
 36
 1
 4
 26
 2
-MOO contains a rich programming language for the creation of interesting rooms, exits, and other objects.  Help is available on the following topics concerning programming in MOO:
+MOO zawiera bogaty jezyk programowania do tworzenia ciekawych pokoi, wyjsc i innych obiektow.  Pomoc jest dostepna dla nastepujacych tematow dotyczacych programowania w MOO:
 2
 
 2
-language -- a brief reference for the syntax and semantics of the MOO language
+language -- krotka referencja skladni i semantyki jezyka MOO
 2
-tasks -- a brief description of MOO tasks and their resource limits
-2
-
-2
-@property -- adding a property to an object
-2
-@rmproperty -- removing a property from an object
+tasks -- krotki opis zadan MOO i ich limitow zasobow
 2
 
 2
-@verb   -- adding a verb to an object
+@property -- dodawanie wlasciwosci do obiektu
 2
-@rmverb -- removing a verb from an object
-2
-@args   -- changing the syntax of a verb
-2
-@copy   -- copying a verb from one object to another
+@rmproperty -- usuwanie wlasciwosci z obiektu
 2
 
 2
-.program/@program -- entering the program for a verb
+@verb   -- dodawanie czasownika do obiektu
 2
-@list -- printing a listing of the program for a verb
+@rmverb -- usuwanie czasownika z obiektu
 2
-@edit -- editing verb code
+@args   -- zmiana skladni czasownika
 2
-
-2
-@show     -- looking at all the details of an object, a property, or a verb
-2
-@parents  -- listing the ancestors of an object
-2
-@kids     -- listing the children of an object
-2
-@contents -- listing the contents of an object
-2
-@chmod    -- changing the permissions on an object, a property, or a verb
-2
-@chparent -- changing the parent of an object
-2
-@rename   -- changing the name of a verb or object
+@copy   -- kopiowanie czasownika z jednego obiektu na drugi
 2
 
 2
-eval -- executing MOO statements and expressions without writing a verb
+.program/@program -- wprowadzanie programu dla czasownika
+2
+@list -- wypisywanie listingu programu czasownika
+2
+@edit -- edycja kodu czasownika
+2
+
+2
+@show     -- przegladanie wszystkich szczegolow obiektu, wlasciwosci lub czasownika
+2
+@parents  -- listowanie przodkow obiektu
+2
+@kids     -- listowanie dzieci obiektu
+2
+@contents -- listowanie zawartosci obiektu
+2
+@chmod    -- zmiana uprawnien obiektu, wlasciwosci lub czasownika
+2
+@chparent -- zmiana rodzica obiektu
+2
+@rename   -- zmiana nazwy czasownika lub obiektu
+2
+
+2
+eval -- wykonywanie instrukcji i wyrazen MOO bez pisania czasownika
 36
 1
 4
 18
 2
-The table below gives the relative precedence of all of the MOO operators; operators on higher lines in the table have higher precedence and those on the same line have identical precedence:
+Ponizsza tabela podaje wzgledny priorytet wszystkich operatorow MOO; operatory na wyzszych liniach tabeli maja wyzszy priorytet, a te w tej samej linii maja identyczny priorytet:
 2
 
 2
-        !       - (without a left operand)
+        !       - (bez lewego operandu)
 2
         ^
 2
@@ -10671,13 +10669,13 @@ The table below gives the relative precedence of all of the MOO operators; opera
 2
         &&      ||
 2
-        ... ? ... | ... (the conditional expression)
+        ... ? ... | ... (wyrazenie warunkowe)
 2
         =
 2
 
 2
-Thus, the horrendous expression
+Zatem straszliwe wyrazenie
 2
 
 2
@@ -10685,7 +10683,7 @@ Thus, the horrendous expression
 2
 
 2
-would be grouped as follows:
+zostanie zgrupowane nastepujaco:
 2
 
 2
@@ -10695,183 +10693,183 @@ would be grouped as follows:
 4
 5
 2
-The MOO programming language is described in excruciating detail in the LambdaMOO Programmer's Manual, available for download at http://lambda.moo.mud.org/pub/MOO/html/ProgrammersManual_toc.html.  The online help consists of a few quick reference guides here in the help system under the following topics:
+Jezyk programowania MOO jest opisany z drobiazgowa szczegolowoscia w LambdaMOO Programmer's Manual, dostepnym do pobrania pod http://lambda.moo.mud.org/pub/MOO/html/ProgrammersManual_toc.html.  Pomoc online sklada sie z kilku szybkich przewodnikow referencyjnych tutaj, w systemie pomocy, pod nastepujacymi tematami:
 2
 
 2
-statements -- the syntax and semantics of the various kinds of MOO statements
+statements -- skladnia i semantyka roznych rodzajow instrukcji MOO
 2
-expressions -- the same for the various kinds of MOO expressions
+expressions -- to samo dla roznych rodzajow wyrazen MOO
 2
-functions -- a list of the primitive functions available to MOO programs
+functions -- lista prymitywnych funkcji dostepnych dla programow MOO
 36
 1
 4
 139
 2
-There are many, many built-in functions available to MOO programmers.  The following list gives a brief summary of the arguments and purpose of each function; for more information, see the LambdaMOO Programmer's Manual.  
+Programisci MOO maja do dyspozycji bardzo wiele funkcji wbudowanych.  Ponizsza lista podaje krotkie podsumowanie argumentow i celu kazdej funkcji; po wiecej informacji zobacz LambdaMOO Programmer's Manual.  
 2
 
 2
-pass(arg, ...)   -- calling a verb defined on this object's parent
+pass(arg, ...)   -- wywolanie czasownika zdefiniowanego na rodzicu tego obiektu
 2
 
 2
-time()           -- current time in seconds since midnight GMT, 1 Jan 70
+time()           -- biezacy czas w sekundach od polnocy GMT, 1 stycznia 1970
 2
-ctime([time])    -- time (or current time) converted to a human-readable string
-2
-
-2
-eval(string)     -- parsing and executing strings as MOO code
+ctime([time])    -- czas (lub biezacy czas) skonwertowany na czytelny string
 2
 
 2
-typeof(value)      -- determining the data type of a value
-2
- tostr(value, ...) -- converting any set of values into a string
-2
- toint(value)      -- converting any non-list value into an integer
-2
- tonum(value)      -- converting any non-list value into an integer (obsolete)
-2
- tofloat(value)    -- converting any non-list value into a floating-point
-2
- toobj(value)      -- converting any non-list value into an object
-2
- toliteral(value)  -- converting any value into a literal string
-2
-length(value)      -- returns the length of a string or list
+eval(string)     -- parsowanie i wykonywanie stringow jako kodu MOO
 2
 
 2
-equal(val1, val2)          -- is val1 indistinguishable from val2
+typeof(value)      -- okreslanie typu danych wartosci
 2
-min(n1, n2, ...)           -- minimum of n1,n2,...
+ tostr(value, ...) -- konwersja dowolnego zestawu wartosci na string
 2
-max(n1, n2, ...)           -- maximum of n1,n2,...
+ toint(value)      -- konwersja dowolnej nie-listowej wartosci na liczbe calkowita
 2
-abs(n)                     -- absolute value of n
+ tonum(value)      -- konwersja dowolnej nie-listowej wartosci na liczbe calkowita (przestarzale)
 2
-sin(n), cos(n), tan(n)     -- sine, cosine, tangent of n
+ tofloat(value)    -- konwersja dowolnej nie-listowej wartosci na liczbe zmiennoprzecinkowa
 2
-asin(n), acos(n), atan(n)  -- arc-sine, arc-cosine, arc-tangent of n
+ toobj(value)      -- konwersja dowolnej nie-listowej wartosci na obiekt
 2
-sinh(n), cosh(n), tanh(n)  -- hyperbolic sine, cosine, tangent of n
+ toliteral(value)  -- konwersja dowolnej wartosci na string literalu
 2
-exp(n)                     -- `e' raised to the power of n
-2
-log(n), log10(n)           -- natural or base 10 logarithm of n (n > 0)
-2
-sqrt(n)                    -- square root of n, rounded down
-2
-random(n)                  -- random integer between 1 and n inclusive
-2
-floatstr(float, precision, sci) -- format a floating-point into string
-2
-ceil(f)          -- smallest integer > float f as a floating-point
-2
-floor(f)         -- largest integer < float f as floating-point
-2
-trunc(f)         -- truncate f at the decimal point, as floating-point
+length(value)      -- zwraca dlugosc stringa lub listy
 2
 
 2
-index(str1, str2 [, case-matters])  -- index of first str2 in str1
+equal(val1, val2)          -- czy val1 jest nieodrozniana od val2
 2
-rindex(str1, str2 [, case-matters]) -- index of last  str2 in str1
+min(n1, n2, ...)           -- minimum z n1,n2,...
 2
-strcmp(str1, str2) -- case-sensitive string comparison
+max(n1, n2, ...)           -- maksimum z n1,n2,...
 2
-strsub(subject, what, with [, case-matters]) -- substitution in a string
+abs(n)                     -- wartosc bezwzgledna n
 2
-match(str1, str2 [, case-matters])  -- match first regular expr str2 in str1
+sin(n), cos(n), tan(n)     -- sinus, cosinus, tangens n
 2
-rmatch(str1, str2 [, case-matters]) -- match last regular expr str2 in str1
+asin(n), acos(n), atan(n)  -- arcus sinus, arcus cosinus, arcus tangens n
 2
-substitute(template, subs)          -- perform substitutions on template
+sinh(n), cosh(n), tanh(n)  -- sinus, cosinus, tangens hiperboliczny n
+2
+exp(n)                     -- `e' podniesione do potegi n
+2
+log(n), log10(n)           -- logarytm naturalny lub o podstawie 10 z n (n > 0)
+2
+sqrt(n)                    -- pierwiastek kwadratowy z n, zaokraglony w dol
+2
+random(n)                  -- losowa liczba calkowita od 1 do n wlacznie
+2
+floatstr(float, precision, sci) -- formatowanie liczby zmiennoprzecinkowej na string
+2
+ceil(f)          -- najmniejsza liczba calkowita > float f jako zmiennoprzecinkowa
+2
+floor(f)         -- najwieksza liczba calkowita < float f jako zmiennoprzecinkowa
+2
+trunc(f)         -- obciecie f przy przecinku dziesietnym, jako zmiennoprzecinkowa
 2
 
 2
-decode_binary(bin-string [, fully]) -- convert from a binary string
+index(str1, str2 [, case-matters])  -- indeks pierwszego str2 w str1
 2
-encode_binary(arg, ...)             -- convert to a binary string
+rindex(str1, str2 [, case-matters]) -- indeks ostatniego str2 w str1
 2
-      crypt(string [, salt])        -- one-way string encryption
+strcmp(str1, str2) -- porownanie stringow z rozroznieniem wielkosci liter
 2
-string_hash(text)                 -- MD5 cryptographically secure hash of text
+strsub(subject, what, with [, case-matters]) -- podstawienie w stringu
 2
-binary_hash(bin-string)           -- same but for a binary string
+match(str1, str2 [, case-matters])  -- dopasuj pierwsze wyrazenie regularne str2 w str1
+2
+rmatch(str1, str2 [, case-matters]) -- dopasuj ostatnie wyrazenie regularne str2 w str1
+2
+substitute(template, subs)          -- wykonaj podstawienia na template
+2
+
+2
+decode_binary(bin-string [, fully]) -- konwersja ze stringa binarnego
+2
+encode_binary(arg, ...)             -- konwersja na string binarny
+2
+      crypt(string [, salt])        -- jednokierunkowe szyfrowanie stringow
+2
+string_hash(text)                 -- kryptograficznie bezpieczny skrot MD5 tekstu
+2
+binary_hash(bin-string)           -- to samo, ale dla stringa binarnego
 2
  value_hash(value)                -- string_hash(toliteral(value))
 2
 
 2
- is_member(value, list)           -- is exact value (case sensitive) in list
+ is_member(value, list)           -- czy dokladna wartosc (z rozroznieniem wielkosci) jest w liscie
 2
-listappend(list, value [, index]) -- adding an element at the end of a list
+listappend(list, value [, index]) -- dodanie elementu na koncu listy
 2
-listinsert(list, value [, index]) -- adding an element at the head of a list
+listinsert(list, value [, index]) -- dodanie elementu na poczatku listy
 2
-   listset(list, value, index)    -- updating a list at some index
+   listset(list, value, index)    -- aktualizacja listy na danym indeksie
 2
-listdelete(list, index)           -- removing an element from a list
+listdelete(list, index)           -- usuniecie elementu z listy
 2
-    setadd(list, element) -- adding an element to a set represented as a list
+    setadd(list, element) -- dodanie elementu do zbioru reprezentowanego jako lista
 2
- setremove(list, element) -- removing an element from such a set
-2
-
-2
-   valid(object)             -- testing whether an object exists
-2
-  create(parent [, owner(*)])-- creating a new MOO object
-2
- recycle(object)             -- destroying a MOO object
-2
-    move(object, where)      -- altering the object-containment hierarchy
-2
-chparent(object, new-parent) -- altering the object-inheritance hierarchy
-2
-  parent(object)             -- object's parent   in the inheritance hierarchy
-2
-children(object)             -- object's children in the inheritance hierarchy
-2
-max_object()       -- the highest-numbered object in the MOO
-2
-renumber(obj)      -- changes an object's number to lowest available one (*)
-2
-reset_max_object() -- resets max_object() to the largest valid object (*)
+ setremove(list, element) -- usuniecie elementu z takiego zbioru
 2
 
 2
-     properties(object) -- a list of the properties defined on an object
+   valid(object)             -- sprawdzenie, czy obiekt istnieje
 2
-   add_property(object, prop-name, value, info) -- add a new property
+  create(parent [, owner(*)])-- tworzenie nowego obiektu MOO
 2
-delete_property(object, prop-name)              -- remove a property
+ recycle(object)             -- niszczenie obiektu MOO
 2
-    property_info(object, prop-name)       -- {owner, perms} info on a property
+    move(object, where)      -- zmiana hierarchii zawierania obiektow
 2
-set_property_info(object, prop-name, info) -- setting same
+chparent(object, new-parent) -- zmiana hierarchii dziedziczenia obiektow
 2
-is_clear_property(object, prop-name) -- find out if a property is "clear"
+  parent(object)             -- rodzic obiektu w hierarchii dziedziczenia
 2
-   clear_property(object, prop-name) -- make a property "clear"
+children(object)             -- dzieci obiektu w hierarchii dziedziczenia
+2
+max_object()       -- obiekt o najwyzszym numerze w MOO
+2
+renumber(obj)      -- zmienia numer obiektu na najnizszy dostepny (*)
+2
+reset_max_object() -- resetuje max_object() do najwiekszego prawidlowego obiektu (*)
 2
 
 2
-      verbs(object) -- a list of the verbs defined on an object
+     properties(object) -- lista wlasciwosci zdefiniowanych na obiekcie
 2
-   add_verb(object, info, args)  -- add a verb to an object
+   add_property(object, prop-name, value, info) -- dodaj nowa wlasciwosc
 2
-delete_verb(object, verb-name)   -- remove a verb from an object
+delete_property(object, prop-name)              -- usun wlasciwosc
 2
-    verb_info(object, verb-name) -- {owner, perms, names} info for a verb defn.
+    property_info(object, prop-name)       -- {owner, perms} info o wlasciwosci
 2
-    verb_args(object, verb-name) -- {dobj, prep, iobj} argument info for a verb
+set_property_info(object, prop-name, info) -- ustawienie tego samego
 2
-    verb_code(object, verb-name [, fully-paren [, indent]]) -- program listing
+is_clear_property(object, prop-name) -- sprawdz, czy wlasciwosc jest "clear"
+2
+   clear_property(object, prop-name) -- uczyn wlasciwosc "clear"
+2
+
+2
+      verbs(object) -- lista czasownikow zdefiniowanych na obiekcie
+2
+   add_verb(object, info, args)  -- dodaj czasownik do obiektu
+2
+delete_verb(object, verb-name)   -- usun czasownik z obiektu
+2
+    verb_info(object, verb-name) -- {owner, perms, names} info definicji czasownika
+2
+    verb_args(object, verb-name) -- {dobj, prep, iobj} info argumentow czasownika
+2
+    verb_code(object, verb-name [, fully-paren [, indent]]) -- listing programu
 2
 set_verb_info(object, verb-name, {owner, perms, names})
 2
@@ -10879,265 +10877,265 @@ set_verb_args(object, verb-name, {dobj, prep, iobj})
 2
 set_verb_code(object, verb-name, {line, line, ...})
 2
-disassemble(object, verb-desc)   -- listing of server's internal `compile' 
+disassemble(object, verb-desc)   -- listing wewnetrznej postaci `skompilowanej' serwera 
 2
 
 2
-        is_player(object) -- testing whether or not object is a player
+        is_player(object) -- sprawdzenie, czy obiekt jest graczem
 2
-          players()       -- a list of all players, active or not
+          players()       -- lista wszystkich graczy, aktywnych lub nie
 2
-connected_players()       -- a list of all currently-connected players
+connected_players()       -- lista wszystkich obecnie polaczonych graczy
 2
-     idle_seconds(player) -- seconds since given player typed anything
+     idle_seconds(player) -- sekundy od ostatniego wpisania czegokolwiek przez gracza
 2
-connected_seconds(player) -- seconds given player has been logged in
+connected_seconds(player) -- sekundy, przez ktore gracz jest zalogowany
 2
-    boot_player(player)        -- disconnect player from the MOO immediately(*)
+    boot_player(player)        -- natychmiastowe rozlaczenie gracza z MOO (*)
 2
-set_player_flag(player, value) -- set/clear player bit; boot player if clear(*)
+set_player_flag(player, value) -- ustawia/czysci flage gracza; wyrzuca gracza jesli czysci (*)
 2
-connection_name(player)   -- a server-assigned name for player's connection
-2
-
-2
-open_network_connection(@args) -- open a connection to another network site (*)
-2
-notify(player, string)    -- sending text to a player's terminal
-2
-read()                    -- reading a line of input from the player (*)
-2
-buffered_output_length([player])      -- how much output pending
-2
-force_input(player, str [, at-front]) -- put str in player's output queue
-2
-flush_input(player [, show-messages]) -- clear a player's output queue
-2
-output_delimiters(player) -- return {prefix,suffix} set by PREFIX/SUFFIX cmds
-2
-set_connection_option(player, option, value) -- set I/O options for player
-2
-   connection_options(player) -- list current I/O options for player
-2
-    connection_option(player, option) -- return setting of option for player
+connection_name(player)   -- nazwa polaczenia gracza nadana przez serwer
 2
 
 2
-   listen(conn, point [, print-messages]) -- create server listening point (*)
+open_network_connection(@args) -- otworz polaczenie do innego miejsca w sieci (*)
 2
-u nlisten(canon) -- close the server listening point described by canon (*)
+notify(player, string)    -- wysylanie tekstu na terminal gracza
 2
-listeners() -- list of all listening points
+read()                    -- czytanie linii danych wejsciowych od gracza (*)
 2
-
+buffered_output_length([player])      -- ile wyjscia oczekuje
 2
-        raise(code [, message [, value]]) -- raise code just like an error
+force_input(player, str [, at-front]) -- wstaw str do kolejki wyjscia gracza
 2
-call_function(func-name, arg, ...)        -- call func-name
+flush_input(player [, show-messages]) -- wyczysc kolejke wyjscia gracza
 2
-function_info([name])   -- descriptions of available built-in functions
+output_delimiters(player) -- zwroc {prefix,suffix} ustawione poleceniami PREFIX/SUFFIX
 2
-
+set_connection_option(player, option, value) -- ustaw opcje I/O dla gracza
 2
-caller_perms()         -- the player whose permissions your caller was using
+   connection_options(player) -- lista biezacych opcji I/O dla gracza
 2
-set_task_perms(player) -- changing permissions of the running task (*)
-2
-callers()      -- list of {obj, verb, owner, vloc, player}: this task's stack
-2
-suspend([secs])  -- suspending the current task for a number of seconds
-2
-resume(task [, value]) -- resume the given task with value returned
-2
-seconds_left() -- number of seconds left in the current task
-2
-ticks_left()   -- number of ticks   left in the current task
-2
-task_id()      -- a random number representing the currently-running task
-2
-queue_info([player]) -- who has tasks, or how many player has
-2
-queued_tasks() -- list of {id,start,0,20000,owner,obj,verb,line,this}
-2
-kill_task(id)  -- delete one of your tasks from the queue
-2
-task_stack(task-id [, include-line-numbers]) -- info about suspended task
+    connection_option(player, option) -- zwroc ustawienie opcji dla gracza
 2
 
 2
-server_log(string) -- add a comment to the server log file
+   listen(conn, point [, print-messages]) -- utworz punkt nasluchu serwera (*)
 2
-server_version() -- a string of three numbers "major.minor.release"
+u nlisten(canon) -- zamknij punkt nasluchu serwera opisany przez canon (*)
 2
-memory_usage()   -- {{blocksize, nused, nfree}, ...}, the server's memory stats
-2
-shutdown(msg)    -- print msg and kill the server (*)
-2
-dump_database()  -- what it says (*)
-2
-db_disk_size()   -- size in bytes of recent full database
+listeners() -- lista wszystkich punktow nasluchu
 2
 
 2
- value_bytes(value)  -- memory required to store value
+        raise(code [, message [, value]]) -- podnies code tak jak blad
 2
-object_bytes(object) -- memory required to store object
+call_function(func-name, arg, ...)        -- wywolaj func-name
+2
+function_info([name])   -- opisy dostepnych funkcji wbudowanych
 2
 
 2
-(*) => as you might have expected, these usually require wizard permissions.
+caller_perms()         -- gracz, z ktorego uprawnien korzystal twoj wywolujacy
+2
+set_task_perms(player) -- zmiana uprawnien dzialajacego zadania (*)
+2
+callers()      -- lista {obj, verb, owner, vloc, player}: stos tego zadania
+2
+suspend([secs])  -- zawieszenie biezacego zadania na liczbe sekund
+2
+resume(task [, value]) -- wznow podane zadanie z zwrocona wartoscia
+2
+seconds_left() -- liczba sekund pozostalych w biezacym zadaniu
+2
+ticks_left()   -- liczba tickow pozostalych w biezacym zadaniu
+2
+task_id()      -- losowa liczba reprezentujaca biezaco wykonywane zadanie
+2
+queue_info([player]) -- kto ma zadania, lub ile ma dany gracz
+2
+queued_tasks() -- lista {id,start,0,20000,owner,obj,verb,line,this}
+2
+kill_task(id)  -- usun jedno z twoich zadan z kolejki
+2
+task_stack(task-id [, include-line-numbers]) -- informacje o zawieszonym zadaniu
+2
+
+2
+server_log(string) -- dodaj komentarz do pliku logu serwera
+2
+server_version() -- string trzech liczb "major.minor.release"
+2
+memory_usage()   -- {{blocksize, nused, nfree}, ...}, statystyki pamieci serwera
+2
+shutdown(msg)    -- wypisz msg i zabij serwer (*)
+2
+dump_database()  -- to, co mowi (*)
+2
+db_disk_size()   -- rozmiar w bajtach ostatniej pelnej bazy danych
+2
+
+2
+ value_bytes(value)  -- pamiec potrzebna do przechowania value
+2
+object_bytes(object) -- pamiec potrzebna do przechowania object
+2
+
+2
+(*) => jak mozna sie spodziewac, te zwykle wymagaja uprawnien wizarda.
 36
 1
 4
 75
 2
-The following kinds of expressions exist in the MOO programming language:
+W jezyku programowania MOO istnieja nastepujace rodzaje wyrazen:
 2
 
 2
-        number
+        liczba
 2
-        # integer
+        # liczba calkowita
 2
-        # - integer
+        # - liczba calkowita
 2
-        "character string"
+        "lancuch znakow"
 2
-        error-name
+        nazwa-bledu
 2
-Literal expressions return the obvious values: numbers (floating-point or integers), object numbers, strings, and errors.
-2
-
-2
-        { expression , expression , ... , expression }
-2
-The list-construction expression evaluates the each of the expressions in turn and returns a list whose elements are the results of those expressions.  Any of the expressions may be prefixed with an at-sign ('@'); in this case, that expression must return a list and, rather than that list becoming an element of the final list, its elements are spliced into the final list.
+Wyrazenia literalne zwracaja oczywiste wartosci: liczby (zmiennoprzecinkowe lub calkowite), numery obiektow, stringi i bledy.
 2
 
 2
-        name
+        { wyrazenie , wyrazenie , ... , wyrazenie }
 2
-Variable expressions return the current value of the named variable.  Variable names must start with a letter or underscore ('_') and contain only letters, digits, and underscores.  The following variables are predefined:
+Wyrazenie konstrukcji listy ewaluuje kazde z wyrazen po kolei i zwraca liste, ktorej elementy sa wynikami tych wyrazen.  Dowolne z wyrazen moze byc poprzedzone malpa ('@'); w takim przypadku to wyrazenie musi zwrocic liste, a zamiast tej listy stajacej sie elementem koncowej listy, jej elementy sa wplatane w koncowa liste.
 2
-            OBJ, STR, LIST, ERR, INT, FLOAT, NUM (same as INT)
+
+2
+        nazwa
+2
+Wyrazenia zmiennych zwracaja biezaca wartosc nazwanej zmiennej.  Nazwy zmiennych musza zaczynac sie od litery lub podkreslnika ('_') i zawierac tylko litery, cyfry i podkreslniki.  Nastepujace zmienne sa wbudowane:
+2
+            OBJ, STR, LIST, ERR, INT, FLOAT, NUM (to samo co INT)
 2
             player, caller, this, verb, args
 2
             argstr, dobj, dobjstr, prepstr, iobj, iobjstr
 2
-Their initial values are described in detail in the LambdaMOO Programmer's Manual.
+Ich poczatkowe wartosci sa szczegolowo opisane w LambdaMOO Programmer's Manual.
 2
 
 2
-        expression . name
+        wyrazenie . nazwa
 2
-        expression . ( expression )
+        wyrazenie . ( wyrazenie )
 2
-        $ name
+        $ nazwa
 2
-Property-reading expressions return the current value of a named property on the object that is the value of the first subexpression.  In the second form, the second subexpression must return a string, the name of the property to be read.  The third form is an abbreviation for '#0.name'.
-2
-
-2
-        expression : name ( arguments )
-2
-        expression : ( expression ) ( arguments )
-2
-Verb-call expressions invoke a named verb on the object that is the value of the first subexpression, passing the given arguments.  In the second form, the second subexpression must return a string, the name of the verb to invoke.  The syntax and semantics of arguments is exactly as in the list-construction expression but no initial or final curly-braces ('{' or '}') are used.
+Wyrazenia odczytu wlasciwosci zwracaja biezaca wartosc nazwanej wlasciwosci na obiekcie bedacym wartoscia pierwszego podwyrazenia.  W drugiej formie drugie podwyrazenie musi zwrocic string, nazwe wlasciwosci do odczytu.  Trzecia forma to skrot od '#0.nazwa'.
 2
 
 2
-        function ( arguments )
+        wyrazenie : nazwa ( argumenty )
 2
-The function-call expression invokes one of the MOO primitive functions, as listed in 'help functions', passing the given arguments.
+        wyrazenie : ( wyrazenie ) ( argumenty )
 2
-
-2
-        expression [ expression ]
-2
-The indexing expression first evaluates the two subexpressions; call their values S and N, respectively.  S must be a string or a list and N must be a integer between 1 and the length of S, inclusive.  The Nth element of S is returned.  The elements of a string are themselves one-character strings. The special character `$' maybe used for N as shorthand for the length of the string or list S.
+Wyrazenia wywolania czasownika wywoluja nazwany czasownik na obiekcie bedacym wartoscia pierwszego podwyrazenia, przekazujac podane argumenty.  W drugiej formie drugie podwyrazenie musi zwrocic string, nazwe czasownika do wywolania.  Skladnia i semantyka argumentow jest dokladnie taka jak w wyrazeniu konstrukcji listy, ale nie sa uzywane poczatkowe ani koncowe klamry ('{' lub '}').
 2
 
 2
-        expression [ expression .. expression ]
+        funkcja ( argumenty )
 2
-The subsequence expression first evaluates the three subexpressions; call their values S, N1, and N2, respecitively.  S must be a string or a list and N1 and N2 must be integers.  If N1 <= N2, then both must be between 1 and the length of S, inclusive (the shorthand character `$' may be used); the subsequence of S beginning at index N1 and continuing through index N2 is returned.  If N1 > N2, the empty sequence of the same type as S is returned, either "" or {}.
-2
-
-2
-        name = expression
-2
-        expression . name = expression
-2
-        expression . ( expression ) = expression
-2
-        $ name = expression
-2
-Assignment expressions give new values to variables and object properties.  For the second and third forms, the expressions on the left-hand side of the '=' are evaluated first.  Then the right-hand side expression is evaluated and result is stored in the indicated variable or object property.
-2
-There is a special kind of assignment involving lists on the left hand side. See `help scattering' for details.
+Wyrazenie wywolania funkcji wywoluje jedna z prymitywnych funkcji MOO, wymienionych w 'help functions', przekazujac podane argumenty.
 2
 
 2
-        expression + expression
+        wyrazenie [ wyrazenie ]
 2
-        expression - expression
-2
-        expression * expression
-2
-        expression / expression
-2
-        expression % expression
-2
-        - expression
-2
-        expression ^ expression
-2
-The arithmetic expressions evaluate the subexpressions, all of which must return numbers of the same type (integer or floating-point), and then perform addition, subtraction, multiplication, division, remaindering, negation, or raising to a power, respectively.  For addition, the subexpressions may both return strings as well; in this case, the result is the concatenation of the two strings. For the last operation, raising to a power, if the first expression is an integer, the second must also be an integer. But if it is floating-point, then the second can be either floating point or an integer. This is the only type mixing permitted. You must do explicit type conversions with built-in functions (toint(), tofloat()) before evaluation mixed expressions on the other operations.
+Wyrazenie indeksowania najpierw ewaluuje dwa podwyrazenia; nazwijmy ich wartosci S i N.  S musi byc stringiem lub lista, a N musi byc liczba calkowita od 1 do dlugosci S wlacznie.  Zwracany jest N-ty element S.  Elementy stringa sa same jednoznakowymi stringami.  Specjalny znak `$' moze byc uzyty jako N, w skrocie oznaczajac dlugosc stringa lub listy S.
 2
 
 2
-        expression == expression
+        wyrazenie [ wyrazenie .. wyrazenie ]
 2
-        expression != expression
-2
-        expression < expression
-2
-        expression <= expression
-2
-        expression > expression
-2
-        expression >= expression
-2
-The comparison expressions evaluate the subexpressions and then test whether or not the first result is equal to, unequal to, less than, less than or equal to, greater than, or greater than or equal to the second result, respectively.  If the indicated relation holds then they return 1 and otherwise they return 0.  Comparisons of strings are performed case-insensitively, those of lists are performed on an element-by-element basis, objects are compared by their object numbers, and errors by an ordering given in the LambdaMOO Programmer's Manual.
+Wyrazenie podciagu/podlisty najpierw ewaluuje trzy podwyrazenia; nazwijmy ich wartosci S, N1 i N2.  S musi byc stringiem lub lista, a N1 i N2 musza byc liczbami calkowitymi.  Jesli N1 <= N2, obie musza byc od 1 do dlugosci S wlacznie (mozna uzyc skrotu `$'); zwracany jest podciag S zaczynajacy sie od indeksu N1 i konczacy na indeksie N2.  Jesli N1 > N2, zwracana jest pusta sekwencja tego samego typu co S, albo "", albo {}.
 2
 
 2
-        expression ? expression | expression
+        nazwa = wyrazenie
 2
-        expression && expression
+        wyrazenie . nazwa = wyrazenie
 2
-        expression || expression
+        wyrazenie . ( wyrazenie ) = wyrazenie
 2
-        ! expression
+        $ nazwa = wyrazenie
 2
-The logical expressions each return results based upon the truth value of their first subexpression; call the value of this expression X.  The first of these returns the value of the second subexpression if X is a true value and that of the third expression if X is a false value; the unused subexpression is not evaluated.  The definitions of 'true value' and 'false value' are given in 'help truth'.  The expression 'E1 && E2' is an abbreviation for 'E1 ? E2 | E1' except that E1 is only evaluated once.  The expression 'E1 || E2' is an abbreviation for 'E1 ? E1 | E2' except that E1 is only evaluated once.  The expression '! E' is an abbreviation for 'E ? 0 | 1'.
+Wyrazenia przypisania nadaja nowe wartosci zmiennym i wlasciwosciom obiektow.  Dla drugiej i trzeciej formy wyrazenia po lewej stronie '=' sa ewaluowane najpierw.  Nastepnie ewaluowane jest wyrazenie po prawej stronie, a wynik jest zapisywany we wskazanej zmiennej lub wlasciwosci obiektu.
 2
-
-2
-        expression IN expression
-2
-The list-membership expression first evaluates both subexpressions; call their values E and L, respectively.  L must be a list.  If E is an element of L, then the index of the first occurence of E in L is returned.  If E is not an element of L, then 0 is returned.
+Istnieje specjalny rodzaj przypisania z lista po lewej stronie. Zobacz `help scattering' po szczegoly.
 2
 
 2
-        `expression-1 ! codes => expression-2'
+        wyrazenie + wyrazenie
 2
-NOTE: the open- and close-quotation marks are really part of the syntax; they must be typed in. `Codes' is either the keywoard ANY or a comma-separated list of expressions that when evaluated should yield a list of error codes to be caught if they're raised. If `expression-1' is evaluated without raising an error, then its value is the value of the entire expresion. If it raises an error that is listed in `codes', it is caught. If the `=> expression-2' part was included (it is optional), then it is evaluated and its value is the result of the entire expression. If `expression-2' was omitted, then the error is the value of the expression. If the error was not listed and caught, then the error contines to be raised.
+        wyrazenie - wyrazenie
+2
+        wyrazenie * wyrazenie
+2
+        wyrazenie / wyrazenie
+2
+        wyrazenie % wyrazenie
+2
+        - wyrazenie
+2
+        wyrazenie ^ wyrazenie
+2
+Wyrazenia arytmetyczne ewaluuja podwyrazenia, ktore wszystkie musza zwrocic liczby tego samego typu (calkowite lub zmiennoprzecinkowe), a nastepnie wykonuja odpowiednio dodawanie, odejmowanie, mnozenie, dzielenie, reszte z dzielenia, negacje lub potegowanie.  Dla dodawania podwyrazenia moga tez oba zwracac stringi; w takim przypadku wynikiem jest konkatenacja obu stringow.  Dla ostatniej operacji, potegowania, jesli pierwsze wyrazenie jest liczba calkowita, drugie tez musi byc liczba calkowita.  Ale jesli jest zmiennoprzecinkowe, drugie moze byc albo zmiennoprzecinkowe, albo calkowite.  To jedyne dozwolone mieszanie typow.  Musisz wykonac jawne konwersje typow za pomoca funkcji wbudowanych (toint(), tofloat()) przed ewaluacja mieszanych wyrazen w pozostalych operacjach.
 2
 
 2
-The method for disambiguating the meaning of a complex MOO expression in the absence of sufficient parentheses is described in 'help precedence'.
+        wyrazenie == wyrazenie
+2
+        wyrazenie != wyrazenie
+2
+        wyrazenie < wyrazenie
+2
+        wyrazenie <= wyrazenie
+2
+        wyrazenie > wyrazenie
+2
+        wyrazenie >= wyrazenie
+2
+Wyrazenia porownania ewaluuja podwyrazenia, a nastepnie sprawdzaja odpowiednio, czy pierwszy wynik jest rowny, nierowny, mniejszy, mniejszy lub rowny, wiekszy lub wiekszy lub rowny drugiemu wynikowi.  Jesli wskazana relacja zachodzi, zwracaja 1, w przeciwnym razie 0.  Porownania stringow sa wykonywane bez rozroznienia wielkosci liter, list element po elemencie, obiekty sa porownywane po numerach obiektow, a bledy wedlug porzadku podanego w LambdaMOO Programmer's Manual.
+2
+
+2
+        wyrazenie ? wyrazenie | wyrazenie
+2
+        wyrazenie && wyrazenie
+2
+        wyrazenie || wyrazenie
+2
+        ! wyrazenie
+2
+Wyrazenia logiczne zwracaja wyniki na podstawie wartosci logicznej pierwszego podwyrazenia; nazwijmy wartosc tego wyrazenia X.  Pierwsze z nich zwraca wartosc drugiego podwyrazenia, jesli X jest wartoscia prawdziwa, i trzeciego wyrazenia, jesli X jest wartoscia falszywa; nieuzywane podwyrazenie nie jest ewaluowane.  Definicje 'wartosci prawdziwej' i 'wartosci falszywej' sa podane w 'help truth'.  Wyrazenie 'E1 && E2' to skrot dla 'E1 ? E2 | E1', z tym ze E1 jest ewaluowane tylko raz.  Wyrazenie 'E1 || E2' to skrot dla 'E1 ? E1 | E2', z tym ze E1 jest ewaluowane tylko raz.  Wyrazenie '! E' to skrot dla 'E ? 0 | 1'.
+2
+
+2
+        wyrazenie IN wyrazenie
+2
+Wyrazenie przynaleznosci do listy najpierw ewaluuje oba podwyrazenia; nazwijmy ich wartosci E i L.  L musi byc lista.  Jesli E jest elementem L, zwracany jest indeks pierwszego wystapienia E w L.  Jesli E nie jest elementem L, zwracane jest 0.
+2
+
+2
+        `wyrazenie-1 ! kody => wyrazenie-2'
+2
+UWAGA: znaki otwierajacego i zamykajacego cudzyslowu sa naprawde czescia skladni; trzeba je wpisac.  `Kody' to albo slowo kluczowe ANY, albo lista wyrazen oddzielonych przecinkami, ktore po ewaluacji powinny dac liste kodow bledow do zlapania, jesli zostana podniesione.  Jesli `wyrazenie-1' zostanie zewaluowane bez podniesienia bledu, jego wartosc jest wartoscia calego wyrazenia.  Jesli podniesie blad wymieniony w `kody', zostaje zlapany.  Jesli podano czesc `=> wyrazenie-2' (jest opcjonalna), zostaje ona zewaluowana, a jej wartosc jest wynikiem calego wyrazenia.  Jesli pominieto `wyrazenie-2', wartoscia wyrazenia jest blad.  Jesli blad nie zostal wymieniony i zlapany, blad jest podnoszony dalej.
+2
+
+2
+Metoda rozstrzygania znaczenia zlozonego wyrazenia MOO przy braku wystarczajacej liczby nawiasow jest opisana w 'help precedence'.
 2
 
 36
@@ -11145,35 +11143,35 @@ The method for disambiguating the meaning of a complex MOO expression in the abs
 4
 37
 2
-Syntax:  eval <MOO-code>
+Skladnia:  eval <kod-MOO>
 2
-         ; <MOO-code>
+         ; <kod-MOO>
 2
-         eval-d <MOO-code>
-2
-
-2
-Evaluates the given piece of MOO code and prints the resulting value.  If the MOO code begins with one of the MOO language keywords ('if', 'for', 'while', 'fork', or 'return') or with the character ';', then the entire piece of code is treated as the program for a verb, with ';' appended to the end.  Otherwise, 'return' is appended to the front and ';' is appended to the end and that string is treated as the code for a verb.  In either case, the resulting verb is invoked and whatever value it returns is printed.
+         eval-d <kod-MOO>
 2
 
 2
-For programmers, this is such a mind-bogglingly useful thing to do that there is a simple abbreviation for this command; any command beginning with a semicolon (';') is treated as a use of 'eval'.
+Ewaluuje podany fragment kodu MOO i wypisuje wynikowa wartosc.  Jesli kod MOO zaczyna sie od jednego ze slow kluczowych jezyka MOO ('if', 'for', 'while', 'fork' lub 'return') lub od znaku ';', caly fragment kodu jest traktowany jako program dla czasownika, z ';' dodanym na koncu.  W przeciwnym razie 'return' jest dodawane na poczatku, a ';' na koncu, i ten string jest traktowany jako kod czasownika.  W obu przypadkach wynikowy czasownik jest wywolywany, a wartosc, ktora zwroci, jest wypisywana.
 2
 
 2
-Eval treats specially a duplicated semicolon at the beginning.  It enables you to make multi-statement programs within eval (but does not by default print the return value).
+Dla programistow jest to tak niewiarygodnie przydatne, ze istnieje prosty skrot dla tego polecenia; kazde polecenie zaczynajace sie srednikiem (';') jest traktowane jako uzycie 'eval'.
 2
 
 2
-Eval-d (no ";" abbreviation for this) evaluates the following text exactly as eval, except that the "d" debug flag (see programmer's manual for explanation) is turned off.  Thus errors will cause an error return value rather than a traceback.
+Eval specjalnie traktuje zdublowany srednik na poczatku.  Pozwala to tworzyc wieloinstrukcyjne programy wewnatrz eval (ale domyslnie nie wypisuje wartosci zwracanej).
 2
 
 2
-If you set the programmer option `eval_time' to 1 (see `help @prog-options'), then eval will print out how many ticks and seconds the program required.
+Eval-d (nie ma skrotu ";" dla tego) ewaluuje nastepujacy tekst dokladnie jak eval, z tym ze flaga debugowania "d" (zobacz podrecznik programisty po wyjasnienie) jest wylaczona.  Zatem bledy spowoduja zwrocenie wartosci bledu zamiast tracebacku.
 2
 
 2
-Examples:
+Jesli ustawisz opcje programisty `eval_time' na 1 (zobacz `help @prog-options'), eval wypisze, ile tickow i sekund wymagal program.
+2
+
+2
+Przyklady:
 2
    eval 3 + 4
 2
@@ -11203,7 +11201,7 @@ Examples:
 2
 
 2
-You may customize your evaluation environment.  The player property .eval_env may contain statements to be executed prior to any evaluated program.  Two caveats:  This will throw off the tick count.  You can account for additional ticks inserted by your environment with the .eval_ticks property; just set it to the number of ticks you'd like subtracted from the total.  Additionally, if you make a syntax error in your program, the line reported will be wrong (it will count those initial statements), and if you make an error in the eval_env itself, you can be in deep trouble.  Despite these drawbacks, the eval_env property can be quite useful.  The following is a sample:
+Mozesz dostosowac swoje srodowisko ewaluacji.  Wlasciwosc gracza .eval_env moze zawierac instrukcje do wykonania przed kazdym ewaluowanym programem.  Dwa zastrzezenia: to zaburzy licznik tickow.  Mozesz uwzglednic dodatkowe ticki wstawione przez twoje srodowisko za pomoca wlasciwosci .eval_ticks; po prostu ustaw ja na liczbe tickow, jaka chcesz odjac od sumy.  Dodatkowo, jesli popelnisz blad skladniowy w swoim programie, zgloszona linia bedzie bledna (bedzie liczyc te poczatkowe instrukcje), a jesli popelnisz blad w samym eval_env, mozesz miec powazny problem.  Mimo tych wad, wlasciwosc eval_env moze byc bardzo przydatna.  Oto przyklad:
 2
 
 2
@@ -11213,11 +11211,11 @@ eval_ticks:  3
 2
 
 2
-See also @setenv.
+Zobacz tez @setenv.
 2
 
 2
-You can also define textual substitutions in a separate property, called eval_subs.  These are discouraged, however, for anything that can be done with variable assignments, because the overhead of replacing the strings in the evaluated program is significant.  However, some things, such as substituting characters which can't be typed easily on one keyboard (e.g. "[]" is difficult to type on some IBM keyboards), can only be done by textual substitutions.  Note that the eval substitutions are also interpreted by the verb editor when "eval_subs" is selected in your .edit_options property (see `help editors').  This adds to their overhead, but again, makes it possible for people to program who otherwise can't type the full character set.  Remember:  Don't use eval_subs unless you really have to!
+Mozesz tez zdefiniowac podstawienia tekstowe w osobnej wlasciwosci o nazwie eval_subs.  Sa one jednak odradzane dla wszystkiego, co mozna osiagnac przypisaniami zmiennych, poniewaz narzut zwiazany z podmienianiem stringow w ewaluowanym programie jest znaczacy.  Jednak niektorych rzeczy, jak podstawianie znakow, ktorych nie da sie latwo wpisac na jednej klawiaturze (np. "[]" jest trudne do wpisania na niektorych klawiaturach IBM), mozna dokonac tylko przez podstawienia tekstowe.  Uwaga: podstawienia eval sa tez interpretowane przez edytor czasownikow, gdy "eval_subs" jest wybrane w twojej wlasciwosci .edit_options (zobacz `help editors').  To zwieksza ich narzut, ale znowu umozliwia programowanie ludziom, ktorzy inaczej nie moga wpisac pelnego zestawu znakow.  Pamietaj: nie uzywaj eval_subs, chyba ze naprawde musisz!
 36
 1
 4
@@ -11225,7 +11223,7 @@ You can also define textual substitutions in a separate property, called eval_su
 2
 *errors*
 2
-The complete list of error codes:
+Pelna lista kodow bledow:
 2
 
 36
@@ -11233,13 +11231,13 @@ The complete list of error codes:
 4
 17
 2
-Syntax:  @verb <object>:<verb-name(s)>
+Skladnia:  @verb <obiekt>:<nazwa(-y)-czasownika>
 2
-         @verb <object>:<verb-name(s)> <dobj> [<prep> [<iobj>]]
+         @verb <obiekt>:<nazwa(-y)-czasownika> <dobj> [<prep> [<iobj>]]
 2
 
 2
-Adds a new verb with the given name(s) to the named object.  If there are multiple names, they should be separated by spaces and all enclosed in quotes:
+Dodaje nowy czasownik o podanej nazwie(-ach) do nazwanego obiektu.  Jesli jest wiele nazw, powinny byc oddzielone spacjami i wszystkie w cudzyslowach:
 2
 
 2
@@ -11247,41 +11245,41 @@ Adds a new verb with the given name(s) to the named object.  If there are multip
 2
 
 2
-The direct and indirect object specifiers (<dobj> and <iobj>) must be either 'none', 'this', or 'any'; their meaning is discussed in the LambdaMOO Programmer's Manual.  The preposition specifier (<prep>) must be either 'none', 'any', or one of the prepositional phrases listed in `help prepositions' (a prepositional phrase with more than one word must be enclosed in quotes ("")).  All three specifiers default to 'none'.
+Specyfikatory dopelnienia bliszego i dalszego (<dobj> i <iobj>) musza byc `none', `this' lub `any'; ich znaczenie jest omowione w LambdaMOO Programmer's Manual.  Specyfikator przyimka (<prep>) musi byc `none', `any' lub jedna z fraz przyimkowych wymienionych w `help prepositions' (fraze przyimkowa z wiecej niz jednym slowem trzeba ujac w cudzyslowy ("")).  Wszystkie trzy specyfikatory domyslnie sa `none'.
 2
 
 2
-It is also possible to specify the new verb's permissions and owner as part of the same command (rather than having to issue separate @chmod/@chown commands)
+Mozna tez podac uprawnienia i wlasciciela nowego czasownika w ramach tego samego polecenia (zamiast wydawac osobne polecenia @chmod/@chown)
 2
 
 2
-     @verb <object>:<verb-name(s)> <dobj> <prep> <iobj> <permissions>
+     @verb <obiekt>:<nazwa(-y)-czasownika> <dobj> <prep> <iobj> <uprawnienia>
 2
-     @verb <object>:<verb-name(s)> <dobj> <prep> <iobj> <permissions> <owner>
-2
-
-2
-<permissions> are as with @chmod, i.e., must be some subset of "rwxd".  They default to "rd" (specifying "w" for a verb is highly inadvisable).  The owner defaults to the player typing the command; only wizards can create verbs with owners other than themselves.
+     @verb <obiekt>:<nazwa(-y)-czasownika> <dobj> <prep> <iobj> <uprawnienia> <wlasciciel>
 2
 
 2
-You may also use "tnt" in place of "this none this" for the dobj prep iobj arguments.  "this none this" is used to indicate non-command verbs, since the parser can't possibly interpret a command as "this none this".  For these verbs, the permissions default to "rxd"; the "x" bit is set so that they can be called from other programs.  (If they couldn't be used as commands, and they couldn't be called from programs, they wouldn't be good for anything!)
+<uprawnienia> sa jak w @chmod, tj. musza byc jakims podzbiorem "rwxd".  Domyslnie "rd" (podawanie "w" dla czasownika jest zdecydowanie odradzane).  Wlascicielem domyslnie jest gracz wpisujacy polecenie; tylko wizardzi moga tworzyc czasowniki z innym wlascicielem niz oni sami.
+2
+
+2
+Mozesz tez uzyc "tnt" zamiast "this none this" dla argumentow dobj prep iobj.  "this none this" jest uzywane do oznaczenia czasownikow nie-polecen, poniewaz parser nie moze zinterpretowac polecenia jako "this none this".  Dla tych czasownikow uprawnienia domyslnie to "rxd"; bit "x" jest ustawiony, by mogly byc wywolywane z innych programow.  (Gdyby nie moglyby byc uzywane jako polecenia i nie moglyby byc wywolywane z programow, do niczego by sie nie nadawaly!)
 36
 1
 4
 8
 2
-Syntax:  @setenv <environment string>
+Skladnia:  @setenv <string srodowiska>
 2
 
 2
-Defines the environment for eval (property player.eval_env).  See "help eval"
+Definiuje srodowisko dla eval (wlasciwosc player.eval_env).  Zobacz "help eval"
 2
-for more information.
+po wiecej informacji.
 2
 
 2
-Example:
+Przyklad:
 2
 
 2
@@ -11291,49 +11289,49 @@ Example:
 4
 10
 2
-Syntax:  @rmverb <object>:<verb-name>
+Skladnia:  @rmverb <obiekt>:<nazwa-czasownika>
 2
-         @rmverb <object>:<verb-name>  <dobj> <prep> <iobj>
+         @rmverb <obiekt>:<nazwa-czasownika>  <dobj> <prep> <iobj>
 2
-         @rmverb# <object>:<verb-number>
-2
-
-2
-Removes the named verb from the named object.
-2
-If there is more than one verb matching the given verb-name, this removes the most recently defined one.
+         @rmverb# <obiekt>:<numer-czasownika>
 2
 
 2
-With the 2nd form of the command the verb removed is the most recent one matching both the given verb-name *and* the given dobj/prep/iobj specifiers.
+Usuwa nazwany czasownik z nazwanego obiektu.
+2
+Jesli jest wiecej niz jeden czasownik pasujacy do podanej nazwy, usuwany jest ten zdefiniowany najpozniej.
 2
 
 2
-To remove the ambiguity in verbs with the same name, @rmverb# is provided where you can specify the verb by its 1-based index in the verbs() list output. Use of this form is strongly encouraged.
+W drugiej formie polecenia usuwany jest ten czasownik zdefiniowany najpozniej, ktory pasuje zarowno do podanej nazwy, *jak i* do podanych specyfikatorow dobj/prep/iobj.
+2
+
+2
+By usunac niejednoznacznosc czasownikow o tej samej nazwie, dostepne jest @rmverb#, gdzie mozna wskazac czasownik po jego 1-indeksowanej pozycji na liscie wyniku verbs(). Uzycie tej formy jest mocno zalecane.
 36
 5
 4
 3
 2
-Syntax:  @rmproperty <object>.<prop-name>
+Skladnia:  @rmproperty <obiekt>.<nazwa-wlasciwosci>
 2
 
 2
-Removes the named property from the named object.  '@rmproperty' may be abbreviated as '@rmprop'.
+Usuwa nazwana wlasciwosc z nazwanego obiektu.  '@rmproperty' mozna skrocic do '@rmprop'.
 36
 5
 4
 35
 2
-Usage:  @prospectus player [from number] [to number]
+Uzycie:  @prospectus gracz [from numer] [to numer]
 2
 
 2
-Like @audit, but displays more information.  The optional from and to arguments are for restricting the display to specific object numbers, if you happen to know the player only owns objects in the included range.
+Jak @audit, ale wyswietla wiecej informacji.  Opcjonalne argumenty from i to sluza do ograniczenia wyswietlania do konkretnych numerow obiektow, gdybys akurat wiedzial, ze gracz posiada obiekty tylko w podanym zakresie.
 2
 
 2
-Example:
+Przyklad:
 2
    Objects owned by Frand (from #0 to #54949):
 2
@@ -11361,93 +11359,93 @@ Example:
 2
 
 2
-The K in the first column indicates that the object has children owned by other players.  A lowercase k indicates the object has children but owned only by the player.  The second column indicates whether the object is publicly readable or publicly parentable.  An r indicates readability.  A lowercase f indicates the object is both readable and allows children (is fertile).  An uppercase F indicates the object is not readable, yet allows children to be created.  (This is usually an error.)  If the object is readable by the issuer of the @prospectus command (that is, publicly readable or owned by the issuer), then the number in brackets indicates the number of verbs which have been defined on this object (not including any verbs from any parents).
+K w pierwszej kolumnie oznacza, ze obiekt ma dzieci nalezace do innych graczy.  Mala litera k oznacza, ze obiekt ma dzieci, ale nalezace tylko do tego gracza.  Druga kolumna wskazuje, czy obiekt jest publicznie czytelny lub publicznie mozna go uzyc jako rodzica.  r oznacza czytelnosc.  Mala litera f oznacza, ze obiekt jest zarowno czytelny, jak i pozwala na dzieci (jest plodny).  Wielka litera F oznacza, ze obiekt nie jest czytelny, a mimo to pozwala na tworzenie dzieci.  (Zwykle jest to blad.)  Jesli obiekt jest czytelny dla wydajacego polecenie @prospectus (tj. publicznie czytelny lub nalezacy do wydajacego), liczba w nawiasach kwadratowych wskazuje liczbe czasownikow zdefiniowanych na tym obiekcie (nie liczac czasownikow z jakichkolwiek rodzicow).
 2
 
 2
-The third column indicates what type of object this is.
+Trzecia kolumna wskazuje typ tego obiektu.
 2
-        T       Thing
+        T       Thing (rzecz)
 2
-        E       Exit
+        E       Exit (wyjscie)
 2
-        R       Room
+        R       Room (pokoj)
 2
-        C       Container
+        C       Container (kontener)
 2
-        N       Note
+        N       Note (notatka)
 2
-        P       Player
+        P       Player (gracz)
 2
-        F       Feature
+        F       Feature (funkcja)
 2
-        M       Mail Recipient
+        M       Mail Recipient (odbiorca poczty)
 2
-        H       Help Database
+        H       Help Database (baza pomocy)
 2
-        D       Database
+        D       Database (baza danych)
 2
-        U       Utilities Package
+        U       Utilities Package (pakiet narzedziowy)
 2
-        O       Options Package
+        O       Options Package (pakiet opcji)
 2
-        p       Parent object appropriate for players ("Player class")
+        p       Obiekt-rodzic odpowiedni dla graczy ("klasa gracza")
 2
-        blank   Other
+        puste   Inne
 36
 5
 4
 13
 2
-Syntax:  @property <object>.<prop-name>
+Skladnia:  @property <obiekt>.<nazwa-wlasciwosci>
 2
-         @property <object>.<prop-name> <initial-value>
-2
-
-2
-Adds a new property named <prop-name> to the named object.  The initial value is given by the second argument, if present; it defaults to 0.  
+         @property <obiekt>.<nazwa-wlasciwosci> <wartosc-poczatkowa>
 2
 
 2
-Normally, a property is created with permissions 'rc' and owned by whoever types the command.  However, you may also specify these explicitly
+Dodaje nowa wlasciwosc o nazwie <nazwa-wlasciwosci> do nazwanego obiektu.  Wartosc poczatkowa jest podana przez drugi argument, jesli obecny; domyslnie 0.  
 2
 
 2
-         @property <object>.<prop-name> <initial-value> <permissions>
-2
-         @property <object>.<prop-name> <initial-value> <permissions> <owner>
+Normalnie wlasciwosc jest tworzona z uprawnieniami 'rc' i nalezy do tego, kto wpisal polecenie.  Mozesz jednak podac je jawnie
 2
 
 2
-Only wizards can create properties with owners other than themselves.
+         @property <obiekt>.<nazwa-wlasciwosci> <wartosc-poczatkowa> <uprawnienia>
+2
+         @property <obiekt>.<nazwa-wlasciwosci> <wartosc-poczatkowa> <uprawnienia> <wlasciciel>
 2
 
 2
-'@property' can be abbreviated as '@prop'.
+Tylko wizardzi moga tworzyc wlasciwosci z innym wlascicielem niz oni sami.
+2
+
+2
+'@property' mozna skrocic do '@prop'.
 36
 1
 4
 20
 2
-Syntax:  @program <object>:<verb-name>
+Skladnia:  @program <obiekt>:<nazwa-czasownika>
 2
-         @program <object>:<verb-name> <dobj> <preposition> <iobj>
+         @program <obiekt>:<nazwa-czasownika> <dobj> <przyimek> <iobj>
 2
-         @program# <object>:<verb-number>
-2
-
-2
-Changes the MOO program associated with the named verb on the named object.
-2
-If you provide <dobj> <preposition> and <iobj> as in the second form of this command, then it is the first verb with matching direct object, preposition and indirect object specifiers that is the one getting the new program.  This is useful if you have several verbs matching the same name.
+         @program# <obiekt>:<numer-czasownika>
 2
 
 2
-Or, you can use @program# if you know the verb's number. This is the 1-based index of the verb as it appears in the verbs() (or @verbs) output list.
+Zmienia program MOO zwiazany z nazwanym czasownikiem na nazwanym obiekcie.
+2
+Jesli podasz <dobj> <przyimek> i <iobj> jak w drugiej formie tego polecenia, nowy program otrzyma pierwszy czasownik z pasujacymi specyfikatorami dopelnienia bliszego, przyimka i dopelnienia dalszego.  Przydatne, jesli masz kilka czasownikow z ta sama nazwa.
 2
 
 2
-Typing the @program command always puts the server into a line-reading mode, in which each line you type is saved away without any action unless said line is one of the following:
+Albo mozesz uzyc @program#, jesli znasz numer czasownika. To 1-indeksowana pozycja czasownika, tak jak wystepuje na liscie wyniku verbs() (lub @verbs).
+2
+
+2
+Wpisanie polecenia @program zawsze przelacza serwer w tryb czytania linii, w ktorym kazda wpisana przez ciebie linia jest zapisywana bez zadnej akcji, chyba ze ta linia to jedna z ponizszych:
 2
 
 2
@@ -11455,61 +11453,61 @@ Typing the @program command always puts the server into a line-reading mode, in 
 2
   @abort
 2
-  .<text>
+  .<tekst>
 2
 
 2
-A period on a line by itself ends the line-reading mode and continues with the command, in this case, the saved lines are considered as a program, checked for syntax errors and, if no errors are found, installed as the new program for the specified verb.  
+Kropka w osobnej linii konczy tryb czytania linii i kontynuuje polecenie; w tym przypadku zapisane linie sa traktowane jako program, sprawdzane pod katem bledow skladniowych, i jesli nie znaleziono bledow, instalowane jako nowy program dla wskazanego czasownika.  
 2
 
 2
-@abort causes the command to terminate immediately with no change to any verb's program.  .<text> enters <text> literally as one of the lines to be saved, which is used for when, e.g., you want to enter the line `.' or the line `@abort'.
+@abort powoduje natychmiastowe zakonczenie polecenia bez zmiany programu zadnego czasownika.  .<tekst> wprowadza <tekst> doslownie jako jedna z zapisywanych linii, co jest przydatne, gdy np. chcesz wprowadzic linie `.' lub linie `@abort'.
 2
 
 2
-Note that this command *always* enters the line-reading mode, even if the indicated verb is not found.  In this case, lines of text are still read but they are ignored.  After any @program command, you always need to type a period or `@abort' to get back into the normal command-reading mode.
+Uwaga: to polecenie *zawsze* wchodzi w tryb czytania linii, nawet jesli wskazany czasownik nie zostanie znaleziony.  W takim przypadku linie tekstu sa nadal czytane, ale sa ignorowane.  Po kazdym poleceniu @program zawsze trzeba wpisac kropke lub `@abort', by wrocic do normalnego trybu czytania polecen.
 36
 5
 4
 25
 2
-Syntax:  @list <object>:<verb>
+Skladnia:  @list <obiekt>:<czasownik>
 2
-         @list <object>:<verb> [with|without parentheses|numbers] [all]
+         @list <obiekt>:<czasownik> [with|without parentheses|numbers] [all]
 2
-         @list <object>:<verb> <dobj> <prep> <iobj>
+         @list <obiekt>:<czasownik> <dobj> <prep> <iobj>
 2
-         @list <object>:<verb> <start>..<end>
+         @list <obiekt>:<czasownik> <start>..<end>
 2
-         @list# <object>:<verb-number> [any of the above]
-2
-
-2
-Prints out the code for the MOO program associated with the named verb on the named object.  
+         @list# <obiekt>:<numer-czasownika> [dowolne z powyzszych]
 2
 
 2
-Normally, the code is shown with each line numbered and with only those parentheses that are necessary to show the meaning of the program.  You can e.g., specify `without numbers' to have the numbers omitted or `with parentheses' to include all parentheses or even `with parentheses without numbers' to do both.  You can change the default behavior of this command via @prog-options (which see).
+Wypisuje kod programu MOO zwiazanego z nazwanym czasownikiem na nazwanym obiekcie.  
 2
 
 2
-Normally, the @list command only shows the code for the named verb on the object itself or on the nearest ancestor that defines it; if you give the `all' option, it shows the code for the named verb on every ancestor that defines it, as well as on the object itself.
+Normalnie kod jest pokazywany z ponumerowana kazda linia i tylko z tymi nawiasami, ktore sa niezbedne, by pokazac znaczenie programu.  Mozesz np. podac `without numbers', by pominac numery, lub `with parentheses', by dolaczyc wszystkie nawiasy, lub nawet `with parentheses without numbers', by zrobic oba naraz.  Mozesz zmienic domyslne zachowanie tego polecenia przez @prog-options (patrz).
 2
 
 2
-The 3rd form of the verb lists the verb matching the given dobj/prep/iobj specification if such exists.  
-2
-The 4th form prints only those lines in the specified range.
+Normalnie polecenie @list pokazuje kod nazwanego czasownika tylko na samym obiekcie lub na najblizszym przodku, ktory go definiuje; jesli podasz opcje `all', pokazuje kod nazwanego czasownika na kazdym przodku, ktory go definiuje, a takze na samym obiekcie.
 2
 
 2
-Example:
+Trzecia forma czasownika wypisuje czasownik pasujacy do podanej specyfikacji dobj/prep/iobj, jesli taki istnieje.  
 2
-  Type `@list $room:say' to see the code for the `say' command, or even `@list $prog:@list' to see the code implementing @list itself...
+Czwarta forma wypisuje tylko te linie w podanym zakresie.
 2
 
 2
-The 2nd-4th forms may be combined, e.g.,
+Przyklad:
+2
+  Wpisz `@list $room:say', by zobaczyc kod polecenia `say', albo nawet `@list $prog:@list', by zobaczyc kod implementujacy samo @list...
+2
+
+2
+Formy 2-4 mozna laczyc, np.
 2
 
 2
@@ -11517,59 +11515,59 @@ The 2nd-4th forms may be combined, e.g.,
 2
 
 2
-which would be useful if `frobule' had more than one `burfle' verb and we wanted to see the first 10 lines of the one having `this' `in front of' `any' as its respective dobj/prep/iobj specifiers.
+co byloby przydatne, gdyby `frobule' mial wiecej niz jeden czasownik `burfle', a my chcielibysmy zobaczyc pierwsze 10 linii tego, ktory ma `this' `in front of' `any' jako swoje odpowiednie specyfikatory dobj/prep/iobj.
 2
 
 2
-Or, if you know the verb's number, you can use @list# to unambiguously refer to the verb. The number comes from the 1-based index of the verb as it appears in the verbs() (or @verbs) output list.
+Albo, jesli znasz numer czasownika, mozesz uzyc @list#, by jednoznacznie odwolac sie do czasownika. Numer pochodzi z 1-indeksowanej pozycji czasownika na liscie wyniku verbs() (lub @verbs).
 36
 1
 4
 26
 2
-Syntax:  @kill task_id
+Skladnia:  @kill task_id
 2
-         @kill [object]:[verb]
+         @kill [obiekt]:[czasownik]
 2
-         @kill soon [number-of-seconds]
+         @kill soon [liczba-sekund]
 2
          @kill all
 2
-         @kill %trailing_id
+         @kill %koncowka_id
 2
 
 2
 
 2
-Immediately kills one or more forked tasks.  The '@forked' command is useful for finding out what tasks you have pending; see 'help @forked' for details.  Only the owner of a task may kill it.
+Natychmiast zabija jedno lub wiecej sforkowanych zadan.  Polecenie '@forked' jest przydatne do sprawdzenia, jakie masz oczekujace zadania; zobacz 'help @forked' po szczegoly.  Tylko wlasciciel zadania moze je zabic.
 2
 
 2
-@kill task_id kills only the task with that id.
+@kill task_id zabija tylko zadanie o tym id.
 2
 
 2
-@kill object:verb kills all tasks which were scheduled by the object running the verb named.  Both object and verb are optional:  @kill object: kills all tasks scheduled by that object, and @kill :verb kills all tasks which were scheduled by any object running that verb.  This can be useful if you have several similar objects which are running tasks from similarly named verbs.  (Perversely, @kill : kills all tasks...  Any object running any task.)
+@kill obiekt:czasownik zabija wszystkie zadania zaplanowane przez obiekt wykonujacy nazwany czasownik.  Zarowno obiekt, jak i czasownik sa opcjonalne:  @kill obiekt: zabija wszystkie zadania zaplanowane przez ten obiekt, a @kill :czasownik zabija wszystkie zadania zaplanowane przez dowolny obiekt wykonujacy ten czasownik.  Moze byc to przydatne, jesli masz kilka podobnych obiektow uruchamiajacych zadania z podobnie nazwanych czasownikow.  (Przewrotnie, @kill : zabija wszystkie zadania...  Dowolny obiekt wykonujacy dowolne zadanie.)
 2
 
 2
-@kill soon kills all tasks scheduled within the next minute.  @kill soon number kills all tasks scheduled within that number of seconds, e.g. @kill soon 300 would kill all tasks scheduled within the next five minutes.  This can be useful if you have a runaway task you want to quickly remove, but don't want to kill you later tasks.
+@kill soon zabija wszystkie zadania zaplanowane w ciagu nastepnej minuty.  @kill soon liczba zabija wszystkie zadania zaplanowane w ciagu tylu sekund, np. @kill soon 300 zabilby wszystkie zadania zaplanowane w ciagu nastepnych pieciu minut.  Moze byc to przydatne, jesli masz nieopanowane zadanie, ktore chcesz szybko usunac, ale nie chcesz zabijac swoich pozniejszych zadan.
 2
 
 2
-@kill all kills all tasks.  Like @kill soon, but more dramatic.
+@kill all zabija wszystkie zadania.  Jak @kill soon, ale bardziej dramatyczne.
 2
 
 2
-@kill %trailing_id expects you to specify the last few digits of a task id.  It then kills all tasks that end with those digits.
+@kill %koncowka_id oczekuje podania kilku ostatnich cyfr id zadania.  Nastepnie zabija wszystkie zadania konczace sie tymi cyframi.
 2
 
 2
-@killq*uiet does all of the above without the pretty printout if more than one task is being killed.  It tells you the number of tasks that have been killed when it's finished.
+@killq*uiet robi to wszystko bez ladnego wypisu, jesli zabijane jest wiecej niz jedno zadanie.  Informuje o liczbie zabitych zadan po zakonczeniu.
 2
 
 2
-Example:
+Przyklad:
 2
   @forked
 2
@@ -11583,15 +11581,15 @@ Example:
 4
 8
 2
-Syntax:  @kids object
+Skladnia:  @kids obiekt
 2
 
 2
-A quick way to find out the children of an object.  Prints out the names and object numbers of the found children.  Note: this is not a list of all descendents, just direct children.
+Szybki sposob na sprawdzenie dzieci obiektu.  Wypisuje nazwy i numery obiektow znalezionych dzieci.  Uwaga: to nie jest lista wszystkich potomkow, tylko bezposrednich dzieci.
 2
 
 2
-Example:
+Przyklad:
 2
   @kids #3107
 2
@@ -11603,83 +11601,83 @@ Example:
 4
 26
 2
-Syntax:  @forked[-v*erbose] [all wizards]
+Skladnia:  @forked[-v*erbose] [all wizards]
 2
 
 2
-Gives a list of all of the forked tasks you own, along with detailed information about each one.  Wizardly characters may specify `all wizards' and see the queued tasks which are owned by a player with .wizard=1. This is useful to find a task that $wiz_utils:random_wizard has put in various queues, and to also find code which is running with wizardly permissions that shouldn't be.
+Podaje liste wszystkich sforkowanych zadan, ktore posiadasz, wraz ze szczegolowymi informacjami o kazdym z nich.  Postacie wizardow moga podac `all wizards' i zobaczyc zadania w kolejce nalezace do gracza z .wizard=1. Przydatne do znalezienia zadania, ktore $wiz_utils:random_wizard umiescil w roznych kolejkach, a takze do znalezienia kodu dzialajacego z uprawnieniami wizarda, ktory nie powinien ich miec.
 2
 
 2
-The information displayed includes the following:
+Wyswietlane informacje obejmuja:
 2
 
 2
 Queue ID:
 2
-   A numeric identifier for the task, for use in killing it (see 'help @kill').
+   Numeryczny identyfikator zadania, do uzycia przy jego zabijaniu (zobacz 'help @kill').
 2
 
 2
 Start Time:
 2
-   The time after which the task will begin execution.
+   Czas, po ktorym zadanie zacznie wykonanie.
 2
 
 2
 Owner:
 2
-   The player whose permissions under which the task is running.
+   Gracz, z ktorego uprawnien korzysta dzialajace zadanie.
 2
-   Unless you are a wizard, @forked will show only your tasks.
+   O ile nie jestes wizardem, @forked pokaze tylko twoje zadania.
 2
 
 2
 Verb:
 2
-   The object and verb-name of the code that forked the task.
+   Obiekt i nazwa czasownika kodu, ktory sforkowal zadanie.
 2
 
 2
 Line:
 2
-   The line number of the first statement that the task will execute when it starts.  Note that the code for the verb in question may have changed since the task was forked; the forked task will use the version that was being executed when it was forked.
+   Numer linii pierwszej instrukcji, ktora zadanie wykona po starcie.  Uwaga: kod tego czasownika mogl sie zmienic od czasu sforkowania zadania; sforkowane zadanie uzyje wersji, ktora byla wykonywana w momencie forkowania.
 2
 
 2
 This:
 2
-   The value of `this' for the forked task, in the case that it is different from (i.e., is a descendant of) the object on which the verb code lives.
+   Wartosc `this' dla sforkowanego zadania, w przypadku gdy jest inna niz (tj. jest potomkiem) obiekt, na ktorym mieszka kod czasownika.
 2
 
 2
-For a more verbose output, use `@forked-v*erbose'. This will display the same information as the above, but for any task which is not a fresh fork or foreground task, a callers()-style listing of the stack trace will be displayed.
+Po bardziej szczegolowy wynik uzyj `@forked-v*erbose'. Pokaze te same informacje co powyzej, ale dla kazdego zadania, ktore nie jest swiezym forkiem ani zadaniem pierwszoplanowym, wyswietlony zostanie listing stosu w stylu callers().
 36
 1
 4
 42
 2
-Syntax: @display <object>.[property]
+Skladnia: @display <obiekt>.[wlasciwosc]
 2
-                         ,[inherited_property]
+                         ,[dziedziczona_wlasciwosc]
 2
-                         :[verb]
+                         :[czasownik]
 2
-                         ;[inherited_verb]
-2
-
-2
-@display is a fancy version of @show.  As @show, it can select individual verbs or properties to display.  In addition, it can display all the verbs or properties defined on an object, or all the verbs or properties defined on any of the object's ancestors.  Don't specify a property or verbname after the punctuation mark to get the "all" feature.  Its display is more compact than that of @show (it uses a one-line format, and truncates values that don't fit in the value field).
+                         ;[dziedziczony_czasownik]
 2
 
 2
-You may mix properties and verbs on the command line, but the parser may become confused.  (E.g. @display object,: displays all properties including inherited ones plus all locally defined verbs on the object.)
+@display to bardziej rozbudowana wersja @show.  Podobnie jak @show moze wybrac pojedyncze czasowniki lub wlasciwosci do wyswietlenia.  Dodatkowo moze wyswietlic wszystkie czasowniki lub wlasciwosci zdefiniowane na obiekcie, lub wszystkie czasowniki lub wlasciwosci zdefiniowane na ktoryms z przodkow obiektu.  Nie podawaj nazwy wlasciwosci ani czasownika po znaku interpunkcyjnym, by uzyskac funkcje "wszystkie".  Jego wyswietlanie jest bardziej zwiezle niz @show (uzywa formatu jednoliniowego i obcina wartosci, ktore nie miesza sie w polu wartosci).
 2
 
 2
-Examples:
+Mozesz mieszac wlasciwosci i czasowniki w linii polecenia, ale parser moze sie pogubic.  (Np. @display object,: wyswietla wszystkie wlasciwosci, w tym dziedziczone, plus wszystkie lokalnie zdefiniowane czasowniki na obiekcie.)
 2
-Individual property:
+
+2
+Przyklady:
+2
+Pojedyncza wlasciwosc:
 2
   @display poolsweep.count
 2
@@ -11687,7 +11685,7 @@ Individual property:
 2
 
 2
-Individual verb:
+Pojedynczy czasownik:
 2
   @display poolsweep:tell
 2
@@ -11695,7 +11693,7 @@ Individual verb:
 2
 
 2
-All properties, including one truncated value:
+Wszystkie wlasciwosci, wlacznie z jedna obcieta wartoscia:
 2
   @display poolsweep.
 2
@@ -11719,7 +11717,7 @@ All properties, including one truncated value:
 2
 
 2
-Inherited verbs, edited for brevity, showing verbs from various parents, with owners, permissions, and argument lists.
+Dziedziczone czasowniki, skrocone dla zwiezlosci, pokazujace czasowniki z roznych rodzicow, z wlascicielami, uprawnieniami i listami argumentow.
 2
   @d poolsweep;
 2
@@ -11741,37 +11739,37 @@ Inherited verbs, edited for brevity, showing verbs from various parents, with ow
 2
 
 2
-Some aspects of @display can be customized (see `help @display-options').
+Niektore aspekty @display mozna dostosowac (zobacz `help @display-options').
 36
 5
 4
 3
 2
-Syntax:  @dbsize
+Skladnia:  @dbsize
 2
 
 2
-@dbsize goes through the entire database, counting the valid and invalid objects, giving a summary at the end.  This information can be useful, but because this command is cpu intensive, it should be used sparingly.
+@dbsize przechodzi przez cala baze danych, liczac prawidlowe i nieprawidlowe obiekty, podajac podsumowanie na koncu.  Ta informacja moze byc przydatna, ale poniewaz to polecenie mocno obciaza procesor, powinno byc uzywane oszczednie.
 36
 5
 4
-14
+13
 2
-Syntax:  @copy <object>:<verb> to [<newobject>][:<newverb>]
+Skladnia:  @copy <obiekt>:<czasownik> to [<nowyobiekt>][:<nowyczasownik>]
 2
-         @copy-move <object>:<verb> to [<newobject>][:<newverb>]
-2
-
-2
-Copies the code of the named verb to the new object and verbname.  Permissions, and arguments of the new verb are set to match those of the old verb in the event that the new verb does not already exist.  One of <newobject> or :<newverb> must be supplied.  If no new verbname is given, the old name is retained.  Likewise, <newobject> defaults to <object> if not given.
+         @copy-move <obiekt>:<czasownik> to [<nowyobiekt>][:<nowyczasownik>]
 2
 
 2
-@copy-move will delete the old verb after it has copied.  Useful for restructuring code/object hierarchies.
+Kopiuje kod nazwanego czasownika do nowego obiektu i nazwy czasownika.  Uprawnienia i argumenty nowego czasownika sa ustawiane, by pasowaly do starego czasownika, jesli nowy czasownik jeszcze nie istnieje.  Trzeba podac albo <nowyobiekt>, albo :<nowyczasownik>.  Jesli nie podano nowej nazwy czasownika, zachowywana jest stara.  Podobnie <nowyobiekt> domyslnie to <obiekt>, jesli nie podano.
 2
 
 2
-Examples:
+@copy-move usunie stary czasownik po skopiowaniu.  Przydatne do restrukturyzacji hierarchii kodu/obiektow.
+2
+
+2
+Przyklady:
 2
   @copy me:verbname to myobject
 2
@@ -11779,87 +11777,85 @@ Examples:
 2
 
 2
-In general, @copy'ing verbs is a bad idea.  In the vast majority of cases, the desired effect can be accomplished with parenting (i.e., having <object> be an ancestor of <newobject>), which has the advantage that if a verb is updated or fixed, this immediately becomes available to child objects that inherit this verb.  In such a case, copies that were made using @copy have to be tracked down and fixed by hand.
+Ogolnie @copy'owanie czasownikow to zly pomysl.  W zdecydowanej wiekszosci przypadkow pozadany efekt mozna osiagnac przez rodzicielstwo (tj. sprawiajac, by <obiekt> byl przodkiem <nowyobiekt>), co ma te zalete, ze jesli czasownik zostanie zaktualizowany lub naprawiony, natychmiast staje sie to dostepne dla obiektow-dzieci dziedziczacych ten czasownik.  W takim przypadku kopie zrobione za pomoca @copy trzeba recznie odnalezc i naprawic.
 2
 
-2
-This facility is provided for those rare occasions where one has no choice but to actually copy the verb.
 36
 5
 4
 7
 2
-Syntax:  @chparent <object> to <new parent>
+Skladnia:  @chparent <obiekt> to <nowy rodzic>
 2
 
 2
-Changes the parent of the named object to be the named parent.  The object acquires all the verb and property definitions of its parent.  Newly acquired properties are initilialized with `clear' values so that they inherit whatever values are currently assigned to the parent's corresponding properties (see `help @clearproperty').
+Zmienia rodzica nazwanego obiektu na nazwanego rodzica.  Obiekt otrzymuje wszystkie definicje czasownikow i wlasciwosci swojego rodzica.  Nowo nabyte wlasciwosci sa inicjalizowane wartosciami `clear', tak by dziedziczyly wartosci aktualnie przypisane odpowiadajacym wlasciwosciom rodzica (zobacz `help @clearproperty').
 2
 
 2
-If the player does not own <new parent>, it must have been set `fertile'.  <object> must be owned by the player.  Neither <object> nor any descendant can define any property which already exist on <new parent>.  Use @check-chparent (see `help @check-chparent') to list such property conflicts.
+Jesli gracz nie posiada <nowy rodzic>, musi on byc ustawiony jako `plodny'.  <obiekt> musi nalezec do gracza.  Ani <obiekt>, ani zaden potomek nie moze definiowac zadnej wlasciwosci juz istniejacej na <nowy rodzic>.  Uzyj @check-chparent (zobacz `help @check-chparent'), by wypisac takie konflikty wlasciwosci.
 2
 
 2
-It is also sometimes the case that you will own some object and want to @chparent some child of that object that you do not own.  Use @disinherit (see `help @disinherit') in such situations.
+Czasem zdarza sie tez, ze posiadasz jakis obiekt i chcesz wykonac @chparent na jakims dziecku tego obiektu, ktorego nie posiadasz.  Uzyj @disinherit (zobacz `help @disinherit') w takich sytuacjach.
 36
 5
 4
 28
 2
-Syntax:  @chmod <object> <object-permissions>
+Skladnia:  @chmod <obiekt> <uprawnienia-obiektu>
 2
-         @chmod <object>.<prop-name> <property-permissions>
+         @chmod <obiekt>.<nazwa-wlasciwosci> <uprawnienia-wlasciwosci>
 2
-         @chmod <object>:<verb-name> <verb-permissions>
+         @chmod <obiekt>:<nazwa-czasownika> <uprawnienia-czasownika>
 2
-         @chmod# <object>:<verb-number> <verb-permissions>
-2
-
-2
-Changes the permissions of an object, property or verb, to those given.  The following table shows what permission bits are allowed for each form of the command:
-2
-        <object-permissions>        r, w, f
-2
-        <property-permissions>      r, w, c
-2
-        <verb-permissions>          r, w, x, d
+         @chmod# <obiekt>:<numer-czasownika> <uprawnienia-czasownika>
 2
 
 2
-See the LambdaMOO Programmer's Manual for their meanings.
+Zmienia uprawnienia obiektu, wlasciwosci lub czasownika na podane.  Ponizsza tabela pokazuje, jakie bity uprawnien sa dozwolone dla kazdej formy polecenia:
+2
+        <uprawnienia-obiektu>        r, w, f
+2
+        <uprawnienia-wlasciwosci>      r, w, c
+2
+        <uprawnienia-czasownika>          r, w, x, d
 2
 
 2
-The form @chmod# is used to unambiguously refer to a verb by its 1-based index as it appears in the verbs() (or @verbs()) output list.
+Zobacz LambdaMOO Programmer's Manual po ich znaczenie.
 2
 
 2
-To clear all of the permissions for an object, verb, or property, use "" as the second argument.
+Forma @chmod# sluzy do jednoznacznego odwolania sie do czasownika po jego 1-indeksowanej pozycji na liscie wyniku verbs() (lub @verbs()).
 2
 
 2
-@chmod also accepts +, !, and - as modifiers for a single permission to add or subtract that permission from the current set.  (! and - are the same.)
+By wyczyscic wszystkie uprawnienia obiektu, czasownika lub wlasciwosci, uzyj "" jako drugiego argumentu.
 2
 
 2
-Examples:
+@chmod akceptuje tez +, ! i - jako modyfikatory dla pojedynczego uprawnienia, by dodac lub odjac to uprawnienie od biezacego zestawu.  (! i - to to samo.)
 2
 
 2
-Set a verb to be Readable and Callable:
+Przyklady:
+2
+
+2
+Ustaw czasownik jako czytelny i wywolywalny:
 2
   @chmod chair:sit rx
 2
 
 2
-Set a verb to be not Callable, without changing its other permissions:
+Ustaw czasownik jako niewywolywalny, bez zmiany pozostalych uprawnien:
 2
   @chmod cookies:eat !x
 2
 
 2
-Set an object to be Fertile in addition to any current bits:
+Ustaw obiekt jako plodny, dodajac do biezacych bitow:
 2
   @chmod table +f
 36
@@ -11867,21 +11863,21 @@ Set an object to be Fertile in addition to any current bits:
 4
 9
 2
-Syntax:  @args <object>:<verb-name> <dobj>
+Skladnia:  @args <obiekt>:<nazwa-czasownika> <dobj>
 2
-         @args <object>:<verb-name> <dobj> <prep>
+         @args <obiekt>:<nazwa-czasownika> <dobj> <prep>
 2
-         @args <object>:<verb-name> <dobj> <prep> <iobj>
+         @args <obiekt>:<nazwa-czasownika> <dobj> <prep> <iobj>
 2
-         @args# <object>:<verb-number> [any above combinations]
-2
-
-2
-Changes the direct object, preposition, and/or indirect object specifiers for the named verb on the named object.  Any specifiers not provided on the command line are not changed.  The direct and indirect object specifiers (<dobj> and <iobj>) must be either 'none', 'this', or 'any'.  The preposition specifier (<prep>) must be either 'none', 'any', or one of the prepositional phrases listed in `help prepositions'.
+         @args# <obiekt>:<numer-czasownika> [dowolna z powyzszych kombinacji]
 2
 
 2
-To unambiguously refer to the verb on the object, in case there are more than one with the same name, use @args#. This takes the 1-based index of the verb as it appears in the verbs() (or @verbs()) output list.
+Zmienia specyfikatory dopelnienia bliszego, przyimka i/lub dopelnienia dalszego dla nazwanego czasownika na nazwanym obiekcie.  Specyfikatory niepodane w linii polecenia nie sa zmieniane.  Specyfikatory dopelnienia bliszego i dalszego (<dobj> i <iobj>) musza byc `none', `this' lub `any'.  Specyfikator przyimka (<prep>) musi byc `none', `any' lub jedna z fraz przyimkowych wymienionych w `help prepositions'.
+2
+
+2
+By jednoznacznie odwolac sie do czasownika na obiekcie, gdyby bylo ich wiecej o tej samej nazwie, uzyj @args#. Przyjmuje ono 1-indeksowana pozycje czasownika na liscie wyniku verbs() (lub @verbs()).
 2
 
 36
@@ -11889,13 +11885,13 @@ To unambiguously refer to the verb on the object, in case there are more than on
 4
 13
 2
-Syntax:  .program <object>:<verb-name>
+Skladnia:  .program <obiekt>:<nazwa-czasownika>
 2
               :
 2
               :
 2
-              <lines of MOO code>
+              <linie kodu MOO>
 2
               :
 2
@@ -11905,33 +11901,33 @@ Syntax:  .program <object>:<verb-name>
 2
 
 2
-Provides or changes the MOO program associated with the named verb on the named object.
+Wprowadza lub zmienia program MOO zwiazany z nazwanym czasownikiem na nazwanym obiekcie.
 2
 
 2
-This command is mostly obsolete.  Use @program instead.  The only reason this command still exists is that it is a server builtin command that will continue to work in the (unlikely) event that @program gets trashed ...
+To polecenie jest w wiekszosci przestarzale.  Uzyj zamiast niego @program.  Jedyny powod, dla ktorego to polecenie nadal istnieje, to fakt, ze jest wbudowanym poleceniem serwera, ktore bedzie nadal dzialac na wypadek (malo prawdopodobny), gdyby @program sie popsulo ...
 2
 
 2
-This command works differently from most other MOO commands, in that it actually changes how the server will interpret later lines that you type to it.  After typing the '.program' line, you are in 'programming mode'.  All lines that you type in this mode are simply saved away in the server until you type a line containing only a single period ('.').  At that point, those lines are interpreted as a MOO program and are checked for syntax errors.  If none are found, a message to that effect is printed and the code you typed is installed as the program for the verb in question.  In any case, after typing the '.' line, you are returned to the normal input-handling mode.
+To polecenie dziala inaczej niz wiekszosc innych polecen MOO, poniewaz faktycznie zmienia, jak serwer bedzie interpretowal pozniejsze linie, ktore mu wpiszesz.  Po wpisaniu linii '.program' jestes w 'trybie programowania'.  Wszystkie linie wpisane w tym trybie sa po prostu zapisywane w serwerze, dopoki nie wpiszesz linii zawierajacej tylko pojedyncza kropke ('.').  Wtedy te linie sa interpretowane jako program MOO i sprawdzane pod katem bledow skladniowych.  Jesli zadnych nie znaleziono, wypisywany jest odpowiedni komunikat, a wpisany kod jest instalowany jako program danego czasownika.  W kazdym razie po wpisaniu linii '.' wracasz do normalnego trybu obslugi wejscia.
 36
 1
 4
 32
 2
-Syntax:   @clearproperty <object>.<prop-name>
+Skladnia:   @clearproperty <obiekt>.<nazwa-wlasciwosci>
 2
 
 2
-This clears <object>'s <prop-name> property.  That is the property value becomes `clear' and all further references to this property will use the value of the same property on the parent object.  Note that you can only clear inherited properties.  Nor is this the same as removing a property; the property continues to exist.
+Czysci wlasciwosc <nazwa-wlasciwosci> obiektu <obiekt>.  Oznacza to, ze wartosc wlasciwosci staje sie `clear', a wszystkie dalsze odwolania do tej wlasciwosci beda uzywac wartosci tej samej wlasciwosci na obiekcie-rodzicu.  Uwaga: mozna czyscic tylko wlasciwosci dziedziczone.  To tez nie to samo co usuniecie wlasciwosci; wlasciwosc nadal istnieje.
 2
 
 2
-`@clearproperty' can be abbreviated as `@clearp'.
+`@clearproperty' mozna skrocic do `@clearp'.
 2
 
 2
-Example:
+Przyklad:
 2
 
 2
@@ -11939,7 +11935,7 @@ Example:
 2
   You now have foo with object number #42 and parent Root Class (#1).
 2
-    [foo, as a child of #1 has a .description property which starts out clear]
+    [foo, jako dziecko #1, ma wlasciwosc .description, ktora poczatkowo jest clear]
 2
   ;#1.description
 2
@@ -11957,7 +11953,7 @@ Example:
 2
   => "Something special"
 2
-   [foo.description is now no longer clear; it has a value of its own]
+   [foo.description nie jest juz clear; ma teraz wlasna wartosc]
 2
   ;#1.description = "Boring"
 2
@@ -11973,7 +11969,7 @@ Example:
 2
   Property #42.description cleared; value is now "Boring".
 2
-   [foo.description is now clear again]
+   [foo.description jest teraz znowu clear]
 2
   ;#1.description = ""
 2
@@ -11995,27 +11991,27 @@ Example:
 4
 11
 2
-Syntax:   @disinherit <object> 
+Skladnia:   @disinherit <obiekt> 
 2
-          @disinherit <object> [from <parent>]
-2
-
-2
-Synonym:  @disown
+          @disinherit <obiekt> [from <rodzic>]
 2
 
 2
-This command is used to remove an unwanted child from an object you own.  If you owned said child, you could use @chparent; this command is to cover the other case, namely where you don't own the child.  
+Synonim:  @disown
 2
 
 2
-Both forms of this command chparent <object> to its grandparent, provided you own the parent.  The second form matches the string you supply for <object> against the list of children of the given <parent>.
+To polecenie sluzy do usuniecia niechcianego dziecka z obiektu, ktory posiadasz.  Gdybys posiadal to dziecko, moglbys uzyc @chparent; to polecenie obejmuje inny przypadek, mianowicie gdy nie posiadasz dziecka.  
 2
 
 2
-Turning off the fertile bit (.f) for a particular object prevents others from creating children of it or chparenting to it (see `help @chmod').
+Obie formy tego polecenia wykonuja chparent <obiekt> na jego dziadka, pod warunkiem ze posiadasz rodzica.  Druga forma dopasowuje podany przez ciebie string dla <obiekt> do listy dzieci podanego <rodzic>.
 2
-Note also that, though the name might seem to indicate otherwise, this command does not change the ownership of any object.
+
+2
+Wylaczenie bitu plodnosci (.f) dla konkretnego obiektu uniemozliwia innym tworzenie jego dzieci lub wykonywanie na nim chparent (zobacz `help @chmod').
+2
+Uwaga: choc nazwa moze sugerowac inaczej, to polecenie nie zmienia wlasciciela zadnego obiektu.
 36
 5
 4
@@ -12029,53 +12025,53 @@ Note also that, though the name might seem to indicate otherwise, this command d
 4
 24
 2
-Syntax:  @display-option
+Skladnia:  @display-option
 2
-         @display-option <option>
-2
-
-2
-Synonym:  @displayoption
+         @display-option <opcja>
 2
 
 2
-The display options customize the behavior of the @display command to your particular taste.  The first form of this command displays all of your display options.  The second form displays just that one option, one of the flags listed below.
+Synonim:  @displayoption
 2
 
 2
-The remaining forms of this command are for setting your display options:
+Opcje wyswietlania dostosowuja zachowanie polecenia @display do twoich upodoban.  Pierwsza forma tego polecenia wyswietla wszystkie twoje opcje wyswietlania.  Druga forma wyswietla tylko jedna opcje, jedna z flag wymienionych ponizej.
 2
 
 2
-         @display-option +<flag>
-2
-         @display-option -<flag>
-2
-         @display-option !<flag>           (equivalent to -<flag>)
+Pozostale formy tego polecenia sluza do ustawiania twoich opcji wyswietlania:
 2
 
 2
-These respectively set and reset the specified flag
+         @display-option +<flaga>
+2
+         @display-option -<flaga>
+2
+         @display-option !<flaga>           (rownowazne -<flaga>)
 2
 
 2
--blank_tnt     Show the verb args on all verbs.
+Odpowiednio ustawiaja i resetuja podana flage
 2
-+blank_tnt     Don't show the verb args on `this none this' verbs.
+
 2
--shortprep     Use full prepositions  (e.g., "on top of/on/onto/upon")
+-blank_tnt     Pokazuj argumenty czasownika dla wszystkich czasownikow.
 2
-+shortprep     Use short prepositions (e.g., "on")
++blank_tnt     Nie pokazuj argumentow czasownika dla czasownikow `this none this'.
 2
--thisonly      Specifying . (:) to retrieve all properties (verbs) will go
+-shortprep     Uzywaj pelnych przyimkow  (np. "on top of/on/onto/upon")
 2
-               up the ancestor chain until it finds a readable object with
++shortprep     Uzywaj krotkich przyimkow (np. "on")
 2
-               properties (verbs) defined on it.
+-thisonly      Podanie . (:) by pobrac wszystkie wlasciwosci (czasowniki) przejdzie
 2
-+thisonly      Specifying . (:) to retrieve all properties (verbs) will only
+               w gore lancucha przodkow, dopoki nie znajdzie czytelnego obiektu z
 2
-               display properties (verbs) defined on the object itself.
+               wlasciwosciami (czasownikami) na nim zdefiniowanymi.
+2
++thisonly      Podanie . (:) by pobrac wszystkie wlasciwosci (czasowniki) wyswietli
+2
+               tylko wlasciwosci (czasowniki) zdefiniowane na samym obiekcie.
 36
 5
 4
@@ -12087,47 +12083,47 @@ These respectively set and reset the specified flag
 2
 
 2
-Note to programmers: @add-feature and @remove-feature are front-ends for player:add_feature and :remove_feature.
+Notatka dla programistow: @add-feature i @remove-feature to nakladki (front-endy) dla player:add_feature i :remove_feature.
 2
 
 2
-:add_feature returns
+:add_feature zwraca
 2
 
 2
- * E_PERM unless caller == this || $perm_utils:controls(caller_perms())
+ * E_PERM chyba ze caller == this || $perm_utils:controls(caller_perms())
 2
 
 2
- * E_INVARG if feature is not an object or is invalid
+ * E_INVARG jesli feature nie jest obiektem lub jest nieprawidlowy
 2
 
 2
- * E_PERM if the object is not feature_ok
+ * E_PERM jesli obiekt nie jest feature_ok
 2
 
 2
- * a true value otherwise
+ * wartosc prawdziwa w przeciwnym razie
 2
 
 2
-and calls feature:feature_add, if the verb exists.
+i wywoluje feature:feature_add, jesli czasownik istnieje.
 2
 
 2
-:remove_feature returns
+:remove_feature zwraca
 2
 
 2
- * E_PERM unless caller == this || $perm_utils:controls(caller_perms()) || caller_perms() == feature.owner
+ * E_PERM chyba ze caller == this || $perm_utils:controls(caller_perms()) || caller_perms() == feature.owner
 2
 
 2
- * a true value otherwise
+ * wartosc prawdziwa w przeciwnym razie
 2
 
 2
-and calls feature:feature_remove, if the verb exists.
+i wywoluje feature:feature_remove, jesli czasownik istnieje.
 36
 5
 4
@@ -12147,11 +12143,11 @@ features
 2
 
 2
-Note to programmers: In order to be available for general use as a feature, an object must have a verb or property named "feature_ok" which returns a true value.
+Notatka dla programistow: by byc dostepnym do ogolnego uzytku jako feature, obiekt musi miec czasownik lub wlasciwosc o nazwie "feature_ok", ktora zwraca wartosc prawdziwa.
 2
 
 2
-When a feature is added to a player's features list, feature:feature_add is called, if it exists, with the player in question as its argument.  Likewise, when a feature is removed, feature:feature_remove is called.
+Gdy feature jest dodawany do listy features gracza, wywolywane jest feature:feature_add, jesli istnieje, z danym graczem jako argumentem.  Podobnie, gdy feature jest usuwany, wywolywane jest feature:feature_remove.
 36
 5
 4
@@ -12163,7 +12159,7 @@ examine
 2
 
 2
-[Note to programmers: the 'obvious' verbs are those that can be invoked as commands and are not specified by the :hidden_verbs verb.  The default definition of "hidden" is "not readable".  You can override this definition with a :hidden_verbs verb that gets the default list with pass(@args) and then alters that list.]
+[Notatka dla programistow: 'oczywiste' czasowniki to te, ktore mozna wywolac jako polecenia i nie sa okreslone przez czasownik :hidden_verbs.  Domyslna definicja "ukrytego" to "nieczytelny".  Mozna nadpisac te definicje czasownikiem :hidden_verbs, ktory pobiera domyslna liste przez pass(@args), a nastepnie ja zmienia.]
 36
 5
 4
@@ -12175,27 +12171,27 @@ mail
 2
  - - - - -
 2
-See `help mail-system' for a description of the programming interface to the mail system.
+Zobacz `help mail-system' po opis interfejsu programistycznego systemu poczty.
 2
-In particular, see `help $mail_recipient' for information on creating new mail collections.
+W szczegolnosci zobacz `help $mail_recipient' po informacje o tworzeniu nowych kolekcji poczty.
 36
 5
 4
 7
 2
-#<string>[.<property>|.parent] [exit|player|inventory] [for <code>] returns information about the object (we'll call it <thing>) named by string.  String is matched in the current room unless one of exit|player|inventory is given.
+#<string>[.<wlasciwosc>|.parent] [exit|player|inventory] [for <kod>] zwraca informacje o obiekcie (nazwiemy go <rzecz>) o podanej nazwie string.  String jest dopasowywany w biezacym pokoju, chyba ze podano jedno z exit|player|inventory.
 2
-If neither .<property>|.parent nor <code> is specified, just return <thing>.
+Jesli nie podano ani .<wlasciwosc>|.parent, ani <kod>, po prostu zwraca <rzecz>.
 2
-If .<property> is named, return <thing>.<property>.  .parent returns parent(<thing>).
+Jesli podano .<wlasciwosc>, zwraca <rzecz>.<wlasciwosc>.  .parent zwraca parent(<rzecz>).
 2
-If <code> is given, it is evaluated, with the value returned by the first part being substituted for %# in <code>.
+Jesli podano <kod>, jest on ewaluowany, a wartosc zwrocona przez pierwsza czesc jest podstawiana za %# w <kod>.
 2
-For example, the command
+Na przyklad polecenie
 2
   #JoeFeedback.parent player for toint(%#)
 2
-will return 26026 (unless Joe has chparented since writing this).
+zwroci 26026 (chyba ze Joe wykonal chparent od czasu napisania tego).
 36
 5
 4
@@ -12225,63 +12221,63 @@ will return 26026 (unless Joe has chparented since writing this).
 4
 38
 2
-Syntax:  @prog-option
+Skladnia:  @prog-option
 2
-         @prog-option <option>
-2
-
-2
-Synonyms:  @progoption, @programmer-option @programmeroption
+         @prog-option <opcja>
 2
 
 2
-The first form displays all of your programmer options
-2
-The second displays just that one option, which may be one of the flags listed below.  The programmer options control various annoying details of your programming commands (e.g., @list, eval, @copy, ...)
+Synonimy:  @progoption, @programmer-option @programmeroption
 2
 
 2
-The remaining forms of this command are for setting your programmer options:
+Pierwsza forma wyswietla wszystkie twoje opcje programisty
+2
+Druga wyswietla tylko jedna opcje, ktora moze byc jedna z flag wymienionych ponizej.  Opcje programisty kontroluja rozne uciazliwe szczegoly twoich polecen programistycznych (np. @list, eval, @copy, ...)
 2
 
 2
-         @prog-option +<flag>
-2
-         @prog-option -<flag>
-2
-         @prog-option !<flag>           (equivalent to -<flag>)
+Pozostale formy tego polecenia sluza do ustawiania twoich opcji programisty:
 2
 
 2
-These respectively set and reset the specified flag
+         @prog-option +<flaga>
+2
+         @prog-option -<flaga>
+2
+         @prog-option !<flaga>           (rownowazne -<flaga>)
 2
 
 2
- -list_all_parens    @list shows only necessary parentheses by default
-2
- +list_all_parens    @list shows all parentheses by default
-2
- -list_no_numbers    @list gives line numbers by default
-2
- +list_no_numbers    @list does not give line numbers by default
-2
- -eval_time          eval does not show ticks/seconds consumed.
-2
- +eval_time          eval shows ticks/seconds consumed.
-2
- -copy_expert        @copy prints warning message.
-2
- +copy_expert        @copy prints no warning message.
-2
- -list_show_permissions  @list does not display permissions in header
-2
- +list_show_permissions  @list displays permissions in header
+Odpowiednio ustawiaja i resetuja podana flage
 2
 
 2
-All flags default to the `-' settings.  
+ -list_all_parens    @list domyslnie pokazuje tylko niezbedne nawiasy
 2
-Finally, we have
+ +list_all_parens    @list domyslnie pokazuje wszystkie nawiasy
+2
+ -list_no_numbers    @list domyslnie podaje numery linii
+2
+ +list_no_numbers    @list domyslnie nie podaje numerow linii
+2
+ -eval_time          eval nie pokazuje zuzytych tickow/sekund.
+2
+ +eval_time          eval pokazuje zuzyte ticki/sekundy.
+2
+ -copy_expert        @copy wypisuje komunikat ostrzegawczy.
+2
+ +copy_expert        @copy nie wypisuje komunikatu ostrzegawczego.
+2
+ -list_show_permissions  @list nie pokazuje uprawnien w naglowku
+2
+ +list_show_permissions  @list pokazuje uprawnienia w naglowku
+2
+
+2
+Wszystkie flagi domyslnie maja ustawienie `-'.  
+2
+Wreszcie mamy
 2
 
 2
@@ -12291,15 +12287,15 @@ Finally, we have
 2
          @prog-option -verb_args
 2
-                      (equivalent to verb_args="none none none")
+                      (rownowazne verb_args="none none none")
 2
          @prog-option +verb_args
 2
-                      (equivalent to verb_args="this none this")
+                      (rownowazne verb_args="this none this")
 2
 
 2
-which all serve to specify the (direct/indirect)-object and preposition to use in a @verb command for which these are not given at all.
+ktore sluza do okreslenia (dopelnienia blizszego/dalszego)-obiektu i przyimka do uzycia w poleceniu @verb, dla ktorych nie podano ich wcale.
 36
 5
 4
@@ -12311,7 +12307,7 @@ options
 2
 
 2
-  @prog-options    --- programming commands (@list, @verb, ...)
+  @prog-options    --- polecenia programistyczne (@list, @verb, ...)
 2
   @display-options --- @display (*)
 36
@@ -12335,7 +12331,7 @@ utilities
 4
 54
 2
-It is often the case in MOO programming that you will want to access the elements of a list individually, with each element stored in a separate variables.  This desire arises, for example, at the beginning of almost every MOO verb, since the arguments to all verbs are delivered all bunched together in a single list.  In such circumstances, you could write statements like these:
+W programowaniu MOO czesto chce sie odwolac do poszczegolnych elementow listy osobno, z kazdym elementem zapisanym w osobnej zmiennej.  Taka potrzeba pojawia sie na przyklad na poczatku niemal kazdego czasownika MOO, poniewaz argumenty wszystkich czasownikow sa dostarczane razem w jednej liscie.  W takich okolicznosciach mozna by pisac instrukcje takie jak te:
 2
 
 2
@@ -12355,51 +12351,51 @@ endif
 2
 
 2
-This approach gets pretty tedious, both to read and to write, and it's prone to errors if you mistype one of the indices. Also, you often want to check whether or not any extra list elements were present, adding to the tedium.
+To podejscie robi sie dosc meczace, zarowno do czytania, jak i pisania, i jest podatne na bledy, jesli pomylisz sie w jednym z indeksow.  Dodatkowo czesto chce sie sprawdzic, czy byly jakies dodatkowe elementy listy, co dodaje do meczarni.
 2
 
 2
-MOO provides a special kind of assignment expression, called `scattering assignment' made just for cases such as these. A scattering assignment expression looks like this:
+MOO udostepnia specjalny rodzaj wyrazenia przypisania, zwany 'przypisaniem rozpraszajacym' (scattering assignment), stworzony wlasnie na takie przypadki.  Wyrazenie przypisania rozpraszajacego wyglada tak:
 2
 
 2
-{<target>, ...} = <expr>
+{<cel>, ...} = <wyr>
 2
 
 2
-where each <target> describes a place to store elements of the list that results from evaluating <expr>. A <target> has one of the following forms:
+gdzie kazdy <cel> opisuje miejsce do zapisania elementow listy bedacej wynikiem ewaluacji <wyr>.  <cel> ma jedna z nastepujacych postaci:
 2
 
 2
-`variable'
+`zmienna'
 2
-   This is the simplest target, just a simple variable; the list element in the corresponding position is assigned to the variable.  This is called a `required' target, since the assignment is required to put one of the list elements into the variable.
-2
-
-2
-`?variable'
-2
-   This is called an `optional' target, since it doesn't always get assigned an element. If there are any list elements left over after all of the required targets have been accounted for (along with all of the other optionals to the left of this one), then this variable is treated like a required one and the list element in the corresponding position is assigned to the variable. If there aren't enough elements to assign one to this target, then no assignment is made to this variable, leaving it with whatever its previous value was.
+   To najprostszy cel, po prostu zwykla zmienna; element listy na odpowiadajacej pozycji jest przypisywany do zmiennej.  Nazywa sie to celem 'wymaganym' (required), poniewaz przypisanie musi umiescic jeden z elementow listy w zmiennej.
 2
 
 2
-`?variable' = `default-expr'
+`?zmienna'
 2
-   This is also an optional target, but if there aren't enough list elements available to assign one to this target, the result of evaluating `default-expr' is assigned to it instead. Thus, `default-expr' provides a default value for the variable. The default value expressions are evaluated and assigned working from left to right -after- all of the other assignments have been performed.
-2
-
-2
-`@variable'
-2
-   By analogy with the @ syntax in list construction, this variable is assigned a list of all of the `leftover' list elements in this part of the list after all of the other targets have been filled in. It is assigned the empty list if there aren't any elements left over. This is called a `rest' target, since it gets the rest of the elements. There may be at most one rest target in each scattering assignment expression.
+   To sie nazywa celem 'opcjonalnym' (optional), poniewaz nie zawsze otrzymuje przypisany element.  Jesli po uwzglednieniu wszystkich wymaganych celow (razem ze wszystkimi innymi opcjonalnymi na lewo od tego) zostana jakies elementy listy, ta zmienna jest traktowana jak wymagana i element listy na odpowiadajacej pozycji jest przypisywany do zmiennej.  Jesli nie ma wystarczajaco elementow, by przypisac jeden do tego celu, do tej zmiennej nie jest wykonywane zadne przypisanie, pozostawiajac ja z jakakolwiek poprzednia wartoscia.
 2
 
 2
-If there aren't enough list elements to fill all of the required targets, or if there are more than enough to fill all of the required and optional targets but there isn't a rest target to take the leftover ones, then E_ARGS is raised.
+`?zmienna' = `wyrazenie-domyslne'
+2
+   To rowniez cel opcjonalny, ale jesli nie ma wystarczajaco dostepnych elementow listy, by przypisac jeden do tego celu, zamiast tego przypisywany jest wynik ewaluacji `wyrazenie-domyslne'.  Zatem `wyrazenie-domyslne' dostarcza domyslna wartosc dla zmiennej.  Wyrazenia wartosci domyslnych sa ewaluowane i przypisywane od lewej do prawej -po- wykonaniu wszystkich innych przypisan.
 2
 
 2
-Here are some examples of how this works.  Assume first that the verb me:foo() contains the following code:
+`@zmienna'
+2
+   Przez analogie do skladni @ w konstrukcji listy, ta zmienna otrzymuje liste wszystkich 'pozostalych' elementow listy w tej czesci listy, po wypelnieniu wszystkich innych celow.  Otrzymuje pusta liste, jesli nie zostaly zadne elementy.  Nazywa sie to celem 'reszty' (rest), poniewaz otrzymuje reszte elementow.  W kazdym wyrazeniu przypisania rozpraszajacego moze byc co najwyzej jeden cel typu rest.
+2
+
+2
+Jesli nie ma wystarczajaco elementow listy, by wypelnic wszystkie wymagane cele, lub jesli jest ich wiecej niz potrzeba by wypelnic wszystkie wymagane i opcjonalne cele, ale nie ma celu typu rest, ktory przyjalby pozostale, podnoszony jest E_ARGS.
+2
+
+2
+Oto kilka przykladow tego, jak to dziala.  Zalozmy najpierw, ze czasownik me:foo() zawiera nastepujacy kod:
 2
 
 2
@@ -12411,7 +12407,7 @@ return {a, b, c, d, e, f};
 2
 
 2
-Then the following calls return the given values:
+Wtedy nastepujace wywolania zwracaja podane wartosci:
 2
 
 2
@@ -12433,7 +12429,7 @@ me:foo(1, 2, 3, 4, 5, 6, 7, 8)   =>   {1, 2, 3, {4, 5, 6}, 7, 8}
 2
 
 2
-Using scattering assignment, the example at the begining of this section could be rewritten more simply, reliably, and readably:
+Uzywajac przypisania rozpraszajacego, przyklad z poczatku tej sekcji mozna przepisac prosciej, bardziej niezawodnie i czytelniej:
 2
 
 2
@@ -12441,21 +12437,21 @@ Using scattering assignment, the example at the begining of this section could b
 2
 
 2
-It is good MOO programming style to use a scattering assignment at the top of nearly every verb, since it shows so clearly just what kinds of arguments the verb expects.
+Dobrym stylem programowania w MOO jest uzywanie przypisania rozpraszajacego na poczatku niemal kazdego czasownika, poniewaz tak jasno pokazuje, jakich argumentow czasownik oczekuje.
 36
 5
 4
 5
 2
-Syntax:  .flush
+Skladnia:  .flush
 2
 
 2
-Clear out all recent lines of input that haven't been processed yet by the server. Useful when you change your mind about lines you have typed that haven't run yet.
+Czysci wszystkie ostatnie linie danych wejsciowych, ktore nie zostaly jeszcze przetworzone przez serwer.  Przydatne, gdy zmienisz zdanie co do wpisanych linii, ktore jeszcze sie nie wykonaly.
 2
 
 2
-This command name can be changed by the `set_connection_option()' built-in function, or if $server_options.default_flush_command exists and is non-empty, that value is used. If it exists and -is- empty, then no flush command exists at all.
+Nazwe tego polecenia mozna zmienic funkcja wbudowana `set_connection_option()', lub jesli istnieje niepusta wlasciwosc $server_options.default_flush_command, uzywana jest ta wartosc.  Jesli istnieje i jest -pusta-, wtedy nie ma zadnego polecenia flush w ogole.
 36
 5
 4
@@ -12541,19 +12537,19 @@ This command name can be changed by the `set_connection_option()' built-in funct
 4
 7
 2
-The MOO checkpoint is created by a UNIX system fork() call, which creates a separate process but with the same memory image as the running the MOO.  That process then writes that information into a database.
+Checkpoint MOO jest tworzony przez wywolanie systemowe UNIX fork(), ktore tworzy osobny proces, ale z tym samym obrazem pamieci co dzialajace MOO.  Ten proces nastepnie zapisuje te informacje do bazy danych.
 2
 
 2
-The act of calling this separate-but-equal process is intrinsically laggy because the MOO server memory is already saturated by the running version of the MOO.  Adding an equal size process to the mix results in heavy swapping between memory and harddrive.  It would therefore be considered wise not to run any processor or memory intensive MOOcode during checkpoint.
+Wywolanie tego osobnego-ale-rownowaznego procesu jest z natury powolne, poniewaz pamiec serwera MOO jest juz nasycona przez dzialajaca wersje MOO.  Dodanie procesu o rownym rozmiarze do tej mieszanki skutkuje ciezkim swapowaniem miedzy pamiecia a dyskiem twardym.  Dlatego uznaje sie za rozsadne, by nie uruchamiac zadnego kodu MOO intensywnie korzystajacego z procesora lub pamieci podczas checkpointu.
 2
 
 2
-If you wish to alter any of your code to avoid executing during a checkpoint, you can check the value of $login.checkpoint_in_progress, which returns 1 during checkpoint and 0 otherwise.  This value is itself toggled by the verbs $sysobj:checkpoint_started and $sysobj:checkpoint_finished.
+Jesli chcesz zmienic swoj kod, by unikal wykonywania podczas checkpointu, mozesz sprawdzic wartosc $login.checkpoint_in_progress, ktora zwraca 1 podczas checkpointu i 0 w przeciwnym razie.  Ta wartosc jest przelaczana przez czasowniki $sysobj:checkpoint_started i $sysobj:checkpoint_finished.
 2
 
 2
-Also see help on:   dump_database()   @dump-database   checkpoint
+Zobacz tez pomoc dla:   dump_database()   @dump-database   checkpoint
 36
 1
 4
