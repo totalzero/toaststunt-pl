@@ -1235,7 +1235,7 @@ source
 2
 time
 0
-1784136610
+1784138003
 4
 0
 1
@@ -1469,7 +1469,7 @@ expire
 4
 2
 0
-1784136598
+1784137930
 2
 localhost
 2
@@ -1478,7 +1478,7 @@ localhost
 2
 0
 0
-1784136601
+1784137962
 2
 1
 0
@@ -1644,7 +1644,7 @@ localhost
 2
 5
 0
-1784136610
+1784138003
 2
 1
 0
@@ -4224,7 +4224,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--171
+-239
 0
 2
 2
@@ -26231,7 +26231,7 @@ readable
 96
 5
 2
-Keeping your [whatever] for later work.  Since this the Generic Editor, you have to do your own :set_changed(0) so that we'll know to get rid of whatever it you're working on when you leave.  Please don't litter... especially in the Generic Editor.
+Zachowywanie twojego [czegos] do dalszej pracy. Poniewaz to Generyczny Edytor, musisz sam wywolac :set_changed(0), zebysmy wiedzieli, kiedy pozbyc sie tego, nad czym pracujesz, gdy wychodzisz. Prosze, nie smiec... zwlaszcza w Generycznym Edytorze.
 96
 5
 2
@@ -26243,7 +26243,7 @@ Tekst zostal zmieniony od ostatniego zapisu.
 96
 5
 2
-You're not currently editing anything.
+Obecnie nic nie edytujesz.
 96
 5
 4
@@ -26267,7 +26267,7 @@ You're not currently editing anything.
 96
 1
 2
-%L [editing]
+%L [edytuje]
 96
 5
 5
@@ -53821,7 +53821,15 @@ no_line_notifies
 2
 5
 4
+1
+4
+3
+1
+2
 0
+1902674640
+9
+1784137347.508989096
 2
 4
 4
@@ -53835,151 +53843,151 @@ no_line_notifies
 2
 insert
 2
-Change the insertion point.
+Zmienia punkt wstawiania.
 4
 2
 2
 del
 2
-Delete a line or multiple lines using ranges.
+Usuwa jedna lub wiele linii, uzywajac zakresow.
 4
 2
 2
 pass
 2
-Pass a command through the editor to your character. (For example, '/pass say Hello.' would allow you to say hello while still editing text.)
+Przekazuje polecenie przez edytor do twojej postaci. (Np. '/pass say Hello.' pozwoli ci powiedziec Hello, nadal edytujac tekst.)
 4
 2
 2
 list
 2
-View text written so far. To change what is shown, insert at a different line. You can use line ranges with this command. Providing 'all' as an argument will list everything.
+Wyswietla dotychczas napisany tekst. Aby zmienic to, co jest pokazywane, wstaw w innej linii. Mozesz uzywac zakresow linii z tym poleceniem. Podanie 'all' jako argumentu wyswietli wszystko.
 4
 2
 2
 abort
 2
-Throw away text.
+Porzuca tekst.
 4
 2
 2
 done
 2
- Same as hitting period (.).
+ To samo, co wpisanie kropki (.).
 4
 2
 2
 help
 2
-This help.
+Ta pomoc.
 4
 4
 2
 find
 2
-Search text from the insertion point onward. Will place the caret on any results located.
+Przeszukuje tekst od punktu wstawiania w dol. Umieszcza kursor na znalezionym wyniku.
 2
 
 2
-If the insertion point is at the very end, it will search from the beginning of the text.
+Jesli punkt wstawiania jest na samym koncu, przeszukiwanie zacznie sie od poczatku tekstu.
 4
 2
 2
 format
 2
-Format lines correctly so they don't go off the screen, based on your linelength preferences.
+Formatuje linie tak, by nie wychodzily poza ekran, na podstawie twoich preferencji dlugosci linii.
 4
 2
 2
 set
 2
-Change editor options; is a shortcut for the EDIT-OPTIONS command.
+Zmienia opcje edytora; to skrot do polecenia EDIT-OPTIONS.
 4
 2
 2
 spellcheck
 2
-Check the text you've written for spelling errors.
+Sprawdza napisany tekst pod katem bledow ortograficznych.
 4
 2
 2
 count
 2
-Displays how many <lines|words|characters> are written so far.
+Pokazuje, ile <linii|slow|znakow> zostalo dotychczas napisanych.
 4
 2
 2
 import
 2
-Insert the text of a note or letter that's in your hand. (You can only insert notes that you can read.)
+Wstawia tekst notatki lub listu, ktory trzymasz w rece. (Mozesz wstawiac tylko notatki, ktore mozesz czytac.)
 4
 2
 2
 change
 2
-Replace <line-number> with <text>.
+Zastepuje <numer-linii> podanym <tekstem>.
 4
 2
 2
 tb
 2
-Jump to the line indicated in the last traceback.
+Przeskakuje do linii wskazanej w ostatnim tracebacku.
 4
 2
 2
 ptb
 2
-Print the last traceback.
+Wypisuje ostatni traceback.
 4
 2
 2
 verb
 2
-Display the verb you're currently editing.
+Wyswietla czasownik, ktory obecnie edytujesz.
 4
 2
 2
 compile
 2
-Send the editor contents to the MOO as code for the currently edited verb. Does NOT close the editor session.
+Wysyla zawartosc edytora do MOO jako kod dla aktualnie edytowanego czasownika. NIE zamyka sesji edytora.
 4
 2
 2
 copy
 2
-By default, copies the full text of the buffer to a temporary clipboard. You can optionally specify a range (e.g. COPY 2..5). You can then PASTE it in another edit session.
+Domyslnie kopiuje caly tekst bufora do tymczasowego schowka. Opcjonalnie mozesz podac zakres (np. COPY 2..5). Nastepnie mozesz go WKLEIC w innej sesji edycji.
 4
 2
 2
 paste
 2
-Paste copied text.
+Wkleja skopiowany tekst.
 4
 2
 2
 clipboard
 2
-Review text that's currently on your clipboard.
+Pokazuje tekst, ktory obecnie znajduje sie w twoim schowku.
 4
 2
 2
 comment
 2
-Turn a verb line into a comment.
+Zamienia linie kodu czasownika w komentarz.
 4
 2
 2
 uncomment
 2
-Turn a comment into a line of code.
+Zamienia komentarz w linie kodu.
 4
 3
 2
 replace
 2
-Run a Perl Compatible Regular Expressions replacement on the body of the text.
+Wykonuje podstawienie wyrazen regularnych PCRE (Perl Compatible Regular Expressions) w tresci tekstu.
 2
-For information on how PCRE replacements work, check https://www.regular-expressions.info/perl.html
+Informacje o dzialaniu podstawien PCRE znajdziesz na https://www.regular-expressions.info/perl.html
 2
 5
 4
@@ -62636,12 +62644,12 @@ return "";
 endif
 .
 #20:6
-"Prints the argument (must be a list) as an english list, e.g. {1, 2, 3} is printed as \"1, 2, and 3\", and {1, 2} is printed as \"1 and 2\".";
-"Optional arguments are treated as follows:";
-"  Second argument is the string to use when the empty list is given.  The default is \"nic\".";
-"  Third argument is the string to use in place of \" i \".  A typical application might be to use \" or \" instead.";
-"  Fourth argument is the string to use instead of a comma (and space).  Gary_Severn's deranged mind actually came up with an application for this.  You can ask him.";
-"  Fifth argument is a string to use after the penultimate element before the \" i \".  The default is to have a comma without a space.";
+"Wypisuje argument (musi byc lista) jako liste w stylu jezykowym, np. {1, 2, 3} zostanie wypisane jako \"1, 2 i 3\", a {1, 2} jako \"1 i 2\".";
+"Argumenty opcjonalne dzialaja nastepujaco:";
+"  Drugi argument to lancuch uzywany, gdy podano pusta liste. Domyslnie \"nic\".";
+"  Trzeci argument to lancuch uzywany zamiast \" i \". Typowe zastosowanie to uzycie \" lub \" zamiast tego.";
+"  Czwarty argument to lancuch uzywany zamiast przecinka (i spacji).";
+"  Piaty argument to lancuch uzywany po przedostatnim elemencie przed \" i \". Domyslnie przecinek bez spacji.";
 {things, ?nothingstr = "nic", ?andstr = " i ", ?commastr = ", ", ?finalcommastr = ","} = args;
 nthings = length(things);
 if (nthings == 0)
@@ -74110,16 +74118,16 @@ l = {@l, this.active[i]};
 endif
 endfor
 if (l)
-player:tell("Players having readable texts in this editor:  ", $string_utils:names_of(l));
+player:tell("Gracze majacy czytelne teksty w tym edytorze:  ", $string_utils:names_of(l));
 else
-player:tell("No one has published anything in this editor.");
+player:tell("Nikt nie opublikowal niczego w tym edytorze.");
 endif
 return;
 elseif ($command_utils:player_match_result(plyr = $string_utils:match_player(args[1]), args[1])[1])
 "...no such player";
 return;
 elseif ((!(who = this:loaded(plyr))) || (!this:readable(who)))
-player:tell(plyr.name, "(", plyr, ") has not published anything in this editor.");
+player:tell(plyr.name, "(", plyr, ") nie ma nic opublikowanego w tym edytorze.");
 return;
 endif
 args = listdelete(args, 1);
@@ -74140,7 +74148,7 @@ endif
 if (typeof(range = this:parse_range(who, default, @args)) != LIST)
 player:tell(tostr(range));
 elseif (range[3] && (!(nonum = "nonum" == $string_utils:trim(range[3]))))
-player:tell("Don't understand this:  ", range[3]);
+player:tell("Nie rozumiem tego:  ", range[3]);
 elseif (nonum)
 player:tell_lines(this.texts[who][range[1]..range[2]]);
 else
@@ -74149,7 +74157,7 @@ this:list_line(who, line);
 if ($command_utils:running_out_of_time())
 suspend(0);
 if (!(who = this:loaded(player)))
-player:tell("ack!  something bad happened during a suspend...");
+player:tell("ojej!  cos poszlo nie tak podczas suspend...");
 return;
 endif
 endif
@@ -74180,12 +74188,12 @@ if (!(who = this:loaded(player)))
 player:tell(this:nothing_loaded_msg());
 elseif (ERR == typeof(number = this:parse_insert(who, spec)))
 if (verb in {"next", "prev"})
-player:tell("Argument must be a number.");
+player:tell("Argument musi byc liczba.");
 else
-player:tell("You must specify an integer or `$' for the last line.");
+player:tell("Musisz podac liczbe calkowita lub `$' dla ostatniej linii.");
 endif
 elseif ((number > (max = length(this.texts[who]) + 1)) || (number < 1))
-player:tell("That would take you out of range (to line ", number, "?).");
+player:tell("To wyszloby poza zakres (do linii ", number, "?).");
 else
 this.inserting[who] = number;
 if (typeof(text) == STR)
@@ -74206,10 +74214,11 @@ player:tell(this:nothing_loaded_msg());
 elseif (typeof(range = this:parse_range(who, {"_", "1"}, @args)) != LIST)
 player:tell(range);
 elseif (range[3])
-player:tell("Junk at end of cmd:  ", range[3]);
+player:tell("Smieci na koncu polecenia:  ", range[3]);
 else
 player:tell_lines((text = this.texts[who])[from = range[1]..to = range[2]]);
-player:tell("---Line", (to > from) ? "s" | "", " deleted.  Insertion point is before line ", from, ".");
+n = (to - from) + 1;
+player:tell("---", $polish_utils:count(n, "Usunieto 1 linie.", tostr("Usunieto ", n, " linie."), tostr("Usunieto ", n, " linii.")), "  Punkt wstawiania jest przed linia ", from, ".");
 this.texts[who] = {@text[1..from - 1], @text[to + 1..$]};
 if (!this.changes[who])
 this.changes[who] = 1;
@@ -74224,10 +74233,10 @@ return E_PERM;
 endif
 if (!(who = this:loaded(player)))
 player:tell(this:nothing_loaded_msg());
-elseif (typeof(subst = this:parse_subst(argstr && (argstr[1] + argstr), "c", "Empty search string?")) != LIST)
+elseif (typeof(subst = this:parse_subst(argstr && (argstr[1] + argstr), "c", "Pusty ciag wyszukiwania?")) != LIST)
 player:tell(tostr(subst));
 elseif (typeof(start = subst[4] ? this:parse_insert(who, subst[4]) | this.inserting[who]) == ERR)
-player:tell("Starting from where?", subst[4] ? ("  (can't parse " + subst[4]) + ")" | "");
+player:tell("Od ktorego miejsca zaczac?", subst[4] ? ("  (nie mozna sparsowac " + subst[4]) + ")" | "");
 else
 search = subst[2];
 case = !index(subst[3], "c", 1);
@@ -74237,7 +74246,7 @@ while ((start <= tlen) && (!index(text[start], search, case)))
 start = start + 1;
 endwhile
 if (start > tlen)
-player:tell("`", search, "' not found.");
+player:tell("`", search, "' nie znaleziono.");
 else
 this.inserting[who] = start + 1;
 this:list_line(who, start);
@@ -74257,17 +74266,17 @@ to_pos = to_pos + t;
 endwhile
 range_args = args[1..to_pos - 1];
 if ((!to_pos) || (ERR == typeof(dest = this:parse_insert(who, $string_utils:from_list(wargs, " ")))))
-player:tell(verb, " to where? ");
+player:tell(is_move ? "Przenies" | "Kopiuj", " dokad? ");
 elseif ((dest < 1) || (dest > ((last = length(this.texts[who])) + 1)))
-player:tell("Destination (", dest, ") out of range.");
+player:tell("Miejsce docelowe (", dest, ") poza zakresem.");
 elseif (("from" in range_args) || ("to" in range_args))
-player:tell("Don't use that kind of range specification with this command.");
+player:tell("Nie uzywaj takiej specyfikacji zakresu z tym poleceniem.");
 elseif (typeof(range = this:parse_range(who, {"_", "^"}, @args[1..to_pos - 1])) != LIST)
 player:tell(range);
 elseif (range[3])
-player:tell("Junk before `to':  ", range[3]);
+player:tell("Smieci przed `to':  ", range[3]);
 elseif ((is_move && (dest >= range[1])) && (dest <= (range[2] + 1)))
-player:tell("Destination lies inside range of lines to be moved.");
+player:tell("Miejsce docelowe znajduje sie w zakresie przenoszonych linii.");
 else
 from = range[1];
 to = range[2];
@@ -74298,7 +74307,7 @@ if (!this.changes[who])
 this.changes[who] = 1;
 this.times[who] = time();
 endif
-player:tell("Lines ", is_move ? "moved." | "copied.");
+player:tell("Linie ", is_move ? "przeniesione." | "skopiowane.");
 endif
 .
 #50:8
@@ -74307,9 +74316,9 @@ player:tell(this:nothing_loaded_msg());
 elseif (typeof(range = this:parse_range(who, {"_-^", "_", "^"}, @args)) != LIST)
 player:tell(range);
 elseif (range[3])
-player:tell("Junk at end of cmd:  ", range[3]);
+player:tell("Smieci na koncu polecenia:  ", range[3]);
 elseif (!(result = this:join_lines(who, @range[1..2], length(verb) <= 4)))
-player:tell((result == 0) ? "Need at least two lines to join." | result);
+player:tell((result == 0) ? "Potrzeba co najmniej dwoch linii, by je polaczyc." | result);
 else
 this:list_line(who, range[1]);
 endif
@@ -74321,7 +74330,7 @@ player:tell(this:nothing_loaded_msg());
 elseif (typeof(range = this:parse_range(who, {"_", "1"}, @args)) != LIST)
 player:tell(range);
 elseif (range[3] && ((range[3][1] != "@") || ((fill_column = toint(range[3][2..$])) < 10)))
-player:tell("Usage:  fill [<range>] [@ column]   (where column >= 10).");
+player:tell("Uzycie:  fill [<zakres>] [@ kolumna]   (gdzie kolumna >= 10).");
 else
 join = this:join_lines(who, @range[1..2], 1);
 newlines = this:fill_string((text = this.texts[who])[from = range[1]], fill_column);
@@ -74336,7 +74345,7 @@ for line in [from..(from + nlen) - 1]
 this:list_line(who, line);
 endfor
 else
-player:tell("No changes.");
+player:tell("Bez zmian.");
 endif
 endif
 .
@@ -74348,28 +74357,28 @@ endif
 if (typeof(e = this:set_readable(who, index("publish", verb) == 1)) == ERR)
 player:tell(e);
 elseif (e)
-player:tell("Your text is now globally readable.");
+player:tell("Twoj tekst jest teraz czytelny globalnie.");
 else
-player:tell("Your text is read protected.");
+player:tell("Twoj tekst jest chroniony przed odczytem.");
 endif
 .
 #50:11
 if (!(this:ok(who = player in this.active) && (typeof(this.texts[who]) == LIST)))
 player:tell(this:nothing_loaded_msg());
 else
-player:tell("You are editing ", this:working_on(who), ".");
-player:tell("Your insertion point is ", (this.inserting[who] > length(this.texts[who])) ? "after the last line: next line will be #" | "before line ", this.inserting[who], ".");
+player:tell("Edytujesz ", this:working_on(who), ".");
+player:tell("Twoj punkt wstawiania jest ", (this.inserting[who] > length(this.texts[who])) ? "za ostatnia linia: nastepna linia bedzie #" | "przed linia ", this.inserting[who], ".");
 player:tell(this.changes[who] ? this:change_msg() | this:no_change_msg());
 if (this.readable[who])
-player:tell("Your text is globally readable.");
+player:tell("Twoj tekst jest czytelny globalnie.");
 endif
 endif
 .
 #50:12
 if (!this.changes[who = player in this.active])
-player:tell("No changes to throw away.  Editor cleared.");
+player:tell("Brak zmian do odrzucenia.  Edytor wyczyszczony.");
 else
-player:tell("Throwing away session for ", this:working_on(who), ".");
+player:tell("Odrzucanie sesji dla ", this:working_on(who), ".");
 endif
 this:reset_session(who);
 if (this.exit_on_abort)
@@ -74380,14 +74389,14 @@ endif
 if (!(caller in {this, player}))
 return E_PERM;
 elseif (!(who = player in this.active))
-player:tell("You are not actually in ", this.name, ".");
+player:tell("Nie znajdujesz sie obecnie w: ", this.name, ".");
 return;
 elseif (!valid(origin = this.original[who]))
-player:tell("I don't know where you came here from.");
+player:tell("Brak informacji o miejscu, z ktorego tu trafiono.");
 else
 player:moveto(origin);
 if (player.location == this)
-player:tell("Hmmm... the place you came from doesn't want you back.");
+player:tell("Hmmm... miejsce pochodzenia nie chce cie z powrotem.");
 else
 if (msg = this:return_msg())
 player.location:announce($string_utils:pronoun_sub(msg));
@@ -74395,7 +74404,7 @@ endif
 return;
 endif
 endif
-player:tell("You'll have to use 'home' or a teleporter.");
+player:tell("Musisz uzyc polecenia 'home' albo teleportera.");
 .
 #50:14
 "This catches subst and find commands that don't fit into the usual model, e.g., s/.../.../ without the space after the s, and find commands without the verb `find'.  Still behaves in annoying ways (e.g., loses if the search string contains multiple whitespace), but better than before.";
@@ -74465,7 +74474,7 @@ this.times[who] = time();
 .
 #50:25
 "Dummy routine.  The child editor should provide something informative";
-return this:ok(who = args[1]) && (("something [in " + this.name) + "]");
+return this:ok(who = args[1]) && (("cos [w " + this.name) + "]");
 .
 #50:26
 who = args[1];
@@ -74515,13 +74524,13 @@ this.times[who] = time();
 endif
 if (!quiet)
 if (length(lines) != 1)
-p:tell("Lines ", insert, "-", (insert + length(lines)) - 1, " added.");
+p:tell("Dodano linie ", insert, "-", (insert + length(lines)) - 1, ".");
 else
-p:tell("Line ", insert, " added.");
+p:tell("Linia ", insert, " dodana.");
 endif
 endif
 else
-p:tell("No lines added.");
+p:tell("Nie dodano zadnych linii.");
 endif
 endif
 .
@@ -74547,7 +74556,7 @@ this.times[who] = time();
 endif
 p = this.active[who];
 if (!p:edit_option("quiet_insert"))
-p:tell("Appended to line ", append, ".");
+p:tell("Dopisano do linii ", append, ".");
 endif
 endif
 .
@@ -74663,11 +74672,11 @@ not_done = 0;
 endif
 endwhile
 if (from < 1)
-return tostr("from ", from, "?  (out of range)");
+return tostr("od ", from, "?  (poza zakresem)");
 elseif (to > last)
-return tostr("to ", to, "?  (out of range)");
+return tostr("do ", to, "?  (poza zakresem)");
 elseif (from > to)
-return tostr("from ", from, " to ", to, "?  (backwards range)");
+return tostr("od ", from, " do ", to, "?  (zakres odwrotny)");
 else
 return {from, to, $string_utils:from_list(args[a..numargs], " ")};
 endif
@@ -74708,9 +74717,9 @@ endif
 endif
 .
 #50:35
-{cmd, ?recognized_flags = "gcr", ?null_subst_msg = "Null substitution?"} = args;
+{cmd, ?recognized_flags = "gcr", ?null_subst_msg = "Puste podstawienie?"} = args;
 if (!cmd)
-return "s*ubst/<str1>/<str2>[/[g][c][r][<range>]] expected...";
+return "s*ubst/<str1>/<str2>[/[g][c][r][<range>]] oczekiwano...";
 endif
 bchar = cmd[1];
 cmd = cmd[2..$];
@@ -74736,11 +74745,11 @@ endif
 if ((who = this:loaded(player)) && this:changed(who))
 if (!new)
 if (this:suck_in(player))
-player:tell("You are working on ", this:working_on(who));
+player:tell("Pracujesz nad ", this:working_on(who));
 endif
 return;
 elseif (player.location == this)
-player:tell("You are still working on ", this:working_on(who));
+player:tell("Nadal pracujesz nad ", this:working_on(who));
 if (msg = this:previous_session_msg())
 player:tell(msg);
 endif
@@ -74748,10 +74757,10 @@ return;
 endif
 "... we're not in the editor and we're about to start something new,";
 "... but there's still this pending session...";
-player:tell("You were working on ", this:working_on(who));
-if (!$command_utils:yes_or_no("Do you wish to delete that session?"))
+player:tell("Poprzednia sesja: ", this:working_on(who));
+if (!$command_utils:yes_or_no("Chcesz usunac te sesje?"))
 if (this:suck_in(player))
-player:tell("Continuing with ", this:working_on(player in this.active));
+player:tell("Kontynuowanie: ", this:working_on(player in this.active));
 if (msg = this:previous_session_msg())
 player:tell(msg);
 endif
@@ -74786,7 +74795,7 @@ except (ANY)
 "Just drop it and move on";
 endtry
 else
-who_obj:tell("For some reason, I can't move you.   (?)");
+who_obj:tell("Z jakiegos powodu nie moge cie przeniesc.   (?)");
 this:exitfunc(who_obj);
 endif
 this.invoke_task = 0;
@@ -74848,7 +74857,7 @@ if ((caller != this) && (!caller_perms().wizard))
 return E_PERM;
 else
 for victim in (this.contents)
-victim:tell("Sorry, ", this.name, " is going down.  Your editing session is hosed.");
+victim:tell("Przepraszamy, obiekt ", this.name, " jest wylaczany.  Twoja sesja edycji zostala przerwana.");
 victim:moveto(((who = victim in this.active) && valid(origin = this.original[who])) ? origin | (valid(victim.home) ? victim.home | $player_start));
 endfor
 for p in ({@this.stateprops, {"original"}, {"active"}, {"times"}})
@@ -74870,7 +74879,7 @@ if (this.invoke_task == task_id())
 "Means we're about to load something, so be quiet.";
 this.invoke_task = 0;
 elseif (who = this:loaded(who_obj))
-who_obj:tell("You are working on ", this:working_on(who), ".");
+who_obj:tell("Pracujesz nad ", this:working_on(who), ".");
 elseif (msg = this:nothing_loaded_msg())
 who_obj:tell(msg);
 endif
@@ -74894,32 +74903,32 @@ pass(@args);
 if ((caller_perms() != #-1) && (caller_perms() != player))
 raise(E_PERM);
 elseif (!$perm_utils:controls(player, this))
-player:tell("Only the owner of the editor can do a ", verb, ".");
+player:tell("Tylko wlasciciel edytora moze wykonac ", verb, ".");
 return;
 endif
 if (!prepstr)
-player:tell("Trashing all sessions.");
+player:tell("Kasowanie wszystkich sesji.");
 this:kill_all_sessions();
 elseif (prepstr != "at")
-player:tell("Usage:  ", verb, " ", dobjstr, " [at [mon day|weekday]]");
+player:tell("Uzycie:  ", verb, " ", dobjstr, " [at [miesiac dzien|dzien-tygodnia]]");
 else
 p = prepstr in args;
 if (t = $time_utils:from_day(iobjstr, -1))
 elseif (t = $time_utils:from_month(args[p + 1], -1))
 if (length(args) > (p + 1))
 if (!(n = toint(args[p + 2])))
-player:tell(args[p + 1], " WHAT?");
+player:tell(args[p + 1], " CO?");
 return;
 endif
 t = t + ((n - 1) * 86400);
 endif
 else
-player:tell("couldn't parse date");
+player:tell("nie udalo sie sparsowac daty");
 return;
 endif
 this:do_flush(t, "noisy");
 endif
-player:tell("Done.");
+player:tell("Gotowe.");
 .
 #50:46
 if (!$perm_utils:controls(player, this))
@@ -74942,18 +74951,18 @@ default = 0;
 prop = dobjstr;
 endif
 if (typeof(result = this:set_stateprops(prop, default)) == ERR)
-player:tell((result == E_RANGE) ? tostr(".", prop, " needs to hold a list of the same length as .active (", length(this.active), ").") | ((result != E_NACC) ? result | (prop + " is already a property on an ancestral editor.")));
+player:tell((result == E_RANGE) ? tostr(".", prop, " musi przechowywac liste tej samej dlugosci co .active (", length(this.active), ").") | ((result != E_NACC) ? result | (prop + " jest juz wlasciwoscia na edytorze-przodku.")));
 else
-player:tell("Property added.");
+player:tell("Wlasciwosc dodana.");
 endif
 .
 #50:47
 if (!$perm_utils:controls(player, this))
 player:tell(E_PERM);
 elseif (typeof(result = this:set_stateprops(dobjstr)) == ERR)
-player:tell((result != E_NACC) ? result | (dobjstr + " is already a property on an ancestral editor."));
+player:tell((result != E_NACC) ? result | (dobjstr + " jest juz wlasciwoscia na edytorze-przodku."));
 else
-player:tell("Property removed.");
+player:tell("Wlasciwosc usunieta.");
 endif
 .
 #50:48
@@ -75005,12 +75014,12 @@ return 0;
 is_look_self = 1;
 for c in (callers())
 if (is_look_self && (c[2] in {"enterfunc", "confunc"}))
-return {"", "Do a 'look' to get the list of commands, or 'help' for assistance.", "", @this.description};
+return {"", "Wykonaj 'look', by zobaczyc liste polecen, albo 'help', by uzyskac pomoc.", "", @this.description};
 elseif ((c[2] != "look_self") && (c[2] != "pass"))
 is_look_self = 0;
 endif
 endfor
-d = {"Commands:", ""};
+d = {"Polecenia:", ""};
 col = {{}, {}};
 for c in [1..2]
 for cmd in (this.commands2[c])
@@ -75039,14 +75048,14 @@ else
 right = 1;
 endif
 endwhile
-return {@d, "", "----  Do `help <cmdname>' for help with a given command.  ----", "", "  <ins> ::= $ (the end) | [^]n (above line n) | _n (below line n) | . (current)", "<range> ::= <lin> | <lin>-<lin> | from <lin> | to <lin> | from <lin> to <lin>", "  <lin> ::= n | [n]$ (n from the end) | [n]_ (n before .) | [n]^ (n after .)", "`help insert' and `help ranges' describe these in detail.", @this.description};
+return {@d, "", "----  Wpisz `help <nazwa-polecenia>', by uzyskac pomoc dla danego polecenia.  ----", "", "  <ins> ::= $ (koniec) | [^]n (nad linia n) | _n (pod linia n) | . (biezaca)", "<range> ::= <lin> | <lin>-<lin> | from <lin> | to <lin> | from <lin> to <lin>", "  <lin> ::= n | [n]$ (n od konca) | [n]_ (n przed .) | [n]^ (n po .)", "`help insert' oraz `help ranges' opisuja to szczegolowo.", @this.description};
 .
 #50:52
 cmd = args[1];
 if (pc = $list_utils:assoc(cmd, this.commands))
 return pc;
 elseif (this == $generic_editor)
-return {cmd, "<<<<<======= Need to add this to .commands"};
+return {cmd, "<<<<<======= Trzeba to dodac do .commands"};
 else
 return parent(this):commands_info(cmd);
 endif
@@ -75209,7 +75218,7 @@ txt = this:text(player in this.active);
 if (typeof(txt) == LIST)
 player:tell_lines(txt);
 else
-player:tell("Text unreadable:  ", txt);
+player:tell("Tekst nieczytelny:  ", txt);
 endif
 player:tell("--------------------------");
 .
@@ -75217,25 +75226,25 @@ player:tell("--------------------------");
 return this:acceptable(who_obj = args[1]) && this:new_session(who_obj, who_obj.location);
 .
 #50:65
-"Usage: yank from <note>";
-"       yank <message-sequence> from <mail-recipient>";
-"       yank from <object>:<verb>";
-"       yank from <object>.<property>";
-"Grabs the specified text and inserts it at the cursor.";
+"Uzycie: yank from <notatka>";
+"       yank <sekwencja-wiadomosci> from <odbiorca-poczty>";
+"       yank from <obiekt>:<czasownik>";
+"       yank from <obiekt>.<wlasciwosc>";
+"Pobiera wskazany tekst i wstawia go przy kursorze.";
 set_task_perms(player);
 if (dobjstr)
 "yank <message-sequence> from <mail-recipient>";
 if (!(p = player:parse_mailread_cmd(verb, args, "", "from")))
 return;
 elseif ($seq_utils:size(sequence = p[2]) != 1)
-player:notify(tostr("You can only ", verb, " one message at a time"));
+player:notify(tostr("Mozesz naraz ", verb, " tylko jedna wiadomosc"));
 return;
 else
 m = (folder = p[1]):messages_in_seq(sequence);
 msg = m[1];
-header = tostr("Message ", msg[1]);
+header = tostr("Wiadomosc ", msg[1]);
 if (folder != player)
-header = tostr(header, " on ", $mail_agent:name(folder));
+header = tostr(header, " w ", $mail_agent:name(folder));
 endif
 header = tostr(header, ":");
 lines = {header, @player:msg_full_text(@msg[2])};
@@ -75246,13 +75255,13 @@ o = player:my_match_object(pr[1]);
 if ($command_utils:object_match_failed(o, pr[1]))
 return;
 elseif ((lines = `o.(pr[2]) ! ANY') == E_PROPNF)
-player:notify(tostr("There is no `", pr[2], "' property on ", $string_utils:nn(o), "."));
+player:notify(tostr("Nie ma wlasciwosci `", pr[2], "' na ", $string_utils:nn(o), "."));
 return;
 elseif (lines == E_PERM)
-player:notify(tostr("Error: Permission denied reading ", iobjstr));
+player:notify(tostr("Blad: Brak uprawnien do odczytu ", iobjstr));
 return;
 elseif (typeof(lines) == ERR)
-player:notify(tostr("Error: ", lines, " reading ", iobjstr));
+player:notify(tostr("Blad: ", lines, " przy odczycie ", iobjstr));
 return;
 elseif (typeof(lines) == STR)
 this:insert_line(this:loaded(player), lines, 0);
@@ -75260,14 +75269,14 @@ return;
 elseif (typeof(lines) == LIST)
 for x in (lines)
 if (typeof(x) != STR)
-player:notify(tostr("Error: ", iobjstr, " does not contain a ", verb, "-able value."));
+player:notify(tostr("Blad: ", iobjstr, " nie zawiera wartosci nadajacej sie do ", verb, "."));
 return;
 endif
 endfor
 this:insert_line(this:loaded(player), lines, 0);
 return;
 else
-player:notify(tostr("Error: ", iobjstr, " does not contain a ", verb, "-able value."));
+player:notify(tostr("Blad: ", iobjstr, " nie zawiera wartosci nadajacej sie do ", verb, "."));
 return;
 endif
 elseif (pr = $code_utils:parse_verbref(iobjstr))
@@ -75278,23 +75287,23 @@ elseif (lines = `verb_code(o, pr[2], !player:edit_option("no_parens")) ! ANY')
 this:insert_line(this:loaded(player), lines, 0);
 return;
 elseif (lines == E_PERM)
-player:notify(tostr("Error: Permission denied reading ", iobjstr));
+player:notify(tostr("Blad: Brak uprawnien do odczytu ", iobjstr));
 return;
 elseif (lines == E_VERBNF)
-player:notify(tostr("There is no `", pr[2], "' verb on ", $string_utils:nn(o), "."));
+player:notify(tostr("Nie ma czasownika `", pr[2], "' na ", $string_utils:nn(o), "."));
 else
-player:notify(tostr("Error: ", lines, " reading ", iobjstr));
+player:notify(tostr("Blad: ", lines, " przy odczycie ", iobjstr));
 return;
 endif
 elseif ($command_utils:object_match_failed(iobj = player:my_match_object(iobjstr), iobjstr))
 return;
 elseif ((lines = `iobj:text() ! ANY') == E_PERM)
-player:notify(tostr("Error: Permission denied reading ", iobjstr));
+player:notify(tostr("Blad: Brak uprawnien do odczytu ", iobjstr));
 return;
 elseif (lines == E_VERBNF)
-player:notify(tostr($string_utils:nn(iobj), " doesn't seem to be a note."));
+player:notify(tostr($string_utils:nn(iobj), " nie wyglada na notatke."));
 elseif (typeof(lines) == ERR)
-player:notify(tostr("Error: ", lines, " reading ", iobjstr));
+player:notify(tostr("Blad: ", lines, " przy odczycie ", iobjstr));
 return;
 else
 this:insert_line(this:loaded(player), lines, 0);
@@ -75326,7 +75335,7 @@ player:tell(tostr(subst));
 elseif (typeof(range = this:parse_range(who, {"_", "1"}, @$string_utils:explode(subst[4]))) != LIST)
 player:tell(range);
 elseif (range[3])
-player:tell("Junk at end of cmd:  ", range[3]);
+player:tell("Smieci na koncu polecenia:  ", range[3]);
 else
 {fromstr, tostr, specs, dummy} = subst;
 global = index(specs, "g", 1);
@@ -75361,7 +75370,7 @@ endif
 munged = {@munged, t};
 endfor
 if (!changed)
-player:tell("No changes in line", (from == to) ? tostr(" ", from) | tostr("s ", from, "-", to), ".");
+player:tell("Brak zmian w ", (from == to) ? tostr("linii ", from) | tostr("liniach ", from, "-", to), ".");
 else
 this.texts[who] = {@text[1..from - 1], @munged, @text[to + 1..$]};
 if (!this.changes[who])
@@ -92177,7 +92186,7 @@ endfor
 this.client_stats = {clients, users};
 .
 #122:0
-{?text = {}, ?prompt = "[Type lines of input; use `.' to end.]", ?commandchar = this:get_opt("cmd_char", player), ?verb = 0, ?extra = {}} = args;
+{?text = {}, ?prompt = "[Wpisz linie tekstu; uzyj `.', by zakonczyc.]", ?commandchar = this:get_opt("cmd_char", player), ?verb = 0, ?extra = {}} = args;
 "Arguments:";
 "  text: The text to be edited.";
 "  prompt: The prompt displayed to the player to ask for input.";
@@ -92195,14 +92204,14 @@ state = $edit_state:new(text, verb, extra);
 player:tell(prompt);
 if (state.verb && state.extra)
 verb_name = tostr($string_utils:nn(state.extra[1][1]), ":", state.extra[1][2]);
-player:tell("Now editing ", verb_name, ".");
+player:tell("Edytujesz teraz ", verb_name, ".");
 state.verb_name = verb_name;
 endif
 state.ins = length(state.text) + 1;
-player:tell("Insertion point is before line ", state.ins, ".");
+player:tell("Punkt wstawiania jest przed linia ", state.ins, ".");
 if (this:get_option("expert") == 0)
 player:tell();
-player:tell("Type '", commandchar, "help' for assistance, '", commandchar, "abort' to abandon.");
+player:tell("Wpisz '", commandchar, "help' by uzyskac pomoc, '", commandchar, "abort' by porzucic.");
 endif
 while loop (1)
 try
@@ -92216,7 +92225,7 @@ if (typeof(line) != STR)
 return state.text;
 endif
 if (line == "@abort")
-player:tell(">> Command Aborted <<");
+player:tell(">> Polecenie przerwane <<");
 kill_task(task_id());
 elseif (line == "..")
 line = ".";
@@ -92228,76 +92237,76 @@ cmd = $string_utils:explode(line[2..$]);
 if ((commandchar == ".") && (!cmd))
 line = this:get_option("cmd_char") + "done";
 elseif (!cmd)
-player:tell("You must enter a command. (", commandchar, "help for help.)");
+player:tell("Musisz podac polecenie. (", commandchar, "help - pomoc.)");
 continue;
 endif
 state.command = cmd[1];
 state.arg = cmd[2..$];
-if (state.command in {"insert", "ins", "inse", "inser"})
+if (state.command in {"insert", "ins", "inse", "inser", "wstaw"})
 this:cmd_insert(state);
-elseif (state.command in {"paste", "load"})
+elseif (state.command in {"paste", "load", "wklej"})
 this:cmd_load(state);
-elseif (state.command in {"copy", "save"})
+elseif (state.command in {"copy", "save", "kopiuj"})
 this:cmd_save(state);
-elseif (state.command == "pass")
+elseif (state.command in {"pass", "przekaz"})
 this:cmd_pass(state);
-elseif (state.command in {"reload", "rehash"})
+elseif (state.command in {"reload", "rehash", "przeladuj"})
 return this:cmd_reload(@args, state);
-elseif (state.command in {"change", "changeline"})
+elseif (state.command in {"change", "changeline", "zmien"})
 this:cmd_changeline(state);
-elseif (state.command in {"replace", "repl", "re"})
+elseif (state.command in {"replace", "repl", "re", "zamien"})
 this:cmd_replace(state);
-elseif (state.command in {"find", "search", "GREP", "f", "s"})
+elseif (state.command in {"find", "search", "GREP", "f", "s", "znajdz", "szukaj"})
 this:cmd_grep(state);
-elseif (state.command in {"done", "quit", "q"})
+elseif (state.command in {"done", "quit", "q", "koniec"})
 if (typeof(ret = this:cmd_quit(state)) == ERR)
 continue;
 else
 return state.text;
 endif
-elseif (state.command in {"abort", "abandon", "q!"})
-player:tell(">> Command Aborted <<");
+elseif (state.command in {"abort", "abandon", "q!", "przerwij"})
+player:tell(">> Polecenie przerwane <<");
 kill_task(task_id());
-elseif ((state.verb && state.extra) && (state.command in {"what", "verb"}))
-player:tell("Currently editing: ", state.extra[1][1]:nn(), ":", state.extra[1][2], ".");
-elseif ((state.verb && state.extra) && (state.command in {"compile", "w", "send"}))
+elseif ((state.verb && state.extra) && (state.command in {"what", "verb", "co"}))
+player:tell("Obecnie edytujesz: ", state.extra[1][1]:nn(), ":", state.extra[1][2], ".");
+elseif ((state.verb && state.extra) && (state.command in {"compile", "w", "send", "kompiluj"}))
 {object, verbname} = state.extra[1];
 program = this:program_verb(object, verbname, state);
 elseif (state.verb && (state.command[1] == "/"))
 "Assume they want to make a verb comment.";
 line = ("\"" + line[3..$]) + "\";";
 cont = 0;
-elseif (state.command == "import")
+elseif (state.command in {"import", "importuj"})
 this:cmd_paste_letter(state);
-elseif (state.command == "set")
+elseif (state.command in {"set", "ustaw"})
 this:options($string_utils:from_list(state.arg, " "));
-elseif (state.command in {"del", "dele", "delet", "delete", "erase", "rm"})
+elseif (state.command in {"del", "dele", "delet", "delete", "erase", "rm", "usun"})
 this:cmd_delete(state);
-elseif (state.command in {"list", "l", "view", "p"})
+elseif (state.command in {"list", "l", "view", "p", "pokaz"})
 this:cmd_list(state);
-elseif (state.verb && (state.command in {"comment", "commentify"}))
+elseif (state.verb && (state.command in {"comment", "commentify", "komentuj"}))
 this:cmd_commentify(state);
-elseif (state.verb && (state.command in {"uncomment", "uncommentify"}))
+elseif (state.verb && (state.command in {"uncomment", "uncommentify", "odkomentuj"}))
 this:cmd_uncommentify(state);
-elseif (state.command in {"spellcheck", "spell"})
+elseif (state.command in {"spellcheck", "spell", "pisownia"})
 state.text = $spell:interactive_spellcheck(state.text);
-player:tell("Spell check completed.");
-elseif (state.command == "count")
+player:tell("Sprawdzanie pisowni zakonczone.");
+elseif (state.command in {"count", "policz"})
 this:cmd_count(state);
 elseif (state.verb && (state.command in {"tb", "jtb"}))
 this:cmd_traceback(state);
 elseif (state.verb && (state.command in {"ptb", "print_traceback"}))
 this:cmd_print_traceback(state);
-elseif (state.verb && (state.command in {"local", "localedit"}))
+elseif (state.verb && (state.command in {"local", "localedit", "lokalnie"}))
 this:cmd_localedit(state);
-elseif (state.command in {"format", "form"})
+elseif (state.command in {"format", "form", "formatuj"})
 this:cmd_format(state);
-elseif (state.command in {"help", "?"})
+elseif (state.command in {"help", "?", "pomoc"})
 this:cmd_help(state);
-elseif (state.command in {"clipboard", "saved", "clip"})
+elseif (state.command in {"clipboard", "saved", "clip", "schowek"})
 this:cmd_show_clipboard(state);
 else
-player:tell("Unrecognized command. (", commandchar, "help for help.)");
+player:tell("Nieznane polecenie. (", commandchar, "help - pomoc.)");
 endif
 if (cont != 0)
 continue;
@@ -92305,7 +92314,7 @@ endif
 endif
 this:do_add_line(state, line);
 except error (ANY)
-player:tell("Something has gone wrong...");
+player:tell("Cos poszlo nie tak...");
 player:tell(toliteral(error));
 break;
 continue;
@@ -92377,81 +92386,81 @@ endif
 #122:3
 {?argstr = 0} = args;
 options = {};
-options = {@options, ["name" -> "Set Command Prefix", "identifier" -> "prefix", "state" -> tostr(this:get_option("cmd_char"))]};
-options = {@options, ["name" -> "Set Escape Character", "identifier" -> "escape", "state" -> tostr(this:get_option("escape_char"))]};
-options = {@options, ["name" -> "Advanced Mode (suppresses warnings and help prompts)", "identifier" -> "expert", "state" -> this:get_option("expert")]};
-options = {@options, ["name" -> "Suppress Line Added Notifications", "identifier" -> "suppress", "state" -> this:get_option("no_line_notifies")]};
-options = {@options, ["name" -> "Color Line Numbers", "identifier" -> "color_line", "state" -> ((color = this:get_option("color_line")) != "") ? tostr($ansi_utils:hr_to_code(color), color, "[normal]") | 0]};
-options = {@options, ["name" -> "Color Line Indicator", "identifier" -> "color_indicator", "state" -> ((color = this:get_option("color_indicator")) != "") ? tostr($ansi_utils:hr_to_code(color), color, "[normal]") | 0]};
-options = {@options, ["name" -> "Set As Default Editor For Verbs and Notes", "identifier" -> "default_editor", "state" -> this:get_option("default_editor")]};
+options = {@options, ["name" -> "Ustaw przedrostek polecen", "identifier" -> "prefix", "state" -> tostr(this:get_option("cmd_char"))]};
+options = {@options, ["name" -> "Ustaw znak ucieczki (escape)", "identifier" -> "escape", "state" -> tostr(this:get_option("escape_char"))]};
+options = {@options, ["name" -> "Tryb zaawansowany (wylacza ostrzezenia i podpowiedzi pomocy)", "identifier" -> "expert", "state" -> this:get_option("expert")]};
+options = {@options, ["name" -> "Wylacz powiadomienia o dodaniu linii", "identifier" -> "suppress", "state" -> this:get_option("no_line_notifies")]};
+options = {@options, ["name" -> "Koloruj numery linii", "identifier" -> "color_line", "state" -> ((color = this:get_option("color_line")) != "") ? tostr($ansi_utils:hr_to_code(color), color, "[normal]") | 0]};
+options = {@options, ["name" -> "Koloruj wskaznik linii", "identifier" -> "color_indicator", "state" -> ((color = this:get_option("color_indicator")) != "") ? tostr($ansi_utils:hr_to_code(color), color, "[normal]") | 0]};
+options = {@options, ["name" -> "Ustaw jako domyslny edytor czasownikow i notatek", "identifier" -> "default_editor", "state" -> this:get_option("default_editor")]};
 if (player.programmer)
-options = {@options, ["name" -> "Jump to Error Line", "identifier" -> "jump_to_error", "state" -> this:get_option("jump_to_error")]};
+options = {@options, ["name" -> "Przeskakuj do linii bledu", "identifier" -> "jump_to_error", "state" -> this:get_option("jump_to_error")]};
 endif
 opt = $menu_utils:options_menu(options);
 if (opt == 0)
 return;
 endif
 if (opt == "prefix")
-player:tell("Enter a single character that you wish to begin editor commands with. It should preferably be a symbol, not a letter or number.");
+player:tell("Podaj jeden znak, od ktorego maja zaczynac sie polecenia edytora. Powinien to byc raczej symbol, nie litera ani cyfra.");
 cmd = $command_utils:read();
 if (((length(cmd) > 1) || (cmd in $string_utils:char_list($string_utils.alphabet + $string_utils.digits))) || (length(cmd) <= 0))
-return player:tell("Invalid command prefix. It should not be a number or letter and must be one (1) character in length.");
+return player:tell("Nieprawidlowy przedrostek polecen. Nie moze byc cyfra ani litera i musi miec dokladnie jeden (1) znak dlugosci.");
 endif
 result = this:set_option(player, "cmd_char", cmd);
 if (typeof(result) != STR)
-player:tell("There was an error setting your command prefix.");
+player:tell("Wystapil blad przy ustawianiu przedrostka polecen.");
 else
-player:tell("Command prefix set.");
+player:tell("Przedrostek polecen ustawiony.");
 endif
 elseif (opt == "escape")
-player:tell("Enter a single character that you wish to escape lines with. When lines are started with this character, any editor parsing will be bypassed. It should preferably be a symbol, not a letter or number.");
+player:tell("Podaj jeden znak, ktorym chcesz oznaczac linie do pominiecia. Gdy linia zaczyna sie od tego znaku, parsowanie edytora zostanie pominiete. Powinien to byc raczej symbol, nie litera ani cyfra.");
 esc = $command_utils:read();
 if (((length(esc) > 1) || (esc in $string_utils:char_list($string_utils.alphabet + $string_utils.digits))) || (length(esc) <= 0))
-return player:tell("Invalid escape character. It should not be a number or letter and must be one (1) character in length.");
+return player:tell("Nieprawidlowy znak ucieczki. Nie moze byc cyfra ani litera i musi miec dokladnie jeden (1) znak dlugosci.");
 endif
 result = this:set_option(player, "escape_char", esc);
 if (typeof(result) != STR)
-player:tell("There was an error setting your escape character.");
+player:tell("Wystapil blad przy ustawianiu znaku ucieczki.");
 else
-player:tell("Escape character set.");
+player:tell("Znak ucieczki ustawiony.");
 endif
 elseif (opt == "expert")
 opt = !this:get_option("expert");
 result = this:set_option(player, "expert", opt);
-player:tell("You ", opt ? "activate" | "deactivate", " advanced mode.");
+player:tell(opt ? "Wlaczono tryb zaawansowany." | "Wylaczono tryb zaawansowany.");
 elseif (opt == "suppress")
 opt = !this:get_option("no_line_notifies");
 result = this:set_option(player, "no_line_notifies", opt);
-player:tell(opt ? "You will no longer receive a message when a line has been added to the working text." | "You will once again receive a message when a line has been added to the working text.");
+player:tell(opt ? "Nie bedziesz juz otrzymywac wiadomosci o dodaniu linii do edytowanego tekstu." | "Znow bedziesz otrzymywac wiadomosci o dodaniu linii do edytowanego tekstu.");
 elseif (opt == "default_editor")
 opt = !this:get_option("default_editor");
 result = this:set_option(player, "default_editor", opt);
-player:tell(opt ? "When editing verbs or notes, you will now use the inline editor by default." | "You will no longer use the inline editor to edit verbs and notes.");
+player:tell(opt ? "Przy edycji czasownikow lub notatek bedziesz teraz uzywac edytora liniowego domyslnie." | "Nie bedziesz juz domyslnie uzywac edytora liniowego do edycji czasownikow i notatek.");
 elseif (opt == "jump_to_error")
 opt = !this:get_option("jump_to_error");
 result = this:set_option(player, "jump_to_error", opt);
-player:tell(opt ? "When editing verbs, the cursor will move to the line indicated in the traceback if an error occurs." | "The cursor will no longer move to the traceback line when errors occur.");
+player:tell(opt ? "Przy edycji czasownikow kursor bedzie przeskakiwal do linii wskazanej w tracebacku, jesli wystapi blad." | "Kursor nie bedzie juz przeskakiwal do linii z tracebacku przy bledach.");
 elseif (opt == "color_line")
 option = "color_line";
 status = this:get_option(option);
-if (((status != "") && ($command_utils:yes_or_no("Would you like to select a different color?") == 1)) || (status == ""))
+if (((status != "") && ($command_utils:yes_or_no("Chcesz wybrac inny kolor?") == 1)) || (status == ""))
 choice = $ansi_utils:color_selector();
 this:set_option(player, option, choice);
-player:tell("Color set.");
+player:tell("Kolor ustawiony.");
 else
 this:set_option(player, option, "");
-player:tell("Color cleared.");
+player:tell("Kolor wyczyszczony.");
 endif
 elseif (opt == "color_indicator")
 option = "color_indicator";
 status = this:get_option(option);
-if (((status != "") && ($command_utils:yes_or_no("Would you like to select a different color?") == 1)) || (status == ""))
+if (((status != "") && ($command_utils:yes_or_no("Chcesz wybrac inny kolor?") == 1)) || (status == ""))
 choice = $ansi_utils:color_selector();
 this:set_option(player, option, choice);
-player:tell("Color set.");
+player:tell("Kolor ustawiony.");
 else
 this:set_option(player, option, "");
-player:tell("Color cleared.");
+player:tell("Kolor wyczyszczony.");
 endif
 endif
 .
@@ -92513,8 +92522,8 @@ set_task_perms(player);
 simpleedit = $mcp.registry:match_package("dns-org-mud-moo-simpleedit");
 if (result = set_verb_code(object, verbname, (typeof(simpleedit) == ERR) ? state.text | simpleedit:verbcode_external_to_internal(state.text)))
 player:notify_lines(result);
-player:notify(tostr(length(result), " error(s)."));
-player:notify("Verb not programmed.");
+player:notify($polish_utils:count(length(result), "1 blad.", tostr(length(result), " bledy."), tostr(length(result), " bledow.")));
+player:notify("Czasownik nie zostal skompilowany.");
 state.traceback = result;
 line_error = $string_utils:match_string(result[1], "Line *: *");
 if (line_error != 0)
@@ -92527,21 +92536,21 @@ endif
 endif
 endif
 else
-player:notify("0 errors.");
-player:notify(tostr(object, ":", verbname, " successfully compiled."));
+player:notify("0 bledow.");
+player:notify(tostr(object, ":", verbname, " skompilowany pomyslnie."));
 endif
 except error (ANY)
 player:notify(error[2]);
-player:notify("Verb not programmed.");
+player:notify("Czasownik nie zostal skompilowany.");
 endtry
 .
 #122:11
 {state} = args;
 if (!state.arg)
-player:tell("Insert where? (Use a positive integer or '$' for the last line.)");
+player:tell("Wstawic gdzie? (Uzyj dodatniej liczby calkowitej lub '$' dla ostatniej linii.)");
 return E_INVARG;
 elseif (((state.arg[1] != "$") && (toint(state.arg[1]) <= 0)) || (toint(state.arg[1]) > (length(state.text) + 1)))
-player:tell("Insertion ranges from line 1 to ", length(state.text) + 1, ".");
+player:tell("Wstawianie mozliwe od linii 1 do ", length(state.text) + 1, ".");
 return E_INVARG;
 endif
 if (state.arg[1] == "$")
@@ -92551,25 +92560,25 @@ state.ins = toint(state.arg[1]);
 endif
 (state.ins > 1) && this:list_line(state, state.ins - 1);
 (state.ins <= length(state.text)) && this:list_line(state, state.ins);
-player:tell("Now inserting before line ", state.ins, ".");
+player:tell("Wstawianie teraz przed linia ", state.ins, ".");
 .
 #122:12
 {state} = args;
 if (this:session_for(player) == $nothing)
-player:tell("You have no text saved.");
+player:tell("Nie masz zapisanego tekstu.");
 return E_INVARG;
 endif
-if (state.text && ($command_utils:yes_or_no("The current text will be lost. Are you sure you wish to load saved text?") == 0))
-player:tell("Aborted.");
+if (state.text && ($command_utils:yes_or_no("Biezacy tekst zostanie utracony. Na pewno chcesz wczytac zapisany tekst?") == 0))
+player:tell("Przerwano.");
 return E_INVARG;
 endif
 state.text = this:session_for(player).text;
-player:tell("Saved text loaded.");
+player:tell("Zapisany tekst wczytany.");
 .
 #122:13
 {state} = args;
-if (this:session_for(player, 1).text && ($command_utils:yes_or_no("You already have text saved. Do you wish to overwrite it?") == 0))
-player:tell("Aborted.");
+if (this:session_for(player, 1).text && ($command_utils:yes_or_no("Masz juz zapisany tekst. Chcesz go nadpisac?") == 0))
+player:tell("Przerwano.");
 return E_INVARG;
 endif
 if (!(state.arg in {0, {}}))
@@ -92585,7 +92594,7 @@ text = state.text;
 endif
 this:session_for(player, 1).text = text;
 this:session_for(player).last_modified = time();
-player:tell("The text has been successfully saved. To load it in for editing later, type ", this:get_opt("cmd_char"), "paste.");
+player:tell("Tekst zostal pomyslnie zapisany. Aby wczytac go do edycji pozniej, wpisz ", this:get_opt("cmd_char"), "paste.");
 .
 #122:14
 {state} = args;
@@ -92599,7 +92608,7 @@ endwhile
 #122:15
 text = args[$].text;
 args = args[1..$ - 1];
-player:tell("Reloading...");
+player:tell("Przeladowywanie...");
 "Maintain text through reloads.";
 if (length(args) >= 1)
 args[1] = text;
@@ -92609,10 +92618,10 @@ return this:editor(@args);
 #122:16
 {state} = args;
 if (length(state.arg) < 2)
-player:tell("Usage: ", this:get_option("cmd_char"), "", state.command, " <line-number> <new-text>");
+player:tell("Uzycie: ", this:get_option("cmd_char"), "", state.command, " <numer-linii> <nowy-tekst>");
 return E_INVARG;
 elseif (!state.text)
-player:tell("There is no text to change.");
+player:tell("Nie ma tekstu do zmiany.");
 return E_INVARG;
 else
 if (state.arg[1] == "$")
@@ -92623,22 +92632,22 @@ else
 NUM = toint(state.arg[1]);
 endif
 if ((NUM < 1) || (NUM > length(state.text)))
-player:tell("There is no line with that number. Lines range from 1 to ", length(state.text), ".");
+player:tell("Nie ma linii o takim numerze. Linie sa numerowane od 1 do ", length(state.text), ".");
 return E_INVARG;
 else
 newline = $string_utils:from_list(state.arg[2..$], " ");
 state.text[NUM] = newline;
-player:tell("Line ", NUM, " changed.");
+player:tell("Linia ", NUM, " zmieniona.");
 endif
 endif
 .
 #122:17
 {state} = args;
 if (!state.text)
-player:tell("There is no text to search.");
+player:tell("Nie ma tekstu do przeszukania.");
 return E_INVARG;
 elseif (!state.arg)
-player:tell("Usage: FIND <text>");
+player:tell("Uzycie: find <tekst>");
 return E_INVARG;
 endif
 hohum = (state.ins == (length(state.text) + 1)) ? 1 | state.ins;
@@ -92652,7 +92661,7 @@ endif
 hohum = hohum + 1;
 endfor
 if (!found)
-player:tell("No text matching `", $string_utils:from_list(state.arg, " "), "'.");
+player:tell("Brak tekstu pasujacego do `", $string_utils:from_list(state.arg, " "), "'.");
 return E_INVARG;
 endif
 state.ins = found + 1;
@@ -92662,8 +92671,8 @@ player:tell(found, ": ", state.text[found]);
 {state} = args;
 if (state.verb && state.extra)
 {object, verbname} = state.extra[1];
-if ((verb_code(object, verbname) != state.text) && ($command_utils:yes_or_no("If you proceed, the text of the working verb could be lost due to failed compilation. Are you sure you wish to continue?") != 1))
-player:tell("Aborted.");
+if ((verb_code(object, verbname) != state.text) && ($command_utils:yes_or_no("Jesli przejdziesz dalej, tekst edytowanego czasownika moze zostac utracony z powodu nieudanej kompilacji. Na pewno chcesz kontynuowac?") != 1))
+player:tell("Przerwano.");
 return E_INVARG;
 endif
 program = this:program_verb(object, verbname, state);
@@ -92672,7 +92681,7 @@ endif
 #122:19
 {state} = args;
 if (!state.text)
-player:tell("There is no text to delete.");
+player:tell("Nie ma tekstu do usuniecia.");
 else
 range = this:parse_range(state.arg, length(state.text), state.ins);
 if (!state.arg)
@@ -92695,13 +92704,14 @@ state.ins = start;
 if (state.ins > (length(state.text) + 1))
 state.ins = length(state.text) + 1;
 endif
-player:tell("---Line", (end > start) ? "s" | "", " deleted. Insertion point is before line ", state.ins, ".");
+nlines = (end - start) + 1;
+player:tell("---", $polish_utils:count(nlines, "Usunieto 1 linie", tostr("Usunieto ", nlines, " linie"), tostr("Usunieto ", nlines, " linii")), ". Punkt wstawiania jest przed linia ", state.ins, ".");
 endif
 .
 #122:20
 {state} = args;
 if (!state.text)
-player:tell("No text to list.");
+player:tell("Nie ma tekstu do wyswietlenia.");
 return E_INVARG;
 "     elseif (!state.arg)";
 "       player:tell(\"List what lines? (Line ranges from 1 to \", state.ins-1, \".)\");";
@@ -92718,7 +92728,7 @@ else
 listfrom = state.ins - 8;
 endif
 range = {listfrom, listuntil};
-elseif (state.arg == {"all"})
+elseif ((state.arg == {"all"}) || (state.arg == {"wszystkie"}))
 range = {1, length(state.text)};
 else
 range = this:parse_range(state.arg, length(state.text), state.ins);
@@ -92749,27 +92759,27 @@ endif
 .
 #122:21
 {state} = args;
-if (((length(state.arg) == 1) && (state.arg[1] in {"line", "lines"})) || (!state.arg))
-player:tell("Lines: ", length(state.text));
+if (((length(state.arg) == 1) && (state.arg[1] in {"line", "lines", "linia", "linie"})) || (!state.arg))
+player:tell("Linie: ", length(state.text));
 endif
-if (((length(state.arg) == 1) && (state.arg[1] in {"character", "letters", "chars", "char", "characters"})) || (!state.arg))
+if (((length(state.arg) == 1) && (state.arg[1] in {"character", "letters", "chars", "char", "characters", "znak", "znaki"})) || (!state.arg))
 chars = 0;
 for x in (state.text)
 chars = chars + length(x);
 endfor
-player:tell("Characters: ", chars);
+player:tell("Znaki: ", chars);
 endif
-if (((length(state.arg) == 1) && (state.arg[1] in {"word", "words"})) || (!state.arg))
+if (((length(state.arg) == 1) && (state.arg[1] in {"word", "words", "slowo", "slowa"})) || (!state.arg))
 words = 0;
 for x in (state.text)
 words = words + length($string_utils:words(x));
 endfor
-player:tell("Words: ", words);
+player:tell("Slowa: ", words);
 endif
 .
 #122:22
 {state} = args;
-player:tell("Command Help");
+player:tell("Pomoc dotyczaca polecen");
 player:tell(dashes = "-------------");
 cmds = vcmds = {};
 for x in (verb_code(this, "editor"))
@@ -92791,35 +92801,35 @@ endif
 endfor
 ret = {};
 if (!state.arg)
-ret = {@ret, "Help is available on the following topics:", ""};
+ret = {@ret, "Pomoc jest dostepna dla nastepujacych tematow:", ""};
 ret = {@ret, @$string_utils:columnize($list_utils:slice(player.programmer ? {@cmds, @vcmds} | cmds), 3)};
 else
 for x in ({@cmds, @vcmds})
 if (((x in vcmds) && ((player.programmer != 1) || (!state.verb))) || (state.arg && ((state.arg[1] in x) == 0)))
 continue x;
 endif
-ret = {@ret, tostr(x[1], "", (length(x) > 1) ? tostr(" (Aliases: ", $string_utils:english_list(x[2..$]), ")") | "", ":")};
+ret = {@ret, tostr(x[1], "", (length(x) > 1) ? tostr(" (Aliasy: ", $string_utils:english_list(x[2..$]), ")") | "", ":")};
 if (ind = x[1] in $list_utils:slice(this.help))
 "                ret = {@ret, tostr($list_utils:slice(help, 2)[ind])};";
 ret = {@ret, @this.help[ind][2..$]};
 else
-ret = {@ret, "No help available."};
+ret = {@ret, "Brak dostepnej pomocy."};
 endif
 endfor
 endif
 if (!ret)
-ret = {@ret, tostr("No help on that command is presently available. To see a list of commands, type ", this:get_opt("cmd_char", player), "help without arguments.")};
+ret = {@ret, tostr("Brak dostepnej pomocy dla tego polecenia. Aby zobaczyc liste polecen, wpisz ", this:get_opt("cmd_char", player), "help bez argumentow.")};
 endif
 player:tell_lines(ret);
 player:tell(dashes);
 if (!state.arg)
 player:tell();
-player:tell("To work with ranges, do one of the following:");
-player:tell("/delete 1..4 -- Erases lines 1 through 4.");
-player:tell("/delete 8..$ -- Erases up until the end of the text, starting at line 8.");
-player:tell("/list 3 4 -- Lists lines 3-4.");
-player:tell("/delete 1 -- Erases line 1.");
-player:tell("/list 40+40 -- Lists the contents of line 80.");
+player:tell("Aby pracowac z zakresami, zrob jedno z ponizszych:");
+player:tell("/delete 1..4 -- Usuwa linie od 1 do 4.");
+player:tell("/delete 8..$ -- Usuwa az do konca tekstu, poczawszy od linii 8.");
+player:tell("/list 3 4 -- Wyswietla linie 3-4.");
+player:tell("/delete 1 -- Usuwa linie 1.");
+player:tell("/list 40+40 -- Wyswietla zawartosc linii 80.");
 endif
 .
 #122:23
@@ -92831,24 +92841,24 @@ letters = {@letters, x};
 endif
 endfor
 if (letters == {})
-player:tell("You are not carrying any notes.");
+player:tell("Nie masz przy sobie zadnych notatek.");
 else
 if (length(letters) > 1)
-player:tell("Pick a note to paste into the working text.");
+player:tell("Wybierz notatke do wklejenia w edytowany tekst.");
 letter = letters[$command_utils:menu(letters)];
 else
 letter = letters[1];
 endif
-if ($command_utils:yes_or_no(tostr("Really insert the text of ", letter:title(), "?")) == 1)
+if ($command_utils:yes_or_no(tostr("Na pewno wstawic tekst ", letter:title(), "?")) == 1)
 state.text = {@state.text[1..state.ins - 1], @letter:text(), @state.text[state.ins..$]};
-player:tell("Text inserted.");
+player:tell("Tekst wstawiony.");
 endif
 endif
 .
 #122:24
 {state} = args;
 if (!state.arg)
-player:tell("You must include what lines you wish to comment.");
+player:tell("Musisz podac, ktore linie chcesz zakomentowac.");
 return E_INVARG;
 endif
 range = this:parse_range(state.arg, length(state.text), state.ins);
@@ -92860,12 +92870,13 @@ endif
 for x in [start..end]
 state.text[x] = ("" + toliteral(state.text[x])) + ";";
 endfor
-player:tell("Line", (end < start) ? "s" | "", " commented.");
+n = (end - start) + 1;
+player:tell($polish_utils:count(n, "Zakomentowano 1 linie.", tostr("Zakomentowano ", n, " linie."), tostr("Zakomentowano ", n, " linii.")));
 .
 #122:25
 {state} = args;
 if (!state.arg)
-player:tell("You must include what lines you wish to uncomment.");
+player:tell("Musisz podac, ktore linie chcesz odkomentowac.");
 return E_INVARG;
 endif
 range = this:parse_range(state.arg, length(state.text), state.ins);
@@ -92882,47 +92893,49 @@ else
 bogus = {@bogus, state.text[x]};
 endif
 endfor
-player:tell("Line", (end < start) ? "s" | "", " uncommented.");
+n = (end - start) + 1;
+player:tell($polish_utils:count(n, "Odkomentowano 1 linie.", tostr("Odkomentowano ", n, " linie."), tostr("Odkomentowano ", n, " linii.")));
 if (bogus)
-player:tell("---", length(bogus), " ", $s("line", length(bogus)), " ", (start < end) ? "were" | "was", " not comments.");
+nb = length(bogus);
+player:tell("---", $polish_utils:count(nb, "1 linia nie byla komentarzem.", tostr(nb, " linie nie byly komentarzami."), tostr(nb, " linii nie bylo komentarzami.")));
 endif
 .
 #122:26
 {state} = args;
 if (!state.traceback_line)
-player:tell("There are no recorded tracebacks.");
+player:tell("Nie ma zapisanych tracebackow.");
 return E_INVARG;
 else
 if ((state.traceback_line > 0) && (state.traceback_line <= (length(state.text) + 1)))
 state.ins = state.traceback_line;
-player:tell("Insertion point is now at line '", state.ins, "'.");
+player:tell("Punkt wstawiania jest teraz przy linii '", state.ins, "'.");
 else
-player:tell("The recorded traceback line is no longer valid.");
+player:tell("Zapisana linia tracebacku nie jest juz prawidlowa.");
 endif
 endif
 .
 #122:27
 {state} = args;
 if (!state.traceback)
-player:tell("There are no recorded tracebacks.");
+player:tell("Nie ma zapisanych tracebackow.");
 return E_INVARG;
 else
-player:tell("Last recorded traceback:");
+player:tell("Ostatni zapisany traceback:");
 player:tell_lines(state.traceback);
 endif
 .
 #122:28
 {state} = args;
 if (!state.text)
-player:tell("No text to format.");
+player:tell("Nie ma tekstu do sformatowania.");
 return E_INVARG;
 endif
 ind = 1;
 reformatted = {};
-player:tell("Formatting...");
+player:tell("Formatowanie...");
 for x in (state.text)
 if (length(x) > abs(player:linelen()))
-player:tell("Line ", ind, " too long: reformatting.");
+player:tell("Linia ", ind, " zbyt dluga: przeformatowywanie.");
 reformatted = {@reformatted, @player:linesplit(x, abs(player:linelen()))};
 else
 reformatted = {@reformatted, x};
@@ -92930,7 +92943,7 @@ endif
 ind = ind + 1;
 endfor
 state.text = reformatted;
-player:tell("Done.");
+player:tell("Gotowe.");
 .
 #122:29
 {state, line} = args;
@@ -92942,7 +92955,7 @@ state.text = {@state.text, line};
 else
 state.text = {@state.text[1..state.ins - 1], line, @state.text[state.ins..$]};
 endif
-(!this:get_option("no_line_notifies")) && player:tell("Line ", state.ins, " added.");
+(!this:get_option("no_line_notifies")) && player:tell("Linia ", state.ins, " dodana.");
 this:log_last_edit(player, task_id());
 state.ins = state.ins + 1;
 .
@@ -92973,14 +92986,14 @@ return -1;
 {state} = args;
 saved = this:session_for(player, 1);
 if (!saved.text)
-player:tell("You have no text saved.");
+player:tell("Nie masz zapisanego tekstu.");
 return E_INVARG;
 else
-player:tell("You have the following text saved:");
+player:tell("Masz zapisany nastepujacy tekst:");
 player:tell();
 player:tell_lines_suspended(saved.text);
 player:tell();
-player:tell("(end of saved text)");
+player:tell("(koniec zapisanego tekstu)");
 endif
 .
 #122:32
@@ -92994,10 +93007,10 @@ kill_task(task_id());
 #122:33
 {state} = args;
 if (length(state.arg) < 1)
-player:tell("Usage: ", this:get_option("cmd_char"), "", state.command, " <PCRE replacement>");
+player:tell("Uzycie: ", this:get_option("cmd_char"), "", state.command, " <podstawienie PCRE>");
 return E_INVARG;
 elseif (!state.text)
-player:tell("There is no text to change.");
+player:tell("Nie ma tekstu do zmiany.");
 return E_INVARG;
 else
 changed = 0;
@@ -93005,13 +93018,13 @@ success = 1;
 range = {1, length(state.text)};
 if ((length(state.arg) >= 2) && (typeof(this:parse_range(state.arg[$], length(state.text), state.ins)) == LIST))
 range = this:parse_range(state.arg[$], length(state.text), state.ins);
-player:tell("(Running replacement", (range[1] != range[2]) ? "s" | "", " on ", (range[1] == range[2]) ? "line " + tostr(range[1]) | tostr("lines ", range[1], " to ", range[2]), ".)");
+player:tell("(Wykonywanie podstawienia na ", (range[1] == range[2]) ? "linii " + tostr(range[1]) | tostr("liniach ", range[1], " do ", range[2]), ".)");
 endif
 for I in [range[1]..range[2]]
 try
 newline = pcre_replace(state.text[I], $string_utils:from_list(state.arg));
 except e (ANY)
-player:tell("Error on line ", I, ": ", e[2]);
+player:tell("Blad w linii ", I, ": ", e[2]);
 success = 0;
 break;
 endtry
@@ -93021,7 +93034,7 @@ state.text[I] = newline;
 endif
 yin();
 endfor
-player:tell("Replacement ", success ? "complete" | "failed", ". ", changed, " ", $s("line", changed), " affected.");
+player:tell("Podstawienie ", success ? "zakonczone" | "nieudane", ". ", $polish_utils:count(changed, "zmieniono 1 linie", tostr("zmieniono ", changed, " linie"), tostr("zmieniono ", changed, " linii")), ".");
 endif
 .
 #122:34
