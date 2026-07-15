@@ -1235,7 +1235,7 @@ source
 2
 time
 0
-1784091071
+1784091739
 4
 0
 1
@@ -1455,16 +1455,16 @@ time
 4
 2
 0
-1784091058
+1784091720
 2
-localhost
+127.0.0.1
 2
 0
 5
 2
 0
 0
-1784091062
+1784091724
 2
 1
 0
@@ -1628,7 +1628,7 @@ localhost
 2
 5
 0
-1784091071
+1784091739
 2
 1
 0
@@ -4122,7 +4122,11 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 0
 10
+1
+1
+-27
 0
+2
 2
 5
 0
@@ -38845,7 +38849,7 @@ yin()
 4
 95
 2
-LambdaMOO-Stunt adds the following built-in functions:
+LambdaMOO-Stunt dodaje nastepujace funkcje wbudowane:
 2
 
 2
@@ -38853,145 +38857,145 @@ binary_hmac
 2
 string_hmac
 2
-value_hmac       - Cryptographically secure HMAC functions.
+value_hmac       - kryptograficznie bezpieczne funkcje HMAC.
 2
 decode_base64
 2
-encode_base64    - Encode and decode binary Base64 strings.
+encode_base64    - kodowanie i dekodowanie binarnych stringow Base64.
 2
-exec             - Execute shell scripts and applications.
+exec             - wykonywanie skryptow powloki i aplikacji.
 2
-exp              - Return Eulers number (E) to the power of <x>.
+exp              - zwraca liczbe Eulera (E) podniesiona do potegi <x>.
 2
-generate_json    - Return the JSON representation of the MOO value.
+generate_json    - zwraca reprezentacje JSON wartosci MOO.
 2
-parse_json       - Return the MOO value representation of a JSON string.
+parse_json       - zwraca reprezentacje MOO stringa JSON.
 2
-getenv           - Return the value of the named environment variable.
+getenv           - zwraca wartosc nazwanej zmiennej srodowiskowej.
 2
-mapdelete        - Delete a key from a map.
+mapdelete        - usuwa klucz z mapy.
 2
-mapkeys          - List the keys in a map.
+mapkeys          - wypisuje klucze w mapie.
 2
-mapvalues        - List the values in a map.
+mapvalues        - wypisuje wartosci w mapie.
 2
-random_bytes     - Return a binary string of <x> bytes.
+random_bytes     - zwraca string binarny <x> bajtow.
 2
-read_http        - Parse lines from a network connection as HTTP requests.
+read_http        - parsuje linie z polaczenia sieciowego jako zadania HTTP.
 2
-salt             - Generate a cryptographically secure salt string.
+salt             - generuje kryptograficznie bezpieczny string soli.
 2
-strtr            - Replace characters in a string.
+strtr            - zamienia znaki w stringu.
 2
-crypt            - Encrypt a string using a variety of algorithms.
+crypt            - szyfruje string przy uzyciu roznych algorytmow.
 2
-task_local       - Return values associated with the current task.
+task_local       - zwraca wartosci powiazane z biezacym zadaniem.
 2
-set_task_local   - Set values associated with the current task.
+set_task_local   - ustawia wartosci powiazane z biezacym zadaniem.
 2
-respond_to       - Check if a verb is callable on an object.
+respond_to       - sprawdza, czy czasownik jest wywolywalny na obiekcie.
 2
-isa              - Check if an object is a descendant of another object.
+isa              - sprawdza, czy obiekt jest potomkiem innego obiektu.
 2
-switch_player    - Silently switch a connection to another player.
-2
-
+switch_player    - po cichu przelacza polaczenie na innego gracza.
 2
 
 2
-Additionally, the ToastStunt fork adds these:
+
+2
+Dodatkowo fork ToastStunt dodaje:
 2
 
 2
-argon2                  - Argon2id secure hashing.
+argon2                  - bezpieczne hashowanie Argon2id.
 2
-argon2_verify           - Compares password to hash
+argon2_verify           - porownuje haslo z hashem
 2
-sqlite                  - See HELP SQLITE for a complete list.
+sqlite                  - zobacz HELP SQLITE po pelna liste.
 2
-pcre_match              - Match a string using Perl Compatible Regular Expressions.
+pcre_match              - dopasowanie stringa za pomoca Perl Compatible Regular Expressions.
 2
-pcre_replace            - Replace text in a string using Perl Compatible Regular Expressions.
+pcre_replace            - zamiana tekstu w stringu za pomoca Perl Compatible Regular Expressions.
 2
-frandom                 - Random floats.
+frandom                 - losowe liczby zmiennoprzecinkowe.
 2
-distance                - Calculate the distance between an arbitrary number of points.
+distance                - oblicza odleglosc miedzy dowolna liczba punktow.
 2
-relative_heading        - Calculate a relative bearing between two points.
+relative_heading        - oblicza wzgledny azymut miedzy dwoma punktami.
 2
-memory_usage            - Total memory used, resident set size, shared pages, text, data + stack
+memory_usage            - calkowita zuzyta pamiec, resident set size, wspoldzielone strony, text, data + stack
 2
-ftime                   - Precise time, including an argument for monotonic timing.
+ftime                   - precyzyjny czas, wlacznie z argumentem dla czasu monotonicznego.
 2
-locate_by_name          - Quickly locate objects by their name and aliases.
+locate_by_name          - szybkie znajdowanie obiektow po nazwie i aliasach.
 2
-usage                   - Returns a list of system information from the operating system.
+usage                   - zwraca liste informacji systemowych z systemu operacyjnego.
 2
-explode                 - Return a list of substrings of a string separated by a break.
+explode                 - zwraca liste podciagow stringa oddzielonych separatorem.
 2
-occupants               - Return a list of objects of parent parent, optionally with a player flag check.
+occupants               - zwraca liste obiektow o danym rodzicu, opcjonalnie ze sprawdzeniem flagi gracza.
 2
-spellcheck              - Check the spelling of a word using Aspell.
+spellcheck              - sprawdza pisownie slowa za pomoca Aspell.
 2
-locations               - Recursive location reporting function.
+locations               - rekurencyjna funkcja raportowania lokalizacji.
 2
-clear_ancestor_cache    - Manually clears the ancestor cache.
+clear_ancestor_cache    - recznie czysci cache przodkow.
 2
-simplex_noise           - Generate Simplex Noise.
+simplex_noise           - generuje Simplex Noise.
 2
-threads                 - Display a list of active threads.
+threads                 - wyswietla liste aktywnych watkow.
 2
-thread_info             - Display specific information about a running thread.
+thread_info             - wyswietla szczegolowe informacje o dzialajacym watku.
 2
-new_waif                - Create a new waif.
+new_waif                - tworzy nowy waif.
 2
-waif_stats              - Display a count of instantiated waifs by class.
+waif_stats              - wyswietla liczbe zainstancjonowanych waifow wedlug klasy.
 2
-sort                    - Sorts a list by itself or another list of keys. Also support natural ordering and reverse.
+sort                    - sortuje liste sama soba lub inna lista kluczy. Wspiera tez naturalna kolejnosc i odwrocenie.
 2
-yin                     - Yield if needed. Suspend a task when running out of ticks or seconds.
+yin                     - zawieszenie w razie potrzeby. Zawiesza zadanie, gdy konczy sie tickow lub sekund.
 2
-slice                   - Makes a new list of the index-th elements of the original list.
+slice                   - tworzy nowa liste z i-tych elementow oryginalnej listy.
 2
-reverse                 - Reverse a list.
+reverse                 - odwraca liste.
 2
-recreate                - Create valid objects from invalid objects.
+recreate                - tworzy prawidlowe obiekty z nieprawidlowych obiektow.
 2
-set_thread_mode         - Enable or disable threading of functions for the current verb.
+set_thread_mode         - wlacza lub wylacza watkowanie funkcji dla biezacego czasownika.
 2
-chr                     - Translate integers into ASCII characters.
+chr                     - tlumaczy liczby calkowite na znaki ASCII.
 2
-recycled_objects        - Return a list of all invalid objects in the database.
+recycled_objects        - zwraca liste wszystkich nieprawidlowych obiektow w bazie danych.
 2
-next_recycled_object    - Return the first available invalid object.
+next_recycled_object    - zwraca pierwszy dostepny nieprawidlowy obiekt.
 2
-all_members             - Return the indices of all instances of an element in a list.
+all_members             - zwraca indeksy wszystkich wystapien elementu na liscie.
 2
-owned_objects           - Return a list of all objects owned by the specified player.
+owned_objects           - zwraca liste wszystkich obiektow nalezacych do podanego gracza.
 2
-sqlite_limit            - Specify limits on various SQLite constructs.
+sqlite_limit            - okresla limity dla roznych konstrukcji SQLite.
 2
-curl                    - Return websites as strings.
+curl                    - zwraca strony internetowe jako stringi.
 2
-connection_name_lookup  - Perform a DNS name lookup in another thread.
+connection_name_lookup  - wykonuje wyszukiwanie nazwy DNS w innym watku.
 2
-thread_pool             - Manipulate the server thread pool. (Caution advised.)
+thread_pool             - manipuluje pula watkow serwera. (Zalecana ostroznosc.)
 2
-connection_info         - Return network information about a specific connection.
+connection_info         - zwraca informacje sieciowe o konkretnym polaczeniu.
 2
-maphaskey               - Return true if a map contains the key specified.
+maphaskey               - zwraca prawde, jesli mapa zawiera podany klucz.
 2
-ancestors               - Return all ancestors of an object
+ancestors               - zwraca wszystkich przodkow obiektu
 2
-finished_tasks          - When enabled, track execution time
+finished_tasks          - gdy wlaczone, sledzi czas wykonania
 2
-listen                  - Updated listen() with ipv6 & tls
+listen                  - zaktualizowane listen() z ipv6 i tls
 2
-open_network_connection - Updated to support ipv6 & tls
+open_network_connection - zaktualizowane, wspiera ipv6 i tls
 2
-reseed_random           - Provide a new seed to the pseudo random number generator.
+reseed_random           - dostarcza nowe ziarno dla generatora liczb pseudolosowych.
 2
-FileIO                  - See HELP fileio for details
+FileIO                  - zobacz HELP fileio po szczegoly
 2
 log_cache_stats
 2
@@ -39039,27 +39043,27 @@ parents
 4
 11
 2
-SQLite allows you to store information in locally hosted SQLite databases. The following functions (see HELP <function name> for detailed information) are available:
+SQLite pozwala przechowywac informacje w lokalnie hostowanych bazach danych SQLite. Dostepne sa nastepujace funkcje (zobacz HELP <nazwa funkcji> po szczegolowe informacje):
 2
 
 2
-sqlite_open                Opens an SQLite database.
+sqlite_open                Otwiera baze danych SQLite.
 2
-sqlite_close               Closes an SQLite database.
+sqlite_close               Zamyka baze danych SQLite.
 2
-sqlite_handles             Returns a list of open SQLite database handles.
+sqlite_handles             Zwraca liste otwartych uchwytow baz danych SQLite.
 2
-sqlite_info                Returns information about an open SQLite database.
+sqlite_info                Zwraca informacje o otwartej bazie danych SQLite.
 2
-sqlite_query               Runs a raw SQL query on the database.
+sqlite_query               Wykonuje surowe zapytanie SQL na bazie danych.
 2
-sqlite_execute             Executes an SQL prepared statement on the database.
+sqlite_execute             Wykonuje przygotowane zapytanie SQL na bazie danych.
 2
-sqlite_limit               Set limits on various SQL constructs.
+sqlite_limit               Ustawia limity dla roznych konstrukcji SQL.
 2
-sqlite_interrupt           Abort a database operation.
+sqlite_interrupt           Przerywa operacje na bazie danych.
 2
-sqlite_last_insert_row_id  Identifies row ID of the last insert command
+sqlite_last_insert_row_id  Identyfikuje ID wiersza ostatniego polecenia insert
 36
 5
 4
@@ -39073,7 +39077,7 @@ fileio
 4
 43
 2
-General-purpose functions:
+Funkcje ogolnego przeznaczenia:
 2
 
 2
@@ -39123,7 +39127,7 @@ LIST file_grep(FHANDLER fh, STR search [,?match_all=0])
 2
 
 2
-Attribute functions:
+Funkcje atrybutow:
 2
 
 2
@@ -39171,15 +39175,15 @@ stunt
 4
 10
 2
-Syntax:  is_member (ANY value, LIST list [, INT case-sensitive])   => INT
+Skladnia:  is_member (ANY value, LIST list [, INT case-sensitive])   => INT
 2
 
 2
-Returns the index of <value> if there is an element of <list> that is completely indistinguishable from <value>. This is much the same operation as "<value> in <list>" except that, unlike `in', the `is_member()' function does not treat upper- and lower-case characters in strings as equal. This treatment of strings can be controlled with the <case-sensitive> argument; setting <case-sensitive> to false will effectively disable this behavior.
+Zwraca indeks <value>, jesli istnieje element <list> calkowicie nieodrozniany od <value>. Jest to niemal ta sama operacja co "<value> in <list>", z tym ze, w odroznieniu od `in', funkcja `is_member()' nie traktuje wielkich i malych liter w stringach jako rownych. To traktowanie stringow mozna kontrolowac argumentem <case-sensitive>; ustawienie <case-sensitive> na falsz skutecznie wylacza to zachowanie.
 2
 
 2
-Raises E_ARGS if two values are given or if more than three arguments are given. Raises E_TYPE if the second argument is not a list. Otherwise returns the index of <value> in <list>, or 0 if it's not in there.
+Podnosi E_ARGS, jesli podano dwie wartosci lub jesli podano wiecej niz trzy argumenty. Podnosi E_TYPE, jesli drugi argument nie jest lista. W przeciwnym razie zwraca indeks <value> w <list>, lub 0, jesli jej tam nie ma.
 2
 
 2
@@ -39195,59 +39199,59 @@ Raises E_ARGS if two values are given or if more than three arguments are given.
 4
 18
 2
-Syntax:  listen (OBJ <object>, INT <port> [, MAP <options>])   => value
+Skladnia:  listen (OBJ <object>, INT <port> [, MAP <options>])   => value
 2
 
 2
-Create a new point at which the server will listen for network connections, just as it does normally. <Object> is the object whose verbs `do_login_command', `do_command', `do_out_of_band_command', `user_connected', `user_created', `user_reconnected', `user_disconnected', and `user_client_disconnected' will be called at appropriate points as these verbs are called on #0 for normal connections. (See the chapter in the LambdaMOO Programmer's Manual on server assumptions about the database for the complete story on when these functions are called.) <Port> is a TCP port number on which to listen. The listen() function will return <port> unless <port> is zero, in which case the return value is a port number assigned by the operating system.
+Tworzy nowy punkt, na ktorym serwer bedzie nasluchiwal polaczen sieciowych, tak jak robi to normalnie. <Object> to obiekt, ktorego czasowniki `do_login_command', `do_command', `do_out_of_band_command', `user_connected', `user_created', `user_reconnected', `user_disconnected' i `user_client_disconnected' beda wywolywane w odpowiednich momentach, tak jak te czasowniki sa wywolywane na #0 dla normalnych polaczen. (Zobacz rozdzial w LambdaMOO Programmer's Manual o zalozeniach serwera dotyczacych bazy danych po pelna historie tego, kiedy te funkcje sa wywolywane.) <Port> to numer portu TCP, na ktorym nalezy nasluchiwac. Funkcja listen() zwroci <port>, chyba ze <port> jest zerem, w ktorym to przypadku zwracana wartosc to numer portu przypisany przez system operacyjny.
 2
 
 2
-An optional third argument allows you to set various miscellaneous options for the listening point. These are:
+Opcjonalny trzeci argument pozwala ustawic rozne dodatkowe opcje dla punktu nasluchu. Sa to:
 2
 
 2
-  print-messages: If true, the various database-configurable messages (also detailed in the chapter on server assumptions) will be printed on connections received at the new listening port.
+  print-messages: jesli prawdziwe, rozne konfigurowalne przez baze danych komunikaty (rowniez opisane w rozdziale o zalozeniach serwera) beda wypisywane na polaczeniach odebranych w nowym punkcie nasluchu.
 2
-  ipv6:           Use the IPv6 protocol rather than IPv4.
+  ipv6:           uzyj protokolu IPv6 zamiast IPv4.
 2
-  tls:            Only accept valid secure TLS connections.
+  tls:            akceptuj tylko prawidlowe bezpieczne polaczenia TLS.
 2
-  certificate:    The full path to a TLS certificate. NOTE: Requires the TLS option also be specified and true. This option is only necessary if the certificate differs from the one specified in options.h.
+  certificate:    pelna sciezka do certyfikatu TLS. UWAGA: wymaga rowniez podania i wlaczenia opcji TLS. Ta opcja jest potrzebna tylko, jesli certyfikat rozni sie od tego podanego w options.h.
 2
-  key:            The full path to a TLS private key. NOTE: Requires the TLS option also be specified and true. This option is only necessary if the key differs from the one specified in options.h.
-2
-
-2
-listen() raises E_PERM if the programmer is not a wizard, E_INVARG if <object> is invalid or there is already a listening point described by <point>, and E_QUOTA if some network-configuration-specific error occurred.
+  key:            pelna sciezka do klucza prywatnego TLS. UWAGA: wymaga rowniez podania i wlaczenia opcji TLS. Ta opcja jest potrzebna tylko, jesli klucz rozni sie od tego podanego w options.h.
 2
 
 2
+listen() podnosi E_PERM, jesli programista nie jest wizardem, E_INVARG, jesli <object> jest niepoprawny lub juz istnieje punkt nasluchu opisany przez <point>, oraz E_QUOTA, jesli wystapil jakis blad specyficzny dla konfiguracji sieciowej.
+2
 
 2
-Example:
+
+2
+Przyklad:
 2
 >;listen(#0, 1234, ["ipv6" -> 1, "tls" -> 1, "certificate" -> "/etc/certs/something.pem", "key" -> "/etc/certs/privkey.pem", "print-messages" -> 1]
 2
-Listen for IPv6 connections on port 1234 and print messages as appropriate. These connections must be TLS and will use the private key and certificate found in /etc/certs.
+Nasluchuj polaczen IPv6 na porcie 1234 i wypisuj odpowiednie komunikaty. Te polaczenia musza byc TLS i beda uzywac klucza prywatnego i certyfikatu z /etc/certs.
 36
 5
 4
 25
 2
-Syntax:  move (OBJ <what>, OBJ <where>[, INT <position>])   => none
+Skladnia:  move (OBJ <what>, OBJ <where>[, INT <position>])   => none
 2
 
 2
-Changes <what>'s location to be <where>.  This is a complex process because a number of permissions checks and notifications must be performed. The actual movement takes place as described in the following paragraphs.
+Zmienia lokalizacje <what> na <where>.  Jest to zlozony proces, poniewaz trzeba wykonac szereg sprawdzen uprawnien i powiadomien. Faktyczne przeniesienie odbywa sie zgodnie z opisem w nastepujacych akapitach.
 2
 
 2
-<what> should be a valid object and <where> should be either a valid object or `#-1' (denoting a location of 'nowhere'); otherwise E_INVARG is raised.  The programmer must be either the owner of <what> or a wizard; otherwise, E_PERM is raised.
+<what> powinien byc prawidlowym obiektem, a <where> powinno byc albo prawidlowym obiektem, albo `#-1' (oznaczajacym lokalizacje 'nigdzie'); w przeciwnym razie podnoszony jest E_INVARG.  Programista musi byc albo wlascicielem <what>, albo wizardem; w przeciwnym razie podnoszony jest E_PERM.
 2
 
 2
-If <where> is a valid object and isn't the same as <what>'s location, then the verb-call
+Jesli <where> jest prawidlowym obiektem i rozni sie od biezacej lokalizacji <what>, przed jakimkolwiek przeniesieniem wykonywane jest wywolanie czasownika
 2
 
 2
@@ -39255,19 +39259,19 @@ If <where> is a valid object and isn't the same as <what>'s location, then the v
 2
 
 2
-is performed before any movement takes place.  If the verb returns a false value and the programmer is not a wizard, then <where> is considered to have refused entrance to <what>; `move()' raises E_NACC.  If <where> does not define an `accept' verb, then it is treated as if it defined one that always returned false.
+Jesli czasownik zwroci falsz, a programista nie jest wizardem, uznaje sie, ze <where> odmowilo wpuszczenia <what>; `move()' podnosi E_NACC.  Jesli <where> nie definiuje czasownika `accept', traktowane jest tak, jakby definiowalo taki, ktory zawsze zwraca falsz.
 2
 
 2
-If moving <what> into <where> would create a loop in the containment hierarchy (i.e., <what> would contain itself, even indirectly), then E_RECMOVE is raised instead.
+Jesli przeniesienie <what> do <where> stworzyloby petle w hierarchii zawierania (tj. <what> zawieraloby samo siebie, nawet posrednio), podnoszony jest zamiast tego E_RECMOVE.
 2
 
 2
-The `location' property of <what> is changed to be <where>, and the `contents' properties of the old and new locations are modified appropriately.  If <position> is specified, the object will be inserted into the `contents' property of the new location at <position>.
+Wlasciwosc `location' obiektu <what> jest zmieniana na <where>, a wlasciwosci `contents' starej i nowej lokalizacji sa odpowiednio modyfikowane.  Jesli podano <position>, obiekt zostanie wstawiony do wlasciwosci `contents' nowej lokalizacji na pozycji <position>.
 2
 
 2
-If <where> differs from <what>'s current location, two additional verb calls take place.  Let <old-where> be the location of <what> before it was moved.  If <old-where> is a valid object, then the verb-call
+Jesli <where> rozni sie od biezacej lokalizacji <what>, wykonywane sa dwa dodatkowe wywolania czasownikow.  Niech <old-where> to lokalizacja <what> przed przeniesieniem.  Jesli <old-where> jest prawidlowym obiektem, wykonywane jest wywolanie czasownika
 2
 
 2
@@ -39275,7 +39279,7 @@ If <where> differs from <what>'s current location, two additional verb calls tak
 2
 
 2
-is performed and its result is ignored; it is not an error if <old-where> does not define a verb named `exitfunc'.  Finally, if <where> and <what> are still valid objects, and <where> is still the location of <what>, then the verb-call
+a jego wynik jest ignorowany; nie jest bledem, jesli <old-where> nie definiuje czasownika `exitfunc'.  Wreszcie, jesli <where> i <what> nadal sa prawidlowymi obiektami, a <where> nadal jest lokalizacja <what>, wykonywane jest wywolanie czasownika
 2
 
 2
@@ -39283,79 +39287,79 @@ is performed and its result is ignored; it is not an error if <old-where> does n
 2
 
 2
-is performed and its result is ignored; again, it is not an error if <where> does not define a verb named `enterfunc'.
+a jego wynik jest ignorowany; ponownie, nie jest bledem, jesli <where> nie definiuje czasownika `enterfunc'.
 36
 5
 4
 21
 2
-Syntax:  open_network_connection (STR <host>, INT <port> [, MAP <options>])   => obj
+Skladnia:  open_network_connection (STR <host>, INT <port> [, MAP <options>])   => obj
 2
 
 2
-Establishes a network connection to the place specified by the arguments and more-or-less pretends that a new, normal player connection has been established from there.  The new connection, as usual, will not be logged in initially and will have a negative object number associated with it for use with `read()', `notify()', and `boot_player()'.  This object number is the value returned by this function.
+Nawiazuje polaczenie sieciowe z miejscem okreslonym przez argumenty i mniej wiecej udaje, ze nawiazano stamtad nowe, normalne polaczenie gracza.  Nowe polaczenie, jak zwykle, nie bedzie poczatkowo zalogowane i bedzie miec ujemny numer obiektu do uzycia z `read()', `notify()' i `boot_player()'.  Ten numer obiektu jest wartoscia zwracana przez te funkcje.
 2
 
 2
-If the programmer is not a wizard or if the `OUTBOUND_NETWORK' compilation option was not used in building the server, then `E_PERM' is raised.
+Jesli programista nie jest wizardem lub opcja kompilacji `OUTBOUND_NETWORK' nie byla uzyta przy budowaniu serwera, podnoszony jest `E_PERM'.
 2
 
 2
-<Host> refers to a string naming a host (possibly a numeric IP address) and <port> is an integer referring to a TCP port number.  If a connection cannot be made because the host does not exist, the port does not exist, the host is not reachable or refused the connection, `E_INVARG' is raised.  If the connection cannot be made for other reasons, including resource limitations, then `E_QUOTA' is raised.
+<Host> odnosi sie do stringa z nazwa hosta (mozliwie numerycznego adresu IP), a <port> to liczba calkowita oznaczajaca numer portu TCP.  Jesli polaczenia nie mozna nawiazac, bo host nie istnieje, port nie istnieje, host jest nieosiagalny lub odmowil polaczenia, podnoszony jest `E_INVARG'.  Jesli polaczenia nie mozna nawiazac z innych powodow, w tym ograniczen zasobow, podnoszony jest `E_QUOTA'.
 2
 
 2
-Optionally, you can specify a map with any or all of the following options:
+Opcjonalnie mozna podac mape z dowolnymi z nastepujacych opcji:
 2
 
 2
-  listener: An object whose listening verbs will be called at appropriate points. (See HELP LISTEN() for more details.)
+  listener: obiekt, ktorego czasowniki nasluchujace beda wywolywane w odpowiednich momentach. (Zobacz HELP LISTEN() po wiecej szczegolow.)
 2
-  tls:      If true, establish a secure TLS connection.
+  tls:      jesli prawdziwe, nawiazuje bezpieczne polaczenie TLS.
 2
-  ipv6:     If true, utilize the IPv6 protocol rather than the IPv4 protocol.
-2
-
-2
-The outbound connection process involves certain steps that can take quite a long time, during which the server is not doing anything else, including responding to user commands and executing MOO tasks.  See the chapter on server assumptions about the database for details about how the server limits the amount of time it will wait for these steps to successfully complete.
+  ipv6:     jesli prawdziwe, uzywa protokolu IPv6 zamiast IPv4.
 2
 
 2
-It is worth mentioning one tricky point concerning the use of this function.  Since the server treats the new connection pretty much like any normal player connection, it will naturally try to parse any input from that connection as commands in the usual way.  To prevent this treatment, you should use `set_connection_option()' to set the `hold-input' option true on the connection.
+Proces polaczenia wychodzacego obejmuje pewne kroki, ktore moga zajac sporo czasu, w trakcie ktorych serwer nie robi niczego innego, w tym nie odpowiada na polecenia uzytkownikow ani nie wykonuje zadan MOO.  Zobacz rozdzial o zalozeniach serwera dotyczacych bazy danych po szczegoly o tym, jak serwer ogranicza czas oczekiwania na pomyslne zakonczenie tych krokow.
 2
 
 2
-Example:
+Warto wspomniec o jednej podchwytliwej kwestii dotyczacej uzycia tej funkcji.  Poniewaz serwer traktuje nowe polaczenie niemal tak samo jak zwykle polaczenie gracza, bedzie naturalnie probowal parsowac kazde wejscie z tego polaczenia jako polecenia w zwykly sposob.  By temu zapobiec, nalezy uzyc `set_connection_option()', by ustawic opcje `hold-input' na prawde dla tego polaczenia.
+2
+
+2
+Przyklad:
 2
 >;open_network_connection("2607:5300:60:4be0::", 1234, ["ipv6" -> 1, "listener" -> #6, "tls" -> 1])
 2
-Open a new connection to the IPv6 address 2607:5300:60:4be0:: on port 1234 using TLS. Relevant verbs will be called on #6.
+Otworz nowe polaczenie do adresu IPv6 2607:5300:60:4be0:: na porcie 1234 uzywajac TLS. Odpowiednie czasowniki zostana wywolane na #6.
 36
 5
 4
 19
 2
-Syntax:  string_hash (STR string, [, algo [, binary])
+Skladnia:  string_hash (STR string, [, algo [, binary])
 2
          binary_hash (STR bin-string, [, algo [, binary])
 2
 
 2
-string_hash -- Returns a 64-character hexadecimal string.
+string_hash -- zwraca 64-znakowy string szesnastkowy.
 2
-binary_hash -- Returns a 64-character hexadecimal string.
-2
-
-2
-Returns a 64-character hexadecimal string encoding the result of applying the SHA256 cryptographically secure hash function to the contents of the string text or the binary string bin-string. If algo is provided, it specifies the hashing algorithm to use. "MD5", "SHA1" and "SHA256" are all supported.
+binary_hash -- zwraca 64-znakowy string szesnastkowy.
 2
 
 2
-Note that the MD5 hash algorithm is broken from a cryptographic standpoint, as is SHA1. Both are included for interoperability with existing applications (both are still popular).
+Zwraca 64-znakowy string szesnastkowy kodujacy wynik zastosowania kryptograficznie bezpiecznej funkcji skrotu SHA256 do zawartosci stringa text lub stringa binarnego bin-string. Jesli podano algo, okresla ono algorytm hashowania do uzycia. Wspierane sa "MD5", "SHA1" i "SHA256".
 2
 
 2
-All supported hash functions have the property that, if
+Uwaga: algorytm skrotu MD5 jest zlamany z punktu widzenia kryptografii, podobnie jak SHA1. Oba sa dolaczone dla wspolpracy z istniejacymi aplikacjami (oba nadal sa popularne).
+2
+
+2
+Wszystkie wspierane funkcje skrotu maja wlasnosc taka, ze jesli
 2
 
 2
@@ -39363,7 +39367,7 @@ string_hash(x) == string_hash(y)
 2
 
 2
-then, almost certainly,
+to, niemal na pewno,
 2
 
 2
@@ -39371,7 +39375,7 @@ equal(x, y)
 2
 
 2
-This can be useful, for example, in certain networking applications: after sending a large piece of text across a connection, also send the result of applying string_hash() to the text; if the destination site also applies string_hash() to the text and gets the same result, you can be quite confident that the large text has arrived unchanged.
+Moze to byc przydatne, na przyklad w niektorych zastosowaniach sieciowych: po wyslaniu duzego fragmentu tekstu przez polaczenie, wysylany jest tez wynik zastosowania string_hash() do tekstu; jesli strona docelowa rowniez zastosuje string_hash() do tekstu i uzyska ten sam wynik, mozna byc dosc pewnym, ze duzy tekst dotarl niezmieniony.
 36
 5
 4
@@ -39385,23 +39389,23 @@ descendants
 4
 12
 2
-Function: INT notify (OBJ conn, STR string [, INT no-flush [, INT suppress-newline]])
+Funkcja: INT notify (OBJ conn, STR string [, INT no-flush [, INT suppress-newline]])
 2
 
 2
-Enqueues <string> for output (on a line by itself) on the connection <conn>. If the programmer is not <conn> or a wizard, then E_PERM is raised. If <conn> is not a currently-active connection, then this function does nothing. Output is normally written to connections only between tasks, not during execution.
+Umieszcza <string> w kolejce do wyswietlenia (w osobnej linii) na polaczeniu <conn>. Jesli programista nie jest <conn> ani wizardem, podnoszony jest E_PERM. Jesli <conn> nie jest obecnie aktywnym polaczeniem, ta funkcja nic nie robi. Wyjscie jest normalnie zapisywane do polaczen tylko miedzy zadaniami, nie podczas wykonywania.
 2
 
 2
-The server will not queue an arbitrary amount of output for a connection; the `MAX_QUEUED_OUTPUT' compilation option (in `options.h') controls the limit. When an attempt is made to enqueue output that would take the server over its limit, it first tries to write as much output as possible to the connection without having to wait for the other end. If that doesn't result in the new output being able to fit in the queue, the server starts throwing away the oldest lines in the queue until the new output will fit. The server remembers how many lines of output it has `flushed' in this way and, when next it can succeed in writing anything to the connection, it first writes a line like `>> Network buffer overflow; X lines of output to you have been lost <<' where <X> is the number of of flushed lines.
+Serwer nie bedzie kolejkowal dowolnej ilosci wyjscia dla polaczenia; opcja kompilacji `MAX_QUEUED_OUTPUT' (w `options.h') kontroluje ten limit. Gdy proba zakolejkowania wyjscia przekroczylaby limit serwera, najpierw probuje zapisac jak najwiecej wyjscia do polaczenia bez czekania na drugi koniec. Jesli to nie sprawi, ze nowe wyjscie zmiesci sie w kolejce, serwer zaczyna odrzucac najstarsze linie w kolejce, dopoki nowe wyjscie sie nie zmiesci. Serwer pamieta, ile linii wyjscia w ten sposob "odrzucil", i gdy nastepnym razem uda mu sie cokolwiek zapisac do polaczenia, najpierw wypisuje linie w postaci `>> Network buffer overflow; X lines of output to you have been lost <<' gdzie <X> to liczba odrzuconych linii.
 2
 
 2
-If <no-flush> is provided and true, then `notify()' never flushes any output from the queue; instead it immediately returns false. `Notify()' otherwise always returns true.
+Jesli podano <no-flush> i jest prawdziwe, `notify()' nigdy nie odrzuca zadnego wyjscia z kolejki; zamiast tego natychmiast zwraca falsz. W przeciwnym razie `Notify()' zawsze zwraca prawde.
 2
 
 2
-If no-flush is provided and true, then `notify()` never flushes any output from the queue; instead it immediately returns false. `Notify()` otherwise always returns true.
+Jesli podano no-flush i jest prawdziwe, `notify()` nigdy nie odrzuca zadnego wyjscia z kolejki; zamiast tego natychmiast zwraca falsz. W przeciwnym razie `Notify()` zawsze zwraca prawde.
 2
 
 2
@@ -39413,27 +39417,27 @@ If no-flush is provided and true, then `notify()` never flushes any output from 
 4
 6
 2
-Function: LIST queue_info([obj user])
+Funkcja: LIST queue_info([obj user])
 2
          MAP queue_info([obj user])
 2
 
 2
-Returns the number of forked tasks that <user> has at the moment.  Since it doesn't say which tasks, security is not a significant issue.  If no argument is given, then gives a list of all users with task queues in the server.  (Essentially all connected players + all open connections + all users with tasks running in the background.)
+Zwraca liczbe sforkowanych zadan, jakie <user> ma w danej chwili.  Poniewaz nie mowi, jakie to zadania, bezpieczenstwo nie jest tu istotna kwestia.  Jesli nie podano argumentu, zwraca liste wszystkich uzytkownikow z kolejkami zadan w serwerze.  (Zasadniczo wszyscy polaczeni gracze + wszystkie otwarte polaczenia + wszyscy uzytkownicy z zadaniami dzialajacymi w tle.)
 2
 
 2
-If the caller is a wizard a map of debug information about task queues will be returned.
+Jesli wywolujacy jest wizardem, zwrocona zostanie mapa informacji diagnostycznych o kolejkach zadan.
 36
 5
 4
 14
 2
-Syntax:  queued_tasks ([INT <show runtime> [, INT count-only])   => LIST
+Skladnia:  queued_tasks ([INT <show runtime> [, INT count-only])   => LIST
 2
 
 2
-Returns information on each of the background tasks (i.e., forked, suspended, or reading)  owned by the programmer (or, if the programmer is a wizard, all queued tasks). The returned value is a list of lists, each of which encodes certain information about a particular queued task in the following format:
+Zwraca informacje o kazdym z zadan w tle (tj. forkniete, zawieszone lub czytajace) nalezacych do programisty (lub, jesli programista jest wizardem, o wszystkich zadaniach w kolejce). Zwracana wartosc to lista list, kazda kodujaca pewne informacje o konkretnym zadaniu w kolejce w nastepujacym formacie:
 2
 
 2
@@ -39443,45 +39447,45 @@ Returns information on each of the background tasks (i.e., forked, suspended, or
 2
 
 2
-where <task-id> is a numeric identifier for this queued task, <start-time> is the time after which this task will begin execution (in `time()' format), <ticks> is the number of ticks this task will have when it starts (always 20,000 now, though this is changeable. This makes this value obsolete and no longer interesting), <clock-id> is a number whose value is no longer interesting, <programmer> is the permissions with which this task will begin execution (and also the player who "owns" this task), <verb-loc> is the object on which the verb that forked this task was defined at the time, <verb-name> is that name of that verb, <line> is the number of the first line of the code in that verb that this task will execute, and <this> is the value of the variable `this' in that verb. For reading tasks, <start-time> is `-1'.  <task-size> is in bytes, and is the size of memory in use by the task for local variables, stack frames, etc.
+gdzie <task-id> to numeryczny identyfikator tego zadania w kolejce, <start-time> to czas, po ktorym to zadanie zacznie wykonanie (w formacie `time()'), <ticks> to liczba tickow, jaka to zadanie bedzie mialo przy starcie (obecnie zawsze 20000, choc jest to zmienialne. To czyni te wartosc przestarzala i juz nieinteresujaca), <clock-id> to liczba, ktorej wartosc juz nie jest interesujaca, <programmer> to uprawnienia, z jakimi to zadanie zacznie wykonanie (a takze gracz, ktory "posiada" to zadanie), <verb-loc> to obiekt, na ktorym byl w tamtym czasie zdefiniowany czasownik, ktory sforkowal to zadanie, <verb-name> to nazwa tego czasownika, <line> to numer pierwszej linii kodu w tym czasowniku, ktora to zadanie wykona, a <this> to wartosc zmiennej `this' w tym czasowniku. Dla zadan czytajacych <start-time> to `-1'.  <task-size> jest w bajtach i to rozmiar pamieci uzywanej przez zadanie na zmienne lokalne, ramki stosu itd.
 2
 
 2
-If <show runtime> is true, all variables present in the task are presented in a map with the variable name as the key and its value as the value.     
+Jesli <show runtime> jest prawdziwe, wszystkie zmienne obecne w zadaniu sa prezentowane w mapie z nazwa zmiennej jako kluczem i jej wartoscia jako wartoscia.     
 2
 
 2
-If `count-only` is true, then only the number of tasks is returned. This is significantly more performant than length(queued_tasks()). 
+Jesli `count-only` jest prawdziwe, zwracana jest tylko liczba zadan. Jest to znacznie wydajniejsze niz length(queued_tasks()). 
 2
 
 2
-The <ticks> and <clock-id> fields are now obsolete and are retained only for backward-compatibility reasons.  They may disappear in a future version of the server.
+Pola <ticks> i <clock-id> sa juz przestarzale i sa zachowane tylko ze wzgledu na wsteczna kompatybilnosc.  Moga zniknac w przyszlej wersji serwera.
 36
 5
 4
 11
 2
-Function: int random ([INT mod [,INT range]])
+Funkcja: int random ([INT mod [,INT range]])
 2
 
 2
-random -- Return a random integer 
+random -- zwraca losowa liczbe calkowita 
 2
 
 2
-mod must be a positive integer; otherwise, E_INVARG is raised. If mod is not provided, it defaults to the largest MOO integer, which will depend on if you are running 32 or 64bit.
+mod musi byc dodatnia liczba calkowita; w przeciwnym razie podnoszony jest E_INVARG. Jesli nie podano mod, domyslnie przyjmowana jest najwieksza liczba calkowita MOO, co zalezy od tego, czy dziala 32- czy 64-bitowo.
 2
 
 2
-if range is provided then an integer in the range of mod to range (inclusive) is returned.
+jesli podano range, zwracana jest liczba calkowita z zakresu od mod do range (wlacznie).
 2
 
 2
-random(10)                  => integer between 1-10
+random(10)                  => liczba calkowita od 1 do 10
 2
-random()                    => integer between 1 and maximum integer supported
+random()                    => liczba calkowita od 1 do maksymalnej wspieranej liczby calkowitej
 2
-random(1, 5000)             => integer between 1 and 5000
+random(1, 5000)             => liczba calkowita od 1 do 5000
 36
 5
 4
@@ -39495,47 +39499,47 @@ binary_hash()
 4
 7
 2
-Function: task_stack (INT task-id [, INT include-line-numbers [, INT include-variables])  => LIST
+Funkcja: task_stack (INT task-id [, INT include-line-numbers [, INT include-variables])  => LIST
 2
 
 2
-Returns information like that returned by the `callers()' function, but for the suspended task with the given <task-id>; the <include-line-numbers> argument has the same meaning as in `callers()'. Raises E_INVARG if <task-id> does not specify an existing suspended task and E_PERM if the programmer is neither a wizard nor the owner of the specified task.
+Zwraca informacje podobne do tych zwracanych przez funkcje `callers()', ale dla zawieszonego zadania o podanym <task-id>; argument <include-line-numbers> ma to samo znaczenie co w `callers()'. Podnosi E_INVARG, jesli <task-id> nie okresla istniejacego zawieszonego zadania, i E_PERM, jesli programista nie jest ani wizardem, ani wlascicielem danego zadania.
 2
 
 2
-If include-line-numbers is passed and true, line numbers will be included.
+Jesli podano include-line-numbers i jest prawdziwe, numery linii beda dolaczone.
 2
 
 2
-If include-variables is passed and true, variables will be included with each frame of the provided task.
+Jesli podano include-variables i jest prawdziwe, zmienne beda dolaczone do kazdej ramki podanego zadania.
 36
 5
 4
 5
 2
-Function: str value_hash(value, [, STR algo [, binary])
+Funkcja: str value_hash(value, [, STR algo [, binary])
 2
 
 2
-Returns the same string as string_hash(toliteral(value)). 
+Zwraca ten sam string co string_hash(toliteral(value)). 
 2
 
 2
-See the description of string_hash() for details.
+Zobacz opis string_hash() po szczegoly.
 36
 5
 4
 6
 2
-Syntax:  all_members(ANY <value>, LIST <alist>)  => LIST
+Skladnia:  all_members(ANY <value>, LIST <alist>)  => LIST
 2
 
 2
-Returns the indices of every instance of <value> in <alist>.
+Zwraca indeksy kazdego wystapienia <value> w <alist>.
 2
 
 2
-Example:
+Przyklad:
 2
 ;all_members("a", {"a", "b", "a", "c", "a", "d"}) => {1, 3, 5}
 36
@@ -39543,97 +39547,97 @@ Example:
 4
 3
 2
-Syntax:  ancestors(OBJ <object> [, INT <full>])   => LIST
+Skladnia:  ancestors(OBJ <object> [, INT <full>])   => LIST
 2
 
 2
-Return a list of all ancestors of <object> in order ascending up the inheritance hiearchy. If <full> is true, <object> will be included in the list.
+Zwraca liste wszystkich przodkow <object> w kolejnosci rosnacej w gore hierarchii dziedziczenia. Jesli <full> jest prawdziwe, <object> zostanie dolaczony do listy.
 36
 5
 4
 9
 2
-Syntax:   argon2 (STR <password>, STR <salt> [, <iterations> 3] [, <memory usage in KB> 4096] [, <CPU threads> 1]) => STR
+Skladnia:   argon2 (STR <password>, STR <salt> [, <iterations> 3] [, <memory usage in KB> 4096] [, <CPU threads> 1]) => STR
 2
 
 2
-The function `argon2()' hashes a password using the Argon2id password hashing algorithm. It is parametrized by three optional arguments:
+Funkcja `argon2()' hashuje haslo za pomoca algorytmu hashowania hasel Argon2id. Parametryzowana jest trzema opcjonalnymi argumentami:
 2
 
 2
- * Time: This is the number of times the hash will get run. This defines the amount of computation required and, as a result, how long the function will take to complete.
+ * Time (czas): liczba wykonan hashowania. Okresla ilosc wymaganych obliczen, a przez to jak dlugo funkcja bedzie sie wykonywac.
 2
- * Memory: This is how much RAM is reserved for hashing.
+ * Memory (pamiec): ile RAM jest zarezerwowane do hashowania.
 2
- * Parallelism: This is the number of CPU threads that will run in parallel.
+ * Parallelism (rownoleglosc): liczba watkow CPU dzialajacych rownolegle.
 2
 
 2
-The salt for the password should, at minimum, be 16 bytes for password hashing. It is recommended to use the random_bytes() function.
+Sol dla hasla powinna miec co najmniej 16 bajtow do hashowania hasel. Zaleca sie uzycie funkcji random_bytes().
 36
 5
 4
 3
 2
-Syntax:   argon2_verify (STR <hash>, STR <password>)  => INT
+Skladnia:   argon2_verify (STR <hash>, STR <password>)  => INT
 2
 
 2
-Compares <password> to the previously hashed <hash>. Returns 1 if the two match or 0 if they don't.
+Porownuje <password> z wczesniej zahashowanym <hash>. Zwraca 1, jesli sa zgodne, lub 0, jesli nie.
 36
 5
 4
 8
 2
-Syntax:  string_hmac (STR text, STR key [, STR algo [, binary]])
+Skladnia:  string_hmac (STR text, STR key [, STR algo [, binary]])
 2
          binary_hmac (STR bin-string, STR key [, STR algo [, binary]])
 2
 
 2
-Returns a string encoding the result of applying the HMAC-SHA256 cryptographically secure HMAC function to the contents of the string text or the binary string bin-string with the specified secret key. If algo is provided, it specifies the hashing algorithm to use. Currently, only "SHA1" and "SHA256" are supported. If binary is provided and true, the result is in MOO binary string format; by default the result is a hexidecimal string.
+Zwraca string kodujacy wynik zastosowania kryptograficznie bezpiecznej funkcji HMAC-SHA256 do zawartosci stringa text lub stringa binarnego bin-string z podanym kluczem sekretnym. Jesli podano algo, okresla ono algorytm hashowania do uzycia. Obecnie wspierane sa tylko "SHA1" i "SHA256". Jesli podano binary i jest prawdziwe, wynik jest w formacie stringa binarnego MOO; domyslnie wynik to string szesnastkowy.
 2
 
 2
-All cryptographically secure HMACs have the property that, if string_hmac(x, a) == string_hmac(y, b) then, almost certainly, equal(x, y) and furthermore, equal(a, b)
+Wszystkie kryptograficznie bezpieczne HMAC maja wlasnosc taka, ze jesli string_hmac(x, a) == string_hmac(y, b), to niemal na pewno equal(x, y), a co wiecej equal(a, b)
 2
 
 2
- This can be useful, for example, in applications that need to verify both the integrity of the message (the text) and the authenticity of the sender (as demonstrated by the possession of the secret key).
+ Moze to byc przydatne, na przyklad w aplikacjach, ktore musza weryfikowac zarowno integralnosc wiadomosci (tekstu), jak i autentycznosc nadawcy (potwierdzona posiadaniem klucza sekretnego).
 36
 5
 4
 16
 2
-Syntax: chparent (OBJ object, OBJ new-parent)    => NONE
+Skladnia: chparent (OBJ object, OBJ new-parent)    => NONE
 2
         chparents (OBJ object, LIST new-parents) => NONE
 2
 
 2
-chparent  -- Changes the parent of object to be new-parent.
+chparent  -- zmienia rodzica object na new-parent.
 2
-chparents -- Changes the parent of object to be new-parents.
-2
-
-2
-If object is not valid, or if new-parent is neither valid nor equal to #-1, then E_INVARG is raised. If the programmer is neither a wizard or the owner of object, or if new-parent is not fertile (i.e., its f bit is not set) and the programmer is neither the owner of new-parent nor a wizard, then E_PERM is raised. If new-parent is equal to object or one of its current ancestors, E_RECMOVE is raised. If object or one of its descendants defines a property with the same name as one defined either on new-parent or on one of its ancestors, then E_INVARG is raised.
+chparents -- zmienia rodzicow object na new-parents.
 2
 
 2
-Changing an object's parent can have the effect of removing some properties from and adding some other properties to that object and all of its descendants (i.e., its children and its children's children, etc.). Let common be the nearest ancestor that object and new-parent have in common before the parent of object is changed. Then all properties defined by ancestors of object under common (that is, those ancestors of object that are in turn descendants of common) are removed from object and all of its descendants. All properties defined by new-parent or its ancestors under common are added to object and all of its descendants. As with create(), the newly-added properties are given the same permission bits as they have on new-parent, the owner of each added property is either the owner of the object it's added to (if the c permissions bit is set) or the owner of that property on new-parent, and the value of each added property is clear; see the description of the built-in function clear_property() for details. All properties that are not removed or added in the reparenting process are completely unchanged.
+Jesli object nie jest prawidlowy, lub jesli new-parent nie jest ani prawidlowy, ani rowny #-1, podnoszony jest E_INVARG. Jesli programista nie jest ani wizardem, ani wlascicielem object, lub jesli new-parent nie jest plodny (tj. jego bit f nie jest ustawiony), a programista nie jest ani wlascicielem new-parent, ani wizardem, podnoszony jest E_PERM. Jesli new-parent jest rowny object lub jednemu z jego biezacych przodkow, podnoszony jest E_RECMOVE. Jesli object lub jeden z jego potomkow definiuje wlasciwosc o tej samej nazwie co ta zdefiniowana albo na new-parent, albo na jednym z jego przodkow, podnoszony jest E_INVARG.
 2
 
 2
-If new-parent is equal to #-1, then object is given no parent at all; it becomes a new root of the parent/child hierarchy. In this case, all formerly inherited properties on object are simply removed.
+Zmiana rodzica obiektu moze skutkowac usunieciem niektorych wlasciwosci z tego obiektu i wszystkich jego potomkow (tj. jego dzieci, dzieci jego dzieci itd.) oraz dodaniem innych wlasciwosci. Niech common to najblizszy wspolny przodek, jaki object i new-parent maja wspolnego przed zmiana rodzica object. Wtedy wszystkie wlasciwosci zdefiniowane przez przodkow object ponizej common (tj. te przodkow object, ktore sa jednoczesnie potomkami common) sa usuwane z object i wszystkich jego potomkow. Wszystkie wlasciwosci zdefiniowane przez new-parent lub jego przodkow ponizej common sa dodawane do object i wszystkich jego potomkow. Podobnie jak przy create(), nowo dodane wlasciwosci otrzymuja te same bity uprawnien co na new-parent, wlascicielem kazdej dodanej wlasciwosci jest albo wlasciciel obiektu, do ktorego jest dodawana (jesli ustawiony jest bit uprawnien c), albo wlasciciel tej wlasciwosci na new-parent, a wartosc kazdej dodanej wlasciwosci to clear; zobacz opis funkcji wbudowanej clear_property() po szczegoly. Wszystkie wlasciwosci, ktore nie sa usuwane ani dodawane w procesie zmiany rodzica, pozostaja calkowicie niezmienione.
 2
 
 2
-If new-parents is equal to {}, then object is given no parent at all; it becomes a new root of the parent/child hierarchy. In this case, all formerly inherited properties on object are simply removed.
+Jesli new-parent jest rowny #-1, object nie otrzymuje zadnego rodzica; staje sie nowym korzeniem hierarchii rodzic/dziecko. W tym przypadku wszystkie dawniej dziedziczone wlasciwosci na object sa po prostu usuwane.
 2
 
 2
-Warning: On the subject of multiple inheritance, the author (Slither) thinks you should completely avoid it. Prefer composition over inheritance.
+Jesli new-parents jest rowny {}, object nie otrzymuje zadnego rodzica; staje sie nowym korzeniem hierarchii rodzic/dziecko. W tym przypadku wszystkie dawniej dziedziczone wlasciwosci na object sa po prostu usuwane.
+2
+
+2
+Uwaga: w kwestii dziedziczenia wielokrotnego autor (Slither) uwaza, ze nalezy go calkowicie unikac. Preferuj kompozycje nad dziedziczeniem.
 2
 
 36
@@ -39649,93 +39653,93 @@ chparent()
 4
 4
 2
-Syntax:  chr(INT <arg>, ...)  => STR
+Skladnia:  chr(INT <arg>, ...)  => STR
 2
 
 2
-This function translates integers into ASCII characters. Each argument must be an integer between 0 and 255.
+Ta funkcja tlumaczy liczby calkowite na znaki ASCII. Kazdy argument musi byc liczba calkowita od 0 do 255.
 2
-If the programmer is not a wizard, and integers less than 32 are provided, E_INVARG is raised. This prevents control characters or newlines from being written to the database file by non-trusted individuals.
+Jesli programista nie jest wizardem, a podano liczby calkowite mniejsze niz 32, podnoszony jest E_INVARG. Zapobiega to zapisywaniu znakow kontrolnych lub nowych linii do pliku bazy danych przez niezaufane osoby.
 36
 5
 4
 3
 2
-Syntax:  clear_ancestor_cache()   => none
+Skladnia:  clear_ancestor_cache()   => none
 2
 
 2
-The ancestor cache contains a quick lookup of all of an object's ancestors which aids in expediant property lookups. This is an experimental feature and, as such, you may find that something has gone wrong. If that's that case, this function will completely clear the cache and it will be rebuilt as-needed.
+Cache przodkow zawiera szybkie wyszukiwanie wszystkich przodkow obiektu, co przyspiesza wyszukiwanie wlasciwosci. To eksperymentalna funkcja i jako taka moze sie okazac, ze cos poszlo nie tak. Jesli tak sie stanie, ta funkcja calkowicie wyczysci cache, a zostanie on odbudowany w miare potrzeb.
 36
 5
 4
 20
 2
-Syntax:  connection_info (OBJ <connection>)   => LIST
+Skladnia:  connection_info (OBJ <connection>)   => LIST
 2
 
 2
-Returns a MAP of network connection information for <connection>. At the time of writing, the following information is returned:
+Zwraca MAPE informacji o polaczeniu sieciowym dla <connection>. W chwili pisania tego tekstu zwracane sa nastepujace informacje:
 2
 
 2
-destination_address: The hostname of the connection. For incoming connections, this is the hostname of the connected user.
+destination_address: nazwa hosta polaczenia. Dla polaczen przychodzacych to nazwa hosta polaczonego uzytkownika.
 2
-                     For outbound connections, this is the hostname of the outbound connection's destination.
-2
-
-2
-destination_ip:      The unresolved numeric IP address of the connection.
+                     Dla polaczen wychodzacych to nazwa hosta celu polaczenia wychodzacego.
 2
 
 2
-destination_port:    For incoming connections, this is the local port used to make the connection.
-2
-                     For outbound connections, this is the port the connection was made to.
+destination_ip:      nierozwiazany numeryczny adres IP polaczenia.
 2
 
 2
-source_address:      This is the hostname of the interface an incoming connection was made on. For outbound connections, this value is meaningless.
+destination_port:    dla polaczen przychodzacych to lokalny port uzyty do nawiazania polaczenia.
+2
+                     Dla polaczen wychodzacych to port, z ktorym nawiazano polaczenie.
 2
 
 2
-source_ip:           The unresolved numeric IP address of the interface a connection was made on. For outbound connections, this value is meaningless.
+source_address:      nazwa hosta interfejsu, na ktorym nawiazano polaczenie przychodzace. Dla polaczen wychodzacych ta wartosc jest bez znaczenia.
 2
 
 2
-source_port:         The local port a connection connected to. For outbound connections, this value is meaningless.
+source_ip:           nierozwiazany numeryczny adres IP interfejsu, na ktorym nawiazano polaczenie. Dla polaczen wychodzacych ta wartosc jest bez znaczenia.
 2
 
 2
-protocol:            Describes the protocol used to make the connection. At the time of writing, this could be IPv4 or IPv6.
+source_port:         lokalny port, z ktorym polaczono. Dla polaczen wychodzacych ta wartosc jest bez znaczenia.
 2
-		       
+
+2
+protocol:            opisuje protokol uzyty do nawiazania polaczenia. W chwili pisania tego tekstu moze to byc IPv4 lub IPv6.
+2
+tt       
 36
 5
 4
 29
 2
-Syntax:  connection_name (OBJ <player>, [INT method])   => STR
+Skladnia:  connection_name (OBJ <player>, [INT method])   => STR
 2
 
 2
-When provided just a player object this function only returns obj's hostname (e.g. 1-2-3-6.someplace.com). An optional argument allows you to specify 1 if you want a numeric IP address, or 2 if you want to return the legacy connection_name string.
+Gdy podano tylko obiekt gracza, ta funkcja zwraca jedynie nazwe hosta obj (np. 1-2-3-6.someplace.com). Opcjonalny argument pozwala podac 1, jesli chcesz numeryczny adres IP, lub 2, jesli chcesz zwrocic dawny string connection_name.
 2
 
 2
-Warning: If you are using a LambdaMOO core, this is a semi-breaking change. You'll want to update any code on your server that runs connection_name to pass in the argument for returning the legacy connection_name string if you want things to work exactly the same.
+Uwaga: jesli uzywasz rdzenia LambdaMOO, to czesciowo lamiaca zmiana. Bedziesz chcial zaktualizowac kazdy kod na swoim serwerze, ktory wywoluje connection_name, by przekazywal argument zwracajacy dawny string connection_name, jesli chcesz, by wszystko dzialalo dokladnie tak samo.
 2
 
 2
-If the programmer is not a wizard and not player, then E_PERM is raised. If player is not currently connected, then E_INVARG is raised.
+Jesli programista nie jest wizardem ani nie jest graczem, podnoszony jest E_PERM. Jesli gracz nie jest obecnie polaczony, podnoszony jest E_INVARG.
 2
 
 2
-Legacy Connection String Information:
+Informacje o dawnym stringu polaczenia:
 2
 
 2
-For the TCP/IP networking configurations, for in-bound connections, the string has the form:
+Dla konfiguracji sieciowych TCP/IP, dla polaczen przychodzacych, string ma postac:
 2
 
 2
@@ -39743,11 +39747,11 @@ For the TCP/IP networking configurations, for in-bound connections, the string h
 2
 
 2
-where lport is the decimal TCP listening port on which the connection arrived, host is either the name or decimal TCP address of the host from which the player is connected, and port is the decimal TCP port of the connection on that host.
+gdzie lport to dziesietny port nasluchujacy TCP, przez ktory nadeszlo polaczenie, host to nazwa lub dziesietny adres TCP hosta, z ktorego polaczony jest gracz, a port to dziesietny port TCP polaczenia na tym hoscie.
 2
 
 2
-For outbound TCP/IP connections, the string has the form
+Dla wychodzacych polaczen TCP/IP string ma postac
 2
 
 2
@@ -39755,11 +39759,11 @@ For outbound TCP/IP connections, the string has the form
 2
 
 2
-where lport is the decimal local TCP port number from which the connection originated, host is either the name or decimal TCP address of the host to which the connection was opened, and port is the decimal TCP port of the connection on that host.
+gdzie lport to dziesietny lokalny numer portu TCP, z ktorego pochodzi polaczenie, host to nazwa lub dziesietny adres TCP hosta, z ktorym otwarto polaczenie, a port to dziesietny port TCP polaczenia na tym hoscie.
 2
 
 2
-For the System V 'local' networking configuration, the string is the UNIX login name of the connecting user or, if no such name can be found, something of the form:
+Dla konfiguracji sieciowej System V 'local' string to nazwa logowania UNIX laczacego sie uzytkownika lub, jesli takiej nazwy nie mozna znalezc, cos w postaci:
 2
 
 2
@@ -39767,69 +39771,69 @@ For the System V 'local' networking configuration, the string is the UNIX login 
 2
 
 2
-where number is a UNIX numeric user ID.
+gdzie number to numeryczny UNIX-owy identyfikator uzytkownika.
 2
 
 2
-For the other networking configurations, the string is the same for all connections and, thus, useless.
+Dla pozostalych konfiguracji sieciowych string jest taki sam dla wszystkich polaczen, a wiec bezuzyteczny.
 36
 5
 4
 9
 2
-Syntax:  connection_name_lookup (OBJ <connection> [, INT record_result])   => STR
+Skladnia:  connection_name_lookup (OBJ <connection> [, INT record_result])   => STR
 2
 
 2
-This function performs a DNS name lookup on connection's IP address. If a hostname can't be resolved, the function simply returns the numeric IP address. Otherwise, it will return the resolved hostname.
+Ta funkcja wykonuje wyszukiwanie nazwy DNS dla adresu IP polaczenia. Jesli nie da sie rozwiazac nazwy hosta, funkcja po prostu zwraca numeryczny adres IP. W przeciwnym razie zwroci rozwiazana nazwe hosta.
 2
 
 2
-If record_result is true, the resolved hostname will be saved with the connection and will overwrite it's existing 'connection_name()'. This means that you can call 'connection_name_lookup()' a single time when a connection is created and then continue to use 'connection_name()' as you always have in the past.
+Jesli record_result jest prawdziwe, rozwiazana nazwa hosta zostanie zapisana wraz z polaczeniem i nadpisze istniejacy wynik 'connection_name()'. Oznacza to, ze mozesz wywolac 'connection_name_lookup()' jednorazowo przy tworzeniu polaczenia, a potem nadal uzywac 'connection_name()' tak jak zawsze.
 2
 
 2
-This function is primarily intended for use when the 'NO_NAME_LOOKUP' server option is set. Barring temporarily failures in your nameserver, very little will be gained by calling this when the server is performing DNS name lookups for you.
+Ta funkcja jest przeznaczona przede wszystkim do uzycia, gdy ustawiona jest opcja serwera 'NO_NAME_LOOKUP'. Poza tymczasowymi awariami twojego serwera nazw, wywolywanie tego, gdy serwer sam wykonuje wyszukiwania nazw DNS, niewiele da.
 2
 
 2
-NOTE: This function runs in a separate thread. While this is good for performance (long lookups won't lock your MOO like traditional pre-2.6.0 name lookups), it also means it will require slightly more work to create an entirely in-database DNS lookup solution. Because it explicitly suspends, you won't be able to use it in 'do_login_command()' without also using the 'switch_player()' function. For an example of how this can work, see '#0:do_login_command()' in ToastCore.
+UWAGA: ta funkcja dziala w osobnym watku. Choc to dobre dla wydajnosci (dlugie wyszukiwania nie zablokuja twojego MOO tak jak tradycyjne wyszukiwania nazw sprzed 2.6.0), oznacza to tez, ze stworzenie calkowicie wewnatrz-bazodanowego rozwiazania DNS lookup bedzie wymagac troche wiecej pracy. Poniewaz jawnie sie zawiesza, nie bedziesz mogl jej uzyc w 'do_login_command()' bez rowniez uzycia funkcji 'switch_player()'. Po przyklad, jak to moze dzialac, zobacz '#0:do_login_command()' w ToastCore.
 36
 5
 4
 31
 2
-Syntax: create (obj parent [, obj owner] [, int anon-flag] [, list init-args])   => OBJ
+Skladnia: create (obj parent [, obj owner] [, int anon-flag] [, list init-args])   => OBJ
 2
         create (list parents [, obj owner] [, int anon-flag] [, list init-args]) => OBJ
 2
 
 2
-Creates and returns a new object whose parents are parents (or whose parent is parent) and whose owner is as described below. If any of the given parents are not valid, or if the given parent is neither valid nor #-1, then E_INVARG is raised. The given parents objects must be valid and must be usable as a parent (i.e., their a or f bits must be true) or else the programmer must own parents or be a wizard; otherwise E_PERM is raised. Futhermore, if anon-flag is true then a must be true; and, if anon-flag is false or not present, then f must be true. Otherwise, E_PERM is raised unless the programmer owns parents or is a wizard. E_PERM is also raised if owner is provided and not the same as the programmer, unless the programmer is a wizard.
+Tworzy i zwraca nowy obiekt, ktorego rodzicami sa parents (lub ktorego rodzicem jest parent), a wlascicielem jest opisane ponizej. Jesli ktorykolwiek z podanych parents jest niepoprawny, lub jesli podany parent nie jest ani prawidlowy, ani #-1, podnoszony jest E_INVARG. Podane obiekty parents musza byc prawidlowe i musza nadawac sie na rodzica (tj. ich bit a lub f musi byc prawdziwy), albo programista musi posiadac parents lub byc wizardem; w przeciwnym razie podnoszony jest E_PERM. Ponadto, jesli anon-flag jest prawdziwe, bit a musi byc prawdziwy; a jesli anon-flag jest falszywe lub nieobecne, bit f musi byc prawdziwy. W przeciwnym razie podnoszony jest E_PERM, chyba ze programista posiada parents lub jest wizardem. E_PERM jest tez podnoszony, jesli podano owner i nie jest tym samym co programista, chyba ze programista jest wizardem.
 2
 
 2
-After the new object is created, its initialize verb, if any, is called. If init-args were given, they are passed as args to initialize. The new object is assigned the least non-negative object number that has not yet been used for a created object. Note that no object number is ever reused, even if the object with that number is recycled.
+Po utworzeniu nowego obiektu wywolywany jest jego czasownik initialize, jesli istnieje. Jesli podano init-args, sa przekazywane jako argumenty do initialize. Nowy obiekt otrzymuje najmniejszy nieujemny numer obiektu, ktory nie zostal jeszcze uzyty dla utworzonego obiektu. Uwaga: zaden numer obiektu nigdy nie jest uzywany ponownie, nawet jesli obiekt o tym numerze zostanie zrecyklingowany.
 2
 
 2
-    Note: This is not strictly true, especially if you are using ToastCore and the $recycler, which is a great idea. If you don't, you end up with extremely high object numbers. However, if you plan on reusing object numbers you need to consider this carefully in your code. You do not want to include object numbers in your code if this is the case, as object numbers could change. Use corified references instead (IE: @prop #0.my_object #objnum allows you to use $my_object in your code. If the object number ever changes, you can change the reference without updating all of your code.)
+    Uwaga: to nie do konca prawda, zwlaszcza jesli uzywasz ToastCore i $recyclera, co jest swietnym pomyslem. Jesli tego nie zrobisz, skonczysz z bardzo wysokimi numerami obiektow. Jednak jesli planujesz ponowne wykorzystywanie numerow obiektow, musisz to starannie uwzglednic w swoim kodzie. Nie chcesz umieszczac numerow obiektow w swoim kodzie w takim przypadku, bo numery obiektow moga sie zmienic. Uzyj zamiast tego referencji korowanych (IE: @prop #0.my_object #objnum pozwala uzywac $my_object w kodzie. Jesli numer obiektu kiedykolwiek sie zmieni, mozesz zmienic referencje bez aktualizowania calego kodu.)
 2
 
 2
-If anon-flag is false or not present, the new object is a permanent object and is assigned the least non-negative object number that has not yet been used for a created object. Note that no object number is ever reused, even if the object with that number is recycled.
+Jesli anon-flag jest falszywe lub nieobecne, nowy obiekt jest obiektem trwalym i otrzymuje najmniejszy nieujemny numer obiektu, ktory nie zostal jeszcze uzyty dla utworzonego obiektu. Uwaga: zaden numer obiektu nigdy nie jest uzywany ponownie, nawet jesli obiekt o tym numerze zostanie zrecyklingowany.
 2
 
 2
-If anon-flag is true, the new object is an anonymous object and is not assigned an object number. Anonymous objects are automatically recycled when they are no longer used.
+Jesli anon-flag jest prawdziwe, nowy obiekt jest obiektem anonimowym i nie otrzymuje numeru obiektu. Obiekty anonimowe sa automatycznie recyklingowane, gdy przestaja byc uzywane.
 2
 
 2
-The owner of the new object is either the programmer (if owner is not provided), the new object itself (if owner was given and is invalid, or owner (otherwise).
+Wlascicielem nowego obiektu jest albo programista (jesli nie podano owner), sam nowy obiekt (jesli podano owner i jest niepoprawny), albo owner (w przeciwnym razie).
 2
 
 2
-The other built-in properties of the new object are initialized as follows:
+Pozostale wbudowane wlasciwosci nowego obiektu sa inicjalizowane nastepujaco:
 2
 
 2
@@ -39851,29 +39855,29 @@ f            0
 2
 
 2
-The function is_player() returns false for newly created objects.
+Funkcja is_player() zwraca falsz dla nowo utworzonych obiektow.
 2
 
 2
-In addition, the new object inherits all of the other properties on its parents. These properties have the same permission bits as on the parents. If the c permissions bit is set, then the owner of the property on the new object is the same as the owner of the new object itself; otherwise, the owner of the property on the new object is the same as that on the parent. The initial value of every inherited property is clear; see the description of the built-in function clear_property() for details.
+Dodatkowo nowy obiekt dziedziczy wszystkie inne wlasciwosci swoich rodzicow. Te wlasciwosci maja te same bity uprawnien co na rodzicach. Jesli ustawiony jest bit uprawnien c, wlascicielem wlasciwosci na nowym obiekcie jest ten sam, co wlasciciel samego nowego obiektu; w przeciwnym razie wlascicielem wlasciwosci na nowym obiekcie jest ten sam, co na rodzicu. Poczatkowa wartosc kazdej dziedziczonej wlasciwosci to clear; zobacz opis funkcji wbudowanej clear_property() po szczegoly.
 2
 
 2
-If the intended owner of the new object has a property named ownership_quota and the value of that property is an integer, then create() treats that value as a quota. If the quota is less than or equal to zero, then the quota is considered to be exhausted and create() raises E_QUOTA instead of creating an object. Otherwise, the quota is decremented and stored back into the ownership_quota property as a part of the creation of the new object.
+Jesli zamierzony wlasciciel nowego obiektu ma wlasciwosc o nazwie ownership_quota i wartosc tej wlasciwosci jest liczba calkowita, create() traktuje te wartosc jako limit (quota). Jesli limit jest mniejszy lub rowny zero, uznaje sie limit za wyczerpany i create() podnosi E_QUOTA zamiast utworzyc obiekt. W przeciwnym razie limit jest zmniejszany i zapisywany z powrotem we wlasciwosci ownership_quota jako czesc tworzenia nowego obiektu.
 36
 5
 4
 15
 2
-Syntax: crypt (STR text [, STR salt])
+Skladnia: crypt (STR text [, STR salt])
 2
 
 2
-Encrypts (hashes) the given text using the standard UNIX encryption method. If provided, salt should be a string at least two characters long, and it may dictate a specific algorithm to use. By default, crypt uses the original, now insecure, DES algorithm. Stunt specifically includes the BCrypt algorithm (identified by salts that start with "$2a$"), and may include MD5, SHA256, and SHA512 algorithms depending on the libraries used to build the server. The salt used is returned as the first part of the resulting encrypted string.
+Szyfruje (hashuje) podany text za pomoca standardowej metody szyfrowania UNIX. Jesli podano, salt powinien byc stringiem o dlugosci co najmniej dwoch znakow i moze okreslac konkretny algorytm do uzycia. Domyslnie crypt uzywa oryginalnego, obecnie niebezpiecznego algorytmu DES. Stunt wlacza specjalnie algorytm BCrypt (identyfikowany przez sole zaczynajace sie od "$2a$"), a moze tez zawierac algorytmy MD5, SHA256 i SHA512, zaleznie od bibliotek uzytych do zbudowania serwera. Uzyta sol jest zwracana jako pierwsza czesc wynikowego zaszyfrowanego stringa.
 2
 
 2
-Aside from the possibly-random input in the salt, the encryption algorithms are entirely deterministic. In particular, you can test whether or not a given string is the same as the one used to produce a given piece of encrypted text; simply extract the salt from the front of the encrypted text and pass the candidate string and the salt to crypt(). If the result is identical to the given encrypted text, then youve got a match.
+Poza mozliwie losowym wejsciem w soli, algorytmy szyfrowania sa calkowicie deterministyczne. W szczegolnosci mozna sprawdzic, czy dany string jest taki sam jak ten uzyty do wygenerowania danego fragmentu zaszyfrowanego tekstu; wystarczy wyciagnac sol z poczatku zaszyfrowanego tekstu i podac kandydujacy string oraz te sol do crypt(). Jesli wynik jest identyczny z danym zaszyfrowanym tekstem, mamy dopasowanie.
 2
 
 2
@@ -39893,35 +39897,35 @@ crypt("foobar", "$2a$08$dHkE1lESV9KrErGhhJTxc.")    =>    "$2a$08$dHkE1lESV9KrEr
 2
 
 2
-Note: The specific set of supported algorithms depends on the libraries used to build the server. Only the BCrypt algorithm, which is distributed with the server source code, is guaranteed to exist. BCrypt is currently mature and well tested, and is recommended for new development.
+Uwaga: konkretny zestaw wspieranych algorytmow zalezy od bibliotek uzytych do zbudowania serwera. Tylko algorytm BCrypt, dystrybuowany razem z kodem zrodlowym serwera, jest gwarantowany. BCrypt jest obecnie dojrzaly i dobrze przetestowany, i jest zalecany do nowych projektow.
 36
 5
 4
 7
 2
-Syntax:	  curl(STR <url> [, INT <include_headers>, INT timeout]) => STR
+Skladnia:t  curl(STR <url> [, INT <include_headers>, INT timeout]) => STR
 2
 
 2
-The curl builtin will download a webpage and return it as a string. If <include_headers> is true, the HTTP headers will be included in the return string.
+Wbudowana funkcja curl pobierze strone internetowa i zwroci ja jako string. Jesli <include_headers> jest prawdziwe, naglowki HTTP zostana dolaczone do zwracanego stringa.
 2
 
 2
-It's worth noting that the data you get back will be binary encoded. In particular, you will find that line breaks appear as ~0A. You can easily convert a page into a list by passing the return string into the decode_binary() function.
+Warto zauwazyc, ze otrzymane dane beda zakodowane binarnie. W szczegolnosci zauwazysz, ze zlamania linii pojawiaja sie jako ~0A. Mozna latwo przeksztalcic strone w liste, przekazujac zwrocony string do funkcji decode_binary().
 2
 
 2
-CURL_TIMEOUT is defined in options.h to specify the maximum amount of time a CURL request can take before failing. For special circumstances, you can specify a longer or shorter timeout using the third argument of curl().
+CURL_TIMEOUT jest zdefiniowane w options.h, by okreslic maksymalny czas, jaki moze zajac zadanie CURL przed niepowodzeniem. Dla specjalnych okolicznosci mozna podac dluzszy lub krotszy timeout za pomoca trzeciego argumentu curl().
 36
 5
 4
 6
 2
-Syntax:  decode_base64 (STR base64 [, INT safe]) => STR
+Skladnia:  decode_base64 (STR base64 [, INT safe]) => STR
 2
 
 2
-Returns the binary string representation of the supplied Base64 encoded string argument. Raises E_INVARG if base64 is not a properly-formed Base64 string. If safe is provide and is true, a URL-safe version of Base64 is used (see RFC4648).
+Zwraca binarna reprezentacje stringa podanego argumentu zakodowanego w Base64. Podnosi E_INVARG, jesli base64 nie jest poprawnie sformowanym stringiem Base64. Jesli podano safe i jest prawdziwe, uzywana jest wersja Base64 bezpieczna dla URL (zobacz RFC4648).
 2
 
 2
@@ -39933,53 +39937,53 @@ decode_base64("AAE", 1)     =>   "~00~01"
 4
 5
 2
-Syntax:  delete_verb (OBJ <object>, STR|INT <verb-name>)   => NONE
+Skladnia:  delete_verb (OBJ <object>, STR|INT <verb-name>)   => NONE
 2
 
 2
-BE AWARE: verb-name can be the string name of the verb OR the index from verbs()
+UWAGA: verb-name moze byc nazwa czasownika jako string ALBO indeksem z verbs()
 2
 
 2
-Removes the verb named <verb-name> from the given <object>.  If <object> is not valid, then E_INVARG is raised.  If the programmer does not have write permission on <object>, then E_PERM is raised. If <object> does not define a verb named <verb-name>, then E_VERBNF is raised.
+Usuwa czasownik o nazwie <verb-name> z podanego <object>.  Jesli <object> nie jest prawidlowy, podnoszony jest E_INVARG.  Jesli programista nie ma uprawnien do zapisu na <object>, podnoszony jest E_PERM. Jesli <object> nie definiuje czasownika o nazwie <verb-name>, podnoszony jest E_VERBNF.
 36
 5
 4
 3
 2
-Syntax:  descendants(OBJ <object> [, INT <full>])   => LIST
+Skladnia:  descendants(OBJ <object> [, INT <full>])   => LIST
 2
 
 2
-Return a list of all nested children of <object>. If <full> is true, <object> will be included in the list.
+Zwraca liste wszystkich zagniezdzonych dzieci <object>. Jesli <full> jest prawdziwe, <object> zostanie dolaczony do listy.
 36
 5
 4
 7
 2
-Syntax:  disassemble (OBJ object, STR|INT verb-desc)   => LIST
+Skladnia:  disassemble (OBJ object, STR|INT verb-desc)   => LIST
 2
 
 2
-BE AWARE: verb-name can be the string name of the verb OR the index from verbs()
+UWAGA: verb-name moze byc nazwa czasownika jako string ALBO indeksem z verbs()
 2
 
 2
-Returns a (longish) list of strings giving a listing of the server's internal "compiled" form of the verb as specified by <verb-desc> on <object>. This format is not documented and may indeed change from release to release, but some programmers may nonetheless find the output of `disassemble()' interesting to peruse as a way to gain a deeper appreciation of how the server works.
+Zwraca (dosc dluga) liste stringow podajaca zestawienie wewnetrznej "skompilowanej" formy serwera dla czasownika okreslonego przez <verb-desc> na <object>. Ten format nie jest udokumentowany i faktycznie moze zmieniac sie z wydania na wydanie, ale niektorzy programisci moga uznac wyjscie `disassemble()' za ciekawe do przejrzenia, jako sposob na glebsze zrozumienie dzialania serwera.
 2
 
 2
-If <object> is not valid, then E_INVARG is raised. If <object> does not define a verb as specified by <verb-desc>, then E_VERBNF is raised. If the programmer does not have read permission on the verb in question, then disassemble() raises E_PERM.
+Jesli <object> nie jest prawidlowy, podnoszony jest E_INVARG. Jesli <object> nie definiuje czasownika okreslonego przez <verb-desc>, podnoszony jest E_VERBNF. Jesli programista nie ma uprawnien do odczytu danego czasownika, disassemble() podnosi E_PERM.
 36
 5
 4
 6
 2
-Syntax:  encode_base64 (STR binary [, INT safe]) => STR
+Skladnia:  encode_base64 (STR binary [, INT safe]) => STR
 2
 
 2
-Returns the Base64 encoded string representation of the supplied binary string argument. Raises E_INVARG if binary is not a properly-formed binary string. If safe is provide and is true, a URL-safe version of Base64 is used (see RFC4648).
+Zwraca reprezentacje w Base64 podanego argumentu-stringa binarnego. Podnosi E_INVARG, jesli binary nie jest poprawnie sformowanym stringiem binarnym. Jesli podano safe i jest prawdziwe, uzywana jest wersja Base64 bezpieczna dla URL (zobacz RFC4648).
 2
 
 2
@@ -39991,31 +39995,31 @@ encode_base64("~00~01", 1)     =>   "AAE"
 4
 27
 2
-Syntax: exec (LIST command[, STR input][, LIST environment variables])
+Skladnia: exec (LIST command[, STR input][, LIST environment variables])
 2
 
 2
-Asynchronously executes the specified external executable, optionally sending input. Returns the process return code, output and error. If the programmer is not a wizard, then E_PERM is raised.
+Asynchronicznie wykonuje podany zewnetrzny plik wykonywalny, opcjonalnie wysylajac dane wejsciowe. Zwraca kod powrotu procesu, wyjscie i blad. Jesli programista nie jest wizardem, podnoszony jest E_PERM.
 2
 
 2
-The first argument must be a list of strings, or E_INVARG is raised. The first string is the path to the executable and is required. The rest are command line arguments passed to the executable.
+Pierwszy argument musi byc lista stringow, w przeciwnym razie podnoszony jest E_INVARG. Pierwszy string to sciezka do pliku wykonywalnego i jest wymagany. Reszta to argumenty linii polecen przekazywane do pliku wykonywalnego.
 2
 
 2
-The path to the executable may not start with a slash (/) or dot-dot (..), and it may not contain slash-dot (/.) or dot-slash (./), or E_INVARG is raised. If the specified executable does not exist or is not a regular file, E_INVARG is raised.
+Sciezka do pliku wykonywalnego nie moze zaczynac sie od ukosnika (/) ani kropka-kropka (..), i nie moze zawierac ukosnik-kropka (/.) ani kropka-ukosnik (./), w przeciwnym razie podnoszony jest E_INVARG. Jesli podany plik wykonywalny nie istnieje lub nie jest zwyklym plikiem, podnoszony jest E_INVARG.
 2
 
 2
-If the string input is present, it is written to standard input of the executing process.
+Jesli podano string input, jest on zapisywany na standardowe wejscie wykonywanego procesu.
 2
 
 2
-Additionally, you can provide a list of environment variables to set in the shell.
+Dodatkowo mozna podac liste zmiennych srodowiskowych do ustawienia w powloce.
 2
 
 2
-When the process exits, it returns a list of the form:
+Gdy proces sie zakonczy, zwraca liste postaci:
 2
 
 2
@@ -40023,19 +40027,19 @@ When the process exits, it returns a list of the form:
 2
 
 2
-code is the integer process exit status or return code. output and error are strings of data that were written to the standard output and error of the process.
+code to liczbowy status wyjscia procesu lub kod powrotu. output i error to stringi danych zapisanych na standardowe wyjscie i blad procesu.
 2
 
 2
-The specified command is executed asynchronously. The function suspends the current task and allows other tasks to run until the command finishes. Tasks suspended this way can be killed with kill_task().
+Podane polecenie jest wykonywane asynchronicznie. Funkcja zawiesza biezace zadanie i pozwala innym zadaniom dzialac, dopoki polecenie sie nie zakonczy. Zadania zawieszone w ten sposob mozna zabic za pomoca kill_task().
 2
 
 2
-The strings, input, output and error are all MOO binary strings.
+Stringi input, output i error sa wszystkie binarnymi stringami MOO.
 2
 
 2
-All external executables must reside in the executables directory.
+Wszystkie zewnetrzne pliki wykonywalne musza znajdowac sie w katalogu executables.
 2
 
 2
@@ -40049,25 +40053,25 @@ exec({"echo", "one", "two"})                             {0, "one two~0A", ""}
 4
 3
 2
-Syntax: exp (FLOAT x)
+Skladnia: exp (FLOAT x)
 2
 
 2
-Returns E (Eulers number) raised to the power of x. 
+Zwraca E (liczbe Eulera) podniesiona do potegi x. 
 36
 5
 4
 17
 2
-Syntax: explode(STR subject [, STR break [, INT include-sequential-occurrences]) => LIST
+Skladnia: explode(STR subject [, STR break [, INT include-sequential-occurrences]) => LIST
 2
 
 2
-Returns a list of substrings of subject that are separated by break. break defaults to a space.
+Zwraca liste podciagow subject oddzielonych przez break. break domyslnie to spacja.
 2
 
 2
-Only the first character of break is considered:
+Brany pod uwage jest tylko pierwszy znak break:
 2
 
 2
@@ -40077,7 +40081,7 @@ explode("slither%is%%wiz", "%%")    => {"slither", "is", "wiz"}
 2
 
 2
-You can use include-sequential-occurrences to get back an empty string as part of your list if break appears multiple times with nothing between it, or there is a leading/trailing break in your string:
+Mozesz uzyc include-sequential-occurrences, by otrzymac pusty string jako czesc listy, jesli break wystepuje wielokrotnie bez niczego pomiedzy, lub jest wiodacy/koncowy break w twoim stringu:
 2
 
 2
@@ -40089,7 +40093,7 @@ explode("%slither%is%%wiz%", "%", 1) => {"", "slither", "is", "", "wiz", ""}
 2
 
 2
-Note: This can be used as a replacement for $string_utils:explode.
+Uwaga: mozna tego uzyc jako zamiennika dla $string_utils:explode.
 2
 
 36
@@ -40097,41 +40101,41 @@ Note: This can be used as a replacement for $string_utils:explode.
 4
 6
 2
-Function: void file_chmod(STR filename, STR mode)
+Funkcja: void file_chmod(STR filename, STR mode)
 2
 
 2
-  Attempts to set mode of a file using mode as an octal string of
+  Probuje ustawic tryb pliku, uzywajac mode jako osemkowego stringa
 2
-  exactly three characters.
+  dokladnie trzech znakow.
 2
 
 2
-  This is implemented using chmod().
+  Zaimplementowane za pomoca chmod().
 36
 5
 4
 5
 2
- Function: void file_close(FHANDLE fh)
+ Funkcja: void file_close(FHANDLE fh)
 2
 
 2
-  Closes the file associated with fh.
+  Zamyka plik powiazany z fh.
 2
 
 2
-  This is implemented using fclose().
+  Zaimplementowane za pomoca fclose().
 36
 5
 4
 6
 2
-Function: INT file_count_lines (FHANDLER fh)
+Funkcja: INT file_count_lines (FHANDLER fh)
 2
 
 2
-Count the lines in a file.
+Liczy linie w pliku.
 2
 
 2
@@ -40143,29 +40147,29 @@ Count the lines in a file.
 4
 5
 2
-Function: INT file_eof(FHANDLE fh)
+Funkcja: INT file_eof(FHANDLE fh)
 2
 
 2
-  Returns true if and only if fh's stream is positioned at EOF.
+  Zwraca prawde wtedy i tylko wtedy, gdy strumien fh jest pozycjonowany na EOF.
 2
 
 2
-  This is implemented using feof().
+  Zaimplementowane za pomoca feof().
 36
 5
 4
 31
 2
-Function: LIST file_grep(FHANDLER fh, STR search [,?match_all = 0])
+Funkcja: LIST file_grep(FHANDLER fh, STR search [,?match_all = 0])
 2
 
 2
-Search for a string in a file.
+Szuka stringa w pliku.
 2
 
 2
-Assume we have a file `test.txt` with the contents:
+Zalozmy, ze mamy plik `test.txt` z zawartoscia:
 2
 
 2
@@ -40177,7 +40181,7 @@ asdf asdf 11
 2
 
 2
-And we have an open file handler from running:
+I mamy otwarty uchwyt pliku z uruchomienia:
 2
 
 2
@@ -40185,7 +40189,7 @@ And we have an open file handler from running:
 2
 
 2
-If we were to execute a file grep:
+Jesli wykonalibysmy file grep:
 2
 
 2
@@ -40193,7 +40197,7 @@ If we were to execute a file grep:
 2
 
 2
-We would get the first result:
+Otrzymalibysmy pierwszy wynik:
 2
 
 2
@@ -40201,11 +40205,11 @@ We would get the first result:
 2
 
 2
-The resulting LIST is of the form {{STR match, INT line-number}}
+Wynikowa LISTA ma postac {{STR match, INT line-number}}
 2
 
 2
-If you pass in the optional third argument
+Jesli podasz opcjonalny trzeci argument
 2
 
 2
@@ -40213,7 +40217,7 @@ If you pass in the optional third argument
 2
 
 2
-we will receive all the matching results:
+otrzymamy wszystkie pasujace wyniki:
 2
 
 2
@@ -40223,11 +40227,11 @@ we will receive all the matching results:
 4
 4
 2
-Function: LIST file_handles()
+Funkcja: LIST file_handles()
 2
 
 2
-Return a list of open files.
+Zwraca liste otwartych plikow.
 2
 
 36
@@ -40235,509 +40239,507 @@ Return a list of open files.
 4
 13
 2
-Function: LIST file_list(STR pathname, [ANY detailed])
+Funkcja: LIST file_list(STR pathname, [ANY detailed])
 2
 
 2
-  Attempts to list the contents of the given directory.  Returns a list
+  Probuje wypisac zawartosc podanego katalogu.  Zwraca liste
 2
-  of files in the directory.  If the detailed argument is provided and
+  plikow w katalogu.  Jesli podano argument detailed i jest
 2
-  true, then the list contains detailed entries, otherwise it contains a
+  prawdziwy, lista zawiera szczegolowe wpisy, w przeciwnym razie zawiera
 2
-  simple list of names.
+  prosta liste nazw.
 2
 
 2
-  detailed entry:
+  szczegolowy wpis:
 2
     {STR filename, STR file type, STR file mode, INT file size}
 2
-  normal entry:
+  zwykly wpis:
 2
     STR filename
 2
 
 2
-  This is implemented using scandir().
+  Zaimplementowane za pomoca scandir().
 36
 5
 4
 5
 2
-Function: void file_mkdir(STR pathname)
+Funkcja: void file_mkdir(STR pathname)
 2
 
 2
-  Attempts to create the given directory.
+  Probuje utworzyc podany katalog.
 2
 
 2
-  This is implemented using mkdir().
+  Zaimplementowane za pomoca mkdir().
 36
 5
 4
 5
 2
- Function: STR file_mode(STR filename)
+ Funkcja: STR file_mode(STR filename)
 2
 
 2
-  Returns octal mode for a file (e.g. "644").
+  Zwraca osemkowy tryb pliku (np. "644").
 2
 
 2
-  This is implemented using stat().
+  Zaimplementowane za pomoca stat().
 36
 5
 4
 5
 2
-Function: STR file_name(FHANDLE fh)
+Funkcja: STR file_name(FHANDLE fh)
 2
 
 2
-  Returns the pathname originally associated with fh by file_open().
+  Zwraca sciezke pierwotnie powiazana z fh przez file_open().
 2
-  This is not necessarily the file's current name if it was renamed or
+  Niekoniecznie jest to biezaca nazwa pliku, jesli zostal przemianowany lub
 2
-  unlinked after the fh was opened.
+  odlaczony (unlinked) po otwarciu fh.
 36
 5
 4
-47
+46
 2
- Function: FHANDLE file_open(STR pathname, STR mode)
-2
-
-2
-  Raises: E_INVARG if mode is not a valid mode, E_QUOTA if too many files are open.
-2
-  This opens a file specified by pathname and returns an FHANDLE for it.
-2
-  It ensures pathname is legal.  Mode is a string of characters indicating what mode the file is opened in. 
-2
-  The mode string is four characters.
+ Funkcja: FHANDLE file_open(STR pathname, STR mode)
 2
 
 2
-  The first character must be (r)ead, (w)rite, or (a)ppend.  The second must be '+' or '-'.  This modifies the previous argument.
+  Podnosi: E_INVARG, jesli mode nie jest prawidlowym trybem, E_QUOTA, jesli za duzo plikow jest otwartych.
+2
+  Otwiera plik okreslony przez pathname i zwraca dla niego FHANDLE.
+2
+  Upewnia sie, ze pathname jest legalne.  Mode to string znakow wskazujacy, w jakim trybie plik jest otwarty. 
+2
+  String mode ma cztery znaki.
 2
 
 2
-  o  r- opens the file for reading and fails if the file does not exist.
+  Pierwszy znak musi byc (r)ead, (w)rite lub (a)ppend.  Drugi musi byc '+' lub '-'.  To modyfikuje poprzedni argument.
 2
 
 2
-  o  r+ opens the file for reading and writing and fails if the file
-2
-     does not exist.
+  o  r- otwiera plik do odczytu i konczy sie niepowodzeniem, jesli plik nie istnieje.
 2
 
 2
-  o  w- opens the file for writing, truncating if it exists and creating
+  o  r+ otwiera plik do odczytu i zapisu i konczy sie niepowodzeniem, jesli plik
 2
-     if not.
-2
-
-2
-  o  w+ opens the file for reading and writing, truncating if it exists
-2
-     and creating if not.
+     nie istnieje.
 2
 
 2
-  o  a- opens a file for writing, creates it if it does not exist and
+  o  w- otwiera plik do zapisu, obcinajac jesli istnieje i tworzac
 2
-     positions the stream at the end of the file.
-2
-
-2
-  o  a+ opens the file for reading and writing, creates it if does not
-2
-     exist and positions the stream at the end of the file.
+     jesli nie.
 2
 
 2
-     The third character is either (t)ext or (b)inary.  In text mode,
+  o  w+ otwiera plik do odczytu i zapisu, obcinajac jesli istnieje
 2
-     data is written as-is from the MOO and data read in by the MOO is
-2
-     stripped of unprintable characters.  In binary mode, data is
-2
-     written filtered through the binary-string->raw-bytes conversion
-2
-     and data is read filtered through the raw-bytes->binary-string
-2
-     conversion.  For example, in text mode writing " 1B" means three
-2
-     bytes are written: ' ' Similarly, in text mode reading " 1B" means
-2
-     the characters ' ' '1' 'B' were present in the file.  In binary
-2
-     mode reading " 1B" means an ASCII ESC was in the file.  In text
-2
-     mode, reading an ESC from a file results in the ESC getting
-2
-     stripped.
+     i tworzac jesli nie.
 2
 
 2
-  It is not recommended that files containing unprintable ASCII  data be
+  o  a- otwiera plik do zapisu, tworzy go jesli nie istnieje i
 2
-  read in text mode, for obvious reasons.
-2
-
-2
-  The final character is either 'n' or 'f'.  If this character is 'f',
-2
-  whenever data is written to the file, the MOO will force it to finish
-2
-  writing to the physical disk before returning.  If it is 'n' then
-2
-  this won't happen.
+     pozycjonuje strumien na koncu pliku.
 2
 
 2
-  This is implemented using fopen().
+  o  a+ otwiera plik do odczytu i zapisu, tworzy go jesli nie
+2
+     istnieje i pozycjonuje strumien na koncu pliku.
+2
+
+2
+     Trzeci znak to albo (t)ext, albo (b)inary.  W trybie tekstowym
+2
+     dane sa zapisywane dokladnie tak, jak sa z MOO, a dane odczytywane przez MOO sa
+2
+     pozbawiane niedrukowalnych znakow.  W trybie binarnym dane sa
+2
+     zapisywane przefiltrowane przez konwersje string-binarny->surowe-bajty,
+2
+     a dane sa odczytywane przefiltrowane przez konwersje surowe-bajty->string-binarny.
+2
+     Na przyklad w trybie tekstowym zapisanie " 1B" oznacza, ze
+2
+     zapisywane sa trzy bajty: ' '. Podobnie w trybie tekstowym odczytanie " 1B" oznacza, ze
+2
+     w pliku byly znaki ' ' '1' 'B'.  W trybie binarnym
+2
+     odczytanie " 1B" oznacza, ze w pliku byl znak ASCII ESC.  W trybie
+2
+     tekstowym odczytanie ESC z pliku skutkuje usunieciem ESC.
+2
+
+2
+  Nie zaleca sie odczytywania plikow zawierajacych niedrukowalne dane ASCII
+2
+  w trybie tekstowym, z oczywistych powodow.
+2
+
+2
+  Ostatni znak to 'n' lub 'f'.  Jesli ten znak to 'f',
+2
+  za kazdym razem gdy dane sa zapisywane do pliku, MOO wymusi zakonczenie
+2
+  zapisu na fizyczny dysk przed zwroceniem sterowania.  Jesli to 'n', to
+2
+  to sie nie stanie.
+2
+
+2
+  Zaimplementowane za pomoca fopen().
 36
 5
 4
 3
 2
-Function: STR file_openmode(FHANDLE fh)
+Funkcja: STR file_openmode(FHANDLE fh)
 2
 
 2
-  Returns the mode the file associated with fh was opened in.
+  Zwraca tryb, w jakim plik powiazany z fh zostal otwarty.
 36
 5
 4
 8
 2
-Function: STR file_read(FHANDLE fh, INT bytes)
+Funkcja: STR file_read(FHANDLE fh, INT bytes)
 2
 
 2
-  Reads up to the specified number of bytes from the file and returns
+  Odczytuje az do podanej liczby bajtow z pliku i je
 2
-  them.
-2
-
-2
-  Not recommended for use on files in text mode.
+  zwraca.
 2
 
 2
-  This is implemented using fread().
+  Niezalecane do uzycia na plikach w trybie tekstowym.
+2
+
+2
+  Zaimplementowane za pomoca fread().
 36
 5
 4
 7
 2
-Function: STR file_readline(FHANDLE fh)
+Funkcja: STR file_readline(FHANDLE fh)
 2
 
 2
-  Reads the next line in the file and returns it (without the newline).
+  Odczytuje nastepna linie w pliku i ja zwraca (bez znaku nowej linii).
 2
 
 2
-  Not recommended for use on files in binary mode.
+  Niezalecane do uzycia na plikach w trybie binarnym.
 2
 
 2
-  This is implemented using fgetc().
+  Zaimplementowane za pomoca fgetc().
 36
 5
 4
 9
 2
-  Function: LIST file_readlines(FHANDLE fh, INT start, INT end)
+  Funkcja: LIST file_readlines(FHANDLE fh, INT start, INT end)
 2
 
 2
-  Rewinds the file and then reads the specified lines from the file,
+  Przewija plik, a nastepnie odczytuje podane linie z pliku,
 2
-  returning them as a list of strings.  After this operation, the stream
+  zwracajac je jako liste stringow.  Po tej operacji strumien
 2
-  is positioned right after the last line read.
-2
-
-2
-  Not recommended for use on files in binary mode.
+  jest pozycjonowany zaraz po ostatniej odczytanej linii.
 2
 
 2
-  This is implemented using fgetc().
+  Niezalecane do uzycia na plikach w trybie binarnym.
+2
+
+2
+  Zaimplementowane za pomoca fgetc().
 36
 5
 4
 5
 2
-Function: void file_remove(STR pathname)
+Funkcja: void file_remove(STR pathname)
 2
 
 2
-  Attempts to remove the given file.
+  Probuje usunac podany plik.
 2
 
 2
-  This is implemented using remove().
+  Zaimplementowane za pomoca remove().
 36
 5
 4
 5
 2
-Function: void file_rename(STR oldpath, STR newpath)
+Funkcja: void file_rename(STR oldpath, STR newpath)
 2
 
 2
-  Attempts to rename the oldpath to newpath.
+  Probuje przemianowac oldpath na newpath.
 2
 
 2
-  This is implemented using rename().
+  Zaimplementowane za pomoca rename().
 36
 5
 4
 5
 2
-Function: void file_rmdir(STR pathname)
+Funkcja: void file_rmdir(STR pathname)
 2
 
 2
-  Attempts to remove the given directory.
+  Probuje usunac podany katalog.
 2
 
 2
-  This is implemented using rmdir().
+  Zaimplementowane za pomoca rmdir().
 36
 5
 4
 12
 2
-Function: void file_seek(FHANDLE fh, INT loc, STR whence)
+Funkcja: void file_seek(FHANDLE fh, INT loc, STR whence)
 2
 
 2
-  Seeks to a particular location in a file.  whence is one of the
+  Przechodzi do konkretnej lokalizacji w pliku.  whence to jeden ze
 2
-  strings:
-2
-
-2
-  o  "SEEK_SET" - seek to location relative to beginning
+  stringow:
 2
 
 2
-  o  "SEEK_CUR" - seek to location relative to current
+  o  "SEEK_SET" - przejdz do lokalizacji wzgledem poczatku
 2
 
 2
-  o  "SEEK_END" - seek to location relative to end
+  o  "SEEK_CUR" - przejdz do lokalizacji wzgledem biezacej pozycji
 2
 
 2
-  This is implemented using fseek().
+  o  "SEEK_END" - przejdz do lokalizacji wzgledem konca
+2
+
+2
+  Zaimplementowane za pomoca fseek().
 36
 5
 4
 16
 2
- Function: void file_stat(STR pathname)
+ Funkcja: void file_stat(STR pathname)
 2
-  Function: void file_stat(FHANDLE fh)
-2
-
-2
-  Returns the result of stat() (or fstat()) on the given file.
-2
-  Specifically a list as follows:
+  Funkcja: void file_stat(FHANDLE fh)
 2
 
 2
-  {file size in bytes, file type, file access mode, owner, group,
+  Zwraca wynik stat() (lub fstat()) dla podanego pliku.
 2
-       last access, last modify, and last change}
-2
-
-2
-  owner and group are always the empty string.
+  Konkretnie liste w postaci:
 2
 
 2
-  It is recommended that the specific information functions file_size,
+  {rozmiar pliku w bajtach, typ pliku, tryb dostepu do pliku, wlasciciel, grupa,
 2
-  file_type, file_mode, file_last_access, file_last_modify, and
+       ostatni dostep, ostatnia modyfikacja i ostatnia zmiana}
 2
-  file_last_change be used instead.  In most cases only one of these
+
 2
-  elements is desired and in those cases there's no reason to make and
+  owner i group sa zawsze pustym stringiem.
 2
-  free a list.
+
+2
+  Zaleca sie uzywanie zamiast tego konkretnych funkcji informacyjnych file_size,
+2
+  file_type, file_mode, file_last_access, file_last_modify i
+2
+  file_last_change.  W wiekszosci przypadkow pozadany jest tylko jeden z tych
+2
+  elementow i w takich przypadkach nie ma powodu, by tworzyc i
+2
+  zwalniac liste.
 36
 5
 4
 5
 2
-Function: INT file_tell(FHANDLE fh)
+Funkcja: INT file_tell(FHANDLE fh)
 2
 
 2
-  Returns position in file.
+  Zwraca pozycje w pliku.
 2
 
 2
-  This is implemented using ftell().
+  Zaimplementowane za pomoca ftell().
 36
 5
 4
 6
 2
-Function: STR file_type(STR pathname)
+Funkcja: STR file_type(STR pathname)
 2
 
 2
-  Returns the type of the given pathname, one of "reg", "dir", "dev",
+  Zwraca typ podanej sciezki, jeden z "reg", "dir", "dev",
 2
-  "fifo", or "socket".
+  "fifo" lub "socket".
 2
 
 2
-  This is implemented using stat().
+  Zaimplementowane za pomoca stat().
 36
 5
 4
 8
 2
-Function: INT file_write(FHANDLE fh, STR data)
+Funkcja: INT file_write(FHANDLE fh, STR data)
 2
 
 2
-  Writes the specified data to the file.  Returns number of bytes
+  Zapisuje podane dane do pliku.  Zwraca liczbe zapisanych
 2
-  written.
-2
-
-2
-  Not recommended for use on files in text mode.
+  bajtow.
 2
 
 2
-  This is implemented using fwrite().
+  Niezalecane do uzycia na plikach w trybie tekstowym.
+2
+
+2
+  Zaimplementowane za pomoca fwrite().
 36
 5
 4
 7
 2
-  Function: void file_writeline(FHANDLE fh, STR line)
+  Funkcja: void file_writeline(FHANDLE fh, STR line)
 2
 
 2
-  Writes the specified line to the file (adding a newline).
+  Zapisuje podana linie do pliku (dodajac znak nowej linii).
 2
 
 2
-  Not recommended for use on files in binary mode.
+  Niezalecane do uzycia na plikach w trybie binarnym.
 2
 
 2
-  This is implemented using fputs()
+  Zaimplementowane za pomoca fputs()
 36
 5
 4
 20
 2
-Syntax:  finished_tasks ()   => LIST
+Skladnia:  finished_tasks ()   => LIST
 2
 
 2
-When enabled (via SAVE_FINISHED_TASKS in options.h), the server will keep track of the execution time of every task that passes through the interpreter. This data is then made available to the database in two ways.
+Gdy wlaczone (przez SAVE_FINISHED_TASKS w options.h), serwer bedzie sledzil czas wykonania kazdego zadania przechodzacego przez interpreter. Te dane sa nastepnie udostepniane bazie danych na dwa sposoby.
 2
 
 2
-The first is the finished_tasks() function. This function will return a list of maps of the last several finished tasks (configurable via $server_options.finished_tasks_limit) with the following information:
-2
-
-2
-
-2
-Foreground:    True if this was a foreground task.
-2
-Fullverb:      The full name of the verb being executed.
-2
-Object:        The object the verb is defined on.
-2
-Player:        The result of the 'player' variable.
-2
-Programmer:    The player whose permissions the verb is running as.
-2
-Receiver:      The object that received the verb invocation. In the case of primitives, this is the primitive's object handler.
-2
-Suspended:     True if the task suspended instead of finishing.
-2
-This:          The result of the 'this' variable.
-2
-Time:          The total time the task took inside the interpreter.
-2
-Verb:          The verb name used to invoke the task.
+Pierwszym jest funkcja finished_tasks(). Ta funkcja zwroci liste map ostatnich kilku zakonczonych zadan (konfigurowalna przez $server_options.finished_tasks_limit) z nastepujacymi informacjami:
 2
 
 2
 
 2
-The second is via the $handle_lagging_task verb. When the execution threshold defined in $server_options.task_lag_threshold is exceeded, the server will write an entry to the log file and call the $handle_lagging_task verb with the call stack of the task as well as the execution time.
+Foreground:    prawda, jesli to bylo zadanie pierwszoplanowe.
+2
+Fullverb:      pelna nazwa wykonywanego czasownika.
+2
+Object:        obiekt, na ktorym czasownik jest zdefiniowany.
+2
+Player:        wynik zmiennej 'player'.
+2
+Programmer:    gracz, z ktorego uprawnien korzysta czasownik.
+2
+Receiver:      obiekt, ktory otrzymal wywolanie czasownika. W przypadku prymitywow to obsluga obiektu prymitywu.
+2
+Suspended:     prawda, jesli zadanie sie zawiesilo zamiast zakonczyc.
+2
+This:          wynik zmiennej 'this'.
+2
+Time:          calkowity czas, jaki zadanie spedzilo wewnatrz interpretera.
+2
+Verb:          nazwa czasownika uzyta do wywolania zadania.
+2
+
+2
+
+2
+Drugim sposobem jest czasownik $handle_lagging_task. Gdy prog wykonania zdefiniowany w $server_options.task_lag_threshold zostanie przekroczony, serwer zapisze wpis do pliku logu i wywola czasownik $handle_lagging_task ze stosem wywolan zadania oraz czasem wykonania.
 36
 5
 4
 3
 2
-Syntax:  frandom (FLOAT <mod1> [, FLOAT <mod2>)   => FLOAT
+Skladnia:  frandom (FLOAT <mod1> [, FLOAT <mod2>)   => FLOAT
 2
 
 2
-If only one argument is given, a floating point number is chosen randomly from the range `[1.0..<mod1>]` and returned. If two arguments are given, a floating point number is randomly chosen from the range `[<mod1>..<mod2>]`. 
+Jesli podano tylko jeden argument, liczba zmiennoprzecinkowa jest losowana z zakresu `[1.0..<mod1>]` i zwracana. Jesli podano dwa argumenty, liczba zmiennoprzecinkowa jest losowana z zakresu `[<mod1>..<mod2>]`. 
 36
 5
 4
 7
 2
-Syntax:  ftime ([INT monotonic])   => FLOAT
+Skladnia:  ftime ([INT monotonic])   => FLOAT
 2
 
 2
-Returns the current time represented as the number of seconds and nanoseconds that have elapsed since midnight on 1 January 1970, Greenwich Mean Time.
+Zwraca biezacy czas reprezentowany jako liczba sekund i nanosekund, ktore uplynely od polnocy 1 stycznia 1970, czasu Greenwich.
 2
 
 2
-If the <monotonic> argument is supplied and set to 1, the time returned will be monotonic. This means that will you will always get how much time has elapsed from an arbitrary, fixed point in the past that is unaffected by clock skew or other changes in the wall-clock. This is useful for benchmarking how long an operation takes, as it's unaffected by the actual system time.
+Jesli podano argument <monotonic> i ustawiono go na 1, zwrocony czas bedzie monotoniczny. Oznacza to, ze zawsze dostaniesz, ile czasu uplynelo od dowolnego, stalego punktu w przeszlosci, niezaleznego od przesuniec zegara lub innych zmian w czasie systemowym. Jest to przydatne przy mierzeniu, jak dlugo trwa operacja, poniewaz nie zalezy od faktycznego czasu systemowego.
 2
 
 2
-The general rule of thumb is that you should use ftime() with no arguments for telling time and ftime() with the monotonic clock argument for measuring the passage of time.
+Ogolna zasada jest taka, ze powinienes uzywac ftime() bez argumentow do sprawdzania czasu, a ftime() z argumentem zegara monotonicznego do mierzenia uplywu czasu.
 36
 5
 4
 59
 2
-Syntax: generate_json (ANY value [, STR mode])
+Skladnia: generate_json (ANY value [, STR mode])
 2
 
 2
-Returns the JSON representation of the MOO value.
+Zwraca reprezentacje JSON wartosci MOO.
 2
 
 2
-MOO supports a richer set of values than JSON allows. The optional mode specifies how this function handles the conversion of MOO values into their JSON representation.
+MOO wspiera bogatszy zestaw wartosci niz pozwala JSON. Opcjonalny mode okresla, jak ta funkcja obsluguje konwersje wartosci MOO na ich reprezentacje JSON.
 2
 
 2
-The common subset mode, specified by the literal mode string "common-subset", is the default conversion mode. In this mode, only the common subset of types (strings and numbers) are translated with fidelity between MOO types and JSON types. All other types are treated as alternative representations of the string type. This mode is useful for integration with non-MOO applications.
+Tryb wspolnego podzbioru, okreslany literalnym stringiem trybu "common-subset", to domyslny tryb konwersji. W tym trybie tylko wspolny podzbior typow (stringi i liczby) jest tlumaczony wiernie miedzy typami MOO a typami JSON. Wszystkie inne typy sa traktowane jako alternatywne reprezentacje typu string. Ten tryb jest przydatny do integracji z aplikacjami spoza MOO.
 2
 
 2
-The embedded types mode, specified by the literal mode string "embedded-types", adds type information. Specifically, values other than strings and numbers, which carry implicit type information, are converted into strings with type information appended. The converted string consists of the string representation of the value (as if tostr() were applied) followed by the pipe (|) character and the type. This mode is useful for serializing/deserializing objects and collections of MOO values.
+Tryb osadzonych typow, okreslany literalnym stringiem trybu "embedded-types", dodaje informacje o typie. Konkretnie wartosci inne niz stringi i liczby, ktore niosa niejawna informacje o typie, sa konwertowane na stringi z dolaczona informacja o typie. Skonwertowany string sklada sie ze string-owej reprezentacji wartosci (tak jakby zastosowano tostr()), po ktorej nastepuje znak pipe (|) i typ. Ten tryb jest przydatny do serializacji/deserializacji obiektow i kolekcji wartosci MOO.
 2
 
 2
@@ -40769,7 +40771,7 @@ generate_json(["foo" -> E_PERM], "embedded-types")          =>   "{\"foo\":\"E_P
 2
 
 2
-JSON keys must be strings, so regardless of the mode, the key will be converted to a string value.
+Klucze JSON musza byc stringami, wiec niezaleznie od trybu, klucz zostanie skonwertowany na wartosc string.
 2
 
 2
@@ -40783,15 +40785,15 @@ generate_json([#1 -> 2], "embedded-types")                  =>   "{\"#1|obj\":2}
 2
 
 2
-tion: value parse_json (str json [, str mode])
+Funkcja: value parse_json (str json [, str mode])
 2
 
 2
-Returns the MOO value representation of the JSON string. If the specified string is not valid JSON, E_INVARG is raised.
+Zwraca reprezentacje MOO stringa JSON. Jesli podany string nie jest poprawnym JSON, podnoszony jest E_INVARG.
 2
 
 2
-The optional mode specifies how this function handles conversion of MOO values into their JSON representation. The options are the same as for generate_json().
+Opcjonalny mode okresla, jak ta funkcja obsluguje konwersje wartosci MOO na ich reprezentacje JSON. Opcje sa takie same jak dla generate_json().
 2
 
 2
@@ -40823,7 +40825,7 @@ parse_json("{\"foo\":\"E_PERM|err\"}", "embedded-types")    =>   ["foo" -> E_PER
 2
 
 2
-In embedded types mode, key values can be converted to MOO types by appending type information. The full set of supported types are obj, str, err, float and int.
+W trybie osadzonych typow wartosci kluczy moga byc konwertowane na typy MOO przez dolaczenie informacji o typie. Pelny zestaw wspieranych typow to obj, str, err, float i int.
 2
 
 2
@@ -40837,17 +40839,17 @@ parse_json("{\"#1|obj\":2}", "embedded-types")              =>   [#1 -> 2]
 2
 
 2
-JSON defines types that MOO (currently) does not support, such as boolean true and false, and null. These values are always converted to the strings "true", "false" and "null". 
+JSON definiuje typy, ktorych MOO (obecnie) nie wspiera, takie jak boolean true i false, oraz null. Te wartosci sa zawsze konwertowane na stringi "true", "false" i "null". 
 36
 5
 4
 6
 2
-Syntax: getenv (STR name)
+Skladnia: getenv (STR name)
 2
 
 2
-Returns the value of the named environment variable. If no such environment variable exists, 0 is returned. If the programmer is not a wizard, then E_PERM is raised.
+Zwraca wartosc nazwanej zmiennej srodowiskowej. Jesli taka zmienna srodowiskowa nie istnieje, zwracane jest 0. Jesli programista nie jest wizardem, podnoszony jest E_PERM.
 2
 
 2
@@ -40859,29 +40861,29 @@ getenv("XYZZY")      =>   0
 4
 23
 2
-Syntax: index (STR str1, STR str2, [, INT case-matters [, INT skip])  => INT
+Skladnia: index (STR str1, STR str2, [, INT case-matters [, INT skip])  => INT
 2
         rindex (STR str1, STR str2, [, INT case-matters [, INT skip]) => INT
 2
 
 2
-index -- Returns the index of the first character of the first occurrence of str2 in str1. 
+index -- zwraca indeks pierwszego znaku pierwszego wystapienia str2 w str1. 
 2
 
 2
-rindex -- Returns the index of the first character of the last occurrence of str2 in str1.
+rindex -- zwraca indeks pierwszego znaku ostatniego wystapienia str2 w str1.
 2
 
 2
-These functions will return zero if str2 does not occur in str1 at all.
+Te funkcje zwroca zero, jesli str2 w ogole nie wystepuje w str1.
 2
 
 2
-By default the search for an occurrence of str2 is done while ignoring the upper/lower case distinction. If case-matters is provided and true, then case is treated as significant in all comparisons.
+Domyslnie wyszukiwanie wystapienia str2 jest wykonywane ignorujac rozroznienie wielkich/malych liter. Jesli podano case-matters i jest prawdziwe, wielkosc liter jest traktowana jako istotna we wszystkich porownaniach.
 2
 
 2
-By default the search starts at the beginning (end) of str1. If skip is provided, the search skips the first (last) skip characters and starts at an offset from the beginning (end) of str1. The skip must be a positive integer for index() and a negative integer for rindex(). The default value of skip is 0 (skip no characters).
+Domyslnie wyszukiwanie zaczyna sie od poczatku (konca) str1. Jesli podano skip, wyszukiwanie pomija pierwsze (ostatnie) skip znakow i zaczyna sie z przesunieciem od poczatku (konca) str1. skip musi byc liczba dodatnia dla index() i liczba ujemna dla rindex(). Domyslna wartoscia skip jest 0 (nie pomijaj zadnych znakow).
 2
 
 2
@@ -40909,17 +40911,17 @@ index("Foobar", "foo", 1)          0
 4
 11
 2
-Syntax:  isa(OBJ <object>, OBJ <parent>)
+Skladnia:  isa(OBJ <object>, OBJ <parent>)
 2
          isa(OBJ <object>, LIST <parent list> [, INT <return_parent>])
 2
 
 2
-Returns true if <object> is a descendant of <parent>, otherwise false.
+Zwraca prawde, jesli <object> jest potomkiem <parent>, w przeciwnym razie falsz.
 2
 
 2
-If a third argument is present and true, the return value will be the first parent that object1 descends from in the <parent list>.
+Jesli podano trzeci argument i jest prawdziwy, wartoscia zwracana bedzie pierwszy rodzic, po ktorym object1 dziedziczy z <parent list>.
 2
 
 2
@@ -40935,25 +40937,25 @@ isa(#2, {$thing, $room, $container}, 1) => #-1 <$nothing>
 4
 3
 2
-Syntax:  locate_by_name (STR <object name>)   => LIST
+Skladnia:  locate_by_name (STR <object name>)   => LIST
 2
 
 2
-This function searches every object in the database for those containing <object name> in their .name property.
+Ta funkcja przeszukuje kazdy obiekt w bazie danych w poszukiwaniu tych zawierajacych <object name> w swojej wlasciwosci .name.
 36
 5
 4
 14
 2
-Syntax: locations(OBJ object [, OBJ stop [, INT is-parent]]) => LIST
+Skladnia: locations(OBJ object [, OBJ stop [, INT is-parent]]) => LIST
 2
 
 2
-Recursively build a list of an object's location, its location's location, and so forth until finally hitting $nothing.
+Rekurencyjnie buduje liste lokalizacji obiektu, lokalizacji jego lokalizacji i tak dalej, dopoki w koncu nie trafi na $nothing.
 2
 
 2
-Example:
+Przyklad:
 2
 
 2
@@ -40965,11 +40967,11 @@ $string_utils:title_list(locations(me)) => "\"Butterknife Ballet\" Control Room 
 2
 
 2
-If stop is in the locations found, it will stop before there and return the list (exclusive of the stop object).
+Jesli stop znajduje sie wsrod znalezionych lokalizacji, zatrzyma sie przed nim i zwroci liste (bez obiektu stop).
 2
 
 2
-If the third argument is true, stop is assumed to be a PARENT. And if any of your locations are children of that parent, it stops there.
+Jesli trzeci argument jest prawdziwy, zaklada sie, ze stop jest RODZICEM. I jesli ktoras z twoich lokalizacji jest dzieckiem tego rodzica, zatrzymuje sie tam.
 2
 
 36
@@ -40985,11 +40987,11 @@ verb_cache_stats()
 4
 6
 2
-Syntax: mapdelete (MAP map, ANY key)
+Skladnia: mapdelete (MAP map, ANY key)
 2
 
 2
-Returns a copy of map with the value corresponding to key removed. If key is not a valid key, then E_RANGE is raised.
+Zwraca kopie map z usunieta wartoscia odpowiadajaca key. Jesli key nie jest prawidlowym kluczem, podnoszony jest E_RANGE.
 2
 
 2
@@ -41001,21 +41003,21 @@ mapdelete(x, "bar")       =>  ["baz" -> 3, "foo" -> 1]
 4
 3
 2
-Syntax: maphaskey (MAP <map>, STR <key>)   => INT
+Skladnia: maphaskey (MAP <map>, STR <key>)   => INT
 2
 
 2
-Returns 1 if <key> exists in <map>. When not dealing with hundreds of keys, this function is faster (and easier to read) than something like: !(x in mapkeys(map))
+Zwraca 1, jesli <key> istnieje w <map>. Gdy nie mamy do czynienia z setkami kluczy, ta funkcja jest szybsza (i czytelniejsza) niz cos w stylu: !(x in mapkeys(map))
 36
 5
 4
 6
 2
-Syntax: mapkeys (MAP map)
+Skladnia: mapkeys (MAP map)
 2
 
 2
-Returns the keys of the elements of map.
+Zwraca klucze elementow map.
 2
 
 2
@@ -41027,19 +41029,19 @@ mapkeys(x)    =>  {"bar", "baz", "foo"}
 4
 13
 2
-Syntax: mapvalues (MAP <map> [, ... STR <key>])
+Skladnia: mapvalues (MAP <map> [, ... STR <key>])
 2
 
 2
-Returns the values of the elements of map.
+Zwraca wartosci elementow map.
 2
 
 2
-If you only want the values of specific keys in the map, you can specify them as optional arguments. See examples below.
+Jesli chcesz tylko wartosci konkretnych kluczy w mapie, mozesz je podac jako opcjonalne argumenty. Zobacz przyklady ponizej.
 2
 
 2
-Examples:  
+Przyklady:  
 2
 x = ["foo" -> 1, "bar" -> 2, "baz" -> 3];
 2
@@ -41057,91 +41059,91 @@ x = ["foo" -> 1, "bar" -> 2, "baz" -> 3];
 4
 5
 2
-Syntax:  memory_usage ()   => LIST
+Skladnia:  memory_usage ()   => LIST
 2
 
 2
-Return statistics concerning the server's consumption of system memory. The result is a list in the following format:
+Zwraca statystyki dotyczace zuzycia pamieci systemowej przez serwer. Wynik to lista w nastepujacym formacie:
 2
 
 2
-{total memory used, resident set size, shared pages, text, data + stack}
+{calkowita zuzyta pamiec, resident set size, wspoldzielone strony, text, data + stack}
 36
 5
 4
 5
 2
-Syntax: new_waif() => WAIF
+Skladnia: new_waif() => WAIF
 2
 
 2
-The new_waif() builtin creates a new WAIF whose class is the calling object and whose owner is the perms of the calling verb.
+Wbudowana funkcja new_waif() tworzy nowy WAIF, ktorego klasa jest wywolujacym obiektem, a wlascicielem uprawnienia wywolujacego czasownika.
 2
 
 2
-This wizardly version causes it to be owned by the caller of the verb.
+Ta wizardowska wersja sprawia, ze nalezy on do wywolujacego czasownika.
 36
 5
 4
 3
 2
-Syntax:  next_recycled_object(OBJ <start>)  => OBJ | INT
+Skladnia:  next_recycled_object(OBJ <start>)  => OBJ | INT
 2
 
 2
-Return the lowest invalid object. If <start> is specified, no object lower than <start> will be considered. If there are no invalid objects, this function will return 0.
+Zwraca najnizszy nieprawidlowy obiekt. Jesli podano <start>, zaden obiekt nizszy niz <start> nie bedzie brany pod uwage. Jesli nie ma nieprawidlowych obiektow, ta funkcja zwroci 0.
 36
 5
 4
 7
 2
-Syntax:  occupants(LIST <objects> [, OBJ | LIST <parent>, INT <player flag set?>])   => LIST
+Skladnia:  occupants(LIST <objects> [, OBJ | LIST <parent>, INT <player flag set?>])   => LIST
 2
 
 2
-Iterates through the list of <objects> and returns those matching a specific set of criteria:
+Przechodzi przez liste <objects> i zwraca te pasujace do konkretnego zestawu kryteriow:
 2
 
 2
-1. If only <objects> is specified, the occupants function will return a list of objects with the player flag set.
+1. Jesli podano tylko <objects>, funkcja occupants zwroci liste obiektow z ustawiona flaga gracza.
 2
-2. If the <parent> argument is specified, a list of <objects> descending from <parent> will be returned. If <parent> is a list, <object> must descend from at least one object in the list.
+2. Jesli podano argument <parent>, zwrocona zostanie lista <objects> dziedziczacych po <parent>. Jesli <parent> jest lista, <object> musi dziedziczyc po co najmniej jednym obiekcie z listy.
 2
-3. If both <parent> and <player flag set> are specified, occupants will check both that an object is descended from <parent> and also has the player flag set.
+3. Jesli podano zarowno <parent>, jak i <player flag set>, occupants sprawdzi zarowno, czy obiekt dziedziczy po <parent>, jak i czy ma ustawiona flage gracza.
 36
 5
 4
 3
 2
-Syntax:  owned_objects(OBJ owner)  => LIST
+Skladnia:  owned_objects(OBJ owner)  => LIST
 2
 
 2
-Returns a list of all objects in the database owned by <owner>. Ownership is defined by the value of .owner on the object.
+Zwraca liste wszystkich obiektow w bazie danych nalezacych do <owner>. Wlasnosc jest okreslana przez wartosc .owner na obiekcie.
 36
 5
 4
 3
 2
-Syntax:  panic([STR <message>])
+Skladnia:  panic([STR <message>])
 2
 
 2
-Unceremoniously shut down the server, mimicking the behavior of a fatal error. The database will NOT be dumped to the file specified when starting the server. A new file will be created with the name of your database appended with .PANIC.
+Bezceremonialnie wylacza serwer, nasladujac zachowanie bledu krytycznego. Baza danych NIE zostanie zrzucona do pliku podanego przy uruchamianiu serwera. Zostanie utworzony nowy plik o nazwie twojej bazy danych z dopiskiem .PANIC.
 36
 5
 4
 5
 2
-Syntax: parent (OBJ object) => OBJ
+Skladnia: parent (OBJ object) => OBJ
 2
         parents (OBJ object) => LIST
 2
 
 2
-parent -- return the parent of object
+parent -- zwraca rodzica object
 2
-parents -- return the parents of object
+parents -- zwraca rodzicow object
 36
 5
 4
@@ -41155,15 +41157,15 @@ parent()
 4
 28
 2
-Syntax: parse_json (STR json [, STR mode])
+Skladnia: parse_json (STR json [, STR mode])
 2
 
 2
-Returns the MOO value representation of the JSON string. If the specified string is not valid JSON, E_INVARG is raised.
+Zwraca reprezentacje MOO stringa JSON. Jesli podany string nie jest poprawnym JSON, podnoszony jest E_INVARG.
 2
 
 2
-The optional mode specifies how this function handles conversion of MOO values into their JSON representation. The options are the same as for generate_json().
+Opcjonalny mode okresla, jak ta funkcja obsluguje konwersje wartosci MOO na ich reprezentacje JSON. Opcje sa takie same jak dla generate_json().
 2
 
 2
@@ -41195,7 +41197,7 @@ parse_json("{\"foo\":\"E_PERM|err\"}", "embedded-types")    =>   ["foo" -> E_PER
 2
 
 2
-In embedded types mode, key values can be converted to MOO types by appending type information. The full set of supported types are obj, str, err, float and int.
+W trybie osadzonych typow wartosci kluczy moga byc konwertowane na typy MOO przez dolaczenie informacji o typie. Pelny zestaw wspieranych typow to obj, str, err, float i int.
 2
 
 2
@@ -41209,33 +41211,33 @@ parse_json("{\"#1|obj\":2}", "embedded-types")              =>   [#1 -> 2]
 2
 
 2
-JSON defines types that MOO (currently) does not support, such as boolean true and false, and null. These values are always converted to the strings "true", "false" and "null". 
+JSON definiuje typy, ktorych MOO (obecnie) nie wspiera, takie jak boolean true i false, oraz null. Te wartosci sa zawsze konwertowane na stringi "true", "false" i "null". 
 36
 5
 4
 17
 2
-Syntax:	  pcre_match (STR <subject>, STR <pattern> [, <case matters> 0] [, <repeat until no matches> 1]	=> LIST
+Skladnia:t  pcre_match (STR <subject>, STR <pattern> [, <case matters> 0] [, <repeat until no matches> 1]t=> LIST
 2
 
 2
-The function `pcre_match()' searches <subject> for <pattern> using the Perl Compatible Regular Expressions library. The return value is a list of maps containing each match. Each returned map will have a key which corresponds to either a named capture group or the number of the capture group being matched. The full match is always found in the key "0". The value of each key will be another map containing the keys 'match' and 'position'. Match corresponds to the text that was matched and position will return the indices of the substring within <subject>.
+Funkcja `pcre_match()' przeszukuje <subject> w poszukiwaniu <pattern> za pomoca biblioteki Perl Compatible Regular Expressions. Wartoscia zwracana jest lista map, kazda zawierajaca jedno dopasowanie. Kazda zwrocona mapa bedzie miala klucz odpowiadajacy albo nazwanej grupie przechwytujacej, albo numerowi dopasowywanej grupy przechwytujacej. Pelne dopasowanie zawsze znajduje sie pod kluczem "0". Wartoscia kazdego klucza bedzie kolejna mapa zawierajaca klucze 'match' i 'position'. Match odpowiada dopasowanemu tekstowi, a position zwroci indeksy podciagu wewnatrz <subject>.
 2
 
 2
-If <repeat until no matches> is 1, the expression will continue to be evaluated until no further matches can be found or it exhausts the iteration limit. This defaults to 1.
+Jesli <repeat until no matches> wynosi 1, wyrazenie bedzie nadal ewaluowane, dopoki nie da sie znalezc dalszych dopasowan lub wyczerpie sie limit iteracji. Domyslnie 1.
 2
 
 2
-Additionally, wizards can control how many iterations of the loop are possible by adding a property to $server_options. $server_options.pcre_match_max_iterations is the maximum number of loops allowed before giving up and allowing other tasks to proceed. CAUTION: It's recommended to keep this value fairly low. The default value is 1000. The minimum value is 100.
+Dodatkowo wizardzi moga kontrolowac, ile iteracji petli jest mozliwych, dodajac wlasciwosc do $server_options. $server_options.pcre_match_max_iterations to maksymalna liczba petli dozwolona przed poddaniem sie i pozwoleniem innym zadaniom na dzialanie. UWAGA: zaleca sie trzymanie tej wartosci dosc niskiej. Wartosc domyslna to 1000. Wartosc minimalna to 100.
 2
 
 2
-Examples:
+Przyklady:
 2
 
 2
-Extract dates from a string:
+Wyciagnij daty ze stringa:
 2
 pcre_match("09/12/1999 other random text 01/21/1952", "([0-9]{2})/([0-9]{2})/([0-9]{4})")
 2
@@ -41243,7 +41245,7 @@ pcre_match("09/12/1999 other random text 01/21/1952", "([0-9]{2})/([0-9]{2})/([0
 2
 
 2
-Explode a string (albeit a contrived example):
+Rozbij string (choc to sztuczny przyklad):
 2
 ;;ret = {}; for x in (pcre_match("This is a string of words, with punctuation, that should be exploded. By space. --zippy--", "[a-zA-Z]+", 0, 1)) ret = {@ret, x["0"]["match"]}; endfor return ret;
 2
@@ -41253,41 +41255,41 @@ Explode a string (albeit a contrived example):
 4
 28
 2
-Syntax:   pcre_replace (STR <subject>, STR <pattern>) => STR
+Skladnia:   pcre_replace (STR <subject>, STR <pattern>) => STR
 2
 
 2
-The function `pcre_replace()' replaces <subject> with replacements found in <pattern> using the Perl Compatible Regular Expressions library.
+Funkcja `pcre_replace()' zastepuje <subject> zamiennikami znalezionymi w <pattern> za pomoca biblioteki Perl Compatible Regular Expressions.
 2
 
 2
-The pattern string has a specific format that must be followed, which should be familiar if you have used the likes of Vim, Perl, or sed. The string is composed of four elements, each separated by a delimiter (typically a slash (/) or an exclamation mark (!)), that tell PCRE how to parse your replacement. We'll break the string down and mention relevant options below:
+String wzorca ma konkretny format, ktorego trzeba przestrzegac, i powinien byc znajomy, jesli uzywales czegos w rodzaju Vim, Perl czy sed. String sklada sie z czterech elementow, kazdy oddzielony ogranicznikiem (zwykle ukosnikiem (/) lub wykrzyknikiem (!)), ktore mowia PCRE, jak parsowac twoje zastapienie. Rozlozymy string na czesci i wspomnimy ponizej odpowiednie opcje:
 2
 
 2
-1. Type of search to perform. In MOO, only 's' is valid. This parameter is kept for the sake of consistency.
+1. Typ wyszukiwania do wykonania. W MOO prawidlowe jest tylko 's'. Ten parametr jest zachowany dla spojnosci.
 2
-2. The text you want to search for a replacement.
+2. Tekst, dla ktorego chcesz szukac zastapienia.
 2
-3. The regular expression you want to use for your replacement text.
+3. Wyrazenie regularne, ktorego chcesz uzyc dla tekstu zastepujacego.
 2
-4. Optional modifiers:
+4. Opcjonalne modyfikatory:
 2
-    g: Global. This will replace all occurrences in your string rather than stopping at the first.
+    g: Global. To zastapi wszystkie wystapienia w twoim stringu zamiast zatrzymywac sie na pierwszym.
 2
-    i: Case-insensitive. Uppercase, lowercase, it doesn't matter. All will be replaced.
+    i: Bez rozroznienia wielkosci liter. Wielkie, male litery, nie ma znaczenia. Wszystkie zostana zastapione.
 2
     
 2
-The replacement text can use placeholders in the form of a dollar sign and a number corresponding to a capture group (e.g. $1 will be replaced with the text from the first capture group, $2 the second, etc).
+Tekst zastepujacy moze uzywac symboli zastepczych w postaci znaku dolara i liczby odpowiadajacej grupie przechwytujacej (np. $1 zostanie zastapione tekstem z pierwszej grupy przechwytujacej, $2 z drugiej itd).
 2
 
 2
-Examples:
+Przyklady:
 2
 
 2
-Replace one word with another:
+Zamien jedno slowo na inne:
 2
 pcre_replace("I like banana pie. Do you like banana pie?", "s/banana/apple/g")
 2
@@ -41295,7 +41297,7 @@ pcre_replace("I like banana pie. Do you like banana pie?", "s/banana/apple/g")
 2
 
 2
-Replace text from a capture group:
+Zamien tekst z grupy przechwytujacej:
 2
 ;pcre_replace("You can find it in objref #1234.", "s/objref (#\d*)/object $1/g")
 2
@@ -41303,7 +41305,7 @@ Replace text from a capture group:
 2
 
 2
-If you find yourself wanting to replace a string that contains slashes, it can be useful to change your delimiter to an exclamation mark:
+Jesli chcesz zastapic string zawierajacy ukosniki, przydatne moze byc zmienienie ogranicznika na wykrzyknik:
 2
 pcre_replace("Unix, wow! /bin/bash is a thing.", "s!/bin/bash!/bin/fish!g")
 2
@@ -41313,37 +41315,37 @@ pcre_replace("Unix, wow! /bin/bash is a thing.", "s!/bin/bash!/bin/fish!g")
 4
 3
 2
-Syntax: random_bytes (INT count)
+Skladnia: random_bytes (INT count)
 2
 
 2
-Returns a binary string composed of between one and 10000 random bytes. count specifies the number of bytes and must be a positive integer; otherwise, E_INVARG is raised. 
+Zwraca string binarny zlozony z od jednego do 10000 losowych bajtow. count okresla liczbe bajtow i musi byc dodatnia liczba calkowita; w przeciwnym razie podnoszony jest E_INVARG. 
 36
 5
 4
 32
 2
-Syntax: read_http (request-or-response [, OBJ conn])
+Skladnia: read_http (request-or-response [, OBJ conn])
 2
 
 2
-Reads lines from the connection conn (or, if not provided, from the player that typed the command that initiated the current task) and attempts to parse the lines as if they are an HTTP request or response. request-or-response must be either the string "request" or "response". It dictates the type of parsing that will be done.
+Czyta linie z polaczenia conn (lub, jesli nie podano, od gracza ktory wpisal polecenie zapoczatkowujace biezace zadanie) i probuje sparsowac te linie tak, jakby byly zadaniem lub odpowiedzia HTTP. request-or-response musi byc albo stringiem "request", albo "response". Okresla to rodzaj parsowania, ktore zostanie wykonane.
 2
 
 2
-Just like read(), if conn is provided, then the programmer must either be a wizard or the owner of conn; if conn is not provided, then read_http() may only be called by a wizard and only in the task that was last spawned by a command from the connection in question. Otherwise, E_PERM is raised. Likewise, if conn is not currently connected and has no pending lines of input, or if the connection is closed while a task is waiting for input but before any lines of input are received, then read_http() raises E_INVARG.
+Tak jak przy read(), jesli podano conn, programista musi byc albo wizardem, albo wlascicielem conn; jesli nie podano conn, read_http() moze byc wywolane tylko przez wizarda i tylko w zadaniu ostatnio zapoczatkowanym przez polecenie z danego polaczenia. W przeciwnym razie podnoszony jest E_PERM. Podobnie, jesli conn nie jest obecnie polaczone i nie ma oczekujacych linii danych wejsciowych, lub jesli polaczenie zostanie zamkniete podczas gdy zadanie czeka na dane wejsciowe, ale przed odebraniem jakichkolwiek linii, read_http() podnosi E_INVARG.
 2
 
 2
-If parsing fails because the request or response is syntactically incorrect, read_http() will return a map with the single key "error" and a list of values describing the reason for the error. If parsing succeeds, read_http() will return a map with an appropriate subset of the following keys, with values parsed from the HTTP request or response: "method", "uri", "headers", "body", "status" and "upgrade".
+Jesli parsowanie zawiedzie, bo zadanie lub odpowiedz jest skladniowo niepoprawna, read_http() zwroci mape z pojedynczym kluczem "error" i lista wartosci opisujacych powod bledu. Jesli parsowanie sie powiedzie, read_http() zwroci mape z odpowiednim podzbiorem nastepujacych kluczy, z wartosciami sparsowanymi z zadania lub odpowiedzi HTTP: "method", "uri", "headers", "body", "status" i "upgrade".
 2
 
 2
-    Fine point: read_http() assumes the input strings are binary strings. When called interactively, as in the example below, the programmer must insert the literal line terminators or parsing will fail. 
+    Subtelnosc: read_http() zaklada, ze stringi wejsciowe sa stringami binarnymi. Gdy wywolywane interaktywnie, jak w przykladzie ponizej, programista musi wstawic doslowne terminatory linii, inaczej parsowanie sie nie powiedzie. 
 2
 
 2
-The following example interactively reads an HTTP request from the players connection.
+Ponizszy przyklad interaktywnie odczytuje zadanie HTTP z polaczenia gracza.
 2
 
 2
@@ -41357,7 +41359,7 @@ Host: example.com~0D~0A
 2
 
 2
-In this example, the string ~0D~0A ends the request. The call returns the following (the request has no body):
+W tym przykladzie string ~0D~0A konczy zadanie. Wywolanie zwraca nastepujace (zadanie nie ma tresci):
 2
 
 2
@@ -41365,7 +41367,7 @@ In this example, the string ~0D~0A ends the request. The call returns the follow
 2
 
 2
-The following example interactively reads an HTTP response from the players connection.
+Ponizszy przyklad interaktywnie odczytuje odpowiedz HTTP z polaczenia gracza.
 2
 
 2
@@ -41381,7 +41383,7 @@ Content-Length: 10~0D~0A
 2
 
 2
-The call returns the following:
+Wywolanie zwraca nastepujace:
 2
 
 2
@@ -41391,59 +41393,59 @@ The call returns the following:
 4
 5
 2
-Syntax:  recreate(OBJ <old>, OBJ <parent> [, OBJ <owner>])  => OBJ
+Skladnia:  recreate(OBJ <old>, OBJ <parent> [, OBJ <owner>])  => OBJ
 2
 
 2
-Recreate invalid object <old> (one that has previously been recycle()ed) as <parent>, optionally owned by <owner>. This has the effect of filling in holes created by recycle() that would normally require renumbering and resetting the maximum object.
+Odtwarza nieprawidlowy obiekt <old> (taki, ktory wczesniej byl poddany recycle()) jako <parent>, opcjonalnie nalezacy do <owner>. Ma to efekt wypelnienia dziur stworzonych przez recycle(), ktore normalnie wymagalyby przenumerowania i zresetowania maksymalnego obiektu.
 2
 
 2
-The normal rules apply to parent and owner. You either have to own <parent>, <parent> must be fertile, or you have to be a wizard. Similarly, to change <owner>, you should be a wizard. Otherwise it's superfluous.
+Obowiazuja normalne zasady dla parent i owner. Musisz albo posiadac <parent>, <parent> musi byc plodny, albo musisz byc wizardem. Podobnie, by zmienic <owner>, powinienes byc wizardem. W przeciwnym razie jest to zbedne.
 36
 5
 4
 3
 2
-Syntax:  recycled_objects()  => LIST
+Skladnia:  recycled_objects()  => LIST
 2
 
 2
-Return a list of all invalid objects in the database. An invalid object is one that has been destroyed with the recycle() function.
+Zwraca liste wszystkich nieprawidlowych obiektow w bazie danych. Nieprawidlowy obiekt to taki, ktory zostal zniszczony funkcja recycle().
 36
 5
 4
 3
 2
-Syntax: reseed_random()
+Skladnia: reseed_random()
 2
 
 2
-Provide a new seed to the pseudo random number generator.
+Dostarcza nowe ziarno dla generatora liczb pseudolosowych.
 36
 5
 4
 3
 2
-Syntax: respond_to(OBJ object, STR verb)
+Skladnia: respond_to(OBJ object, STR verb)
 2
 
 2
-Returns true if <verb> is callable on <object>, taking into account inheritance, wildcards (star verbs), etc. Otherwise, returns false.  If the caller is permitted to read the object (because the object's `r' flag is true, or the caller is the owner or a wizard) the true value is a list containing the object number of the object that defines the verb and the full verb name(s).  Otherwise, the numeric value `1' is returned.
+Zwraca prawde, jesli <verb> jest wywolywalny na <object>, uwzgledniajac dziedziczenie, symbole wieloznaczne (czasowniki-gwiazdki) itd. W przeciwnym razie zwraca falsz.  Jesli wywolujacy ma prawo odczytu obiektu (bo flaga `r' obiektu jest prawdziwa, lub wywolujacy jest wlascicielem lub wizardem), wartosc prawdziwa to lista zawierajaca numer obiektu obiektu definiujacego czasownik oraz pelna nazwe(-y) czasownika.  W przeciwnym razie zwracana jest wartosc liczbowa `1'.
 36
 5
 4
 9
 2
-Syntax:  reverse(LIST <alist>) => LIST | STR
+Skladnia:  reverse(LIST <alist>) => LIST | STR
 2
 
 2
-Return a reversed list or string.
+Zwraca odwrocona liste lub string.
 2
 
 2
-Examples:
+Przyklady:
 2
 
 2
@@ -41465,11 +41467,11 @@ index()
 4
 13
 2
-Syntax: salt (STR format, STR input)
+Skladnia: salt (STR format, STR input)
 2
 
 2
-Generate a crypt() compatible salt string for the specified salt format using the specified binary random input. The specific set of formats supported depends on the libraries used to build the server, but will always include the standard salt format, indicated by the format string "" (the empty string), and the BCrypt salt format, indicated by the format string "$2a$NN$" (where "NN" is the work factor). Other possible formats include MD5 ("$1$"), SHA256 ("$5$") and SHA512 ("$6$"). Both the SHA256 and SHA512 formats support optional rounds.
+Generuje string soli kompatybilny z crypt() dla podanego formatu soli, uzywajac podanego binarnego losowego wejscia. Konkretny zestaw wspieranych formatow zalezy od bibliotek uzytych do zbudowania serwera, ale zawsze bedzie zawieral standardowy format soli, oznaczany stringiem formatu "" (pusty string), oraz format soli BCrypt, oznaczany stringiem formatu "$2a$NN$" (gdzie "NN" to wspolczynnik pracy). Inne mozliwe formaty to MD5 ("$1$"), SHA256 ("$5$") i SHA512 ("$6$"). Zarowno format SHA256, jak i SHA512 wspieraja opcjonalne rundy.
 2
 
 2
@@ -41489,35 +41491,35 @@ salt("$2a$08$", "|~99~86~DEq~94_~F3-~1A~D2#~8C~B5sx")    =>    "$2a$08$dHkE1lESV
 2
 
 2
-Note: To ensure proper security, the random input must be from a sufficiently random source. 
+Uwaga: by zapewnic wlasciwe bezpieczenstwo, losowe wejscie musi pochodzic z wystarczajaco losowego zrodla. 
 36
 5
 4
 7
 2
-Syntax: server_log (STR message [, INT level]) => NONE
+Skladnia: server_log (STR message [, INT level]) => NONE
 2
 
 2
-The text in message is sent to the server log with a distinctive prefix (so that it can be distinguished from server-generated messages)
+Tekst w message jest wysylany do logu serwera z charakterystycznym prefiksem (by mozna go bylo odroznic od komunikatow generowanych przez serwer)
 2
 
 2
-If the programmer is not a wizard, then E_PERM is raised.
+Jesli programista nie jest wizardem, podnoszony jest E_PERM.
 2
 
 2
-If level is provided and is an integer between 0 and 7 inclusive, then message is marked in the server log as one of eight predefined types, from simple log message to error message. Otherwise, if level is provided and true, then message is marked in the server log as an error.
+Jesli podano level i jest liczba calkowita od 0 do 7 wlacznie, message jest oznaczana w logu serwera jako jeden z osmiu predefiniowanych typow, od prostego komunikatu logu do komunikatu bledu. W przeciwnym razie, jesli podano level i jest prawdziwe, message jest oznaczana w logu serwera jako blad.
 36
 5
 4
 6
 2
-Syntax: set_task_local(ANY value)
+Skladnia: set_task_local(ANY value)
 2
 
 2
-Sets a value that gets associated with the current running task. This value persists across verb calls and gets reset when the task is killed, making it suitable for securely passing sensitive intermediate data between verbs. The value can then later be retrieved using the `task_local` function.
+Ustawia wartosc powiazana z biezaco wykonywanym zadaniem. Ta wartosc utrzymuje sie przez wywolania czasownikow i jest resetowana, gdy zadanie zostanie zabite, co czyni ja odpowiednia do bezpiecznego przekazywania wrazliwych danych posrednich miedzy czasownikami. Wartosc mozna pozniej odczytac za pomoca funkcji `task_local`.
 2
 
 2
@@ -41529,45 +41531,45 @@ set_task_local({"list", "of", "arbitrary", "data"})
 4
 9
 2
-Syntax:  set_thread_mode([INT <mode>])
+Skladnia:  set_thread_mode([INT <mode>])
 2
 
 2
-With no arguments specified, set_thread_mode will return the current thread mode for the verb. A value of 1 indicates that threading is enabled for functions that support it. A value of 0 indicates that threading is disabled and all functions will execute in the main MOO thread, as functions have done in default LambdaMOO since version 1.
+Bez podanych argumentow set_thread_mode zwroci biezacy tryb watkowania dla czasownika. Wartosc 1 oznacza, ze watkowanie jest wlaczone dla funkcji, ktore je wspieraja. Wartosc 0 oznacza, ze watkowanie jest wylaczone i wszystkie funkcje beda wykonywane w glownym watku MOO, tak jak funkcje dzialaly w domyslnym LambdaMOO od wersji 1.
 2
 
 2
-If you specify an argument, you can control the thread mode of the current verb. A <mode> of 1 will enable threading and a <mode> of 0 will disable it. You can invoke this function multiple times if you want to disable threading for a single function call and enable it for the rest.
+Jesli podasz argument, mozesz kontrolowac tryb watkowania biezacego czasownika. <mode> rowne 1 wlaczy watkowanie, a <mode> rowne 0 je wylaczy. Mozesz wywolac te funkcje wielokrotnie, jesli chcesz wylaczyc watkowanie dla pojedynczego wywolania funkcji i wlaczyc je dla reszty.
 2
 
 2
-When should you disable threading? In general, threading should be disabled in verbs where it would be undesirable to suspend(). Each threaded function will immediately suspend the verb while the thread carries out its work. This can have a negative effect when you want to use these functions in verbs that cannot or should not suspend, like $sysobj:do_command or $sysobj:do_login_command.
+Kiedy nalezy wylaczyc watkowanie? Ogolnie watkowanie powinno byc wylaczone w czasownikach, gdzie niepozadane byloby wywolanie suspend(). Kazda watkowana funkcja natychmiast zawiesi czasownik, podczas gdy watek wykonuje swoja prace. Moze to miec negatywny efekt, gdy chcesz uzyc tych funkcji w czasownikach, ktore nie moga lub nie powinny sie zawieszac, jak $sysobj:do_command lub $sysobj:do_login_command.
 2
 
 2
-Note that the threading mode affects the current verb only and does NOT affect verbs called from within that verb.
+Uwaga: tryb watkowania dotyczy tylko biezacego czasownika i NIE wplywa na czasowniki wywolywane z jego wnetrza.
 36
 5
 4
 13
 2
-Syntax:  slice(LIST <alist> [, INT | LIST | STR <index>, ANY <default map value>])   => LIST
+Skladnia:  slice(LIST <alist> [, INT | LIST | STR <index>, ANY <default map value>])   => LIST
 2
 
 2
-Return the <index>-th elements of <alist>. By default, index will be 1. If index is a list of integers, the returned list will have those elements from <alist>. This is the built-in equivalent of LambdaCore's $list_utils:slice verb.
+Zwraca <index>-te elementy <alist>. Domyslnie index to 1. Jesli index jest lista liczb calkowitych, zwrocona lista bedzie miec te elementy z <alist>. To wbudowany odpowiednik czasownika $list_utils:slice z LambdaCore.
 2
 
 2
-If <alist> is a list of maps, index can be a string indicating a key to return from each map in <alist>.
+Jesli <alist> jest lista map, index moze byc stringiem wskazujacym klucz do zwrocenia z kazdej mapy w <alist>.
 2
 
 2
-If <default map value> is specified, any maps not containing the key <index> will have <default map value> returned in their place. This is useful in situations where you need to maintain consistency with a list index and can't have gaps in your return list.
+Jesli podano <default map value>, kazda mapa nie zawierajaca klucza <index> bedzie miec zamiast tego zwrocone <default map value>. Jest to przydatne w sytuacjach, gdy trzeba zachowac spojnosc z indeksem listy i nie mozna miec luk w zwracanej liscie.
 2
 
 2
-Examples:
+Przyklady:
 2
  >slice({{"z", 1}, {"y", 2}, {"x",5}}, 2) => {1, 2, 5}.
 2
@@ -41581,27 +41583,27 @@ Examples:
 4
 21
 2
-Syntax:  sort(LIST <list> [, LIST <keys>, INT <natural sort order?>, INT <reverse>])   => LIST
+Skladnia:  sort(LIST <list> [, LIST <keys>, INT <natural sort order?>, INT <reverse>])   => LIST
 2
 
 2
-Sorts <list> either by <keys> or using the list itself. When sorting <list> by itself, you can use an empty list ({}) for <keys> to specify additional optional arguments.
+Sortuje <list> albo wedlug <keys>, albo uzywajac samej listy. Przy sortowaniu <list> sama soba, mozna uzyc pustej listy ({}) dla <keys>, by podac dodatkowe opcjonalne argumenty.
 2
 
 2
-If <natural sort order> is true, strings containing multi-digit numbers will consider those numbers to be a single character. So, for instance, this means that 'x2' would come before 'x11' when sorted naturally because 2 is less than 11. This argument defaults to 0.
+Jesli <natural sort order> jest prawdziwe, stringi zawierajace wieloznakowe liczby beda traktowac te liczby jako pojedynczy znak. Oznacza to na przyklad, ze 'x2' bedzie przed 'x11' przy naturalnym sortowaniu, bo 2 jest mniejsze niz 11. Ten argument domyslnie to 0.
 2
 
 2
-If <reverse> is true, the sort order is reversed. This argument defaults to 0.
+Jesli <reverse> jest prawdziwe, kolejnosc sortowania jest odwrocona. Ten argument domyslnie to 0.
 2
 
 2
-Examples:
+Przyklady:
 2
 
 2
-Sort a list by itself:
+Posortuj liste sama soba:
 2
 >;sort({"a57", "a5", "a7", "a1", "a2", "a11"})
 2
@@ -41609,7 +41611,7 @@ Sort a list by itself:
 2
 
 2
-Sort a list by itself with natural sort order:
+Posortuj liste sama soba z naturalna kolejnoscia sortowania:
 2
 >;sort({"a57", "a5", "a7", "a1", "a2", "a11"}, {}, 1)
 2
@@ -41617,7 +41619,7 @@ Sort a list by itself with natural sort order:
 2
 
 2
-Sort a list of strings by a list of numeric keys:
+Posortuj liste stringow wedlug listy kluczy liczbowych:
 2
 >;sort({"foo", "bar", "baz"}, {123, 5, 8000})
 2
@@ -41627,55 +41629,55 @@ Sort a list of strings by a list of numeric keys:
 4
 3
 2
-Syntax:  spellcheck(STR <word>)   => INT or LIST
+Skladnia:  spellcheck(STR <word>)   => INT or LIST
 2
 
 2
-This function checks the English spelling of <word>. If the spelling is correct, the function will return a 1. If the spelling is incorrect, a LIST of suggestions for correct spellings will be returned instead. If the spelling is incorrect and no suggestions can be found, an empty LIST is returned.
+Ta funkcja sprawdza angielska pisownie <word>. Jesli pisownia jest poprawna, funkcja zwroci 1. Jesli pisownia jest niepoprawna, zamiast tego zwrocona zostanie LISTA sugestii poprawnej pisowni. Jesli pisownia jest niepoprawna i nie znaleziono zadnych sugestii, zwracana jest pusta LISTA.
 36
 5
 4
 7
 2
-Syntax:	  sqlite_close(INT <database handle) => INT
+Skladnia:t  sqlite_close(INT <database handle) => INT
 2
 
 2
-This function will close an open database.
+Ta funkcja zamknie otwarta baze danych.
 2
 
 2
-If successful, return 1;
+Jesli sukces, zwraca 1;
 2
 
 2
-If unsuccessful, returns E_INVARG.
+Jesli niepowodzenie, zwraca E_INVARG.
 36
 5
 4
 12
 2
-Syntax:	  sqlite_execute(INT <database handle>, STR <SQL prepared statement query>, LIST <values>) => [LIST or STR]
+Skladnia:t  sqlite_execute(INT <database handle>, STR <SQL prepared statement query>, LIST <values>) => [LIST or STR]
 2
 
 2
-This function will attempt to create and execute the prepared statement query given in <query> on the database referred to by <handle> with the values <values>.
+Ta funkcja probuje utworzyc i wykonac przygotowane zapytanie podane w <query> na bazie danych wskazanej przez <handle> z wartosciami <values>.
 2
 
 2
-On success, this function will return a list identifying the returned rows. If the query didn't return rows but was successful, an empty list is returned.
+W razie sukcesu ta funkcja zwroci liste identyfikujaca zwrocone wiersze. Jesli zapytanie nie zwrocilo wierszy, ale zakonczylo sie sukcesem, zwracana jest pusta lista.
 2
 
 2
-If the query fails, a string will be returned identifying the SQLite error message.
+Jesli zapytanie sie nie powiedzie, zwrocony zostanie string identyfikujacy komunikat bledu SQLite.
 2
 
 2
-sqlite_execute uses prepared statements, so it's the preferred function to use for security and performance reasons.
+sqlite_execute uzywa przygotowanych zapytan, wiec jest to preferowana funkcja do uzycia ze wzgledow bezpieczenstwa i wydajnosci.
 2
 
 2
-Example:
+Przyklad:
 2
 sqlite_execute(0, "INSERT INTO users VALUES (?, ?, ?);", {#7, "lisdude", "Albori Sninvel"})
 36
@@ -41683,225 +41685,225 @@ sqlite_execute(0, "INSERT INTO users VALUES (?, ?, ?);", {#7, "lisdude", "Albori
 4
 3
 2
-Syntax:	  sqlite_handles() => LIST
+Skladnia:t  sqlite_handles() => LIST
 2
 
 2
-Returns a list of open SQLite database handles.
+Zwraca liste otwartych uchwytow baz danych SQLite.
 36
 5
 4
 9
 2
-Syntax:	  sqlite_info(INT <database handle>) => MAP
+Skladnia:t  sqlite_info(INT <database handle>) => MAP
 2
 
 2
-This function returns a map of information about the database at <handle>
+Ta funkcja zwraca mape informacji o bazie danych pod <handle>
 2
 
 2
-The information returned is:
+Zwracane informacje to:
 2
-	Database Path
+tSciezka bazy danych
 2
-	Type parsing enabled?
+tCzy parsowanie typow jest wlaczone?
 2
-	Object parsing enabled?
+tCzy parsowanie obiektow jest wlaczone?
 2
-	String sanitation enabled?
+tCzy sanityzacja stringow jest wlaczona?
 36
 5
 4
 7
 2
-Syntax:	  sqlite_interrupt(INT <database handle>)
+Skladnia:t  sqlite_interrupt(INT <database handle>)
 2
 
 2
-This function causes any pending database operation to abort at its earliest opportunity. If the operation is nearly finished when sqlite_interrupt is called, it might not have an opportunity to be interrupted and could continue to completion.
+Ta funkcja powoduje, ze kazda oczekujaca operacja na bazie danych zostanie przerwana przy najblizszej okazji. Jesli operacja jest niemal zakonczona, gdy wywolano sqlite_interrupt, moze nie miec okazji zostac przerwana i moze dobiec konca.
 2
 
 2
-This can be useful when you execute a long-running query and want to abort it.
+Moze to byc przydatne, gdy wykonujesz dlugotrwale zapytanie i chcesz je przerwac.
 2
 
 2
-NOTE: As of this writing (server version 2.7.0) the @kill command WILL NOT abort operations taking place in a helper thread. If you want to interrupt an SQLite query, you must use sqlite_interrupt and NOT the @kill command.
+UWAGA: w chwili pisania tego tekstu (wersja serwera 2.7.0) polecenie @kill NIE przerwie operacji wykonywanych w watku pomocniczym. Jesli chcesz przerwac zapytanie SQLite, musisz uzyc sqlite_interrupt, a NIE polecenia @kill.
 36
 5
 4
 3
 2
-Syntax:	  sqlite_last_insert_row_id(INT <database handle>)
+Skladnia:t  sqlite_last_insert_row_id(INT <database handle>)
 2
 
 2
-This function identifies the row ID of the last insert command executed on the database.
+Ta funkcja identyfikuje ID wiersza ostatniego polecenia insert wykonanego na bazie danych.
 36
 5
 4
 47
 2
-Syntax:	  sqlite_limit(INT <database handle>, STR <category> INT <new value>) => INT
+Skladnia:t  sqlite_limit(INT <database handle>, STR <category> INT <new value>) => INT
 2
 
 2
-This function allows you to specify various construct limitations on a per-database basis.
+Ta funkcja pozwala okreslic rozne ograniczenia konstrukcji dla poszczegolnych baz danych.
 2
 
 2
-If <new value> is a negative number, the limit is unchanged. Each limit category has a hardcoded upper bound. Attempts to increase a limit above its hard upper bound are silently truncated to the hard upper bound.
+Jesli <new value> jest liczba ujemna, limit pozostaje bez zmian. Kazda kategoria limitu ma zakodowana na sztywno gorna granice. Proby zwiekszenia limitu ponad jego gorna granice sa po cichu obcinane do tej gornej granicy.
 2
 
 2
-Regardless of whether or not the limit was changed, the sqlite_limit() function returns the prior value of the limit. Hence, to find the current value of a limit without changing it, simply invoke this interface with the third parameter set to -1.
+Niezaleznie od tego, czy limit zostal zmieniony, funkcja sqlite_limit() zwraca poprzednia wartosc limitu. Zatem, by sprawdzic biezaca wartosc limitu bez jej zmiany, wystarczy wywolac ten interfejs z trzecim parametrem ustawionym na -1.
 2
 
 2
-As of this writing, the following limits exist:
+W chwili pisania tego tekstu istnieja nastepujace limity:
 2
 
 2
 LIMIT_LENGTH
 2
-    The maximum size of any string or BLOB or table row, in bytes.
+    Maksymalny rozmiar dowolnego stringa, BLOB lub wiersza tabeli, w bajtach.
 2
 
 2
 LIMIT_SQL_LENGTH
 2
-    The maximum length of an SQL statement, in bytes.
+    Maksymalna dlugosc polecenia SQL, w bajtach.
 2
 
 2
 LIMIT_COLUMN
 2
-    The maximum number of columns in a table definition or in the result set of a SELECT or the maximum number of columns in an index or in an ORDER BY or GROUP BY clause.
+    Maksymalna liczba kolumn w definicji tabeli lub w wyniku SELECT, lub maksymalna liczba kolumn w indeksie lub klauzuli ORDER BY lub GROUP BY.
 2
 
 2
 LIMIT_EXPR_DEPTH
 2
-    The maximum depth of the parse tree on any expression.
+    Maksymalna glebokosc drzewa parsowania dla dowolnego wyrazenia.
 2
 
 2
 LIMIT_COMPOUND_SELECT
 2
-    The maximum number of terms in a compound SELECT statement.
+    Maksymalna liczba czlonow w zlozonym poleceniu SELECT.
 2
 
 2
 LIMIT_VDBE_OP
 2
-    The maximum number of instructions in a virtual machine program used to implement an SQL statement. If sqlite3_prepare_v2() or the equivalent tries to allocate space for more than this many opcodes in a single prepared statement, an SQLITE_NOMEM error is returned.
+    Maksymalna liczba instrukcji w programie maszyny wirtualnej uzywanej do implementacji polecenia SQL. Jesli sqlite3_prepare_v2() lub odpowiednik probuje zaalokowac miejsce na wiecej niz tyle opkodow w jednym przygotowanym zapytaniu, zwracany jest blad SQLITE_NOMEM.
 2
 
 2
 LIMIT_FUNCTION_ARG
 2
-    The maximum number of arguments on a function.
+    Maksymalna liczba argumentow funkcji.
 2
 
 2
 LIMIT_ATTACHED
 2
-    The maximum number of attached databases.
+    Maksymalna liczba dolaczonych baz danych.
 2
 
 2
 LIMIT_LIKE_PATTERN_LENGTH
 2
-    The maximum length of the pattern argument to the LIKE or GLOB operators.
+    Maksymalna dlugosc argumentu wzorca dla operatorow LIKE lub GLOB.
 2
 
 2
 LIMIT_VARIABLE_NUMBER
 2
-    The maximum index number of any parameter in an SQL statement.
+    Maksymalny numer indeksu dowolnego parametru w poleceniu SQL.
 2
 
 2
 LIMIT_TRIGGER_DEPTH
 2
-    The maximum depth of recursion for triggers.
+    Maksymalna glebokosc rekursji dla triggerow.
 2
 
 2
 LIMIT_WORKER_THREADS
 2
-    The maximum number of auxiliary worker threads that a single prepared statement may start.
+    Maksymalna liczba pomocniczych watkow roboczych, jakie moze uruchomic pojedyncze przygotowane zapytanie.
 2
 
 2
-For an up-to-date list of limits, see the SQLite documentation here: https://www.sqlite.org/c3ref/c_limit_attached.html
+Po aktualna liste limitow zobacz dokumentacje SQLite tutaj: https://www.sqlite.org/c3ref/c_limit_attached.html
 36
 5
 4
 18
 2
-Syntax:	  sqlite_open(STR <path to database>, [INT options]) => INT
+Skladnia:t  sqlite_open(STR <path to database>, [INT options]) => INT
 2
 
 2
-The function `sqlite_open' will attempt to open the database at <path> for use with SQLite.
+Funkcja `sqlite_open' probuje otworzyc baze danych pod <path> do uzycia z SQLite.
 2
 
 2
-The second argument is a bitmask of options. Options are:
+Drugi argument to bitmaska opcji. Opcje to:
 2
 
 2
-	SQLITE_PARSE_OBJECTS [4]:    Determines whether strings beginning with a pound symbol (#) are interpreted as MOO object numbers or not.
+tSQLITE_PARSE_OBJECTS [4]:    okresla, czy stringi zaczynajace sie od symbolu funta (#) sa interpretowane jako numery obiektow MOO, czy nie.
 2
-                                     The default is true, which means that any queries that would return a string (such as "#123") will be returned as objects.
+                                     Domyslnie prawda, co oznacza, ze kazde zapytanie, ktore zwrocilo string (jak "#123"), zostanie zwrocone jako obiekty.
 2
-	SQLITE_PARSE_TYPES [2]:      If unset, no parsing of rows takes place and only strings are returned.
+tSQLITE_PARSE_TYPES [2]:      jesli nieustawione, nie odbywa sie parsowanie wierszy i zwracane sa tylko stringi.
 2
-	SQLITE_SANITIZE_STRINGS [8]: If set, newlines (\n) are converted into tabs (\t) to avoid corrupting the MOO database. Default is unset.
-2
-
-2
-NOTE: If the MOO doesn't support bitmasking, you can still specify options. You'll just have to manipulate the int yourself. e.g. if you want to parse objects and types, arg[2] would be a 6. If you only want to parse types, arg[2] would be 2.
+tSQLITE_SANITIZE_STRINGS [8]: jesli ustawione, nowe linie (\n) sa konwertowane na tabulatory (\t), by uniknac uszkodzenia bazy danych MOO. Domyslnie nieustawione.
 2
 
 2
-If successful, the function will return the numeric handle for the open database.
+UWAGA: jesli MOO nie wspiera bitmaskowania, nadal mozna okreslic opcje. Trzeba bedzie po prostu recznie zmanipulowac liczbe calkowita. Np. jesli chcesz parsowac obiekty i typy, arg[2] bedzie 6. Jesli chcesz parsowac tylko typy, arg[2] bedzie 2.
 2
 
 2
-If unsuccessful, the function will return a helpful error message.
+Jesli sukces, funkcja zwroci numeryczny uchwyt otwartej bazy danych.
 2
 
 2
-If the database is already open, a traceback will be thrown that contains the already open database handle.
+Jesli niepowodzenie, funkcja zwroci pomocny komunikat bledu.
+2
+
+2
+Jesli baza danych jest juz otwarta, zostanie rzucony traceback zawierajacy juz otwarty uchwyt bazy danych.
 36
 5
 4
 11
 2
-Syntax:	  sqlite_query(INT <database handle>, STR <database query>[, INT <show columns>]) => [LIST or STR]
+Skladnia:t  sqlite_query(INT <database handle>, STR <database query>[, INT <show columns>]) => [LIST or STR]
 2
 
 2
-This function will attempt to execute the query given in <query> on the database referred to by <handle>.
+Ta funkcja probuje wykonac zapytanie podane w <query> na bazie danych wskazanej przez <handle>.
 2
 
 2
-On success, this function will return a list identifying the returned rows. If the query didn't return rows but was successful, an empty list is returned.
+W razie sukcesu ta funkcja zwroci liste identyfikujaca zwrocone wiersze. Jesli zapytanie nie zwrocilo wierszy, ale zakonczylo sie sukcesem, zwracana jest pusta lista.
 2
 
 2
-If the query fails, a string will be returned identifying the SQLite error message.
+Jesli zapytanie sie nie powiedzie, zwrocony zostanie string identyfikujacy komunikat bledu SQLite.
 2
 
 2
-If <show columns> is true, the return list will include the name of the column before its results.
+Jesli <show columns> jest prawdziwe, zwrocona lista bedzie zawierac nazwe kolumny przed jej wynikami.
 2
 
 2
-WARNING: sqlite_query does NOT use prepared statements and should NOT be used on queries that contain user input.
+UWAGA: sqlite_query NIE uzywa przygotowanych zapytan i NIE powinno byc uzywane do zapytan zawierajacych dane od uzytkownika.
 36
 5
 4
@@ -41915,11 +41917,11 @@ binary_hmac
 4
 12
 2
-Syntax: strtr (STR source, STR str1, STR str2 [, case-matters])
+Skladnia: strtr (STR source, STR str1, STR str2 [, case-matters])
 2
 
 2
-Transforms the string source by replacing the characters specified by str1 with the corresponding characters specified by str2. All other characters are not transformed. If str2 has fewer characters than str1 the unmatched characters are simply removed from source. By default the transformation is done on both upper and lower case characters no matter the case. If case-matters is provided and true, then case is treated as significant.
+Przeksztalca string source, zastepujac znaki podane przez str1 odpowiadajacymi znakami podanymi przez str2. Wszystkie inne znaki nie sa przeksztalcane. Jesli str2 ma mniej znakow niz str1, niedopasowane znaki sa po prostu usuwane z source. Domyslnie przeksztalcenie jest wykonywane zarowno na wielkich, jak i malych literach, niezaleznie od wielkosci. Jesli podano case-matters i jest prawdziwe, wielkosc liter jest traktowana jako istotna.
 2
 
 2
@@ -41943,15 +41945,15 @@ strtr("xXxX", "xXxX", "1234", 1)    =>    "3434"
 4
 57
 2
-Syntax:  suspend([INT|FLOAT seconds])  => VALUE
+Skladnia:  suspend([INT|FLOAT seconds])  => VALUE
 2
 
 2
-Suspends the current task, and resumes it after at least <seconds> seconds. Sub-second suspend (IE: 0.1) is possible. (If <seconds> is not provided, the task is suspended indefinitely; such a task can only be resumed by use of the `resume()' function.) When the task is resumed, it will have a full quota of ticks and seconds.  This function is useful for programs that run for a long time or require a lot of ticks.  If <seconds> is negative, then E_INVARG is raised. `Suspend()' returns zero unless it was resumed via `resume()' in which case it returns the second argument given to that function.
+Zawiesza biezace zadanie i wznawia je po co najmniej <seconds> sekundach. Zawieszenie na czesc sekundy (np. 0.1) jest mozliwe. (Jesli <seconds> nie podano, zadanie jest zawieszone na czas nieokreslony; takie zadanie moze byc wznowione tylko przez uzycie funkcji `resume()'.) Gdy zadanie zostanie wznowione, bedzie miec pelny limit tickow i sekund.  Ta funkcja jest przydatna dla programow dzialajacych dlugo lub wymagajacych duzo tickow.  Jesli <seconds> jest ujemne, podnoszony jest E_INVARG. `Suspend()' zwraca zero, chyba ze zostalo wznowione przez `resume()', w ktorym to przypadku zwraca drugi argument podany tej funkcji.
 2
 
 2
-In some sense, this function forks the `rest' of the executing task.  However, there is a major difference between the use of `suspend(<seconds>)' and the use of the `fork (<seconds>)'.  The `fork' statement creates a new task (a "forked task") while the currently-running task still goes on to completion, but a `suspend()' suspends the currently-running task (thus making it into a "suspended task").  This difference may be best explained by the following examples, in which one verb calls another:
+W pewnym sensie ta funkcja forkuje 'reszte' wykonywanego zadania.  Jest jednak zasadnicza roznica miedzy uzyciem `suspend(<seconds>)' a uzyciem `fork (<seconds>)'.  Instrukcja `fork' tworzy nowe zadanie ("zadanie forkniete"), podczas gdy biezace wykonywane zadanie nadal dziala do konca, ale `suspend()' zawiesza biezace wykonywane zadanie (czyniac je "zadaniem zawieszonym").  Te roznice najlepiej wyjasnia ponizszy przyklad, w ktorym jeden czasownik wywoluje drugi:
 2
 
 2
@@ -42039,119 +42041,119 @@ In some sense, this function forks the `rest' of the executing task.  However, t
 2
 
 2
-Consider `#0:caller_A', which calls `#0:callee_A'.  Such a task would assign 1 to `#0.prop', call `#0:callee_A', fork a new task, return to `#0:caller_A', and assign 2 to `#0.prop', ending this task.  Five seconds later, if the forked task had not been killed, then it would begin to run; it would assign 3 to `#0.prop' and then stop.  So, the final value of `#0.prop' (i.e., the value after more than 5 seconds) would be 3.
+Rozwazmy `#0:caller_A', ktore wywoluje `#0:callee_A'.  Takie zadanie przypisze 1 do `#0.prop', wywola `#0:callee_A', sforkuje nowe zadanie, wroci do `#0:caller_A' i przypisze 2 do `#0.prop', konczac to zadanie.  Piec sekund pozniej, jesli sforkowane zadanie nie zostalo zabite, zacznie sie wykonywac; przypisze 3 do `#0.prop' i sie zatrzyma.  Zatem koncowa wartosc `#0.prop' (tj. wartosc po ponad 5 sekundach) bedzie wynosic 3.
 2
 
 2
-Now consider `#0:caller_B', which calls `#0:callee_B' instead of `#0:callee_A'.  This task would assign 1 to `#0.prop', call `#0:callee_B', and suspend.  Five seconds later, if the suspended task had not been killed, then it would resume; it would assign 3 to `#0.prop', return to `#0:caller', and assign 2 to `#0.prop', ending the task. So, the final value of `#0.prop' (i.e., the value after more than 5 seconds) would be 2.
+Teraz rozwazmy `#0:caller_B', ktore wywoluje `#0:callee_B' zamiast `#0:callee_A'.  To zadanie przypisze 1 do `#0.prop', wywola `#0:callee_B' i zawiesi sie.  Piec sekund pozniej, jesli zawieszone zadanie nie zostalo zabite, zostanie wznowione; przypisze 3 do `#0.prop', wroci do `#0:caller' i przypisze 2 do `#0.prop', konczac zadanie. Zatem koncowa wartosc `#0.prop' (tj. wartosc po ponad 5 sekundach) bedzie wynosic 2.
 2
 
 2
-A suspended task, like a forked task, can be described by the `queued_tasks()' function and killed by the `kill_task()' function. Suspending a task does not change its task id.  A task can be suspended again and again by successive calls to `suspend()'.
+Zawieszone zadanie, podobnie jak sforkowane, moze byc opisane przez funkcje `queued_tasks()' i zabite przez funkcje `kill_task()'. Zawieszenie zadania nie zmienia jego task id.  Zadanie moze byc zawieszane wielokrotnie przez kolejne wywolania `suspend()'.
 2
 
 2
-Once `suspend()' has been used in a particular task, then the `read()' function will always raise E_PERM in that task.  For more details, see the description of `read()'.
+Gdy `suspend()' zostanie raz uzyte w danym zadaniu, funkcja `read()' bedzie w tym zadaniu zawsze podnosic E_PERM.  Wiecej szczegolow w opisie `read()'.
 2
 
 2
-By default, there is no limit to the number of tasks any player may suspend, but such a limit can be imposed from within the database. See the chapter in the ToastStunt Programmers Manual on server assumptions about the database for details.
+Domyslnie nie ma limitu liczby zadan, jakie gracz moze zawiesic, ale taki limit mozna narzucic z poziomu bazy danych. Zobacz rozdzial w ToastStunt Programmers Manual o zalozeniach serwera dotyczacych bazy danych po szczegoly.
 36
 5
 4
 5
 2
-Syntax: switch_player(OBJ <object1>, OBJ <object2> [, INT <silent>])
+Skladnia: switch_player(OBJ <object1>, OBJ <object2> [, INT <silent>])
 2
 
 2
-Silently switches the player associated with this connection from <object1> to <object2>. <object1> must be connected and <object2> must be a player. This can be used in do_login_command() verbs that read or suspend (which prevents the normal player selection mechanism from working.
+Po cichu przelacza gracza powiazanego z tym polaczeniem z <object1> na <object2>. <object1> musi byc polaczony, a <object2> musi byc graczem. Mozna tego uzyc w czasownikach do_login_command(), ktore czytaja lub zawieszaja sie (co uniemozliwia normalnemu mechanizmowi wyboru gracza dzialanie).
 2
 
 2
-If <silent> is true, no connection messages will be printed.
+Jesli <silent> jest prawdziwe, zadne komunikaty polaczenia nie zostana wypisane.
 36
 5
 4
 3
 2
-Syntax: task_local ()
+Skladnia: task_local ()
 2
 
 2
-Returns the value associated with the current task. The value is set with the `set_task_local` function.
+Zwraca wartosc powiazana z biezacym zadaniem. Wartosc jest ustawiana funkcja `set_task_local`.
 36
 5
 4
 6
 2
-Syntax:  thread_info(INT <thread handler>)   => LIST
+Skladnia:  thread_info(INT <thread handler>)   => LIST
 2
 
 2
-If a MOO task is running in another thread, its thread handler will give you information about that thread. The information returned in a LIST will be:
+Jesli zadanie MOO dziala w innym watku, jego uchwyt watku poda ci informacje o tym watku. Informacje zwrocone w LISCIE to:
 2
 
 2
-  English Name: This is the name the programmer of the builtin function has given to the task being executed.
+  English Name: to nazwa nadana przez programiste wbudowanej funkcji wykonywanemu zadaniu.
 2
-  Active: 1 or 0 depending upon whether or not the MOO task has been killed. Not all threads cleanup immediately after the MOO task dies.
+  Active: 1 lub 0, zaleznie od tego, czy zadanie MOO zostalo zabite. Nie wszystkie watki sprzataja natychmiast po zakonczeniu zadania MOO.
 36
 5
 4
 21
 2
-Syntax:  thread_pool(STR <function>, STR <pool> [, INT <value>])
+Skladnia:  thread_pool(STR <function>, STR <pool> [, INT <value>])
 2
 
 2
-This function allows you to control any thread pools that the server created at startup. It should be used with care, as it has the potential to create disasterous consequences if used incorrectly.
+Ta funkcja pozwala kontrolowac dowolne pule watkow utworzone przez serwer przy starcie. Nalezy jej uzywac ostroznie, bo moze potencjalnie spowodowac katastrofalne konsekwencje, jesli uzyta niepoprawnie.
 2
 
 2
-The <function> parameter is the function you wish to perform on the thread pool. The functions available are:
+Parametr <function> to funkcja, ktora chcesz wykonac na puli watkow. Dostepne funkcje to:
 2
 
 2
-   INIT: Control initialization of a thread pool.
+   INIT: kontroluje inicjalizacje puli watkow.
 2
 
 2
    
 2
-The <pool> parameter controls which thread pool you wish to apply the designated function to. At the time of writing, the server creates the following thread pool:
+Parametr <pool> kontroluje, do ktorej puli watkow chcesz zastosowac wskazana funkcje. W chwili pisania tego tekstu serwer tworzy nastepujaca pule watkow:
 2
 
 2
-   MAIN: The main thread pool where threaded built-in function work takes place.
-2
-
-2
-
-2
-Finally, <value> is the value you want to pass to the <function> of <pool>. The following functions accept the following values:
-2
-
-2
-   INIT: The number of threads to spawn. NOTE: When executing this function, the existing <pool> will be destroyed and a new one created in its place.
+   MAIN: glowna pula watkow, w ktorej odbywa sie watkowana praca funkcji wbudowanych.
 2
 
 2
 
 2
-Examples:
+Wreszcie <value> to wartosc, ktora chcesz przekazac do <function> dla <pool>. Nastepujace funkcje akceptuja nastepujace wartosci:
 2
-;thread_pool("INIT", "MAIN", 1)     => Replace the existing main thread pool with a new pool consisting of a single thread.
+
+2
+   INIT: liczba watkow do utworzenia. UWAGA: przy wykonywaniu tej funkcji istniejaca <pool> zostanie zniszczona, a nowa utworzona w jej miejsce.
+2
+
+2
+
+2
+Przyklady:
+2
+;thread_pool("INIT", "MAIN", 1)     => zastapia istniejaca glowna pule watkow nowa pula skladajaca sie z pojedynczego watku.
 36
 5
 4
 3
 2
-Syntax:  threads()   => LIST
+Skladnia:  threads()   => LIST
 2
 
 2
-When one or more MOO processes are suspended and working in a separate thread, this function will return a LIST of handlers to those threads. These handlers can then be passed to `thread_info' for more information.
+Gdy jeden lub wiecej procesow MOO jest zawieszonych i pracuje w osobnym watku, ta funkcja zwroci LISTE uchwytow do tych watkow. Te uchwyty mozna nastepnie przekazac do `thread_info' po wiecej informacji.
 36
 5
 4
@@ -42159,25 +42161,25 @@ When one or more MOO processes are suspended and working in a separate thread, t
 2
 *index*
 2
-Stunt / ToastStunt Functions
+Funkcje Stunt / ToastStunt
 36
 5
 4
 15
 2
-Syntax: typeof (value) => INT
+Skladnia: typeof (value) => INT
 2
 
 2
-Takes any MOO value and returns an integer representing the type of value.
+Bierze dowolna wartosc MOO i zwraca liczbe calkowita reprezentujaca typ wartosci.
 2
 
 2
-The result is the same as the initial value of one of these built-in variables: INT, FLOAT, STR, LIST, MAP, OBJ, or ERR, BOOL, MAP, WAIF, ANON. 
+Wynik jest taki sam jak poczatkowa wartosc jednej z wbudowanych zmiennych: INT, FLOAT, STR, LIST, MAP, OBJ lub ERR, BOOL, MAP, WAIF, ANON. 
 2
 
 2
-Thus, one usually writes code like this:
+Zatem zwykle pisze sie kod taki jak ten:
 2
 
 2
@@ -42185,7 +42187,7 @@ if (typeof(x) == LIST) ...
 2
 
 2
-and not like this:
+a nie taki:
 2
 
 2
@@ -42193,47 +42195,47 @@ if (typeof(x) == 3) ...
 2
 
 2
-because the former is much more readable than the latter.
+poniewaz pierwszy jest znacznie czytelniejszy niz drugi.
 36
 5
 4
 5
 2
-Syntax:  usage ()   => LIST
+Skladnia:  usage ()   => LIST
 2
 
 2
-Return statistics concerning the server the MOO is running on. The result is a list in the following format:
+Zwraca statystyki dotyczace serwera, na ktorym dziala MOO. Wynik to lista w nastepujacym formacie:
 2
 
 2
-{load averages}, user time, system time, page reclaims, page faults, block input ops, block output ops, voluntary context switches, involuntary context switches, signals received
+{srednie obciazenie}, czas uzytkownika, czas systemowy, page reclaims, page faults, block input ops, block output ops, dobrowolne przelaczenia kontekstu, niedobrowolne przelaczenia kontekstu, otrzymane sygnaly
 36
 5
 4
 3
 2
-Syntax: value_hmac (value, STR key [, STR algo [, binary]])
+Skladnia: value_hmac (value, STR key [, STR algo [, binary]])
 2
 
 2
-Returns the same string as string_hmac(toliteral(value), key, ...); see the description of string_hmac() for details. 
+Zwraca ten sam string co string_hmac(toliteral(value), key, ...); zobacz opis string_hmac() po szczegoly. 
 36
 5
 4
 15
 2
-Syntax:  verb_args (OBJ <object>, STR|INT <verb-name>)   => LIST
+Skladnia:  verb_args (OBJ <object>, STR|INT <verb-name>)   => LIST
 2
          set_verb_args (OBJ <object>, STR|INT <verb-name>, LIST <args>)   => none
 2
 
 2
-BE AWARE: verb-name can be the string name of the verb OR the index from verbs()
+UWAGA: verb-name moze byc nazwa czasownika jako string ALBO indeksem z verbs()
 2
 
 2
-These two functions get and set (respectively) the direct-object, preposition, and indirect-object specifications for the verb named <verb-name> on the given <object>.  If <object> is not valid, then E_INVARG is raised.  If <object> does not define a verb named <verb-name>, then E_VERBNF is raised.  If the programmer does not have read (write) permission on the verb in question, then `verb_args()' (`set_verb_args()') raises E_PERM.  Verb args specifications have the following form:
+Te dwie funkcje odpowiednio pobieraja i ustawiaja specyfikacje dopelnienia bliszego, przyimka i dopelnienia dalszego dla czasownika o nazwie <verb-name> na podanym <object>.  Jesli <object> nie jest prawidlowy, podnoszony jest E_INVARG.  Jesli <object> nie definiuje czasownika o nazwie <verb-name>, podnoszony jest E_VERBNF.  Jesli programista nie ma uprawnien do odczytu (zapisu) danego czasownika, `verb_args()' (`set_verb_args()') podnosi E_PERM.  Specyfikacje argumentow czasownika maja nastepujaca postac:
 2
 
 2
@@ -42241,7 +42243,7 @@ These two functions get and set (respectively) the direct-object, preposition, a
 2
 
 2
-where <dobj> and <iobj> are strings drawn from the set `"this"', `"none"', and `"any"', and <prep> is a string that is either `"none"', `"any"', or one of the prepositional phrases listed much earlier in the description of verbs in the first chapter.  This is the kind of value returned by `verb_info()' and expected as the third argument to `set_verb_info()'.  Note that for `set_verb_args()', <prep> must be only one of the prepositional phrases, not (as is shown in that table) a set of such phrases separated by `/' characters.  `Set_verb_args()' raises E_INVARG if any of the <dobj>, <prep>, or <iobj> strings is illegal.
+gdzie <dobj> i <iobj> to stringi ze zbioru `"this"', `"none"' i `"any"', a <prep> to string, ktory jest albo `"none"', `"any"', albo jedna z fraz przyimkowych wymienionych znacznie wczesniej w opisie czasownikow w pierwszym rozdziale.  To jest rodzaj wartosci zwracanej przez `verb_info()' i oczekiwanej jako trzeci argument `set_verb_info()'.  Uwaga: dla `set_verb_args()' <prep> musi byc tylko jedna z fraz przyimkowych, a nie (jak pokazano w tej tabeli) zbiorem takich fraz oddzielonych znakami `/'.  `Set_verb_args()' podnosi E_INVARG, jesli ktorys ze stringow <dobj>, <prep> lub <iobj> jest niepoprawny.
 2
 
 2
@@ -42257,13 +42259,13 @@ where <dobj> and <iobj> are strings drawn from the set `"this"', `"none"', and `
 4
 8
 2
-Syntax: verb_cache_stats() => LIST
+Skladnia: verb_cache_stats() => LIST
 2
         log_cache_stats() => NONE
 2
 
 2
-The server caches verbname-to-program lookups to improve performance. These functions respectively return or write to the server log file the current cache statistics. For verb_cache_stats the return value will be a list of the form
+Serwer buforuje wyszukiwania nazwa-czasownika-na-program, by poprawic wydajnosc. Te funkcje odpowiednio zwracaja lub zapisuja do pliku logu serwera biezace statystyki cache. Dla verb_cache_stats zwracana wartosc bedzie lista postaci
 2
 
 2
@@ -42271,47 +42273,47 @@ The server caches verbname-to-program lookups to improve performance. These func
 2
 
 2
-though this may change in future server releases. The cache is invalidated by any builtin function call that may have an effect on verb lookups (e.g., delete_verb()).
+choc moze sie to zmienic w przyszlych wydaniach serwera. Cache jest uniewazniany przez kazde wywolanie funkcji wbudowanej, ktore moze wplynac na wyszukiwania czasownikow (np. delete_verb()).
 36
 5
 4
 10
 2
-Syntax:  verb_code (OBJ <object>, STR|INT <verb-name> [, <fully-paren> [, <indent>]])   => LIST
+Skladnia:  verb_code (OBJ <object>, STR|INT <verb-name> [, <fully-paren> [, <indent>]])   => LIST
 2
          set_verb_code (OBJ <object>, STR|INT <verb-name>, LIST <code>)   => LIST
 2
 
 2
-BE AWARE: verb-name can be the string name of the verb OR the index from verbs()
+UWAGA: verb-name moze byc nazwa czasownika jako string ALBO indeksem z verbs()
 2
 
 2
-These functions get and set (respectively) the MOO-code program associated with the verb named <verb-name> on <object>.  The program is represented as a list of strings, one for each line of the program; this is the kind of value returned by `verb_code()' and expected as the third argument to `set_verb_code()'.  For `verb_code()', the expressions in the returned code are usually written with the minimum-necessary parenthesization; if <full-paren> is true, then all expressions are fully parenthesized. Also for `verb_code()', the lines in the returned code are usually not indented at all; if <indent> is true, each line is indented to better show the nesting of statements.
+Te funkcje odpowiednio pobieraja i ustawiaja program w kodzie MOO zwiazany z czasownikiem o nazwie <verb-name> na <object>.  Program jest reprezentowany jako lista stringow, po jednym na linie programu; to jest rodzaj wartosci zwracanej przez `verb_code()' i oczekiwanej jako trzeci argument `set_verb_code()'.  Dla `verb_code()' wyrazenia w zwracanym kodzie sa zwykle zapisane z minimalna niezbedna liczba nawiasow; jesli <full-paren> jest prawdziwe, wszystkie wyrazenia sa w pelni nawiasowane. Rowniez dla `verb_code()' linie w zwracanym kodzie zwykle nie sa wciete wcale; jesli <indent> jest prawdziwe, kazda linia jest wcieta, by lepiej pokazac zagniezdzenie instrukcji.
 2
 
 2
-If <object> is not valid, then E_INVARG is raised.  If <object> does not define a verb named <verb-name>, then E_VERBNF is raised.  If the programmer does not have read (write) permission on the verb in question, then `verb_code()' (`set_verb_code()') raises E_PERM.  If the programmer is not, in fact, a programmer, then E_PERM is raised.
+Jesli <object> nie jest prawidlowy, podnoszony jest E_INVARG.  Jesli <object> nie definiuje czasownika o nazwie <verb-name>, podnoszony jest E_VERBNF.  Jesli programista nie ma uprawnien do odczytu (zapisu) danego czasownika, `verb_code()' (`set_verb_code()') podnosi E_PERM.  Jesli programista faktycznie nie jest programista, podnoszony jest E_PERM.
 2
 
 2
-For `set_verb_code()', the result is a list of strings, the error messages generated by the MOO-code compiler during processing of <code>.  If the list is non-empty, then `set_verb_code()' did not install <code>; the program associated with the verb in question is unchanged.
+Dla `set_verb_code()' wynikiem jest lista stringow, komunikatow bledow wygenerowanych przez kompilator kodu MOO podczas przetwarzania <code>.  Jesli lista jest niepusta, `set_verb_code()' nie zainstalowal <code>; program zwiazany z danym czasownikiem pozostaje niezmieniony.
 36
 5
 4
 10
 2
-Syntax:  verb_info (OBJ <object>, STR|INT <verb-name>)   => LIST
+Skladnia:  verb_info (OBJ <object>, STR|INT <verb-name>)   => LIST
 2
          set_verb_info (OBJ <object>, STR|INT <verb-name>, LIST <info>)   => none
 2
 
 2
-BE AWARE: verb-name can be the string name of the verb OR the index from verbs()
+UWAGA: verb-name moze byc nazwa czasownika jako string ALBO indeksem z verbs()
 2
 
 2
-These two functions get and set (respectively) the owner, permission bits, and name(s) for the verb named <verb-name> on the given <object>.  If <object> is not valid, then E_INVARG is raised.  If <object> does not define a verb named <verb-name>, then E_VERBNF is raised. If the programmer does not have read (write) permission on the verb in question, then `verb_info()' (`set_verb_info()') raises E_PERM.  Verb info has the following form:
+Te dwie funkcje odpowiednio pobieraja i ustawiaja wlasciciela, bity uprawnien i nazwe(-y) czasownika o nazwie <verb-name> na podanym <object>.  Jesli <object> nie jest prawidlowy, podnoszony jest E_INVARG.  Jesli <object> nie definiuje czasownika o nazwie <verb-name>, podnoszony jest E_VERBNF. Jesli programista nie ma uprawnien do odczytu (zapisu) danego czasownika, `verb_info()' (`set_verb_info()') podnosi E_PERM.  Informacje o czasowniku maja nastepujaca postac:
 2
 
 2
@@ -42319,35 +42321,35 @@ These two functions get and set (respectively) the owner, permission bits, and n
 2
 
 2
-where <owner> is an object, <perms> is a string containing only characters from the set `r', `w', `x', and `d', and <names> is a string.  This is the kind of value returned by `verb_info()' and expected as the third argument to `set_verb_info()'. The latter function raises E_INVARG if <owner> is not valid, if <perms> contains any illegal characters, or if <names> is the empty string or consists entirely of spaces; it raises E_PERM if <owner> is not the programmer and the programmer is not a wizard.
+gdzie <owner> to obiekt, <perms> to string zawierajacy tylko znaki ze zbioru `r', `w', `x' i `d', a <names> to string.  To jest rodzaj wartosci zwracanej przez `verb_info()' i oczekiwanej jako trzeci argument `set_verb_info()'. Ta ostatnia funkcja podnosi E_INVARG, jesli <owner> nie jest prawidlowy, jesli <perms> zawiera jakiekolwiek niedozwolone znaki, lub jesli <names> jest pustym stringiem lub sklada sie wylacznie ze spacji; podnosi E_PERM, jesli <owner> nie jest programista i programista nie jest wizardem.
 36
 5
 4
 3
 2
-Syntax:  waif_stats()   => MAP
+Skladnia:  waif_stats()   => MAP
 2
 
 2
-Returns a MAP of statistics about instantiated waifs. Each waif class will be a key in the MAP and its value will be the number of waifs of that class currently instantiated. Additionally, there is a `total' key that will return the total number of instantiated waifs, and a `pending_recycle' key that will return the number of waifs that have been destroyed and are awaiting the call of their :recycle verb.
+Zwraca MAPE statystyk o zainstancjonowanych waifach. Kazda klasa waif bedzie kluczem w MAPIE, a jej wartoscia bedzie liczba waifow tej klasy obecnie zainstancjonowanych. Dodatkowo istnieje klucz `total', ktory zwroci calkowita liczbe zainstancjonowanych waifow, oraz klucz `pending_recycle', ktory zwroci liczbe waifow, ktore zostaly zniszczone i oczekuja na wywolanie ich czasownika :recycle.
 36
 5
 4
 7
 2
-Syntax:  yin([INT <time>, INT <minimum ticks>, INT <minimum seconds>] )   => INT
+Skladnia:  yin([INT <time>, INT <minimum ticks>, INT <minimum seconds>] )   => INT
 2
 
 2
-Suspend the current task if it's running out of ticks or seconds. This is meant to provide similar functionality to the LambdaCore-based suspend_if_needed verb or manually specifying something like: ticks_left() < 2000 && suspend(0)
+Zawiesza biezace zadanie, jesli konczy mu sie tickow lub sekund. Ma to dostarczac podobna funkcjonalnosc do czasownika suspend_if_needed z LambdaCore lub recznego podania czegos w rodzaju: ticks_left() < 2000 && suspend(0)
 2
 
 2
-Time: How long to suspend the task. Default: 0
+Time: jak dlugo zawiesic zadanie. Domyslnie: 0
 2
-Minimum ticks: The minimum number of ticks the task has left before suspending.
+Minimum ticks: minimalna liczba tickow, jaka zadanie ma pozostawiona przed zawieszeniem.
 2
-Minimum seconds: The minimum number of seconds the task has left before suspending.
+Minimum seconds: minimalna liczba sekund, jaka zadanie ma pozostawiona przed zawieszeniem.
 36
 5
 5
