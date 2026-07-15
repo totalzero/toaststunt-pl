@@ -664,7 +664,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784116606
+1784121002
 2
 name
 2
@@ -1234,7 +1234,7 @@ source
 2
 time
 0
-1784116800
+1784121224
 4
 0
 1
@@ -1462,7 +1462,7 @@ time
 4
 2
 0
-1784116754
+1784121186
 2
 localhost
 2
@@ -1471,7 +1471,7 @@ localhost
 2
 0
 0
-1784116800
+1784121224
 2
 1
 0
@@ -1635,7 +1635,7 @@ localhost
 2
 5
 0
-1784116793
+1784121217
 2
 1
 0
@@ -4155,7 +4155,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--8
+-22
 0
 2
 2
@@ -4169,7 +4169,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-14
+15
+4
+2
+0
+1784121002
+0
+0
 4
 2
 0
@@ -27013,9 +27019,9 @@ feature_task
 4
 9
 0
-1897298068
+842329453
 2
-@abort
+no
 4
 0
 2
@@ -58296,69 +58302,69 @@ return E_PERM;
 endif
 .
 #6:81
-"@registerme as <email-address> -- enter a new email address for player";
-"   will change the database entry, assign a new password, and mail the new password to the player at the given email address.";
+"@registerme as <adres-email> -- podaje nowy adres email dla gracza";
+"   zmieni wpis w bazie danych, przydzieli nowe haslo i wysle je do gracza na podany adres email.";
 if (player != this)
 return player:notify(tostr(E_PERM));
 endif
 who = this;
 if ($object_utils:isa(this, $guest))
-who:notify("Sorry, guests should use the '@request' command to request a character.");
+who:notify("Niestety, guest-y powinny uzyc polecenia '@request', by poprosic o postac.");
 return;
 endif
 connection = $string_utils:connection_hostname(who);
 if (!argstr)
 if ($wiz_utils:get_email_address(who))
-player:tell("You are currently registered as:  ", $wiz_utils:get_email_address(who));
+player:tell("Twoj biezacy adres rejestracji to:  ", $wiz_utils:get_email_address(who));
 else
-player:tell("You are not currently registered.");
+player:tell("Nie masz obecnie zarejestrowanego adresu email.");
 endif
-player:tell("Use @registerme as <address> to change this.");
+player:tell("Uzyj @registerme as <adres>, by to zmienic.");
 return;
 elseif (((prepstr != "as") || (!iobjstr)) || dobjstr)
-player:tell("Usage: @registerme as <address>");
+player:tell("Uzycie: @registerme as <adres>");
 return;
 endif
 email = iobjstr;
 if (email == $wiz_utils:get_email_address(this))
-who:notify("That is your current address.  Not changed.");
+who:notify("To twoj biezacy adres.  Nie zmieniono.");
 return;
 elseif (reason = $wiz_utils:check_reregistration(this, email, connection))
 if (reason[1] == "-")
-if (!$command_utils:yes_or_no(reason[2..$] + ". Automatic registration not allowed. Ask to be registered at this address anyway?"))
-who:notify("Okay.");
+if (!$command_utils:yes_or_no(reason[2..$] + ". Automatyczna rejestracja niedozwolona. Poprosic mimo to o rejestracje pod tym adresem?"))
+who:notify("Ok.");
 return;
 endif
 else
-return who:notify(tostr(reason, " Please try again."));
+return who:notify(tostr(reason, " Sprobuj ponownie."));
 endif
 endif
 if ($network.active && (!reason))
-if (!$command_utils:yes_or_no(tostr("If you continue, your password will be changed, the new password mailed to `", email, "'. Do you want to continue?")))
-return who:notify("Registration terminated.");
+if (!$command_utils:yes_or_no(tostr("Jesli kontynuujesz, twoje haslo zostanie zmienione, a nowe zostanie wyslane na adres `", email, "'. Czy chcesz kontynuowac?")))
+return who:notify("Rejestracja przerwana.");
 endif
 password = $wiz_utils:random_password(5);
-old = $wiz_utils:get_email_address(who) || "[ unregistered ]";
-who:notify(tostr("Registering you, and changing your password and mailing new one to ", email, "."));
-result = $network:sendmail(email, tostr("Your ", $network.MOO_Name, " character, ", who.name), "Reply-to: " + $login.registration_address, @$generic_editor:fill_string(tostr("Your ", $network.MOO_name, " character, ", $string_utils:nn(who), " has been registered to this email address (", email, "), and a new password assigned.  The new password is `", password, "'. Please keep your password secure. You can change your password with the @password command."), 75));
+old = $wiz_utils:get_email_address(who) || "[ niezarejestrowany ]";
+who:notify(tostr("Rejestrowanie, zmiana hasla i wysylanie nowego na adres ", email, "."));
+result = $network:sendmail(email, tostr("Twoja postac na ", $network.MOO_Name, ", ", who.name), "Reply-to: " + $login.registration_address, @$generic_editor:fill_string(tostr("Twoja postac na ", $network.MOO_name, ", ", $string_utils:nn(who), " zostala zarejestrowana pod tym adresem email (", email, "), a nowe haslo zostalo przydzielone.  Nowe haslo to `", password, "'. Zachowaj swoje haslo w bezpiecznym miejscu. Mozesz zmienic haslo za pomoca polecenia @password."), 75));
 if (result != 0)
-who:notify(tostr("Mail sending did not work: ", reason, ". Reregistration terminated."));
+who:notify(tostr("Wysylanie poczty nie powiodlo sie: ", reason, ". Ponowna rejestracja przerwana."));
 return;
 endif
-who:notify(tostr("Mail with your new password forwarded. If you do not get it, send regular email to ", $login.registration_address, " with your character name."));
-$mail_agent:send_message($new_player_log, $new_player_log, "reg " + $string_utils:nn(this), {email, tostr("formerly ", old)});
-$registration_db:add(this, email, "Reregistered at " + ctime());
+who:notify(tostr("Wiadomosc z nowym haslem zostala przekazana. Jesli jej nie otrzymasz, wyslij zwykly email na ", $login.registration_address, " z nazwa swojej postaci."));
+$mail_agent:send_message($new_player_log, $new_player_log, "reg " + $string_utils:nn(this), {email, tostr("wczesniej ", old)});
+$registration_db:add(this, email, "Ponowna rejestracja: " + ctime());
 $wiz_utils:set_email_address(this, email);
 who.password = $login:encrypt_password(password);
 who.last_password_time = time();
 else
-who:notify("No automatic reregistration: your request will be forwarded.");
+who:notify("Brak automatycznej ponownej rejestracji: twoja prosba zostanie przekazana.");
 if (typeof(curreg = $registration_db:find(email)) == LIST)
-additional_info = {"Current registration information for this email address:", @$registration_db:describe_registration(curreg)};
+additional_info = {"Biezace informacje o rejestracji dla tego adresu email:", @$registration_db:describe_registration(curreg)};
 else
 additional_info = {};
 endif
-$mail_agent:send_message(this, $registration_db.registrar, "Registration request", {((("Reregistration request from " + $string_utils:nn(who)) + " connected via ") + connection) + ":", "", (("@register " + who.name) + " ") + email, ("@new-password " + who.name) + " is ", "", "Reason this request was forwarded:", reason, @additional_info});
+$mail_agent:send_message(this, $registration_db.registrar, "Prosba o rejestracje", {((("Prosba o ponowna rejestracje od " + $string_utils:nn(who)) + " polaczonego przez ") + connection) + ":", "", (("@register " + who.name) + " ") + email, ("@new-password " + who.name) + " is ", "", "Powod przekazania tej prosby:", reason, @additional_info});
 endif
 .
 #6:82
@@ -58524,21 +58530,21 @@ player:tell_lines($string_utils:columnize(dudes, 4, linelen));
 #6:91
 if (typeof(player.password) != STR)
 if (length(args) != 1)
-return player:notify(tostr("Usage:  ", verb, " <new-password>"));
+return player:notify(tostr("Uzycie:  ", verb, " <nowe-haslo>"));
 else
 new_password = args[1];
 endif
 elseif (length(args) != 2)
-player:notify(tostr("Usage:  ", verb, " <old-password> <new-password>"));
+player:notify(tostr("Uzycie:  ", verb, " <stare-haslo> <nowe-haslo>"));
 return;
 elseif (!argon2_verify(player.password, args[1]))
-player:notify("That's not your old password.");
+player:notify("To nie jest twoje stare haslo.");
 return;
 elseif (is_clear_property(player, "password"))
-player:notify("Your password has a `clear' property.  Please refer to a wizard for assistance in changing it.");
+player:notify("Twoje haslo ma wlasciwosc `clear'. Popros wizarda o pomoc w jego zmianie.");
 return;
 elseif (player in $wiz_utils.change_password_restricted)
-player:notify("You are not permitted to change your own password.");
+player:notify("Nie masz uprawnien do zmiany wlasnego hasla.");
 return;
 else
 new_password = args[2];
@@ -58549,7 +58555,7 @@ return;
 endif
 player.password = $login:encrypt_password(new_password);
 player.last_password_time = time();
-player:notify("New password set.");
+player:notify("Nowe haslo ustawione.");
 .
 #6:92
 if ((caller == this) || $perm_utils:controls(caller_perms(), this))
@@ -64851,7 +64857,7 @@ endif
 .
 #24:24
 "do_register(name, email_address [,comments])";
-"change player's email address.";
+"zmienia adres email gracza.";
 if (!caller_perms().wizard)
 return E_PERM;
 endif
@@ -64862,13 +64868,13 @@ if ($command_utils:player_match_failed(who, whostr))
 return;
 endif
 if (((whostr != who.name) && (!(whostr in who.aliases))) && (whostr != tostr(who)))
-player:notify(tostr("Must be a full name or an object number:  ", who.name, "(", who, ")"));
+player:notify(tostr("Musi byc pelna nazwa lub numerem obiektu:  ", who.name, "(", who, ")"));
 return;
 endif
 if (reason = $network:invalid_email_address(email))
 player:notify(reason);
-if (!$command_utils:yes_or_no("Register anyway?"))
-return player:notify("re-registration aborted.");
+if (!$command_utils:yes_or_no("Zarejestrowac mimo to?"))
+return player:notify("Ponowna rejestracja przerwana.");
 endif
 endif
 if (comments)
@@ -64878,7 +64884,7 @@ $registration_db:add(who, email);
 endif
 old = $wiz_utils:get_email_address(who);
 $wiz_utils:set_email_address(who, email);
-player:notify(tostr(who.name, " (", who, ") formerly ", old ? old | "unregistered", ", registered at ", email, ".", comments ? (" [" + comments) + "]" | ""));
+player:notify(tostr(who.name, " (", who, ") dawniej ", old ? old | "niezarejestrowany", ", zarejestrowany pod ", email, ".", comments ? (" [" + comments) + "]" | ""));
 .
 #24:25
 "do_new_password(who, [password])";
@@ -71083,68 +71089,68 @@ this.expire_period = time;
 player:tell("Messages will ", (time != 0) ? tostr("automatically expire from ", this:mail_name(), " after ", $time_utils:english_time(time)) | tostr("not expire from ", this:mail_name()), ".");
 .
 #45:35
-"Syntax:   @register <recipient> to <email-address>";
-"alias     @netregister <recipient> to <email-address>";
-"          @register <recipient> to";
+"Skladnia:   @register <odbiorca> to <adres-email>";
+"alias       @netregister <odbiorca> to <adres-email>";
+"            @register <odbiorca> to";
 "";
-"The list owner may use this command to set a registered email address for the mail recipient. When set, mail messages that expire off of the mail recipient will be mailed to that address.";
-"If you leave the email address off of the command, it will return the current registration and expiration information for that recipient if you own it.";
-"The owner may register a mail recipient to any email address. However, if the address does not match his registered email address, then a password will be generated and sent to the address specified when this command is used. Then, the owner may retrieve that password and verify the address with the command:";
+"Wlasciciel listy moze uzyc tego polecenia, by ustawic zarejestrowany adres email dla odbiorcy poczty. Gdy jest ustawiony, wiadomosci wygasajace z odbiorcy poczty beda wysylane na ten adres.";
+"Jesli pominiesz adres email w poleceniu, zwroci ono biezace informacje o rejestracji i wygasaniu dla tego odbiorcy, jesli jest on twoja wlasnoscia.";
+"Wlasciciel moze zarejestrowac odbiorce poczty pod dowolny adres email. Jednak jesli adres nie zgadza sie z jego zarejestrowanym adresem email, zostanie wygenerowane haslo i wyslane na podany adres podczas uzycia tego polecenia. Nastepnie wlasciciel moze odebrac to haslo i zweryfikowac adres poleceniem:";
 "";
-"  @validate <recipient> with <password>";
+"  @validate <odbiorca> with <haslo>";
 "";
-"See *B:MailingListReform #98087 for full details.";
+"Zobacz *B:MailingListReform #98087, by uzyskac pelne szczegoly.";
 if ((caller_perms() != #-1) && (caller_perms() != player))
 return player:tell(E_PERM);
 elseif (!$perm_utils:controls(player, this))
 return player:tell(E_PERM);
 elseif (!iobjstr)
 if (this.registered_email)
-player:tell(this:mail_name(), " is registered to ", this.registered_email, ". Messages will be sent there when they expire after ", (this.expire_period == 0) ? "never" | $time_utils:english_time(this.expire_period), ".");
+player:tell(this:mail_name(), " jest zarejestrowany pod adresem ", this.registered_email, ". Wiadomosci beda tam wysylane, gdy wygasna po ", (this.expire_period == 0) ? "nigdy" | $time_utils:english_time(this.expire_period), ".");
 else
-player:tell(this:mail_name(), " is not registered to any address. Messages will be deleted when they expire after ", (this.expire_period == 0) ? "never" | $time_utils:english_time(this.expire_period), ".");
-player:tell("Usage:  @register <recipient> to <email-address>");
+player:tell(this:mail_name(), " nie jest zarejestrowany pod zadnym adresem. Wiadomosci beda usuwane, gdy wygasna po ", (this.expire_period == 0) ? "nigdy" | $time_utils:english_time(this.expire_period), ".");
+player:tell("Uzycie:  @register <odbiorca> to <adres-email>");
 endif
 return;
 elseif (iobjstr == $wiz_utils:get_email_address(player))
 this.registered_email = $wiz_utils:get_email_address(player);
 this.email_validated = 1;
-player:tell("Messages expired from ", this:mail_name(), " after ", (this.expire_period == 0) ? "never" | $time_utils:english_time(this.expire_period), " will be emailed to ", this.registered_email, " (which is your registered email address).");
+player:tell("Wiadomosci wygasle z ", this:mail_name(), " po ", (this.expire_period == 0) ? "nigdy" | $time_utils:english_time(this.expire_period), " beda wysylane emailem na ", this.registered_email, " (czyli twoj zarejestrowany adres email).");
 elseif (reason = $network:invalid_email_address(iobjstr))
 return player:tell(reason, ".");
 elseif (!$network.active)
-return player:tell("The network is not up at the moment. Please try again later or contact a wizard for help.");
+return player:tell("Siec nie jest obecnie aktywna. Sprobuj ponownie pozniej lub skontaktuj sie z wizardem po pomoc.");
 else
 password = $wiz_utils:random_password(5);
-result = $network:sendmail(iobjstr, tostr($network.MOO_Name, " mailing list verification"), @$generic_editor:fill_string(tostr("The mailing list ", this:mail_name(), " on ", $network.MOO_Name, " has had this address designated as the recipient of expired mail messages. If this is not correct, then you need do nothing but ignore this message. If this is correct, you must log into the MOO and type:  `@validate ", this:mail_name(), " with ", password, "' to start receiving expired mail messages."), 75));
+result = $network:sendmail(iobjstr, tostr($network.MOO_Name, " - weryfikacja listy mailingowej"), @$generic_editor:fill_string(tostr("Lista mailingowa ", this:mail_name(), " na ", $network.MOO_Name, " ma ten adres wyznaczony jako odbiorce wygasajacych wiadomosci. Jesli to nieprawidlowe, nie musisz nic robic, po prostu zignoruj te wiadomosc. Jesli to prawidlowe, zaloguj sie do MOO i wpisz:  `@validate ", this:mail_name(), " with ", password, "', by zaczac otrzymywac wygasajace wiadomosci."), 75));
 if (result != 0)
-return player:tell("Mail sending did not work: ", result, ". Address not set.");
+return player:tell("Wysylanie poczty nie powiodlo sie: ", result, ". Adres nie zostal ustawiony.");
 endif
 this.registered_email = iobjstr;
 this.email_validated = 0;
 this.validation_password = password;
-player:tell("Registration complete. Password sent to the address you specified. When you receive the email, log back in to validate it with the command:  @validate <recipient> with <password>. If you do not receive the password email, try again or notify a wizard if this is a recurring problem.");
+player:tell("Rejestracja zakonczona. Haslo zostalo wyslane na podany adres. Gdy otrzymasz email, zaloguj sie ponownie, by je zweryfikowac poleceniem:  @validate <odbiorca> with <haslo>. Jesli nie otrzymasz emaila z haslem, sprobuj ponownie lub powiadom wizarda, jesli problem sie powtarza.");
 endif
 .
 #45:36
-"Syntax:  @validate <recipient> with <password>";
+"Skladnia:  @validate <odbiorca> with <haslo>";
 "";
-"This command is used to validate an email address set to receive expired messages that did not match the list owner's registered email address. When using the @register command, a password was sent via email to the address specified. This command is to verify that the password was received properly.";
+"To polecenie sluzy do weryfikacji adresu email ustawionego do odbierania wygasajacych wiadomosci, ktory nie zgadzal sie z zarejestrowanym adresem email wlasciciela listy. Podczas uzycia polecenia @register, haslo zostalo wyslane emailem na podany adres. To polecenie sluzy do potwierdzenia, ze haslo zostalo poprawnie odebrane.";
 if ((caller_perms() != #-1) && (caller_perms() != player))
 return player:tell(E_PERM);
 elseif (!$perm_utils:controls(player, this))
 return player:tell(E_PERM);
 elseif (!this.registered_email)
-return player:tell("No email address has even been set for ", this:mail_name(), ".");
+return player:tell("Dla ", this:mail_name(), " nie ustawiono nawet adresu email.");
 elseif (this.email_validated)
-return player:tell("The email address for ", this:mail_name(), " has already been validated.");
+return player:tell("Adres email dla ", this:mail_name(), " zostal juz zweryfikowany.");
 elseif (!iobjstr)
-return player:tell("Usage:  @validate <recipient> with <password>");
+return player:tell("Uzycie:  @validate <odbiorca> with <haslo>");
 elseif (iobjstr != this.validation_password)
-return player:tell("That is not the correct password.");
+return player:tell("To nie jest prawidlowe haslo.");
 else
 this.email_validated = 1;
-player:tell("Password validated. Messages that expire after ", (this.expire_period == 0) ? "never" | $time_utils:english_time(this.expire_period), " from ", this:mail_name(), " will be emailed to ", this.registered_email, ".");
+player:tell("Haslo zweryfikowane. Wiadomosci wygasajace po ", (this.expire_period == 0) ? "nigdy" | $time_utils:english_time(this.expire_period), " z ", this:mail_name(), " beda wysylane emailem na ", this.registered_email, ".");
 endif
 .
 #45:37
@@ -77659,9 +77665,9 @@ endif
 endif
 .
 #57:22
-"Registers a player.";
-"Syntax:  @register name email-address [additional commentary]";
-"Email-address is stored in $registration_db and on the player object.";
+"Rejestruje gracza.";
+"Skladnia:  @register nazwa adres-email [dodatkowy komentarz]";
+"Adres email jest przechowywany w $registration_db oraz na obiekcie gracza.";
 if (!player.wizard)
 return player:tell(E_PERM);
 endif
@@ -83712,21 +83718,21 @@ return msg;
 "invalid_email_address(email) -- check to see if email looks like a valid email address. Return reason why not.";
 address = args[1];
 if (!address)
-return "no email address supplied";
+return "nie podano adresu email";
 endif
 if (!(at = rindex(address, "@")))
-return ("'" + address) + "' doesn't look like a valid internet email address";
+return ("'" + address) + "' nie wyglada na prawidlowy adres email";
 endif
 name = address[1..at - 1];
 host = address[at + 1..$];
 if (match(name, "^in%%") || match(name, "^smtp%%"))
-return tostr("'", name, "' doesn't look like a valid username (try removing the 'in%' or 'smtp%')");
+return tostr("'", name, "' nie wyglada na prawidlowa nazwe uzytkownika (sprobuj usunac 'in%' lub 'smtp%')");
 endif
 if (!match(host, $network.valid_host_regexp))
-return tostr("'", host, "' doesn't look like a valid internet host");
+return tostr("'", host, "' nie wyglada na prawidlowy host internetowy");
 endif
 if (!match(name, $network.valid_email_regexp))
-return tostr("'", name, "' doesn't look like a valid user name for internet mail");
+return tostr("'", name, "' nie wyglada na prawidlowa nazwe uzytkownika dla poczty internetowej");
 endif
 return "";
 .
@@ -85752,36 +85758,36 @@ return (((((((this:trivial_check(@args) || (this.minimum_password_length && this
 .
 #87:2
 if (typeof(pwd = args[1]) != STR)
-return "Passwords must be strings.";
+return "Hasla musza byc stringami.";
 elseif (index(pwd, " "))
-return "Passwords may not contain spaces.";
+return "Hasla nie moga zawierac spacji.";
 elseif (length(args) == 2)
 if (((typeof(who = args[2]) != OBJ) || (!valid(who))) || (!is_player(who)))
-return "That's not a player.";
+return "To nie jest gracz.";
 elseif (!$perm_utils:controls(caller_perms(), who))
-return "You can't set the password for that player.";
+return "Nie mozesz ustawic hasla dla tego gracza.";
 elseif ($object_utils:isa(who, $guest))
-return "Sorry, but guest characters are not allowed to change their passwords.";
+return "Niestety, postacie typu guest nie moga zmieniac swoich hasel.";
 endif
 endif
 .
 #87:3
 if ((l = this.minimum_password_length) && (length(args[1]) < l))
-return tostr("Passwords must be a minimum of ", $string_utils:english_number(l), (l == 1) ? " character " | " characters ", "long.");
+return tostr("Hasla musza miec co najmniej ", l, " ", $polish_utils:count(l, "znak", "znaki", "znakow"), ".");
 endif
 .
 #87:4
 pwd = args[1];
 if (valid($player_db:find_exact(pwd)))
-return "Passwords may not be close to a player's name/alias pair.";
+return "Hasla nie moga byc zblizone do nazwy/aliasu gracza.";
 elseif (valid($player_db:find($string_utils:reverse(pwd))))
-return "Passwords ought not be the reverse of a player's name/alias.";
+return "Hasla nie powinny byc odwrotnoscia nazwy/aliasu gracza.";
 endif
 .
 #87:5
 {pwd, who} = args;
 if (!$perm_utils:controls(caller_perms(), who))
-return "Permission denied.";
+return "Brak uprawnien.";
 endif
 email = $wiz_utils:get_email_address(who);
 if (!email)
@@ -85789,18 +85795,18 @@ if (!email)
 return;
 endif
 if (index(email, pwd))
-return "Passwords can't match your registered email address.";
+return "Hasla nie moga pokrywac sie z zarejestrowanym adresem email.";
 endif
 .
 #87:6
 {pwd, who} = args;
 if (!$perm_utils:controls(caller_perms(), who))
-return "Permission denied.";
+return "Brak uprawnien.";
 endif
 hosts = who.all_connect_places;
 for x in (hosts)
 if (index(x, pwd))
-return "Passwords may not match hostnames.";
+return "Hasla nie moga pokrywac sie z nazwami hostow.";
 endif
 endfor
 .
@@ -85810,7 +85816,7 @@ if (typeof(dict) == OBJ)
 "assume we're checking mr spell";
 try
 if (dict:find_exact(pwd) && (!this:_is_funky_case(pwd)))
-return "Dictionary words are not permitted for passwords.";
+return "Slowa slownikowe nie sa dozwolone jako hasla.";
 endif
 except (ANY)
 "in case this is messed up. Just let it go and return 0;";
@@ -85827,7 +85833,7 @@ if (!index(alphabet, pwd[i]))
 return;
 endif
 endfor
-return "At least one unusual capitalization and/or numeric or punctuation character is required.";
+return "Wymagana jest przynajmniej jedna nietypowa wielka litera i/lub cyfra albo znak interpunkcyjny.";
 .
 #87:9
 pwd = args[1];
@@ -85836,11 +85842,11 @@ if (this:_is_funky_case(pwd))
 return;
 endif
 if (pwd == moo)
-return "The MOO's name is not secure as a password.";
+return "Nazwa MOO nie jest bezpiecznym haslem.";
 endif
 if (moo[$ - 2..$] == "MOO")
 if (pwd == moo[1..$ - 3])
-return "The MOO's name is not secure as a password.";
+return "Nazwa MOO nie jest bezpiecznym haslem.";
 endif
 endif
 .
@@ -85859,9 +85865,9 @@ endif
 #87:11
 pwd = args[1];
 if (match(pwd, "^[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9][0-9][0-9]$"))
-return "Social security numbers are potentially insecure passwords.";
+return "Numery ubezpieczenia spolecznego to potencjalnie niebezpieczne hasla.";
 elseif (match(pwd, "^[0-9]+/[0-9]+/[0-9]+$"))
-return "Passwords which look like dates are potentially insecure passwords.";
+return "Hasla, ktore wygladaja jak daty, to potencjalnie niebezpieczne hasla.";
 endif
 .
 #87:12
