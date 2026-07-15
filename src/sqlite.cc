@@ -222,7 +222,7 @@ bf_sqlite_open(Var arglist, Byte next, void *vdata, Objid progr)
     {
         // We've exceeded SQLITE_MAX_HANDLES and the $server_options setting and didn't allocate anything.
         free_var(arglist);
-        return make_raise_pack(E_QUOTA, "Too many database connections open.", var_ref(zero));
+        return make_raise_pack(E_QUOTA, "Zbyt wiele otwartych polaczen z baza danych.", var_ref(zero));
     }
 
     const char *unresolved_path = arglist.v.list[1].v.str;
@@ -299,11 +299,11 @@ bf_sqlite_close(Var arglist, Byte next, void *vdata, Objid progr)
     free_var(arglist);
 
     if (!valid_handle(index))
-        return make_raise_pack(E_INVARG, "Invalid database handle", Var::new_int(index));
+        return make_raise_pack(E_INVARG, "Nieprawidlowy uchwyt bazy danych", Var::new_int(index));
 
     sqlite_conn *handle = sqlite_connections[index];
     if (handle->locks.load() > 0)
-        return make_raise_pack(E_PERM, "Handle can't be closed until all worker threads are finished", var_ref(zero));
+        return make_raise_pack(E_PERM, "Uchwytu nie mozna zamknac, dopoki nie zakoncza sie wszystkie watki robocze", var_ref(zero));
 
     deallocate_handle(index, false);
 
@@ -640,7 +640,7 @@ bf_sqlite_interrupt(Var arglist, Byte next, void *vdata, Objid progr)
     free_var(arglist);
 
     if (!valid_handle(index))
-        return make_raise_pack(E_INVARG, "Invalid database handle", Var::new_int(index));
+        return make_raise_pack(E_INVARG, "Nieprawidlowy uchwyt bazy danych", Var::new_int(index));
 
     sqlite_conn *handle = sqlite_connections[index];
 

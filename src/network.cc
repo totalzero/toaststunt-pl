@@ -922,7 +922,7 @@ make_listener(Var desc, int *fd, const char **name, const char **ip_address,
     if (p == nullptr) {
         enum error e = E_QUOTA;
 
-        log_perror("Failed to bind to listening socket");
+        log_perror("Nie udalo sie zbindowac gniazda nasluchujacego");
         if (errno == EACCES)
             e = E_PERM;
         freeaddrinfo(servinfo);
@@ -1066,7 +1066,7 @@ open_connection(Var arglist, int *read_fd, int *write_fd,
 #endif
 
     if (!outbound_network_enabled)
-        return make_raise_pack(E_PERM, "Outbound network connections are disabled.", zero);
+        return make_raise_pack(E_PERM, "Polaczenia wychodzace sa wylaczone.", zero);
 
     if (arglist.v.list[0].v.num < 2)
         return make_error_pack(E_ARGS);
@@ -1087,7 +1087,7 @@ open_connection(Var arglist, int *read_fd, int *write_fd,
     free(port_string);
     if (rv != 0) {
         errlog("open_connection getaddrinfo error: %s\n", gai_strerror(rv));
-        return make_raise_pack(E_INVARG, "getaddrinfo error", str_dup_to_var(gai_strerror(rv)));
+        return make_raise_pack(E_INVARG, "Blad getaddrinfo", str_dup_to_var(gai_strerror(rv)));
     }
 
     /* If we have multiple results, we'll bind to the first one we can. */
@@ -1099,10 +1099,10 @@ open_connection(Var arglist, int *read_fd, int *write_fd,
         }
 
         if (setsockopt(s, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1) {
-            log_perror("Error setting listening socket options");
+            log_perror("Blad ustawiania opcji gniazda nasluchujacego");
             close(s);
             freeaddrinfo(servinfo);
-            return make_raise_pack(E_QUOTA, "Error setting listening socket options", zero);
+            return make_raise_pack(E_QUOTA, "Blad ustawiania opcji gniazda nasluchujacego", zero);
         }
 
         break;
@@ -1111,11 +1111,11 @@ open_connection(Var arglist, int *read_fd, int *write_fd,
     if (p == nullptr) {
         enum error e = E_QUOTA;
 
-        log_perror("Failed to bind to listening socket");
+        log_perror("Nie udalo sie zbindowac gniazda nasluchujacego");
         if (errno == EACCES)
             e = E_PERM;
         freeaddrinfo(servinfo);
-        return make_raise_pack(e, "Failed to bind to listening socket", str_dup_to_var(strerror(errno)));
+        return make_raise_pack(e, "Nie udalo sie zbindowac gniazda nasluchujacego", str_dup_to_var(strerror(errno)));
     }
 
     try {
@@ -1167,22 +1167,22 @@ open_connection(Var arglist, int *read_fd, int *write_fd,
                 errno == ENETUNREACH ||
                 errno == ETIMEDOUT) {
             log_perror("open_network_connection error");
-            return make_raise_pack(E_INVARG, "Connection failure", str_dup_to_var(strerror(errno)));
+            return make_raise_pack(E_INVARG, "Niepowodzenie polaczenia", str_dup_to_var(strerror(errno)));
 #ifdef USE_TLS
         } else if (errno == TLS_FAIL) {
-            return make_raise_pack(E_INVARG, "Error creating TLS context", zero);
+            return make_raise_pack(E_INVARG, "Blad tworzenia kontekstu TLS", zero);
         } else if (errno == TLS_CONNECT_FAIL) {
             if (*tls) {
                 SSL_shutdown(*tls);
                 SSL_free(*tls);
             }
-            package ret = make_raise_pack(E_INVARG, "TLS connection failed", str_dup_to_var(tls_error_msg));
+            package ret = make_raise_pack(E_INVARG, "Polaczenie TLS nie powiodlo sie", str_dup_to_var(tls_error_msg));
             return ret;
 #endif
         }
 
         log_perror("Connecting in open_connection");
-        return make_raise_pack(E_QUOTA, "Connection failure", str_dup_to_var(strerror(errno)));
+        return make_raise_pack(E_QUOTA, "Niepowodzenie polaczenia", str_dup_to_var(strerror(errno)));
     }
 
     *read_fd = *write_fd = s;

@@ -162,7 +162,7 @@ bf_pcre_match(Var arglist, Byte next, void *vdata, Objid progr)
 
     if (entry == nullptr) {
         free_var(arglist);
-        return make_raise_pack(E_QUOTA, "Out of memory compiling pattern", var_ref(zero));
+        return make_raise_pack(E_QUOTA, "Brak pamieci przy kompilacji wzorca", var_ref(zero));
     }
 
     if (entry->error != nullptr)
@@ -179,7 +179,7 @@ bf_pcre_match(Var arglist, Byte next, void *vdata, Objid progr)
     if (match_data == nullptr) {
         free_entry(entry);
         free_var(arglist);
-        return make_raise_pack(E_QUOTA, "Failed to allocate PCRE2 match data", var_ref(zero));
+        return make_raise_pack(E_QUOTA, "Nie udalo sie zaalokowac danych dopasowania PCRE2", var_ref(zero));
     }
     PCRE2_SIZE *ovector = pcre2_get_ovector_pointer(match_data);
 
@@ -466,7 +466,7 @@ void sqlite_regexp(sqlite3_context *ctx, int argc, sqlite3_value **argv)
 
     struct pcre_cache_entry *entry = get_pcre(pattern, 0);
     if (entry == nullptr) {
-        sqlite3_result_error(ctx, "Out of memory compiling pattern", -1);
+        sqlite3_result_error(ctx, "Brak pamieci przy kompilacji wzorca", -1);
         return;
     }
     if (entry->error != nullptr)

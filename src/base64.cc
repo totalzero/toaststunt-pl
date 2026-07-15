@@ -66,7 +66,7 @@ bf_encode_base64(Var arglist, Byte next, void *vdata, Objid progr)
     in = binary_to_raw_bytes(arglist.v.list[1].v.str, &len);
 
     if (!in) {
-        const package pack = make_raise_pack(E_INVARG, "Invalid binary string", var_ref(arglist.v.list[1]));
+        const package pack = make_raise_pack(E_INVARG, "Nieprawidlowy string binarny", var_ref(arglist.v.list[1]));
         free_var(arglist);
         return pack;
     }
@@ -174,12 +174,12 @@ bf_decode_base64(Var arglist, Byte next, void *vdata, Objid progr)
     for (i = 0; i < len; i++) {
         const unsigned char tmp = (unsigned char)in[i];
         if (table[tmp] == 80) {
-            const package pack = make_raise_pack(E_INVARG, "Invalid character in encoded data", var_ref(arglist.v.list[1]));
+            const package pack = make_raise_pack(E_INVARG, "Nieprawidlowy znak w zakodowanych danych", var_ref(arglist.v.list[1]));
             free_var(arglist);
             return pack;
         }
         if (pad && tmp != '=') {
-            const package pack = make_raise_pack(E_INVARG, "Pad character in encoded data", var_ref(arglist.v.list[1]));
+            const package pack = make_raise_pack(E_INVARG, "Znak dopelnienia w zakodowanych danych", var_ref(arglist.v.list[1]));
             free_var(arglist);
             return pack;
         }
@@ -188,12 +188,12 @@ bf_decode_base64(Var arglist, Byte next, void *vdata, Objid progr)
     }
 
     if (pad > 2) {
-        const package pack = make_raise_pack(E_INVARG, "Too many pad characters", var_ref(arglist.v.list[1]));
+        const package pack = make_raise_pack(E_INVARG, "Zbyt wiele znakow dopelnienia", var_ref(arglist.v.list[1]));
         free_var(arglist);
         return pack;
     }
     if ((len - pad == 1) || (!safe && len % 4)) {
-        const package pack = make_raise_pack(E_INVARG, "Invalid length", var_ref(arglist.v.list[1]));
+        const package pack = make_raise_pack(E_INVARG, "Nieprawidlowa dlugosc", var_ref(arglist.v.list[1]));
         free_var(arglist);
         return pack;
     }

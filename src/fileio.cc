@@ -261,7 +261,7 @@ static package file_raise_notokfilename(const char *funcid, const char *pathname
 
     p.type = TYPE_STR;
     p.v.str = str_dup(pathname);
-    return make_raise_pack(E_INVARG, "Invalid pathname", p);
+    return make_raise_pack(E_INVARG, "Nieprawidlowa sciezka", p);
 }
 
 
@@ -367,9 +367,9 @@ bf_file_open(Var arglist, Byte next, void *vdata, Objid progr)
     else if ((real_filename = file_resolve_path(filename)) == nullptr)
         r = file_raise_notokfilename("file_open", filename);
     else if ((fmode = file_modestr_to_mode(mode, &type, &rmode)) == nullptr)
-        r = make_raise_pack(E_INVARG, "Invalid mode string", var_ref(arglist.v.list[2]));
+        r = make_raise_pack(E_INVARG, "Nieprawidlowy string trybu", var_ref(arglist.v.list[2]));
     else if ((fhandle = file_handle_new(filename, type, rmode)).v.num < 0)
-        r = make_raise_pack(E_QUOTA, "Too many files open", zero);
+        r = make_raise_pack(E_QUOTA, "Zbyt wiele otwartych plikow", zero);
     else if ((f = fopen(real_filename, fmode)) == nullptr) {
         file_handle_destroy(fhandle);
         r = file_raise_errno("file_open");
@@ -398,7 +398,7 @@ bf_file_close(Var arglist, Byte next, void *vdata, Objid progr)
     if (!file_verify_caller(progr))
         r = file_raise_notokcall("file_close", progr);
     else if ((f = file_handle_file_safe(fhandle)) == nullptr)
-        r = make_raise_pack(E_INVARG, "Invalid FHANDLE", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Nieprawidlowy FHANDLE", var_ref(fhandle));
     else {
         fclose(f);
         file_handle_destroy(fhandle);
@@ -423,7 +423,7 @@ bf_file_name(Var arglist, Byte next, void *vdata, Objid progr)
     if (!file_verify_caller(progr)) {
         r = file_raise_notokcall("file_name", progr);
     } else if ((name = file_handle_name_safe(fhandle)) == nullptr) {
-        r = make_raise_pack(E_INVARG, "Invalid FHANDLE", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Nieprawidlowy FHANDLE", var_ref(fhandle));
     } else {
         rv.type = TYPE_STR;
         rv.v.str = str_dup(name);
@@ -446,7 +446,7 @@ bf_file_openmode(Var arglist, Byte next, void *vdata, Objid progr)
     if (!file_verify_caller(progr)) {
         r = file_raise_notokcall("file_name", progr);
     } else if (!file_handle_valid(fhandle)) {
-        r = make_raise_pack(E_INVARG, "Invalid FHANDLE", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Nieprawidlowy FHANDLE", var_ref(fhandle));
     } else {
         type = file_handle_type(fhandle);
         mode = file_handle_mode(fhandle);
@@ -524,9 +524,9 @@ bf_file_readline(Var arglist, Byte next, void *vdata, Objid progr)
     if (!file_verify_caller(progr)) {
         r = file_raise_notokcall("file_readline", progr);
     } else if (!file_handle_valid(fhandle)) {
-        r = make_raise_pack(E_INVARG, "Invalid FHANDLE", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Nieprawidlowy FHANDLE", var_ref(fhandle));
     } else if (!((mode = file_handle_mode(fhandle)) & FILE_O_READ))
-        r = make_raise_pack(E_INVARG, "File is open write-only", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Plik jest otwarty tylko do zapisu", var_ref(fhandle));
     else {
         if ((line = file_get_line(fhandle, &len)) == nullptr)
             r = file_raise_errno("readline");
@@ -599,9 +599,9 @@ bf_file_readlines(Var arglist, Byte next, void *vdata, Objid progr)
     if (!file_verify_caller(progr)) {
         r = file_raise_notokcall("file_readlines", progr);
     } else if ((f = file_handle_file_safe(fhandle)) == nullptr) {
-        r = make_raise_pack(E_INVARG, "Invalid FHANDLE", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Nieprawidlowy FHANDLE", var_ref(fhandle));
     } else if (!((mode = file_handle_mode(fhandle)) & FILE_O_READ))
-        r = make_raise_pack(E_INVARG, "File is open write-only", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Plik jest otwarty tylko do zapisu", var_ref(fhandle));
     else {
 #ifndef UNSAFE_FIO
         file_type type = file_handle_type(fhandle); /* Quiet warning */
@@ -689,13 +689,13 @@ bf_file_writeline(Var arglist, Byte next, void *vdata, Objid progr)
     if (!file_verify_caller(progr)) {
         r = file_raise_notokcall("file_writeline", progr);
     } else if ((f = file_handle_file_safe(fhandle)) == nullptr) {
-        r = make_raise_pack(E_INVARG, "Invalid FHANDLE", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Nieprawidlowy FHANDLE", var_ref(fhandle));
     } else if (!((mode = file_handle_mode(fhandle)) & FILE_O_WRITE))
-        r = make_raise_pack(E_INVARG, "File is open read-only", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Plik jest otwarty tylko do odczytu", var_ref(fhandle));
     else {
         type = file_handle_type(fhandle);
         if ((rawbuffer = (type->out_filter)(buffer, &len)) == nullptr)
-            r = make_raise_pack(E_INVARG, "Invalid binary string", var_ref(fhandle));
+            r = make_raise_pack(E_INVARG, "Nieprawidlowy string binarny", var_ref(fhandle));
         else if ((fputs(rawbuffer, f) == EOF) || (fputc('\n', f) != '\n'))
             r = file_raise_errno(file_handle_name(fhandle));
         else {
@@ -747,9 +747,9 @@ bf_file_read(Var arglist, Byte next, void *vdata, Objid progr)
     if (!file_verify_caller(progr)) {
         r = file_raise_notokcall("file_read", progr);
     } else if ((f = file_handle_file_safe(fhandle)) == nullptr) {
-        r = make_raise_pack(E_INVARG, "Invalid FHANDLE", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Nieprawidlowy FHANDLE", var_ref(fhandle));
     } else if (!((mode = file_handle_mode(fhandle)) & FILE_O_READ))
-        r = make_raise_pack(E_INVARG, "File is open write-only", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Plik jest otwarty tylko do zapisu", var_ref(fhandle));
     else {
         type = file_handle_type(fhandle);
 
@@ -804,7 +804,7 @@ bf_file_flush(Var arglist, Byte next, void *vdata, Objid progr)
     if (!file_verify_caller(progr)) {
         r = file_raise_notokcall("file_flush", progr);
     } else if ((f = file_handle_file_safe(fhandle)) == nullptr) {
-        r = make_raise_pack(E_INVARG, "Invalid FHANDLE", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Nieprawidlowy FHANDLE", var_ref(fhandle));
     } else {
         if (fflush(f))
             r = file_raise_errno("flushing");
@@ -838,13 +838,13 @@ bf_file_write(Var arglist, Byte next, void *vdata, Objid progr)
     if (!file_verify_caller(progr)) {
         r = file_raise_notokcall("file_write", progr);
     } else if ((f = file_handle_file_safe(fhandle)) == nullptr) {
-        r = make_raise_pack(E_INVARG, "Invalid FHANDLE", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Nieprawidlowy FHANDLE", var_ref(fhandle));
     } else if (!((mode = file_handle_mode(fhandle)) & FILE_O_WRITE))
-        r = make_raise_pack(E_INVARG, "File is open read-only", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Plik jest otwarty tylko do odczytu", var_ref(fhandle));
     else {
         type = file_handle_type(fhandle);
         if ((rawbuffer = (type->out_filter)(buffer, &len)) == nullptr)
-            r = make_raise_pack(E_INVARG, "Invalid binary string", var_ref(fhandle));
+            r = make_raise_pack(E_INVARG, "Nieprawidlowy string binarny", var_ref(fhandle));
         else if (!(written = fwrite(rawbuffer, sizeof(char), len, f)))
             r = file_raise_errno(file_handle_name(fhandle));
         else {
@@ -893,9 +893,9 @@ bf_file_seek(Var arglist, Byte next, void *vdata, Objid progr)
     if (!file_verify_caller(progr)) {
         r = file_raise_notokcall("file_seek", progr);
     } else if ((f = file_handle_file_safe(fhandle)) == nullptr) {
-        r = make_raise_pack(E_INVARG, "Invalid FHANDLE", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Nieprawidlowy FHANDLE", var_ref(fhandle));
     } else if (!whence_ok) {
-        r = make_raise_pack(E_INVARG, "Invalid whence", zero);
+        r = make_raise_pack(E_INVARG, "Nieprawidlowy parametr whence", zero);
     } else {
         if (fseek(f, seek_to, whnce))
             r = file_raise_errno(file_handle_name(fhandle));
@@ -923,7 +923,7 @@ bf_file_tell(Var arglist, Byte next, void *vdata, Objid progr)
     if (!file_verify_caller(progr)) {
         r = file_raise_notokcall("file_tell", progr);
     } else if ((f = file_handle_file_safe(fhandle)) == nullptr) {
-        r = make_raise_pack(E_INVARG, "Invalid FHANDLE", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Nieprawidlowy FHANDLE", var_ref(fhandle));
     } else {
         rv.type = TYPE_INT;
         if ((rv.v.num = ftell(f)) < 0)
@@ -952,7 +952,7 @@ bf_file_eof(Var arglist, Byte next, void *vdata, Objid progr)
     if (!file_verify_caller(progr)) {
         r = file_raise_notokcall("file_eof", progr);
     } else if ((f = file_handle_file_safe(fhandle)) == nullptr) {
-        r = make_raise_pack(E_INVARG, "Invalid FHANDLE", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Nieprawidlowy FHANDLE", var_ref(fhandle));
     } else {
         rv.type = TYPE_INT;
         rv.v.num = feof(f);
@@ -991,7 +991,7 @@ static int file_stat(Objid progr, Var filespec, package *r, struct stat *buf) {
     } else {
         FILE *f;
         if ((f = file_handle_file_safe(filespec)) == nullptr)
-            * r = make_raise_pack(E_INVARG, "Invalid FHANDLE", var_ref(filespec));
+            * r = make_raise_pack(E_INVARG, "Nieprawidlowy FHANDLE", var_ref(filespec));
         else {
             if (fstat(fileno(f), buf) != 0)
                 *r = file_raise_errno(file_handle_name(filespec));
@@ -1433,7 +1433,7 @@ bf_file_chmod(Var arglist, Byte next, void *vdata, Objid progr)
     if (!file_verify_caller(progr)) {
         r = file_raise_notokcall("file_chmod", progr);
     } else if (!file_chmodstr_to_mode(modespec, &newmode)) {
-        r = make_raise_pack(E_INVARG, "Invalid mode string", zero);
+        r = make_raise_pack(E_INVARG, "Nieprawidlowy string trybu", zero);
     } else if ((real_filename = file_resolve_path(pathspec)) == nullptr) {
         r =  file_raise_notokfilename("file_chmod", pathspec);
     } else {
@@ -1482,9 +1482,9 @@ bf_file_grep(Var arglist, Byte next, void *vdata, Objid progr)
     if (!file_verify_caller(progr))
         r = file_raise_notokcall("file_readline", progr);
     else if (!file_handle_valid(fhandle))
-        r = make_raise_pack(E_INVARG, "Invalid FHANDLE", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Nieprawidlowy FHANDLE", var_ref(fhandle));
     else if (!((mode = file_handle_mode(fhandle)) & FILE_O_READ))
-        r = make_raise_pack(E_INVARG, "File is open write-only", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Plik jest otwarty tylko do zapisu", var_ref(fhandle));
     else
     {
         tmp_name.type = TYPE_STR;
@@ -1541,9 +1541,9 @@ bf_file_count_lines(Var arglist, Byte next, void *vdata, Objid progr)
     if (!file_verify_caller(progr))
         r = file_raise_notokcall("file_readline", progr);
     else if (!file_handle_valid(fhandle))
-        r = make_raise_pack(E_INVARG, "Invalid FHANDLE", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Nieprawidlowy FHANDLE", var_ref(fhandle));
     else if (!((mode = file_handle_mode(fhandle)) & FILE_O_READ))
-        r = make_raise_pack(E_INVARG, "File is open write-only", var_ref(fhandle));
+        r = make_raise_pack(E_INVARG, "Plik jest otwarty tylko do zapisu", var_ref(fhandle));
     else
     {
         int throwaway = 0;

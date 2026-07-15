@@ -86,7 +86,7 @@ bf_curl(Var arglist, Byte next, void *vdata, Objid progr)
     if (!is_wizard(progr))
         return make_error_pack(E_PERM);
     else if (!outbound_network_enabled)
-        return make_raise_pack(E_PERM, "Outbound network connections are disabled.", zero);
+        return make_raise_pack(E_PERM, "Polaczenia wychodzace sa wylaczone.", zero);
 
     return background_thread(curl_thread_callback, &arglist);
 }
@@ -95,7 +95,7 @@ static package
 bf_url_encode(Var arglist, Byte next, void *vdata, Objid progr)
 {
     if (!outbound_network_enabled)
-        return make_raise_pack(E_PERM, "Outbound network connections are disabled.", zero);
+        return make_raise_pack(E_PERM, "Polaczenia wychodzace sa wylaczone.", zero);
 
     Var r;
     const char *url = arglist.v.list[1].v.str;
@@ -120,7 +120,7 @@ static package
 bf_url_decode(Var arglist, Byte next, void *vdata, Objid progr)
 {
     if (!outbound_network_enabled)
-        return make_raise_pack(E_PERM, "Outbound network connections are disabled.", zero);
+        return make_raise_pack(E_PERM, "Polaczenia wychodzace sa wylaczone.", zero);
 
     Var r;
     const char *url = arglist.v.list[1].v.str;

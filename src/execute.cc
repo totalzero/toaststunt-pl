@@ -3444,7 +3444,7 @@ bf_call_function(Var arglist, Byte next, void *vdata, Objid progr)
 
         fnum = number_func_by_name(fname);
         if (fnum == FUNC_NOT_FOUND) {
-            p = make_raise_pack(E_INVARG, "Unknown built-in function",
+            p = make_raise_pack(E_INVARG, "Nieznana funkcja wbudowana",
                                 var_ref(arglist.v.list[1]));
             free_var(arglist);
         } else {

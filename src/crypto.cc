@@ -251,7 +251,7 @@ bf_salt(Var arglist, Byte next, void *vdata, Objid progr)
     int format;
 
     if (!parse_prefix(prefix, prefix_length, &rest, &rest_length, &count, &format)) {
-        p = make_raise_pack(E_INVARG, "Invalid prefix", var_ref(arglist.v.list[1]));
+        p = make_raise_pack(E_INVARG, "Nieprawidlowy prefiks", var_ref(arglist.v.list[1]));
         free_var(arglist);
         return p;
     }
@@ -272,7 +272,7 @@ bf_salt(Var arglist, Byte next, void *vdata, Objid progr)
               memchr(_crypt_itoa64, prefix[1], 64)))
         use = _crypt_gensalt_traditional_rn;
     else {
-        p = make_raise_pack(E_INVARG, "Invalid prefix", var_ref(arglist.v.list[1]));
+        p = make_raise_pack(E_INVARG, "Nieprawidlowy prefiks", var_ref(arglist.v.list[1]));
         free_var(arglist);
         return p;
     }
@@ -282,7 +282,7 @@ bf_salt(Var arglist, Byte next, void *vdata, Objid progr)
     const char *random = binary_to_raw_bytes(input, &random_length);
 
     if (nullptr == random) {
-        p = make_raise_pack(E_INVARG, "Invalid binary input", var_ref(arglist.v.list[2]));
+        p = make_raise_pack(E_INVARG, "Nieprawidlowe dane binarne wejsciowe", var_ref(arglist.v.list[2]));
         free_var(arglist);
         return p;
     }
@@ -342,14 +342,14 @@ bf_crypt(Var arglist, Byte next, void *vdata, Objid progr)
     if (!success) {
         r.type = TYPE_STR;
         r.v.str = str_dup(salt);
-        p = make_raise_pack(E_INVARG, "Invalid salt", r);
+        p = make_raise_pack(E_INVARG, "Nieprawidlowa sol", r);
         free_var(arglist);
         return p;
     }
     if (!is_wizard(progr) &&
             ((BCRYPT == format && count != 5) ||
              (BCRYPT != format && count))) {
-        p = make_raise_pack(E_PERM, "Cannot specify non-default strength", Var::new_int(count));
+        p = make_raise_pack(E_PERM, "Nie mozna podac niedomyslnej sily", Var::new_int(count));
         free_var(arglist);
         return p;
     }

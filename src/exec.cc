@@ -386,16 +386,16 @@ bf_exec(Var arglist, Byte next, void *vdata, Objid progr)
     /* check the path */
     cmd = arglist.v.list[1].v.list[1].v.str;
     if (0 == strlen(cmd)) {
-        pack = make_raise_pack(E_INVARG, "Invalid path", var_ref(zero));
+        pack = make_raise_pack(E_INVARG, "Nieprawidlowa sciezka", var_ref(zero));
         goto free_arglist;
     }
     if (('/' == cmd[0])
             || (1 < strlen(cmd) && '.' == cmd[0] && '.' == cmd[1])) {
-        pack = make_raise_pack(E_INVARG, "Invalid path", var_ref(zero));
+        pack = make_raise_pack(E_INVARG, "Nieprawidlowa sciezka", var_ref(zero));
         goto free_arglist;
     }
     if (strstr(cmd, "/.") || strstr(cmd, "./")) {
-        pack = make_raise_pack(E_INVARG, "Invalid path", var_ref(zero));
+        pack = make_raise_pack(E_INVARG, "Nieprawidlowa sciezka", var_ref(zero));
         goto free_arglist;
     }
 
@@ -448,11 +448,11 @@ bf_exec(Var arglist, Byte next, void *vdata, Objid progr)
     /* stat the command */
     struct stat buf;
     if (stat(cmd, &buf) != 0) {
-        pack = make_raise_pack(E_INVARG, "Does not exist", var_ref(zero));
+        pack = make_raise_pack(E_INVARG, "Nie istnieje", var_ref(zero));
         goto free_in;
     }
     if (!S_ISREG(buf.st_mode)) {
-        pack = make_raise_pack(E_INVARG, "Is not a file", var_ref(zero));
+        pack = make_raise_pack(E_INVARG, "Nie jest plikiem", var_ref(zero));
         goto free_in;
     }
 

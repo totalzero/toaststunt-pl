@@ -270,7 +270,7 @@ send_shutdown_message(const char *message)
     shandle *h;
     std::stringstream s;
 
-    s << "*** Shutting down: " << message << " ***";
+    s << "*** Zamykanie serwera: " << message << " ***";
 
     for (h = all_shandles; h; h = h->next)
         network_send_line(h->nhandle, s.str().c_str(), 1, 1);
@@ -2632,7 +2632,7 @@ bf_db_disk_size(Var arglist, Byte next, void *vdata, Objid progr)
     free_var(arglist);
     v.type = TYPE_INT;
     if ((v.v.num = db_disk_size()) < 0)
-        return make_raise_pack(E_QUOTA, "No database file(s) available", zero);
+        return make_raise_pack(E_QUOTA, "Brak dostepnych plikow bazy danych", zero);
     else
         return make_var_pack(v);
 }
@@ -2692,7 +2692,7 @@ bf_open_network_connection(Var arglist, Byte next, void *vdata, Objid progr)
             if (!tls_ctx) {
                 var_ref(value);
                 free_var(arglist);
-                return make_raise_pack(E_PERM, "TLS is not enabled", value);
+                return make_raise_pack(E_PERM, "TLS nie jest wlaczone", value);
             }
             use_tls = true;
         }
@@ -2708,7 +2708,7 @@ bf_open_network_connection(Var arglist, Byte next, void *vdata, Objid progr)
             if (value.type != TYPE_OBJ) {
                 var_ref(value);
                 free_var(arglist);
-                return make_raise_pack(E_TYPE, "listener should be an object", value);
+                return make_raise_pack(E_TYPE, "listener powinien byc obiektem", value);
             }
 
             sl.ptr = find_slistener_by_oid(value.v.obj);
@@ -3119,7 +3119,7 @@ bf_listen(Var arglist, Byte next, void *vdata, Objid progr)
         if (maplookup(options, tls_key, &value, 0) != nullptr && is_true(value)) {
             if (!tls_ctx) {
                 e = E_INVARG;
-                sprintf(error_msg, "TLS is not enabled");
+                sprintf(error_msg, "TLS nie jest wlaczone");
             } else {
                 use_tls = true;
             }
@@ -3128,7 +3128,7 @@ bf_listen(Var arglist, Byte next, void *vdata, Objid progr)
         if (maplookup(options, tls_cert, &value, 0) != nullptr) {
             if (value.type != TYPE_STR) {
                 e = E_INVARG;
-                sprintf(error_msg, "Certificate path should be a string");
+                sprintf(error_msg, "Sciezka do certyfikatu powinna byc stringiem");
             } else {
                 certificate_path = str_dup(value.v.str);
             }
@@ -3137,7 +3137,7 @@ bf_listen(Var arglist, Byte next, void *vdata, Objid progr)
         if (maplookup(options, tls_key_key, &value, 0) != nullptr) {
             if (value.type != TYPE_STR) {
                 e = E_INVARG;
-                sprintf(error_msg, "Private key path should be a string");
+                sprintf(error_msg, "Sciezka do klucza prywatnego powinna byc stringiem");
             } else {
                 key_path = str_dup(value.v.str);
             }
@@ -3157,16 +3157,16 @@ bf_listen(Var arglist, Byte next, void *vdata, Objid progr)
     if (e == E_NONE) {
         if (!is_wizard(progr)) {
             e = E_PERM;
-            sprintf(error_msg, "Permission denied");
+            sprintf(error_msg, "Brak uprawnien");
         } else if (!valid(oid) || find_slistener(desc, ipv6)) {
             e = E_INVARG;
-            sprintf(error_msg, "Invalid argument");
+            sprintf(error_msg, "Nieprawidlowy argument");
         } else if (!(l = new_slistener(oid, desc, print_messages, &e, ipv6, interface USE_TLS_BOOL TLS_CERT_PATH))) {
             sprintf(error_msg, unparse_error(e));
             /* Do nothing; e is already set */
         } else if (!start_listener(l)) {
             e = E_QUOTA;
-            sprintf(error_msg, "Failed to listen on port");
+            sprintf(error_msg, "Nie udalo sie nasluchiwac na porcie");
         }
     }
 

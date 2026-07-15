@@ -305,11 +305,11 @@ static package bf_thread_pool(Var arglist, Byte next, void *vdata, Objid progr)
 
     threadpool *the_pool = thread_pool_by_name(pool);
     if (the_pool == nullptr)
-        return make_raise_pack(E_INVARG, "Invalid thread pool", str_dup_to_var(pool));
+        return make_raise_pack(E_INVARG, "Nieprawidlowa pula watkow", str_dup_to_var(pool));
 
     if (!strcmp(func, "INIT")) {
         if (value < 0)
-            return make_raise_pack(E_INVARG, "Invalid number of threads", Var::new_int(value));
+            return make_raise_pack(E_INVARG, "Nieprawidlowa liczba watkow", Var::new_int(value));
         thpool_destroy(*the_pool);
         if (value <= 0)
             *the_pool = nullptr;
@@ -317,7 +317,7 @@ static package bf_thread_pool(Var arglist, Byte next, void *vdata, Objid progr)
             *the_pool = thpool_init(value);
         return make_var_pack(Var::new_int(1));
     } else {
-        return make_raise_pack(E_INVARG, "Invalid function", str_dup_to_var(func));
+        return make_raise_pack(E_INVARG, "Nieprawidlowa funkcja", str_dup_to_var(func));
     }
 
     return no_var_pack();

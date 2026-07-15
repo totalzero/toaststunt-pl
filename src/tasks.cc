@@ -699,7 +699,7 @@ end_programming(tqueue * tq)
     Objid player = tq->player;
 
     if (!valid(tq->program_object))
-        notify(player, "That object appears to have disappeared ...");
+        notify(player, "Wyglada na to, ze ten obiekt zniknal ...");
     else {
         db_verb_handle h;
         Var desc;
@@ -709,7 +709,7 @@ end_programming(tqueue * tq)
         h = find_described_verb(Var::new_obj(tq->program_object), desc);
 
         if (!h.ptr)
-            notify(player, "That verb appears to have disappeared ...");
+            notify(player, "Wyglada na to, ze ten czasownik zniknal ...");
         else {
             struct task_state s;
             Program *program;
@@ -721,14 +721,14 @@ end_programming(tqueue * tq)
 
             program = parse_program(current_db_version, client, &s);
 
-            sprintf(buf, "%d error(s).", s.nerrors);
+            sprintf(buf, "Liczba bledow: %d.", s.nerrors);
             notify(player, buf);
 
             if (program) {
                 db_set_verb_program(h, program);
-                notify(player, "Verb programmed.");
+                notify(player, "Czasownik zaprogramowany.");
             } else
-                notify(player, "Verb not programmed.");
+                notify(player, "Czasownik nie zostal zaprogramowany.");
         }
     }
 
@@ -780,7 +780,7 @@ do_intrinsic_command(tqueue * tq, Parsed_Command * pc)
             if (!is_programmer(tq->player))
                 return 0;
             if (pc->args.v.list[0].v.num != 1)
-                notify(tq->player, "Usage:  .program object:verb");
+                notify(tq->player, "Uzycie:  .program obiekt:czasownik");
             else
                 start_programming(tq, (char *) pc->args.v.list[1].v.str);
             break;
