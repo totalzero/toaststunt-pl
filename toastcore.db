@@ -664,7 +664,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784109094
+1784109639
 2
 name
 2
@@ -1234,7 +1234,7 @@ source
 2
 time
 0
-1784109157
+1784111491
 4
 0
 1
@@ -1454,7 +1454,7 @@ time
 4
 2
 0
-1784109133
+1784111459
 2
 localhost
 2
@@ -1463,7 +1463,7 @@ localhost
 2
 0
 0
-1784109157
+1784111491
 2
 1
 0
@@ -1627,7 +1627,7 @@ localhost
 2
 5
 0
-1784109150
+1784111484
 2
 1
 0
@@ -1685,47 +1685,48 @@ localhost
 5
 2
 5
-5
+2
+nijaki
 2
 5
 2
-Its
+Jego
 2
 5
 2
-its
+jego
 2
 5
 2
-Its
+Jego
 2
 5
 2
-its
+jego
 2
 5
 2
-Itself
+Siebie
 2
 5
 2
-itself
+siebie
 2
 5
 2
-It
+Je
 2
 5
 2
-it
+je
 2
 5
 2
-It
+Ono
 2
 5
 2
-it
+ono
 2
 5
 5
@@ -2436,37 +2437,48 @@ build_options
 5
 2
 5
-5
+2
+nijaki
 2
 5
-5
+2
+Jego
 2
 5
-5
+2
+jego
 2
 5
-5
+2
+Jego
 2
 5
-5
+2
+jego
 2
 5
-5
+2
+Siebie
 2
 5
-5
+2
+siebie
 2
 5
-5
+2
+Je
 2
 5
-5
+2
+je
 2
 5
-5
+2
+Ono
 2
 5
-5
+2
+ono
 2
 5
 5
@@ -3208,37 +3220,48 @@ impossible password to type
 0
 2
 0
-5
+2
+nijaki
 2
 5
-5
+2
+Jego
 2
 5
-5
+2
+jego
 2
 5
-5
+2
+Jego
 2
 5
-5
+2
+jego
 2
 5
-5
+2
+Siebie
 2
 5
-5
+2
+siebie
 2
 5
-5
+2
+Je
 2
 5
-5
+2
+je
 2
 5
-5
+2
+Ono
 2
 5
-5
+2
+ono
 2
 5
 5
@@ -4124,7 +4147,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--4
+-61
 0
 2
 2
@@ -4138,7 +4161,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-10
+11
+4
+2
+0
+1784109639
+0
+0
 4
 2
 0
@@ -19207,37 +19236,48 @@ By definition, guests appear nondescript.
 5
 36
 5
-5
+2
+nijaki
 36
 5
-5
+2
+Jego
 36
 5
-5
+2
+jego
 36
 5
-5
+2
+Jego
 36
 5
-5
+2
+jego
 36
 5
-5
+2
+Siebie
 36
 5
-5
+2
+siebie
 36
 5
-5
+2
+Je
 36
 5
-5
+2
+je
 36
 5
-5
+2
+Ono
 36
 5
-5
+2
+ono
 36
 5
 5
@@ -19759,47 +19799,47 @@ Everyone else sees:  Munchkin waves happily to Frebblebit and Bob.
 36
 5
 2
-2nd
+drugoosobowy
 36
 5
 2
-Yours
+Twoj
 36
 5
 2
-yours
+twoj
 36
 5
 2
-Your
+Twoj
 36
 5
 2
-your
+twoj
 36
 5
 2
-Yourself
+Siebie
 36
 5
 2
-yourself
+siebie
 36
 5
 2
-You
+Cie
 36
 5
 2
-you
+cie
 36
 5
 2
-You
+Ty
 36
 5
 2
-you
+ty
 36
 5
 5
@@ -20112,37 +20152,48 @@ init_for_core
 5
 36
 5
-5
+2
+nijaki
 36
 5
-5
+2
+Jego
 36
 5
-5
+2
+jego
 36
 5
-5
+2
+Jego
 36
 5
-5
+2
+jego
 36
 5
-5
+2
+Siebie
 36
 5
-5
+2
+siebie
 36
 5
-5
+2
+Je
 36
 5
-5
+2
+je
 36
 5
-5
+2
+Ono
 36
 5
-5
+2
+ono
 36
 5
 5
@@ -20529,37 +20580,48 @@ Everyman ($no_one) can not receive mail.
 5
 36
 5
-5
+2
+nijaki
 36
 5
-5
+2
+Jego
 36
 5
-5
+2
+jego
 36
 5
-5
+2
+Jego
 36
 5
-5
+2
+jego
 36
 5
-5
+2
+Siebie
 36
 5
-5
+2
+siebie
 36
 5
-5
+2
+Je
 36
 5
-5
+2
+je
 36
 5
-5
+2
+Ono
 36
 5
-5
+2
+ono
 36
 5
 5
@@ -21279,37 +21341,48 @@ messages
 5
 2
 5
-5
+2
+nijaki
 2
 5
-5
+2
+Jego
 2
 5
-5
+2
+jego
 2
 5
-5
+2
+Jego
 2
 5
-5
+2
+jego
 2
 5
-5
+2
+Siebie
 2
 5
-5
+2
+siebie
 2
 5
-5
+2
+Je
 2
 5
-5
+2
+je
 2
 5
-5
+2
+Ono
 2
 5
-5
+2
+ono
 2
 5
 5
@@ -21430,53 +21503,53 @@ prc
 4
 11
 2
-has
+ma
 2
-has
+ma
 2
-has
+ma
 2
-has
+ma
 2
-has
+ma
 2
-has
+ma
 2
-have
+maja
 2
-have
+mam
 2
-have
+mamy
 2
-have
+masz
 2
-have
+masz
 36
 5
 4
 11
 2
-is
+jest
 2
-is
+jest
 2
-is
+jest
 2
-is
+jest
 2
-is
+jest
 2
-is
+jest
 2
-are
+sa
 2
-am
+jestem
 2
-are
+jestesmy
 2
-are
+jestes
 2
-are
+jestes
 36
 5
 4
@@ -21506,265 +21579,265 @@ prc
 4
 10
 2
-neuter
+nijaki
 2
-male
+meski
 2
-female
+zenski
 2
-either
+dowolny
 2
-Spivak
+spivak
 2
-splat
+gwiazdka
 2
-plural
+mnogi
 2
-egotistical
+egotystyczny
 2
-royal
+krolewski
 2
-2nd
+drugoosobowy
 36
 5
 4
 10
 2
-it
+ono
 2
-he
+on
 2
-she
+ona
 2
-s/he
+on/ona
 2
-e
+ono
 2
-*e
+ono
 2
-they
+oni
 2
-I
-2
-we
-2
-you
-36
-5
-4
-10
-2
-it
-2
-him
-2
-her
-2
-him/her
-2
-em
-2
-h*
-2
-them
-2
-me
-2
-us
-2
-you
-36
-5
-4
-10
-2
-its
-2
-his
-2
-her
-2
-his/her
-2
-eir
-2
-h*
-2
-their
+ja
 2
 my
 2
-our
-2
-your
+ty
 36
 5
 4
 10
 2
-its
+je
 2
-his
+go
 2
-hers
+ja
 2
-his/hers
+go/ja
 2
-eirs
+je
 2
-h*s
+je
 2
-theirs
+ich
 2
-mine
+mnie
 2
-ours
+nas
 2
-yours
+cie
 36
 5
 4
 10
 2
-itself
+jego
 2
-himself
+jego
 2
-herself
+jej
 2
-(him/her)self
+jego/jej
 2
-emself
+jego
 2
-h*self
+jego
 2
-themselves
+ich
 2
-myself
+moj
 2
-ourselves
+nasz
 2
-yourself
+twoj
 36
 5
 4
 10
 2
-It
+jego
 2
-He
+jego
 2
-She
+jej
 2
-S/He
+jego/jej
 2
-E
+jego
 2
-*E
+jego
 2
-They
+ich
 2
-I
+moj
 2
-We
+nasz
 2
-You
+twoj
 36
 5
 4
 10
 2
-It
+siebie
 2
-Him
+siebie
 2
-Her
+siebie
 2
-Him/Her
+siebie
 2
-Em
+siebie
 2
-H*
+siebie
 2
-Them
+siebie
 2
-Me
+siebie
 2
-Us
+siebie
 2
-You
+siebie
 36
 5
 4
 10
 2
-Its
+Ono
 2
-His
+On
 2
-Her
+Ona
 2
-His/Her
+On/Ona
 2
-Eir
+Ono
 2
-H*
+Ono
 2
-Their
+Oni
+2
+Ja
 2
 My
 2
-Our
-2
-Your
+Ty
 36
 5
 4
 10
 2
-Its
+Je
 2
-His
+Go
 2
-Hers
+Ja
 2
-His/Hers
+Go/Ja
 2
-Eirs
+Je
 2
-H*s
+Je
 2
-Theirs
+Ich
 2
-Mine
+Mnie
 2
-Ours
+Nas
 2
-Yours
+Cie
 36
 5
 4
 10
 2
-Itself
+Jego
 2
-Himself
+Jego
 2
-Herself
+Jej
 2
-(Him/Her)self
+Jego/Jej
 2
-Emself
+Jego
 2
-H*self
+Jego
 2
-Themselves
+Ich
 2
-Myself
+Moj
 2
-Ourselves
+Nasz
 2
-Yourself
+Twoj
+36
+5
+4
+10
+2
+Jego
+2
+Jego
+2
+Jej
+2
+Jego/Jej
+2
+Jego
+2
+Jego
+2
+Ich
+2
+Moj
+2
+Nasz
+2
+Twoj
+36
+5
+4
+10
+2
+Siebie
+2
+Siebie
+2
+Siebie
+2
+Siebie
+2
+Siebie
+2
+Siebie
+2
+Siebie
+2
+Siebie
+2
+Siebie
+2
+Siebie
 36
 5
 4
@@ -27237,7 +27310,7 @@ advertised
 2
 5
 2
-%n @newts %d (%[#d])
+%n uzywa @newt na %d (%[#d])
 2
 5
 1
@@ -27257,7 +27330,7 @@ Milego zycia...
 2
 5
 2
-%n @toads %d (%[#d])
+%n uzywa @toad na %d (%[#d])
 2
 5
 1
@@ -27517,37 +27590,48 @@ really impossible password to type
 5
 2
 5
-5
+2
+nijaki
 2
 5
-5
+2
+Jego
 2
 5
-5
+2
+jego
 2
 5
-5
+2
+Jego
 2
 5
-5
+2
+jego
 2
 5
-5
+2
+Siebie
 2
 5
-5
+2
+siebie
 2
 5
-5
+2
+Je
 2
 5
-5
+2
+je
 2
 5
-5
+2
+Ono
 2
 5
-5
+2
+ono
 2
 5
 5
@@ -28019,37 +28103,48 @@ here=player.location;me=player
 5
 2
 5
-5
+2
+nijaki
 2
 5
-5
+2
+Jego
 2
 5
-5
+2
+jego
 2
 5
-5
+2
+Jego
 2
 5
-5
+2
+jego
 2
 5
-5
+2
+Siebie
 2
 5
-5
+2
+siebie
 2
 5
-5
+2
+Je
 2
 5
-5
+2
+je
 2
 5
-5
+2
+Ono
 2
 5
-5
+2
+ono
 2
 5
 5
@@ -33967,37 +34062,48 @@ Impossible password to type
 5
 71
 5
-5
+2
+nijaki
 71
 5
-5
+2
+Jego
 71
 5
-5
+2
+jego
 71
 5
-5
+2
+Jego
 71
 5
-5
+2
+jego
 71
 5
-5
+2
+Siebie
 71
 5
-5
+2
+siebie
 71
 5
-5
+2
+Je
 71
 5
-5
+2
+je
 71
 5
-5
+2
+Ono
 71
 5
-5
+2
+ono
 71
 5
 5
@@ -42958,31 +43064,19 @@ Dolaczasz do %n.
 36
 5
 2
-teleports you.
+teleportuje cie.
 36
 5
 2
-teleports you.
+teleportuje cie.
 36
 5
 2
-%T teleports %n in.
+%T teleportuje %n tutaj.
 36
 5
 2
-%T teleports %n out.
-36
-5
-2
-Teleportujesz %n.
-36
-5
-2
-%T teleports %n in.
-36
-5
-2
-%T teleports %n out.
+%T teleportuje %n stad.
 36
 5
 2
@@ -42990,11 +43084,23 @@ Teleportujesz %n.
 36
 5
 2
-%<teleports> in.
+%T teleportuje %n tutaj.
 36
 5
 2
-%<teleports> out.
+%T teleportuje %n stad.
+36
+5
+2
+Teleportujesz %n.
+36
+5
+2
+%<teleportuje sie/teleportuja sie> tutaj.
+36
+5
+2
+%<teleportuje sie/teleportuja sie> stad.
 36
 5
 2
@@ -43210,37 +43316,48 @@ Teleportujesz %n.
 5
 36
 5
-5
+2
+nijaki
 36
 5
-5
+2
+Jego
 36
 5
-5
+2
+jego
 36
 5
-5
+2
+Jego
 36
 5
-5
+2
+jego
 36
 5
-5
+2
+Siebie
 36
 5
-5
+2
+siebie
 36
 5
-5
+2
+Je
 36
 5
-5
+2
+je
 36
 5
-5
+2
+Ono
 36
 5
-5
+2
+ono
 36
 5
 5
@@ -46823,47 +46940,47 @@ ps
 verb_subs
 16
 2
-neuter
+nijaki
 2
 5
 2
-its
+Jego
 2
 5
 2
-its
+jego
 2
 5
 2
-Its
+Jego
 2
 5
 2
-its
+jego
 2
 5
 2
-Itself
+Siebie
 2
 5
 2
-itself
+siebie
 2
 5
 2
-It
+Je
 2
 5
 2
-it
+je
 2
 5
 2
-It
+Ono
 2
 5
 2
-it
+ono
 2
 5
 4
@@ -47485,37 +47602,48 @@ impossible password to type
 5
 96
 5
-5
+2
+nijaki
 96
 5
-5
+2
+Jego
 96
 5
-5
+2
+jego
 96
 5
-5
+2
+Jego
 96
 5
-5
+2
+jego
 96
 5
-5
+2
+Siebie
 96
 5
-5
+2
+siebie
 96
 5
-5
+2
+Je
 96
 5
-5
+2
+je
 96
 5
-5
+2
+Ono
 96
 5
-5
+2
+ono
 96
 5
 5
@@ -47987,37 +48115,48 @@ time
 5
 98
 5
-5
+2
+nijaki
 98
 5
-5
+2
+Jego
 98
 5
-5
+2
+jego
 98
 5
-5
+2
+Jego
 98
 5
-5
+2
+jego
 98
 5
-5
+2
+Siebie
 98
 5
-5
+2
+siebie
 98
 5
-5
+2
+Je
 98
 5
-5
+2
+je
 98
 5
-5
+2
+Ono
 98
 5
-5
+2
+ono
 98
 5
 5
@@ -49322,37 +49461,48 @@ replace_codes
 5
 98
 5
-5
+2
+nijaki
 98
 5
-5
+2
+Jego
 98
 5
-5
+2
+jego
 98
 5
-5
+2
+Jego
 98
 5
-5
+2
+jego
 98
 5
-5
+2
+Siebie
 98
 5
-5
+2
+siebie
 98
 5
-5
+2
+Je
 98
 5
-5
+2
+je
 98
 5
-5
+2
+Ono
 98
 5
-5
+2
+ono
 98
 5
 5
@@ -54617,12 +54767,12 @@ return 0;
 if ((((cp = caller_perms()) == player) || $perm_utils:controls(cp, player)) || (caller == this))
 "Need the first check because guests don't control themselves";
 this:look_self(player.brief);
-this:announce($string_utils:pronoun_sub("%N %<has> connected.", player));
+this:announce($string_utils:pronoun_sub("%N laczy sie.", player));
 endif
 .
 #3:1
 if ((((cp = caller_perms()) == player) || $perm_utils:controls(cp, player)) || (caller == this))
-this:announce($string_utils:pronoun_sub("%N %<has> disconnected.", player));
+this:announce($string_utils:pronoun_sub("%N rozlacza sie.", player));
 "need the first check since guests don't control themselves";
 if (!$object_utils:isa(player, $guest))
 "guest disfuncs are handled by $guest:disfunc. Don't add them here";
@@ -58216,18 +58366,18 @@ notice = $string_utils:from_seconds(duration);
 else
 notice = $time_utils:english_time((duration / 86400) * 86400);
 endif
-player:notify(tostr(dobj.name, " has never connected.  It was created ", notice, " ago."));
+player:notify(tostr("Brak polaczen dla ", dobj.name, ". Konto zostalo zalozone ", notice, " temu."));
 elseif (time == 0)
-player:notify(tostr(dobj.name, " first connected before initial connections were being recorded."));
+player:notify(tostr("Pierwsze polaczenie ", dobj.name, " mialo miejsce zanim zaczeto rejestrowac polaczenia."));
 else
-player:notify(tostr(dobj.name, " first connected on ", ctime(time)));
+player:notify(tostr("Pierwsze polaczenie ", dobj.name, " mialo miejsce dnia ", ctime(time)));
 duration = time() - time;
 if (duration < 86400)
 notice = $string_utils:from_seconds(duration);
 else
 notice = $time_utils:english_time((duration / 86400) * 86400);
 endif
-player:notify(tostr($string_utils:pronoun_sub("%S %<is> ", dobj), notice, " old."));
+player:notify(tostr($string_utils:pronoun_sub("%S %<ma> ", dobj), notice, "."));
 endif
 .
 #6:84
@@ -58867,19 +59017,19 @@ return wr;
 endif
 .
 #9:10
-"Usage:  mailme <note>";
-"  uses $network to sends the text of this note to your REAL internet email address.";
+"Uzycie:  mailme <notatka>";
+"  wysyla tresc tej notatki na Twoj prawdziwy adres email za pomoca $network.";
 if (!this:is_readable_by(player))
-return player:tell("Sorry, but it seems to be written in some code that you can't read.");
+return player:tell("Niestety, wyglada na to, ze jest napisana w kodzie, ktorego nie potrafisz odczytac.");
 elseif (!(email = $wiz_utils:get_email_address(player)))
-return player:tell("Sorry, you don't have a registered email address.");
+return player:tell("Niestety, nie masz zarejestrowanego adresu email.");
 elseif (!$network.active)
-return player:tell("Sorry, internet mail is disabled.");
+return player:tell("Niestety, poczta internetowa jest wylaczona.");
 elseif (!(text = this:text()))
-return player:tell($string_utils:pronoun_sub("%T is empty--there wouldn't be any point to mailing it."));
+return player:tell($string_utils:pronoun_sub("%T jest puste--nie ma sensu je wysylac."));
 endif
-player:tell("Mailing ", this:title(), " to ", email, ".");
-player:tell("... ", length(text), " lines ...");
+player:tell("Wysylanie ", this:title(), " na adres ", email, ".");
+player:tell("... ", length(text), " ", $polish_utils:count(length(text), "linia", "linie", "linii"), " ...");
 suspend(0);
 $network:sendmail(email, this:titlec(), "", @text);
 .
@@ -61879,35 +62029,26 @@ return $string_utils:trimr(line);
 .
 #20:8
 ":from_seconds(number of seconds) => returns a string containing the rough increment of days, or hours if less than a day, or minutes if less than an hour, or lastly in seconds.";
-":from_seconds(86400) => \"a day\"";
-":from_seconds(7200)  => \"two hours\"";
+":from_seconds(86400) => \"1 dzien\"";
+":from_seconds(7200)  => \"2 godziny\"";
 minute = 60;
 hour = 60 * minute;
 day = 24 * hour;
 secs = args[1];
 if (secs > day)
 count = secs / day;
-unit = "day";
-article = "a";
+forms = {"dzien", "dni", "dni"};
 elseif (secs > hour)
 count = secs / hour;
-unit = "hour";
-article = "an";
+forms = {"godzina", "godziny", "godzin"};
 elseif (secs > minute)
 count = secs / minute;
-unit = "minute";
-article = "a";
+forms = {"minuta", "minuty", "minut"};
 else
 count = secs;
-unit = "second";
-article = "a";
+forms = {"sekunda", "sekundy", "sekund"};
 endif
-if (count == 1)
-time = tostr(article, " ", unit);
-else
-time = tostr(count, " ", unit, "s");
-endif
-return time;
+return tostr(count, " ", $polish_utils:count(count, forms[1], forms[2], forms[3]));
 .
 #20:9
 ":trim (string [, space]) -- remove leading and trailing spaces";
@@ -69787,7 +69928,7 @@ elseif (!object.(p))
 e = 0;
 endif
 endfor
-if ((!e) && (ERR == typeof(e = this:set(object, "neuter"))))
+if ((!e) && (ERR == typeof(e = this:set(object, "nijaki"))))
 player:tell("Couldn't initialize pronouns:  ", e);
 endif
 .
@@ -69849,32 +69990,14 @@ endif
 if (typeof(st) != STR)
 return E_INVARG;
 endif
-len = length(st);
-if ((len >= 3) && (rindex(st, "n't") == (len - 2)))
-return this:_verb_plural(st[1..len - 3], idx) + "n't";
-elseif (i = st in {"has", "is"})
-return this.({"have", "be"}[i])[idx];
-elseif (st == "was")
-return (idx > 6) ? "were" | st;
-elseif ((len <= 3) || (st[len] != "s"))
-return st;
-elseif (st[len - 1] != "e")
-return st[1..len - 1];
-"elseif ((r = (rindex(st, \"sses\") || rindex(st, \"zzes\"))) && (r == (len - 3)))";
-elseif ((r = rindex(st, "zzes")) && (r == (len - 3)))
-return st[1..len - 3];
-elseif ((((st[len - 2] == "h") && index("cs", st[len - 3])) || index("ox", st[len - 2])) || (st[len - 3..len - 2] == "ss"))
-return st[1..len - 2];
-"washes => wash, belches => belch, boxes => box";
-"used to have || ((st[len - 2] == \"s\") && (!index(\"aeiouy\", st[len - 3])))";
-"so that <consonant>ses => <consonant>s";
-"known examples: none";
-"counterexample: browses => browse";
-"update of sorts--put in code to handle passes => pass";
-elseif (st[len - 2] == "i")
-return st[1..len - 3] + "y";
+if ((length(st) > 4) && (st[1..4] == "nie "))
+return "nie " + this:_verb_plural(st[5..$], idx);
+elseif (i = st in {"ma", "has"})
+return this.have[idx];
+elseif (i = st in {"jest", "is"})
+return this.be[idx];
 else
-return st[1..len - 1];
+return st;
 endif
 .
 #41:5
@@ -69882,19 +70005,14 @@ endif
 if (typeof(st) != STR)
 return E_INVARG;
 endif
-len = length(st);
-if ((len >= 3) && (rindex(st, "n't") == (len - 2)))
-return this:_verb_singular(st[1..len - 3], idx) + "n't";
-elseif (i = st in {"have", "are"})
-return this.({"have", "be"}[i])[idx];
-elseif ((st[len] == "y") && (!index("aeiou", st[len - 1])))
-return st[1..len - 1] + "ies";
-elseif (index("sz", st[len]) && index("aeiou", st[len - 1]))
-return (st + st[len]) + "es";
-elseif (index("osx", st[len]) || ((len > 1) && (index("chsh", st[len - 1..len]) % 2)))
-return st + "es";
+if ((length(st) > 4) && (st[1..4] == "nie "))
+return "nie " + this:_verb_singular(st[5..$], idx);
+elseif (i = st in {"maja", "have"})
+return this.have[idx];
+elseif (i = st in {"sa", "are"})
+return this.be[idx];
 else
-return st + "s";
+return st;
 endif
 .
 #41:6
@@ -76642,13 +76760,13 @@ set_task_perms(player);
 if ((length(args) == 1) && (argstr[1] == "\""))
 argstr = args[1];
 endif
-shout = $gender_utils:get_conj("shouts", player);
+shout = $gender_utils:get_conj("krzyczy/krzycza", player);
 for person in (connected_players())
 if (person != player)
-person:notify(tostr(player.name, " ", shout, ", \"", argstr, "\""));
+person:notify(tostr(player.name, " ", shout, ": \"", argstr, "\""));
 endif
 endfor
-player:notify(tostr("You shout, \"", argstr, "\""));
+player:notify(tostr("Krzyczysz: \"", argstr, "\""));
 .
 #57:2
 "@grant <object> to <player>";
@@ -76726,16 +76844,16 @@ player:notify(tostr(verb, " complete."));
 set_task_perms(player);
 dobj = $string_utils:match_player(dobjstr);
 if (dobj == $nothing)
-player:notify(tostr("Usage:  ", verb, " <playername>"));
+player:notify(tostr("Uzycie:  ", verb, " <nazwa_gracza>"));
 elseif ($command_utils:player_match_result(dobj, dobjstr)[1])
 elseif ($wiz_utils:check_prog_restricted(dobj))
-return player:notify(tostr("Sorry, ", dobj.name, " is not allowed to be a programmer."));
-elseif ((dobj.description == $player.description) && (!$command_utils:yes_or_no($string_utils:pronoun_sub("@Programmer %d despite %[dpp] lack of description?"))))
-player:notify(tostr("Okay, leaving ", dobj.name, " !programmer."));
+return player:notify(tostr("Niestety, ", dobj.name, " nie moze zostac programista."));
+elseif ((dobj.description == $player.description) && (!$command_utils:yes_or_no($string_utils:pronoun_sub("Ustawic %d jako programiste mimo braku opisu?"))))
+player:notify(tostr("OK, ", dobj.name, " pozostaje bez uprawnien programisty."));
 return;
 elseif (result = $wiz_utils:set_programmer(dobj))
-player:notify(tostr(dobj.name, " (", dobj, ") is now a programmer.  ", dobj.ppc, " quota is currently ", $quota_utils:get_quota(dobj), "."));
-player:notify(tostr(dobj.name, " and the other wizards have been notified."));
+player:notify(tostr(dobj.name, " (", dobj, ") jest teraz programista.  ", dobj.ppc, " limit (quota) wynosi obecnie ", $quota_utils:get_quota(dobj), "."));
+player:notify(tostr(dobj.name, " i pozostali wizardzi zostali powiadomieni."));
 if (msg = this:programmer_victim_msg())
 dobj:notify(msg);
 endif
@@ -76743,7 +76861,7 @@ if ($object_utils:isa(dobj.location, $room) && (msg = this:programmer_msg()))
 dobj.location:announce_all_but({dobj}, msg);
 endif
 elseif (result == E_NONE)
-player:notify(tostr(dobj.name, " (", dobj, ") is already a programmer..."));
+player:notify(tostr(dobj.name, " (", dobj, ") juz jest programista..."));
 else
 player:notify(tostr(result));
 endif
@@ -76822,7 +76940,7 @@ player.key = 0;
 player.ownership_quota = 100;
 player.password = 0;
 player.last_password_time = 0;
-$gender_utils:set(player, "neuter");
+$gender_utils:set(player, "nijaki");
 "----------------------------------------";
 suspend(0);
 owners_original = owners_incore = {};
@@ -82938,7 +83056,7 @@ endif
 .
 #71:0
 player:tell_lines(this:description());
-player:tell($string_utils:pronoun_sub("%S %<is> moving around from room to room, cleaning up.", this));
+player:tell($string_utils:pronoun_sub("%S %<krzata sie/krzataja sie> od pokoju do pokoju, sprzatajac.", this));
 .
 #71:1
 "$housekeeper:cleanup([insist]) => clean up player's objects. Argument is 'up' or 'up!' for manually requested cleanups (notify player differently)";
