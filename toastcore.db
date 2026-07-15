@@ -9,145 +9,7 @@
 0 values pending finalization
 0 clocks
 0 queued tasks
-1 suspended tasks
-1784114631 1491010538 0
-0
-10
-0
-0 0 0 50
-language version 17
-if (!$perm_utils:controls(caller_perms(), this))
-"perms don't control the $housekeeper; probably not called by $room:disfunc then. Used to let args[1] call this. No longer.";
-return E_PERM;
-endif
-this.player_queue = {@this.player_queue, {args[1], time() + 300}};
-if ($code_utils:task_valid(this.move_player_task))
-"the move-players-home task is already running";
-return;
-endif
-fork tid (10)
-while (this.player_queue)
-if ((mtime = this.player_queue[1][2]) < (time() + 10))
-who = this.player_queue[1][1];
-"Remove from queue first so that if they do something malicious, like put a kill_task in a custom :accept_for_abode, they won't be in the queue when the task restarts with the next player disconnect. Ho_Yan 12/3/98";
-this.player_queue = listdelete(this.player_queue, 1);
-if (is_player(who) && (!$object_utils:connected(who)))
-dest = `who.home:accept_for_abode(who) ! ANY => 0' ? who.home | $player_start;
-if (who.location != dest)
-player = who;
-this:move_em(who, dest);
-endif
-endif
-else
-suspend(mtime - time());
-endif
-$command_utils:suspend_if_needed(1);
-endwhile
-endfork
-this.move_player_task = tid;
-.
-28 variables
-NUM
-0
-0
-OBJ
-0
-1
-STR
-0
-2
-LIST
-0
-4
-ERR
-0
-3
-player
-1
-2
-this
-1
-71
-caller
-1
-47
-verb
-2
-move_players_home
-args
-4
-1
-1
-2
-argstr
-2
-
-dobj
-1
--1
-dobjstr
-2
-
-prepstr
-2
-
-iobj
-1
--1
-iobjstr
-2
-
-INT
-0
-0
-FLOAT
-0
-9
-MAP
-0
-10
-ANON
-0
-12
-WAIF
-0
-13
-BOOL
-0
-14
-true
-14
-1
-false
-14
-0
-mtime
-0
-1784114630
-who
-6
-dest
-6
-tid
-0
-1491010538
-0 rt_stack slots in use
-0
--111
-1
-71
-1
-71
-1
-71 -7 -8 2 -9 2 71 -10 1
-No
-More
-Parse
-Infos
-move_players_home
-move_players_home
-6
-138 0 136
+0 suspended tasks
 0 interrupted tasks
 0 active connections with listeners
 134
@@ -802,7 +664,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784113442
+1784114678
 2
 name
 2
@@ -1362,7 +1224,7 @@ Wizard
 7
 2
 1
-47
+15
 10
 2
 2
@@ -1372,7 +1234,7 @@ source
 2
 time
 0
-1784114324
+1784114919
 4
 0
 1
@@ -1600,7 +1462,7 @@ time
 4
 2
 0
-1784114501
+1784114889
 2
 localhost
 2
@@ -1609,7 +1471,7 @@ localhost
 2
 0
 0
-1784114529
+1784114919
 2
 1
 0
@@ -1773,7 +1635,7 @@ localhost
 2
 5
 0
-1784114522
+1784114912
 2
 1
 0
@@ -4293,7 +4155,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--51
+-8
 0
 2
 2
@@ -4307,7 +4169,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-12
+13
+4
+2
+0
+1784114678
+0
+0
 4
 2
 0
@@ -5317,7 +5185,9 @@ Limbo
 0
 0
 4
-0
+1
+1
+2
 1
 1
 4
@@ -24352,9 +24222,7 @@ Mail Room
 0
 0
 4
-1
-1
-2
+0
 1
 50
 4
@@ -24467,41 +24335,27 @@ subjects
 sending
 42
 4
-1
+0
+36
+0
 4
 0
 36
 0
 4
-1
-4
-1
-1
-2
-36
-0
-4
-1
-2
-;;return $wiz:length_all_msgs();
-36
-0
-4
-1
-0
 0
 36
 0
 4
-1
 0
+36
+0
+4
 0
 96
 1
 4
-1
 0
-1784114324
 96
 1
 4
@@ -24715,33 +24569,23 @@ You're not editing anything!
 36
 5
 4
+0
+96
+0
+4
+0
+96
 1
 4
 0
 96
 0
 4
-1
-1
-2
-96
-1
-4
-1
-0
 0
 96
 0
 4
-1
 0
-1
-96
-0
-4
-1
-1
-62
 96
 1
 2
@@ -30263,41 +30107,41 @@ Note for programmers:
 4
 18
 2
-Most objects have messages that are printed when a player succeeds or fails in manipulating the object in some way.  Of course, the kinds of messages printed are specific to the kinds of manipulations and those, in turn, are specific to the kind of object.  Regardless of the kind of object, though, there is a uniform means for listing the kinds of messages that can be set and then for setting them.
+Wiekszosc obiektow posiada komunikaty, ktore sa wypisywane, gdy graczowi uda sie lub nie uda cos zrobic z obiektem. Rodzaj wypisywanego komunikatu zalezy oczywiscie od rodzaju manipulacji, a te z kolei zaleza od rodzaju obiektu. Bez wzgledu na rodzaj obiektu istnieje jednak jednolity sposob wyswietlania listy komunikatow, ktore mozna ustawic, a nastepnie ich ustawiania.
 2
 
 2
-The '@messages' command prints out all of the messages you can set on any object you own.  Type 'help @messages' for details.
+Polecenie '@messages' wypisuje wszystkie komunikaty, jakie mozesz ustawic na dowolnym posiadanym przez siebie obiekcie. Wpisz 'help @messages', by uzyskac szczegoly.
 2
 
 2
-To set a particular message on one of your objects use a command with this form:
+By ustawic konkretny komunikat na jednym ze swoich obiektow, uzyj polecenia w tej postaci:
 2
-        @<message-name> <object> is "<message>"
+        @<nazwa-komunikatu> <obiekt> is "<komunikat>"
 2
-where '<message-name>' is the name of the message being set, <object> is the name or number of the object on which you want to set that message, and <message> is the actual text.
-2
-
-2
-For example, consider the 'leave' message on an exit; it is printed to a player when they successfully use the exit to leave a room.  To set the 'leave' message on the exit 'north' from the current room, use the command
-2
-        @leave north is "You wander in a northerly way out of the room."
+gdzie '<nazwa-komunikatu>' to nazwa ustawianego komunikatu, <obiekt> to nazwa lub numer obiektu, na ktorym chcesz ustawic ten komunikat, a <komunikat> to wlasciwy tekst.
 2
 
 2
-[Note to programmers: This class of commands automatically applies to any property whose name ends in '_msg'.  Thus, in the example above, the command is setting the 'leave_msg' property of the named exit.  You can get such a command to work on new kinds of objects simply by giving the appropriate properties names that end in '_msg'.  Additionally, in many cases the _msg property is accompanied by a _msg verb, which defaultly returns the named property, but which is available to be customized in more complex ways than allowed by simple string substitution.  You should check for the particular property you're considering whether the verb form exists (typically with @list).]
+Na przyklad, rozwaz komunikat 'leave' na wyjsciu; jest on wypisywany graczowi, gdy uda mu sie uzyc wyjscia, by opuscic pokoj. By ustawic komunikat 'leave' na wyjsciu 'north' z biezacego pokoju, uzyj polecenia
+2
+        @leave north is "Wedrujesz w polnocnym kierunku z pokoju."
 2
 
 2
-The following help topics describe the uses of the various messages available on standard kinds of objects:
+[Notatka dla programistow: Ta klasa polecen dziala automatycznie z kazda wlasciwoscia, ktorej nazwa konczy sie na '_msg'. Tak wiec w powyzszym przykladzie polecenie ustawia wlasciwosc 'leave_msg' nazwanego wyjscia. Mozesz sprawic, by takie polecenie dzialalo na nowych rodzajach obiektow, po prostu nadajac odpowiednim wlasciwosciom nazwy konczace sie na '_msg'. Dodatkowo w wielu przypadkach wlasciwosci _msg towarzyszy czasownik _msg, ktory domyslnie zwraca nazwana wlasciwosc, ale ktory mozna dostosowac w bardziej zlozony sposob niz pozwala na to proste podstawianie tekstu. Powinienes sprawdzic dla konkretnej rozwazanej wlasciwosci, czy istnieje jej forma czasownikowa (zazwyczaj za pomoca @list).]
 2
 
 2
-container-messages -- the messages on objects that can contain other objects
+Nastepujace tematy pomocy opisuja zastosowania roznych komunikatow dostepnych na standardowych rodzajach obiektow:
 2
-exit-messages -- the messages on exit objects
+
 2
-thing-messages -- the messages on objects that can be taken and dropped
+container-messages -- komunikaty na obiektach, ktore moga zawierac inne obiekty
+2
+exit-messages -- komunikaty na obiektach-wyjsciach
+2
+thing-messages -- komunikaty na obiektach, ktore mozna wziac i upuscic
 36
 1
 4
@@ -33936,79 +33780,7 @@ cleaning_index
 71
 5
 4
-12
-4
-2
-1
-2
 0
-1784114630
-4
-2
-1
-2
-0
-1784114649
-4
-2
-1
-2
-0
-1784114664
-4
-2
-1
-2
-0
-1784114684
-4
-2
-1
-2
-0
-1784114704
-4
-2
-1
-2
-0
-1784114724
-4
-2
-1
-2
-0
-1784114748
-4
-2
-1
-2
-0
-1784114760
-4
-2
-1
-2
-0
-1784114764
-4
-2
-1
-2
-0
-1784114785
-4
-2
-1
-2
-0
-1784114806
-4
-2
-1
-2
-0
-1784114829
 71
 1
 2
@@ -34024,7 +33796,7 @@ Ktos przychodzi i odklada %n. %n twardo spi.
 71
 1
 0
-1441526290
+1173641889
 71
 5
 0
