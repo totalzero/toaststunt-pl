@@ -664,7 +664,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784125063
+1784125454
 2
 name
 2
@@ -1234,7 +1234,7 @@ source
 2
 time
 0
-1784125223
+1784126283
 4
 0
 1
@@ -1243,7 +1243,7 @@ time
 0
 0
 0
-104
+110
 5
 2
 5
@@ -1462,7 +1462,7 @@ time
 4
 2
 0
-1784125159
+1784126258
 2
 localhost
 2
@@ -1471,7 +1471,7 @@ localhost
 2
 0
 0
-1784125223
+1784126283
 2
 1
 0
@@ -1635,7 +1635,7 @@ localhost
 2
 5
 0
-1784125215
+1784126275
 2
 1
 0
@@ -1738,6 +1738,30 @@ ono
 2
 5
 5
+2
+5
+2
+jemu
+2
+5
+2
+nim
+2
+5
+2
+nim
+2
+5
+2
+Jemu
+2
+5
+2
+Nim
+2
+5
+2
+Nim
 2
 5
 0
@@ -2209,7 +2233,7 @@ init_for_core
 -2
 1
 build_options
-91
+97
 4
 0
 2
@@ -2487,6 +2511,24 @@ Ono
 5
 2
 ono
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
 2
 5
 5
@@ -3079,7 +3121,7 @@ last_connect_attempt
 out_of_band_session
 reading_input
 inline_editor_options
-51
+57
 4
 0
 36
@@ -3270,6 +3312,24 @@ Ono
 5
 2
 ono
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
 2
 5
 5
@@ -4155,7 +4215,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--6
+-26
 0
 2
 2
@@ -4169,7 +4229,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-18
+19
+4
+2
+0
+1784125454
+0
+0
 4
 2
 0
@@ -19021,7 +19087,7 @@ default_description
 request
 extra_confunc_msg
 free_to_use
-95
+101
 2
 neuter
 36
@@ -19330,6 +19396,24 @@ Ono
 5
 2
 ono
+36
+5
+5
+36
+5
+5
+36
+5
+5
+36
+5
+5
+36
+5
+5
+36
+5
+5
 36
 5
 5
@@ -19785,7 +19869,7 @@ say_action_reflexive
 2
 conjugations
 help_msg
-18
+24
 4
 4
 4
@@ -19897,6 +19981,30 @@ ty
 5
 36
 5
+2
+tobie
+36
+5
+2
+toba
+36
+5
+2
+tobie
+36
+5
+2
+Tobie
+36
+5
+2
+Toba
+36
+5
+2
+Tobie
+36
+5
 5
 36
 4
@@ -19940,7 +20048,7 @@ init_for_core
 173
 -1
 0
-95
+101
 5
 36
 1
@@ -20253,6 +20361,24 @@ ono
 5
 5
 36
+5
+5
+36
+5
+5
+36
+5
+5
+36
+5
+5
+36
+5
+5
+36
+5
+5
+36
 4
 4
 1
@@ -20460,7 +20586,7 @@ set_*
 -1
 1
 queued_task_limit
-65
+71
 0
 0
 2
@@ -20674,6 +20800,24 @@ Ono
 5
 2
 ono
+36
+5
+5
+36
+5
+5
+36
+5
+5
+36
+5
+5
+36
+5
+5
+36
+5
+5
 36
 5
 5
@@ -21228,7 +21372,7 @@ message_keep_date
 messages_kept
 current_message
 messages
-64
+70
 0
 0
 2
@@ -21440,6 +21584,24 @@ ono
 5
 2
 5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
 0
 0
 2
@@ -21509,7 +21671,7 @@ pronoun_sub
 2
 173
 -1
-15
+21
 is_plural
 have
 be
@@ -21525,7 +21687,13 @@ poc
 ppc
 pqc
 prc
-20
+pc
+pz
+pm
+pcc
+pzc
+pmc
+26
 4
 11
 0
@@ -21605,7 +21773,7 @@ jestes
 36
 5
 4
-10
+16
 2
 ps
 2
@@ -21626,6 +21794,18 @@ ppc
 pqc
 2
 prc
+2
+pc
+2
+pz
+2
+pm
+2
+pcc
+2
+pzc
+2
+pmc
 36
 5
 4
@@ -21890,6 +22070,150 @@ Siebie
 Siebie
 2
 Siebie
+36
+5
+4
+10
+2
+jemu
+2
+jemu
+2
+jej
+2
+jemu/jej
+2
+jemu
+2
+jemu
+2
+im
+2
+mnie
+2
+nam
+2
+tobie
+36
+5
+4
+10
+2
+nim
+2
+nim
+2
+nia
+2
+nim/nia
+2
+nim
+2
+nim
+2
+nimi
+2
+mna
+2
+nami
+2
+toba
+36
+5
+4
+10
+2
+nim
+2
+nim
+2
+niej
+2
+nim/niej
+2
+nim
+2
+nim
+2
+nich
+2
+mnie
+2
+nas
+2
+tobie
+36
+5
+4
+10
+2
+Jemu
+2
+Jemu
+2
+Jej
+2
+Jemu/Jej
+2
+Jemu
+2
+Jemu
+2
+Im
+2
+Mnie
+2
+Nam
+2
+Tobie
+36
+5
+4
+10
+2
+Nim
+2
+Nim
+2
+Nia
+2
+Nim/Nia
+2
+Nim
+2
+Nim
+2
+Nimi
+2
+Mna
+2
+Nami
+2
+Toba
+36
+5
+4
+10
+2
+Nim
+2
+Nim
+2
+Niej
+2
+Nim/Niej
+2
+Nim
+2
+Nim
+2
+Nich
+2
+Mnie
+2
+Nas
+2
+Tobie
 36
 5
 4
@@ -27350,7 +27674,7 @@ toad_victim_msg
 toad_msg
 mail_identity
 advertised
-104
+110
 2
 
 2
@@ -27685,6 +28009,24 @@ ono
 5
 5
 2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
 4
 4
 1
@@ -27888,7 +28230,7 @@ eval_subs
 eval_ticks
 eval_env
 prog_options
-95
+101
 4
 0
 36
@@ -28191,6 +28533,24 @@ Ono
 5
 2
 ono
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
 2
 5
 5
@@ -30001,141 +30361,143 @@ List all of the messages that can be set on the named object and their current v
 36
 1
 4
-67
+68
 2
-Some kinds of messages are not printed directly to players; they are allowed to contain special characters marking places to include the appropriate pronoun for some player.  For example, a builder might have a doorway that's very short, so that people have to crawl to get through it.  When they do so, the builder wants a little message like this to be printed:
-2
-
-2
-        Balthazar crawls through the little doorway, bruising his knee.
+Niektore rodzaje komunikatow nie sa wypisywane graczom bezposrednio; moga zawierac specjalne znaki oznaczajace miejsca, w ktore nalezy wstawic odpowiedni zaimek dla danego gracza. Na przyklad budowniczy moze miec bardzo niskie drzwi, przez ktore trzeba sie czolgac. Gdy ktos to zrobi, budowniczy chce, by wyswietlil sie taki komunikat:
 2
 
 2
-The problem is the use of 'his' in the message; what if the player in question is female?  The correct setting of the 'oleave' message on that doorway is as follows:
+        Baltazar czolga sie przez male drzwi, siniaczac %p kolano.
 2
 
 2
-        "crawls through the little doorway, bruising %p knee."
+Problem w tym, ze uzycie konkretnego zaimka w komunikacie jest napisane na sztywno; co, jesli danym graczem jest ktos innego rodzaju? Poprawne ustawienie komunikatu 'oleave' na tych drzwiach wyglada tak:
 2
 
 2
-The '%p' in the message will be replaced by either 'his', 'her', or 'its', depending upon the gender of the player.  
+        "czolga sie przez male drzwi, siniaczac %p kolano."
 2
 
 2
-As it happens, you can also refer to elements of the command line (e.g., direct and indirect objects) the object issuing the message, and the location where this is all happening.  In addition one can refer to arbitrary string properties on these objects, or get the object numbers themselves.
+'%p' w komunikacie zostanie zastapione przez 'jego', 'jej', albo 'jego' (nijaki), zaleznie od rodzaju gracza.
 2
 
 2
-The complete set of substitutions is as follows:
+Mozna tez odwolywac sie do elementow linii polecenia (np. dopelnienia blizszego i dalszego), do obiektu wysylajacego komunikat, oraz do lokalizacji, w ktorej sie to wszystko dzieje. Dodatkowo mozna odwolywac sie do dowolnych wlasciwosci-stringow na tych obiektach, albo pobrac same numery obiektow.
 2
 
 2
-        %% => `%'  (just in case you actually want to talk about percentages).
+Pelny zestaw podstawien wyglada tak:
 2
-    Names:
+
 2
-        %n => the player
+        %% => `%'  (na wypadek, gdybys naprawde chcial mowic o procentach).
 2
-        %t => this object (i.e., the object issuing the message,... usually)
+    Nazwy:
 2
-        %d => the direct object from the command line
+        %n => gracz
 2
-        %i => the indirect object from the command line
+        %t => ten obiekt (czyli obiekt wysylajacy komunikat,... zwykle)
 2
-        %l => the location of the player
+        %d => dopelnienie blizsze z linii polecenia
 2
-    Pronouns:
+        %i => dopelnienie dalsze z linii polecenia
 2
-        %s => subject pronoun:          either `he',  `she', or `it'
+        %l => lokalizacja gracza
 2
-        %o => object pronoun:           either `him', `her', or `it'
+    Zaimki:
 2
-        %p => posessive pronoun (adj):  either `his', `her', or `its'  
+        %s => zaimek w mianowniku:    'on', 'ona', albo 'ono'
 2
-        %q => posessive pronoun (noun): either `his', `hers', or `its'
+        %o => zaimek w bierniku:      'go', 'ja', albo 'je'
 2
-        %r => reflexive pronoun:  either `himself', `herself', or `itself'
+        %p => zaimek dzierzawczy:     'jego', 'jej', albo 'jego'
 2
-    General properties:
+        %q => zaimek dzierzawczy (forma absolutna): 'jego', 'jej', albo 'jego'
 2
-        %(foo) => player.foo 
+        %c => zaimek w celowniku:     'jemu', 'jej', albo 'jemu'
+2
+        %z => zaimek w narzedniku:    'nim', 'nia', albo 'nim'
+2
+        %m => zaimek w miejscowniku:  'nim', 'niej', albo 'nim'
+2
+        %r => zaimek zwrotny:  zawsze 'siebie', niezaleznie od rodzaju
+2
+    Wlasciwosci ogolne:
+2
+        %(foo) => player.foo
 2
         %[tfoo], %[dfoo], %[ifoo], %[lfoo]
 2
-               => this.foo, dobj.foo, iobj.foo, and player.location.foo
+               => this.foo, dobj.foo, iobj.foo, oraz player.location.foo
 2
-    Object numbers:
+    Numery obiektow:
 2
-        %#  => player's object number
+        %#  => numer obiektu gracza
 2
         %[#t], %[#d], %[#i], %[#l]
 2
-            => object numbers for this, direct obj, indirect obj, and location.
+            => numery obiektow dla this, dobj, iobj i lokalizacji.
 2
 
 2
-In addition there is a set of capitalized substitutions for use at the 
-2
-beginning of sentences.  These are, respectively, 
+Dodatkowo istnieje zestaw podstawien z wielkiej litery, do uzycia na poczatku zdania. Sa to odpowiednio:
 2
 
 2
-   %N, %T, %D, %I, %L for object names, 
+   %N, %T, %D, %I, %L dla nazw obiektow,
 2
-   %S, %O, %P, %Q, %R for pronouns, and
+   %S, %O, %P, %Q, %C, %Z, %M, %R dla zaimkow, oraz
 2
-   %(Foo), %[dFoo] (== %[Dfoo] == %[DFoo]),... for general properties
-2
-
-2
-Note: there is a special exception for player .name's which are assumed to
-2
-already be capitalized as desired.
+   %(Foo), %[dFoo] (== %[Dfoo] == %[DFoo]),... dla wlasciwosci ogolnych.
 2
 
 2
-There may be situations where the standard algorithm, i.e., upcasing the first letter, yields something incorrect, in which case a "capitalization" for a particular string property can be specified explicitly.  If your object has a ".foo" property that is like this, you need merely add a ".fooc" (in general .(propertyname+"c")) specifying the correct capitalization.  This will also work for player .name's if you want to specify a capitalization that is different from your usual .name
+Uwaga: istnieje specjalny wyjatek dla .name graczy, ktore sa zakladane jako juz odpowiednio wielkimi literami zapisane.
 2
 
 2
-Example:  
-2
-Rog makes a hand-grenade with a customizable explode message.
-2
-Suppose someone sets grenade.explode_msg to:
+Moze sie zdarzyc, ze standardowy algorytm, czyli zamiana pierwszej litery na wielka, da w wyniku cos nieprawidlowego -- w takim przypadku mozna jawnie okreslic "wielka litere" dla konkretnej wlasciwosci-stringa. Jesli twoj obiekt ma wlasciwosc ".foo" tego typu, wystarczy dodac ".fooc" (ogolnie: .(nazwa_wlasciwosci + "c")), okreslajaca poprawna wersje z wielkiej litery. Dziala to rowniez dla .name graczy, jesli chcesz okreslic inna wielka litere niz zwykle.
 2
 
 2
-  "%N(%#) drops %t on %p foot.  %T explodes.  
+Przyklad:
 2
-   %L is engulfed in flames."
+Rog robi granat reczny z konfigurowalnym komunikatem wybuchu.
 2
-
-2
-If the current location happens to be #3443 ("yduJ's Hairdressing Salon"),
-2
-the resulting substitution may produce, eg.,
+Zalozmy, ze ktos ustawia grenade.explode_msg na:
 2
 
 2
-  "Rog(#4292) drops grenade on his foot.  Grenade explodes.  
+  "%N(%#) upuszcza %t na %p stope.  %T wybucha.  
 2
-   YduJ's Hairdressing Salon is engulfed in flames."
-2
-
-2
-which contains an incorrect capitalization.  
-2
-yduJ may remedy this by setting #3443.namec="yduJ's Hairdressing Salon".
+   %L zostaje ogarnieta plomieniami."
 2
 
 2
-Note for programmers:  
+Jesli biezaca lokalizacja to np. #3443 ("salon fryzjerski yduJ"),
 2
- In programs, use $string_utils:pronoun_sub().
+wynikowe podstawienie moze dac np.:
 2
- %n actually calls player:title() while %(name) refers to player.name directly.
+
+2
+  "Rog(#4292) upuszcza granat na jego stope.  Granat wybucha.  
+2
+   salon fryzjerski yduJ zostaje ogarnieta plomieniami."
+2
+
+2
+co zawiera nieprawidlowa wielka litere.
+2
+yduJ moze to naprawic ustawiajac #3443.namec="Salon fryzjerski yduJ".
+2
+
+2
+Uwaga dla programistow:
+2
+ W programach uzywaj $string_utils:pronoun_sub().
+2
+ %n w rzeczywistosci wywoluje player:title(), a %(name) odnosi sie bezposrednio do player.name.
 36
 1
 4
@@ -33766,7 +34128,7 @@ drop_off_msg
 move_player_task
 moveto_task
 cleaning_index
-112
+118
 4
 0
 71
@@ -34150,6 +34512,24 @@ Ono
 5
 2
 ono
+71
+5
+5
+71
+5
+5
+71
+5
+5
+71
+5
+5
+71
+5
+5
+71
+5
+5
 71
 5
 5
@@ -37634,9 +38014,9 @@ Kazdy obiekt moze miec wlasciwosc .gender ustawiana poleceniem `@gender <rodzaj>
 2
 
 2
-PODSTAWIANIE ZAIMKOW -- pronoun_sub
+PODSTAWIANIE ZAIMKOW -- pronoun_sub, teraz z pelna odmiana przez 7 przypadkow
 2
-$string_utils:pronoun_sub(tekst, kto) podmienia w tekscie: %s/%o/%p/%q/%r (zaimek: mianownik/biernik/dzierzawczy/dzierzawczy-absolutny/zwrotny) oraz wersje z wielkiej litery %S/%O/%P/%Q/%R. Np. dla rodzaju zenski: %s=ona, %o=ja, %p=jej, %q=jej, %r=siebie.
+$string_utils:pronoun_sub(tekst, kto) podmienia w tekscie: %s/%o/%p/%q (mianownik/biernik/dzierzawczy/dzierzawczy-absolutny), %c/%z/%m (celownik/narzednik/miejscownik), %r (zwrotny) oraz wersje z wielkiej litery %S/%O/%P/%Q/%C/%Z/%M/%R. Np. dla rodzaju zenski: %s=ona, %o=ja, %p=jej, %q=jej, %c=jej, %z=nia, %m=niej, %r=siebie.
 2
 Uwaga: %o dla zenski to string "ja" -- to ASCII-owa forma biernika (bez ogonka na koncowym 'a'), wyglada identycznie jak zaimek "ja" (I). To celowa konsekwencja zasady ASCII, nie blad.
 2
@@ -37650,9 +38030,9 @@ PULAPKA: %<jedno_slowo> (bez ukosnika) jest uzywane DOSLOWNIE bez zmiany dla typ
 2
 
 2
-ODMIANA PRZEZ PRZYPADKI -- co dziala, a co nie
+ODMIANA PRZEZ PRZYPADKI -- zaimki: pelna, rzeczowniki: brak
 2
-Zaimki pokrywaja mianownik, biernik i dopelniacz-jako-dzierzawczy (jego/jej/ich). Brakuje celownika, narzednika, miejscownika dla zaimkow -- i odmiana RZECZOWNIKOW (nazw obiektow) nie jest obslugiwana wcale, nazwa zawsze pojawia sie w formie zapisanej (typowo mianownik). To swiadome ograniczenie: automatyczna odmiana dowolnego polskiego rzeczownika to zadanie na skale silnika NLP, nie skryptu MOO. Formuluj zdania tak, zeby nazwa obiektu mogla stac w mianowniku (np. zamiast "Dajesz mieczowi polysk." napisz "Miecz nabiera polysku."), zamiast zakladac, ze odmiana zadziala automatycznie.
+Zaimki maja teraz pelna odmiane przez wszystkie 7 przypadkow (%s/%o/%p/%q/%c/%z/%m/%r). Odmiana RZECZOWNIKOW (nazw obiektow) nie jest obslugiwana wcale i to zostaje tak celowo -- nazwa zawsze pojawia sie w formie zapisanej (typowo mianownik). Automatyczna odmiana dowolnego polskiego rzeczownika to zadanie na skale silnika NLP, nie skryptu MOO. Formuluj zdania tak, zeby nazwa obiektu mogla stac w mianowniku (np. zamiast "Dajesz mieczowi polysk." napisz "Miecz nabiera polysku."), zamiast zakladac, ze odmiana zadziala automatycznie.
 2
 
 2
@@ -37664,7 +38044,7 @@ Polski ma trzy formy rzeczownika wg liczby (1 / 2-4 / 5+, wyjatek 12-14 licza si
 2
 ZNANE, SWIADOME UPROSZCZENIA (nie "naprawiaj" bez decyzji)
 2
-- Brak pelnej odmiany przez 7 przypadkow.
+- Rzeczowniki (nazwy obiektow) nie sa odmieniane przez przypadki -- to celowe, patrz wyzej.
 2
 - Brak rozroznienia rodzaju meskoosobowego/niemeskoosobowego w liczbie mnogiej (zawsze "oni").
 2
@@ -43159,7 +43539,7 @@ page_refused_msg
 whisper_refused_msg
 mail_refused_msg
 spurned_objects
-90
+96
 0
 30
 36
@@ -43467,6 +43847,24 @@ Ono
 5
 2
 ono
+36
+5
+5
+36
+5
+5
+36
+5
+5
+36
+5
+5
+36
+5
+5
+36
+5
+5
 36
 5
 5
@@ -47034,7 +47432,7 @@ verb_sub
 2
 173
 -1
-12
+18
 gender
 pqc
 pq
@@ -47047,7 +47445,13 @@ po
 psc
 ps
 verb_subs
-16
+pc
+pz
+pm
+pcc
+pzc
+pmc
+22
 2
 nijaki
 2
@@ -47094,6 +47498,30 @@ ono
 5
 4
 0
+2
+5
+2
+jemu
+2
+5
+2
+nim
+2
+5
+2
+nim
+2
+5
+2
+Jemu
+2
+5
+2
+Nim
+2
+5
+2
+Nim
 2
 5
 0
@@ -47447,7 +47875,7 @@ Editor_Owner
 0
 0
 0
-91
+97
 5
 96
 5
@@ -47758,6 +48186,24 @@ ono
 5
 96
 5
+5
+96
+5
+5
+96
+5
+5
+96
+5
+5
+96
+5
+5
+96
+5
+5
+96
+5
 0
 0
 96
@@ -47931,7 +48377,7 @@ time
 0
 0
 0
-95
+101
 5
 36
 1
@@ -48266,6 +48712,24 @@ Ono
 5
 2
 ono
+98
+5
+5
+98
+5
+5
+98
+5
+5
+98
+5
+5
+98
+5
+5
+98
+5
+5
 98
 5
 5
@@ -49450,7 +49914,7 @@ emote gest
 ansi_options
 ansi_title
 replace_codes
-54
+60
 4
 0
 98
@@ -49612,6 +50076,24 @@ Ono
 5
 2
 ono
+98
+5
+5
+98
+5
+5
+98
+5
+5
+98
+5
+5
+98
+5
+5
+98
+5
+5
 98
 5
 5
@@ -62689,10 +63171,11 @@ return (typeof(s) == ERR) ? s | tostr(s);
 #20:34
 "Pronoun (and other things) substitution. See 'help pronouns' for details.";
 "syntax:  $string_utils:pronoun_sub(text[,who[,thing[,location[,dobj[,iobj]]]]])";
-"%s,%o,%p,%q,%r    => <who>'s pronouns.  <who> defaults to player.";
+"%s,%o,%p,%q,%r    => <who>'s pronouns (mianownik/biernik/dopelniacz-dzierzawczy/tak samo/zwrotny).  <who> defaults to player.";
+"%c,%z,%m          => <who>'s celownik/narzednik/miejscownik (dative/instrumental/locative).";
 "%n,%d,%i,%t,%l,%% => <who>, dobj, iobj, <thing>, location and %";
 "<thing> defaults to caller; <location> defaults to who.location";
-"%S,%O,%P,%Q,%R, %N,%D,%I,%T,%L have corresponding capitalized substitutions.";
+"%S,%O,%P,%Q,%R,%C,%Z,%M, %N,%D,%I,%T,%L have corresponding capitalized substitutions.";
 " %[#n], %[#d], ...  =>  <who>, dobj, etc.'s object number";
 "%(foo) => <who>.foo and %(Foo) => <who>.foo capitalized. %[dfoo] => dobj.foo, etc..";
 "%<foo> -> whatever <who> does when normal people foo. This is determined by calling :verb_sub() on the <who>.";
@@ -62711,8 +63194,8 @@ old = tostr(string);
 new = "";
 objspec = "nditl";
 objects = {who, dobject, iobject, thing, where};
-prnspec = "sopqrSOPQR";
-prprops = {"ps", "po", "pp", "pq", "pr", "Ps", "Po", "Pp", "Pq", "Pr"};
+prnspec = "sopqrczmSOPQRCZM";
+prprops = {"ps", "po", "pp", "pq", "pr", "pc", "pz", "pm", "Ps", "Po", "Pp", "Pq", "Pr", "Pc", "Pz", "Pm"};
 oldlen = length(old);
 while ((prcnt = index(old, "%")) && (prcnt < oldlen))
 s = old[k = prcnt + 1];

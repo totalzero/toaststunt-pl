@@ -84,8 +84,11 @@ Wiekszosc komunikatow w bazie przechodzi przez `$string_utils:pronoun_sub(tekst,
 | `%o` | zaimek w bierniku | ja |
 | `%p` | zaimek dzierzawczy | jej |
 | `%q` | zaimek dzierzawczy (forma absolutna) | jej |
+| `%c` | zaimek w celowniku | jej |
+| `%z` | zaimek w narzedniku | nia |
+| `%m` | zaimek w miejscowniku | niej |
 | `%r` | zaimek zwrotny | siebie |
-| `%S %O %P %Q %R` | jak wyzej, ale z wielkiej litery (na poczatek zdania) | Ona, Ja, Jej, Jej, Siebie |
+| `%S %O %P %Q %C %Z %M %R` | jak wyzej, ale z wielkiej litery (na poczatek zdania) | Ona, Ja, Jej, Jej, Jej, Nia, Niej, Siebie |
 | `%n` `%d` `%i` `%t` `%l` | odpowiednio: kto/dobj/iobj/thing/location | (nazwa obiektu) |
 
 Przyklad:
@@ -122,12 +125,18 @@ Ta sama zasada dotyczy bezposredniego wywolania `$gender_utils:get_conj(specyfik
 
 To najwazniejsze ograniczenie do zrozumienia, jesli piszesz bardziej rozbudowana tresc.
 
-**Zaimki** (`%s/%o/%p/%q/%r`) pokrywaja w praktyce:
+**Zaimki** (`%s/%o/%p/%q/%c/%z/%m/%r`) pokrywaja wszystkie 7 przypadkow:
 - mianownik (`%s`: on/ona/ono/oni),
 - biernik (`%o`: go/ja/je/ich),
-- dopelniacz w funkcji dzierzawczej (`%p`/`%q`: jego/jej/ich -- to naprawde forma dopelniacza uzyta jako "jego/jej", tak jak w prawdziwym polskim).
+- dopelniacz w funkcji dzierzawczej (`%p`/`%q`: jego/jej/ich -- to naprawde forma dopelniacza uzyta jako "jego/jej", tak jak w prawdziwym polskim),
+- celownik (`%c`: jemu/jej/im -- komu/czemu),
+- narzednik (`%z`: nim/nia/nimi -- z kim/czym),
+- miejscownik (`%m`: nim/niej/nich -- o kim/czym),
+- zwrotny (`%r`: zawsze "siebie", niezaleznie od rodzaju/liczby).
 
-**Brakuje**: celownika (komu/czemu -- "jemu/jej/im"), narzednika (z kim/czym -- "nim/nia/nimi"), miejscownika (o kim/czym -- "nim/niej/nich"). Jesli twoj komunikat potrzebuje jednej z tych form zaimka, **napisz zdanie tak, zeby ich unikac** (patrz przyklady nizej), albo popros o rozszerzenie `$gender_utils` o brakujace przypadki (to wykonalne -- male, zamkniete tabele -- ale wymaga swiadomej decyzji, bo dotyka wspoldzielonej infrastruktury).
+Dodane 2026-07-16 -- wczesniej brakowalo celownika/narzednika/miejscownika; rozszerzono `$gender_utils` o trzy dodatkowe pary wlasciwosci (`.pc`/`.pz`/`.pm` + wersje z wielkiej litery), zdefiniowane raz na wspoldzielonym obiekcie-przodku (`#94`, Generic Gendered Object) i dziedziczone przez wszystkie obiekty z gestem/`.gender`, dokladnie tak samo jak istniejace `.ps`/`.po`/`.pp`.
+
+**Nadal brakuje**: odmiany **rzeczownikow** (nazw obiektow/przedmiotow) przez przypadek -- to swiadome, pozostajace ograniczenie (patrz nizej), niezalezne od tego, ile przypadkow maja teraz zaimki.
 
 **Rzeczowniki (nazwy obiektow/przedmiotow) nie sa odmieniane w ogole.** Nazwa przedmiotu (`.name`) zawsze pojawia sie w formie, w jakiej zostala zapisana -- typowo mianownik. Automatyczna odmiana dowolnego polskiego rzeczownika przez przypadek to zadanie na skale silnika jezykowego (NLP), nie na skale skryptu MOO -- polska deklinacja ma zbyt wiele wzorcow i wyjatkow, zeby dalo sie ja niezawodnie zautomatyzowac bez slownika form dla kazdego rzeczownika z osobna.
 
@@ -166,7 +175,7 @@ Wiele standardowych komend ma juz polskie aliasy (np. `wez`/`poloz` obok `take`/
 
 Te ograniczenia sa celowe (nie przeoczeniem) i nie powinny byc "naprawiane" bez swiadomej decyzji:
 
-- Brak pelnej odmiany przez 7 przypadkow (patrz sekcja 5).
+- Zaimki maja pelna odmiane przez wszystkie 7 przypadkow (od 2026-07-16); rzeczowniki (nazwy obiektow) nie sa odmieniane wcale i to zostaje tak celowo (patrz sekcja 5).
 - Brak rozroznienia rodzaju meskoosobowego/niemeskoosobowego w liczbie mnogiej (prawdziwy polski rozroznia "oni"/"one" w zaleznosci od tego, czy w grupie jest mezczyzna -- tu zawsze "oni").
 - Brak zgodnosci rodzaju w czasie przeszlym (polski czasownik w czasie przeszlym odmienia sie przez rodzaj, np. "zrobil"/"zrobila" -- to nie jest obslugiwane; komunikaty unikaja czasu przeszlego z podmiotem o zmiennym rodzaju, uzywajac np. czasu terazniejszego albo przeformulowania zdania).
 - Przymiotniki stanu obiektu (otwarty/zamkniety/pusty) zawsze w formie nijakiej, niezaleznie od prawdziwego rodzaju rzeczownika.
