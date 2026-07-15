@@ -11,9 +11,8 @@
 0 queued tasks
 0 suspended tasks
 0 interrupted tasks
-1 active connections with listeners
-2 0
-136
+0 active connections with listeners
+134
 #0
 The System Object
 24
@@ -665,7 +664,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784057319
+1784087130
 2
 name
 2
@@ -1225,17 +1224,17 @@ Wizard
 7
 2
 1
-62
+15
 10
 2
 2
 source
 1
-15
+62
 2
 time
 0
-1784058152
+1784088382
 4
 0
 1
@@ -1455,7 +1454,7 @@ time
 4
 2
 0
-1784058135
+1784088356
 2
 localhost
 2
@@ -1464,7 +1463,7 @@ localhost
 2
 0
 0
-1784058138
+1784088382
 2
 1
 0
@@ -1628,7 +1627,7 @@ localhost
 2
 5
 0
-1784058152
+1784088379
 2
 1
 0
@@ -1675,8 +1674,8 @@ localhost
 5
 2
 0
-12
-136
+1
+-1
 2
 1
 5
@@ -4134,7 +4133,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
+5
 4
+2
+0
+1784087130
+0
+0
 4
 2
 0
@@ -4210,7 +4215,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 36
 0
 0
-1
+0
 2
 5
 0
@@ -5096,7 +5101,9 @@ Limbo
 0
 0
 4
-0
+1
+1
+2
 1
 1
 4
@@ -12683,29 +12690,29 @@ mssp
 2
 
 2
-@guests now  [shows information about currently connected guests]
+@guests now  [pokazuje informacje o aktualnie polaczonych gosciach]
 2
-@guests all  [shows all entries in $guest_log]
+@guests all  [pokazuje wszystkie wpisy z $guest_log]
 2
-@guests <n>  [shows the last <n> entries of $guest_log]
+@guests <n>  [pokazuje ostatnie <n> wpisow z $guest_log]
 2
 
 2
-Note, some wizards prefer to use verbs on $guest_log manually, particularly :last().
+Uwaga: niektorzy wizardzi wola uzywac czasownikow na $guest_log recznie, zwlaszcza :last().
 36
 5
 4
 11
 2
-Syntax:  @log <message>
+Skladnia:  @log <wiadomosc>
 2
-         @log
+           @log
 2
 
 2
-The first form enters <message> as a one-line comment in the server log.
+Pierwsza forma wpisuje <wiadomosc> jako jednoliniowy komentarz do logu serwera.
 2
-The second form prompts for a sequence of lines to be collectively entered as an extended comment.  This uses $command_utils:read_lines so all of those conventions apply, i.e., a period on a line by itself ends the text, `@abort' aborts the command, etc...).  Example:  If Wizard (#2) types
+Druga forma prosi o podanie ciagu linii, ktore razem zostana wpisane jako rozszerzony komentarz.  Uzywa to $command_utils:read_lines, wiec obowiazuja wszystkie jego konwencje, np. kropka w osobnej linii konczy tekst, `@abort' przerywa polecenie itd.  Przyklad: jesli Wizard (#2) wpisze
 2
 
 2
@@ -12713,7 +12720,7 @@ The second form prompts for a sequence of lines to be collectively entered as an
 2
 
 2
-the following line appears in the server log
+w logu serwera pojawi sie nastepujaca linia
 2
 
 2
@@ -12739,21 +12746,21 @@ the following line appears in the server log
 4
 10
 2
-Syntax:    @denewt <player> [commentary]
+Skladnia:    @denewt <gracz> [komentarz]
 2
 
 2
-Synonyms:  @unnewt
+Synonimy:  @unnewt
 2
            @get-better
 2
 
 2
-@denewt reverses the effects of @newt, removing the player from $login.newted, and if appropriate, $login.temporary_newts.
+@denewt cofa skutki @newt, usuwajac gracza z $login.newted, a jesli trzeba, rowniez z $login.temporary_newts.
 2
 
 2
-Mail is sent to $newt_log including any commentary you provide.  E.g.,
+Wiadomosc trafia na $newt_log wraz z podanym komentarzem, np.
 2
 
 2
@@ -12761,29 +12768,29 @@ Mail is sent to $newt_log including any commentary you provide.  E.g.,
 36
 5
 4
-28
+27
 2
 *subst*
 2
-Syntax:  @newt <player> [commentary]
+Skladnia:  @newt <gracz> [komentarz]
 2
-         @temp-newt <player> for <period>
-2
-
-2
-The @newt command temporarily prevents logins on a given player.
-2
-It works by adding the player to $login.newted, and for @temp-newt, also adding the player and an end time to $login.temporary_newts.  $login will deny connection to any player in $login.newted, unless they are temporarily newted and their time has expired, in which case it will clean up---denewt them---and allow the connection attempt.  Use @denewt to reverse this.
+           @temp-newt <gracz> for <okres>
 2
 
 2
-You must give either the player's full name or its object number.
+Polecenie @newt tymczasowo blokuje logowanie danemu graczowi.
 2
-Also, this command does not let you @newt yourself.
+Dziala poprzez dodanie gracza do $login.newted, a dla @temp-newt takze przez dodanie gracza i czasu zakonczenia blokady do $login.temporary_newts.  $login odmowi polaczenia kazdemu graczowi na liscie $login.newted, chyba ze jest to blokada tymczasowa i jej czas juz minal -- wtedy $login sam posprzata wpis (odnewtuje gracza) i pozwoli na polaczenie.  Uzyj @denewt, by cofnac blokade recznie.
 2
 
 2
-Mail will be sent to $newt_log, listing the player's .all_connect_places and including any commentary you provide.  E.g.,
+Musisz podac pelne imie gracza lub jego numer obiektu.
+2
+Tego polecenia nie mozna uzyc na samym sobie.
+2
+
+2
+Wiadomosc trafia na $newt_log, zawiera liste .all_connect_places gracza oraz podany komentarz, np.
 2
 
 2
@@ -12791,33 +12798,31 @@ Mail will be sent to $newt_log, listing the player's .all_connect_places and inc
 2
 
 2
-As with @toad and @programmer, there are messages that one may set
+Podobnie jak przy @toad i @programmer, mozna ustawic wlasne komunikaty
 2
 
 2
 @newt  [%[$wiz.newt_msg]]
 2
-  Printed to everyone in the room in which the victim is being @newted.
+  Wyswietlane wszystkim w pokoju, w ktorym ofiara zostaje zanewtowana.
 2
-  If you're worried about accidentally newting yourself in the process of
-2
-  setting this message, you can't (see above).
+  Jesli obawiasz sie przypadkowego zanewtowania samego siebie przy ustawianiu tej wiadomosci -- nie ma takiej mozliwosci (patrz wyzej).
 2
 
 2
 @newt_victim  [%[$wiz.newt_victim_msg]]
 2
-  Printed to the victim.  
+  Wyswietlane ofierze.  
 2
-  This is followed by $login:newt_registration_string().
-2
-
-2
-See `help @toad' if you need something more drastic.
+  Nastepuje po tym $login:newt_registration_string().
 2
 
 2
-The @temp-newt variant of @newt permits you to specify a time period during which this player may not use the MOO.  Time units must be acceptable to $time_utils:parse_english_time_interval.
+Zobacz `help @toad', jesli potrzebujesz czegos bardziej drastycznego.
+2
+
+2
+Wariant @temp-newt polecenia @newt pozwala okreslic czas, przez ktory gracz nie bedzie mogl korzystac z MOO.  Jednostki czasu musza byc akceptowane przez $time_utils:parse_english_time_interval.
 36
 5
 4
@@ -12829,69 +12834,69 @@ The @temp-newt variant of @newt permits you to specify a time period during whic
 2
 
 2
-For wizards, the following forms are also available for doing full-db searches
+Dla wizardow dostepne sa dodatkowo nastepujace formy do przeszukiwania calej bazy danych
 2
 
 2
-         @grep  <pattern>
+         @grep  <wzorzec>
 2
-         @grep  <pattern> from [#]<n>
-2
-
-2
-and likewise for @egrep, @grepall, and @egrepall.
-2
-The first searches all objects in the database while the second searches the range [#<n>..max_object()]
+         @grep  <wzorzec> from [#]<n>
 2
 
 2
-See also:  @grepcore, @who-calls.
+i podobnie dla @egrep, @grepall i @egrepall.
+2
+Pierwsza forma przeszukuje wszystkie obiekty w bazie, druga przeszukuje zakres [#<n>..max_object()]
+2
+
+2
+Zobacz tez:  @grepcore, @who-calls.
 36
 5
 4
 21
 2
-Database of places
+Baza danych miejsc
 2
 ------------------
 2
-i.e., places people have connected from.
+tj. miejsc, z ktorych ludzie sie laczyli.
 2
 
 2
   :add(sitename,player)
 2
-      records the fact that player connected from sitename.
+      zapisuje fakt, ze gracz polaczyl sie z sitename.
 2
   :load()
 2
-      clears the db and reloads all of the player connection info.
+      czysci baze i wczytuje ponownie wszystkie informacje o polaczeniach graczy.
 2
 
 2
   .domain
 2
-      default domain for unqualified sitenames given to :add.
+      domyslna domena dla niepelnych nazw hostow podawanych do :add.
 2
       
 2
-For each domain we keep a list of players and subdomains. 
+Dla kazdej domeny trzymamy liste graczy i subdomen. 
 2
-For example, :add("doc.ic.ac.uk",#666) enters #666 on the lists for "doc.ic.ac.uk", and, if we have to create an entry for "doc.ic.ac.uk", we enter "doc" on the list for "ic.ac.uk", "ic" on the list for "ac.uk", etc....  In this case, :find("ic") will return the "ic.ac.uk" list if there is no other domain in $site_db starting with "ic".  Note that the "ic.ac.uk" list may contain both objects, i.e., namely players that have connected from the site "ic.ac.uk", and strings, i.e., subdomains of "ic.ac.uk" like "doc".
-2
-
-2
-  :find_exact(string)    => player/subdomain list or $failed_match
-2
-  :find_all_keys(string) => list of all domains that begin with string
-2
-  :find_key     (string) => unique domain that begins with string, 
-2
-                            $ambiguous_match or $failed_match
+Na przyklad :add("doc.ic.ac.uk",#666) wpisuje #666 na listy dla "doc.ic.ac.uk", a jesli trzeba stworzyc wpis dla "doc.ic.ac.uk", wpisujemy "doc" na liste dla "ic.ac.uk", "ic" na liste dla "ac.uk" itd... W tym przypadku :find("ic") zwroci liste "ic.ac.uk", jesli nie ma innej domeny w $site_db zaczynajacej sie od "ic".  Uwaga: lista "ic.ac.uk" moze zawierac zarowno obiekty (graczy, ktorzy laczyli sie z "ic.ac.uk"), jak i stringi (subdomeny "ic.ac.uk", np. "doc").
 2
 
 2
-The other $generic_db functions (:find, :find_all) are also available, though admittedly less useful.
+  :find_exact(string)    => lista gracz/subdomena lub $failed_match
+2
+  :find_all_keys(string) => lista wszystkich domen zaczynajacych sie od string
+2
+  :find_key     (string) => unikalna domena zaczynajaca sie od string, 
+2
+                            $ambiguous_match lub $failed_match
+2
+
+2
+Pozostale funkcje $generic_db (:find, :find_all) sa rowniez dostepne, choc mniej przydatne.
 36
 5
 4
@@ -12903,53 +12908,51 @@ blacklist
 36
 5
 4
-35
+34
 2
 
 2
-The Site Blacklist
+Czarna lista serwisu (Site Blacklist)
 2
 ------------------
 2
-$login maintains three lists of hosts/domains to support player registration schemes and blocking of connections from highly untrusted hosts:
+$login utrzymuje trzy listy hostow/domen wspierajace mechanizmy rejestracji graczy i blokowania polaczen z wysoce niezaufanych hostow:
 2
 
 2
-  .redlist   -- all connections from these sites are disabled 
+  .redlist   -- wszystkie polaczenia z tych miejsc sa calkowicie zablokowane 
 2
-  .blacklist -- player creation and guest logins are disabled
+  .blacklist -- tworzenie graczy i logowanie na goscia jest zablokowane
 2
-  .graylist  -- advisory list of potential trouble spots (putting a site on the
+  .graylist  -- lista ostrzegawcza potencjalnie klopotliwych miejsc (umieszczenie na
 2
-                .graylist merely annotates it in @net-who listings).
+                .graylist tylko dodaje adnotacje w wynikach @net-who).
 2
-  .spooflist -- guests from these sites cannot use @request to request 
-2
-                a character
+  .spooflist -- goscie z tych miejsc nie moga uzyc @request, by zazadac postaci
 2
 
 2
-The lists are kept in a special format so it is highly recommended that you 
+Listy sa trzymane w specjalnym formacie, wiec zdecydowanie zaleca sie 
 2
-either use $wiz:@*list/@un*list or the following verbs to query/update the 
+uzywanie $wiz:@*list/@un*list lub ponizszych czasownikow do odczytu/aktualizacji 
 2
-respective lists rather than bash them directly:
-2
-
-2
-  $login:*listed     (host)              is host is on .*list?
-2
-  $login:*list_add   (domain or subnet)  add domain or subnet to .*list
-2
-  $login:*list_remove(domain or subnet)  remove domain or subnet from .*list
+odpowiednich list zamiast bezposredniej ich edycji:
 2
 
 2
-where `*' is one of `black', `red', `gray', or `spoof'.
+  $login:*listed     (host)              czy host jest na .*list?
+2
+  $login:*list_add   (domain or subnet)  dodaje domene lub podsiec do .*list
+2
+  $login:*list_remove(domain or subnet)  usuwa domene lub podsiec z .*list
 2
 
 2
-There are also temporary versions of the above four lists, stored in associated $login.temporary_*list in the same format, except two additional bits of data are stored.  The time the temporary *listing started, and the duration that it will last.  In addition there exists:
+gdzie `*' to jedno z `black', `red', `gray' lub `spoof'.
+2
+
+2
+Istnieja tez tymczasowe wersje powyzszych czterech list, przechowywane w odpowiednim $login.temporary_*list w tym samym formacie, ale z dwiema dodatkowymi wartosciami: czasem rozpoczecia tymczasowego wpisu i czasem jego trwania.  Dodatkowo dostepne sa:
 2
 
 2
@@ -12959,21 +12962,21 @@ There are also temporary versions of the above four lists, stored in associated 
 2
 
 2
-When the normal $login:*listed verb is called, both the regular *list and the temporary *list are checked.  If the host is on the temporary list, then the length of MOO up time since the start time is checked against the duration.  If expired, the host is removed from the temporary *list and a false value is returned (meaning that the host is not *listed).
+Kiedy wywolywany jest zwykly czasownik $login:*listed, sprawdzana jest zarowno zwykla, jak i tymczasowa lista.  Jesli host jest na liscie tymczasowej, sprawdzany jest czas dzialania MOO od momentu rozpoczecia wpisu w stosunku do czasu jego trwania.  Jesli wygasl, host jest usuwany z listy tymczasowej i zwracana jest wartosc falszywa (co oznacza, ze host nie jest *listed).
 2
 
 2
-One may either specify a domain name (e.g., "baz.edu") or a numeric IP address (e.g., "36.0.23.17").  Domain names match all hosts underneath that domain, so, e.g., puting "baz.edu" on a list effectively adds "x.bax.edu" for all x as well.  
+Mozna podac albo nazwe domeny (np. "baz.edu"), albo numeryczny adres IP (np. "36.0.23.17").  Nazwy domen pasuja do wszystkich hostow pod ta domena, wiec np. dodanie "baz.edu" do listy dodaje efektywnie "x.bax.edu" dla kazdego x.  
 2
-Likewise, an incomplete numeric address, e.g., "128.42" will match that entire subnet, in this case all hosts whose IP numbers have the form "128.42.m.n" for arbitrary integers m and n.
-2
-
-2
-One may also give a domain name containing a wildcard ("*"), e.g., "fritz*.baz.edu", in which case all hostnames matching in the sense of $string_utils:match_string() are considred to be on the list.  Wildcard matching should be avoided since it is more time-consuming.
+Podobnie niepelny adres numeryczny, np. "128.42", dopasuje cala te podsiec, w tym przypadku wszystkie hosty o adresach IP w postaci "128.42.m.n" dla dowolnych liczb m i n.
 2
 
 2
-It should be noted that, since there is no direct access to the domain name service from within the MOO, it is possible for a host to be blacklisted or redlisted via its domain name, and yet have someone be able to connect from that host (and, in the case of a blacklisted host, create a character) --- this can happen if the name service is down and connection_name() on that player thus has given the numeric IP address rather than the domain name.  Similarly, if you list a host by IP number alone, it will still be possible to get in via the site's domain name.  Thus to be completely assured of shutting out a site, you need to list it both by domain name and IP number.
+Mozna tez podac nazwe domeny z symbolem wieloznacznym ("*"), np. "fritz*.baz.edu" -- wtedy wszystkie nazwy hostow pasujace w sensie $string_utils:match_string() sa uznawane za znajdujace sie na liscie.  Dopasowywania z symbolem wieloznacznym nalezy unikac, bo jest czasochlonne.
+2
+
+2
+Nalezy zauwazyc, ze poniewaz z wnetrza MOO nie ma bezposredniego dostepu do serwisu DNS, mozliwe jest, ze host bedzie zablokowany przez blacklist lub redlist wg nazwy domeny, a mimo to ktos bedzie mogl polaczyc sie z tego hosta (a w przypadku hosta na blackliscie -- nawet stworzyc postac) -- moze sie to zdarzyc, gdy serwis nazw jest niedostepny i connection_name() dla tego gracza zwroci numeryczny adres IP zamiast nazwy domeny.  Podobnie, jesli wpiszesz host tylko wedlug numeru IP, nadal bedzie mozna wejsc przez nazwe domeny tego serwisu.  Dlatego, by miec pewnosc calkowitego zablokowania danego miejsca, trzeba je wpisac zarowno wedlug nazwy domeny, jak i numeru IP.
 36
 5
 4
@@ -12985,11 +12988,11 @@ It should be noted that, since there is no direct access to the domain name serv
 2
 
 2
-Of course, wizards are allowed to @recycle anything at all.
+Oczywiscie wizardzi moga uzyc @recycle na czymkolwiek.
 2
 
 2
-There is, however, a block (in $player:recycle) against recycling actual players, i.e., descendants of $player that have the player flag set.  This is mainly to prevent stupid mistakes.  If, for some reason, you want to recycle a player, you need to @toad it first.
+Istnieje jednak blokada (w $player:recycle) przed recyklingiem prawdziwych graczy, tj. potomkow $player z ustawiona flaga player.  Chroni to glownie przed glupimi pomylkami.  Jesli z jakiegos powodu chcesz zrecyklingowac gracza, musisz go najpierw @toad.
 36
 5
 4
@@ -12997,49 +13000,49 @@ There is, however, a block (in $player:recycle) against recycling actual players
 2
 *index*
 2
-Wizard Help Topics
+Tematy pomocy dla wizardow
 36
 5
 4
 3
 2
-Syntax:  @dump-database
+Skladnia:  @dump-database
 2
 
 2
-Invokes the builtin dump_database(), which requests that the server checkpoint the database at its next opportunity.  It is not normally necessary to call this function; the server automatically checkpoints the database at regular intervals; see the chapter on server assumptions about the database for details.
+Wywoluje wbudowana funkcje dump_database(), ktora zglasza zadanie zapisania checkpointu bazy danych przy najblizszej okazji.  Zwykle nie ma potrzeby wywolywania tej funkcji recznie; serwer sam wykonuje checkpointy bazy w regularnych odstepach czasu; szczegoly znajdziesz w rozdziale o zalozeniach serwera dotyczacych bazy danych.
 36
 5
 4
 3
 2
-Syntax:  @players [with objects]
+Skladnia:  @players [with objects]
 2
 
 2
-Hmmm... what *does* this do, anyway?
+Hmmm... a co to w ogole robi?
 36
 5
 4
 9
 2
-Syntax:  @net-who [<player>...]
+Skladnia:  @net-who [<gracz>...]
 2
-         @net-who from [<domain>]
-2
-
-2
-Synonym: @@who
+           @net-who from [<domena>]
 2
 
 2
-@net-who without any arguments prints all connected users and hosts.  If one or more <player> arguments are given, the specified users are printed along with their current or most recent connected hosts.  If any of these hosts are mentioned on $login.blacklist or $login.graylist (see `help blacklist'), 
-2
-an annotation appears.
+Synonim: @@who
 2
 
 2
-With a `from...' argument, this command consults $site_db and prints all players who have ever connected from the given domain.
+@net-who bez argumentow wypisuje wszystkich polaczonych uzytkownikow i hosty.  Jesli podano jeden lub wiecej argumentow <gracz>, wypisywani sa wskazani uzytkownicy wraz z ich obecnym lub ostatnim hostem polaczenia.  Jesli ktorys z tych hostow jest wymieniony na $login.blacklist lub $login.graylist (zobacz `help blacklist'), 
+2
+pojawia sie odpowiednia adnotacja.
+2
+
+2
+Z argumentem `from...' polecenie odpytuje $site_db i wypisuje wszystkich graczy, ktorzy kiedykolwiek laczyli sie z podanej domeny.
 36
 5
 4
@@ -13061,11 +13064,11 @@ With a `from...' argument, this command consults $site_db and prints all players
 2
  - - - - - - - - - - - - - - - - - - - - - - - - - -
 2
-Syntax:  @quota <player> is [public] [+]<number> [<reason>]
+Skladnia:  @quota <gracz> is [public] [+]<liczba> [<powod>]
 2
 
 2
-This second and more interesting form of the verb is used to set a player's quota.  Mail will be sent to $quota_log, and also $local.public_quota_log if there is one and if the "public" argument is given; if a reason is supplied, it will be included in the message.  If the number is prefixed with a +, it's taken as an amount to add to the player's current quota; if not, it's an absolute amount.
+Ta druga, ciekawsza forma czasownika sluzy do ustawiania limitu (quota) gracza.  Wiadomosc trafia na $quota_log, a takze na $local.public_quota_log jesli taki istnieje i podano argument "public"; jesli podano powod, zostanie dolaczony do wiadomosci.  Jesli liczba jest poprzedzona znakiem +, jest traktowana jako wartosc do dodania do biezacego limitu gracza; w przeciwnym razie jest to wartosc bezwzgledna.
 36
 5
 4
@@ -13079,103 +13082,101 @@ This second and more interesting form of the verb is used to set a player's quot
 4
 13
 2
-Syntax:  @untoad <object> [as <name>,<alias>,<alias>...]
+Skladnia:  @untoad <obiekt> [as <imie>,<alias>,<alias>...]
 2
 
 2
-Synonym: @detoad
+Synonim: @detoad
 2
 
 2
-Turns the object into a player.  
+Zamienia obiekt z powrotem w gracza.  
 2
-If the name/alias... specification is given, the object is also renamed.
+Jesli podano specyfikacje imie/alias..., obiekt zostaje tez przemianowany.
 2
-In order for this to work, the object must be a nonplayer descendant of $player and the new object name (or the original name if none is given in the command line) must be available for use as a player name.  As with ordinary player @renaming, any aliases which are unavailable for use as player names are eliminated.
-2
-
-2
-If the object is a descendant of $guest, then it becomes a new guest character.
-2
-Otherwise the object is chowned to itself.  In the latter case, it is advisable to check that the .password property has something nontrivial in it.
+Aby to zadzialalo, obiekt musi byc nie-graczowym potomkiem $player, a nowa nazwa gracza (lub oryginalna nazwa, jesli w poleceniu nie podano nowej) musi byc dostepna jako nazwa gracza.  Podobnie jak przy zwyklym @renaming gracza, wszelkie aliasy niedostepne jako nazwy graczy sa pomijane.
 2
 
 2
-If the object is a descendant of $prog, then its .programmer flag is set.
+Jesli obiekt jest potomkiem $guest, staje sie nowa postacia goscia.
 2
-Note that the .wizard flag is not set under any circumstances.
+W przeciwnym razie obiekt jest chownowany na samego siebie.  W tym drugim przypadku warto sprawdzic, czy wlasciwosc .password zawiera cos sensownego.
+2
+
+2
+Jesli obiekt jest potomkiem $prog, ustawiana jest jego flaga .programmer.
+2
+Flaga .wizard nie jest ustawiana w zadnym wypadku.
 36
 5
 4
-26
+25
 2
 *subst*
 2
-Syntax:  @toad   <player>  [graylist|blacklist|redlist]
+Skladnia:  @toad   <gracz>  [graylist|blacklist|redlist]
 2
-         @toad!  <player>
+           @toad!  <gracz>
 2
-         @toad!! <player>
-2
-
-2
-Resets the player flag of <player> (thus causing <player> to be booted), resets the .programmer and .wizard flags, chowns the player object to $hacker, and removes all of its names and aliases from $player_db.
+           @toad!! <gracz>
 2
 
 2
-You must give either the player's full name or its object number.
-2
-Also, this command does not let you @toad yourself.
+Resetuje flage player u <gracza> (przez co <gracz> zostaje wyrzucony), resetuje flagi .programmer i .wizard, chownuje obiekt gracza na $hacker i usuwa wszystkie jego nazwy i aliasy z $player_db.
 2
 
 2
-In some cases you may wish to add the player's last connected site to the site graylist, blacklist or redlist --- see `help blacklist' --- in order to invoke various kinds of blocking on that site (e.g., if player creation is enabled, you may want to enter the player on the blacklist to keep him from immediately creating a new character).  Specifying one of the listnames `graylist', `blacklist' or `redlist' will do this.
+Musisz podac pelne imie gracza lub jego numer obiektu.
+2
+Tego polecenia nie mozna uzyc na samym sobie.
 2
 
 2
-@toad!  <player>  is synonymous with  @toad <player> blacklist
-2
-@toad!! <player>  is synonymous with  @toad <player> redlist
+W niektorych przypadkach warto dodac ostatnio uzywany host gracza do graylist, blacklist lub redlist -- zobacz `help blacklist' -- by wywolac rozne rodzaje blokad dla tego miejsca (np. jesli tworzenie graczy jest wlaczone, mozesz chciec dodac gracza do blacklist, by nie mogl od razu stworzyc nowej postaci).  Podanie jednej z nazw list `graylist', `blacklist' lub `redlist' zrobi to automatycznie.
 2
 
 2
-There are messages that one may set to customize toading.  After all, a toading is (supposed to be) a rare event and you will doubtless want to put on a good show.  Thus we have
+@toad!  <gracz>  jest rownowazne z  @toad <gracz> blacklist
+2
+@toad!! <gracz>  jest rownowazne z  @toad <gracz> redlist
+2
+
+2
+Mozna ustawic wlasne komunikaty, by dostosowac przebieg toadowania.  W koncu toadowanie to (w zalozeniu) rzadkie wydarzenie i pewnie chcesz zrobic z tego niezle widowisko.  Mamy wiec
 2
 
 2
 @toad  [%[$wiz.toad_msg]]
 2
-  Printed to everyone in the room in which the victim is being @toaded.
+  Wyswietlane wszystkim w pokoju, w ktorym ofiara jest toadowana.
 2
-  If you're worried about accidentally toading yourself in the process of
-2
-  setting this message, see above.
+  Jesli obawiasz sie przypadkowego stoadowania samego siebie przy ustawianiu tej wiadomosci, zobacz wyzej.
 2
 
 2
 @toad_victim  [%[$wiz.toad_victim_msg]]
 2
-  Printed to the victim.
+  Wyswietlane ofierze.
 2
 
 2
-These are pronoun_subbed with victim == dobj.
+Te komunikaty przechodza przez pronoun_sub z victim == dobj.
 36
 5
 4
 6
 2
-Syntax:  @grepcore <pattern>
+Skladnia:  @grepcore <wzorzec>
 2
-         @who-calls <verbname>
-2
-
-2
-@grepcore pattern is @grep pattern in {all core objects}.  Core objects are computed for you by #0:core_objects().
+           @who-calls <nazwa_czasownika>
 2
 
 2
-@who-calls greps for the verbname + "(", hoping to catch it as a verb call.  Currently @who-calls does not allow you to restrict the search as @grep does.  (Volunteers?)
+@grepcore wzorzec to @grep wzorzec w {wszystkich obiektach rdzenia}.  Obiekty rdzenia sa obliczane automatycznie przez #0:core_objects().
+2
+
+2
+@who-calls szuka nazwy_czasownika + "(", w nadziei zlapania jej jako wywolania czasownika.  Obecnie @who-calls nie pozwala ograniczyc przeszukiwania tak jak @grep.  (Ochotnicy?)
 36
 5
 4
@@ -13189,25 +13190,25 @@ Syntax:  @grepcore <pattern>
 4
 3
 2
-Syntax:  @abort-sh*utdown [<text>]
+Skladnia:  @abort-sh*utdown [<tekst>]
 2
 
 2
-This aborts any shutdown currently in progress (i.e., set in motion by @shutdown).  All players are notified that no shutdown will actually occur; <text>, if given will be included in this notification.
+Przerywa trwajace wylaczanie serwera (uruchomione przez @shutdown).  Wszyscy gracze otrzymuja informacje, ze wylaczenie nie nastapi; <tekst>, jesli podany, zostanie dolaczony do tego powiadomienia.
 36
 5
 4
 5
 2
-Syntax:  @shutdown [in <m>] [<text>]
+Skladnia:  @shutdown [in <m>] [<tekst>]
 2
 
 2
-This is the friendly way to do a server shutdown; it arranges for the actual shutdown to take place `m' minutes hence (default two).  Shutdown is preceded by a sequence of warnings to all connected players.  Warnings are likewise given to all players who connect during this time.  <text>, if given is included in these warning messages, perhaps as an explanation for why the server is being shut down.
+To przyjazny sposob wylaczenia serwera; ustawia faktyczne wylaczenie za `m' minut (domyslnie dwie).  Przed wylaczeniem wszyscy polaczeni gracze otrzymuja serie ostrzezen.  Ostrzezenia otrzymuja rowniez gracze, ktorzy polacza sie w tym czasie.  <tekst>, jesli podany, zostanie dolaczony do tych ostrzezen, np. jako wyjasnienie powodu wylaczenia serwera.
 2
 
 2
-Shutdown may be aborted at any time by using @abort-shutdown.
+Wylaczenie mozna w kazdej chwili przerwac uzywajac @abort-shutdown.
 36
 5
 4
@@ -13215,77 +13216,77 @@ Shutdown may be aborted at any time by using @abort-shutdown.
 2
 *subst*
 2
-Syntax:  @programmer <player>
+Skladnia:  @programmer <gracz>
 2
 
 2
-Sets the programmer flag on the indicated player and sends mail to $new_prog_log.  
+Ustawia flage programmer wskazanemu graczowi i wysyla wiadomosc na $new_prog_log.  
 2
 
 2
-If the player is not already a descendant of $prog, we @chparent him/her to $prog.  In this case, if $prog has a larger .ownership_quota than its ancestors, then we raise the player's quota by the difference between $prog.ownership_quota and the .ownership_quota of the common ancestor of player and $prog, be this $player or some intermediate class.
+Jesli gracz nie jest jeszcze potomkiem $prog, wykonujemy @chparent na $prog.  W takim przypadku, jesli $prog ma wiekszy .ownership_quota niz jego przodkowie, podnosimy limit gracza o roznice miedzy $prog.ownership_quota a .ownership_quota wspolnego przodka gracza i $prog -- niezaleznie od tego, czy jest to $player, czy jakas posrednia klasa.
 2
 
 2
-There are messages that one may set to customize how the granting of a programmer bit looks to the victim and to any onlookers.  After all, this is a seminal event in a MOOer's life...  Thus we have
+Mozna ustawic wlasne komunikaty, by dostosowac, jak nadanie flagi programisty wyglada dla ofiary i dla obserwatorow.  W koncu to przelomowe wydarzenie w zyciu MOOera... Mamy wiec
 2
 
 2
 @programmer  [%[$wiz.programmer_msg]]
 2
-  Printed to everyone in the room with the victim being @programmer'ed.
+  Wyswietlane wszystkim w pokoju, w ktorym ofiara otrzymuje @programmer.
 2
 
 2
 @programmer_victim  [%[$wiz.programmer_victim_msg]]
 2
-  Printed to the victim.
+  Wyswietlane ofierze.
 2
 
 2
-These are pronoun subbed with victim == dobj.
+Te komunikaty przechodza przez pronoun_sub z victim == dobj.
 36
 5
 4
 3
 2
-Syntax:  @shout <text>
+Skladnia:  @shout <tekst>
 2
 
 2
-Broadcasts the given text to all connected players.
+Rozglasza podany tekst do wszystkich polaczonych graczy.
 36
 5
 4
 14
 2
-Syntax:  @chown <object>            [to] <owner>
+Skladnia:  @chown <obiekt>            [to] <wlasciciel>
 2
-         @chown <object>.<propname> [to] <owner>
+           @chown <obiekt>.<wlasciwosc> [to] <wlasciciel>
 2
-         @chown <object>:<verbname> [to] <owner>
+           @chown <obiekt>:<czasownik> [to] <wlasciciel>
 2
-         @chown# <object>:<verbnumber> [to] <owner>
-2
-
-2
-Changes the ownership of the indicated object, property or verb.
+           @chown# <obiekt>:<numer_czasownika> [to] <wlasciciel>
 2
 
 2
-Verb ownership changes are fairly straightforward, being merely a matter of changing the verb_info() on a single verb. Referring to a verb isn't as straightforward since two verbs on the same object can have the same name. So, @chown# is provided where you can refer to a verb by it's 1-based index in the output of the verbs() builtin.
+Zmienia wlasciciela wskazanego obiektu, wlasciwosci lub czasownika.
 2
 
 2
-Changing an object ownership includes changing the ownership on all +c properties on that object.  Note that @chown will not change the ownership of any other properties, nor will it change verb ownerships.  Use @grant if you need to do a more complete ownership change.  The quota of the former owner is increased by one, as is the quota of the new owner decreased by one.
+Zmiana wlasciciela czasownika jest dosc prosta -- to po prostu zmiana verb_info() na jednym czasowniku. Odwolanie sie do czasownika nie jest juz tak proste, bo dwa czasowniki na tym samym obiekcie moga miec te sama nazwe. Dlatego dostepne jest @chown#, gdzie mozna wskazac czasownik po jego 1-indeksowanej pozycji w wyniku funkcji verbs().
 2
 
 2
-Changing a property ownership is truly hairy.  If the property is +c one shouldnot be doing this, unless it is to correct a past injustice which caused the property to be owned by the wrong player.  In the case of -c properties, the property ownership is changed on all descendent objects (currently, if +c instances of a -c property are found in the traversal of all of the descendants, these are not changed, being deemed sufficiently weird that they should be handled on a case-by-case basis...).
+Zmiana wlasciciela obiektu obejmuje zmiane wlasciciela wszystkich wlasciwosci +c na tym obiekcie.  Uwaga: @chown nie zmienia wlasciciela zadnych innych wlasciwosci ani wlasciciela czasownikow.  Uzyj @grant, jesli potrzebujesz pelniejszej zmiany wlasciciela.  Limit (quota) poprzedniego wlasciciela zostaje zwiekszony o jeden, a limit nowego wlasciciela zmniejszony o jeden.
 2
 
 2
-If there's any justice, a future version of the server will prevent occurrences of (1) +c properties being owned by someone other than the object owner (2) -c properties with different owners on descendant objects (3) -c properties that are +c on some descendants.
+Zmiana wlasciciela wlasciwosci jest naprawde skomplikowana.  Jesli wlasciwosc jest +c, generalnie nie powinno sie tego robic, chyba ze w celu naprawienia dawnej pomylki, przez ktora wlasciwosc nalezala do niewlasciwego gracza.  W przypadku wlasciwosci -c, wlasciciel wlasciwosci jest zmieniany na wszystkich obiektach potomnych (obecnie, jesli podczas przechodzenia po potomkach napotkane zostana wystapienia +c tej samej -c wlasciwosci, nie sa one zmieniane -- uznaje sie je za na tyle dziwne, ze wymagaja indywidualnej obslugi...).
+2
+
+2
+Gdyby istniala jakas sprawiedliwosc, przyszla wersja serwera zapobiegalaby sytuacjom, w ktorych (1) wlasciwosci +c naleza do kogos innego niz wlasciciel obiektu (2) wlasciwosci -c maja roznych wlascicieli na obiektach potomnych (3) wlasciwosci -c sa +c na niektorych potomkach.
 36
 5
 4
@@ -13299,41 +13300,41 @@ blacklist
 4
 18
 2
-Syntax:  @redlist   [<domain or subnet> [for <duration>] [commentary]]
+Skladnia:  @redlist   [<domena lub podsiec> [for <czas>] [komentarz]]
 2
-         @blacklist [<domain or subnet> [for <duration>] [commentary]]
+           @blacklist [<domena lub podsiec> [for <czas>] [komentarz]]
 2
-         @graylist  [<domain or subnet> [for <duration>] [commentary]]
+           @graylist  [<domena lub podsiec> [for <czas>] [komentarz]]
 2
-         @spooflist [<domain or subnet> [for <duration>] [commentary]]
-2
-
-2
-Syntax:  @unredlist   [<domain or subnet> [commentary]]
-2
-         @unblacklist [<domain or subnet> [commentary]]
-2
-         @ungraylist  [<domain or subnet> [commentary]]
-2
-         @unspooflist [<domain or subnet> [commentary]]
+           @spooflist [<domena lub podsiec> [for <czas>] [komentarz]]
 2
 
 2
-With no argument, the current contents of the corresponding list are printed.
+Skladnia:  @unredlist   [<domena lub podsiec> [komentarz]]
 2
-Otherwise, the specified domain or subnet is added to or removed from the list and mail will be sent to $site_log.
+           @unblacklist [<domena lub podsiec> [komentarz]]
 2
-
+           @ungraylist  [<domena lub podsiec> [komentarz]]
 2
-To add a domain or subnet to a *list only temporarily, include a `for <duration>' statement before any commentary.  The <duration> should be in english form such as 1 day or 1 month 2 weeks or 1 year 3 months 2 weeks 4 days.  No commas should separate increments in the duration.  See `help $time_utils:parse_english_time_interval' for more details.  If you are not temporarily *listing a domain or subnet, but are including a commentary, be sure that the commentary does not start with the word `for'.
-2
-
-2
-If the given domain or subnet has subdomains/subsubnets that are already on the list, you will be prompted as to whether you want to remove them.  Note that adding an entry for a particular domain or subnet effectively adds all subdomains/subsubnets, so unless there's some reason for keeping an explicit entry for a particular subdomain, chances are you will indeed want to remove them.  One reason to keep an explicit entry for a subdomain would be if you intended to unlist the full domain later but wanted to be sure you didn't unlist the subdomain in the process.
+           @unspooflist [<domena lub podsiec> [komentarz]]
 2
 
 2
-See `help blacklist' for a description of the functions of these lists.
+Bez argumentu wypisywana jest biezaca zawartosc odpowiedniej listy.
+2
+W przeciwnym razie podana domena lub podsiec zostaje dodana do listy lub z niej usunieta, a wiadomosc trafia na $site_log.
+2
+
+2
+By dodac domene lub podsiec do listy tylko tymczasowo, podaj wyrazenie `for <czas>' przed ewentualnym komentarzem.  <czas> powinien byc w formie angielskiej, np. 1 day lub 1 month 2 weeks lub 1 year 3 months 2 weeks 4 days.  Przyrostkow czasu nie nalezy oddzielac przecinkami.  Zobacz `help $time_utils:parse_english_time_interval' po wiecej szczegolow.  Jesli nie dodajesz wpisu tymczasowo, ale podajesz komentarz, upewnij sie, ze komentarz nie zaczyna sie od slowa `for'.
+2
+
+2
+Jesli podana domena lub podsiec ma subdomeny/podpodsieci juz znajdujace sie na liscie, zostaniesz zapytany, czy chcesz je usunac.  Uwaga: dodanie wpisu dla danej domeny lub podsieci efektywnie dodaje wszystkie subdomeny/podpodsieci, wiec o ile nie ma powodu, by trzymac osobny wpis dla konkretnej subdomeny, zwykle warto je usunac.  Jednym z powodow, by zachowac osobny wpis dla subdomeny, jest zamiar pozniejszego zdjecia z listy calej domeny przy jednoczesnym pozostawieniu subdomeny na liscie.
+2
+
+2
+Zobacz `help blacklist' po opis dzialania tych list.
 36
 5
 4
@@ -13355,23 +13356,23 @@ See `help blacklist' for a description of the functions of these lists.
 4
 9
 2
-Syntax:  @make-guest <adjective>
+Skladnia:  @make-guest <przymiotnik>
 2
 
 2
-This creates a new guest character.  For example,
+Tworzy nowa postac goscia.  Na przyklad
 2
   @make-guest Loud
 2
-creates a child of $guest, owned by $hacker, named Loud_Guest and with aliases Loud and Loud_Guest.
+tworzy dziecko $guest, nalezace do $hacker, o nazwie Loud_Guest i aliasach Loud oraz Loud_Guest.
 2
 
 2
-Note that in order to have `connect guest' connect to a guest character, there needs to exist some guest character having "Guest" as a name or alias.
+Uwaga: by `connect guest' laczylo z postacia goscia, musi istniec przynajmniej jedna postac goscia majaca "Guest" jako nazwe lub alias.
 2
 
 2
-See also `help @make-player'.
+Zobacz tez `help @make-player'.
 36
 5
 4
@@ -13395,39 +13396,39 @@ blacklist
 2
 @make-player name [email-address [commentary]]
 2
-Creates a player.
+Tworzy gracza.
 2
-Generates a random password for the player.
+Generuje losowe haslo dla gracza.
 2
-Email-address is stored in $registration_db and on the player object.
+Adres email jest zapisywany w $registration_db oraz na obiekcie gracza.
 2
-Comments should be enclosed in quotes.
-2
-
-2
-Example: @make-player George sanford@frobozz.com "George shares email with Fred Sanford (Fred #5461)"
+Komentarze nalezy ujmowac w cudzyslowy.
 2
 
 2
-If the email address is already in use, prompts for confirmation.  If the name is already in use, prompts for confirmation.  (Say no, this is a bug: it will break if you say yes.)  If you say no at one of the confirming prompts, character is not made.
+Przyklad: @make-player George sanford@frobozz.com "George shares email with Fred Sanford (Fred #5461)"
 2
 
 2
-If network is enabled (via $network.active) then asks if you want to mail the password to the user after character is made.
+Jesli adres email jest juz uzywany, pojawi sie prosba o potwierdzenie.  Jesli nazwa jest juz uzywana, rowniez pojawi sie prosba o potwierdzenie.  (Odpowiedz `nie' -- to blad: powiedzenie `tak' spowoduje awarie.)  Jesli odpowiesz `nie' na ktores z pytan potwierdzajacych, postac nie zostanie utworzona.
+2
+
+2
+Jesli siec jest wlaczona (przez $network.active), pojawia sie pytanie, czy wyslac haslo do uzytkownika po utworzeniu postaci.
 36
 5
 4
 5
 2
-Information about $wizard:@register
+Informacje o $wizard:@register
 2
 ----
 2
-Registers a player.
+Rejestruje gracza.
 2
-Syntax:  @register name email-address [additional commentary]
+Skladnia:  @register name email-address [dodatkowy komentarz]
 2
-Email-address is stored in $registration_db and on the player object.
+Adres email jest zapisywany w $registration_db oraz na obiekcie gracza.
 36
 5
 4
@@ -13435,41 +13436,41 @@ Email-address is stored in $registration_db and on the player object.
 2
 @new-password player is [password]
 2
-Sets a player's password; omit password string to have one randomly generated.  Prints the encrypted old string when done for error recovery.  [No current software will allow you to give the encrypted string as input.]
+Ustawia haslo gracza; pomin haslo, by wygenerowac je losowo.  Po zakonczeniu wypisuje zaszyfrowane stare haslo, na wypadek potrzeby odzyskania.  [Zadne obecne oprogramowanie nie pozwala podac zaszyfrowanego stringa jako wejscia.]
 2
 
 2
-Offers to send mail to the user with the new password, if the user has a registered email address and the network is enabled.
+Proponuje wyslanie nowego hasla do uzytkownika mailem, jesli ma on zarejestrowany adres email, a siec jest wlaczona.
 36
 5
 4
 5
 2
-Information about $wiz:@deprog*rammer
+Informacje o $wiz:@deprog*rammer
 2
 ----
 2
-@deprogrammer victim [for <duration>] [reason]
+@deprogrammer victim [for <czas>] [powod]
 2
 
 2
-Removes the prog-bit from victim.  If a duration is specified (see help $time_utils:parse_english_time_interval), then the victim is put into the temporary list. He will be automatically removed the first time he asks for a progbit after the duration expires.  Either with or without the duration you can specify a reason, or you will be prompted for one. However, if you don't have a duration, don't start the reason with the word `For'.
+Usuwa flage programmer ofierze.  Jesli podano czas (zobacz help $time_utils:parse_english_time_interval), ofiara trafia na liste tymczasowa.  Zostanie automatycznie usunieta przy pierwszej probie uzyskania flagi programisty po uplywie tego czasu.  Zarowno z czasem, jak i bez niego mozna podac powod, w przeciwnym razie zostaniesz o niego zapytany.  Jednak jesli nie podajesz czasu, nie zaczynaj powodu od slowa `For'.
 36
 5
 4
 3
 2
-If you are a wizard, '@forked' with no arguments will spam you with all the forked tasks that there are (this is useful sometimes, but it's nice to know ahead of time).
+Jesli jestes wizardem, '@forked' bez argumentow zarzuci cie wszystkimi forknietymi (odroczonymi) zadaniami, jakie istnieja (czasem to przydatne, ale milo wiedziec o tym wczesniej).
 2
 
 2
-To see just your own, type '@forked me'.  To see just one player's, type '@forked <player>'.
+By zobaczyc tylko wlasne, wpisz '@forked me'.  By zobaczyc zadania jednego gracza, wpisz '@forked <gracz>'.
 36
 5
 4
 9
 2
-You probably want to subscribe to (or at least be familiar with) the following mailing lists:
+Prawdopodobnie warto zasubskrybowac (lub przynajmniej znac) nastepujace listy mailingowe:
 2
 
 2
@@ -13491,43 +13492,43 @@ You probably want to subscribe to (or at least be familiar with) the following m
 4
 9
 2
-Information about generic wizard(#218):@grant/@grants*/@transfer
+Informacje o generic wizard(#218):@grant/@grants*/@transfer
 2
 ----
 2
-@grant <object> to <player>
+@grant <obiekt> to <gracz>
 2
-@grants <object> to <player>   --- same as @grant but may suspend.
+@grants <obiekt> to <gracz>   --- to samo co @grant, ale moze zawiesic zadanie (suspend).
 2
-@transfer <expression> to <player> -- like 'grant', but evalutes a possible list of objects to transfer.
-2
-
-2
-Ownership of the object changes as in @chown and :set_owner (i.e., .owner and all c properties change).  In addition all verbs and !c properties owned by the original owner change ownership as well.  Finally, for !c properties, instances on descendant objects change ownership (as in :set_property_owner).
+@transfer <wyrazenie> to <gracz> -- jak 'grant', ale ewaluuje ewentualna liste obiektow do przekazania.
 2
 
 2
-This verb does the transfer whether the recipient has enough quota for it or not.
+Wlasnosc obiektu zmienia sie tak jak w @chown i :set_owner (tj. .owner i wszystkie wlasciwosci c sie zmieniaja).  Dodatkowo wszystkie czasowniki i wlasciwosci !c nalezace do pierwotnego wlasciciela rowniez zmieniaja wlasciciela.  Wreszcie, dla wlasciwosci !c, wystapienia na obiektach potomnych rowniez zmieniaja wlasciciela (jak w :set_property_owner).
+2
+
+2
+Ten czasownik wykonuje transfer niezaleznie od tego, czy odbiorca ma na to wystarczajacy limit (quota).
 36
 5
 4
 5
 2
-For information about how the help system itself works and about how to associate local help databases with specific rooms or player classes, see `help $help'.
+Informacje o tym, jak dziala sam system pomocy i jak przypisywac lokalne bazy pomocy do konkretnych pokoi lub klas graczy, znajdziesz w `help $help'.
 2
 
 2
-To get a list of the object numbers associated with various $help databases, type 'help index'.
+By uzyskac liste numerow obiektow zwiazanych z roznymi bazami $help, wpisz 'help index'.
 2
 
 2
-If you need to modify existing help text, and need to find which help database the relevant property is defined on, use 'help full-index'.  (Note, it's spammy, but tells you what you need to know.)
+Jesli musisz zmodyfikowac istniejacy tekst pomocy i potrzebujesz znalezc, na ktorej bazie pomocy zdefiniowana jest dana wlasciwosc, uzyj 'help full-index'.  (Uwaga, jest to bardzo obszerne, ale mowi dokladnie to, co trzeba wiedziec.)
 36
 5
 4
 7
 2
-Other topics of interest to wizards:
+Inne tematy interesujace dla wizardow:
 2
 
 2
@@ -13545,31 +13546,31 @@ $help
 4
 5
 2
-Information about $wiz:@temp-newt
+Informacje o $wiz:@temp-newt
 2
 ----
 2
-@temp-newt victim [for duration] [reason]
+@temp-newt victim [for czas] [powod]
 2
 
 2
-Temporarily newts victim.  If a duration is specified (see help $time_utils:parse_english_time_interval), then the victim is put into the temporary list. E will be automatically removed the first time e tries to connect after the duration expires.  You will be prompted for a reason for the newting, but as of this writing, specifying a reason from the command line isn't an option.
+Tymczasowo newtuje ofiare.  Jesli podano czas (zobacz help $time_utils:parse_english_time_interval), ofiara trafia na liste tymczasowa.  Zostanie automatycznie usunieta przy pierwszej probie polaczenia po uplywie tego czasu.  Zostaniesz zapytany o powod newtowania, ale w chwili pisania tego tekstu nie da sie podac powodu bezposrednio z linii polecen.
 36
 5
 4
 1
 2
-To look at where a player is currently connecting from, use @netwho.  To see previous connect sites, look at <player>.all_connect_places.
+By sprawdzic, skad aktualnie laczy sie gracz, uzyj @netwho.  By zobaczyc poprzednie miejsca polaczen, sprawdz <gracz>.all_connect_places.
 36
 5
 4
 7
 2
-General procedure:
+Ogolna procedura:
 2
 
 2
-  Make sure e doesn't own anything.
+  Upewnij sie, ze nie posiada niczego.
 2
   @toad em
 2
@@ -13577,29 +13578,29 @@ General procedure:
 2
 
 2
-It makes a real mess if you don't clean up .owned_objects.  See $wiz_utils:initialize_owned, but note, running this verb takes maybe three hours (at last report) and adds to lag.  This is why we frown so severely on leaving blood on the carpet.
+Nieposprzatanie .owned_objects robi niezly balagan.  Zobacz $wiz_utils:initialize_owned, ale uwaga -- wykonanie tego czasownika trwa nawet trzy godziny (wg ostatnich danych) i dodaje lagu.  Dlatego tak bardzo nie lubimy zostawiania balaganu po sobie.
 36
 5
 4
 9
 2
-Some wizards choose not to be among those listed when a player types '@wizards' (or similar).
+Niektorzy wizardzi wola nie byc wymieniani, gdy gracz wpisze '@wizards' (lub podobne).
 2
 
 2
-The property $wiz.advertised defaults to 1; set it to 0 to remove yourself from the list.
+Wlasciwosc $wiz.advertised domyslnie ma wartosc 1; ustaw ja na 0, by usunac siebie z listy.
 2
 
 2
-To keep your non-wizard character off the list, set your wizard character's .public_identity character to 0.  To get it back on, set .public_identity to the object number of your non-wizard character.
+By ukryc swoja nie-wizardowska postac z listy, ustaw .public_identity twojej postaci wizarda na 0.  By przywrocic ja na liste, ustaw .public_identity na numer obiektu twojej nie-wizardowskiej postaci.
 2
 
 2
-$wiz_utils:is_wizard returns true for the wizard and the corresponding .public_identity player.  Both will likewise appear in $wiz_utils:connected_wizards_unadvertised() and $wiz_utils:all_wizards_unadvertised().
+$wiz_utils:is_wizard zwraca prawde dla wizarda oraz dla odpowiadajacego mu gracza .public_identity.  Oba beda tez pojawiac sie w $wiz_utils:connected_wizards_unadvertised() i $wiz_utils:all_wizards_unadvertised().
 2
 
 2
-:is_wizard is for checking permissions on wizard feature-objects and the like, while :all/connected_wizards_unadvertised wouble be for things like wizard-shouts (e.g., the one issued by $player:recycle).
+:is_wizard sluzy do sprawdzania uprawnien dla feature-objectow wizarda i podobnych, natomiast :all/connected_wizards_unadvertised jest przeznaczone np. do wizard-shoutow (takich jak ten wysylany przez $player:recycle).
 36
 5
 4
@@ -13607,33 +13608,33 @@ $wiz_utils:is_wizard returns true for the wizard and the corresponding .public_i
 2
 *subst*
 2
-To add a news item:
+By dodac wiadomosc do news:
 2
 
 2
-Send regular mail to *news with the message you want in the news.  Then:
+Wyslij zwykla wiadomosc do *news z tekstem, ktory ma trafic do news.  Nastepnie:
 2
 
 2
-  @addnews <message-number> to %[tostr($news)]
+  @addnews <numer-wiadomosci> to %[tostr($news)]
 2
 
 2
-To remove a news item:
+By usunac wiadomosc z news:
 2
 
 2
-  @rmnews <message-number> from %[tostr($news)]
+  @rmnews <numer-wiadomosci> from %[tostr($news)]
 2
 
 2
-Note, the message date doesn't show up, so you might consider adding a date to the message body itself.
+Uwaga: data wiadomosci nie jest wyswietlana, wiec warto rozwazyc dodanie daty w tresci samej wiadomosci.
 36
 5
 4
 29
 2
-There are a number of routine daily or weekly tasks that can help keep your MOO clean or otherwise well-maintained.
+Istnieje kilka rutynowych zadan dziennych lub tygodniowych, ktore pomagaja utrzymac twoje MOO w czystosci i dobrym stanie.
 2
 
 2
@@ -13641,55 +13642,55 @@ There are a number of routine daily or weekly tasks that can help keep your MOO 
 2
 $byte_quota_utils:schedule_measurement_task
 2
-        If you are using byte quota, this will schedule your quota measurement task.  Every night, every item on the moo which has not been measured in the last $byte_quota_utils.cycle_days will be measured.  A report will be mailed to $byte_quota_utils.report_recipients.  You may wish to edit this verb to change the time that it runs---it will run at midnight PST.
+        Jesli uzywasz limitow bajtowych (byte quota), to zaplanuje zadanie pomiaru limitu.  Kazdej nocy kazdy przedmiot w moo, ktory nie byl mierzony przez ostatnie $byte_quota_utils.cycle_days, zostanie zmierzony.  Raport zostanie wyslany do $byte_quota_utils.report_recipients.  Mozesz edytowac ten czasownik, by zmienic godzine jego uruchamiania -- domyslnie dziala o polnocy czasu PST.
 2
 
 2
 $wiz_utils:expire_mail_weekly
 2
-        If you wish to expire old mail from users and mailing lists, run this verb.  Once a week (scheduled from the first time you type ;$wiz_utils:expire_mail_weekly(), not at a particular hour) it will go through and expire mail based on players' @mail-options settings.
+        Jesli chcesz, by stara poczta uzytkownikow i list mailingowych wygasala, uruchom ten czasownik.  Raz w tygodniu (zaplanowane od pierwszego wywolania ;$wiz_utils:expire_mail_weekly(), a nie o konkretnej godzinie) przejdzie przez poczte i wygasi ja na podstawie ustawien @mail-options graczy.
 2
 
 2
 $wiz_utils:flush_editors
 2
-        Once a week this will remove all sessions which were begun more than 30 days ago in the note, verb, and mail editors.  Schedule is from when first typed.
+        Raz w tygodniu usuwa wszystkie sesje rozpoczete ponad 30 dni temu w edytorach notatek, czasownikow i poczty.  Harmonogram liczony jest od pierwszego wywolania.
 2
 
 2
 $paranoid_db:semiweeklyish
 2
-        This will go through the @paranoid database and remove entries for players who have not connected within the past three days, and for those users who have turned off the @paranoid function.  Schedule is at 11pm PST.
+        Przechodzi przez baze @paranoid i usuwa wpisy dla graczy, ktorzy nie laczyli sie od trzech dni, oraz dla tych, ktorzy wylaczyli funkcje @paranoid.  Harmonogram: 23:00 czasu PST.
 2
 
 2
 $login:sample_lag
 2
-        This will provide an estimate of the CPU portion of what is normally called "lag"---that is, the delay between entering a command and having that command fulfilled.
+        Dostarcza oszacowania czesci procesorowej tego, co zwykle nazywa sie "lagiem" -- czyli opoznienia miedzy wpisaniem polecenia a jego wykonaniem.
 2
 
 2
 $housekeeper:continuous
 2
-        If you wish to provide players with the ability to have individual items transported to a known starting location, use this verb.
+        Jesli chcesz dac graczom mozliwosc przenoszenia poszczegolnych przedmiotow do znanej lokalizacji startowej, uzyj tego czasownika.
 2
 
 2
 
 2
-Additionally, there are tasks that you don't have to start manually, but which get started by various actions in the MOO.
+Dodatkowo istnieja zadania, ktorych nie trzeba uruchamiac recznie, poniewaz sa wywolywane przez rozne akcje w MOO.
 2
 
 2
 $network:add_queued_mail
 2
-        This indicates that there was a temporary failure to deliver email.  If this task is constantly in the queue, it is worth checking $network.queued_mail, deleting those which will never be delivered.  Queued mail does not expire.
+        Oznacza to, ze wystapil tymczasowy blad dostarczenia wiadomosci email.  Jesli to zadanie stale znajduje sie w kolejce, warto sprawdzic $network.queued_mail i usunac te, ktore nigdy nie zostana dostarczone.  Poczta w kolejce nie wygasa sama.
 2
 
 2
 $housekeeper:move_players_home
 2
-        This task is used to consolidate the tasks spawned by disconnecting players---they get a 5 minute grace period to log back in before they are moved back home.
+        To zadanie konsoliduje zadania tworzone przez rozlaczajacych sie graczy -- maja oni 5-minutowy okres karencji na ponowne zalogowanie, zanim zostana przeniesieni do domu.
 36
 5
 4
@@ -13719,39 +13720,39 @@ $housekeeper:move_players_home
 4
 36
 2
-The MUD Server Status Protocol is a telnet protocol that allows your MOO to send detailed information to interested clients or MUD crawlers. At the time of writing, details on the protocol are outlined here: https://tintin.mudhalla.net/protocols/mssp/
+MUD Server Status Protocol to protokol telnet, ktory pozwala twojemu MOO wysylac szczegolowe informacje do zainteresowanych klientow lub crawlerow MUD.  W chwili pisania tego tekstu szczegoly protokolu znajdziesz tutaj: https://tintin.mudhalla.net/protocols/mssp/
 2
 
 2
-The ToastCore MSSP implementation lives on the Telnet Handler ($telnet) object. To enable MSSP, set the '$telnet.mssp_active` property to 1. This is the default value.
+Implementacja MSSP w ToastCore znajduje sie na obiekcie Telnet Handler ($telnet).  By wlaczyc MSSP, ustaw wlasciwosc '$telnet.mssp_active' na 1.  To jest wartosc domyslna.
 2
 
 2
-Some crawlers and clients don't support the MSSP telnet protocol, but they do support a plaintext fallback. ToastCore implements this fallback via the 'mssp-request' verb on $login. Note that it also obeys the '$telnet.mssp_active' setting.
+Niektore crawlery i klienty nie obsluguja protokolu telnet MSSP, ale obsluguja fallback w postaci zwyklego tekstu.  ToastCore implementuje ten fallback poprzez czasownik 'mssp-request' na $login.  Uwaga: rowniez on respektuje ustawienie '$telnet.mssp_active'.
 2
 
 2
-MSSP variables are stored in the map '$telnet.mssp_data'. To add a new value, simply add a new key with the name of the MSSP variable. The value can be one of:
+Zmienne MSSP sa przechowywane w mapie '$telnet.mssp_data'.  By dodac nowa wartosc, po prostu dodaj nowy klucz o nazwie zmiennej MSSP.  Wartosc moze byc jedna z:
 2
 
 2
-$nothing - For all intents and purposes, the variable does not exist and will not be sent.
+$nothing - Dla wszystkich celow praktycznych zmienna nie istnieje i nie zostanie wyslana.
 2
-1        - This indicates that the value should be derived from a verb on $telnet. Verb names should be in the form: "mssp_variableName"
+1        - Oznacza, ze wartosc powinna byc pobrana z czasownika na $telnet. Nazwy czasownikow powinny miec forme: "mssp_nazwaZmiennej"
 2
-<other>  - Any other value is returned literally.
-2
-
-2
-If you need the literal value 1, simply omit the verb. The value "1" will be used.
+<inna>   - Kazda inna wartosc jest zwracana doslownie.
 2
 
 2
-Examples:
+Jesli potrzebujesz doslownej wartosci 1, po prostu pomin czasownik. Zostanie uzyta wartosc "1".
 2
-1. Implementing the "name" variable and returning '$network.moo_name'.
+
 2
-This would require a verb. First, add the variable to the 'mssp_data' property and indicate that it's a verb (by giving it a value of 1):
+Przyklady:
+2
+1. Implementacja zmiennej "name" zwracajacej '$network.moo_name'.
+2
+Wymaga to czasownika.  Najpierw dodaj zmienna do wlasciwosci 'mssp_data' i oznacz, ze to czasownik (podajac wartosc 1):
 2
 
 2
@@ -13759,7 +13760,7 @@ This would require a verb. First, add the variable to the 'mssp_data' property a
 2
 
 2
-Now you would need to add a "mssp_name" verb to $telnet and program it.
+Teraz trzeba dodac czasownik "mssp_name" do $telnet i go zaprogramowac:
 2
 
 2
@@ -13775,13 +13776,13 @@ return $network.moo_name;
 2
 
 2
-You're done! Note that this is only an example. The name variable is already available by default.
+Gotowe! Uwaga: to tylko przyklad. Zmienna name jest juz dostepna domyslnie.
 2
 
 2
-2. Implement the "genre" variable to indicate that your game is 'Science Fiction'.
+2. Implementacja zmiennej "genre" wskazujacej, ze twoja gra to 'Science Fiction'.
 2
-This is simply a matter of adding a key -> value pair to the 'mssp_data' map:
+To po prostu kwestia dodania pary klucz -> wartosc do mapy 'mssp_data':
 2
 
 2
@@ -13789,7 +13790,7 @@ This is simply a matter of adding a key -> value pair to the 'mssp_data' map:
 2
 
 2
-Done!
+Gotowe!
 36
 5
 5
@@ -32001,9 +32002,7 @@ Pierwszy Pokoj
 0
 0
 4
-1
-1
-2
+0
 1
 3
 4
@@ -36224,21 +36223,21 @@ audit_float
 2
 *index*
 2
-Builder Help Topics
+Tematy pomocy dla budowniczych
 36
 5
 4
 7
 2
-Syntax:  @locations object
+Skladnia:  @locations obiekt
 2
 
 2
-Prints out the names and object numbers of all containing objects.
+Wypisuje nazwy i numery obiektow wszystkich obiektow zawierajacych podany obiekt.
 2
 
 2
-Example:
+Przyklad:
 2
   @locations ur-Rog
 2
@@ -36248,67 +36247,67 @@ Example:
 4
 5
 2
-Syntax:  @sort-owned  [ object | size ]
+Skladnia:  @sort-owned  [ object | size ]
 2
 
 2
-Sorts your .owned_objects property so @audit shows up sorted.  See help @audit for more information.
+Sortuje twoja wlasciwosc .owned_objects, by @audit wyswietlal wyniki posortowane.  Zobacz help @audit po wiecej informacji.
 2
 
 2
-@sort-owned object will sort by object number (the default).  @sort-owned size will sort by size of object as periodically recorded.
+@sort-owned object posortuje wedlug numeru obiektu (domyslnie).  @sort-owned size posortuje wedlug rozmiaru obiektu zapisanego przy ostatnim pomiarze.
 36
 5
 4
 3
 2
-Syntax:  @verify-owned
+Skladnia:  @verify-owned
 2
 
 2
-Checks that all the objects in your .owned_objects property are actually owned by you, and effects repairs if needed.  See help @audit for more information.
+Sprawdza, czy wszystkie obiekty w twojej wlasciwosci .owned_objects rzeczywiscie do ciebie naleza, i naprawia liste w razie potrzeby.  Zobacz help @audit po wiecej informacji.
 36
 5
 4
 3
 2
-Syntax:  @add-owned <object>
+Skladnia:  @add-owned <obiekt>
 2
 
 2
-Adds an object to your .owned_objects property in case it managed not to get updated properly upon creation of that object.  Checks to ensure that the objects is really owned by you and otherwise belongs in your .owned_objects property.  See help @audit for more information.
+Dodaje obiekt do twojej wlasciwosci .owned_objects, na wypadek gdyby nie zostala poprawnie zaktualizowana przy tworzeniu tego obiektu.  Sprawdza, czy obiekt rzeczywiscie nalezy do ciebie i powinien znalezc sie na liscie .owned_objects.  Zobacz help @audit po wiecej informacji.
 36
 5
 4
 7
 2
-Usage: @recreate <object> as <parent> named <name spec>
+Uzycie: @recreate <obiekt> as <rodzic> named <specyfikacja nazwy>
 2
 
 2
-This is a combination of @create and @chparent.  It takes an existing object, completely strips it of any verbs, properties, and values for inherited properties.  This object is then reshaped into a child of the parent specified, as though @create had been called, but retaining the same object number as the original.
+To polaczenie @create i @chparent.  Bierze istniejacy obiekt i calkowicie usuwa z niego wszystkie czasowniki, wlasciwosci oraz wartosci wlasciwosci dziedziczonych.  Obiekt zostaje nastepnie przeksztalcony w dziecko podanego rodzica, tak jakby wywolano @create, ale zachowuje ten sam numer obiektu co oryginal.
 2
 
 2
-You may use "called" instead of "named" in this command, if you wish.
+Mozesz uzyc "called" zamiast "named" w tym poleceniu, jesli wolisz.
 2
 
 2
-The <parent> and <name spec> arguments are as in @create.
+Argumenty <rodzic> i <specyfikacja nazwy> dzialaja tak samo jak w @create.
 36
 5
 4
 8
 2
-Syntax:  @parents object
+Skladnia:  @parents obiekt
 2
 
 2
-A quick way to find out the ancestry of an object.  Prints out the names and object numbers of all ancestors.
+Szybki sposob na sprawdzenie przodkow obiektu.  Wypisuje nazwy i numery obiektow wszystkich przodkow.
 2
 
 2
-Example:
+Przyklad:
 2
   @parents Haakon
 2
@@ -36320,15 +36319,15 @@ Example:
 4
 8
 2
-Syntax:  @contents object
+Skladnia:  @contents obiekt
 2
 
 2
-A quick way to find out the contents of an object.  Prints out the names and object numbers of all direct contents.  This can be useful when you need to refer to something by object number because something is wrong with its aliases.
+Szybki sposob na sprawdzenie zawartosci obiektu.  Wypisuje nazwy i numery obiektow calej bezposredniej zawartosci.  Przydatne, gdy trzeba odwolac sie do czegos po numerze obiektu, bo cos jest nie tak z jego aliasami.
 2
 
 2
-Example:
+Przyklad:
 2
   @contents here
 2
@@ -36340,23 +36339,23 @@ Example:
 4
 10
 2
-The representation of key expressions is very simple and makes it easy to construct new keys on the fly.
+Reprezentacja wyrazen kluczowych (key expressions) jest bardzo prosta i ulatwia budowanie nowych kluczy w locie.
 2
 
 2
-Objects are represented by their object numbers and all other kinds of key expressions are represented by lists.  These lists have as their first element a string drawn from the following set:
+Obiekty sa reprezentowane przez swoje numery obiektow, a wszystkie inne rodzaje wyrazen kluczowych sa reprezentowane przez listy.  Te listy maja jako pierwszy element string wybrany z nastepujacego zbioru:
 2
         "&&"     "||"     "!"     "?"
 2
-For the first two of these, the list should be three elements long; the second and third elements are the representations of the key expressions on the left- and right-hand sides of the appropriate operator.  In the third case, "!", the list should be two elements long; the second element is again a representation of the operand.  Finally, in the "?" case, the list is also two elements long but the second element must be an object number.
+Dla pierwszych dwoch z nich lista powinna miec trzy elementy; drugi i trzeci element to reprezentacje wyrazen kluczowych po lewej i prawej stronie odpowiedniego operatora.  W trzecim przypadku, "!", lista powinna miec dwa elementy; drugi element to znowu reprezentacja operandu.  Wreszcie w przypadku "?" lista tez ma dwa elementy, ale drugi element musi byc numerem obiektu.
 2
 
 2
-As an example, the key expression
+Na przyklad wyrazenie kluczowe
 2
         #45  &&  ?#46  &&  (#47  ||  !#48)
 2
-would be represented as follows:
+byloby reprezentowane tak:
 2
         {"&&", {"&&", #45, {"?", #46}}, {"||", #47, {"!", #48}}}
 36
@@ -36364,165 +36363,165 @@ would be represented as follows:
 4
 24
 2
-LambdaMOO supports a simple but powerful notation for specifying locks on objects, encryption on notes, and other applications.  The idea is to describe a constraint that must be satisfied concerning what some object must be or contain in order to use some other object.
+LambdaMOO wspiera prosta, ale potezna notacje do okreslania blokad na obiektach, szyfrowania notatek i innych zastosowan.  Chodzi o opisanie ograniczenia, ktore musi byc spelnione co do tego, czym jakis obiekt musi byc lub co musi zawierac, by moc uzyc innego obiektu.
 2
 
 2
-The constraint is given in the form of a logical expression, made up of object numbers connected with the operators 'and', 'or', and 'not' (written '&&', '||', and '!', for compatibility with the MOO programming language).  When writing such expressions, though, one usually does not use object numbers directly, but rather gives their names, as with most MOO commands.
+Ograniczenie podaje sie w postaci wyrazenia logicznego zlozonego z numerow obiektow polaczonych operatorami 'and', 'or' i 'not' (zapisywanymi jako '&&', '||' i '!', dla zgodnosci z jezykiem programowania MOO).  Przy pisaniu takich wyrazen zwykle nie uzywa sie jednak numerow obiektow bezposrednio, tylko podaje ich nazwy, tak jak w wiekszosci polecen MOO.
 2
 
 2
-These logical expressions (called 'key expressions') are always evaluated in the context of some particular 'candidate' object, to see if that object meets the constraint.  To do so, we consider the candidate object, along with every object it contains (and the ones those objects contain, and so on), to be 'true' and all other objects to be 'false'.
+Te wyrazenia logiczne (zwane 'wyrazeniami kluczowymi') sa zawsze ewaluowane w kontekscie jakiegos konkretnego obiektu-'kandydata', by sprawdzic, czy spelnia on ograniczenie.  W tym celu obiekt-kandydat, wraz z kazdym obiektem, ktory zawiera (i obiektami, ktore te obiekty zawieraja, i tak dalej), jest traktowany jako 'prawda', a wszystkie inne obiekty jako 'falsz'.
 2
 
 2
-As an example, suppose the player Munchkin wanted to lock the exit leading to his home so that only he and the holder of his magic wand could use it.  Further, suppose that Munchkin was object #999 and the wand was #1001.  Munchkin would use the '@lock' command to lock the exit with the following key expression:
+Przykladowo, zalozmy ze gracz Munchkin chce zablokowac wyjscie prowadzace do jego domu tak, by mogl z niego korzystac tylko on i posiadacz jego magicznej rozdzki.  Zalozmy dalej, ze Munchkin to obiekt #999, a rozdzka to #1001.  Munchkin uzylby polecenia '@lock', by zablokowac wyjscie nastepujacym wyrazeniem kluczowym:
 2
         me || magic wand
 2
-and the system would understand this to mean
+co system zrozumie jako
 2
         #999 || #1001
 2
-That is, players could only use the exit if they were (or were carrying) either #999 or #1001.
+To znaczy, gracze moga uzyc wyjscia tylko wtedy, gdy sa (lub niosa) #999 lub #1001.
 2
 
 2
-To encrypt a note so that it could only be read by Munchkin or someone carrying his book, his bell, and his candle, Munchkin would use the 'encrypt' command with the key expression
+By zaszyfrowac notatke tak, by mogl ja odczytac tylko Munchkin lub ktos niosacy jego ksiazke, dzwonek i swiece, Munchkin uzylby polecenia 'encrypt' z wyrazeniem kluczowym
 2
         me || (bell && book && candle)
 2
 
 2
-Finally, to keep players from taking a large gold coffin through a particularly narrow exit, Munchkin would use this key expression:
+Wreszcie, by uniemozliwic graczom przenoszenie duzej zlotej trumny przez szczegolnie waskie wyjscie, Munchkin uzylby takiego wyrazenia kluczowego:
 2
         ! coffin
 2
-That is, the expression would be false for any object that was or was carrying the coffin.
+To znaczy, wyrazenie bedzie falszywe dla kazdego obiektu, ktory jest trumna lub ja niesie.
 2
 
 2
-There is one other kind of clause that can appear in a key expression:
+Istnieje jeszcze jeden rodzaj klauzuli, ktory moze wystapic w wyrazeniu kluczowym:
 2
-        ? <object>
+        ? <obiekt>
 2
-This is evaluated by testing whether the given object is unlocked for the candidate object; if so, this clause is true, and otherwise, it is false.  This allows you to have several locks all sharing some single other one; when the other one is changed, all of the locks change their behavior simultaneously.
+Jest ona ewaluowana przez sprawdzenie, czy podany obiekt jest odblokowany dla obiektu-kandydata; jesli tak, klauzula jest prawdziwa, w przeciwnym razie falszywa.  Pozwala to na wspoldzielenie jednej blokady przez kilka innych blokad; gdy ta jedna sie zmieni, wszystkie pozostale zmieniaja swoje zachowanie jednoczesnie.
 2
 
 2
-[Note to programmers: The internal representation of key expressions, as stored in .key on every object, for example, is very simple and easy to construct on the fly.  For details, see 'help key-representation'.]
+[Notatka dla programistow: wewnetrzna reprezentacja wyrazen kluczowych, przechowywana np. w .key kazdego obiektu, jest bardzo prosta i latwa do zbudowania w locie.  Szczegoly znajdziesz w 'help key-representation'.]
 36
 1
 4
 3
 2
-Syntax:  @unlock <object>
+Skladnia:  @unlock <obiekt>
 2
 
 2
-Clear any lock that might exist on the given object.  See 'help locking' for general information about locking.
+Usuwa dowolna blokade, jaka moze istniec na podanym obiekcie.  Zobacz 'help locking' po ogolne informacje o blokowaniu.
 36
 1
 4
 5
 2
-Syntax:  @lock <object> with <key expression>
+Skladnia:  @lock <obiekt> with <wyrazenie kluczowe>
 2
 
 2
-Set a lock on <object> to restrict its use.  See 'help locking' for general information about locking and 'help keys' for the syntax and semantics of key expressions.
+Ustawia blokade na <obiekt>, ograniczajac jego uzycie.  Zobacz 'help locking' po ogolne informacje o blokowaniu i 'help keys' po skladnie i semantyke wyrazen kluczowych.
 2
 
 2
-N.B.  In the case of rooms, you are actually better off setting room.free_entry to 0 thus preventing teleportation and then @locking the various entrances.  The problem with @locking the room itself is that this can make it impossible to drop objects in the room.
+Uwaga.  W przypadku pokoi lepiej jest ustawic room.free_entry na 0, co zapobiega teleportacji, a nastepnie @lock poszczegolnych wejsc.  Problem z @lock na samym pokoju polega na tym, ze moze to uniemozliwic upuszczanie przedmiotow w pokoju.
 36
 1
 4
 21
 2
-It is frequently useful to restrict the use of some object.  For example, one might want to keep people from using a particular exit unless they're carrying a bell, a book, and a candle.  Alternatively, one might allow anyone to use the exit unless they're carrying that huge golden coffin in the corner.  LambdaMOO supports a general locking mechanism designed to make such restrictions easy to implement, usually without any programming.
+Czesto przydaje sie ograniczenie uzycia jakiegos obiektu.  Na przyklad ktos moze chciec uniemozliwic ludziom korzystanie z konkretnego wyjscia, chyba ze niosa dzwonek, ksiazke i swiece.  Albo odwrotnie -- pozwolic kazdemu korzystac z wyjscia, chyba ze niesie te wielka zlota trumne w kacie.  LambdaMOO wspiera ogolny mechanizm blokowania, majacy ulatwic implementacje takich ograniczen, zwykle bez zadnego programowania.
 2
 
 2
-Every object supports a notion of being 'locked' with respect to certain other objects.  For example, the exit above might be locked for any object that was carrying the coffin object but unlocked for all other objects.  In general, if some object 'A' is locked for another object, 'B', then 'B' is usually prevented from using 'A'.  Of course, the meaning of 'use' in this context depends upon the kind of object.
+Kazdy obiekt wspiera pojecie bycia 'zablokowanym' wzgledem pewnych innych obiektow.  Na przyklad powyzsze wyjscie moglo by byc zablokowane dla kazdego obiektu niosacego trumne, a odblokowane dla wszystkich pozostalych.  Ogolnie, jesli jakis obiekt 'A' jest zablokowany dla innego obiektu 'B', to zwykle 'B' nie moze skorzystac z 'A'.  Oczywiscie znaczenie slowa 'skorzystac' zalezy w tym kontekscie od rodzaju obiektu.
 2
 
 2
-The various standard classes of objects use locking as follows:
+Rozne standardowe klasy obiektow korzystaja z blokowania w nastepujacy sposob:
 2
-  + Rooms and containers refuse to allow any object inside them if they're locked for it.
+  + Pokoje i kontenery odmawiaja wpuszczenia do srodka kazdego obiektu, dla ktorego sa zablokowane.
 2
-  + Exits refuse to transport any object that they're locked for.
+  + Wyjscia odmawiaja przetransportowania kazdego obiektu, dla ktorego sa zablokowane.
 2
-  + Things (including notes and letters) cannot be moved to locations that they're locked for.
-2
-
-2
-There are two sides to locking:
-2
-  + How is it specified whether one object is locked for another one?
-2
-  + What is the effect of an object being locked?
-2
-Note that these two questions are entirely independent: one could invent a brand-new way to specify locking, but the effect of an exit being locked would be unchanged.
+  + Rzeczy (w tym notatki i listy) nie moga byc przenoszone do miejsc, dla ktorych sa zablokowane.
 2
 
 2
-[Note to programmers: the interface between these two sides is the verb x:is_unlocked_for(y), which is called by x to determine if it is locked for the object y.  The way in which 'is_unlocked_for' is implemented is entirely independent of the ways in which x uses its results.  Note that you can play on either side of this interface with your own objects, either defining new implementations of 'is_unlocked_for' that match your particular circumstances or having your objects interpret their being locked in new ways.]
+Blokowanie ma dwie strony:
+2
+  + Jak okresla sie, ze jeden obiekt jest zablokowany dla drugiego?
+2
+  + Jaki jest efekt zablokowania obiektu?
+2
+Te dwa pytania sa calkowicie niezalezne: mozna by wymyslic zupelnie nowy sposob okreslania blokad, a efekt zablokowania wyjscia pozostalby bez zmian.
 2
 
 2
-There is a default way to specify locks on objects; the following help topics cover the relevant commands:
+[Notatka dla programistow: interfejsem miedzy tymi dwiema stronami jest czasownik x:is_unlocked_for(y), wywolywany przez x, by okreslic, czy jest zablokowany dla obiektu y.  Sposob implementacji 'is_unlocked_for' jest calkowicie niezalezny od sposobu, w jaki x uzywa jego wynikow.  Uwaga: mozna dzialac po ktorejkolwiek stronie tego interfejsu we wlasnych obiektach -- definiujac nowe implementacje 'is_unlocked_for' pasujace do wlasnych przypadkow, albo sprawiajac, by wlasne obiekty interpretowaly swoje zablokowanie w nowy sposob.]
 2
 
 2
-@lock -- setting a lock on an object
+Istnieje domyslny sposob okreslania blokad na obiektach; nastepujace tematy pomocy opisuja odpowiednie polecenia:
 2
-@unlock -- clearing the lock on an object
+
 2
-keys -- describes the language used to describe lock keys
+@lock -- ustawianie blokady na obiekcie
+2
+@unlock -- usuwanie blokady z obiektu
+2
+keys -- opisuje jezyk uzywany do opisu kluczy blokad
 36
 1
 4
 8
 2
-Syntax:  @classes
+Skladnia:  @classes
 2
-         @classes <class-name> ...
-2
-
-2
-The wizards have identified several useful classes of objects in the database.  The @classes command is used to see which classes exist and what their member objects are.
+           @classes <nazwa-klasy> ...
 2
 
 2
-The first form simply lists all of the defined classes along with short descriptions of the membership of each.
+Wizardzi zidentyfikowali kilka przydatnych klas obiektow w bazie danych.  Polecenie @classes sluzy do sprawdzenia, jakie klasy istnieja i jakie obiekty do nich naleza.
 2
 
 2
-The second form prints an indented listing of that subset of the object parent/child hierarchy containing the objects in the class(es) you specify.
+Pierwsza forma po prostu wypisuje wszystkie zdefiniowane klasy wraz z krotkimi opisami przynaleznosci do kazdej z nich.
+2
+
+2
+Druga forma wypisuje wciety fragment hierarchii rodzic/dziecko obiektow zawierajacy obiekty z podanych klas.
 36
 1
 4
 27
 2
-Syntax:  @audit [<player>] [for <string>] [from <number>] [to <number>] 
+Skladnia:  @audit [<gracz>] [for <string>] [from <numer>] [to <numer>] 
 2
 
 2
-`@audit'        prints a report of all of the objects you own.
+`@audit'        wypisuje raport ze wszystkich obiektow, ktore posiadasz.
 2
-`@audit player' prints the same report for another player.
-2
-
-2
-The `for' string restricts the search to objects whose names begin with that string.
-2
-It is also possible to restrict the range of object numbers to include only those above a given number (`from') or below a given number (`to').
+`@audit gracz' wypisuje taki sam raport dla innego gracza.
 2
 
 2
-All forms of @audit print a report:
+String po `for' ogranicza wyszukiwanie do obiektow, ktorych nazwa zaczyna sie od tego stringa.
+2
+Mozna tez ograniczyc zakres numerow obiektow do tych powyzej podanej liczby (`from') lub ponizej podanej liczby (`to').
+2
+
+2
+Wszystkie formy @audit wypisuja raport:
 2
 
 2
@@ -36540,39 +36539,39 @@ All forms of @audit print a report:
 2
 
 2
-The first column is the object's number, the second its name. The third column shows the object's location: Gemba is in The Pool, and is carrying the Popgun (#144).
+Pierwsza kolumna to numer obiektu, druga jego nazwa. Trzecia kolumna pokazuje lokalizacje obiektu: Gemba jest w The Pool i niesie Popgun (#144).
 2
-For exits, the third column shows source ->dest.
+Dla wyjsc trzecia kolumna pokazuje zrodlo ->cel.
 2
-For rooms, the third column shows any entrances owned by someone else.
+Dla pokoi trzecia kolumna pokazuje wejscia nalezace do kogos innego.
 2
-Object location, exit sources and destinations owned by another player are preceded by a *.
-2
-
-2
-@audit uses a property .owned_objects on the player, for speed.  This property is updated at the time of each object creation and destruction and ownership change.  The verb @auditdb (same args as @audit) actually searches through the entire database for objects.
+Lokalizacja obiektu oraz zrodla/cele wyjsc nalezace do innego gracza sa poprzedzone gwiazdka *.
 2
 
 2
-See also @verify-owned, @sort-owned, and @add-owned.
+@audit uzywa wlasciwosci .owned_objects gracza, dla szybkosci.  Ta wlasciwosc jest aktualizowana przy kazdym tworzeniu, niszczeniu obiektu i zmianie wlasciciela.  Czasownik @auditdb (te same argumenty co @audit) faktycznie przeszukuje cala baze danych w poszukiwaniu obiektow.
 2
 
 2
-See also @prospectus, which gives some additional information.
+Zobacz tez @verify-owned, @sort-owned i @add-owned.
+2
+
+2
+Zobacz tez @prospectus, ktory podaje dodatkowe informacje.
 36
 1
 4
 5
 2
-Syntax:  @count [player]
+Skladnia:  @count [gracz]
 2
 
 2
-Prints out the number of objects you or another person own.  Do not be surprised if this is one larger than you think it should be: remember that your player object is owned by you as well, even though you didn't create it in the usual way.
+Wypisuje liczbe obiektow, ktore posiadasz ty lub inna osoba.  Nie zdziw sie, jesli liczba ta jest o jeden wieksza, niz sie spodziewasz: pamietaj, ze twoj obiekt gracza rowniez nalezy do ciebie, mimo ze nie stworzyles go w zwykly sposob.
 2
 
 2
-If byte-based quota is enabled, also prints the total usage by all objects at last measurement.
+Jesli wlaczony jest limit bajtowy (byte quota), wypisywane jest tez calkowite zuzycie wszystkich obiektow z ostatniego pomiaru.
 36
 1
 4
@@ -36586,171 +36585,171 @@ object-quota
 4
 16
 2
-Syntax:  @create <class-name> named "<names>"
+Skladnia:  @create <nazwa-klasy> named "<nazwy>"
 2
-         @create <parent-object> named "<names>"
-2
-
-2
-The main command for creating objects other than rooms and exits (for them, see 'help @dig'; it's much more convenient).
+           @create <obiekt-rodzic> named "<nazwy>"
 2
 
 2
-The first argument specifies the 'parent' of the new object: loosely speaking, the 'kind' of object you're creating.  <class-name> is one of the four standard classes of objects: $note, $letter, $thing, or $container.  As time goes on, more 'standard classes' may be added.  If the parent you have in mind for your new object isn't one of these, you may use the parent's name (if it's in the same room as you) or else its object number (e.g., #4562).
+Glowne polecenie do tworzenia obiektow innych niz pokoje i wyjscia (dla nich zobacz 'help @dig'; jest o wiele wygodniejsze).
 2
 
 2
-You may use "called" instead of "named" in this command, if you wish.
+Pierwszy argument okresla 'rodzica' nowego obiektu: mowiac potocznie, 'rodzaj' tworzonego obiektu.  <nazwa-klasy> to jedna z czterech standardowych klas obiektow: $note, $letter, $thing lub $container.  Z czasem moga zostac dodane kolejne 'standardowe klasy'.  Jesli rodzic, ktorego masz na mysli, nie jest jedna z nich, mozesz uzyc nazwy rodzica (jesli jest w tym samym pokoju co ty) albo jego numeru obiektu (np. #4562).
 2
 
 2
-An object must be fertile to be used as a parent-class.  See help @chmod for details.
+Mozesz uzyc "called" zamiast "named" w tym poleceniu, jesli wolisz.
 2
 
 2
-The <names> are given in the same format as in the @rename command:
-2
-        <name-and-alias>,<alias>,...,<alias> [preferred]
-2
-        <name>:<alias>,...,<alias> [not preferred]
+Obiekt musi byc plodny (fertile), by mogl byc uzyty jako klasa-rodzic.  Zobacz help @chmod po szczegoly.
 2
 
 2
-See 'help @rename' for a discussion of the difference between a name and an alias.
+<nazwy> podaje sie w tym samym formacie co w poleceniu @rename:
+2
+        <nazwa-i-alias>,<alias>,...,<alias> [preferowane]
+2
+        <nazwa>:<alias>,...,<alias> [niepreferowane]
+2
+
+2
+Zobacz 'help @rename' po omowienie roznicy miedzy nazwa a aliasem.
 36
 1
 4
 11
 2
-The primary means for players to extend the MOO is for them to create new objects with interesting behavior.  There are convenient commands for creating and recycling objects and for keeping track of the objects you've created.  Help is available on these commands in the following topics:
+Podstawowym sposobem, w jaki gracze rozbudowuja MOO, jest tworzenie nowych obiektow o ciekawym zachowaniu.  Istnieja wygodne polecenia do tworzenia i recyklingu obiektow oraz do sledzenia obiektow, ktore stworzyles.  Pomoc dla tych polecen jest dostepna pod nastepujacymi tematami:
 2
 
 2
-@dig -- conveniently building new rooms and exits
+@dig -- wygodne budowanie nowych pokoi i wyjsc
 2
-@create -- making other kinds of objects
+@create -- tworzenie innych rodzajow obiektow
 2
-@recycle -- destroying objects you no longer want
+@recycle -- niszczenie obiektow, ktorych juz nie chcesz
 2
-@quota -- determining how many more objects you can build
+@quota -- sprawdzanie, ile jeszcze obiektow mozesz zbudowac
 2
-@count -- determining how many objects you already own
+@count -- sprawdzanie, ile obiektow juz posiadasz
 2
-@audit -- listing all of your objects
+@audit -- listowanie wszystkich twoich obiektow
 2
-@classes -- listing all of the public classes available for your use
+@classes -- listowanie wszystkich publicznych klas dostepnych do uzycia
 2
-@move -- moving your objects from place to place
+@move -- przenoszenie twoich obiektow z miejsca na miejsce
 2
-@parents, @kids -- examine the inheritance hierarchy.
+@parents, @kids -- przegladanie hierarchii dziedziczenia.
 36
 1
 4
 24
 2
-Syntax:  @dig "<new-room-name>"
+Skladnia:  @dig "<nazwa-nowego-pokoju>"
 2
-         @dig <exit-spec> to "<new-room-name>"
+           @dig <specyfikacja-wyjscia> to "<nazwa-nowego-pokoju>"
 2
-         @dig <exit-spec> to <old-room-object-number>
-2
-
-2
-This is the basic building tool.  The first form of the command creates a new room with the given name.  The new room is not connected to anywhere else; it is floating in limbo.  The @dig command tells you its object number, though, so you can use the @move command to get there easily.
+           @dig <specyfikacja-wyjscia> to <numer-obiektu-starego-pokoju>
 2
 
 2
-The second form of the command not only creates the room, but one or two exits linking your current location to (and possibly from) the new room.  An <exit-spec> has one of the following two forms:
-2
-        <names>
-2
-        <names>|<names>
-2
-where the first form is used when you only want to create one exit, from your current room to the new room, and the second form when you also want an exit back, from the new room to your current room.  In any case, the <names> piece is just a list of names for the exit, separated by commas; these are the names of the commands players can type to use the exit.  It is usually a good idea to include explicitly the standard abbreviations for direction names (e.g., 'n' for 'north', 'se' for 'southeast', etc.).  DO NOT put spaces in the names of exits; they are useless in MOO.
+To podstawowe narzedzie budowlane.  Pierwsza forma polecenia tworzy nowy pokoj o podanej nazwie.  Nowy pokoj nie jest z niczym polaczony; unosi sie w limbo.  Polecenie @dig podaje jednak jego numer obiektu, wiec mozesz uzyc @move, by latwo sie tam dostac.
 2
 
 2
-The third form of the command is just like the second form except that no new room is created; you instead specify by object number the other room to/from which the new exits will connect.
+Druga forma polecenia nie tylko tworzy pokoj, ale rowniez jedno lub dwa wyjscia laczace twoja obecna lokalizacje z (i ewentualnie z powrotem od) nowym pokojem.  <specyfikacja-wyjscia> ma jedna z dwoch postaci:
+2
+        <nazwy>
+2
+        <nazwy>|<nazwy>
+2
+gdzie pierwsza forma jest uzywana, gdy chcesz stworzyc tylko jedno wyjscie, z twojego obecnego pokoju do nowego, a druga forma, gdy chcesz tez wyjscie powrotne, z nowego pokoju do twojego obecnego.  W kazdym razie fragment <nazwy> to po prostu lista nazw dla wyjscia, oddzielonych przecinkami; sa to nazwy polecen, ktore gracze moga wpisac, by skorzystac z wyjscia.  Zwykle dobrym pomyslem jest jawne dodanie standardowych skrotow nazw kierunkow (np. 'n' dla 'north', 'se' dla 'southeast' itd.).  NIE UMIESZCZAJ spacji w nazwach wyjsc; w MOO sa bezuzyteczne.
 2
 
 2
-NOTE: You must own the room at one end or the other of the exits you create.  If you own both, everything is hunky-dorey.  If you own only one end, then after creating the exits you should write down their object numbers.  You must then get the owner of the other room to use @add-exit and @add-entrance to link your new exits to their room.
+Trzecia forma polecenia jest taka sama jak druga, z tym ze nie jest tworzony nowy pokoj; zamiast tego podajesz numerem obiektu ten pokoj, do/z ktorego nowe wyjscia beda prowadzic.
 2
 
 2
-Examples:
+UWAGA: Musisz posiadac pokoj przynajmniej z jednej strony tworzonych wyjsc.  Jesli posiadasz oba, wszystko jest w porzadku.  Jesli posiadasz tylko jeden koniec, po utworzeniu wyjsc zapisz sobie ich numery obiektow.  Musisz wtedy poprosic wlasciciela drugiego pokoju, by uzyl @add-exit i @add-entrance, by polaczyc twoje nowe wyjscia z jego pokojem.
+2
+
+2
+Przyklady:
 2
     @dig "The Conservatory"
 2
-creates a new room named "The Conservatory" and prints out its object number.
+tworzy nowy pokoj o nazwie "The Conservatory" i wypisuje jego numer obiektu.
 2
     @dig north,n to "The North Pole"
 2
-creates a new room and also an exit linking the player's current location to the new room; players would say either 'north' or 'n' to get from here to the new room.  No way to get back from that room is created.
+tworzy nowy pokoj oraz wyjscie laczace obecna lokalizacje gracza z nowym pokojem; gracze wpisza 'north' lub 'n', by przejsc stad do nowego pokoju.  Nie jest tworzony zaden sposob powrotu z tego pokoju.
 2
     @dig west,w|east,e,out to "The Department of Auto-Musicology"
 2
-creates a new room and two exits, one taking players from here to the new room (via the commands 'west' or 'w') and one taking them from the new room to here (via 'east', 'e', or 'out').
+tworzy nowy pokoj i dwa wyjscia, jedno prowadzace graczy stad do nowego pokoju (przez 'west' lub 'w') i jedno prowadzace ich z nowego pokoju z powrotem (przez 'east', 'e' lub 'out').
 2
     @dig up,u to #7164
 2
-creates an exit leading from the player's current room to #7164, which must be an existing room.
+tworzy wyjscie prowadzace z obecnego pokoju gracza do #7164, ktory musi byc juz istniejacym pokojem.
 36
 5
 4
 3
 2
-Syntax:  @recycle <object-name-or-number>
+Skladnia:  @recycle <nazwa-lub-numer-obiektu>
 2
 
 2
-Destroys the indicated object utterly and irretrievably.  Naturally, you may only do this to objects that you own.
+Niszczy wskazany obiekt calkowicie i nieodwolalnie.  Oczywiscie mozna to zrobic tylko z obiektami, ktore sie posiada.
 36
 5
 4
 6
 2
-There are a number of commands available to players for building new parts of the MOO.  Help on them is available under the following topics:
+Dostepnych jest wiele polecen do budowania nowych czesci MOO.  Pomoc dla nich znajdziesz pod nastepujacymi tematami:
 2
 
 2
-creation -- making, unmaking, and listing your rooms, exits, and other objects
+creation -- tworzenie, niszczenie i listowanie twoich pokoi, wyjsc i innych obiektow
 2
-topology -- making and listing the connections between rooms and exits
+topology -- tworzenie i listowanie polaczen miedzy pokojami a wyjsciami
 2
-descriptions -- setting the names and descriptive texts for new objects
+descriptions -- ustawianie nazw i opisow nowych obiektow
 2
-locking -- controlling use of and access to your objects
+locking -- kontrolowanie uzycia i dostepu do twoich obiektow
 36
 1
 4
 7
 2
-Syntax:  @dump <object> [with [id=#<id>] [noprops] [noverbs] [create]]
+Skladnia:  @dump <obiekt> [with [id=#<id>] [noprops] [noverbs] [create]]
 2
 
 2
-This spills out all the properties and verbs on an object, calling suspend at appropriate intervals.
+Wypisuje wszystkie wlasciwosci i czasowniki obiektu, wywolujac suspend w odpowiednich momentach.
 2
-   id=#<id> -- specifies an idnumber to use in place of the object's actual id (for porting to another MOO)
+   id=#<id> -- okresla numer id do uzycia zamiast rzeczywistego id obiektu (do przenoszenia do innego MOO)
 2
-   noprops  -- don't show properties.
+   noprops  -- nie pokazuj wlasciwosci.
 2
-   noverbs  -- don't show verbs.
+   noverbs  -- nie pokazuj czasownikow.
 2
-   create   -- indicates that a @create command should be generated and all of the verbs be introduced with @verb rather than @args; the default assumption is that the object already exists and you're just doing this to have a look at it.
+   create   -- oznacza, ze nalezy wygenerowac polecenie @create i wprowadzic wszystkie czasowniki przez @verb zamiast @args; domyslnie zaklada sie, ze obiekt juz istnieje, a ty tylko chcesz mu sie przyjrzec.
 2
 1
 4
 4
 2
-Syntax:  @set <object>.<prop-name> to <value>
+Skladnia:  @set <obiekt>.<nazwa-wlasciwosci> to <wartosc>
 2
 
 2
-Changes the value of the specified object's property to the given value.
+Zmienia wartosc podanej wlasciwosci obiektu na podana wartosc.
 2
-You must have permission to modify the property, either because you own the property or if it is writable.
+Musisz miec uprawnienia do modyfikacji wlasciwosci -- albo dlatego, ze ja posiadasz, albo dlatego, ze jest zapisywalna.
 36
 5
 4
@@ -36760,7 +36759,7 @@ You must have permission to modify the property, either because you own the prop
 2
 @setprop
 2
-@set is a valid abbreviation for @setprop.
+@set to poprawny skrot dla @setprop.
 36
 5
 4
@@ -36790,37 +36789,37 @@ You must have permission to modify the property, either because you own the prop
 4
 41
 2
-Syntax:  @build-option
+Skladnia:  @build-option
 2
-         @build-option <option>
-2
-
-2
-Synonyms:  @buildoption, @builder-option @builderoption
+           @build-option <opcja>
 2
 
 2
-The first form displays all of your builder options
-2
-The second displays just that one option, which may be one of the flags listed below.  The builder options control various annoying details of your building commands (e.g., @create, ...)
+Synonimy:  @buildoption, @builder-option @builderoption
 2
 
 2
-The remaining forms of this command are for setting your programmer options:
+Pierwsza forma wyswietla wszystkie twoje opcje budowniczego
+2
+Druga wyswietla tylko jedna opcje, ktora moze byc jedna z flag wymienionych ponizej.  Opcje budowniczego kontroluja rozne uciazliwe szczegoly twoich polecen budowlanych (np. @create, ...)
 2
 
 2
-         @build-option create_flags [is] <flags>
+Pozostale formy tego polecenia sluza do ustawiania twoich opcji programisty:
 2
-         @build-option create_flags=<flags>
+
+2
+         @build-option create_flags [is] <flagi>
+2
+         @build-option create_flags=<flagi>
 2
          @build-option -create_flags
 2
-                      (equivalent to create_flags="")
+                      (rownowazne create_flags="")
 2
 
 2
-where flags is some substring of "rwf".  This option determines the read/write/fertility permissions of an object freshly created with @create or @recreate (see `help @create' and `help @recreate' and `help @chmod').  E.g., to make every object you create henceforth readable by default, do
+gdzie flagi to jakis podciag "rwf".  Ta opcja okresla uprawnienia odczytu/zapisu/plodnosci obiektu swiezo stworzonego przez @create lub @recreate (zobacz `help @create', `help @recreate' i `help @chmod').  Np. by od teraz kazdy tworzony przez ciebie obiekt byl domyslnie czytelny, wykonaj
 2
 
 2
@@ -36828,49 +36827,49 @@ where flags is some substring of "rwf".  This option determines the read/write/f
 2
 
 2
-For controlling the behavior of @dig, we have
+By kontrolowac zachowanie @dig, mamy
 2
 
 2
-         @build-option  dig_room=<room>
+         @build-option  dig_room=<pokoj>
 2
-         @build-option  dig_room [is] <room>
+         @build-option  dig_room [is] <pokoj>
 2
          @build-option -dig_room
 2
-                      (equivalent to dig_room=$room)
+                      (rownowazne dig_room=$room)
 2
-         @build-option  dig_exit=<exit>
+         @build-option  dig_exit=<wyjscie>
 2
-         @build-option  dig_exit [is] <exit>
+         @build-option  dig_exit [is] <wyjscie>
 2
          @build-option -dig_exit
 2
-                      (equivalent to dig_exit=$exit)
+                      (rownowazne dig_exit=$exit)
 2
 
 2
-The following respectively set and reset the specified flag option
+Nastepujace odpowiednio ustawiaja i resetuja podana opcje flagi
 2
 
 2
-         @build-option +<option>
+         @build-option +<opcja>
 2
-         @build-option -<option>
+         @build-option -<opcja>
 2
-         @build-option !<option>           (equivalent to -<option>)
-2
-
-2
-Currently the only builder flag option available is
-2
- -bi_create     @create/@recycle re-use object numbers.
-2
- +bi_create     @create/@recycle call create()/recycle() directly 
+         @build-option !<opcja>           (rownowazne -<opcja>)
 2
 
 2
-we prefer that you not use +bi_create, since this drives up the object numbers.
+Obecnie jedyna dostepna opcja flagi budowniczego to
+2
+ -bi_create     @create/@recycle ponownie wykorzystuja numery obiektow.
+2
+ +bi_create     @create/@recycle wywoluja bezposrednio create()/recycle() 
+2
+
+2
+wolimy, byscie nie uzywali +bi_create, poniewaz to podnosi numery obiektow.
 36
 5
 4
@@ -36878,59 +36877,59 @@ we prefer that you not use +bi_create, since this drives up the object numbers.
 2
 *subst*
 2
-A few different messages can be set on a room object (see 'help messages' for instructions on doing so); they are printed to various audiences when a player or other object is ejected from the room.  (See 'help @eject'.)  The standard pronoun substitutions are made on each message before it is printed; see 'help pronouns' for details.
+Na obiekcie pokoju mozna ustawic kilka roznych komunikatow (zobacz 'help messages' po instrukcje, jak to zrobic); sa one wypisywane roznym odbiorcom, gdy gracz lub inny obiekt jest wyrzucany z pokoju.  (Zobacz 'help @eject'.)  Na kazdym komunikacie wykonywane sa standardowe podstawienia zaimkow; zobacz 'help pronouns' po szczegoly.
 2
 
 2
-The default message is given in brackets after each name below:
+Domyslny komunikat podano w nawiasach po kazdej nazwie ponizej:
 2
 
 2
 @ejection  [%[$room.ejection_msg]]
 2
-  Printed to the player doing the ejecting.
+  Wyswietlane graczowi wykonujacemu wyrzucenie.
 2
 
 2
 @victim_ejection  [%[$room.victim_ejection_msg]]
 2
-  Printed to the object being ejected.
+  Wyswietlane wyrzucanemu obiektowi.
 2
 
 2
 @oejection  [%[$room.oejection_msg]]
 2
-  Printed to others in the room from which the object is being ejected.
+  Wyswietlane pozostalym w pokoju, z ktorego obiekt jest wyrzucany.
 36
 5
 4
 13
 2
-Syntax: @resident player
+Skladnia: @resident gracz
 2
-        @resident !player
+          @resident !gracz
 2
-        @resident
-2
-
-2
-Adds or removes a player from the residents list of a room.  The residents list controls who is allowed to use @sethome in that room.  This defaults to just the owner of the room; by manipulating the residents list you may allow additional players to use that room as their home.
+          @resident
 2
 
 2
-@resident player adds that player to the list.  
-2
-@resident !player removes that player from the list.
-2
-@resident with no arguments simply displays the current list (which may be "none", indicating no additional people besides the owner may use that room as their home).
+Dodaje lub usuwa gracza z listy mieszkancow (residents) pokoju.  Lista mieszkancow kontroluje, kto moze uzywac @sethome w tym pokoju.  Domyslnie jest to tylko wlasciciel pokoju; manipulujac lista mieszkancow mozesz pozwolic dodatkowym graczom uzywac tego pokoju jako domu.
 2
 
 2
-See also help @sethome.
+@resident gracz dodaje gracza do listy.  
+2
+@resident !gracz usuwa gracza z listy.
+2
+@resident bez argumentow po prostu wyswietla biezaca liste (moze byc "none", co oznacza, ze poza wlascicielem nikt nie moze uzywac tego pokoju jako domu).
 2
 
 2
-Hints for programmers: The verb $room:accept_for_abode is called by @sethome.  By overriding this verb you can give different criteria to @sethome.  It should return 1 for allowed and 0 for denied.
+Zobacz tez help @sethome.
+2
+
+2
+Wskazowki dla programistow: czasownik $room:accept_for_abode jest wywolywany przez @sethome.  Nadpisujac ten czasownik mozesz podac inne kryteria dla @sethome.  Powinien zwracac 1 dla dozwolonych i 0 dla odmowy.
 36
 5
 4
@@ -36938,111 +36937,111 @@ Hints for programmers: The verb $room:accept_for_abode is called by @sethome.  B
 2
 *subst*
 2
-Several kinds of messages can be set on an exit object (see 'help messages' for instructions on doing so); they are printed to various audiences at certain times whenever an attempt is made to go through the exit.  The ones whose names begin with 'o' are always shown prefixed with the name of the player making the attempt and a single space character.  The standard pronoun substitutions (with respect to the player) are made on each message before it is printed; see 'help pronouns' for details.
+Na obiekcie wyjscia mozna ustawic kilka rodzajow komunikatow (zobacz 'help messages' po instrukcje, jak to zrobic); sa one wypisywane roznym odbiorcom w okreslonych momentach probowania skorzystania z wyjscia.  Te, ktorych nazwy zaczynaja sie od 'o', sa zawsze pokazywane z prefiksem imienia gracza probujacego i pojedynczym znakiem spacji.  Na kazdym komunikacie wykonywane sa standardowe podstawienia zaimkow (wzgledem gracza); zobacz 'help pronouns' po szczegoly.
 2
 
 2
-The default message is given in brackets after each name below:
+Domyslny komunikat podano w nawiasach po kazdej nazwie ponizej:
 2
 
 2
 @leave  [%[$exit.leave_msg]]
 2
-  Printed to the player just before they successfully use the exit.
+  Wyswietlane graczowi tuz przed pomyslnym skorzystaniem z wyjscia.
 2
 
 2
 @oleave  [%[$exit.oleave_msg||"has left."]]
 2
-  Printed to others in the source room when a player successfully uses the exit.
+  Wyswietlane pozostalym w pokoju zrodlowym, gdy gracz pomyslnie skorzysta z wyjscia.
 2
 
 2
 @arrive  [%[$exit.arrive_msg]]
 2
-  Printed to the player just after they successfully use the exit.
+  Wyswietlane graczowi tuz po pomyslnym skorzystaniu z wyjscia.
 2
 
 2
 @oarrive  [%[$exit.oarrive_msg||"has arrived."]]
 2
-  Printed to others in the destination room when a player successfully uses the exit.
+  Wyswietlane pozostalym w pokoju docelowym, gdy gracz pomyslnie skorzysta z wyjscia.
 2
 
 2
 @nogo  [%[$exit.nogo_msg||"You can't go that way."]]
 2
-  Printed to the player when they fail in using the exit.
+  Wyswietlane graczowi, gdy nie uda mu sie skorzystac z wyjscia.
 2
 
 2
 @onogo  [%[$exit.onogo_msg]]
 2
-  Printed to others when a player fails in using the exit.
+  Wyswietlane pozostalym, gdy graczowi nie uda sie skorzystac z wyjscia.
 36
 1
 4
 3
 2
-Syntax:  @add-entrance <exit-object-number>
+Skladnia:  @add-entrance <numer-obiektu-wyjscia>
 2
 
 2
-Add the exit with the given object number as a recognized entrance to the current room (that is, one whose use is not considered teleportation).  Usually, @dig does this for you, but it doesn't if you don't own the room in question.  Instead, it tells you the object number of the new exit and you have to find the owner of the room and get them to use the @add-entrance command to link it up.
+Dodaje wyjscie o podanym numerze obiektu jako rozpoznawane wejscie do obecnego pokoju (czyli takie, ktorego uzycie nie jest traktowane jako teleportacja).  Zwykle robi to za ciebie @dig, ale nie wtedy, gdy nie posiadasz danego pokoju.  W takim wypadku @dig podaje ci numer obiektu nowego wyjscia, a ty musisz znalezc wlasciciela pokoju i poprosic go o uzycie polecenia @add-entrance, by je polaczyc.
 36
 1
 4
 3
 2
-Syntax:  @add-exit <exit-object-number>
+Skladnia:  @add-exit <numer-obiektu-wyjscia>
 2
 
 2
-Add the exit with the given object number as a conventional exit from the current room (that is, an exit that can be invoked simply by typing its name, like 'east').  Usually, @dig does this for you, but it doesn't if you don't own the room in question.  Instead, it tells you the object number of the new exit and you have to find the owner of the room and get them to use the @add-exit command to link it up.
+Dodaje wyjscie o podanym numerze obiektu jako konwencjonalne wyjscie z obecnego pokoju (czyli takie, z ktorego mozna skorzystac po prostu wpisujac jego nazwe, jak 'east').  Zwykle robi to za ciebie @dig, ale nie wtedy, gdy nie posiadasz danego pokoju.  W takim wypadku @dig podaje ci numer obiektu nowego wyjscia, a ty musisz znalezc wlasciciela pokoju i poprosic go o uzycie polecenia @add-exit, by je polaczyc.
 36
 1
 4
 10
 2
-The topology of the MOO universe is determined by the rooms that exist and the exits that connect them.  Several commands are available for creating and discovering the topology of the MOO.  Help on them is available under the following topics:
+Topologia wszechswiata MOO jest okreslona przez istniejace pokoje i laczace je wyjscia.  Dostepnych jest kilka polecen do tworzenia i odkrywania topologii MOO.  Pomoc dla nich znajdziesz pod nastepujacymi tematami:
 2
 
 2
-@dig -- creating new rooms and exits
+@dig -- tworzenie nowych pokoi i wyjsc
 2
-@add-exit -- adding other players' exits from your rooms
+@add-exit -- dodawanie wyjsc innych graczy z twoich pokoi
 2
-@add-entrance -- adding other player's entrances to your rooms
+@add-entrance -- dodawanie wejsc innych graczy do twoich pokoi
 2
-@remove-exit -- removing exits from your room
+@remove-exit -- usuwanie wyjsc z twojego pokoju
 2
-@remove-entrance -- removing entrances from your room
+@remove-entrance -- usuwanie wejsc z twojego pokoju
 2
-@exits -- listing all of the conventional exits from your rooms
+@exits -- listowanie wszystkich konwencjonalnych wyjsc z twoich pokoi
 2
-@entrances -- listing all of the conventional entrances to your rooms
+@entrances -- listowanie wszystkich konwencjonalnych wejsc do twoich pokoi
 2
-@resident -- listing or changing the residents of your rooms
+@resident -- listowanie lub zmiana mieszkancow twoich pokoi
 36
 1
 4
 3
 2
-Syntax:  @entrances
+Skladnia:  @entrances
 2
 
 2
-Prints a list of all recognized entrances to the current room (but only if you own the room).  A recognized entrance is one whose use is not considered to be teleportation.
+Wypisuje liste wszystkich rozpoznawanych wejsc do obecnego pokoju (ale tylko jesli posiadasz ten pokoj).  Rozpoznawane wejscie to takie, ktorego uzycie nie jest traktowane jako teleportacja.
 36
 5
 4
 3
 2
-Syntax:  @exits
+Skladnia:  @exits
 2
 
 2
-Prints a list of all conventional exits from the current room (but only if you own the room).  A conventional exit is one that can be used simply by typing its name, like 'east'.
+Wypisuje liste wszystkich konwencjonalnych wyjsc z obecnego pokoju (ale tylko jesli posiadasz ten pokoj).  Konwencjonalne wyjscie to takie, z ktorego mozna skorzystac po prostu wpisujac jego nazwe, jak 'east'.
 36
 5
 4
@@ -37082,81 +37081,81 @@ Kontenery maja tez opacity (nieprzezroczystosc). Zobacz 'help @opacity', aby dow
 4
 1
 2
-Rooms may be made by builders, using the DIG verb. By default, all rooms are instances of _the_ room, $room, or #3, which you can examine to see how it works. If you require a room to have a more specific behaviour, you can make a subclass of room.
+Pokoje moga byc tworzone przez budowniczych za pomoca czasownika DIG.  Domyslnie wszystkie pokoje sa instancjami _tego_ pokoju, $room, czyli #3, ktory mozesz zbadac, by zobaczyc jak dziala.  Jesli potrzebujesz pokoju o bardziej specyficznym zachowaniu, mozesz stworzyc podklase pokoju.
 36
 1
 4
 3
 2
-Syntax:  @remove-entrance <entrance>
+Skladnia:  @remove-entrance <wejscie>
 2
 
 2
-Remove the specified entrance from the current entrances list of the room.  Entrance may be either the name or object number of an entrance to this room.
+Usuwa podane wejscie z biezacej listy wejsc pokoju.  Wejscie moze byc podane przez nazwe lub numer obiektu wejscia do tego pokoju.
 36
 5
 4
 3
 2
-Syntax:  @remove-exit <exit>
+Skladnia:  @remove-exit <wyjscie>
 2
 
 2
-Remove the specified exit from the current exits list of the room.  Exit may be either the name or object number of an exit from this room.
+Usuwa podane wyjscie z biezacej listy wyjsc pokoju.  Wyjscie moze byc podane przez nazwe lub numer obiektu wyjscia z tego pokoju.
 36
 5
 4
 6
 2
-Syntax:
+Skladnia:
 2
-  @unlock_for_open <container>
-2
-
-2
-Clears the lock which restricts who may open <container>.  See 'help locking' for general information about locking. 
+  @unlock_for_open <kontener>
 2
 
 2
-See 'help containers' for information on containers.
+Usuwa blokade ograniczajaca, kto moze otworzyc <kontener>.  Zobacz 'help locking' po ogolne informacje o blokowaniu. 
+2
+
+2
+Zobacz 'help containers' po informacje o kontenerach.
 36
 5
 4
 6
 2
-Syntax:
+Skladnia:
 2
-  @lock_for_open <container> with <key expression>
-2
-
-2
-Set the lock on <container> which restricts who can open it.  See 'help locking' for general information about locking and 'help keys' for the syntax and semantics of key expressions.
+  @lock_for_open <kontener> with <wyrazenie kluczowe>
 2
 
 2
-See 'help containers' for information on containers.
+Ustawia blokade na <kontener>, ograniczajaca kto moze go otworzyc.  Zobacz 'help locking' po ogolne informacje o blokowaniu i 'help keys' po skladnie i semantyke wyrazen kluczowych.
+2
+
+2
+Zobacz 'help containers' po informacje o kontenerach.
 36
 5
 4
 9
 2
-Syntax:
+Skladnia:
 2
-  @opacity <container> is <integer>
-2
-
-2
-The opacity can take on one of three values:
-2
-   0:  The container is transparent and you can always see into it.
-2
-   1:  The container is opaque, and you cannot see into it when closed
-2
-   2:  The container is a black hole, and you can never see into it whether closed or open.  
+  @opacity <kontener> is <liczba calkowita>
 2
 
 2
-The default @opacity is 1.
+Nieprzezroczystosc (opacity) moze przyjmowac jedna z trzech wartosci:
+2
+   0:  Kontener jest przezroczysty i zawsze widac jego zawartosc.
+2
+   1:  Kontener jest nieprzezroczysty i nie widac jego zawartosci, gdy jest zamkniety
+2
+   2:  Kontener jest czarna dziura i nigdy nie widac jego zawartosci, niezaleznie od tego, czy jest otwarty czy zamkniety.  
+2
+
+2
+Domyslna wartosc @opacity to 1.
 36
 5
 4
@@ -37164,101 +37163,101 @@ The default @opacity is 1.
 2
 *subst*
 2
-Several kinds of messages can be set on a container object; they are printed to various audiences at certain times whenever an attempt is made to use the container.  The ones whose names begin with 'o' are always shown prefixed with the name of the player making the attempt and a single space character.  The standard pronoun substitutions (with respect to the player) are made on each message before it is printed; see 'help pronouns' for details.
+Na obiekcie kontenera mozna ustawic kilka rodzajow komunikatow; sa one wypisywane roznym odbiorcom w okreslonych momentach probowania skorzystania z kontenera.  Te, ktorych nazwy zaczynaja sie od 'o', sa zawsze pokazywane z prefiksem imienia gracza probujacego i pojedynczym znakiem spacji.  Na kazdym komunikacie wykonywane sa standardowe podstawienia zaimkow (wzgledem gracza); zobacz 'help pronouns' po szczegoly.
 2
 
 2
-The default message is given in brackets after each name below:
+Domyslny komunikat podano w nawiasach po kazdej nazwie ponizej:
 2
 
 2
 @empty[%[$container.empty_msg]]
 2
-  Printed in place of the contents list when the container is empty.
+  Wyswietlane zamiast listy zawartosci, gdy kontener jest pusty.
 2
 
 2
 @open  [%[$container.open_msg]]
 2
-  Printed to the player who successfully opens the container.
+  Wyswietlane graczowi, ktoremu udalo sie otworzyc kontener.
 2
 
 2
 @oopen  [%[$container.oopen_msg]]
 2
-  Printed to others in the same room if the player successfully opens the container.
+  Wyswietlane pozostalym w tym samym pokoju, gdy graczowi uda sie otworzyc kontener.
 2
 
 2
 @open_fail  [%[$container.open_fail_msg]]
 2
-  Printed to the player who cannot open the container.
+  Wyswietlane graczowi, ktoremu nie udalo sie otworzyc kontenera.
 2
 
 2
 @oopen_fail  [%[$container.oopen_fail_msg]]
 2
-  Printed to others in the room when a player fails to open a container.
+  Wyswietlane pozostalym w pokoju, gdy graczowi nie uda sie otworzyc kontenera.
 2
 
 2
 @close  [%[$container.close_msg]]
 2
-  Printed to the player who closes a container.
+  Wyswietlane graczowi, ktory zamyka kontener.
 2
 
 2
 @oclose  [%[$container.oclose_msg]]
 2
-  Printed to others in the room when a player closes a container.
+  Wyswietlane pozostalym w pokoju, gdy gracz zamyka kontener.
 2
 
 2
 @put  [%[$container.put_msg]]
 2
-  Printed to a player when an object is successfully placed in a container.
+  Wyswietlane graczowi, gdy obiekt zostanie pomyslnie umieszczony w kontenerze.
 2
 
 2
 @oput  [%[$container.oput_msg]]
 2
-  Printed to others in the room when a player successfully places an object in a container.
+  Wyswietlane pozostalym w pokoju, gdy graczowi uda sie umiescic obiekt w kontenerze.
 2
 
 2
 @put_fail  [%[$container.put_fail_msg]]
 2
-  Printed when a player fails to put an object in a container.
+  Wyswietlane, gdy graczowi nie uda sie wlozyc obiektu do kontenera.
 2
 
 2
 @oput_fail  [%[$container.oput_fail_msg]]
 2
-  Printed to others in the room when a player fails to place an object in a container.
+  Wyswietlane pozostalym w pokoju, gdy graczowi nie uda sie umiescic obiektu w kontenerze.
 2
 
 2
 @remove  [%[$container.remove_msg]]
 2
-  Printed when a player succeeds in removing an object from a container.
+  Wyswietlane, gdy graczowi uda sie wyjac obiekt z kontenera.
 2
 
 2
 @oremove  [%[$container.oremove_msg]]
 2
-  Printed to others in the room when a player succeeds in removing an object from a container.
+  Wyswietlane pozostalym w pokoju, gdy graczowi uda sie wyjac obiekt z kontenera.
 2
 
 2
 @remove_fail  [%[$container.remove_fail_msg]]
 2
-  Printed when a player fails to remove an object from a container.
+  Wyswietlane, gdy graczowi nie uda sie wyjac obiektu z kontenera.
 2
 
 2
 @oremove_fail  [%[$container.oremove_fail_msg]]
 2
-  Printed to others in the room when a player fails to remove an object from a container.
+  Wyswietlane pozostalym w pokoju, gdy graczowi nie uda sie wyjac obiektu z kontenera.
 36
 5
 4
@@ -37266,77 +37265,77 @@ The default message is given in brackets after each name below:
 2
 *subst*
 2
-Several kinds of messages can be set on 'things', objects that have $thing as an ancestor (see 'help messages' for instructions on doing so).  They are printed to various audiences under various circumstances when an attempt is made to 'take' or 'drop' a thing.  The ones whose names begin with 'o' are always shown prefixed with the name of the player making the attempt and a single space character.  The standard pronoun substitutions (with respect to the player) are made on each message before it is printed; see 'help pronouns' for details.
+Na 'rzeczach' -- obiektach majacych $thing jako przodka -- mozna ustawic kilka rodzajow komunikatow (zobacz 'help messages' po instrukcje, jak to zrobic).  Sa one wypisywane roznym odbiorcom w roznych okolicznosciach podczas proby 'wziecia' lub 'upuszczenia' rzeczy.  Te, ktorych nazwy zaczynaja sie od 'o', sa zawsze pokazywane z prefiksem imienia gracza probujacego i pojedynczym znakiem spacji.  Na kazdym komunikacie wykonywane sa standardowe podstawienia zaimkow (wzgledem gracza); zobacz 'help pronouns' po szczegoly.
 2
 
 2
-The default message is given in brackets after each name below:
+Domyslny komunikat podano w nawiasach po kazdej nazwie ponizej:
 2
 
 2
 @take_failed  [%[$thing.take_failed_msg]]
 2
-  Printed to a player who fails to take the object.
+  Wyswietlane graczowi, ktoremu nie udalo sie wziac obiektu.
 2
 
 2
 @otake_failed [%[$thing.otake_failed_msg]]
 2
-  Printed to others in the same room if a player fails to take the object.
+  Wyswietlane pozostalym w tym samym pokoju, gdy graczowi nie uda sie wziac obiektu.
 2
 
 2
 @take_succeeded  [%[$thing.take_succeeded_msg]]
 2
-  Printed to a player who succeeds in taking the object.
+  Wyswietlane graczowi, ktoremu udalo sie wziac obiekt.
 2
 
 2
 @otake_succeeded  [%[$thing.otake_succeeded_msg]]
 2
-  Printed to others in the same room if a player succeeds in taking the object.
+  Wyswietlane pozostalym w tym samym pokoju, gdy graczowi uda sie wziac obiekt.
 2
 
 2
 @drop_failed  [%[$thing.drop_failed_msg]]
 2
-  Printed to a player who fails to drop the object.
+  Wyswietlane graczowi, ktoremu nie udalo sie upuscic obiektu.
 2
 
 2
 @odrop_failed [%[$thing.odrop_failed_msg]]
 2
-  Printed to others in the same room if a player fails to drop the object.
+  Wyswietlane pozostalym w tym samym pokoju, gdy graczowi nie uda sie upuscic obiektu.
 2
 
 2
 @drop_succeeded  [%[$thing.drop_succeeded_msg]]
 2
-  Printed to a player who succeeds in dropping the object.
+  Wyswietlane graczowi, ktoremu udalo sie upuscic obiekt.
 2
 
 2
 @odrop_succeeded  [%[$thing.odrop_succeeded_msg]]
 2
-  Printed to others in the room if a player succeeds in dropping the object.
+  Wyswietlane pozostalym w pokoju, gdy graczowi uda sie upuscic obiekt.
 36
 1
 4
 7
 2
-Syntax:  @quota
+Skladnia:  @quota
 2
 
 2
-Each player has a limit as to how many objects that player may create, called their 'quota'.  Every object they create lowers the quota by one and every object they recycle increases it by one.  If the quota goes to zero, then that player may not create any more objects (unless, of course, they recycle some first).
+Kazdy gracz ma limit tego, ile obiektow moze stworzyc, zwany jego 'quota'.  Kazdy stworzony obiekt obniza limit o jeden, a kazdy zrecyklingowany obiekt podnosi go o jeden.  Jesli limit spadnie do zera, gracz nie moze juz tworzyc kolejnych obiektow (chyba ze najpierw cos zrecykliguje).
 2
 
 2
-The @quota command prints out your current quota.
+Polecenie @quota wypisuje twoj biezacy limit.
 2
 
 2
-The quota mechanism is intended to solve a long-standing problem in many MUDs: database bloat.  The problem is that a large number of people build a large number of dull objects and areas that are subsequently never used or visited.  The database becomes quite large and difficult to manage without getting substantially more interesting.  With the quota system, we can make it possible for players to experiment and learn while simultaneously keeping random building to acceptable levels.
+Mechanizm limitu ma rozwiazac dlugotrwaly problem wystepujacy w wielu MUD-ach: rozdecie bazy danych.  Problem polega na tym, ze duza liczba ludzi buduje duza liczbe nudnych obiektow i miejsc, ktore pozniej nigdy nie sa uzywane ani odwiedzane.  Baza danych staje sie bardzo duza i trudna do zarzadzania, nie stajac sie przy tym istotnie ciekawsza.  Dzieki systemowi limitow mozemy pozwolic graczom eksperymentowac i uczyc sie, jednoczesnie utrzymujac przypadkowe budowanie na akceptowalnym poziomie.
 2
 1
 4
@@ -37348,83 +37347,83 @@ common_quota
 2
 
 2
-To get a larger quota, talk to a wizard.  They will take a look at what you've done with the objects you've built so far and make a determination about whether or not it would be a net gain for the MOO community if you were to build some more things.  If so, they will increase your quota; if not, they will try to explain some ways in which you could build things that were more useful, entertaining, or otherwise interesting to other players.  Wizards may be more impressed by objects which are interactive and employ a fair number of verbs.
+By dostac wiekszy limit, porozmawiaj z wizardem.  Przyjrzy sie temu, co zrobiles z obiektami, ktore juz zbudowales, i oceni, czy dalsze budowanie przyniosloby korzysc spolecznosci MOO.  Jesli tak, podniesie twoj limit; jesli nie, postara sie wyjasnic, jak mozesz budowac rzeczy bardziej przydatne, zabawne lub w inny sposob interesujace dla innych graczy.  Wizardow moga bardziej przekonac obiekty interaktywne, wykorzystujace sporo czasownikow.
 36
 5
 4
 18
 2
-Syntax:
+Skladnia:
 2
-  @measure object <object name>
+  @measure object <nazwa obiektu>
 2
-  @measure summary [player]
+  @measure summary [gracz]
 2
-  @measure new [player]
+  @measure new [gracz]
 2
-  @measure breakdown <object name>
+  @measure breakdown <nazwa obiektu>
 2
-  @measure recent [number of days] [player]
-2
-
-2
-When the MOO is under byte-quota, objects in the MOO are measured approximately once a week, and the usage tally as reported by @quota is updated.  You may wish to measure an object specially, however, without waiting for the automatic measurement to take place, or if the MOO is under object-quota.  @measure has some subcommands to handle this.
+  @measure recent [liczba dni] [gracz]
 2
 
 2
-@measure object will measure an individual object right now, update the usage of that object in your usage as reported by @quota, and update the date of that object's measurement.
+Gdy MOO dziala na limicie bajtowym (byte-quota), obiekty w MOO sa mierzone mniej wiecej raz w tygodniu, a wynik zuzycia raportowany przez @quota jest aktualizowany.  Mozesz jednak zechciec zmierzyc obiekt specjalnie, bez czekania na automatyczny pomiar, albo gdy MOO dziala na limicie obiektow.  @measure ma kilka podpolecen do tego celu.
 2
 
 2
-@measure summary will go through your or another player's objects and produce the summary information that is printed by @quota.  Normally this will be just the same as @quota prints out, but occasionally the addition/subtraction done to keep @quota in sync will get out of date, and @measure summary will be needed.
+@measure object zmierzy pojedynczy obiekt od razu, zaktualizuje jego zuzycie w twoim raporcie @quota oraz date jego ostatniego pomiaru.
 2
 
 2
-@measure new will go through all your or another player's objects, measuring exactly those which have never been measured before (that is, are too newly @created to have any measurement data).  This is necessary as any player is only permitted to own 10 unmeasured objects, or object creation will not be permitted.
+@measure summary przejdzie przez twoje lub cudze obiekty i wygeneruje podsumowanie takie, jakie wypisuje @quota.  Normalnie bedzie to to samo, co wypisuje @quota, ale czasem dodawanie/odejmowanie utrzymujace @quota w synchronizacji moze sie zdezaktualizowac i wtedy potrzebne bedzie @measure summary.
 2
 
 2
-@measure breakdown will give you full information on where an object's size is coming from.  It will offer to moomail you the result.  Caution: don't forget to delete this message, as it is large and takes up a lot of space!
+@measure new przejdzie przez wszystkie twoje lub cudze obiekty, mierzac dokladnie te, ktore nigdy wczesniej nie byly mierzone (czyli sa zbyt swiezo @created, by miec jakiekolwiek dane pomiarowe).  Jest to konieczne, bo kazdy gracz moze posiadac maksymalnie 10 niezmierzonych obiektow -- w przeciwnym razie tworzenie obiektow zostanie zablokowane.
 2
 
 2
-@measure recent will let you re-measure objects of yours or another player's which have not been measured in the specified number of days (the default is the ordinary cycle of the measurement task).
+@measure breakdown poda pelne informacje o tym, skad bierze sie rozmiar obiektu.  Zaproponuje wyslanie wyniku moomailem.  Uwaga: nie zapomnij usunac tej wiadomosci, bo jest duza i zajmuje sporo miejsca!
+2
+
+2
+@measure recent pozwoli ci ponownie zmierzyc twoje lub cudze obiekty, ktore nie byly mierzone przez podana liczbe dni (domyslnie zwykly cykl zadania pomiarowego).
 36
 5
 4
 7
 2
-Usage:  @build-option [+|-|!]audit_bytes
+Uzycie:  @build-option [+|-|!]audit_bytes
 2
-Lets you see the actual bytes of small objects in @audit and @prospectus.  Ignored if `audit_float' is turned on.
-2
-
-2
-  -audit_bytes     @audit/@prospectus shows `<1K'
-2
-  +audit_bytes     @audit/@prospectus shows bytes.
+Pozwala zobaczyc dokladna liczbe bajtow malych obiektow w @audit i @prospectus.  Ignorowane, jesli `audit_float' jest wlaczone.
 2
 
 2
-Default: -audit_bytes
+  -audit_bytes     @audit/@prospectus pokazuje `<1K'
+2
+  +audit_bytes     @audit/@prospectus pokazuje bajty.
+2
+
+2
+Domyslnie: -audit_bytes
 2
 1
 4
 7
 2
-Usage: @build-option [+|-|!]audit_float
+Uzycie: @build-option [+|-|!]audit_float
 2
-Lets you see object sizes in @audit and @prospectus as floating point numbers to one decimal place.
-2
-
-2
-  -audit_float     @audit/@prospectus shows integer sizes (1K)
-2
-  +audit_float     @audit/@prospectus shows floating-point sizes (1.2K)
+Pozwala zobaczyc rozmiary obiektow w @audit i @prospectus jako liczby zmiennoprzecinkowe z jednym miejscem po przecinku.
 2
 
 2
-Default: -audit_float
+  -audit_float     @audit/@prospectus pokazuje rozmiary calkowite (1K)
+2
+  +audit_float     @audit/@prospectus pokazuje rozmiary zmiennoprzecinkowe (1.2K)
+2
+
+2
+Domyslnie: -audit_float
 2
 1
 5
@@ -43772,83 +43771,83 @@ refusal-programming
 2
 *index*
 2
-Frand's Player Class Help Topics
+Tematy pomocy klasy gracza Frand
 36
 5
 4
 14
 2
-The MOO has a built in spelling checker.  There are several player commands which access the database, as well as some programming features available.  Additional documentation is available under individual commands.
+MOO ma wbudowany sprawdzacz pisowni.  Dostepnych jest kilka polecen gracza korzystajacych z tej bazy, a takze pewne funkcje programistyczne.  Dodatkowa dokumentacje znajdziesz pod poszczegolnymi poleceniami.
 2
 
 2
-The spelling checker is backed by the Aspell interface.  Additionally, players have a personal dictionary that can be used to augment the main dictionary.
+Sprawdzacz pisowni dziala w oparciu o interfejs Aspell.  Dodatkowo kazdy gracz ma osobisty slownik, ktory moze uzupelniac slownik glowny.
 2
 
 2
-@spell a word or phrase - Spell check a word or phrase.
+@spell slowo lub fraza - sprawdza pisownie slowa lub frazy.
 2
-@spell thing.prop - Spell check a property. The value must be a string or a list of strings.
+@spell obiekt.wlasciwosc - sprawdza pisownie wlasciwosci. Wartosc musi byc stringiem lub lista stringow.
 2
-@spell thing:verb - Spell check a verb. Only the quoted strings in the verb are checked.
+@spell obiekt:czasownik - sprawdza pisownie czasownika. Sprawdzane sa tylko stringi w cudzyslowach wewnatrz czasownika.
 2
-@spellproperties object - Spell check all text properties of an object.
+@spellproperties obiekt - sprawdza pisownie wszystkich wlasciwosci tekstowych obiektu.
 2
-@spellmessages object - Spell check only message properties of an object.
+@spellmessages obiekt - sprawdza pisownie tylko wlasciwosci-komunikatow obiektu.
 2
-@cspell word - Spell check a word, and if it is not in the dictionary, offers suggestions about what the right spelling might be. This actually works with thing.prop and thing:verb too, but it is too slow to be useful--it takes maybe 30 seconds per unknown word.
+@cspell slowo - sprawdza pisownie slowa, a jesli nie ma go w slowniku, proponuje sugestie poprawnej pisowni. Dziala tez z obiekt.wlasciwosc i obiekt:czasownik, ale jest zbyt wolne, by bylo to praktyczne -- zajmuje okolo 30 sekund na kazde nieznane slowo.
 2
-@addword word - Add a word to your personal dictionary.
+@addword slowo - dodaje slowo do twojego osobistego slownika.
 2
-@rmword word - Remove a word from your personal dictionary.
+@rmword slowo - usuwa slowo z twojego osobistego slownika.
 2
 
 2
-Questions and comments should be directed to waffle on LambdaMOO.
+Pytania i uwagi kieruj do waffle na LambdaMOO.
 36
 5
 4
 11
 2
-Syntax: @spell <any number of words>
+Skladnia: @spell <dowolna liczba slow>
 2
-           - will check the words from the command line.
+           - sprawdzi slowa z linii polecenia.
 2
-        @spell object.property
+        @spell obiekt.wlasciwosc
 2
-           - will spellcheck the contents of a prop. Must be a string or
+           - sprawdzi zawartosc wlasciwosci. Musi byc stringiem lub
 2
-             list of strings.
+             lista stringow.
 2
-        @spell object:verb
+        @spell obiekt:czasownik
 2
-           - will check everything within quoted strings in a verb. E.g.,
+           - sprawdzi wszystko wewnatrz cudzyslowow w czasowniku. Np.
 2
-             only the quoted part of player:tell("Spellchecking is fun.");
+             tylko czesc w cudzyslowie z player:tell("Spellchecking is fun.");
 2
-             will be examined for errors.
+             zostanie sprawdzona pod katem bledow.
 2
 
 2
-Refer to Help Spelling for general information about the spell checker.
+Zobacz Help Spelling po ogolne informacje o sprawdzaniu pisowni.
 36
 5
 4
 7
 2
-Syntax: @cspell <any number of words>
+Skladnia: @cspell <dowolna liczba slow>
 2
-        @cspell object.property
+        @cspell obiekt.wlasciwosc
 2
-        @cspell object:verb
-2
-
-2
-Like @spell, but attempts to guess at correct spellings for words it believes are spelled incorrectly.   This verb can be quite slow, so correcting large chunks of text may not be a good idea.
+        @cspell obiekt:czasownik
 2
 
 2
-Refer to help spelling and help @spell for more information.
+Podobnie jak @spell, ale probuje odgadnac poprawna pisownie slow, ktore uznaje za bledne.   Ten czasownik moze byc dosc wolny, wiec poprawianie duzych fragmentow tekstu moze nie byc dobrym pomyslem.
+2
+
+2
+Zobacz help spelling i help @spell po wiecej informacji.
 36
 5
 4
@@ -43862,77 +43861,77 @@ Refer to help spelling and help @spell for more information.
 4
 5
 2
-Syntax: @spellproperties <object>
+Skladnia: @spellproperties <obiekt>
 2
-        @spellmessages <object>
+        @spellmessages <obiekt>
 2
-These commands will spellcheck all properties or messages, respectively, on an object.  The object must be owned or readable by the user.  Messages and properties will be spellchecked if they contain a string or a list of strings; others will be ignored.
+Te polecenia sprawdzaja pisownie odpowiednio wszystkich wlasciwosci lub komunikatow na obiekcie.  Obiekt musi byc wlasnoscia uzytkownika lub przez niego czytelny.  Komunikaty i wlasciwosci sa sprawdzane, jesli zawieraja string lub liste stringow; pozostale sa pomijane.
 2
 
 2
-Refer to help spelling for general information about the spellchecker.
+Zobacz help spelling po ogolne informacje o sprawdzaniu pisowni.
 36
 5
 4
 3
 2
-Usage: @rmword <word or words>
+Uzycie: @rmword <slowo lub slowa>
 2
 
 2
-Will remove all words found from your personal dictionary, stored in player property ".dict".
+Usunie wszystkie znalezione slowa z twojego osobistego slownika, przechowywanego we wlasciwosci gracza ".dict".
 36
 5
 4
 6
 2
-Syntax: @addword <word or words>
+Skladnia: @addword <slowo lub slowa>
 2
-        @addword object.property
+        @addword obiekt.wlasciwosc
 2
-        @addword object:verb
+        @addword obiekt:czasownik
 2
 
 2
-Will add all words found and unknown into your personal dictionary.
+Doda wszystkie znalezione nieznane slowa do twojego osobistego slownika.
 2
-Your dictionary is stored in a property named ".dict".
+Twoj slownik jest przechowywany we wlasciwosci o nazwie ".dict".
 36
 5
 4
 7
 2
-  @find #<object>   - locate an object by number
+  @find #<obiekt>   - znajdz obiekt po numerze
 2
-  @find <player>    - locate a player
+  @find <gracz>    - znajdz gracza
 2
-  @find :<verb>     - locate a verb on an object in your vicinity
+  @find :<czasownik>     - znajdz czasownik na obiekcie w twoim otoczeniu
 2
-  @find .<property> - locate a property on objects in your vicinity.
+  @find .<wlasciwosc> - znajdz wlasciwosc na obiektach w twoim otoczeniu.
 2
-  @find ?<topic>    - locate a help topic on a help database.
+  @find ?<temat>    - znajdz temat pomocy w bazie pomocy.
 2
 
 2
-For example, '@find frand' shows Frand's number and location. '@find :jump' lists every object in the same room as you (including you and the room itself) which has a 'jump' verb.  For properties and verbs, output is a list of pairs of objects: each object on which the property or verb exists, and the ancestor that actually defines it.
+Na przyklad '@find frand' pokazuje numer i lokalizacje Franda. '@find :jump' wypisuje kazdy obiekt w tym samym pokoju co ty (wlacznie z toba i samym pokojem), ktory ma czasownik 'jump'.  Dla wlasciwosci i czasownikow wynik to lista par obiektow: kazdy obiekt, na ktorym wystepuje wlasciwosc lub czasownik, oraz przodek, ktory faktycznie go definiuje.
 36
 5
 4
 7
 2
-When you aren't in the same room with an object, you have to refer to it by number. When teleporting, that means you usually have to give your destination as a number. To avoid this, Frand's player class provides a way for you to store a database of rooms by name. If the library is in your list of rooms, you can just '@go library' to teleport there. Or '@move book to lib' to teleport an object there.
+Gdy nie jestes w tym samym pokoju co obiekt, musisz odwolac sie do niego po numerze. Przy teleportacji oznacza to zwykle, ze musisz podac cel jako numer. By tego uniknac, klasa gracza Franda daje sposob na przechowywanie bazy pokoi po nazwie. Jesli biblioteka jest na twojej liscie pokoi, mozesz po prostu wpisac '@go library', by sie tam przeteleportowac. Albo '@move book to lib', by przeteleportowac tam obiekt.
 2
 
 2
-  @rooms                     - see a list of the rooms you know by name
+  @rooms                     - pokazuje liste pokoi, ktore znasz po nazwie
 2
-  @addr*oom <name> <number>  - remember a room by name
+  @addr*oom <nazwa> <numer>  - zapamietaj pokoj pod nazwa
 2
-  @rmr*oom  <name>           - forget about a room's name
+  @rmr*oom  <nazwa>           - zapomnij nazwe pokoju
 2
 
 2
-For example, to add the kitchen to your database of rooms, type '@addr Kitchen #24'. To remove it, type '@rmr kitchen'.
+Na przyklad, by dodac kuchnie do twojej bazy pokoi, wpisz '@addr Kitchen #24'. By ja usunac, wpisz '@rmr kitchen'.
 36
 5
 4
@@ -43970,61 +43969,61 @@ For example, to add the kitchen to your database of rooms, type '@addr Kitchen #
 4
 10
 2
-  @move <obj> to <location>  - teleport an object to a given location
+  @move <obiekt> to <lokalizacja>  - teleportuje obiekt do podanej lokalizacji
 2
-  @go <location>             - teleport yourself to a given location
+  @go <lokalizacja>             - teleportuje ciebie do podanej lokalizacji
 2
-  @join <player>             - teleport yourself to a player's location
-2
-
-2
-You can teleport an object (if it allows this) to any location that will accept it. For example, `@move rock to #11' will teleport the rock to the closet. `@move #123 to here' will move object #123 to your location. `@go home' will teleport you home. `@join yduj' will teleport you to yduJ's location. You can also teleport an object to #-1, which is nowhere.
+  @join <gracz>             - teleportuje ciebie do lokalizacji gracza
 2
 
 2
-See help teleport-messages for information on customizing the text that appears
+Mozesz przeteleportowac obiekt (jesli na to pozwala) do dowolnej lokalizacji, ktora go przyjmie. Na przyklad `@move rock to #11' przeteleportuje kamien do szafy. `@move #123 to here' przeniesie obiekt #123 do twojej lokalizacji. `@go home' przeteleportuje ciebie do domu. `@join yduj' przeteleportuje ciebie do lokalizacji yduJ. Mozesz tez przeteleportowac obiekt do #-1, czyli nigdzie.
 2
-(both to you and to others in the vicinity) when you teleport.
+
 2
-See also help @rooms for information on naming rooms for convenient movement.
+Zobacz help teleport-messages po informacje o dostosowywaniu tekstu, ktory pojawia sie
 2
-If @move doesn't work and you own the place where the object is located, try using @eject instead.
+(zarowno tobie, jak i innym w poblizu) podczas teleportacji.
+2
+Zobacz tez help @rooms po informacje o nazywaniu pokoi dla wygodnego poruszania sie.
+2
+Jesli @move nie dziala, a posiadasz miejsce, w ktorym znajduje sie obiekt, sprobuj zamiast tego uzyc @eject.
 36
 5
 4
 16
 2
-Teleporting using @go, @move, or @join causes various messages to appear. The messages are defined on you as properties. Here are the messages, who sees them, and when.
+Teleportacja za pomoca @go, @move lub @join powoduje pojawienie sie roznych komunikatow. Komunikaty sa zdefiniowane na tobie jako wlasciwosci. Oto komunikaty, kto je widzi i kiedy.
 2
 
 2
- when you teleport -  yourself      a player        a thing
+ gdy teleportujesz -  siebie      gracza        rzecz
 2
 
 2
-           you see -  self_port     player_port     thing_port
+             ty widzisz -  self_port     player_port     thing_port
 2
-        others see -  oself_port    oplayer_port    othing_port
+          inni widza -  oself_port    oplayer_port    othing_port
 2
-  destination sees -  self_arrive   player_arrive   thing_arrive
+  cel widzi -  self_arrive   player_arrive   thing_arrive
 2
-   teleportee sees -                victim_port     object_port
-2
-
-2
-When you @join a player, your join message is printed to you.
+   teleportowany widzi -                victim_port     object_port
 2
 
 2
-You can set the messages with commands like '@oself_port me is "vanishes in a shimmering haze."', '@join me is "You visit %n."', and so on.
+Gdy uzyjesz @join na graczu, twoj komunikat join jest wyswietlany tobie.
 2
 
 2
-The messages to you are printed as they stand. The messages to others are printed after your name. If you set a message to "", the null string, nothing will print for that message. But if you have a non-empty message which does not include your name, then your name will be added in front of the message. You can use the usual pronoun substitutions, like '%n' to refer to the object you are teleporting. You can also use the special substitutions %<from room> and %<to room> to refer to the original and destination rooms for the teleport.
+Mozesz ustawic komunikaty poleceniami takimi jak '@oself_port me is "vanishes in a shimmering haze."', '@join me is "You visit %n."' i tak dalej.
 2
 
 2
-If you are leaving your name out of the messages, and relying on its being inserted automatically, you have to be careful about the substitutions you use. If Frand has an oself_port message "jumps to %<to room>.", for example, and Frand teleports to Frand's MOOhome, the message printed will be "jumps to Frand's MOOhome." My name is there, so it isn't added in. If you want to include your name as a substitution, the one to use is %t, 'this'. "%t jumps to %<to room>." will work.
+Komunikaty do ciebie sa wyswietlane dokladnie tak, jak sa zapisane. Komunikaty do innych sa wyswietlane po twoim imieniu. Jesli ustawisz komunikat na "", pusty string, nic nie zostanie wyswietlone dla tego komunikatu. Ale jesli masz niepusty komunikat, ktory nie zawiera twojego imienia, twoje imie zostanie dodane przed komunikatem. Mozesz uzywac zwyklych podstawien zaimkow, jak '%n' by odwolac sie do teleportowanego obiektu. Mozesz tez uzywac specjalnych podstawien %<from room> i %<to room>, by odwolac sie odpowiednio do pokoju zrodlowego i docelowego teleportacji.
+2
+
+2
+Jesli pomijasz swoje imie w komunikatach, polegajac na jego automatycznym wstawieniu, musisz uwazac na uzywane podstawienia. Jesli Frand ma komunikat oself_port "jumps to %<to room>.", na przyklad, i Frand teleportuje sie do MOOhome Franda, wyswietlony komunikat brzmi "jumps to Frand's MOOhome." Moje imie tam jest, wiec nie zostaje dodane. Jesli chcesz wlaczyc swoje imie jako podstawienie, uzyj %t, czyli 'this'. "%t jumps to %<to room>." zadziala.
 36
 5
 4
@@ -44032,155 +44031,155 @@ If you are leaving your name out of the messages, and relying on its being inser
 2
 
 2
-The refusal facility allows you to ignore specific actions by players. You can ignore all mail that Stupid_Jerk (#34567) sends you, for
+Mechanizm odmowy (refusal) pozwala ignorowac okreslone dzialania graczy. Mozesz zignorowac cala poczte, jaka wysyla ci Stupid_Jerk (#34567), na
 2
-example, or you can ignore all whispers and pages, no matter who they are from.
-2
-
-2
-There are three basic refusal commands. They are explained below.
+przyklad, albo zignorowac wszystkie szepty i pagery, niezaleznie od tego, od kogo pochodza.
 2
 
 2
-    @refuse <action> from <player>
+Sa trzy podstawowe polecenia odmowy. Sa wyjasnione ponizej.
 2
-    @unrefuse <action> from <player>
+
+2
+    @refuse <akcja> from <gracz>
+2
+    @unrefuse <akcja> from <gracz>
 2
     @refusals
 2
 
 2
-The actions you can refuse are page, whisper, mail, move, join, and accept. These are explained in a table farther down.
+Akcje, ktorym mozna odmowic, to page, whisper, mail, move, join i accept. Sa wyjasnione w tabeli ponizej.
 2
 
 2
-For example, '@refuse mail from Stupid_Jerk'. Any future mail that Stupid_Jerk sends you will be dropped on the floor, and Stupid_Jerk will
+Na przyklad '@refuse mail from Stupid_Jerk'. Kazda przyszla poczta, jaka wysle ci Stupid_Jerk, zostanie odrzucona, a Stupid_Jerk
 2
-be told that you refused to receive it. The refusal stays active for a week; after the week is over, Stupid_Jerk's mail will again get
+otrzyma informacje, ze odmowiles jej przyjecia. Odmowa jest aktywna przez tydzien; po tygodniu poczta Stupid_Jerka znow bedzie
 2
-through. (If you want the refusal to last a longer or shorter time, keep on reading.)
-2
-
-2
-You can refuse more than one action at a time. '@refuse page whisper from Stupid_Jerk' refuses both pages and whispers.
+docierac. (Jesli chcesz, by odmowa trwala dluzej lub krocej, czytaj dalej.)
 2
 
 2
-You can also refuse actions from everybody.
+Mozesz odmowic wiecej niz jednej akcji naraz. '@refuse page whisper from Stupid_Jerk' odmawia zarowno pagerow, jak i szeptow.
 2
 
 2
-    @refuse <actions>
+Mozesz tez odmowic akcji wszystkim.
 2
 
 2
-For example, '@refuse page' refuses every page. These refusals are listed as refusals of 'everybody' when you use the @refusals command,
-2
-below.
+    @refuse <akcje>
 2
 
 2
-See `help @unrefuse' and `help @refusal-reporting' for information on undoing refusals and finding out what you're refusing.
+Na przyklad '@refuse page' odmawia kazdego pagera. Takie odmowy sa wymienione jako odmowy dla 'everybody' przy uzyciu polecenia @refusals,
+2
+opisanego ponizej.
 2
 
 2
- - the actions
+Zobacz `help @unrefuse' i `help @refusal-reporting' po informacje o cofaniu odmow i sprawdzaniu, czego odmawiasz.
 2
 
 2
-The actions everybody can refuse are page, whisper, mail, move, and join.
-2
-refuse other things as well, depending on your player class.
+ - akcje
 2
 
 2
- refuse this      to prevent somebody from doing this
+Akcje, ktorych kazdy moze odmowic, to page, whisper, mail, move i join.
+2
+Mozna odmowic tez innych akcji, zaleznie od klasy gracza.
+2
+
+2
+ odmawiajac tego      zapobiegasz temu, by ktos
 2
  -----------      -----------------------------------
 2
-    page        - tell you a message with the 'page' command
+    page        - powiedzial ci wiadomosc poleceniem 'page'
 2
-    whisper     - tell you a message with the 'whisper' or 'murmur' command
+    whisper     - powiedzial ci wiadomosc poleceniem 'whisper' lub 'murmur'
 2
-    mail        - send you a MOOmail message via @send
+    mail        - wyslal ci wiadomosc MOOmail przez @send
 2
-    move        - teleport you
+    move        - przeteleportowal cie
 2
-    join        - enter the same room as you (only works in a some rooms)
+    join        - wszedl do tego samego pokoju co ty (dziala tylko w niektorych pokojach)
 2
-    accept      - hand you an object (or teleport it to you)
+    accept      - podal ci obiekt (lub przeteleportowal go do ciebie)
 2
-    flames      - posts are suppressed on mail lists
+    flames      - posty sa tlumione na listach mailingowych
 2
-    politics    - set yourself `apolitical' [see `help apolitical']
+    politics    - ustaw siebie jako `apolitical' [zobacz `help apolitical']
 2
-    all         - all of the above
-2
-
-2
-Refusing move is a little tricky. The player will not be able to teleport you, but you will not be able to pass through any special exits
-2
-that the player may have programmed either. Refusing move means refusing *all* movement, including movement through programmed exits.
-2
-Fortunately most exits are plain exits, and you will always be able to pass through them. Only specially programmed exits by the player you
-2
-are refusing move from are barred to you.
+    all         - wszystko powyzsze
 2
 
 2
-Refusing join only works in special rooms that support it.
+Odmowa move jest troche trudna. Gracz nie bedzie mogl cie przeteleportowac, ale ty tez nie bedziesz mogl przejsc przez zadne specjalne wyjscia,
+2
+ktore ten gracz mogl zaprogramowac. Odmowa move oznacza odmowe *calego* ruchu, wlacznie z ruchem przez zaprogramowane wyjscia.
+2
+Na szczescie wiekszosc wyjsc to zwykle wyjscia i zawsze bedziesz mogl przez nie przejsc. Tylko specjalnie zaprogramowane wyjscia gracza, ktoremu
+2
+odmawiasz move, sa dla ciebie zamkniete.
 2
 
 2
- - time limits
+Odmowa join dziala tylko w specjalnych pokojach, ktore to wspieraja.
 2
 
 2
-Refusals expire after a certain amount of time has gone by. Unless you say otherwise, they expire after a week. You can add '... for
-2
-<time>' to the end of a @refuse command:
+ - limity czasu
 2
 
 2
-    @refuse <action> from <player> for <time>
+Odmowy wygasaja po uplywie pewnego czasu. Jesli nie powiesz inaczej, wygasaja po tygodniu. Mozesz dodac '... for
 2
-    @refuse <action> for <time>
-2
-
-2
-For example, '@refuse join from Stupid_Jerk for 3 days'.
+<czas>' na koncu polecenia @refuse:
 2
 
 2
-The <time> is always a number followed by a unit, like '10 weeks' or '45 seconds'. The possible units are second, minute, hour, day, week,
+    @refuse <akcja> from <gracz> for <czas>
 2
-and month.
+    @refuse <akcja> for <czas>
+2
+
+2
+Na przyklad '@refuse join from Stupid_Jerk for 3 days'.
+2
+
+2
+<czas> to zawsze liczba, po ktorej nastepuje jednostka, jak '10 weeks' lub '45 seconds'. Mozliwe jednostki to second, minute, hour, day, week
+2
+i month.
 36
 5
 4
 15
 2
-Syntax:
+Skladnia:
 2
-    @unrefuse <actions> from <player>
-2
-
-2
-If Stupid_Jerk reforms, you can change your mind. '@unrefuse mail from Stupid_Jerk' will remove the refusal.
+    @unrefuse <akcje> from <gracz>
 2
 
 2
-'@unrefuse' can also be called '@allow', for those who prefer English over clarity.
+Jesli Stupid_Jerk sie poprawi, mozesz zmienic zdanie. '@unrefuse mail from Stupid_Jerk' usunie odmowe.
 2
 
 2
-    @unrefuse <actions>
+'@unrefuse' mozna tez nazwac '@allow', dla tych, ktorzy wola angielski od jasnosci.
 2
 
 2
-If you don't mention a player, you remove only refusals that apply to everybody. '@unrefuse page' turns off any '@refuse page' command you
+    @unrefuse <akcje>
 2
-gave before, but does not affect refusals of specific players. You will still be refusing pages from Stupid_Jerk, if you were before.
+
+2
+Jesli nie podasz gracza, usuwasz tylko odmowy dotyczace wszystkich. '@unrefuse page' wylacza kazde wczesniejsze polecenie '@refuse page',
+2
+ale nie wplywa na odmowy wobec konkretnych graczy. Nadal bedziesz odmawial pagerow od Stupid_Jerka, jesli robiles to wczesniej.
 2
 
 2
@@ -44188,31 +44187,31 @@ gave before, but does not affect refusals of specific players. You will still be
 2
 
 2
- If you '@unrefuse everything', all your refusals are removed. This command asks if you are sure before erasing them all.
+ Jesli wykonasz '@unrefuse everything', wszystkie twoje odmowy zostana usuniete. To polecenie zapyta, czy jestes pewien, zanim je wszystkie skasuje.
 36
 5
 4
 26
 2
-[See help @refuse for a discussion of the refusal facility]
+[Zobacz help @refuse po omowienie mechanizmu odmowy]
 2
 
 2
     @refusals
 2
-    @refusals for <player>
+    @refusals for <gracz>
 2
 
 2
-List the players and actions you are refusing, or the players and actions that another player is refusing. For example, you can see if
+Wypisuje graczy i akcje, ktorym odmawiasz, albo graczy i akcje, ktorym odmawia inny gracz. Na przyklad mozesz sprawdzic, czy
 2
-Stupid_Jerk is refusing your mail too: '@refusals for Stupid_Jerk'.
+Stupid_Jerk odmawia tez twojej poczty: '@refusals for Stupid_Jerk'.
 2
 
 2
-Normally refusal works without your awareness. You don't even notice when Stupid_Jerk attempts to send you mail. If you would rather be
+Normalnie odmowa dziala bez twojej wiedzy. Nawet nie zauwazasz, gdy Stupid_Jerk probuje wyslac ci poczte. Jesli wolisz byc
 2
-notified when it happens (so you can thumb your nose), then do
+powiadamiany, gdy to sie dzieje (zebys mogl pokazac mu jezyk), wykonaj
 2
 
 2
@@ -44220,31 +44219,31 @@ notified when it happens (so you can thumb your nose), then do
 2
 
 2
-Actually, all you need to type is '@refusal-r on'. You will see a message like 'Mail from Stupid_Jerk (#34567) refused.' as soon as
+Wlasciwie wystarczy wpisac '@refusal-r on'. Zobaczysz komunikat podobny do 'Mail from Stupid_Jerk (#34567) refused.' zaraz po tym, jak
 2
-Stupid_Jerk types 'send' in the mail editor.
-2
-
-2
-Refusal reporting only works for some actions. It works for page, whisper, and mail, but not for move, join or accept. Sorry.
+Stupid_Jerk wpisze 'send' w edytorze poczty.
 2
 
 2
-You will only be notified if you are connected when the refusal happens. If you are not connected when Stupid_Jerk tries to send you mail,
-2
-you won't know about it, no matter whether refusal reporting is on or off.
+Raportowanie odmow dziala tylko dla niektorych akcji. Dziala dla page, whisper i mail, ale nie dla move, join ani accept. Przykro nam.
 2
 
 2
-You can turn off refusal reporting with '@refusal-r off'. You can check whether it is on or off with '@refusal-r'. Here's the list:
+Zostaniesz powiadomiony tylko, jesli jestes polaczony w momencie odmowy. Jesli nie jestes polaczony, gdy Stupid_Jerk probuje wyslac ci poczte,
+2
+nie dowiesz sie o tym, niezaleznie od tego, czy raportowanie odmow jest wlaczone czy wylaczone.
 2
 
 2
-    @refusal-reporting on     - turn on refusal reporting
+Mozesz wylaczyc raportowanie odmow poleceniem '@refusal-r off'. Mozesz sprawdzic, czy jest wlaczone czy wylaczone poleceniem '@refusal-r'. Oto lista:
 2
-    @refusal-reporting off    - turn off refusal reporting
+
 2
-    @refusal-reporting        - see whether it is on or off
+    @refusal-reporting on     - wlacza raportowanie odmow
+2
+    @refusal-reporting off    - wylacza raportowanie odmow
+2
+    @refusal-reporting        - sprawdza, czy jest wlaczone czy wylaczone
 36
 5
 4
@@ -44260,31 +44259,31 @@ You can turn off refusal reporting with '@refusal-r off'. You can check whether 
 2
 
 2
-  -- -- --  refusal programming
+  -- -- --  programowanie mechanizmu odmowy
 2
 
 2
-This entry explains how to program new kinds of refusal for the refusal mechanism. This information is only useful for programmers. For basic information about the refusal mechanism, read the 'refusal' entry.
+Ten wpis wyjasnia, jak zaprogramowac nowe rodzaje odmowy dla mechanizmu odmowy. Ta informacja jest przydatna tylko dla programistow. Po podstawowe informacje o mechanizmie odmowy przeczytaj wpis 'refusal'.
 2
 
 2
- - making a new refusable action
+ - tworzenie nowej akcji podlegajacej odmowie
 2
 
 2
-Making a refusable action has several steps. You have to (1) override the verb that lists your refusable actions, (2) write a verb to handle any special cases in determining when an action should be refused, and (3) write the code that does the actual acceptance or refusal of the action.
+Stworzenie akcji podlegajacej odmowie wymaga kilku krokow. Musisz (1) nadpisac czasownik, ktory wypisuje twoje akcje podlegajace odmowie, (2) napisac czasownik obslugujacy szczegolne przypadki decydujace, kiedy akcja powinna byc odrzucona, oraz (3) napisac kod, ktory faktycznie akceptuje lub odrzuca akcje.
 2
 
 2
-You can put new refusable actions on yourself, or on a player class. If you put them on yourself, then you are the only one who can use them. If you put them on a player class, then everyone who belongs to that class can use them.
+Nowe akcje podlegajace odmowie mozesz umiescic na sobie lub na klasie gracza. Jesli umiescisz je na sobie, tylko ty bedziesz mogl ich uzywac. Jesli umiescisz je na klasie gracza, kazdy nalezacy do tej klasy bedzie mogl ich uzywac.
 2
 
 2
-I'll walk you through the example of making a refusable action 'smirk'. If you '@refuse smirk from Munchkin' then anything Munchkin tells you with the word 'smirk' in it will be refused. Since this is useless, I'll assume that you're defining it on yourself, instead of on a player class.
+Przeprowadze cie przez przyklad stworzenia akcji podlegajacej odmowie 'smirk'. Jesli wykonasz '@refuse smirk from Munchkin', to wszystko, co Munchkin powie ci ze slowem 'smirk' w srodku, zostanie odrzucone. Poniewaz to bezuzyteczne, zalozmy, ze definiujesz to na sobie, a nie na klasie gracza.
 2
 
 2
-(1) You have to make 'smirk' a refusable action. You do that by overriding your :refusable_actions verb. :Refusable_actions is a verb which returns the actions that you know how to refuse. It is a verb instead of a property so that players can add refusable actions at all levels of the player class hierarchy without interfering with each other.
+(1) Musisz uczynic 'smirk' akcja podlegajaca odmowie. Robisz to nadpisujac swoj czasownik :refusable_actions. :Refusable_actions to czasownik, ktory zwraca akcje, jakim potrafisz odmowic. Jest to czasownik zamiast wlasciwosci, by gracze mogli dodawac akcje podlegajace odmowie na wszystkich poziomach hierarchii klasy gracza, nie kolidujac ze soba.
 2
 
 2
@@ -44298,15 +44297,15 @@ I'll walk you through the example of making a refusable action 'smirk'. If you '
 2
 
 2
-'@pass (@args)' means 'include the actions that my parent knows how to refuse, because I know how to refuse them too.'
+'@pass (@args)' oznacza 'dolacz akcje, ktorym potrafi odmowic moj rodzic, bo ja rowniez potrafie im odmowic.'
 2
 
 2
-(2) The refusal mechanism provides for special cases in deciding whether an action should be refused. None of the refusals defined on Frand's Player Class actually make use of this special case, and you probably won't have to use it either. But you still have to write a verb to deal with it.
+(2) Mechanizm odmowy przewiduje szczegolne przypadki decydujace, czy akcja powinna byc odrzucona. Zadna z odmow zdefiniowanych na klasie gracza Franda nie korzysta faktycznie z tego szczegolnego przypadku i tobie prawdopodobnie tez nie bedzie potrzebny. Ale nadal musisz napisac czasownik, ktory sie tym zajmie.
 2
 
 2
-The verb should be named :refuses_action_<action>, where <action> is the action that the verb is for. In this case, it should be :refuses_action_smirk. The verb takes some arguments and returns whether the action should be refused. The details of this will someday be explained in the next section, 'fancy refusable actions', but in all simple cases the verb should simply return 1.
+Czasownik powinien nazywac sie :refuses_action_<akcja>, gdzie <akcja> to akcja, dla ktorej jest przeznaczony. W tym przypadku powinien nazywac sie :refuses_action_smirk. Czasownik przyjmuje pewne argumenty i zwraca, czy akcja powinna byc odrzucona. Szczegoly zostana kiedys wyjasnione w kolejnej sekcji, 'fancy refusable actions', ale we wszystkich prostych przypadkach czasownik powinien po prostu zwracac 1.
 2
 
 2
@@ -44320,11 +44319,11 @@ The verb should be named :refuses_action_<action>, where <action> is the action 
 2
 
 2
-(3) Finally you must implement the refusal itself. The code that performs the action should call <target>:refuses_action (player, <action>). <target> is the target of the action; it is you, because others are smirking at you. 'Player' is the current player, the one who is attempting to perform the action. <action> is the action the player is attempting, 'smirk'.
+(3) Na koniec musisz zaimplementowac sama odmowe. Kod wykonujacy akcje powinien wywolac <cel>:refuses_action (player, <akcja>). <cel> to cel akcji; to ty, bo inni szczerza sie do ciebie. 'Player' to biezacy gracz, ten, ktory probuje wykonac akcje. <akcja> to akcja, ktora gracz probuje wykonac, 'smirk'.
 2
 
 2
-In this case, you want to change your :tell verb to check whether its message contains the word 'smirk', and whether you are refusing smirks from the player who's talking. It also has to do two other things: (1) inform the player whose smirk was refused, and (2) call this:report_refusal, which tests whether you have refusal reporting turned on, and if so, reports the refusal to you. The call is this:report_refusal (<player>, <message>).
+W tym przypadku chcesz zmienic swoj czasownik :tell, by sprawdzal, czy jego wiadomosc zawiera slowo 'smirk' i czy odmawiasz usmieszkow od gracza, ktory mowi. Musi tez zrobic dwie inne rzeczy: (1) poinformowac gracza, ktoremu odmowiono usmieszku, oraz (2) wywolac this:report_refusal, ktore sprawdza, czy masz wlaczone raportowanie odmow, i jesli tak, zglasza ci odmowe. Wywolanie to this:report_refusal (<gracz>, <wiadomosc>).
 2
 
 2
@@ -44352,81 +44351,81 @@ In this case, you want to change your :tell verb to check whether its message co
 2
 
 2
-The messages say 's m i r k' instead of 'smirk' to prevent an infinite :tell loop.
+Komunikaty mowia 's m i r k' zamiast 'smirk', by zapobiec nieskonczonej petli :tell.
 2
 
 2
-It may help to study some examples. To see how whisper refusal works, read #3133:whisper. For page refusal, see #3133:receive_page and #3133:page_echo_msg. For mail refusal, #3133:receive_message. For move and accept refusal, #3133:moveto or #3133:accept (they are the same verb).
+Warto przestudiowac kilka przykladow. By zobaczyc, jak dziala odmowa whisper, przeczytaj #3133:whisper. Po odmowe page zobacz #3133:receive_page i #3133:page_echo_msg. Po odmowe mail, #3133:receive_message. Po odmowe move i accept, #3133:moveto lub #3133:accept (to ten sam czasownik).
 2
 
 2
- - refusal data structures
+ - struktury danych odmowy
 2
 
 2
-Refusal information is stored in four main properties, all lists.
+Informacje o odmowach sa przechowywane w czterech glownych wlasciwosciach, wszystkie to listy.
 2
 
 2
-    .refused_origins    - who you are refusing actions from
+    .refused_origins    - komu odmawiasz akcji
 2
-    .refused_actions    - for each, what actions you're refusing
+    .refused_actions    - dla kazdego z nich, jakich akcji odmawiasz
 2
-    .refused_until      - when the refusals expire
+    .refused_until      - kiedy odmowy wygasaja
 2
-    .refused_extra      - any further information about each refused action
-2
-
-2
-These properties are all readable and owned by Frand. You (or anyone) can see their values, but you can only change them by calling verbs for the purpose. The verbs are explained later on.
+    .refused_extra      - dodatkowe informacje o kazdej odmawianej akcji
 2
 
 2
-Your .refused_origins property remembers who you are refusing actions from. It might have the value {#47, #34567} if you are refusing actions from Frand (#47) and Stupid_Jerk (#34567). If you are refusing actions by guests, it will have entries like "xxP1Xw.nkQzft". This weird string is a code word that stands for the guest's connection site; you are refusing actions not by a certain guest character, but by any guest who may connect from that site. The verb :player_to_refusal_origin (<player>) converts a player object to a refusal origin (either the same player object or a guest's site code) suitable to be stored in .refused_origins.
+Te wlasciwosci sa wszystkie czytelne i nalezace do Franda. Ty (lub ktokolwiek) mozesz zobaczyc ich wartosci, ale mozesz je zmieniac tylko wywolujac przeznaczone do tego czasowniki. Czasowniki sa wyjasnione dalej.
 2
 
 2
-Your .refused_actions property stores, for each origin in .refused_origins, a list of the actions you are refusing for that origin. Continuing the example from the last paragraph, if you are refusing page from Frand and page, whisper, and mail from Stupid_Jerk, then your .refused_actions has the value {{"page"}, {"page", "whisper", "mail"}}.
+Twoja wlasciwosc .refused_origins pamieta, komu odmawiasz akcji. Moze miec wartosc {#47, #34567}, jesli odmawiasz akcji od Franda (#47) i Stupid_Jerka (#34567). Jesli odmawiasz akcji od goscia, bedzie miala wpisy takie jak "xxP1Xw.nkQzft". Ten dziwny string to kod oznaczajacy miejsce polaczenia goscia; odmawiasz nie konkretnej postaci goscia, ale kazdemu gosciowi, ktory moze polaczyc sie z tego miejsca. Czasownik :player_to_refusal_origin (<gracz>) konwertuje obiekt gracza na pochodzenie odmowy (albo ten sam obiekt gracza, albo kod miejsca goscia) odpowiedni do zapisania w .refused_origins.
 2
 
 2
-Your .refused_until stores an expiration time for each refusal origin, in the form used by time(), the number of seconds since midnight, 1 January 1970, GMT. All actions that you are refusing from a given player expire at the same time. If you are refusing Frand until 19 December 1992, and Stupid_Jerk for seven years, your .refused_until might have the value {724763397, 928384392}.
+Twoja wlasciwosc .refused_actions przechowuje, dla kazdego pochodzenia w .refused_origins, liste akcji, ktorych odmawiasz temu pochodzeniu. Kontynuujac przyklad z poprzedniego akapitu, jesli odmawiasz page od Franda oraz page, whisper i mail od Stupid_Jerka, twoja .refused_actions ma wartosc {{"page"}, {"page", "whisper", "mail"}}.
 2
 
 2
-Your .refused_extra property stores any additional information needed for fancy refusals. It stores one piece of information for every action you are refusing from every player. In other words, .refused_extra contains a list of lists which are parallel to the lists in .refused_actions. None of the built-in refusals on #3133 is fancy, so for them, the extra piece of information is always 0. In the example, your .refused_extra has the value {{0}, {0, 0, 0}}. The next section explains how to use .refused_extra in fancy refusals.
+Twoja .refused_until przechowuje czas wygasniecia dla kazdego pochodzenia odmowy, w formacie uzywanym przez time(), liczbie sekund od polnocy 1 stycznia 1970, GMT. Wszystkie akcje, ktorych odmawiasz danemu graczowi, wygasaja w tym samym czasie. Jesli odmawiasz Frandowi do 19 grudnia 1992, a Stupid_Jerkowi na siedem lat, twoja .refused_until moze miec wartosc {724763397, 928384392}.
 2
 
 2
-Another property, .default_refusal_time, stores the duration in seconds that a refusal lasts by default. This property is readable and owned by Frand. Its value is usually 604800, seven days. You can set it via the verb :set_default_refusal_time.
+Twoja wlasciwosc .refused_extra przechowuje dodatkowe informacje potrzebne do wyrafinowanych odmow. Przechowuje jedna informacje dla kazdej akcji, ktorej odmawiasz kazdemu graczowi. Innymi slowy, .refused_extra zawiera liste list rownolegla do list w .refused_actions. Zadna z wbudowanych odmow na #3133 nie jest wyrafinowana, wiec dla nich dodatkowa informacja jest zawsze 0. W przykladzie twoja .refused_extra ma wartosc {{0}, {0, 0, 0}}. Kolejna sekcja wyjasnia, jak uzywac .refused_extra w wyrafinowanych odmowach.
 2
 
 2
- - fancy refusable actions
+Kolejna wlasciwosc, .default_refusal_time, przechowuje czas trwania odmowy w sekundach domyslnie. Ta wlasciwosc jest czytelna i nalezy do Franda. Jej wartosc to zwykle 604800, siedem dni. Mozesz ja ustawic za pomoca czasownika :set_default_refusal_time.
 2
 
 2
-THIS SECTION IS NOT YET WRITTEN
+ - wyrafinowane akcje podlegajace odmowie
 2
 
 2
- - selective refusal reporting
+TA SEKCJA NIE ZOSTALA JESZCZE NAPISANA
 2
 
 2
-If you have done '@refusal-reporting on', then you see a message when you refuse somebody else's action (for some actions). This reporting is done by the verb :report_refusal.
+ - selektywne raportowanie odmow
 2
 
 2
-    :report_refusal (<player>, <message>, ...)
+Jesli wykonales '@refusal-reporting on', widzisz komunikat, gdy odmawiasz akcji kogos innego (dla niektorych akcji). To raportowanie wykonuje czasownik :report_refusal.
 2
 
 2
-The first argument is the player whose action is refused, and the rest are concatenated to form the message that you see.
+    :report_refusal (<gracz>, <wiadomosc>, ...)
 2
 
 2
-You can override this verb if you want more selective refusal reporting. If you're refusing pages, for example, you might find that the refusal report is just as annoying as the original page--but you still don't want to turn it off. In that case, you might decide to give no more than one refusal report per minute, using code like this:
+Pierwszy argument to gracz, ktorego akcja jest odrzucana, a reszta jest laczona w wiadomosc, ktora widzisz.
+2
+
+2
+Mozesz nadpisac ten czasownik, jesli chcesz bardziej selektywnego raportowania odmow. Jesli odmawiasz pagerow, na przyklad, mozesz uznac, ze raport odmowy jest tak samo irytujacy jak oryginalny pager -- ale nadal nie chcesz go wylaczac. W takim przypadku mozesz zdecydowac o wysylaniu co najwyzej jednego raportu odmowy na minute, uzywajac kodu takiego jak ten:
 2
 
 2
@@ -44466,23 +44465,23 @@ You can override this verb if you want more selective refusal reporting. If you'
 2
 
 2
-The property that remembers whether refusal reporting is turned on is .report_refusal, which may have the values 0 or 1. The property is owned by Frand, so you can't change it directly.
+Wlasciwosc pamietajaca, czy raportowanie odmow jest wlaczone, to .report_refusal, ktora moze miec wartosc 0 lub 1. Wlasciwosc nalezy do Franda, wiec nie mozesz jej zmienic bezposrednio.
 2
 
 2
- - refusal synonyms
+ - synonimy odmowy
 2
 
 2
-You can give a refusal more than one name by overriding the verb :translate_refusal_synonym. The verb takes one argument, a word from the command line, and it returns a list of refusal names that the word stands for. If the word is not a synonym, :translate_refusal_synonym should return the empty list, {}.
+Mozesz nadac odmowie wiecej niz jedna nazwe, nadpisujac czasownik :translate_refusal_synonym. Czasownik przyjmuje jeden argument, slowo z linii polecenia, i zwraca liste nazw odmow, ktore to slowo reprezentuje. Jesli slowo nie jest synonimem, :translate_refusal_synonym powinien zwrocic pusta liste, {}.
 2
 
 2
-    :translate_refusal_synonym (<word>) -> <list>
+    :translate_refusal_synonym (<slowo>) -> <lista>
 2
 
 2
-If you want 'noise' to mean both page and whisper for you, then you'd write this. You need to pass(@args) to get the synonym 'all', which stands for all refusable actions. If you type '@refuse noises from Munchkin', the plural 's' is removed automatically, so you don't have to worry about that.
+Jesli chcesz, by 'noise' oznaczalo dla ciebie zarowno page, jak i whisper, napisz to. Musisz wywolac pass(@args), by uzyskac synonim 'all', ktory oznacza wszystkie akcje podlegajace odmowie. Jesli wpiszesz '@refuse noises from Munchkin', mnoga koncowka 's' jest usuwana automatycznie, wiec nie musisz sie tym martwic.
 2
 
 2
@@ -44498,37 +44497,37 @@ If you want 'noise' to mean both page and whisper for you, then you'd write this
 2
 
 2
- - refusing actions by classes of players
+ - odmawianie akcji przez klasy graczy
 2
 
 2
-THIS SECTION IS NOT YET WRITTEN
+TA SEKCJA NIE ZOSTALA JESZCZE NAPISANA
 36
 5
 4
 1
 2
-'@ways', '@ways <room>' - List any obvious exits from the given room (or this room, if none is given).
+'@ways', '@ways <pokoj>' - wypisuje oczywiste wyjscia z podanego pokoju (lub z tego pokoju, jesli nie podano zadnego).
 36
 5
 4
 8
 2
- '@at' - Find out where everyone is.
+ '@at' - sprawdza, gdzie kto jest.
 2
- '@at <player>' - Find out where <player> is, and who else is there.
+ '@at <gracz>' - sprawdza, gdzie jest <gracz> i kto jeszcze tam jest.
 2
- '@at <obj>' - Find out who else is at the same place as <obj>.
+ '@at <obiekt>' - sprawdza, kto jeszcze jest w tym samym miejscu co <obiekt>.
 2
- '@at <place>' - Find out who is at the place.
+ '@at <miejsce>' - sprawdza, kto jest w danym miejscu.
 2
- The place can be given by number, or it can be a name from your @rooms list.
+ Miejsce mozna podac po numerze lub jako nazwe z twojej listy @rooms.
 2
- '@at #-1' - Find out who is at #-1.
+ '@at #-1' - sprawdza, kto jest na #-1.
 2
- '@at me' - Find out who is in the room with you.
+ '@at me' - sprawdza, kto jest w pokoju z toba.
 2
- '@at home' - Find out who is at your home.
+ '@at home' - sprawdza, kto jest w twoim domu.
 36
 5
 4
@@ -53649,48 +53648,6 @@ ich
 0
 0
 36
-1
-# 134 recycled
-# 135 recycled
-1
-#136
-
-0
-98
-1
--1
-0
-0
-4
-0
-1
-108
-4
-0
-0
-0
-7
-1
-2
-98
-1
-5
-98
-0
-5
-98
-1
-5
-98
-0
-5
-98
-1
-5
-98
-0
-5
-98
 1
 0
 1953
