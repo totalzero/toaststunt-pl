@@ -578,12 +578,12 @@ abort_task(enum abort_reason reason)
         /*NOTREACHED*/
 
         case ABORT_TICKS:
-            msg  = "Task ran out of ticks";
+            msg  = "Zadaniu skonczyly sie ticki";
             htag = "ticks";
             goto save_hinfo;
 
         case ABORT_SECONDS:
-            msg = "Task ran out of seconds";
+            msg = "Zadaniu skonczyly sie sekundy";
             htag = "seconds";
 
 save_hinfo:
@@ -3414,7 +3414,7 @@ setup_activ_for_eval(Program * prog)
     RUN_ACTIV.recv = NOTHING;
     RUN_ACTIV.vloc = var_ref(nothing);
     RUN_ACTIV.verb = str_dup("");
-    RUN_ACTIV.verbname = str_dup("Input to EVAL");
+    RUN_ACTIV.verbname = str_dup("Wejscie do EVAL");
     RUN_ACTIV.debug = 1;
     RUN_ACTIV.threaded = DEFAULT_THREAD_MODE;
     alloc_rt_stack(&RUN_ACTIV, RUN_ACTIV.prog->main_vector.max_stack);

@@ -453,14 +453,14 @@ void sqlite_regexp(sqlite3_context *ctx, int argc, sqlite3_value **argv)
     const char *pattern = (const char *)sqlite3_value_text(argv[0]);
     if (!pattern)
     {
-        sqlite3_result_error(ctx, "SQLite REGEXP called with invalid pattern.", -1);
+        sqlite3_result_error(ctx, "SQLite REGEXP wywolane z nieprawidlowym wzorcem.", -1);
         return;
     }
 
     const char *string = (const char *)sqlite3_value_text(argv[1]);
     if (!string)
     {
-        sqlite3_result_error(ctx, "SQLite REGEXP called with invalid string.", -1);
+        sqlite3_result_error(ctx, "SQLite REGEXP wywolane z nieprawidlowym stringiem.", -1);
         return;
     }
 

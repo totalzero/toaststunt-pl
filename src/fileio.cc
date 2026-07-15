@@ -247,7 +247,7 @@ static package file_raise_errno(const char *value_str) {
         strerr = strerror(errno);
         return file_make_error(value_str, strerr);
     }  else {
-        return file_make_error("End of file", "End of file");
+        return file_make_error("Koniec pliku", "Koniec pliku");
     }
 
 }

@@ -664,7 +664,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784114678
+1784116606
 2
 name
 2
@@ -1234,7 +1234,7 @@ source
 2
 time
 0
-1784114919
+1784116800
 4
 0
 1
@@ -1462,7 +1462,7 @@ time
 4
 2
 0
-1784114889
+1784116754
 2
 localhost
 2
@@ -1471,7 +1471,7 @@ localhost
 2
 0
 0
-1784114919
+1784116800
 2
 1
 0
@@ -1635,7 +1635,7 @@ localhost
 2
 5
 0
-1784114912
+1784116793
 2
 1
 0
@@ -4169,7 +4169,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-13
+14
+4
+2
+0
+1784116606
+0
+0
 4
 2
 0
@@ -10525,11 +10531,11 @@ Ostatnie trzy rodzaje zadan powyzej sa zbiorczo nazywane 'zadaniami w kolejce' l
 2
 
 2
-By zapobiec zlosliwie lub blednie napisanemu programowi MOO dzialajacemu wiecznie i monopolizujacemu serwer, nakladane sa limity na czas dzialania kazdego zadania. Jeden limit dotyczy czasu, przez jaki zadania moga dzialac: zadania w kolejce dostaja %[tostr(typeof(bgs = $server_options.bg_seconds) == ERR ? 3 | bgs)], a wszystkie inne zadania %[tostr(typeof(fgs = $server_options.fg_seconds) == ERR ? 5 | fgs)] sekund na dzialanie, po czym -- jesli nie wykonaja suspend() lub nie zakoncza sie wczesniej -- podnosza traceback 'Task ran out of seconds' i konczaz zycie. Ale jest drugi limit, dotyczacy liczby operacji, jakie zadanie moze wykonac.
+By zapobiec zlosliwie lub blednie napisanemu programowi MOO dzialajacemu wiecznie i monopolizujacemu serwer, nakladane sa limity na czas dzialania kazdego zadania. Jeden limit dotyczy czasu, przez jaki zadania moga dzialac: zadania w kolejce dostaja %[tostr(typeof(bgs = $server_options.bg_seconds) == ERR ? 3 | bgs)], a wszystkie inne zadania %[tostr(typeof(fgs = $server_options.fg_seconds) == ERR ? 5 | fgs)] sekund na dzialanie, po czym -- jesli nie wykonaja suspend() lub nie zakoncza sie wczesniej -- podnosza traceback 'Zadaniu skonczyly sie sekundy' i konczaz zycie. Ale jest drugi limit, dotyczacy liczby operacji, jakie zadanie moze wykonac.
 2
 
 2
-Serwer odlicza 'ticki' w miare wykonywania kazdego zadania.  Mowiac w przyblizeniu, liczy jeden tick za kazda ewaluacje wyrazenia (poza zmiennymi i literalami), jeden za kazda instrukcje `if', `fork' lub `return', i jeden za kazda iteracje petli.  Jesli licznik spadnie calkowicie do zera, podnoszony jest traceback 'Task ran out of ticks' i zadanie jest natychmiast i bezceremonialnie przerywane.  Zadania w kolejce zaczynaja z %[$string_utils:group_number(typeof(bgt = $server_options.bg_ticks) == ERR ? 10000 | bgt)], a wszystkie inne zadania z %[$string_utils:group_number(typeof(fgt = $server_options.fg_ticks) == ERR ? 30000 | fgt)] tickami.
+Serwer odlicza 'ticki' w miare wykonywania kazdego zadania.  Mowiac w przyblizeniu, liczy jeden tick za kazda ewaluacje wyrazenia (poza zmiennymi i literalami), jeden za kazda instrukcje `if', `fork' lub `return', i jeden za kazda iteracje petli.  Jesli licznik spadnie calkowicie do zera, podnoszony jest traceback 'Zadaniu skonczyly sie ticki' i zadanie jest natychmiast i bezceremonialnie przerywane.  Zadania w kolejce zaczynaja z %[$string_utils:group_number(typeof(bgt = $server_options.bg_ticks) == ERR ? 10000 | bgt)], a wszystkie inne zadania z %[$string_utils:group_number(typeof(fgt = $server_options.fg_ticks) == ERR ? 30000 | fgt)] tickami.
 2
 
 2
