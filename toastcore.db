@@ -1235,7 +1235,7 @@ source
 2
 time
 0
-1784138003
+1784139200
 4
 0
 1
@@ -1469,7 +1469,7 @@ expire
 4
 2
 0
-1784137930
+1784139184
 2
 localhost
 2
@@ -1478,7 +1478,7 @@ localhost
 2
 0
 0
-1784137962
+1784139186
 2
 1
 0
@@ -1644,7 +1644,7 @@ localhost
 2
 5
 0
-1784138003
+1784139200
 2
 1
 0
@@ -4224,7 +4224,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--239
+-277
 0
 2
 2
@@ -77523,23 +77523,23 @@ endif
 #57:4
 {?core_variant_name = ""} = args;
 if (!player.wizard)
-player:notify("Nice try, but permission denied.");
+player:notify("Niezla proba, ale odmowa dostepu.");
 return;
 elseif (length(connected_players()) > 1)
-player:notify("You need to @boot everybody else before I'll believe this isn't the real MOO.");
+player:notify("Musisz zrobic @boot wszystkim innym, zanim uwierze, ze to nie jest prawdziwe MOO.");
 abort = 1;
 elseif (`boot_player(open_network_connection("localhost", 666)) ! ANY' != E_PERM)
-player:notify("Why are outbound connections enabled?  I bet this is the real MOO.");
+player:notify("Czemu polaczenia wychodzace sa wlaczone?  Zaklad sie, ze to prawdziwe MOO.");
 abort = 1;
 else
-abort = (!$command_utils:yes_or_no("Continuing with this command will destroy all but the central core of the database.  Are you sure you want to do this?  ")) || (!$command_utils:yes_or_no("Really sure? "));
+abort = (!$command_utils:yes_or_no("Kontynuowanie tego polecenia zniszczy wszystko poza centralnym rdzeniem bazy danych.  Na pewno chcesz to zrobic?  ")) || (!$command_utils:yes_or_no("Na pewno na pewno? "));
 endif
 if (abort)
-player:notify("Core database extraction aborted.");
+player:notify("Wyodrebnianie bazy rdzenia przerwane.");
 return;
 endif
 "----------------------------------------";
-player:notify("Messing with server options...");
+player:notify("Grzebanie w opcjach serwera...");
 spi = {};
 for p in ({"protect_recycle", "protect_set_property_info", "protect_add_property", "protect_chparent", "bg_ticks"})
 spi = {@spi, {p, $server_options.(p)}};
@@ -77550,19 +77550,19 @@ add_property($server_options, "bg_seconds", 7, {player, "r"});
 `load_server_options() ! ANY';
 add_property($server_options, "__mcd__savesopt", spi, {player, "r"});
 "----------------------------------------";
-player:notify("Killing all queued tasks ...");
+player:notify("Zabijanie wszystkich zakolejkowanych zadan ...");
 for t in (queued_tasks())
 kill_task(t[1]);
 endfor
 suspend(0);
 "----------------------------------------";
-player:notify(tostr("Identifying objects to be saved", @core_variant_name ? {" for core variant '", core_variant_name, "'"} | {}, " ..."));
+player:notify(tostr("Identyfikowanie obiektow do zapisania", @core_variant_name ? {" dla wariantu rdzenia '", core_variant_name, "'"} | {}, " ..."));
 "... TODO --- core variant name lookup?";
 core_variant = {{"name", core_variant_name}};
 {saved, saved_props, skipped_parents, proxy_original, proxy_incore, namespaces} = $core_object_info(core_variant, 1);
 if (!(player in saved))
-player:notify("Sorry, but this won't work unless you yourself are on the list of objects to be saved.");
-player:notify("Core database extraction aborted.");
+player:notify("Przepraszam, ale to nie zadziala, jesli sam nie jestes na liscie obiektow do zapisania.");
+player:notify("Wyodrebnianie bazy rdzenia przerwane.");
 return;
 endif
 for ops in (saved_props)
@@ -77576,7 +77576,7 @@ endfor
 "... TODO --- why isn't this on #0:init_for_core ? --Rog";
 $player_class = $mail_recipient_class;
 "----------------------------------------";
-player:notify("Stripping you of any personal verbs and/or properties ...");
+player:notify("Odbieranie ci wszystkich osobistych czasownikow i/lub wlasciwosci ...");
 for i in [1..length(verbs(player))]
 delete_verb(player, 1);
 endfor
@@ -77611,7 +77611,7 @@ owners_original = {@owners_original, o};
 owners_incore = {@owners_incore, o};
 endif
 endfor
-player:notify(tostr("Chowning every saved object, verb and property to one of ", $string_utils:nn(owners_incore), "..."));
+player:notify(tostr("Przepisywanie wlasnosci kazdego zapisanego obiektu, czasownika i wlasciwosci na jednego z ", $string_utils:nn(owners_incore), "..."));
 for o in (saved)
 $command_utils:suspend_if_needed(0, "... ", length(saved) - (o in saved), " to go");
 if (i = o.owner in owners_original)
@@ -77654,7 +77654,7 @@ set_property_info(o, p, info);
 endfor
 endfor
 "----------------------------------------";
-player:notify("Removing all unsaved :recycle, :exitfunc, and :recycle verbs ...");
+player:notify("Usuwanie wszystkich niezapisanych czasownikow :recycle, :exitfunc i :recycle ...");
 for o in [#0..max_object()]
 $command_utils:suspend_if_needed(0, "... ", o);
 if (valid(o) && (!(o in saved)))
@@ -77666,7 +77666,7 @@ endfor
 endif
 endfor
 "----------------------------------------";
-player:notify("Recycling unsaved objects ...");
+player:notify("Odzyskiwanie niezapisanych obiektow ...");
 add_property(this, "__mcd__pos", toint(max_object()), {player, "r"});
 add_property(this, "__mcd__save", {core_variant, saved, saved_props, skipped_parents, namespaces}, {player, "r"});
 suspend(0);
@@ -77675,7 +77675,7 @@ this:mcd_2(core_variant, saved, saved_props, skipped_parents, namespaces);
 finally
 if ((!queued_tasks()) && `this.__mcd__save ! E_PROPNF => 0')
 "...use raw notify since we have no idea what will be b0rken";
-notify(player, "Core database extraction failed.");
+notify(player, "Wyodrebnianie bazy rdzenia nie powiodlo sie.");
 endif
 endtry
 .
@@ -77893,7 +77893,7 @@ shutdown();
 endif
 .
 #57:9
-"@toad[!][!] <player> [blacklist|redlist|graylist] [commentary]";
+"@toad[!][!] <gracz> [blacklist|redlist|graylist] [komentarz]";
 whostr = args[1];
 comment = $string_utils:first_word(argstr)[2];
 if (verb == "@toad!!")
@@ -77907,15 +77907,15 @@ else
 listname = "";
 endif
 if ((!player.wizard) || (player != this))
-player:notify("Yeah, right... you wish.");
+player:notify("No jasne... akurat.");
 return;
 elseif ($command_utils:player_match_failed(who = $string_utils:match_player(whostr), whostr))
 return;
 elseif (((whostr != who.name) && (!(whostr in who.aliases))) && (whostr != tostr(who)))
-player:notify(tostr("Must be a full name or an object number:  ", who.name, "(", who, ")"));
+player:notify(tostr("Musi byc pelna nazwa lub numer obiektu:  ", who.name, "(", who, ")"));
 return;
 elseif (who == player)
-player:notify("If you want to toad yourself, you have to do it by hand.");
+player:notify("Jesli chcesz zrobic toada sobie, musisz to zrobic recznie.");
 return;
 endif
 dobj = who;
@@ -77923,15 +77923,15 @@ if (msg = player:toad_victim_msg())
 notify(who, msg);
 endif
 if ($wiz_utils:rename_all_instances(who, "disfunc", "toad_disfunc"))
-player:notify(tostr(who, ":disfunc renamed."));
+player:notify(tostr(who, ":disfunc przemianowany."));
 endif
 if ($wiz_utils:rename_all_instances(who, "recycle", "toad_recycle"))
-player:notify(tostr(who, ":recycle renamed."));
+player:notify(tostr(who, ":recycle przemianowany."));
 endif
 "MOO-specific cleanup while still a player object.";
 this:toad_cleanup(who);
 e = $wiz_utils:unset_player(who, $hacker);
-player:notify(e ? tostr(who.name, "(", who, ") is now a toad.") | tostr(e));
+player:notify(e ? tostr(who.name, "(", who, ") jest teraz toadem.") | tostr(e));
 if (e && ($object_utils:isa(who.location, $room) && (msg = player:toad_msg())))
 who.location:announce_all_but({who}, msg);
 endif
@@ -77942,11 +77942,11 @@ else
 cname = "";
 endif
 if (!comment)
-player:notify("So why is this person being toaded?");
+player:notify("Wiec dlaczego ta osoba jest toadowana?");
 comment = $command_utils:read();
 endif
 $mail_agent:send_message(player, $toad_log, tostr("@toad ", who.name, " (", who, ")"), {$string_utils:from_list(who.all_connect_places, " "), @cname ? {$string_utils:capitalize(listname + "ed:  ") + cname} | {}, @comment ? {comment} | {}});
-player:notify(tostr("Mail sent to ", $mail_agent:name($toad_log), "."));
+player:notify(tostr("Mail wyslany do ", $mail_agent:name($toad_log), "."));
 `$local.waitlist:note_reapee(who, tostr("@toaded by ", player.name)) ! ANY';
 .
 #57:10
@@ -78427,14 +78427,14 @@ return pass(@args);
 endif
 .
 #57:27
-"@[un]blacklist [<site or subnet>  [for <duration>] [commentary]]";
-"@[un]graylist  [<site or subnet>  [for <duration>] [commentary]]";
-"@[un]redlist   [<site or subnet>  [for <duration>] [commentary]]";
-"@[un]spooflist [<site of subnet>  [for <duration>] [commentary]]";
-"The `for <duration>' is for temporary colorlisting a site only. The duration should be in english time units:  for 1 hour, for 1 day 2 hours 15 minutes, etc. The commentary should be after all durations. Note, if you are -not- using a duration, do not start your commentary with the word `for'.";
+"@[un]blacklist [<witryna lub podsiec>  [for <czas-trwania>] [komentarz]]";
+"@[un]graylist  [<witryna lub podsiec>  [for <czas-trwania>] [komentarz]]";
+"@[un]redlist   [<witryna lub podsiec>  [for <czas-trwania>] [komentarz]]";
+"@[un]spooflist [<witryna lub podsiec>  [for <czas-trwania>] [komentarz]]";
+"Fraza `for <czas-trwania>' sluzy tylko do tymczasowego kolorlistowania witryny. Czas trwania powinien byc podany w angielskich jednostkach czasu:  for 1 hour, for 1 day 2 hours 15 minutes, itp. Komentarz powinien byc po wszystkich czasach trwania. Uwaga, jesli -nie- uzywasz czasu trwania, nie zaczynaj komentarza od slowa `for'.";
 set_task_perms(player);
 if ((player != this) || (!player.wizard))
-player:notify("Ummm.  no.");
+player:notify("Ummm.  nie.");
 return;
 endif
 undo = verb[2..3] == "un";
@@ -78448,7 +78448,7 @@ endif
 target = fw[1];
 if (fw[2] && (parse = this:parse_templist_duration(fw[2]))[1])
 if ((typeof(parse[3]) == ERR) || (!parse[3]))
-player:notify(tostr("Could not parse the duration for @", which, "ing site \"", target, "\""));
+player:notify(tostr("Nie udalo sie sparsowac czasu trwania dla @", which, "ing site \"", target, "\""));
 return;
 endif
 start = parse[2];
@@ -78462,7 +78462,7 @@ else
 parse = {0, ""};
 comment = {};
 endif
-player:tell("comment is currently ", toliteral(comment));
+player:tell("komentarz to obecnie ", toliteral(comment));
 if (is_literal = $site_db:domain_literal(target))
 if (target[$] == ".")
 target = target[1..$ - 1];
@@ -78476,7 +78476,7 @@ fullname = ("domain `" + target) + "'";
 endif
 entrylist = $login.(which)[1 + (!is_literal)];
 if ((!undo) && (target in entrylist))
-player:notify(tostr(fullname, " is already ", which, "ed."));
+player:notify(tostr(fullname, " juz jest ", which, "ed."));
 return;
 endif
 entrylist = setremove(entrylist, target);
@@ -78488,15 +78488,15 @@ namelist = $string_utils:english_list(rm);
 downgraded = {};
 if (rm)
 ntries = (length(rm) == 1) ? "ntry" | "ntries";
-if ($command_utils:yes_or_no(tostr("Remove e", ntries, " for ", namelist, "?")))
+if ($command_utils:yes_or_no(tostr((length(rm) == 1) ? "Usunac wpis" | "Usunac wpisy", " dla ", namelist, "?")))
 dg = undo && (downgrade && $command_utils:yes_or_no(downgrade + " them?"));
 for s in (rm)
 $login:(which + "_remove")(s);
 dg && ($login:(downgrade + "_add")(s) && (downgraded = {@downgraded, s}));
 endfor
-player:notify(tostr("E", ntries, " removed", @dg ? {" and ", downgrade, "ed."} | {"."}));
+player:notify(tostr((length(rm) == 1) ? "Wpis usuniety" | "Wpisy usuniete", @dg ? {" i ", downgrade, "owane."} | {"."}));
 else
-player:notify(tostr(namelist, " will continue to be ", which, "ed."));
+player:notify(tostr(namelist, " nadal bedzie ", which, "ed."));
 rm = {};
 endif
 endif
@@ -78505,7 +78505,7 @@ comment[1..0] = {tostr(downgrade, "ed ", $string_utils:english_list(downgraded),
 endif
 tempentrylist = $login.("temporary_" + which)[1 + (!is_literal)];
 if ((!undo) && (target in $list_utils:slice(tempentrylist)))
-player:notify(tostr(fullname, " is already temporarily ", which, "ed."));
+player:notify(tostr(fullname, " juz jest tymczasowo ", which, "ed."));
 return;
 endif
 if (en = $list_utils:assoc(target, tempentrylist))
@@ -78519,16 +78519,16 @@ tempnamelist = $string_utils:english_list(rmtemp);
 tempdowngraded = {};
 if (rmtemp)
 ntries = (length(rmtemp) == 1) ? "ntry" | "ntries";
-if ($command_utils:yes_or_no(tostr("Remove e", ntries, " for ", tempnamelist, "?")))
+if ($command_utils:yes_or_no(tostr((length(rmtemp) == 1) ? "Usunac wpis" | "Usunac wpisy", " dla ", tempnamelist, "?")))
 dg = undo && (downgrade && $command_utils:yes_or_no(downgrade + " them?"));
 for s in (rmtemp)
 old = $list_utils:assoc(s, tempentrylist);
 $login:(which + "_remove_temp")(s);
 dg && ($login:(downgrade + "_add_temp")(s, old[2], old[3]) && (tempdowngraded = {@tempdowngraded, s}));
 endfor
-player:notify(tostr("E", ntries, " removed", @dg ? {" and ", downgrade, "ed with durations transferred."} | {"."}));
+player:notify(tostr((length(rmtemp) == 1) ? "Wpis usuniety" | "Wpisy usuniete", @dg ? {" i ", downgrade, "owane, z przeniesionymi czasami trwania."} | {"."}));
 else
-player:notify(tostr(tempnamelist, " will continue to be temporarily ", which, "ed."));
+player:notify(tostr(tempnamelist, " nadal bedzie tymczasowo ", which, "ed."));
 rmtemp = {};
 endif
 endif
@@ -78556,10 +78556,10 @@ elseif ($command_utils:yes_or_no(downgrade + " it?"))
 $login:(downgrade + "_add")(target) && (downgraded = {target, @downgraded});
 player:notify(tostr(fullname, " ", downgrade, "ed."));
 else
-player:notify(tostr(fullname, " not ", downgrade, "ed."));
+player:notify(tostr(fullname, " nie zostal ", downgrade, "ed."));
 endif
 if (downgraded)
-player:tell("Comment currently: ", toliteral(comment), " ; downgrade = ", toliteral(downgrade), " ; downgraded = ", toliteral(downgraded));
+player:tell("Komentarz obecnie: ", toliteral(comment), " ; downgrade = ", toliteral(downgrade), " ; downgraded = ", toliteral(downgraded));
 comment[1..0] = {tostr(downgrade, "ed ", $string_utils:english_list(downgraded), ".")};
 endif
 if (rm)
@@ -78572,7 +78572,7 @@ elseif ($command_utils:yes_or_no(downgrade + " it?"))
 $login:(downgrade + "_add_temp")(target, old[2], old[3]) && (tempdowngraded = {target, @tempdowngraded});
 player:notify(tostr(fullname, " ", downgrade, "ed, currently for ", $time_utils:english_time(old[3]), " from ", $time_utils:time_sub("$1/$3", old[2])));
 else
-player:notify(tostr(fullname, " not ", downgrade, "ed."));
+player:notify(tostr(fullname, " nie zostal ", downgrade, "ed."));
 endif
 if (tempdowngraded)
 comment[1..0] = {tostr(downgrade, "ed ", $string_utils:english_list(tempdowngraded), "with durations transferred.")};
@@ -78581,10 +78581,10 @@ if (rmtemp)
 comment[1..0] = {tostr("Also removed ", tempnamelist, ".")};
 endif
 elseif (rm || rmtemp)
-player:notify(tostr(fullname, " itself was never actually ", which, "ed."));
+player:notify(tostr(fullname, " sam w sobie nigdy faktycznie nie byl ", which, "ed."));
 comment[1..0] = {tostr("Removed ", namelist, " from regular and ", tempnamelist, " from temporary.")};
 else
-player:notify(tostr(fullname, " was not ", which, "ed before."));
+player:notify(tostr(fullname, " nie byl wczesniej ", which, "ed."));
 return;
 endif
 subject = tostr(undo ? "@un" | "@", which, " ", fullname);
@@ -78598,7 +78598,7 @@ uhoh = {@uhoh, site};
 endif
 endfor
 if (uhoh)
-player:notify(tostr("WARNING:  ", $string_utils:english_list(uhoh), " are now ", which, "ed!"));
+player:notify(tostr("UWAGA:  ", $string_utils:english_list(uhoh), " sa teraz ", which, "ed!"));
 endif
 .
 #57:28
@@ -78924,18 +78924,18 @@ if (!player.wizard)
 return E_PERM;
 endif
 set_task_perms(player);
-player:tell("What string are you replacing?");
+player:tell("Jaki ciag zastepujesz?");
 old = $command_utils:read();
 if (old == "")
-return player:tell("You can't replace an empty string.");
+return player:tell("Nie mozesz zastapic pustego ciagu.");
 endif
-player:tell("What string are you replacing it with?");
+player:tell("Na jaki ciag chcesz go zastapic?");
 new = $command_utils:read();
 if (new == "")
-return player:tell("You can't replace it with an empty string.");
+return player:tell("Nie mozesz zastapic go pustym ciagiem.");
 endif
-if ($command_utils:yes_or_no(tostr("You are about to replace ", old, " with ", new, " in all verbs. Are you sure you want to do this? Be very sure.")) == 1)
-player:tell("Working...");
+if ($command_utils:yes_or_no(tostr("Zaraz zastapisz ", old, " przez ", new, " we wszystkich czasownikach. Upewnij sie dobrze, czy na pewno chcesz to zrobic.")) == 1)
+player:tell("Pracuje...");
 total = 0;
 for o in [#0..max_object()]
 yin();
@@ -78964,9 +78964,9 @@ endfor
 if (replaced)
 result = set_verb_code(o, v, code);
 if (typeof(result) == ERR)
-player:tell("Could not compile code for ", $string_utils:nn(o), ":", v, ". ", toliteral(result));
+player:tell("Nie udalo sie skompilowac kodu dla ", $string_utils:nn(o), ":", v, ". ", toliteral(result));
 else
-player:tell("... replaced code in ", o, ":", v, ":");
+player:tell("... zastapiono kod w ", o, ":", v, ":");
 for pew in [1..length(old_line)]
 player:tell("   ", old_line[pew]);
 player:tell("   ", new_line[pew]);
@@ -78978,33 +78978,33 @@ yin();
 endfor
 yin();
 endfor
-player:tell("Done. ", total, " verbs replaced.");
+player:tell("Gotowe. ", $polish_utils:count(total, "1 czasownik zastapiony.", tostr(total, " czasowniki zastapione."), tostr(total, " czasownikow zastapionych.")));
 else
-return player:tell("Aborted.");
+return player:tell("Przerwano.");
 endif
 .
 #57:39
-"Automatically updates ToastStunt documentation to the latest version.";
-"Optional arguments:";
-"   -y: Answer yes to all prompts that update the help database.";
-"   <database>: The name, or object number, of the help database object that you want to update. The verb itself typically finds, or creates, an appropriate database for you, so this argument is generally not necessary.";
+"Automatycznie aktualizuje dokumentacje ToastStunt do najnowszej wersji.";
+"Argumenty opcjonalne:";
+"   -y: Odpowiada tak na wszystkie pytania dotyczace aktualizacji bazy pomocy.";
+"   <baza>: Nazwa lub numer obiektu bazy pomocy, ktora chcesz zaktualizowac. Ten czasownik zwykle sam znajduje lub tworzy odpowiednia baze, wiec ten argument zazwyczaj nie jest potrzebny.";
 if (player != this)
 return E_PERM;
 endif
 "Check prerequisites:";
 if (typeof(`function_info("curl") ! E_INVARG') == ERR)
-return player:tell("This verb relies on the curl builtin function to retrieve up-to-date documentation. Please ensure that the server has been compiled with the function enabled. You may need to install a supporting library, such as libcurl. Further information may be available here: https://github.com/lisdude/toaststunt/blob/master/docs/README.md#build-instructions");
+return player:tell("Ten czasownik wymaga wbudowanej funkcji curl do pobrania aktualnej dokumentacji. Upewnij sie, ze serwer zostal skompilowany z wlaczona ta funkcja. Moze byc potrzebna dodatkowa biblioteka, np. libcurl. Wiecej informacji znajdziesz tutaj: https://github.com/lisdude/toaststunt/blob/master/docs/README.md#build-instructions");
 endif
 required_verbs = {{$object_utils, "has_property"}, {$player, "my_match_object"}, {$command_utils, "object_match_failed"}, {$string_utils, "nn"}, {$command_utils, "yes_or_no"}, {$recycler, "_create"}, {$string_utils, "english_list"}, {$list_utils, "map_builtin"}};
 required_props = {{$sysobj, "generic_help"}, {$sysobj, "prog"}};
 for x in (required_verbs)
 if (typeof(`verb_info(@x) ! E_VERBNF') == ERR)
-return player:tell("This verb relies on several LambdaCore verbs being present. It seems your database is missing: ", x[1], ":", x[2]);
+return player:tell("Ten czasownik wymaga obecnosci kilku czasownikow LambdaCore. Wyglada na to, ze w twojej bazie brakuje: ", x[1], ":", x[2]);
 endif
 endfor
 for x in (required_props)
 if (typeof(`property_info(@x) ! E_PROPNF') == ERR)
-return player:tell("This verb relies on several LambdaCore properties being present. It seems your database is missing: ", x[1], ".", x[2]);
+return player:tell("Ten czasownik wymaga obecnosci kilku wlasciwosci LambdaCore. Wyglada na to, ze w twojej bazie brakuje: ", x[1], ".", x[2]);
 endif
 endfor
 "Now do a special test for builtin_function help. Standard LambdaCore stores this in a property on $sysobj. ToastCore stores it in a map on $sysobj.";
@@ -79034,14 +79034,14 @@ if (player.wizard || (verb_info(verb_loc, verb)[1] == player))
 update_url = "https://raw.githubusercontent.com/lisdude/toaststunt-documentation/master/update_verb.moo";
 downloaded_data = call_function("curl", update_url);
 if (typeof(downloaded_data) == MAP)
-player:tell("Update check failed: ", downloaded_data["message"]);
+player:tell("Sprawdzanie aktualizacji nie powiodlo sie: ", downloaded_data["message"]);
 elseif (!index(downloaded_data, "@update-toaststunt-help"))
-player:tell("Update check failed: The update data does not appear to be valid.");
+player:tell("Sprawdzanie aktualizacji nie powiodlo sie: Pobrane dane nie wygladaja na prawidlowe.");
 else
 new_verb = $list_utils:setremove_all(decode_binary(downloaded_data), 10)[3..$ - 1];
-if (((new_verb != {}) && (new_verb != verb_code(verb_loc, verb))) && ($command_utils:yes_or_no(tostr("There is an update available for this verb. Would you like to apply it? You can review the updated code here: ", update_url)) == 1))
+if (((new_verb != {}) && (new_verb != verb_code(verb_loc, verb))) && ($command_utils:yes_or_no(tostr("Dostepna jest aktualizacja tego czasownika. Chcesz ja zastosowac? Mozesz przejrzec zaktualizowany kod tutaj: ", update_url)) == 1))
 set_verb_code(verb_loc, verb, new_verb);
-return player:tell("This verb has been updated. Please run it again.");
+return player:tell("Ten czasownik zostal zaktualizowany. Uruchom go ponownie.");
 endif
 endif
 endif
@@ -79062,39 +79062,39 @@ return;
 elseif (isa(match, $generic_help))
 db = match;
 else
-return player:tell($string_utils:nn(match), " doesn't appear to be a help database.");
+return player:tell($string_utils:nn(match), " nie wyglada na baze pomocy.");
 endif
 endif
 "If we failed, create a new database and add it to $prog help.";
 if (db == 0)
-if ($command_utils:yes_or_no("No existing help database could be found. Would you like to create one?") == 1)
+if ($command_utils:yes_or_no("Nie znaleziono istniejacej bazy pomocy. Chcesz ja utworzyc?") == 1)
 db = $recycler:_create($generic_help);
 db:set_name("ToastStunt Help Database");
-if (player.wizard && ($command_utils:yes_or_no("Would you like to add the new database to $prog.help?") == 1))
+if (player.wizard && ($command_utils:yes_or_no("Chcesz dodac nowa baze do $prog.help?") == 1))
 $prog.help = setadd($prog.help, db);
 endif
 else
-return player:tell("Not creating a new database.");
+return player:tell("Nie tworze nowej bazy.");
 endif
 endif
 "Test if our help database has a higher priority than the LambdaCore builtin function help database. If not, offer to make it so.";
 if ((builtin_function_help != $failed_match) && ((db in $prog.help) > (builtin_function_help in $prog.help)))
-if ($command_utils:yes_or_no("Would you like the ToastStunt help to take priority over LambdaCore help? This means that duplicate help files (such as move()) will prefer the ToastStunt version over the LambdaCore version.") == 1)
+if ($command_utils:yes_or_no("Chcesz, by pomoc ToastStunt miala pierwszenstwo przed pomoca LambdaCore? Oznacza to, ze zdublowane pliki pomocy (np. move()) beda preferowac wersje ToastStunt zamiast wersji LambdaCore.") == 1)
 $prog.help = setremove($prog.help, db);
 $prog.help = {db, @$prog.help};
 endif
 endif
 "Finally, actually update the help files.";
-if ((!yes_to_all) && ($command_utils:yes_or_no(tostr("Do you want to update the help database ", $string_utils:nn(db), "?")) != 1))
-return player:tell("Not updating.");
+if ((!yes_to_all) && ($command_utils:yes_or_no(tostr("Chcesz zaktualizowac baze pomocy ", $string_utils:nn(db), "?")) != 1))
+return player:tell("Nie aktualizuje.");
 endif
 if ((!player.wizard) && (db.owner != player))
-return player:tell("You don't have permission to update ", $string_utils:nn(db), ".");
+return player:tell("Nie masz uprawnien, by zaktualizowac ", $string_utils:nn(db), ".");
 endif
 url = "https://raw.githubusercontent.com/lisdude/toaststunt-documentation/master/function_help.moo";
 data = call_function("curl", url);
 if (typeof(data) == MAP)
-return player:tell("Error retrieving help text: ", data["message"]);
+return player:tell("Blad przy pobieraniu tekstu pomocy: ", data["message"]);
 else
 regex = "^;;#123\\.\\(\"(?<property>.+)\"\\) = (?<value>.+)$";
 data = decode_binary(data);
@@ -79109,7 +79109,7 @@ if (match = pcre_match(x, regex))
 suspend(0);
 {property, value} = {match[1]["property"]["match"], $string_utils:to_value(match[1]["value"]["match"])};
 if (value[1] != 1)
-player:tell("Error parsing value for `", property, "'.");
+player:tell("Blad przy parsowaniu wartosci dla `", property, "'.");
 continue;
 else
 value = value[2];
@@ -79121,7 +79121,7 @@ endfor
 for local_prop in (properties(db))
 yin();
 if (!maphaskey(properties, local_prop))
-if (yes_to_all || ($command_utils:yes_or_no(tostr("The property `", local_prop, "' no longer exists in the remote repository. Do you wish to delete the local version?")) == 1))
+if (yes_to_all || ($command_utils:yes_or_no(tostr("Wlasciwosc `", local_prop, "' nie istnieje juz w zdalnym repozytorium. Chcesz usunac lokalna wersje?")) == 1))
 removed = setadd(removed, local_prop);
 delete_property(db, local_prop);
 endif
@@ -79138,21 +79138,21 @@ add_property(db, property, value, {db.owner, "rc"});
 added = setadd(added, property);
 endif
 endfor
-player:tell("Done! ", (((added == {}) && (updated == {})) && (removed == {})) ? "No changes found." | tostr("Added: ", $string_utils:english_list(added), ". Updated: ", $string_utils:english_list(updated), ".", (removed == {}) ? "" | tostr(" Removed: ", $string_utils:english_list(removed), ".")));
+player:tell("Gotowe! ", (((added == {}) && (updated == {})) && (removed == {})) ? "Nie znaleziono zmian." | tostr("Dodano: ", $string_utils:english_list(added), ". Zaktualizowano: ", $string_utils:english_list(updated), ".", (removed == {}) ? "" | tostr(" Usunieto: ", $string_utils:english_list(removed), ".")));
 endif
 .
 #58:0
 set_task_perms(player);
 if (!player.programmer)
-player:notify("You need to be a programmer to do this.");
-player:notify("If you want to become a programmer, talk to a wizard.");
+player:notify("Musisz byc programista, by to zrobic.");
+player:notify("Jesli chcesz zostac programista, porozmawiaj z wizardem.");
 return;
 elseif (!$quota_utils:property_addition_permitted(player))
-player:tell("Property addition not permitted because quota exceeded.");
+player:tell("Dodawanie wlasciwosci niedozwolone z powodu przekroczenia limitu.");
 return;
 endif
 nargs = length(args);
-usage = tostr("Usage:  ", verb, " <object>.<prop-name> [<init_value> [<perms> [<owner>]]]");
+usage = tostr("Uzycie:  ", verb, " <obiekt>.<nazwa-wlasciwosci> [<wartosc-poczatkowa> [<uprawnienia> [<wlasciciel>]]]");
 if ((nargs < 1) || (!(spec = $code_utils:parse_propref(args[1]))))
 player:notify(usage);
 return;
@@ -79167,7 +79167,7 @@ value = 0;
 else
 q = $string_utils:prefix_to_value(argstr[$string_utils:word_start(argstr)[2][1]..$]);
 if (q[1] == 0)
-player:notify(tostr("Syntax error in initial value:  ", q[2]));
+player:notify(tostr("Blad skladni w wartosci poczatkowej:  ", q[2]));
 return;
 endif
 value = q[2];
@@ -79193,20 +79193,20 @@ return;
 endif
 try
 add_property(object, name, value, {owner, perms});
-player:notify(tostr("Property added with value ", toliteral(object.(name)), "."));
+player:notify(tostr("Wlasciwosc dodana z wartoscia ", toliteral(object.(name)), "."));
 except (E_INVARG)
 if ($object_utils:has_property(object, name))
-player:notify(tostr("Property ", object, ".", name, " already exists."));
+player:notify(tostr("Wlasciwosc ", object, ".", name, " juz istnieje."));
 else
 for i in [1..length(perms)]
 if (!index("rcw", perms[i]))
-player:notify(tostr("Unknown permission bit:  ", perms[i]));
+player:notify(tostr("Nieznany bit uprawnien:  ", perms[i]));
 return;
 endif
 endfor
 "...the only other possibility...";
-player:notify("Property is already defined on one or more descendents.");
-player:notify(tostr("Try @check-prop ", args[1]));
+player:notify("Wlasciwosc jest juz zdefiniowana na jednym lub wiecej potomkach.");
+player:notify(tostr("Sprobuj @check-prop ", args[1]));
 endif
 except e (ANY)
 player:notify(e[2]);
@@ -79216,14 +79216,14 @@ endtry
 set_task_perms(player);
 bynumber = verb == "@chmod#";
 if (length(args) != 2)
-player:notify(tostr("Usage:  ", verb, " <object-or-property-or-verb> <permissions>"));
+player:notify(tostr("Uzycie:  ", verb, " <obiekt-lub-wlasciwosc-lub-czasownik> <uprawnienia>"));
 return;
 endif
 {what, perms} = args;
 if (spec = $code_utils:parse_verbref(what))
 if (!player.programmer)
-player:notify("You need to be a programmer to do this.");
-player:notify("If you want to become a programmer, talk to a wizard.");
+player:notify("Musisz byc programista, by to zrobic.");
+player:notify("Jesli chcesz zostac programista, porozmawiaj z wizardem.");
 return;
 endif
 if (valid(object = player:my_match_object(spec[1])))
@@ -79231,37 +79231,37 @@ vname = spec[2];
 if (bynumber)
 vname = $code_utils:toint(vname);
 if (vname == E_TYPE)
-return player:notify("Verb number expected.");
+return player:notify("Oczekiwano numeru czasownika.");
 elseif ((vname < 1) || `vname > length(verbs(object)) ! E_PERM => 0')
-return player:notify("Verb number out of range.");
+return player:notify("Numer czasownika poza zakresem.");
 endif
 endif
 try
 info = verb_info(object, vname);
 if (!valid(owner = info[1]))
-player:notify(tostr("That verb is owned by an invalid object (", owner, "); it needs to be @chowned."));
+player:notify(tostr("Ten czasownik jest wlasnoscia nieprawidlowego obiektu (", owner, "); trzeba wykonac na nim @chown."));
 elseif (!is_player(owner))
-player:notify(tostr("That verb is owned by a non-player object (", owner.name, ", ", owner, "); it needs to be @chowned."));
+player:notify(tostr("Ten czasownik jest wlasnoscia obiektu niebedacego graczem (", owner.name, ", ", owner, "); trzeba wykonac na nim @chown."));
 else
 info[2] = perms = $perm_utils:apply(info[2], perms);
 try
 result = set_verb_info(object, vname, info);
-player:notify(tostr("Verb permissions set to \"", perms, "\"."));
+player:notify(tostr("Uprawnienia czasownika ustawione na \"", perms, "\"."));
 except (E_INVARG)
-player:notify(tostr("\"", perms, "\" is not a valid permissions string for a verb."));
+player:notify(tostr("\"", perms, "\" nie jest prawidlowym lancuchem uprawnien dla czasownika."));
 except e (ANY)
 player:notify(e[2]);
 endtry
 endif
 except (E_VERBNF)
-player:notify("That object does not define that verb.");
+player:notify("Ten obiekt nie definiuje tego czasownika.");
 except error (ANY)
 player:notify(error[2]);
 endtry
 return;
 endif
 elseif (bynumber)
-return player:notify("@chmod# can only be used for verbs.");
+return player:notify("@chmod# mozna uzywac tylko dla czasownikow.");
 elseif (index(what, ".") && (spec = $code_utils:parse_propref(what)))
 if (valid(object = player:my_match_object(spec[1])))
 pname = spec[2];
@@ -79270,14 +79270,14 @@ info = property_info(object, pname);
 info[2] = perms = $perm_utils:apply(info[2], perms);
 try
 result = set_property_info(object, pname, info);
-player:notify(tostr("Property permissions set to \"", perms, "\"."));
+player:notify(tostr("Uprawnienia wlasciwosci ustawione na \"", perms, "\"."));
 except (E_INVARG)
-player:notify(tostr("\"", perms, "\" is not a valid permissions string for a property."));
+player:notify(tostr("\"", perms, "\" nie jest prawidlowym lancuchem uprawnien dla wlasciwosci."));
 except error (ANY)
 player:notify(error[2]);
 endtry
 except (E_PROPNF)
-player:notify("That object does not have that property.");
+player:notify("Ten obiekt nie ma tej wlasciwosci.");
 except error (ANY)
 player:notify(error[2]);
 endtry
@@ -79294,7 +79294,7 @@ w = 1;
 elseif (perms[i] == "f")
 f = 1;
 else
-player:notify(tostr("\"", perms, "\" is not a valid permissions string for an object."));
+player:notify(tostr("\"", perms, "\" nie jest prawidlowym lancuchem uprawnien dla obiektu."));
 return;
 endif
 endfor
@@ -79302,9 +79302,9 @@ try
 object.r = r;
 object.w = w;
 object.f = f;
-player:notify(tostr("Object permissions set to \"", perms, "\"."));
+player:notify(tostr("Uprawnienia obiektu ustawione na \"", perms, "\"."));
 except (E_PERM)
-player:notify("Permission denied.");
+player:notify("Odmowa dostepu.");
 endtry
 return;
 endif
@@ -79316,21 +79316,21 @@ return;
 endif
 set_task_perms(player);
 if (!player.programmer)
-player:notify("You need to be a programmer to do this.");
-player:notify("If you want to become a programmer, talk to a wizard.");
+player:notify("Musisz byc programista, by to zrobic.");
+player:notify("Jesli chcesz zostac programista, porozmawiaj z wizardem.");
 return;
 endif
 if (!(args && (spec = $code_utils:parse_verbref(args[1]))))
-player:notify(tostr(args ? ("\"" + args[1]) + "\"?  " | "", "<object>:<verb>  expected."));
+player:notify(tostr(args ? ("\"" + args[1]) + "\"?  " | "", "oczekiwano <obiekt>:<czasownik>."));
 elseif ($command_utils:object_match_failed(object = player:my_match_object(spec[1]), spec[1]))
 "...can't find object...";
 else
 if (verb == "@args#")
 name = $code_utils:toint(spec[2]);
 if (name == E_TYPE)
-return player:notify("Verb number expected.");
+return player:notify("Oczekiwano numeru czasownika.");
 elseif ((name < 1) || `name > length(verbs(object)) ! E_PERM => 0')
-return player:notify("Verb number out of range.");
+return player:notify("Numer czasownika poza zakresem.");
 endif
 else
 name = spec[2];
@@ -79343,36 +79343,36 @@ player:notify(tostr(pas));
 elseif (!(newargs = pas[1]))
 player:notify($string_utils:from_list(info, " "));
 elseif (pas[2])
-player:notify(tostr("\"", pas[2][1], "\" unexpected."));
+player:notify(tostr("\"", pas[2][1], "\" nieoczekiwane."));
 else
 info[2] = info[2][1..index(info[2] + "/", "/") - 1];
 info = {@newargs, @info[length(newargs) + 1..$]};
 try
 result = set_verb_args(object, name, info);
-player:notify("Verb arguments changed.");
+player:notify("Argumenty czasownika zmienione.");
 except (E_INVARG)
-player:notify(tostr("\"", info[2], "\" is not a valid preposition (?)"));
+player:notify(tostr("\"", info[2], "\" nie jest prawidlowym przyimkiem (?)"));
 except error (ANY)
 player:notify(error[2]);
 endtry
 endif
 except (E_VERBNF)
-player:notify("That object does not have a verb with that name.");
+player:notify("Ten obiekt nie ma czasownika o takiej nazwie.");
 except error (ANY)
 player:notify(error[2]);
 endtry
 endif
 .
 #58:3
-"A MOO-code evaluator.  Type `;CODE' or `eval CODE'.";
-"Calls player:eval_cmd_string to first transform CODE in any way appropriate (e.g., prefixing .eval_env) and then do the actual evaluation.  See documentation for this:eval_cmd_string";
-"If you set your .eval_time property to 1, you find out how many ticks and seconds you used.";
-"If eval-d is used, the evaluation is performed as if the debug flag were unset.";
+"Ewaluator kodu MOO.  Wpisz `;KOD' lub `eval KOD'.";
+"Wywoluje player:eval_cmd_string, by najpierw odpowiednio przeksztalcic KOD (np. dodajac przedrostek .eval_env), a nastepnie wykonac wlasciwa ewaluacje.  Zobacz dokumentacje this:eval_cmd_string";
+"Jesli ustawisz swoja wlasciwosc .eval_time na 1, dowiesz sie, ile tickow i sekund zuzyles.";
+"Jesli uzyto eval-d, ewaluacja jest wykonywana tak, jakby flaga debug byla wylaczona.";
 if (player != this)
-player:tell("I don't understand that.");
+player:tell("Nie rozumiem tego.");
 return;
 elseif (!player.programmer)
-player:tell("You need to be a programmer to eval code.");
+player:tell("Musisz byc programista, by ewaluowac kod.");
 return;
 endif
 set_task_perms(player);
@@ -79380,18 +79380,18 @@ result = player:eval_cmd_string(argstr, verb != "eval-d");
 if (result[1])
 player:notify(this:eval_value_to_string(result[2]));
 if (player:prog_option("eval_time") && (!`output_delimiters(player)[2] ! ANY'))
-player:notify(tostr("[used ", result[3], " tick", (result[3] != 1) ? "s, " | ", ", result[4], " second", (result[4] != 1) ? "s" | "", ".]"));
+player:notify(tostr("[uzyto ", $polish_utils:count(result[3], "1 tick, ", tostr(result[3], " ticki, "), tostr(result[3], " tickow, ")), $polish_utils:count(result[4], "1 sekunda", tostr(result[4], " sekundy"), tostr(result[4], " sekund")), ".]"));
 endif
 else
 player:notify_lines(result[2]);
 nerrors = length(result[2]);
-player:notify(tostr(nerrors, " error", (nerrors == 1) ? "." | "s."));
+player:notify($polish_utils:count(nerrors, "1 blad.", tostr(nerrors, " bledy."), tostr(nerrors, " bledow.")));
 endif
 .
 #58:4
 set_task_perms(player);
 if ((length(args) != 1) || (!(spec = $code_utils:parse_propref(args[1]))))
-player:notify(tostr("Usage:  ", verb, " <object>.<property>"));
+player:notify(tostr("Uzycie:  ", verb, " <obiekt>.<wlasciwosc>"));
 return;
 endif
 object = player:my_match_object(spec[1]);
@@ -79401,9 +79401,9 @@ return;
 endif
 try
 result = delete_property(object, pname);
-player:notify("Property removed.");
+player:notify("Wlasciwosc usunieta.");
 except (E_PROPNF)
-player:notify("That object does not define that property.");
+player:notify("Ten obiekt nie definiuje tej wlasciwosci.");
 except res (ANY)
 player:notify(res[2]);
 endtry
@@ -79411,15 +79411,15 @@ endtry
 #58:5
 set_task_perms(player);
 if (!player.programmer)
-player:notify("You need to be a programmer to do this.");
-player:notify("If you want to become a programmer, talk to a wizard.");
+player:notify("Musisz byc programista, by to zrobic.");
+player:notify("Jesli chcesz zostac programista, porozmawiaj z wizardem.");
 return;
 elseif (!$quota_utils:verb_addition_permitted(player))
-player:tell("Verb addition not permitted because quota exceeded.");
+player:tell("Dodawanie czasownikow niedozwolone z powodu przekroczenia limitu.");
 return;
 endif
 if (!(args && (spec = $code_utils:parse_verbref(args[1]))))
-player:notify(tostr("Usage:  ", verb, " <object>:<verb-name(s)> [<dobj> [<prep> [<iobj> [<permissions> [<owner>]]]]]"));
+player:notify(tostr("Uzycie:  ", verb, " <obiekt>:<nazwa(-y)-czasownika> [<dobj> [<prep> [<iobj> [<uprawnienia> [<wlasciciel>]]]]]"));
 return;
 elseif ($command_utils:object_match_failed(object = player:my_match_object(spec[1]), spec[1]))
 return;
@@ -79432,7 +79432,7 @@ if (i = index(n, "*"))
 n = n[1..i - 1] + n[i + 1..$];
 endif
 if ((hv = $object_utils:has_verb(object, n)) && (hv[1] == object))
-player:notify(tostr("Warning:  Verb `", n, "' already defined on that object."));
+player:notify(tostr("Uwaga:  Czasownik `", n, "' jest juz zdefiniowany na tym obiekcie."));
 endif
 endfor
 if (typeof(pas = $code_utils:parse_argspec(@listdelete(args, 1))) != LIST)
@@ -79456,19 +79456,19 @@ endif
 if (length(rest) < 2)
 owner = player;
 elseif (length(rest) > 2)
-player:notify(tostr("\"", rest[3], "\" unexpected."));
+player:notify(tostr("\"", rest[3], "\" nieoczekiwane."));
 return;
 elseif ($command_utils:player_match_result(owner = $string_utils:match_player(rest[2]), rest[2])[1])
 return;
 elseif (owner == $nothing)
-player:notify("Verb can't be owned by no one!");
+player:notify("Czasownik nie moze nalezec do nikogo!");
 return;
 endif
 try
 x = add_verb(object, {owner, perms, name}, verbargs);
-player:notify(tostr("Verb added (", (x > 0) ? x | length($object_utils:accessible_verbs(object)), ")."));
+player:notify(tostr("Czasownik dodany (", (x > 0) ? x | length($object_utils:accessible_verbs(object)), ")."));
 except (E_INVARG)
-player:notify(tostr(rest ? tostr("\"", perms, "\" is not a valid set of permissions.") | tostr("\"", verbargs[2], "\" is not a valid preposition (?)")));
+player:notify(tostr(rest ? tostr("\"", perms, "\" nie jest prawidlowym zestawem uprawnien.") | tostr("\"", verbargs[2], "\" nie jest prawidlowym przyimkiem (?)")));
 except e (ANY)
 player:notify(e[2]);
 endtry
@@ -79476,7 +79476,7 @@ endtry
 #58:6
 set_task_perms(player);
 if (!(args && (spec = $code_utils:parse_verbref(args[1]))))
-player:notify(tostr("Usage:  ", verb, " <object>:<verb>"));
+player:notify(tostr("Uzycie:  ", verb, " <obiekt>:<czasownik>"));
 elseif ($command_utils:object_match_failed(object = player:my_match_object(spec[1]), spec[1]))
 "...bogus object...";
 elseif (typeof(argspec = $code_utils:parse_argspec(@listdelete(args, 1))) != LIST)
@@ -79484,15 +79484,15 @@ player:notify(tostr(argspec));
 elseif (argspec[2])
 player:notify($string_utils:from_list(argspec[2], " ") + "??");
 elseif (length(argspec = argspec[1]) in {1, 2})
-player:notify({"Missing preposition", "Missing iobj specification"}[length(argspec)]);
+player:notify({"Brak przyimka", "Brak specyfikacji iobj"}[length(argspec)]);
 else
 verbname = spec[2];
 if (verb == "@rmverb#")
 loc = $code_utils:toint(verbname);
 if (loc == E_TYPE)
-return player:notify("Verb number expected.");
+return player:notify("Oczekiwano numeru czasownika.");
 elseif ((loc < 1) || (loc > `length(verbs(object)) ! E_PERM => 0'))
-return player:notify("Verb number out of range.");
+return player:notify("Numer czasownika poza zakresem.");
 endif
 else
 if (index(verbname, "*") > 1)
@@ -79506,7 +79506,7 @@ loc = $code_utils:find_last_verb_named(object, verbname, loc - 1);
 endwhile
 endif
 if (loc < 0)
-player:notify(tostr("That object does not define that verb", argspec ? " with those args." | "."));
+player:notify(tostr("Ten obiekt nie definiuje tego czasownika", argspec ? " z takimi argumentami." | "."));
 return;
 endif
 endif
@@ -79516,12 +79516,12 @@ vcode = `verb_code(object, loc, 1, 1) ! ANY';
 try
 delete_verb(object, loc);
 if (info)
-player:notify(tostr("Verb ", object, ":", info[3], " (", loc, ") {", $string_utils:from_list(vargs, " "), "} removed."));
+player:notify(tostr("Czasownik ", object, ":", info[3], " (", loc, ") {", $string_utils:from_list(vargs, " "), "} usuniety."));
 if (player:prog_option("rmverb_mail_backup"))
 $mail_agent:send_message(player, player, tostr(object, ":", info[3], " (", loc, ") {", $string_utils:from_list(vargs, " "), "}"), vcode);
 endif
 else
-player:notify(tostr("Unreadable verb ", object, ":", loc, " removed."));
+player:notify(tostr("Nieczytelny czasownik ", object, ":", loc, " usuniety."));
 endif
 except e (ANY)
 player:notify(e[2]);
@@ -79582,20 +79582,20 @@ player:notify("No tasks.");
 endif
 .
 #58:8
-"Kills one or more tasks.";
-"Arguments:";
-"   object:verb -- kills all tasks which were started from that object and verb.";
-"   all -- kills all tasks owned by invoker";
-"   all player-name -- wizard variant:  kills all tasks owned by player.";
-"   all everyone -- wizard variant:  really kills all tasks.";
-"   Integer taskid -- kills the specifically named task.";
-"   soon [integer] -- kills all tasks scheduled to run in the next [integer] seconds, which defaults to 60.";
-"   %integer -- kills all tasks which end in the digits contained in integer.";
-"   The @killquiet alias kills tasks without the pretty printout if more than one task is being killed.";
+"Zabija jedno lub wiecej zadan.";
+"Argumenty:";
+"   object:verb -- zabija wszystkie zadania uruchomione z tego obiektu i czasownika.";
+"   all -- zabija wszystkie zadania nalezace do wywolujacego";
+"   all player-name -- wariant dla wizardow:  zabija wszystkie zadania nalezace do gracza.";
+"   all everyone -- wariant dla wizardow:  naprawde zabija wszystkie zadania.";
+"   Integer taskid -- zabija konkretnie wskazane zadanie.";
+"   soon [integer] -- zabija wszystkie zadania zaplanowane na najblizsze [integer] sekund, domyslnie 60.";
+"   %integer -- zabija wszystkie zadania konczace sie cyframi zawartymi w integer.";
+"   Alias @killquiet zabija zadania bez ladnego wypisywania, jesli zabijane jest wiecej niz jedno zadanie.";
 set_task_perms(player);
 quiet = index(verb, "q");
 if (length(args) == 0)
-player:notify_lines({tostr("Usage:  ", verb, " [object]:[verb]"), tostr("        ", verb, " task_id"), tostr("        ", verb, " soon [number-of-seconds]", player.wizard ? " [everyone|<player name>]" | ""), tostr("        ", verb, " all", player.wizard ? " [everyone|<player name>]" | "")});
+player:notify_lines({tostr("Uzycie:  ", verb, " [obiekt]:[czasownik]"), tostr("        ", verb, " id-zadania"), tostr("        ", verb, " soon [liczba-sekund]", player.wizard ? " [everyone|<nazwa-gracza>]" | ""), tostr("        ", verb, " all", player.wizard ? " [everyone|<nazwa-gracza>]" | "")});
 return;
 elseif (taskid = toint(args[1]))
 elseif (all = args[1] == "all")
@@ -79616,7 +79616,7 @@ realplayer = player;
 if (length(args) > 1)
 soon = toint(args[2]);
 if ((soon <= 0) && (!player.wizard))
-player:notify(tostr("Usage:  ", verb, " soon [positive-number-of-seconds]"));
+player:notify(tostr("Uzycie:  ", verb, " soon [dodatnia-liczba-sekund]"));
 return;
 elseif (player.wizard)
 result = this:kill_aux_wizard_parse(@args[2..$]);
@@ -79647,7 +79647,7 @@ if (whatstr)
 what = player:my_match_object(whatstr);
 endif
 else
-player:notify_lines({tostr("Usage:  ", verb, " [object]:[verb]"), tostr("        ", verb, " task_id"), tostr("        ", verb, " soon [number-of-seconds]", player.wizard ? " [everyone|<player name>]" | ""), tostr("        ", verb, " all", player.wizard ? " [\"everyone\"|<player name>]" | "")});
+player:notify_lines({tostr("Uzycie:  ", verb, " [obiekt]:[czasownik]"), tostr("        ", verb, " id-zadania"), tostr("        ", verb, " soon [liczba-sekund]", player.wizard ? " [everyone|<nazwa-gracza>]" | ""), tostr("        ", verb, " all", player.wizard ? " [\"everyone\"|<nazwa-gracza>]" | "")});
 return;
 endif
 "OK, parsed the line, and punted them if it was bogus.  This verb could have been a bit shorter at the expense of readability.  I think it's getting towards unreadable as is.  At this point we've set_task_perms'd, and set up an enormous number of local variables.  Evaluate them in the order we set them, and we should never get var not found.";
@@ -79656,10 +79656,10 @@ killed = 0;
 if (taskid)
 try
 kill_task(taskid);
-player:notify(tostr("Killed task ", taskid, "."));
+player:notify(tostr("Zabito zadanie ", taskid, "."));
 killed = 1;
 except error (ANY)
-player:notify(tostr("Can't kill task ", taskid, ": ", error[2]));
+player:notify(tostr("Nie mozna zabic zadania ", taskid, ": ", error[2]));
 endtry
 elseif (all)
 for task in (queued_tasks)
@@ -79707,29 +79707,29 @@ endif
 $command_utils:suspend_if_needed(3, "... killing tasks");
 endfor
 else
-player:notify("Something is funny; I didn't understand your @kill command.  You shouldn't have gotten here.  Please send yduJ mail saying you got this message from @kill, and what you had typed to @kill.");
+player:notify("Cos jest nie tak; to polecenie @kill nie zostalo zrozumiane.  To miejsce nie powinno byc osiagalne.  Wyslij yduJ maila z informacja o tym komunikacie z @kill oraz o tym, co zostalo wpisane do @kill.");
 endif
 if (!killed)
-player:notify("No tasks killed.");
+player:notify("Nie zabito zadnych zadan.");
 elseif (quiet)
-player:notify(tostr("Killed ", killed, " tasks."));
+player:notify($polish_utils:count(killed, "Zabito 1 zadanie.", tostr("Zabito ", killed, " zadania."), tostr("Zabito ", killed, " zadan.")));
 endif
 .
 #58:9
-"Usage:  @copy source:verbname to target[:verbname]";
-"  the target verbname, if not given, defaults to that of the source.  If the target verb doesn't already exist, a new verb is installed with the same args, names, code, and permission flags as the source.  Otherwise, the existing target's verb code is overwritten and no other changes are made.";
-"This the poor man's version of multiple inheritance... the main problem is that someone may update the verb you're copying and you'd never know.";
-"  if @copy-x is used, makes an unusable copy (!x, this none this).  If @copy-move is used, deletes the source verb as well.";
+"Uzycie:  @copy zrodlo:czasownik to cel[:czasownik]";
+"  nazwa czasownika docelowego, jesli nie podana, domyslnie taka jak zrodlowego.  Jesli docelowy czasownik jeszcze nie istnieje, instalowany jest nowy z takimi samymi argumentami, nazwami, kodem i flagami uprawnien jak zrodlowy.  W przeciwnym razie kod istniejacego docelowego czasownika jest nadpisywany, bez innych zmian.";
+"To biedna wersja wielodziedziczenia... glowny problem w tym, ze ktos moze zaktualizowac czasownik, ktory kopiujesz, a ty nigdy sie o tym nie dowiesz.";
+"  jesli uzyto @copy-x, tworzy nieuzywalna kopie (!x, this none this).  Jesli uzyto @copy-move, usuwa takze czasownik zrodlowy.";
 set_task_perms(player);
 if (!player.programmer)
-player:notify("You need to be a programmer to do this.");
-player:notify("If you want to become a programmer, talk to a wizard.");
+player:notify("Musisz byc programista, by to zrobic.");
+player:notify("Jesli chcesz zostac programista, porozmawiaj z wizardem.");
 return;
 elseif ((verb != "@copy-move") && (!$quota_utils:verb_addition_permitted(player)))
-player:notify("Verb addition not permitted because quota exceeded.");
+player:notify("Dodawanie czasownikow niedozwolone z powodu przekroczenia limitu.");
 return;
 elseif ((!(from = $code_utils:parse_verbref(dobjstr))) || (!iobjstr))
-player:notify(tostr("Usage:  ", verb, " obj:verb to obj:verb"));
+player:notify(tostr("Uzycie:  ", verb, " obj:verb to obj:verb"));
 player:notify(tostr("        ", verb, " obj:verb to obj"));
 player:notify(tostr("        ", verb, " obj:verb to :verb"));
 return;
@@ -79751,24 +79751,24 @@ endif
 from[1] = fobj;
 if (verb == "@copy-move")
 if ((!$perm_utils:controls(player, fobj)) && (!$quota_utils:verb_addition_permitted(player)))
-player:notify("Won't be able to delete old verb.  Quota exceeded, so unable to continue.  Aborted.");
+player:notify("Nie bedzie mozna usunac starego czasownika.  Przekroczono limit, wiec nie mozna kontynuowac.  Przerwano.");
 return;
 elseif ($perm_utils:controls(player, fobj))
 "only try to move if the player controls the verb. Otherwise, skip and treat as regular @copy";
 if (typeof(result = $code_utils:move_verb(@from, @to)) == ERR)
-player:notify(tostr("Unable to move verb from ", from[1], ":", from[2], " to ", to[1], ":", to[2], " --> ", result));
+player:notify(tostr("Nie mozna przeniesc czasownika z ", from[1], ":", from[2], " do ", to[1], ":", to[2], " --> ", result));
 else
-player:notify(tostr("Moved verb from ", from[1], ":", from[2], " to ", result[1], ":", result[2]));
+player:notify(tostr("Przeniesiono czasownik z ", from[1], ":", from[2], " do ", result[1], ":", result[2]));
 endif
 return;
 else
-player:notify("Won't be able to delete old verb.  Treating this as regular @copy.");
+player:notify("Nie bedzie mozna usunac starego czasownika.  Traktowanie jako zwykly @copy.");
 endif
 endif
 to_firstname = strsub(to[2][1..index(to[2] + " ", " ") - 1], "*", "") || "*";
 if ((!(hv = $object_utils:has_verb(to[1], to_firstname))) || (hv[1] != to[1]))
 if ((!(info = `verb_info(@from) ! ANY')) || (!(vargs = `verb_args(@from) ! ANY')))
-player:notify(tostr("Retrieving ", from[1], ":", from[2], " --> ", info && vargs));
+player:notify(tostr("Pobieranie ", from[1], ":", from[2], " --> ", info && vargs));
 return;
 endif
 if (!player.wizard)
@@ -79783,31 +79783,31 @@ if (from[2] != to[2])
 info[3] = to[2];
 endif
 if (ERR == typeof(e = `add_verb(to[1], info, vargs) ! ANY'))
-player:notify(tostr("Adding ", to[1], ":", to[2], " --> ", e));
+player:notify(tostr("Dodawanie ", to[1], ":", to[2], " --> ", e));
 return;
 endif
 endif
 code = `verb_code(@from) ! ANY';
 owner = `verb_info(@from)[1] ! ANY';
 if (typeof(code) == ERR)
-player:notify(tostr("Couldn't retrieve code from ", from[1].name, " (", from[1], "):", from[2], " => ", code));
+player:notify(tostr("Nie udalo sie pobrac kodu z ", from[1].name, " (", from[1], "):", from[2], " => ", code));
 return;
 endif
 if (owner != player)
-comment = tostr("Copied from ", $string_utils:nn(from[1]), ":", from[2], (from[1] == owner) ? "" | tostr(" [verb author ", $string_utils:nn(owner), "]"), " at ", ctime());
+comment = tostr("Skopiowano z ", $string_utils:nn(from[1]), ":", from[2], (from[1] == owner) ? "" | tostr(" [autor czasownika ", $string_utils:nn(owner), "]"), " o ", ctime());
 code = {$string_utils:print(comment) + ";", @code};
 if (!player:prog_option("copy_expert"))
-player:notify("Use of @copy is discouraged.  Please do not use @copy if you can use inheritance or features instead.  Use @copy carefully, and only when absolutely necessary, as it is wasteful of database space.");
+player:notify("Uzywanie @copy jest odradzane.  Prosze nie uzywac @copy, jesli mozna zamiast tego uzyc dziedziczenia lub cech (features).  Uzywaj @copy ostroznie i tylko gdy jest to absolutnie konieczne, poniewaz marnuje przestrzen bazy danych.");
 endif
 endif
 e = `set_verb_code(to[1], to_firstname, code) ! ANY';
 if (ERR == typeof(e))
-player:notify(tostr("Copying ", from[1], ":", from[2], " to ", to[1], ":", to[2], " --> ", e));
+player:notify(tostr("Kopiowanie ", from[1], ":", from[2], " do ", to[1], ":", to[2], " --> ", e));
 elseif ((typeof(e) == LIST) && e)
-player:notify(tostr("Copying ", from[1], ":", from[2], " to ", to[1], ":", to[2], " -->"));
+player:notify(tostr("Kopiowanie ", from[1], ":", from[2], " do ", to[1], ":", to[2], " -->"));
 player:notify_lines(e);
 else
-player:notify(tostr(to[1], ":", to[2], " code set."));
+player:notify(tostr(to[1], ":", to[2], " - kod ustawiony."));
 endif
 .
 #58:10
@@ -79816,8 +79816,8 @@ task = args[1];
 player:notify(tostr("Killed: ", $string_utils:right(tostr("task ", task[1]), 17), ", verb ", task[6], ":", task[7], ", line ", task[8], (task[9] != task[6]) ? ", this==" + tostr(task[9]) | ""));
 .
 #58:11
-"This version of @program deals with multiple verbs having the same name.";
-"... @program <object>:<verbname> <dobj> <prep> <iobj>  picks the right one.";
+"Ta wersja @program radzi sobie z wieloma czasownikami o tej samej nazwie.";
+"... @program <obiekt>:<nazwa-czasownika> <dobj> <prep> <iobj>  wybiera wlasciwy.";
 if (player != caller)
 return;
 endif
@@ -79827,7 +79827,7 @@ set_task_perms(player);
 "...";
 punt = "...set punt to 0 only if everything works out...";
 if (!(args && (spec = $code_utils:parse_verbref(args[1]))))
-player:notify(tostr("Usage: ", verb, " <object>:<verb> [<dobj> <prep> <iobj>]"));
+player:notify(tostr("Uzycie: ", verb, " <obiekt>:<czasownik> [<dobj> <prep> <iobj>]"));
 elseif ($command_utils:object_match_failed(object = player:my_match_object(spec[1]), spec[1]))
 "...bogus object...";
 elseif (typeof(argspec = $code_utils:parse_argspec(@listdelete(args, 1))) != LIST)
@@ -79835,11 +79835,11 @@ player:notify(tostr(argspec));
 elseif (verb == "@program#")
 verbname = $code_utils:toint(spec[2]);
 if (verbname == E_TYPE)
-player:notify("Verb number expected.");
+player:notify("Oczekiwano numeru czasownika.");
 elseif (length(args) > 1)
-player:notify("Don't give args for @program#.");
+player:notify("Nie podawaj argumentow dla @program#.");
 elseif ((verbname < 1) || `verbname > length(verbs(object)) ! E_PERM')
-player:notify("Verb number out of range.");
+player:notify("Numer czasownika poza zakresem.");
 else
 argspec = 0;
 punt = 0;
@@ -79847,7 +79847,7 @@ endif
 elseif (argspec[2])
 player:notify($string_utils:from_list(argspec[2], " ") + "??");
 elseif (length(argspec = argspec[1]) in {1, 2})
-player:notify({"Missing preposition", "Missing iobj specification"}[length(argspec)]);
+player:notify({"Brak przyimka", "Brak specyfikacji iobj"}[length(argspec)]);
 else
 punt = 0;
 verbname = spec[2];
@@ -79869,7 +79869,7 @@ loc = $code_utils:find_verb_named(object, verbname, loc + 1);
 endwhile
 if (!loc)
 punt = "...can't find it....";
-player:notify("That object has no verb matching that name + args.");
+player:notify("Ten obiekt nie ma czasownika pasujacego do tej nazwy + argumentow.");
 else
 verbname = loc;
 endif
@@ -79889,7 +79889,7 @@ if (!loc)
 loc = aliases in (verbs(object) || {});
 endif
 except (E_VERBNF)
-player:notify("That object does not have that verb definition.");
+player:notify("Ten obiekt nie ma tej definicji czasownika.");
 except error (ANY)
 player:notify(error[2]);
 endtry
@@ -79898,12 +79898,12 @@ endif
 "...read the code...";
 "...";
 if (punt)
-player:notify(tostr("Now ignoring code for ", args ? args[1] | "nothing in particular", "."));
+player:notify(tostr("Ignorowanie kodu dla ", args ? args[1] | "niczego konkretnego", "."));
 $command_utils:read_lines();
-player:notify("Verb code ignored.");
+player:notify("Kod czasownika zignorowany.");
 else
-player:notify(tostr("Now programming ", object.name, ":", aliases, "(", (!loc) ? "??" | loc, ")."));
-lines = $command_utils:read_lines_escape((active = player in $verb_editor.active) ? {} | {"@edit"}, {tostr("You are editing ", $string_utils:nn(object), ":", verbname, "."), @active ? {} | {"Type `@edit' to take this into the verb editor."}});
+player:notify(tostr("Programowanie ", object.name, ":", aliases, "(", (!loc) ? "??" | loc, ")."));
+lines = $command_utils:read_lines_escape((active = player in $verb_editor.active) ? {} | {"@edit"}, {tostr("Edytujesz ", $string_utils:nn(object), ":", verbname, "."), @active ? {} | {"Wpisz `@edit', by przejsc do edytora czasownikow."}});
 if (lines[1] == "@edit")
 $verb_editor:invoke(args[1], "@program", lines[2]);
 return;
@@ -79915,33 +79915,33 @@ endif
 try
 if (result = set_verb_code(object, verbname, lines[2]))
 player:notify_lines(result);
-player:notify(tostr(length(result), " error(s)."));
-player:notify("Verb not programmed.");
+player:notify($polish_utils:count(length(result), "1 blad.", tostr(length(result), " bledy."), tostr(length(result), " bledow.")));
+player:notify("Czasownik nie zostal zaprogramowany.");
 else
-player:notify("0 errors.");
-player:notify("Verb programmed.");
+player:notify("0 bledow.");
+player:notify("Czasownik zaprogramowany.");
 endif
 except error (ANY)
 player:notify(error[2]);
-player:notify("Verb not programmed.");
+player:notify("Czasownik nie zostal zaprogramowany.");
 endtry
 endif
 .
 #58:12
-"Usage: @setenv <environment string>";
-"Set your .eval_env property.";
+"Uzycie: @setenv <lancuch srodowiska>";
+"Ustawia twoja wlasciwosc .eval_env.";
 set_task_perms(player);
 if (!argstr)
-player:notify(tostr("Usage:  ", verb, " <environment string>"));
+player:notify(tostr("Uzycie:  ", verb, " <lancuch srodowiska>"));
 return;
 endif
-player:notify(tostr("Current eval environment is: ", player.eval_env));
+player:notify(tostr("Biezace srodowisko eval to: ", player.eval_env));
 result = player:set_eval_env(argstr);
 if (typeof(result) == ERR)
 player:notify(tostr(result));
 return;
 endif
-player:notify(tostr(".eval_env set to \"", player.eval_env, "\" (", player.eval_ticks, " ticks)."));
+player:notify(tostr(".eval_env ustawione na \"", player.eval_env, "\" (", $polish_utils:count(player.eval_ticks, "1 tick", tostr(player.eval_ticks, " ticki"), tostr(player.eval_ticks, " tickow")), ")."));
 .
 #58:13
 "Usage: @prospectus <player> [from <start>] [to <end>]";
@@ -79963,7 +79963,7 @@ return $building_utils:do_prospectus(dobj, @parse_result);
 #58:14
 "@display <object>[.[property]]*[,[inherited_property]]*[:[verb]]*[;[inherited_verb]]*";
 if (player != this)
-player:notify(tostr("Sorry, you can't use ", this:title(), "'s `", verb, "' command."));
+player:notify(tostr("Przepraszam, nie mozesz uzywac polecenia `", verb, "' obiektu ", this:title(), "."));
 return E_PERM;
 endif
 "null names for properties and verbs are interpreted as meaning all of them.";
@@ -80059,7 +80059,7 @@ for w in (opivu[4])
 if (y = $object_utils:has_verb(it, w))
 vrb = setadd(vrb, {y[1], w});
 else
-this:notify(tostr("No such verb, \"", w, "\""));
+this:notify(tostr("Nie ma takiego czasownika, \"", w, "\""));
 endif
 endfor
 endif
@@ -80078,21 +80078,21 @@ for w in (opivu[5])
 if (typeof(y = $object_utils:has_verb(it, w)) == LIST)
 vrb = setadd(vrb, {y[1], w});
 else
-this:notify(tostr("No such verb, \"", w, "\""));
+this:notify(tostr("Nie ma takiego czasownika, \"", w, "\""));
 endif
 endfor
 endif
 if (({""} in opivu) || (opivu[2..5] == {{}, {}, {}, {}}))
-this:notify(tostr(it.name, " (", it, ") [ ", it.r ? "readable " | "", it.w ? "writeable " | "", it.f ? "fertile " | "", is_player(it) ? "(player) " | "", it.programmer ? "programmer " | "", it.wizard ? "wizard " | "", "]"));
+this:notify(tostr(it.name, " (", it, ") [ ", it.r ? "czytelny " | "", it.w ? "zapisywalny " | "", it.f ? "plodny " | "", is_player(it) ? "(gracz) " | "", it.programmer ? "programista " | "", it.wizard ? "wizard " | "", "]"));
 if (it.owner != (is_player(it) ? it | this))
-this:notify(tostr("  Owned by ", valid(p = it.owner) ? p.name | "** extinct **", " (", p, ")."));
+this:notify(tostr("  Nalezy do ", valid(p = it.owner) ? p.name | "** wymarly **", " (", p, ")."));
 endif
-this:notify(tostr("  Child of ", valid(p = parent(it)) ? p.name | "** none **", " (", p, ")."));
+this:notify(tostr("  Dziecko ", valid(p = parent(it)) ? p.name | "** brak **", " (", p, ")."));
 if (it.location != $nothing)
-this:notify(tostr("  Location ", valid(p = it.location) ? p.name | "** unplace (tell a wizard, fast!) **", " (", p, ")."));
+this:notify(tostr("  Lokalizacja ", valid(p = it.location) ? p.name | "** brak miejsca (szybko powiadom wizarda!) **", " (", p, ")."));
 endif
 if ($quota_utils.byte_based && $object_utils:has_property(it, "object_size"))
-this:notify(tostr("  Size: ", $string_utils:group_number(it.object_size[1]), " bytes at ", this:ctime(it.object_size[2])));
+this:notify(tostr("  Rozmiar: ", $string_utils:group_number(it.object_size[1]), " bajtow o ", this:ctime(it.object_size[2])));
 endif
 endif
 blankargs = this:display_option("blank_tnt") ? {"this", "none", "this"} | #-1;
@@ -80106,7 +80106,7 @@ if ((typeof(inf) == LIST) || (inf == E_PERM))
 name = (typeof(inf) == LIST) ? index(inf[3], " ") ? ("\"" + inf[3]) + "\"" | inf[3] | q;
 line = $string_utils:left(tostr($string_utils:right(tostr(where), 6), ":", name, " "), 32);
 if (inf == E_PERM)
-line = line + "   ** unreadable **";
+line = line + "   ** nieczytelne **";
 else
 line = $string_utils:left(tostr(line, inf[1].name, " (", inf[1], ") "), 53) + ((i = inf[2] in {"x", "xd", "d", "rd"}) ? {" x", " xd", "  d", "r d"}[i] | inf[2]);
 vargs = `verb_args(where, short) ! ANY';
@@ -80120,9 +80120,9 @@ endif
 this:notify(line);
 elseif (inf == E_VERBNF)
 this:notify(tostr(inf));
-this:notify(tostr("  ** no such verb, \"", short, "\" **"));
+this:notify(tostr("  ** nie ma takiego czasownika, \"", short, "\" **"));
 else
-this:notify("This shouldn't ever happen. @display is buggy.");
+this:notify("To nigdy nie powinno sie zdarzyc. @display jest wadliwe.");
 endif
 endfor
 all = {@prop, @inh};
@@ -80136,12 +80136,12 @@ if (inf == E_PROPNF)
 if (q in $code_utils.builtin_props)
 this:notify(tostr($string_utils:left("," + q, 25), "Built in property            ", $string_utils:abbreviated_value(it.(q), max, depth)));
 else
-this:notify(tostr("  ** property not found, \"", q, "\" **"));
+this:notify(tostr("  ** wlasciwosc nie znaleziona, \"", q, "\" **"));
 endif
 else
 pname = $string_utils:left(tostr((q in `properties(it) ! ANY => {}') ? "." | (`is_clear_property(it, q) ! ANY' ? " " | ","), q, " "), 25);
 if (inf == E_PERM)
-this:notify(pname + "   ** unreadable **");
+this:notify(pname + "   ** nieczytelne **");
 else
 oname = inf[1].name;
 truncate_owner_names && ((length(oname) > 12) && (oname = oname[1..12]));
@@ -80156,28 +80156,28 @@ failed = {};
 for k in (cant)
 failed = listappend(failed, tostr(k.name, " (", k, ")"));
 endfor
-this:notify($string_utils:centre(tostr(" no permission to read ", $string_utils:english_list(failed, ", ", " or ", " or "), ". "), 75, "-"));
+this:notify($string_utils:centre(tostr(" brak uprawnien do odczytu ", $string_utils:english_list(failed, ", ", " or ", " or "), ". "), 75, "-"));
 else
-this:notify($string_utils:centre(" finished ", 75, "-"));
+this:notify($string_utils:centre(" zakonczono ", 75, "-"));
 endif
 .
 #58:15
 set_task_perms(player);
 "Let 'em @kill it.";
 count = (maxobj = toint(max_object()) + 1) - length(recycled_objects());
-player:notify(tostr("There are ", count, " valid objects out of ", maxobj, " allocated object numbers."));
+player:notify(tostr("Jest ", count, " prawidlowych obiektow z ", maxobj, " przydzielonych numerow obiektow."));
 .
 #58:16
-"@gethelp [<topic>] [from <db or dblist>]";
-"  Prints the raw text of topic from the appropriate help db.";
-"  With no argument, gets the blank (\"\") topic from wherever it lives";
-"  Text is printed as a script for changing this help topic ";
-"  (somewhat like @dump...)";
+"@gethelp [<temat>] [from <baza lub lista-baz>]";
+"  Wypisuje surowy tekst tematu z odpowiedniej bazy pomocy.";
+"  Bez argumentu, pobiera pusty (\"\") temat skad sie da";
+"  Tekst jest wypisywany jako skrypt do zmiany tego tematu pomocy";
+"  (troche jak @dump...)";
 if (!prepstr)
 topic = argstr;
 dblist = $code_utils:help_db_list();
 elseif (prepstr != "from")
-player:notify("Usage:  ", verb, " [<topic>] [from <db>]");
+player:notify("Uzycie:  ", verb, " [<temat>] [from <baza>]");
 return;
 elseif (!(e = $no_one:eval_d(iobjstr = argstr[$string_utils:word_start(argstr)[(prepstr in args) + 1][1]..$])))
 player:notify(tostr(e));
@@ -80186,7 +80186,7 @@ elseif (!e[1])
 player:notify_lines(e[2]);
 return;
 elseif (!(typeof(dblist = e[2]) in {OBJ, LIST}))
-player:notify(tostr(iobjstr, " => ", dblist, " -- not an object or a list"));
+player:notify(tostr(iobjstr, " => ", dblist, " -- to nie jest obiekt ani lista"));
 return;
 else
 topic = dobjstr;
@@ -80196,12 +80196,12 @@ endif
 endif
 search = $code_utils:help_db_search(topic, dblist);
 if (!search)
-player:notify("Topic not found.");
+player:notify("Temat nie znaleziony.");
 elseif (search[1] == $ambiguous_match)
-player:notify(tostr("Topic `", topic, "' ambiguous:  ", $string_utils:english_list(search[2], "none", " or ")));
+player:notify(tostr("Temat `", topic, "' niejednoznaczny:  ", $string_utils:english_list(search[2], "none", " or ")));
 elseif (typeof(text = (db = search[1]):dump_topic(fulltopic = search[2])) == ERR)
 "...ok...shoot me.  This is a -d verb...";
-player:notify(tostr("Cannot retrieve `", fulltopic, "' on ", $code_utils:corify_object(db), ":  ", text));
+player:notify(tostr("Nie mozna pobrac `", fulltopic, "' na ", $code_utils:corify_object(db), ":  ", text));
 else
 player:notify_lines(text);
 endif
@@ -80212,13 +80212,13 @@ if (prepstr == "in")
 pattern = dobjstr;
 objlist = player:eval_cmd_string(iobjstr, 0);
 if (!objlist[1])
-player:notify(tostr("Had trouble reading `", iobjstr, "':  "));
+player:notify(tostr("Problem z odczytem `", iobjstr, "':  "));
 player:notify_lines(@objlist[2]);
 return;
 elseif (typeof(objlist[2]) == OBJ)
 objlist = {objlist[2..2]};
 elseif (typeof(objlist[2]) != LIST)
-player:notify(tostr("Value of `", iobjstr, "' is not an object or list:  ", toliteral(objlist[2])));
+player:notify(tostr("Wartosc `", iobjstr, "' nie jest obiektem ani lista:  ", toliteral(objlist[2])));
 return;
 else
 objlist = objlist[2..2];
@@ -80230,10 +80230,10 @@ elseif (args && player.wizard)
 pattern = argstr;
 objlist = {};
 else
-player:notify(tostr("Usage:  ", verb, " <pattern> ", player.wizard ? "[in {<objectlist>} | from <number>]" | "in {<objectlist>}"));
+player:notify(tostr("Uzycie:  ", verb, " <wzorzec> ", player.wizard ? "[in {<lista-obiektow>} | from <numer>]" | "in {<lista-obiektow>}"));
 return;
 endif
-player:notify(tostr("Searching for verbs ", @prepstr ? {prepstr, " ", iobjstr, " "} | {}, (verb == "@egrep") ? "matching the pattern " | "containing the string ", toliteral(pattern), " ..."));
+player:notify(tostr("Szukanie czasownikow ", @prepstr ? {prepstr, " ", iobjstr, " "} | {}, (verb == "@egrep") ? "pasujacych do wzorca " | "zawierajacych ciag ", toliteral(pattern), " ..."));
 player:notify("");
 egrep = verb[2] == "e";
 all = index(verb, "a");
@@ -80242,7 +80242,7 @@ $code_utils:(all ? egrep ? "find_verb_lines_matching" | "find_verb_lines_contain
 #58:18
 set_task_perms(player);
 if (dobjstr == "")
-player:notify(tostr("Usage:  ", verb, " <object-or-property-or-verb>"));
+player:notify(tostr("Uzycie:  ", verb, " <obiekt-lub-wlasciwosc-lub-czasownik>"));
 return;
 endif
 if (index(dobjstr, ".") && (spec = $code_utils:parse_propref(dobjstr)))
@@ -80253,7 +80253,7 @@ elseif (index(dobjstr, ":") && (spec = $code_utils:parse_verbref(dobjstr)))
 if (valid(object = player:my_match_object(spec[1])) && player.programmer)
 return $code_utils:show_verbdef(object, spec[2]);
 else
-player:tell("You must be a programmer to show verbs.");
+player:tell("Musisz byc programista, by pokazywac czasowniki.");
 return;
 endif
 elseif (((dobjstr[1] == "$") && ((pname = dobjstr[2..$]) in properties(#0))) && (typeof(#0.(pname)) == OBJ))
@@ -80270,22 +80270,22 @@ endif
 $command_utils:object_match_failed(object, dobjstr);
 .
 #58:19
-"@check-prop object.property";
-"  checks for descendents defining the given property.";
+"@check-prop obiekt.wlasciwosc";
+"  sprawdza, czy potomkowie definiuja podana wlasciwosc.";
 set_task_perms(player);
 if (!(spec = $code_utils:parse_propref(dobjstr)))
-player:notify(tostr("Usage:  ", verb, " <object>.<prop-name>"));
+player:notify(tostr("Uzycie:  ", verb, " <obiekt>.<nazwa-wlasciwosci>"));
 elseif ($command_utils:object_match_failed(object = player:my_match_object(spec[1]), spec[1]))
 "...bogus object...";
 elseif (!($perm_utils:controls(player, object) || object.w))
-player:notify("You can't create a property on that object anyway.");
+player:notify("I tak nie mozesz utworzyc wlasciwosci na tym obiekcie.");
 elseif ($object_utils:has_property(object, prop = spec[2]))
-player:notify("That object already has that property.");
+player:notify("Ten obiekt juz ma te wlasciwosc.");
 elseif (olist = $object_utils:descendants_with_property_suspended(object, prop))
-player:notify("The following descendents have this property defined:");
+player:notify("Nastepujacy potomkowie maja zdefiniowana ta wlasciwosc:");
 player:notify("  " + $string_utils:from_list(olist, " "));
 else
-player:notify("No property name conflicts found.");
+player:notify("Nie znaleziono konfliktow nazw wlasciwosci.");
 endif
 .
 #58:20
@@ -80331,12 +80331,12 @@ player:notify(error[2]);
 endtry
 .
 #58:22
-"Syntax: @disown <object> [from <object>]";
-"This command is used to remove unwanted children of objects you control. If you control an object, and there is a child of that object you do not want, this command will chparent() the object to its grandparent.";
+"Skladnia: @disown <obiekt> [from <obiekt>]";
+"To polecenie sluzy do usuwania niechcianych dzieci obiektow, ktore kontrolujesz. Jesli kontrolujesz obiekt i istnieje jego dziecko, ktorego nie chcesz, to polecenie wykona chparent() tego obiektu na jego dziadka.";
 set_task_perms(player);
 if (prepstr)
 if (prepstr != "from")
-player:notify("Usage:  ", verb, " <object> [from <object>]");
+player:notify("Uzycie:  ", verb, " <obiekt> [from <obiekt>]");
 return;
 elseif ($command_utils:object_match_failed(iobj = player:my_match_object(iobjstr), iobjstr))
 "... from WHAT?..";
@@ -80344,7 +80344,7 @@ return;
 elseif (valid(dobj = $string_utils:literal_object(dobjstr)))
 "... literal object number...";
 if (parent(dobj) != iobj)
-player:notify(tostr(dobj, " is not a child of ", iobj.name, " (", iobj, ")"));
+player:notify(tostr(dobj, " nie jest dzieckiem ", iobj.name, " (", iobj, ")"));
 return;
 endif
 elseif ($command_utils:object_match_failed(dobj = $string_utils:match(dobjstr, children(iobj), "name", children(iobj), "aliases"), dobjstr))
@@ -80357,7 +80357,7 @@ return;
 endif
 try
 if ($object_utils:disown(dobj))
-player:notify(tostr(dobj.name, " (", dobj, ")'s parent is now ", (grandparent = parent(dobj)).name, " (", grandparent, ")."));
+player:notify(tostr(dobj.name, " (", dobj, ") ma teraz rodzica ", (grandparent = parent(dobj)).name, " (", grandparent, ")."));
 else
 "this should never happen";
 endif
@@ -80391,19 +80391,19 @@ ticks = ticks - ticks_left();
 return {@value, ticks, seconds};
 .
 #58:24
-"@dump something [with [id=...] [noprops] [noverbs] [create]]";
-"This spills out all properties and verbs on an object, calling suspend at appropriate intervals.";
-"   id=#nnn -- specifies an idnumber to use in place of the object's actual id (for porting to another MOO)";
-"   noprops -- don't show properties.";
-"   noverbs -- don't show verbs.";
-"   create  -- indicates that a @create command should be generated and all of the verbs be introduced with @verb rather than @args; the default assumption is that the object already exists and you're just doing this to have a look at it.";
+"@dump cos [with [id=...] [noprops] [noverbs] [create]]";
+"Wypisuje wszystkie wlasciwosci i czasowniki obiektu, wywolujac suspend w odpowiednich odstepach.";
+"   id=#nnn -- podaje numer id do uzycia zamiast rzeczywistego id obiektu (do przenoszenia na inne MOO)";
+"   noprops -- nie pokazuj wlasciwosci.";
+"   noverbs -- nie pokazuj czasownikow.";
+"   create  -- wskazuje, ze nalezy wygenerowac polecenie @create, a wszystkie czasowniki wprowadzic przez @verb zamiast @args; domyslnie zaklada sie, ze obiekt juz istnieje i robisz to tylko, by mu sie przyjrzec.";
 set_task_perms(player);
 dobj = player:my_match_object(dobjstr);
 if ($command_utils:object_match_failed(dobj, dobjstr))
 return;
 endif
 if (prepstr && (prepstr != "with"))
-player:notify(tostr("Usage:  ", verb, " something [with [id=...] [noprops] [noverbs] [create]]"));
+player:notify(tostr("Uzycie:  ", verb, " cos [with [id=...] [noprops] [noverbs] [create]]"));
 return;
 endif
 targname = tostr(dobj);
@@ -80418,8 +80418,8 @@ options = setremove(options, o[3..$]);
 elseif (o in {"create"})
 create = 1;
 else
-player:notify(tostr("`", o, "' not understood as valid option."));
-player:notify(tostr("Usage:  ", verb, " something [with [id=...] [noprops] [noverbs] [create]]"));
+player:notify(tostr("`", o, "' nie jest rozpoznawana jako prawidlowa opcja."));
+player:notify(tostr("Uzycie:  ", verb, " cos [with [id=...] [noprops] [noverbs] [create]]"));
 return;
 endif
 endfor
@@ -80442,16 +80442,16 @@ $ansi_utils:remove_noansi();
 .
 #58:25
 "Copied from Player Class hacked with eval that does substitutions and assorted stuff (#8855):# by Geust (#24442) Sun May  9 20:19:05 1993 PDT";
-"#<string>[.<property>|.parent] [exit|player|inventory] [for <code>] returns information about the object (we'll call it <thing>) named by string.  String is matched in the current room unless one of exit|player|inventory is given.";
-"If neither .<property>|.parent nor <code> is specified, just return <thing>.";
-"If .<property> is named, return <thing>.<property>.  .parent returns parent(<thing>).";
-"If <code> is given, it is evaluated, with the value returned by the first part being substituted for %# in <code>.";
-"For example, the command";
+"#<lancuch>[.<wlasciwosc>|.parent] [exit|player|inventory] [for <kod>] zwraca informacje o obiekcie (nazwiemy go <rzecz>) o nazwie lancuch.  Lancuch jest dopasowywany w biezacym pokoju, chyba ze podano jedno z exit|player|inventory.";
+"Jesli nie podano ani .<wlasciwosc>|.parent, ani <kod>, zwraca po prostu <rzecz>.";
+"Jesli podano .<wlasciwosc>, zwraca <rzecz>.<wlasciwosc>.  .parent zwraca parent(<rzecz>).";
+"Jesli podano <kod>, jest on ewaluowany, a wartosc zwrocona przez pierwsza czesc jest podstawiana za %# w <kod>.";
+"Na przyklad polecenie";
 "  #JoeFeedback.parent player for toint(%#)";
-"will return 26026 (unless Joe has chparented since writing this).";
+"zwroci 26026 (chyba ze Joe zmienil rodzica od napisania tego).";
 set_task_perms(player);
 if (!(whatstr = verb[2..dot = min(index(verb + ".", "."), index(verb + ":", ":")) - 1]))
-player:notify("Usage:  #string [exit|player|inventory]");
+player:notify("Uzycie:  #lancuch [exit|player|inventory]");
 return;
 elseif (!args)
 what = player:my_match_object(whatstr);
@@ -80502,7 +80502,7 @@ player:notify(this:eval_value_to_string(value[2]));
 else
 player:notify_lines(value[2]);
 nerrors = length(value[2]);
-player:notify(tostr(nerrors, " error", (nerrors == 1) ? "." | "s."));
+player:notify($polish_utils:count(nerrors, "1 blad.", tostr(nerrors, " bledy."), tostr(nerrors, " bledow.")));
 endif
 else
 player:notify(this:eval_value_to_string(val));
@@ -80551,7 +80551,7 @@ endif
 .
 #58:28
 ":prog_option(name)";
-"Returns the value of the specified prog option";
+"Zwraca wartosc podanej opcji prog";
 if ((caller in {this, $mcp.simpleedit}) || $perm_utils:controls(caller_perms(), this))
 return $options["prog"]:get(this.prog_options, args[1]);
 else
@@ -80560,8 +80560,8 @@ endif
 .
 #58:29
 ":set_prog_option(oname,value)";
-"Changes the value of the named option.";
-"Returns a string error if something goes wrong.";
+"Zmienia wartosc podanej opcji.";
+"Zwraca lancuch bledu, jesli cos pojdzie nie tak.";
 if (!((caller == this) || $perm_utils:controls(caller_perms(), this)))
 return tostr(E_PERM);
 endif
@@ -80603,12 +80603,12 @@ elseif (`index("numbers", args[2]) ! ANY' == 1)
 nflag = fval;
 args[1..2] = {};
 else
-player:notify(tostr(args[1], " WHAT?"));
+player:notify(tostr(args[1], " CO?"));
 args = E_INVARG;
 endif
 elseif (index("all", args[1]) == 1)
 if (bynumber)
-player:notify("Don't use `all' with @list#.");
+player:notify("Nie uzywaj `all' z @list#.");
 args = E_INVARG;
 else
 aflag = 1;
@@ -80616,23 +80616,23 @@ args[1..1] = {};
 endif
 elseif (index("0123456789", args[1][1]) || (index(args[1], "..") == 1))
 if (E_INVARG == (s = $seq_utils:from_string(args[1])))
-player:notify(tostr("Garbled range:  ", args[1]));
+player:notify(tostr("Nieprawidlowy zakres:  ", args[1]));
 args = E_INVARG;
 else
 range = $seq_utils:union(range, s);
 args = listdelete(args, 1);
 endif
 elseif (bynumber)
-player:notify("Don't give args with @list#.");
+player:notify("Nie podawaj argumentow z @list#.");
 args = E_INVARG;
 elseif (argspec)
 "... second argspec?  Not likely ...";
-player:notify(tostr(args[1], " unexpected."));
+player:notify(tostr(args[1], " nieoczekiwane."));
 args = E_INVARG;
 elseif (typeof(pas = $code_utils:parse_argspec(@args)) == LIST)
 argspec = pas[1];
 if (length(argspec) < 2)
-player:notify(tostr("Argument `", @argspec, "' malformed."));
+player:notify(tostr("Argument `", @argspec, "' zle sformulowany."));
 args = E_INVARG;
 else
 argspec[2] = $code_utils:full_prep(argspec[2]) || argspec[2];
@@ -80646,9 +80646,9 @@ endif
 endwhile
 if (args == E_INVARG)
 if (bynumber)
-player:notify(tostr("Usage:  ", verb, " <object>:<verbnumber> [with|without parentheses|numbers] [ranges]"));
+player:notify(tostr("Uzycie:  ", verb, " <obiekt>:<numer-czasownika> [with|without parentheses|numbers] [ranges]"));
 else
-player:notify(tostr("Usage:  ", verb, " <object>:<verb> [<dobj> <prep> <iobj>] [with|without parentheses|numbers] [all] [ranges]"));
+player:notify(tostr("Uzycie:  ", verb, " <obiekt>:<czasownik> [<dobj> <prep> <iobj>] [with|without parentheses|numbers] [all] [ranges]"));
 endif
 return;
 elseif ($command_utils:object_match_failed(object = player:my_match_object(spec[1]), spec[1]))
@@ -80659,9 +80659,9 @@ for what in ({object, @$object_utils:ancestors(object)})
 if (bynumber)
 vname = $code_utils:toint(spec[2]);
 if (vname == E_TYPE)
-return player:notify("Verb number expected.");
+return player:notify("Oczekiwano numeru czasownika.");
 elseif ((vname < 1) || `vname > length(verbs(what)) ! E_PERM => 0')
-return player:notify("Verb number out of range.");
+return player:notify("Numer czasownika poza zakresem.");
 endif
 code = `verb_code(what, vname, pflag) ! ANY';
 elseif (argspec)
@@ -80679,7 +80679,7 @@ if (code != E_VERBNF)
 if (shown_one)
 player:notify("");
 elseif (what != object)
-player:notify(tostr("Object ", object, " does not define that verb", argspec ? " with those args" | "", ", but its ancestor ", what, " does."));
+player:notify(tostr("Obiekt ", object, " nie definiuje tego czasownika", argspec ? " z takimi argumentami" | "", ", ale definiuje go jego przodek ", what, "."));
 endif
 if (typeof(code) == ERR)
 player:notify(tostr(what, ":", vname, " -- ", code));
@@ -80696,12 +80696,12 @@ endif
 $ansi_utils:add_noansi();
 player:notify(tostr(what, ":", fullname, "   ", $string_utils:from_list(vargs, " "), permflag ? " " + info[2] | ""));
 if (code == {})
-player:notify("(That verb has not been programmed.)");
+player:notify("(Ten czasownik nie zostal zaprogramowany.)");
 else
 lineseq = {1, length(code) + 1};
 range && (lineseq = $seq_utils:intersection(range, lineseq));
 if (!lineseq)
-player:notify("(No lines in that range.)");
+player:notify("(Brak linii w tym zakresie.)");
 endif
 for k in [1..length(lineseq) / 2]
 for i in [lineseq[(2 * k) - 1]..lineseq[2 * k] - 1]
@@ -80723,7 +80723,7 @@ return;
 endif
 endfor
 if (!shown_one)
-player:notify(tostr("That object does not define that verb", argspec ? " with those args." | "."));
+player:notify(tostr("Ten obiekt nie definiuje tego czasownika", argspec ? " z takimi argumentami." | "."));
 endif
 .
 #58:31
@@ -80822,27 +80822,27 @@ endif
 "Last modified Mon Nov 28 06:21:21 2005 PST, by Roebare (#109000).";
 .
 #58:35
-"I never, ever remember how to add to option packages. So here we are.";
+"Nigdy, przenigdy nie pamietam, jak dodawac do pakietow opcji. Wiec mamy to.";
 if (!player.programmer)
 return E_PERM;
 endif
 set_task_perms(player);
 package = player:my_match_object(iobjstr);
 if ((package == $failed_match) || (isa(package, $generic_options) == 0))
-return player:tell("You need to specify an option package.");
+return player:tell("Musisz podac pakiet opcji.");
 elseif (dobjstr in package.names)
-return player:tell("That option already exists.");
+return player:tell("Ta opcja juz istnieje.");
 elseif ((!player.wizard) && (package.owner != player))
-return player:tell("You don't own that option package.");
+return player:tell("Nie jestes wlascicielem tego pakietu opcji.");
 else
 dobjstr = strsub(dobjstr, " ", "_");
-player:tell("What text is displayed when the option is DISABLED?");
+player:tell("Jaki tekst jest wyswietlany, gdy opcja jest WYLACZONA?");
 text = {$command_utils:read()};
-player:tell("What text is displayed when the option is ENABLED?");
+player:tell("Jaki tekst jest wyswietlany, gdy opcja jest WLACZONA?");
 text = {@text, $command_utils:read()};
 package:add_name(dobjstr);
 add_property(package, tostr("show_", dobjstr), text, {player, "rc"});
-player:tell("Option added!");
+player:tell("Opcja dodana!");
 endif
 .
 #58:36
@@ -80861,27 +80861,27 @@ set_task_perms(player);
 package = player:my_match_object(iobjstr);
 dobjstr = strsub(dobjstr, " ", "_");
 if ((package == $failed_match) || (isa(package, $generic_options) == 0))
-return player:tell("You need to specify an option package.");
+return player:tell("Musisz podac pakiet opcji.");
 elseif ((dobjstr in package.names) == 0)
-return player:tell("'", dobjstr, " isn't an option on ", $string_utils:nn(package), ".");
+return player:tell("'", dobjstr, " nie jest opcja na ", $string_utils:nn(package), ".");
 elseif ((!player.wizard) && (package.owner != player))
-return player:tell("You don't own that option package.");
+return player:tell("Nie jestes wlascicielem tego pakietu opcji.");
 else
-if ($cu:yes_or_no(tostr("Really delete option '", dobjstr, " from ", $string_utils:nn(package), "?")) == 1)
+if ($cu:yes_or_no(tostr("Na pewno usunac opcje '", dobjstr, " z ", $string_utils:nn(package), "?")) == 1)
 package:remove_name(dobjstr);
 delete_property(package, tostr("show_", dobjstr));
-player:tell("Option removed.");
+player:tell("Opcja usunieta.");
 else
-player:tell("Aborted.");
+player:tell("Przerwano.");
 endif
 endif
 .
 #58:38
-"Display ToastStunt commits.";
+"Wyswietla commity ToastStunt.";
 sourcedata = server_version("source");
 current_commit = sourcedata["commit" in slice(sourcedata)][2];
 last_commits = parse_json($string_utils:strip_binary(curl("https://api.github.com/repos/lisdude/toaststunt/commits")));
-commit_lst = {{"Author", "SHA", "Date", "Message"}};
+commit_lst = {{"Autor", "SHA", "Data", "Wiadomosc"}};
 for commit in (last_commits)
 is_current_commit = commit["sha"] == current_commit[1..$ - 1];
 author = ((commit["commit"]["author"]["name"] + " (") + commit["commit"]["author"]["email"]) + ")";
@@ -80895,7 +80895,7 @@ commit_lst = {@commit_lst, {(is_current_commit ? "[green]*[normal]" | "") + auth
 endfor
 player:tell_lines($string_utils:fit_to_screen(commit_lst, 2, 1));
 player:tell();
-player:tell("[green]*[normal] == The server is presently compiled from this commit.");
+player:tell("[green]*[normal] == Serwer jest obecnie skompilowany z tego commita.");
 .
 #59:0
 ":eval_d(code...) => {compiled?,result}";
