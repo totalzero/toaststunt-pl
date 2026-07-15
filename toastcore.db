@@ -664,7 +664,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784121002
+1784121738
 2
 name
 2
@@ -1234,7 +1234,7 @@ source
 2
 time
 0
-1784121224
+1784122023
 4
 0
 1
@@ -1462,7 +1462,7 @@ time
 4
 2
 0
-1784121186
+1784121989
 2
 localhost
 2
@@ -1471,7 +1471,7 @@ localhost
 2
 0
 0
-1784121224
+1784122023
 2
 1
 0
@@ -1635,7 +1635,7 @@ localhost
 2
 5
 0
-1784121217
+1784122016
 2
 1
 0
@@ -4155,7 +4155,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--22
+-12
 0
 2
 2
@@ -4169,7 +4169,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-15
+16
+4
+2
+0
+1784121738
+0
+0
 4
 2
 0
@@ -36331,7 +36337,7 @@ init_for_core
 2
 173
 -1
-51
+52
 builder-index
 @locations
 @sort-owned
@@ -36383,7 +36389,8 @@ object-quota
 @measure
 audit_bytes
 audit_float
-57
+polski-tworcy
+58
 4
 2
 2
@@ -37592,6 +37599,68 @@ Pozwala zobaczyc rozmiary obiektow w @audit i @prospectus jako liczby zmiennoprz
 Domyslnie: -audit_float
 2
 1
+4
+29
+2
+Ten temat opisuje, jak pisac nowa tresc (pokoje, przedmioty, komunikaty) tak, zeby dzialala poprawnie z polskim systemem jezykowym tej bazy. Pelniejsza wersja tego materialu, z wiecej przykladami, jest w repozytorium: docs/TWORZENIE-TRESCI-PO-POLSKU.md.
+2
+
+2
+ZASADA ASCII-ONLY
+2
+Cala tresc (silnik i baza) jest po polsku, ale bez znakow diakrytycznych (a,c,e,l,n,o,s,z,z zamiast ich odpowiednikow z ogonkami/kreskami). To nie jest kwestia stylu: silnik MOO liczy dlugosc stringow po bajtach, nie po znakach, a wielobajtowy znak UTF-8 (jak prawdziwy polski znak diakrytyczny) psuje dzialanie length()/index()/wycinania podlancuchow. Trzymaj sie ASCII we WSZYSTKIM, co piszesz.
+2
+
+2
+RODZAJ GRAMATYCZNY -- $gender_utils
+2
+Kazdy obiekt moze miec wlasciwosc .gender ustawiana poleceniem `@gender <rodzaj>'. Dostepne wartosci: nijaki (domyslny), meski, zenski, dowolny, mnogi, spivak, gwiazdka, egotystyczny, krolewski, drugoosobowy.
+2
+
+2
+PODSTAWIANIE ZAIMKOW -- pronoun_sub
+2
+$string_utils:pronoun_sub(tekst, kto) podmienia w tekscie: %s/%o/%p/%q/%r (zaimek: mianownik/biernik/dzierzawczy/dzierzawczy-absolutny/zwrotny) oraz wersje z wielkiej litery %S/%O/%P/%Q/%R. Np. dla rodzaju zenski: %s=ona, %o=ja, %p=jej, %q=jej, %r=siebie.
+2
+Uwaga: %o dla zenski to string "ja" -- to ASCII-owa forma biernika (bez ogonka na koncowym 'a'), wyglada identycznie jak zaimek "ja" (I). To celowa konsekwencja zasady ASCII, nie blad.
+2
+
+2
+ODMIANA CZASOWNIKOW -- %<czasownik> i pulapka get_conj
+2
+Wewnatrz pronoun_sub mozesz uzyc %<forma_pojedyncza/forma_mnoga>, np. %<otwiera/otwieraja> -- to zawsze bezpieczne, bo obie formy sa podane jawnie.
+2
+PULAPKA: %<jedno_slowo> (bez ukosnika) jest uzywane DOSLOWNIE bez zmiany dla typowych (pojedynczych) rodzajow -- tabela odmiany dziala tylko dla przeciwnej liczby. Wyjatek: "ma"/"jest" sa rozpoznawane jako nieregularne i automatycznie odmieniane w obie strony ("maja"/"sa"). Dla kazdego INNEGO czasownika zawsze podawaj obie formy przez ukosnik -- nie ma automatycznego wyprowadzania jednej z drugiej.
+2
+
+2
+ODMIANA PRZEZ PRZYPADKI -- co dziala, a co nie
+2
+Zaimki pokrywaja mianownik, biernik i dopelniacz-jako-dzierzawczy (jego/jej/ich). Brakuje celownika, narzednika, miejscownika dla zaimkow -- i odmiana RZECZOWNIKOW (nazw obiektow) nie jest obslugiwana wcale, nazwa zawsze pojawia sie w formie zapisanej (typowo mianownik). To swiadome ograniczenie: automatyczna odmiana dowolnego polskiego rzeczownika to zadanie na skale silnika NLP, nie skryptu MOO. Formuluj zdania tak, zeby nazwa obiektu mogla stac w mianowniku (np. zamiast "Dajesz mieczowi polysk." napisz "Miecz nabiera polysku."), zamiast zakladac, ze odmiana zadziala automatycznie.
+2
+
+2
+LICZEBNIKI -- $polish_utils:count()
+2
+Polski ma trzy formy rzeczownika wg liczby (1 / 2-4 / 5+, wyjatek 12-14 licza sie jak 5+). Uzywaj $polish_utils:count(n, forma_1, forma_2_4, forma_5plus) zamiast doklejac "-y"/"-ow" na sztywno. Przyklad: tostr(n, " ", $polish_utils:count(n, "miecz", "miecze", "mieczy")) daje "1 miecz", "2 miecze", "5 mieczy".
+2
+
+2
+ZNANE, SWIADOME UPROSZCZENIA (nie "naprawiaj" bez decyzji)
+2
+- Brak pelnej odmiany przez 7 przypadkow.
+2
+- Brak rozroznienia rodzaju meskoosobowego/niemeskoosobowego w liczbie mnogiej (zawsze "oni").
+2
+- Brak zgodnosci rodzaju w czasie przeszlym (unikaj czasu przeszlego z podmiotem o zmiennym rodzaju).
+2
+- Przymiotniki stanu obiektu (otwarty/zamkniety/pusty) zawsze w formie nijakiej.
+2
+
+2
+Zobacz tez `help pronouns' (mechanizm ogolny) i `help container-messages'/`help thing-messages'/`help exit-messages' (przyklady zastosowania w praktyce).
+36
+5
 5
 36
 5

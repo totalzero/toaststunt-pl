@@ -160,6 +160,7 @@ ToastStunt to dostepny przez siec, wieloosobowy, programowalny, interaktywny sys
 * [Przewodnik dla poczatkujacych](https://lisdude.com/moo/toaststunt_newbie.txt)
 * [ToastCore](https://github.com/lisdude/toastcore)
 * [Informacje o Stunt](Legacy/README/README.Stunt)
+* [**Tworzenie tresci po polsku**](TWORZENIE-TRESCI-PO-POLSKU.md) -- przewodnik dla programistow/budowniczych: system rodzaju, zaimki, odmiana czasownikow, zasada ASCII i jej ograniczenia
 
 <a href = "https://discord.gg/JUz3zwZamW"><img alt="Join Discord" src="https://img.shields.io/discord/738251170140651560?label=Discord&style=plastic"></a>
 
