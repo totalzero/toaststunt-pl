@@ -11,7 +11,8 @@
 0 queued tasks
 0 suspended tasks
 0 interrupted tasks
-0 active connections with listeners
+1 active connections with listeners
+2 0
 134
 #0
 The System Object
@@ -664,7 +665,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784087130
+1784088949
 2
 name
 2
@@ -1224,17 +1225,17 @@ Wizard
 7
 2
 1
-15
+62
 10
 2
 2
 source
 1
-62
+15
 2
 time
 0
-1784088382
+1784089845
 4
 0
 1
@@ -1454,7 +1455,7 @@ time
 4
 2
 0
-1784088356
+1784089809
 2
 localhost
 2
@@ -1463,7 +1464,7 @@ localhost
 2
 0
 0
-1784088382
+1784089813
 2
 1
 0
@@ -1627,7 +1628,7 @@ localhost
 2
 5
 0
-1784088379
+1784089845
 2
 1
 0
@@ -1674,8 +1675,8 @@ localhost
 5
 2
 0
-1
--1
+12
+134
 2
 1
 5
@@ -4121,7 +4122,11 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 0
 10
+1
+1
+-15
 0
+2
 2
 5
 0
@@ -4133,7 +4138,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-5
+6
+4
+2
+0
+1784088949
+0
+0
 4
 2
 0
@@ -4215,7 +4226,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 36
 0
 0
-0
+1
 2
 5
 0
@@ -5101,9 +5112,7 @@ Limbo
 0
 0
 4
-1
-1
-2
+0
 1
 1
 4
@@ -22557,27 +22566,27 @@ not-to
 4
 11
 2
-You are inside an editor.  Do
+Jestes wewnatrz edytora.  Wykonaj
 2
 
 2
-look          -- for list of commands
+look          -- by zobaczyc liste polecen
 2
-what          -- to find out what you're editing.
+what          -- by dowiedziec sie, co edytujesz.
 2
-list          -- to list out some portion of the text
+list          -- by wypisac fragment tekstu
 2
-say / emote   -- to add new text to whatever you're editing
+say / emote   -- by dodac nowy tekst do tego, co edytujesz
 2
 
 2
-help edit-index -- for a full list of editor help topics
+help edit-index -- po pelna liste tematow pomocy edytora
 2
-help editors    -- for a general discussion about editors
+help editors    -- po ogolne omowienie edytorow
 2
-help moo        -- for the general MOO help summary (i.e., what you get by 
+help moo        -- po ogolne podsumowanie pomocy MOO (czyli to, co dostajesz 
 2
-                   typing `help' with no arguments from outside the editor).
+                   wpisujac `help' bez argumentow spoza edytora).
 36
 5
 4
@@ -22585,25 +22594,25 @@ help moo        -- for the general MOO help summary (i.e., what you get by
 2
 *index*
 2
-Editor Help Topics
+Tematy pomocy edytora
 36
 5
 4
 19
 2
-Syntax: emote <text>
+Skladnia: emote <tekst>
 2
-        :<text>
+        :<tekst>
 2
 
 2
-(EDITOR)
+(EDYTOR)
 2
-Appends <text> to the end of the line before the insertion point.
+Dopisuje <tekst> na koniec linii przed punktem wstawiania.
 2
-The second form is equivalent to the first except that it doesn't strip leading blanks off of <text> (just as with the normal `emote' and `:' commands).
+Druga forma jest rownowazna pierwszej, ale nie usuwa wiodacych spacji z <tekst> (tak samo jak zwykle polecenia `emote' i ':').
 2
-The insertion point is left unmoved.
+Punkt wstawiania pozostaje bez zmian.
 2
 
 2
@@ -22633,21 +22642,21 @@ The insertion point is left unmoved.
 4
 17
 2
-Syntax: say <text>
+Skladnia: say <tekst>
 2
-        "<text>
-2
-
-2
-(EDITOR)
-2
-Adds <text> to whatever you are editing.
-2
-The second form is equivalent to the first except in that it doesn't strip leading blanks off of <text> (just as with the normal `say' and `"' commands).
+        "<tekst>
 2
 
 2
-The added text appears as a new line at the insertion point.  The insertion point, in turn, gets moved so as to be after the added text.  For example:
+(EDYTOR)
+2
+Dodaje <tekst> do tego, co edytujesz.
+2
+Druga forma jest rownowazna pierwszej, ale nie usuwa wiodacych spacji z <tekst> (tak samo jak zwykle polecenia `say' i '"').
+2
+
+2
+Dodany tekst pojawia sie jako nowa linia w punkcie wstawiania.  Punkt wstawiania z kolei przesuwa sie tak, by byc za dodanym tekstem.  Na przyklad:
 2
 
 2
@@ -22671,85 +22680,85 @@ The added text appears as a new line at the insertion point.  The insertion poin
 4
 5
 2
-Syntax:  del*ete [<range>] 
+Skladnia:  del*ete [<zakres>] 
 2
 
 2
-(EDITOR)
+(EDYTOR)
 2
-Deletes the specified range of lines
+Usuwa podany zakres linii
 2
-<range> defaults to the line *before* the current insertion point.
+<zakres> domyslnie to linia *przed* biezacym punktem wstawiania.
 36
 5
 4
 21
 2
-Syntax:  ins*ert [<ins>] ["<text>]
+Skladnia:  ins*ert [<ins>] ["<tekst>]
 2
-         .                    (`.' == `insert' without arguments)
-2
-
-2
-(EDITOR)
-2
-Many editor commands refer to an "insertion point" which is (usually) the place right below where the most recent line was inserted.  The insertion point should really be thought of as sitting *between* lines.  In listings, the line above the insertion point is marked with `_' while the one below is marked with `^'.
+         .                    (`.' == `insert' bez argumentow)
 2
 
 2
-The `insert' command, when given an argument, sets the insertion point.
+(EDYTOR)
 2
-If <text> is provided, a new line will be created and inserted as with `say'.
+Wiele polecen edytora odwoluje sie do "punktu wstawiania", czyli (zwykle) miejsca zaraz ponizej ostatnio wstawionej linii.  Punkt wstawiania nalezy traktowac jako umiejscowiony *pomiedzy* liniami.  Na listingach linia powyzej punktu wstawiania jest oznaczona `_', a ta ponizej `^'.
 2
-<ins>, both here and in other commands that require specifying an insertion point (e.g., copy/move), can be one of
+
+2
+Polecenie `insert', gdy podano argument, ustawia punkt wstawiania.
+2
+Jesli podano <tekst>, tworzona jest nowa linia i wstawiana tak jak przez `say'.
+2
+<ins>, zarowno tutaj, jak i w innych poleceniach wymagajacych podania punktu wstawiania (np. copy/move), moze byc jednym z:
 2
           
 2
-    ^n   above line n
+    ^n   nad linia n
 2
-     n   above line n
+     n   nad linia n
 2
-    _n   below line n
+    _n   pod linia n
 2
-     $   at the end
+     $   na koncu
 2
-    ^$   before the last line
+    ^$   przed ostatnia linia
 2
-   n^$   n lines before the end
+   n^$   n linii przed koncem
 2
-     .   the current insertion point  (i.e., `insert .' is a no-op)
+     .   biezacy punkt wstawiania  (tj. `insert .' nic nie robi)
 2
-    +n   n lines below the current insertion point.
+    +n   n linii ponizej biezacego punktu wstawiania.
 2
-    -n   n lines above the current insertion point.
+    -n   n linii powyzej biezacego punktu wstawiania.
 2
 
 2
-For the truly perverse, there are other combinations that also work due to artifacts of the parsing process, but these might go away...
+Dla naprawde uparciuchow istnieja inne kombinacje, ktore rowniez dzialaja z powodu artefaktow procesu parsowania, ale moga kiedys zniknac...
 36
 5
 4
 10
 2
-Syntax:  view <player> [<range>] [nonum]
+Skladnia:  view <gracz> [<zakres>] [nonum]
 2
          view
 2
 
 2
-Prints some subset of the specified player's text.
+Wypisuje fragment tekstu wskazanego gracza.
 2
-Said player must have previously made his text readable with `publish'.
+Wskazany gracz musi wczesniej udostepnic swoj tekst poleceniem `publish'.
 2
-<ranges> are specified as in other commands (see `help ranges').
+<zakresy> podaje sie tak jak w innych poleceniach (zobacz `help ranges').
 2
-References to the insertion point refer to wherever the other player has set his/her insertion point; you have no control over it.
+Odwolania do punktu wstawiania odnosza sie do miejsca, w ktorym inny gracz ustawil swoj punkt wstawiania; nie masz nad tym kontroli.
 2
-The default range is as in list.
+Domyslny zakres jest taki sam jak w list.
 2
 
 2
-If no arguments are given, this lists all of the players that have published anything in this editor.
+Jesli nie podano zadnych argumentow, wypisuje liste wszystkich graczy, ktorzy udostepnili cokolwiek w tym edytorze.
 36
 5
 4
@@ -22771,7 +22780,7 @@ unpublish
 4
 5
 2
-Syntax:  unpub*lish
+Skladnia:  unpub*lish
 2
          depub*lish
 2
@@ -22779,31 +22788,31 @@ Syntax:  unpub*lish
 2
 
 2
-This command reverses the effects of `publish', making your text readable only by you.
+To polecenie cofa skutki `publish', sprawiajac ze twoj tekst jest czytelny znowu tylko dla ciebie.
 36
 5
 4
 6
 2
-Syntax:  pub*lish
+Skladnia:  pub*lish
 2
 
 2
-By default, only you (and wizards) can read the text you are editing.
+Domyslnie tylko ty (i wizardzi) mozecie czytac tekst, ktory edytujesz.
 2
-This command makes your text readable by the entire world (see `help view').
+To polecenie sprawia, ze twoj tekst jest czytelny dla calego swiata (zobacz `help view').
 2
-This is useful if you need help from someone or if you just want to show off your programming acumen.
+Przydatne, jesli potrzebujesz pomocy od kogos lub po prostu chcesz pochwalic sie umiejetnosciami programistycznymi.
 2
-Use `unpublish' to make your text private again.
+Uzyj `unpublish', by znow uczynic tekst prywatnym.
 36
 5
 4
 12
 2
-(NOTE EDITOR)
+(EDYTOR NOTATEK)
 2
-Syntax:  mode
+Skladnia:  mode
 2
          mode string
 2
@@ -22811,53 +22820,53 @@ Syntax:  mode
 2
          
 2
-There are (currently) two modes the note editor can be in.
+Edytor notatek moze (obecnie) dzialac w dwoch trybach.
 2
-One is string mode, in which if the text being edited is one line or less, 
+Pierwszy to tryb string, w ktorym jesli edytowany tekst ma jedna linie lub mniej, 
 2
-it will be saved as a single string (or an empty string) rather than as a list.
+zostanie zapisany jako pojedynczy string (lub pusty string) zamiast listy.
 2
-The other is list mode, in which text is always saved as a list of strings.
+Drugi to tryb list, w ktorym tekst jest zawsze zapisywany jako lista stringow.
 2
-The mode is set when the text is first loaded (string mode if the text is a string, list mode otherwise), but can be changed using this command.
+Tryb jest ustawiany przy pierwszym wczytaniu tekstu (tryb string, jesli tekst jest stringiem, w przeciwnym razie tryb list), ale mozna go zmienic tym poleceniem.
 2
 
 2
-The first form above (i.e., without any arguments) reports the current mode.
+Pierwsza forma powyzej (tj. bez argumentow) pokazuje biezacy tryb.
 36
 5
 4
 12
 2
-Syntax:  enter
+Skladnia:  enter
 2
 
 2
-(EDITOR)
+(EDYTOR)
 2
-Enters a sequence of lines at the insertion point (see `help insert').
+Wprowadza sekwencje linii w punkcie wstawiania (zobacz `help insert').
 2
-This is similar to .program in that every line you type after the `enter' command is inserted verbatim into the text until you type a line with a single period (`.') on it.  This command is essentially for if you don't like the idea of putting " at the beginning of each line you type.  The only exceptions, i.e., lines that are not entered verbatim (aside from the `.' line), are
-2
-
-2
- - If you type a line whose sole text is `@abort', 
-2
-   that aborts this command without making any changes to the text.  
-2
- - Any line whose first nonblank character is `.' and has additional text
-2
-   is entered but with its first `.' stripped off.  
+Podobne do .program w tym sensie, ze kazda linia wpisana po poleceniu `enter' jest wstawiana doslownie do tekstu, dopoki nie wpiszesz linii z samym kropka (`.').  To polecenie jest przeznaczone glownie dla tych, ktorym nie podoba sie pomysl wstawiania " na poczatku kazdej wpisywanej linii.  Jedyne wyjatki, tj. linie ktore nie sa wprowadzane doslownie (poza linia `.'), to
 2
 
 2
-Thus, to enter a line whose text is `@abort', you could enter it as `.@abort'.
+ - Jesli wpiszesz linie, ktorej caly tekst to `@abort', 
+2
+   przerywa to polecenie bez wprowadzania zmian w tekscie.  
+2
+ - Kazda linia, ktorej pierwszy niepusty znak to `.' i ma dodatkowy tekst,
+2
+   jest wprowadzana, ale z usunieta pierwsza `.'.  
+2
+
+2
+Zatem, by wprowadzic linie o tekscie `@abort', mozna ja wpisac jako `.@abort'.
 36
 5
 4
 7
 2
-Syntax:  q*uit
+Skladnia:  q*uit
 2
          done
 2
@@ -22865,9 +22874,9 @@ Syntax:  q*uit
 2
 
 2
-(EDITOR)
+(EDYTOR)
 2
-Leaves the editor.  If you have unsaved text it will be there when you return (and in fact you will not be able to do anything else with this editor until you 'abort' or save the text).
+Opuszcza edytor.  Jesli masz niezapisany tekst, bedzie tam, gdy wrocisz (i faktycznie nie bedziesz mogl zrobic nic innego w tym edytorze, dopoki nie wykonasz 'abort' lub nie zapiszesz tekstu).
 2
 
 36
@@ -22875,71 +22884,71 @@ Leaves the editor.  If you have unsaved text it will be there when you return (a
 4
 9
 2
-Syntax: unsubscribe from <list-name>
+Skladnia: unsubscribe from <nazwa-listy>
 2
-        unsubscribe <name>... from <list-name>
-2
-
-2
-(MAILROOM)
-2
-Remove yourself from the given mailing list.
-2
-The second form removes arbitrary people from a mailing list.
-2
-You can only do this if you own whatever is being removed or you own the list.
+        unsubscribe <imie>... from <nazwa-listy>
 2
 
 2
-Use the `who' command to determine if you are on a given mailing list.
+(POKOJ POCZTOWY)
+2
+Usuwa ciebie z podanej listy mailingowej.
+2
+Druga forma usuwa dowolne osoby z listy mailingowej.
+2
+Mozesz to zrobic tylko jesli posiadasz to, co jest usuwane, lub posiadasz liste.
+2
+
+2
+Uzyj polecenia `who', by sprawdzic, czy jestes na danej liscie mailingowej.
 36
 5
 4
 11
 2
-Syntax: subscribe to <list-name>
+Skladnia: subscribe to <nazwa-listy>
 2
-        subscribe [<name>...] to <list-name>
-2
-
-2
-(MAILROOM)
-2
-Add yourself to the given mailing list.  
-2
-The second form adds arbitrary people to a mailing list.
-2
-You can only do this if you own the list or if it is listed as [Public] and you own whatever is being added.
+        subscribe [<imie>...] to <nazwa-listy>
 2
 
 2
-The first form of this command is probably obsolete since if <list-name> is public, you can already read it via `@mail on *<list-name>' and it's much better for the MOO if you do so.  `@mail-option +sticky' makes this even easier.
+(POKOJ POCZTOWY)
+2
+Dodaje ciebie do podanej listy mailingowej.  
+2
+Druga forma dodaje dowolne osoby do listy mailingowej.
+2
+Mozesz to zrobic tylko jesli posiadasz liste lub jest oznaczona jako [Public], a ty posiadasz to, co jest dodawane.
 2
 
 2
-Use the `who' command to determine if you are on a given mailing list.
+Pierwsza forma tego polecenia jest prawdopodobnie przestarzala, bo jesli <nazwa-listy> jest publiczna, mozesz ja juz czytac przez `@mail on *<nazwa-listy>' i jest to o wiele lepsze dla MOO, jesli tak zrobisz.  `@mail-option +sticky' czyni to jeszcze latwiejszym.
+2
+
+2
+Uzyj polecenia `who', by sprawdzic, czy jestes na danej liscie mailingowej.
 36
 5
 4
 11
 2
-Syntax:  reply-to [<recipients>]
+Skladnia:  reply-to [<odbiorcy>]
 2
 
 2
-(MAIL ROOM)
+(POKOJ POCZTOWY)
 2
-Reports the current contents of the Reply-to: field of your message.
+Wypisuje biezaca zawartosc pola Reply-to: twojej wiadomosci.
 2
-With arguments, adds (or changes) the Reply-to: field.
-2
-
-2
-When someone @answers a message, the Reply-to: field is checked first when determining to whom the reply should be sent --- see `help @answer'.
+Z argumentami, dodaje (lub zmienia) pole Reply-to:.
 2
 
 2
-To clear the Reply-to: field, do
+Gdy ktos wykonuje @answer na wiadomosci, pole Reply-to: jest sprawdzane w pierwszej kolejnosci przy okreslaniu, do kogo powinna trafic odpowiedz --- zobacz `help @answer'.
+2
+
+2
+By wyczyscic pole Reply-to:, wykonaj
 2
 
 2
@@ -22957,365 +22966,363 @@ To clear the Reply-to: field, do
 4
 9
 2
-Syntax:  f*ind  /<str>[/[c][<ins>]]
+Skladnia:  f*ind  /<str>[/[c][<ins>]]
 2
          /<str>[/[c][<ins>]]
 2
 
 2
-Searches for the first line after <ins> containing <str>.  <ins> defaults to  the current insertion point (see `help insert' for how to specify other places).  With the first form, any character (not just `/') may be used as a delimiter.
+Szuka pierwszej linii po <ins> zawierajacej <str>.  <ins> domyslnie to biezacy punkt wstawiania (zobacz `help insert' po sposob podawania innych miejsc).  W pierwszej formie jako ogranicznik moze byc uzyty dowolny znak (nie tylko '/').
 2
-For the second form, you must use '/'.
-2
-
-2
-The 'c' flag, if given, indicates that case is to be ignored while searching.
+Dla drugiej formy musisz uzyc '/'.
 2
 
 2
-[Bug: With the second form, there are problems if the search string contains quotes, backslashes or a run of spaces.  The first whitespace will always be treated as a single space.  Likewise, quotes and backslashes occuring in the first word of the command (i.e., the "verb") need to be escaped with `\'.  Unfortunately it will not be possible to fix this until we get a new command parser.]
+Flaga 'c', jesli podana, oznacza, ze wielkosc liter jest ignorowana podczas wyszukiwania.
+2
+
+2
+[Blad: W drugiej formie wystepuja problemy, jesli szukany string zawiera cudzyslowy, ukosniki wsteczne lub ciag spacji.  Pierwsza biala spacja bedzie zawsze traktowana jako pojedyncza spacja.  Podobnie, cudzyslowy i ukosniki wsteczne wystepujace w pierwszym slowie polecenia (tj. "czasowniku") musza byc poprzedzone `\'.  Niestety nie da sie tego naprawic, dopoki nie powstanie nowy parser polecen.]
 36
 5
 4
-17
+16
 2
-(VERB EDITOR)
+(EDYTOR CZASOWNIKOW)
 2
-Syntax:  edit <object>:<verb>
-2
-
-2
-Changes what verb you are editing and loads the code for that verb
-2
-into the editor. 
-2
-Equivalent to @edit <object>:<verb>.
+Skladnia:  edit <obiekt>:<czasownik>
 2
 
 2
-(NOTE EDITOR)
+Zmienia edytowany czasownik i wczytuje kod tego czasownika
 2
-Syntax:  edit <note-object>
+do edytora. 
 2
-         edit <object>.<property>
-2
-
-2
-Changes to a different note or a different object text property and 
-2
-loads its text into the editor.
-2
-These are equivalent to @notedit <note> or @notedit <object>.<property>
-2
-respectively.
+Rownowazne @edit <obiekt>:<czasownik>.
 2
 
 2
-For both the verb-editor and note-editor commands, <object> will match on the room you came from, though if the room you came from was another editor, then all bets are off...
-36
-5
-4
-5
+(EDYTOR NOTATEK)
 2
-Syntax:  compile [as <object>:<verb>]
+Skladnia:  edit <obiekt-notatki>
+2
+         edit <obiekt>.<wlasciwosc>
 2
 
 2
-(VERB EDITOR)
+Przelacza na inna notatke lub inna tekstowa wlasciwosc obiektu i 
 2
-Installs the new program into the system if there are no syntax errors.
+wczytuje jej tekst do edytora.
 2
-If a new object:verb is specified and actually turns out to exist, that <object>:<verb> becomes the default for subsequent compilations.
+Rownowazne odpowiednio @notedit <notatka> lub @notedit <obiekt>.<wlasciwosc>.
+2
+
+2
+Zarowno dla edytora czasownikow, jak i edytora notatek, <obiekt> bedzie dopasowywany do pokoju, z ktorego przyszedles, chociaz jesli pokoj, z ktorego przyszedles, byl innym edytorem, wszystko jest mozliwe...
 36
 5
 4
 5
 2
-Syntax:  save [<note-object>]
-2
-         save [<object>.<property>]
+Skladnia:  compile [as <obiekt>:<czasownik>]
 2
 
 2
-(NOTE EDITOR)
+(EDYTOR CZASOWNIKOW)
 2
-Installs the freshly edited text.  If <note> or <object>.<property> is specified, text is installed on that note or property instead of the original one.  In addition the new note or property becomes the default for future save commands.
+Instaluje nowy program w systemie, jesli nie ma bledow skladniowych.
+2
+Jesli podano nowy obiekt:czasownik i faktycznie okaze sie, ze istnieje, ten <obiekt>:<czasownik> staje sie domyslny dla kolejnych kompilacji.
+36
+5
+4
+5
+2
+Skladnia:  save [<obiekt-notatki>]
+2
+         save [<obiekt>.<wlasciwosc>]
+2
+
+2
+(EDYTOR NOTATEK)
+2
+Instaluje swiezo edytowany tekst.  Jesli podano <notatke> lub <obiekt>.<wlasciwosc>, tekst jest instalowany na tej notatce lub wlasciwosci zamiast oryginalnej.  Dodatkowo nowa notatka lub wlasciwosc staje sie domyslna dla przyszlych polecen save.
 36
 5
 4
 4
 2
-Syntax:  showlists
+Skladnia:  showlists
 2
 
 2
-(MAIL ROOM)
+(POKOJ POCZTOWY)
 2
-Print a list of the publically available mailing lists/archives and other non-player entities that can receive mail.
+Wypisuje liste publicznie dostepnych list mailingowych/archiwow i innych nie-graczowych bytow, ktore moga odbierac poczte.
 36
 5
 4
 4
 2
-Syntax:  subj*ect [<text>]
+Skladnia:  subj*ect [<tekst>]
 2
 
 2
-(MAIL ROOM)
+(POKOJ POCZTOWY)
 2
-Specifies a Subject: line for your message.  If <text> is "", the Subject: line is removed.
-36
-5
-4
-6
-2
-Syntax:  to [<recipients>]
-2
-
-2
-(MAIL ROOM)
-2
-Specifies a new set of recipients (the To: line) for your message.
-2
-Recipient names not beginning with * are matched against the list of players.
-2
-Recipient names beginning with * are interpreted as mailing-lists/archives/other types of non-person addresses and are matched against all such publically available objects (see `help showlists').  If the list you want to use isn't in the database (i.e., isn't located in the database ($mail_agent)) you need to refer to it by object id.
-36
-5
-4
-7
-2
-Syntax:  also-to [<recipients>]
-2
-
-2
-Synonym: cc
-2
-
-2
-(MAIL ROOM)
-2
-Adds additional recipients to the To: line of your message.
-2
-Same rules apply as for the `to' command.
-36
-5
-4
-7
-2
-Syntax:  who 
-2
-         who <rcpt>...
-2
-
-2
-(MAIL ROOM)
-2
-Invokes $mail_agent's mail-forwarding tracer and determines who (or what) is actually going to receive your message.  The resulting list will not include destinations that will simply forward the message without :receive_message()'ing a copy for themselves.
-2
-
-2
-The second form expands an arbitrary list of recipients, for if e.g., you're curious about the members of particular mailing list.
+Okresla linie Subject: dla twojej wiadomosci.  Jesli <tekst> to "", linia Subject: jest usuwana.
 36
 5
 4
 6
 2
-Syntax:  pri*nt
+Skladnia:  to [<odbiorcy>]
 2
 
 2
-Display your text without line numbers.
+(POKOJ POCZTOWY)
+2
+Okresla nowy zestaw odbiorcow (linie To:) dla twojej wiadomosci.
+2
+Nazwy odbiorcow nie zaczynajace sie od * sa dopasowywane do listy graczy.
+2
+Nazwy odbiorcow zaczynajace sie od * sa interpretowane jako listy mailingowe/archiwa/inne typy adresow nie-osobowych i sa dopasowywane do wszystkich takich publicznie dostepnych obiektow (zobacz `help showlists').  Jesli lista, ktorej chcesz uzyc, nie jest w bazie danych (tj. nie jest umiejscowiona w bazie danych ($mail_agent)), musisz odwolac sie do niej przez id obiektu.
+36
+5
+4
+7
+2
+Skladnia:  also-to [<odbiorcy>]
 2
 
 2
-(MAIL ROOM)
+Synonim: cc
 2
-Display your message including headers.
+
+2
+(POKOJ POCZTOWY)
+2
+Dodaje dodatkowych odbiorcow do linii To: twojej wiadomosci.
+2
+Obowiazuja te same zasady co dla polecenia `to'.
+36
+5
+4
+7
+2
+Skladnia:  who 
+2
+         who <odbiorca>...
+2
+
+2
+(POKOJ POCZTOWY)
+2
+Wywoluje tracer przekierowan poczty $mail_agent i okresla, kto (lub co) faktycznie otrzyma twoja wiadomosc.  Wynikowa lista nie bedzie zawierac celow, ktore po prostu przekazuja wiadomosc dalej bez :receive_message() dla siebie.
+2
+
+2
+Druga forma rozwija dowolna liste odbiorcow, np. jesli jestes ciekawy czlonkow konkretnej listy mailingowej.
+36
+5
+4
+6
+2
+Skladnia:  pri*nt
+2
+
+2
+Wyswietla twoj tekst bez numerow linii.
+2
+
+2
+(POKOJ POCZTOWY)
+2
+Wyswietla twoja wiadomosc wraz z naglowkami.
 36
 5
 4
 8
 2
-Syntax:  send
+Skladnia:  send
 2
 
 2
-(MAIL ROOM)
+(POKOJ POCZTOWY)
 2
-Send the message, then exit the mail room if all of the addresses on the To: line turn out to be valid and usable (you can use the `who' command to check these in advance, though the status of recipients may change without warning).
+Wysyla wiadomosc, a nastepnie opuszcza pokoj pocztowy, jesli wszystkie adresy w linii To: okaza sie prawidlowe i uzywalne (mozesz uzyc polecenia `who', by sprawdzic je wczesniej, chociaz status odbiorcow moze sie zmienic bez ostrzezenia).
 2
-If the To: line turns out to contain invalid recipients or recipients that are not usable by you, the message will not be sent and you will remain in the mail room.
+Jesli linia To: zawiera nieprawidlowych odbiorcow lub odbiorcow, ktorych nie mozesz uzyc, wiadomosc nie zostanie wyslana i pozostaniesz w pokoju pocztowym.
 2
-It may be, however, that valid addresses on your To: line will forward to other addresses that are bogus; you'll receive warnings about these, but in this case your message will still be delivered to those addresses that are valid.
+Moze sie jednak zdarzyc, ze prawidlowe adresy w twojej linii To: przekieruja do innych adresow, ktore sa nieprawidlowe; otrzymasz o tym ostrzezenia, ale w takim przypadku twoja wiadomosc nadal zostanie dostarczona do tych adresow, ktore sa prawidlowe.
 2
 
 2
-Note that there may be particularly long delays when sending to recipients with large forwarding/notification lists or when sending on occasions when the MOO is heavily loaded in general.  In such a case, it is possible to continue editing the message while the send is in progress; any such edits affect only the text in the editor.  In particular, the text of the message currently being sent remains as it was when you first typed the send command.  However, any editing will mark the text as "changed" meaning that you will need to explicitly `abort' or `quit' in order to leave the mail room even if the send concludes successfully.
+Uwaga: moga wystapic szczegolnie dlugie opoznienia przy wysylaniu do odbiorcow z duzymi listami przekierowan/powiadomien lub gdy MOO jest ogolnie mocno obciazone.  W takim przypadku mozliwe jest kontynuowanie edycji wiadomosci podczas trwania wysylki; takie zmiany dotycza tylko tekstu w edytorze.  W szczegolnosci tekst aktualnie wysylanej wiadomosci pozostaje taki, jaki byl w momencie wpisania polecenia send.  Jednak jakakolwiek edycja oznaczy tekst jako "zmieniony", co oznacza, ze bedziesz musial jawnie wykonac `abort' lub `quit', by opuscic pokoj pocztowy, nawet jesli wysylka zakonczy sie pomyslnie.
 36
 5
 4
 8
 2
-Syntax:  lis*t [<range>] [nonum]
+Skladnia:  lis*t [<zakres>] [nonum]
 2
 
 2
-Prints some subset of the current verb text.
+Wypisuje fragment biezacego tekstu czasownika.
 2
-The default range is some reasonable collection of lines around the current insertion point:  currently this is 8_-8^, ie., 8 lines above the insertion point to 8 lines below it unless this runs up against the beginning or end of file, in which case we just take the first or last 16 lines, or just 1-$ if there aren't that many.  (See `help ranges' for how to specify line numbers and ranges.)
-2
-
-2
-`nonum' prints without line numbers.
+Domyslny zakres to jakis rozsadny zbior linii wokol biezacego punktu wstawiania: obecnie jest to 8_-8^, tj. 8 linii powyzej punktu wstawiania do 8 linii ponizej, chyba ze natrafi to na poczatek lub koniec pliku, w takim wypadku bierzemy po prostu pierwsze lub ostatnie 16 linii, albo 1-$ jesli nie ma az tylu.  (Zobacz `help ranges' po sposob podawania numerow linii i zakresow.)
 2
 
 2
-Yes, window heights will be customizable some day.
+`nonum' wypisuje bez numerow linii.
+2
+
+2
+Tak, kiedys wysokosc okna bedzie konfigurowalna.
 36
 5
 4
 4
 2
-Syntax:  n*ext [n] ["<text>]
+Skladnia:  n*ext [n] ["<tekst>]
 2
 
 2
-Moves the insertion point down n lines.  If <text> is provided, inserts a new line there just like `say'.
+Przesuwa punkt wstawiania w dol o n linii.  Jesli podano <tekst>, wstawia tam nowa linie tak jak `say'.
 2
-Equivalent to `insert +n'.  As one might expect, n defaults to 1.
+Rownowazne `insert +n'.  Jak mozna sie spodziewac, n domyslnie to 1.
 36
 5
 4
 4
 2
-Syntax:  p*rev [n] ["<text>]
+Skladnia:  p*rev [n] ["<tekst>]
 2
 
 2
-Moves the insertion point up n lines.  If <text> is provided, a new line is inserted as with `say'.
+Przesuwa punkt wstawiania w gore o n linii.  Jesli podano <tekst>, wstawiana jest nowa linia tak jak przez `say'.
 2
-Equivalent to `insert -n'.  As one might expect, n defaults to 1.
+Rownowazne `insert -n'.  Jak mozna sie spodziewac, n domyslnie to 1.
 36
 5
 4
 20
 2
-Syntax:  s*ubst/<str1>/<str2>[/[g][c][r][<range>]]
+Skladnia:  s*ubst/<str1>/<str2>[/[g][c][r][<zakres>]]
 2
 
 2
-Substitutes <str2> for <str1>, in all of the lines of <range>.
+Zamienia <str2> na <str1> we wszystkich liniach z <zakres>.
 2
-Any character (not just `/') may be used to delimit the strings. 
+Jako ogranicznik moze byc uzyty dowolny znak (nie tylko '/'). 
 2
-If <str1> is blank, <str2> is inserted at the beginning of the line.  
+Jesli <str1> jest puste, <str2> jest wstawiane na poczatku linii.  
 2
-(For inserting a string at the end of a line use emote/:).
-2
-
-2
-Normally, only one substitution is done per line in the specified range, but if the 'g' flag is given, *all* instances of <str1> are replaced.
-2
-The 'c' flag indicates that case is not significant when searching for substitution instances.
+(By wstawic string na koncu linii, uzyj emote/:).
 2
 
 2
-The `r' flag means that the command will be grepped and matched using regular expressions. This is how you perform a regexp subst:
+Zwykle wykonywane jest tylko jedno podstawienie na linie w podanym zakresie, ale jesli podano flage 'g', zamieniane sa *wszystkie* wystapienia <str1>.
+2
+Flaga 'c' oznacza, ze wielkosc liter jest nieistotna przy szukaniu wystapien do podstawienia.
 2
 
 2
-The <str1> field will be understood as a regular expression. If you are unfamiliar with regexp protocol, read `help regular-expressions'.
-2
-In cases where successful matches are made, the <str2> string will be run through the substitute() builtin, with the match() info as an argument, before replacing the old string.
-2
-So, in short. If `match(line, <str1>)' returns something, then `substitute(<str2>, match result)' is subbed in its place. The `g' and `c' arguments are still applicable.
+Flaga `r' oznacza, ze polecenie zostanie zgrepowane i dopasowane za pomoca wyrazen regularnych. Tak wykonuje sie subst z wyrazeniem regularnym:
 2
 
 2
-<range> defaults to the line *before* the insertion point.
+Pole <str1> bedzie rozumiane jako wyrazenie regularne. Jesli nie znasz protokolu wyrazen regularnych, przeczytaj `help regular-expressions'.
+2
+W przypadkach udanych dopasowan, string <str2> zostanie przepuszczony przez funkcje wbudowana substitute(), z informacja match() jako argumentem, przed zastapieniem starego stringa.
+2
+Krotko mowiac: jesli `match(line, <str1>)' zwroci cos, wtedy `substitute(<str2>, wynik match)' jest wstawiane w to miejsce. Argumenty `g' i `c' nadal maja zastosowanie.
 2
 
 2
-You do *not* need a space between the verb and the delimeter before <str1>.
+<zakres> domyslnie to linia *przed* punktem wstawiania.
 2
-[Bug: If you omit the space and the first whitespace in <str1> is a run of more than one space, those spaces get treated as one.  Likewise, quotes and backslashes occuring in the first word of the command (i.e., the "verb") need to be escaped with `\'.  The fix on this will have to wait for a new command parser.]
+
+2
+*Nie* musisz dawac spacji miedzy czasownikiem a ogranicznikiem przed <str1>.
+2
+[Blad: Jesli pominiesz spacje, a pierwsza biala spacja w <str1> to ciag wiecej niz jednej spacji, te spacje zostana potraktowane jako jedna.  Podobnie, cudzyslowy i ukosniki wsteczne wystepujace w pierwszym slowie polecenia (tj. "czasowniku") musza byc poprzedzone `\'.  Naprawa tego bedzie musiala poczekac na nowy parser polecen.]
 36
 5
 4
 4
 2
-Syntax:  join        [<range>]
+Skladnia:  join        [<zakres>]
 2
-         joinliteral [<range>]
+         joinliteral [<zakres>]
 2
 
 2
-combines the lines in the specified range.  Normally, spaces are inserted and double space appears after periods and colons, but 'joinliteral' (abbreviates to 'joinl') supresses this and joins the lines as is.  <range> defaults to the two lines surrounding the insertion point.
+laczy linie w podanym zakresie.  Zwykle wstawiane sa spacje, a po kropkach i dwukropkach pojawia sie podwojna spacja, ale 'joinliteral' (skracane do 'joinl') to wylacza i laczy linie doslownie.  <zakres> domyslnie to dwie linie otaczajace punkt wstawiania.
 36
 5
 4
 3
 2
-Syntax:  fill [<range>] [@ c]
+Skladnia:  fill [<zakres>] [@ c]
 2
 
 2
-combines the specified lines as in join and then splits them so that no line is more than c characters (except in cases of pathological lines with very long words).  c defaults to 70.  <range> defaults to the single line preceding the insertion point.
+laczy podane linie tak jak join, a nastepnie dzieli je tak, by zadna linia nie miala wiecej niz c znakow (poza przypadkami patologicznych linii z bardzo dlugimi slowami).  c domyslnie to 70.  <zakres> domyslnie to pojedyncza linia poprzedzajaca punkt wstawiania.
 36
 5
 4
 6
 2
-Syntax:  m*ove [<range>] to <ins>
+Skladnia:  m*ove [<zakres>] to <ins>
 2
 
 2
-Moves the range of lines to place specified by <ins>.
+Przenosi zakres linii w miejsce podane przez <ins>.
 2
-If <ins> happens to be the current insertion point, the insertion point is moved to the end of the freshly moved lines.  If the range of lines contains the insertion point, the insertion point is carried over to the range's new location.
+Jesli <ins> jest akurat biezacym punktem wstawiania, punkt wstawiania przesuwa sie na koniec swiezo przeniesionych linii.  Jesli zakres linii zawiera punkt wstawiania, punkt wstawiania jest przenoszony razem z nowa lokalizacja zakresu.
 2
 
 2
-See `help insert' for a list of possibilities for <ins>.
+Zobacz `help insert' po liste mozliwosci dla <ins>.
 36
 5
 4
 7
 2
-Syntax:  c*opy [<range>] to <ins>
+Skladnia:  c*opy [<zakres>] to <ins>
 2
 
 2
-Copies the specified range of lines to place given by <ins>.
+Kopiuje podany zakres linii w miejsce podane przez <ins>.
 2
-If <ins> happens to be the current insertion point, the insertion 
+Jesli <ins> jest akurat biezacym punktem wstawiania, punkt 
 2
-point moves to the end of the inserted lines.
+wstawiania przesuwa sie na koniec wstawionych linii.
 2
 
 2
-See `help insert' for a list of possibilities for <ins>.
+Zobacz `help insert' po liste mozliwosci dla <ins>.
 36
 5
 4
 3
 2
-Syntax:  w*hat
+Skladnia:  w*hat
 2
 
 2
-Prints information about the editing session.
+Wypisuje informacje o sesji edycji.
 36
 5
 4
 3
 2
-Syntax:  abort
+Skladnia:  abort
 2
 
 2
-Abandons this editing session and any changes.
+Porzuca te sesje edycji i wszystkie zmiany.
 36
 5
 4
@@ -23337,45 +23344,45 @@ quit
 4
 20
 2
-Most editor commands act upon a particular range of lines.
+Wiekszosc polecen edytora dziala na okreslonym zakresie linii.
 2
-Essentially, one needs to specify a first line and a last line.
+Zasadniczo trzeba podac pierwsza i ostatnia linie.
 2
-Line numbers may be given in any of the following forms
+Numery linii mozna podac w dowolnej z nastepujacych form
 2
   
 2
-  n      (i.e., the nth line of text)
+  n      (tj. n-ta linia tekstu)
 2
-  n^     n-th line after/below  the current insertion point
+  n^     n-ta linia po/ponizej biezacego punktu wstawiania
 2
-  n_     n-th line before/above the current insertion point
+  n_     n-ta linia przed/powyzej biezacego punktu wstawiania
 2
-  n$     n-th line before the end.
-2
-
-2
-In the latter three, n defaults to 1, so that `^' by itself refers to the line below the current (i.e., the line that gets `^' printed before it), and likewise for `_' while `$' refers to the last line.  Note that the usage depends on whether you are specifying a line or an insertion point (space between lines). `^5' is the space above/before line 5, while `5^' is the fifth line after/below the current insertion point.
+  n$     n-ta linia przed koncem.
 2
 
 2
-Ranges of lines may be specified in any of the
-2
-following ways:
+W trzech ostatnich przypadkach n domyslnie to 1, wiec `^' samo w sobie odnosi sie do linii ponizej biezacej (tj. linii, przed ktora wypisywany jest `^'), podobnie dla `_', a `$' odnosi sie do ostatniej linii.  Uwaga: sposob uzycia zalezy od tego, czy podajesz linie czy punkt wstawiania (spacja miedzy liniami). `^5' to miejsce nad/przed linia 5, natomiast `5^' to piata linia po/ponizej biezacego punktu wstawiania.
 2
 
 2
-  <line>                  just that line
+Zakresy linii mozna podac na dowolny z
 2
-  from <line> to <line>   what it says; the following two forms are equivalent:
-2
-  <line>-<line>            
-2
-  <line> <line>
+nastepujacych sposobow:
 2
 
 2
-With the `from l to l' form, either the from or the to can be left off and it will default to whatever is usual for that command (usually a line above or below the insertion point).  Actually I was thinking of punting the `from'/`to' specifications entirely because they're so verbose.  Opinions?
+  <linia>                  wlasnie ta linia
+2
+  from <linia> to <linia>   dokladnie to, co mowi; nastepujace dwie formy sa rownowazne:
+2
+  <linia>-<linia>            
+2
+  <linia> <linia>
+2
+
+2
+W formie `from l to l' mozna pominac zarowno from, jak i to, a wtedy przyjmie domyslna wartosc typowa dla danego polecenia (zwykle linia powyzej lub ponizej punktu wstawiania).  Wlasciwie mysle o calkowitym porzuceniu specyfikacji `from'/`to', bo sa tak rozwlekle.  Opinie?
 36
 5
 4
@@ -23397,17 +23404,17 @@ not-to
 4
 6
 2
-Syntax:  not-to [<recipients>]
+Skladnia:  not-to [<odbiorcy>]
 2
 
 2
-Synonym: uncc
+Synonim: uncc
 2
 
 2
-(MAIL ROOM)
+(POKOJ POCZTOWY)
 2
-Removes the specified recipients from the To: line of your message.
+Usuwa podanych odbiorcow z linii To: twojej wiadomosci.
 36
 5
 5
@@ -32002,7 +32009,9 @@ Pierwszy Pokoj
 0
 0
 4
-0
+1
+1
+2
 1
 3
 4
@@ -37520,7 +37529,7 @@ mail
 2
 *index*
 2
-Mail System Help Topics
+Tematy pomocy systemu poczty
 36
 5
 4
@@ -37534,177 +37543,177 @@ Mail System Help Topics
 4
 103
 2
-Syntax:  @mail-option
+Skladnia:  @mail-option
 2
-         @mail-option <option>
-2
-
-2
-Synonym:  @mailoption
+         @mail-option <opcja>
 2
 
 2
-The first form displays all of your mail options
-2
-The second displays just that one option, which may be either `@mail', `replyto', or one of the flags listed below.  The mail options control various annoying details of your mail reading and mail editing commands.
+Synonim:  @mailoption
 2
 
 2
-The remaining forms of this command are for setting your mail options:
+Pierwsza forma wyswietla wszystkie twoje opcje poczty
+2
+Druga wyswietla tylko jedna opcje, ktora moze byc `@mail', `replyto' lub jedna z flag wymienionych ponizej.  Opcje poczty kontroluja rozne uciazliwe szczegoly twoich polecen czytania i edycji poczty.
 2
 
 2
-         @mail-option +<flag>
-2
-         @mail-option -<flag>
-2
-         @mail-option !<flag>           (equivalent to -<flag>)
+Pozostale formy tego polecenia sluza do ustawiania twoich opcji poczty:
 2
 
 2
-These respectively set and reset the specified flag
+         @mail-option +<flaga>
+2
+         @mail-option -<flaga>
+2
+         @mail-option !<flaga>           (rownowazne -<flaga>)
 2
 
 2
- -include          @replys start out with a blank message body
-2
- +include          @replys start with original message included
-2
- -all              @replys go to sender only
-2
- +all              @replys go to sender and all original recipients
-2
- -followup         @replys go as directed by `all' flag
-2
- +followup         @replys go to first nonplayer recipient if any
-2
-                    (if there are no non-player recipients, use `all' flag).
-2
- -nosubject        @send forces you to provide a Subject: line
-2
- +nosubject        allow entering the mail editor without giving a subject line
-2
- -expert           novice mail user (various annoying messages will be printed)
-2
- +expert           expert mail user (suppress printing of annoying messages)
-2
- -enter            start each mail editing session in the usual command mode.
-2
- +enter            start each mail editing session with an implicit `enter'
-2
-                    command
-2
- -sticky           each mail command applies by default to one's own collection
-2
- +sticky           each mail command applies by default to the same message 
-2
-                    collection that the previous successful command did
-2
- -netmail          mail to you accumulates in your MOO mailbox
-2
- +netmail          mail to you is actually forwarded to your registered email
-2
-                    address, if you have one.
-2
- -resend_forw      @resend puts player in Resent-By: header
-2
- +resend_forw      @resend puts player in From: header (like @forward)
-2
- -no_auto_forward  @netforward when expiring messages
-2
- +no_auto_forward  do not @netforward messages when expiring mail
-2
- -expert_netfwd    @netforward confirms before emailing messages
-2
- +expert_netfwd    @netforward doesn't confirm before emailing messages
-2
- -no_dupcc         send a personal copy even if already subscribed to a 
-2
-                    mailing list on the to: line
-2
- +no_dupcc         don't send personal copies of mail also sent to lists
-2
-                    you are subscribed to
-2
- -no_unsend        People may @unsend unread messages they send to you
-2
- +no_unsend        No one may @unsend messages they sent to you
+Odpowiednio ustawiaja i resetuja podana flage
 2
 
 2
-For "sticky", `mail command' is one of @mail, @read, @prev, @next, @answer.
+ -include          @replys zaczynaja z pusta trescia wiadomosci
 2
-All flags default to the `-' settings.  
+ +include          @replys zaczynaja z dolaczona oryginalna wiadomoscia
+2
+ -all              @replys ida tylko do nadawcy
+2
+ +all              @replys ida do nadawcy i wszystkich oryginalnych odbiorcow
+2
+ -followup         @replys ida zgodnie z flaga `all'
+2
+ +followup         @replys ida do pierwszego nie-gracza wsrod odbiorcow, jesli taki jest
+2
+                    (jesli nie ma odbiorcow nie bedacych graczami, uzyj flagi `all').
+2
+ -nosubject        @send wymusza podanie linii Subject:
+2
+ +nosubject        pozwala wejsc do edytora poczty bez podawania tematu
+2
+ -expert           poczatkujacy uzytkownik poczty (beda wyswietlane rozne irytujace komunikaty)
+2
+ +expert           zaawansowany uzytkownik poczty (wylacza irytujace komunikaty)
+2
+ -enter            kazda sesja edycji poczty zaczyna sie w zwyklym trybie polecen.
+2
+ +enter            kazda sesja edycji poczty zaczyna sie z niejawnym poleceniem `enter'
 2
 
 2
-Next, we have
+ -sticky           kazde polecenie poczty domyslnie dotyczy wlasnej kolekcji
+2
+ +sticky           kazde polecenie poczty domyslnie dotyczy tej samej kolekcji 
+2
+                    wiadomosci, co poprzednie udane polecenie
+2
+ -netmail          poczta do ciebie gromadzi sie w twojej skrzynce MOO
+2
+ +netmail          poczta do ciebie jest faktycznie przekierowywana na twoj zarejestrowany
+2
+                    adres email, jesli go masz.
+2
+ -resend_forw      @resend umieszcza gracza w naglowku Resent-By:
+2
+ +resend_forw      @resend umieszcza gracza w naglowku From: (jak @forward)
+2
+ -no_auto_forward  @netforward przy wygasaniu wiadomosci
+2
+ +no_auto_forward  nie wykonuj @netforward na wygasajacych wiadomosciach
+2
+ -expert_netfwd    @netforward potwierdza przed wyslaniem emaili
+2
+ +expert_netfwd    @netforward nie potwierdza przed wyslaniem emaili
+2
+ -no_dupcc         wysyla osobista kopie, nawet jesli juz jestes zapisany
+2
+                    na liste mailingowa w linii to:
+2
+ +no_dupcc         nie wysyla osobistych kopii poczty tez wyslanej do list,
+2
+                    ktore subskrybujesz
+2
+ -no_unsend        Ludzie moga @unsend nieprzeczytane wiadomosci, ktore ci wyslali
+2
+ +no_unsend        Nikt nie moze @unsend wiadomosci, ktore ci wyslal
 2
 
 2
-         @mail-option  manymsgs [is] <number>
+Dla "sticky", `polecenie poczty' to jedno z @mail, @read, @prev, @next, @answer.
 2
-         @mail-option  manymsgs=<number>
+Wszystkie flagi domyslnie maja ustawienie `-'.  
+2
+
+2
+Dalej mamy
+2
+
+2
+         @mail-option  manymsgs [is] <liczba>
+2
+         @mail-option  manymsgs=<liczba>
 2
          @mail-option -manymsgs
 2
 
 2
-The first two forms specify that if you give a @mail or @read command asking for <number> or more messages, you will first be given a yes-or-no prompt to continue, the idea being that you many not actually have wanted to see that many messages.  The third form turns off this behavior.
+Pierwsze dwie formy okreslaja, ze jesli wydasz polecenie @mail lub @read prosze o <liczba> lub wiecej wiadomosci, najpierw dostaniesz pytanie tak/nie o kontynuacje, poniewaz zakladamy, ze mozliwe, ze nie chciales zobaczyc az tylu wiadomosci.  Trzecia forma wylacza to zachowanie.
 2
 
 2
-         @mail-option  @mail [is] <message-sequence>
+         @mail-option  @mail [is] <sekwencja-wiadomosci>
 2
 
 2
-The "@mail" option determines what message-sequence the @mail command uses by 
+Opcja "@mail" okresla, jakiej sekwencji wiadomosci polecenie @mail uzywa 
 2
-default.  Initially, this is "last:15", but other reasonable choices include
+domyslnie.  Poczatkowo jest to "last:15", ale inne rozsadne wybory to
 2
-"new" and "1-last"
+"new" i "1-last"
 2
 
 2
-         @mail-option  replyto [is] <recipient> [<recipient>...]
+         @mail-option  replyto [is] <odbiorca> [<odbiorca>...]
 2
          @mail-option -replyto
 2
 
 2
-The first form specifies that a Reply-To: field is to be placed in all messages constructed by @send or @answer.  Note this can still be changed before sending via the mail room's reply-to command.  
+Pierwsza forma okresla, ze pole Reply-To: ma byc umieszczane we wszystkich wiadomosciach tworzonych przez @send lub @answer.  Uwaga: nadal mozna to zmienic przed wyslaniem za pomoca polecenia reply-to w pokoju pocztowym.  
 2
-The second form resets this option so that no Reply-to: is initially inserted.
-2
-
-2
-        @mail-option rn_order=<order>
+Druga forma resetuje te opcje, tak ze zadne Reply-to: nie jest poczatkowo wstawiane.
 2
 
 2
-controls the order in which folders listed by @rn and @subscribed will appear.  <order> can be one of
+        @mail-option rn_order=<kolejnosc>
 2
 
 2
- read    folders are sorted by last read date. (default)
-2
- send    folders are sorted by last send date.
-2
- fixed   folders are not sorted
+kontroluje kolejnosc, w jakiej foldery wypisywane przez @rn i @subscribed sie pojawiaja.  <kolejnosc> moze byc jedna z
 2
 
 2
-To control expiration of messages (see `help @keep-mail') we have
+ read    foldery sa sortowane wedlug daty ostatniego odczytu. (domyslnie)
+2
+ send    foldery sa sortowane wedlug daty ostatniego wyslania.
+2
+ fixed   foldery nie sa sortowane
 2
 
 2
-        @mail-option expire [is] <time-interval>
-2
-        @mail-option expire=<time-interval>
+By kontrolowac wygasanie wiadomosci (zobacz `help @keep-mail'), mamy
 2
 
 2
-<time-interval> can either be a number of seconds or something with units in it, e.g.,
+        @mail-option expire [is] <przedzial-czasu>
+2
+        @mail-option expire=<przedzial-czasu>
+2
+
+2
+<przedzial-czasu> moze byc liczba sekund albo czyms z jednostkami, np.
 2
 
 2
@@ -37714,7 +37723,7 @@ To control expiration of messages (see `help @keep-mail') we have
 2
 
 2
-A negative number or
+Liczba ujemna lub
 2
 
 2
@@ -37722,7 +37731,7 @@ A negative number or
 2
 
 2
-disables message expiration entirely
+calkowicie wylacza wygasanie wiadomosci
 2
 
 2
@@ -37730,125 +37739,125 @@ disables message expiration entirely
 2
 
 2
-sets your message expiration time to the current default.
+ustawia czas wygasania twoich wiadomosci na biezaca wartosc domyslna.
 2
 
 2
-        @mail-option @unsend=<message sequence>
+        @mail-option @unsend=<sekwencja wiadomosci>
 2
 
 2
-sets the default message sequence that the @unsend command will operate upon.  The default is "last:1".
+ustawia domyslna sekwencje wiadomosci, na ktorej dziala polecenie @unsend.  Domyslnie jest to "last:1".
 36
 5
 4
 30
 2
-There are 3 personal properties that you can use to customize how your mail is composed and forwarded
+Sa 3 osobiste wlasciwosci, ktorych mozesz uzyc, by dostosowac sposob tworzenia i przekazywania twojej poczty
 2
 
 2
 .mail_forward 
 2
- -- list of objects that will receive any mail that gets sent to you.
+ -- lista obiektow, ktore otrzymaja kazda poczte wyslana do ciebie.
 2
-    Objects on this list should either be players or descendants of 
+    Obiekty na tej liscie powinny byc graczami lub potomkami 
 2
     $mail_recipient.
 2
-    If this list is nonempty, you will not receive any mail yourself unless
+    Jesli ta lista jest niepusta, ty sam nie otrzymasz zadnej poczty, chyba ze
 2
-    you are on it.  E.g., if Rog is #4292 and ur-Rog is #6349
+    jestes na niej.  Np. jesli Rog to #4292, a ur-Rog to #6349
 2
 
 2
-  #6349.mail_forward={}            -- usual case; ur-Rog gets his own mail.
+  #6349.mail_forward={}            -- zwykly przypadek; ur-Rog dostaje wlasna poczte.
 2
-  #6349.mail_forward={#4292}       -- Rog gets ur-Rog's mail instead.
+  #6349.mail_forward={#4292}       -- Rog dostaje poczte ur-Roga zamiast niego.
 2
-  #6349.mail_forward={#6349,#4292} -- ur-Rog gets mail and Rog gets a copy.
+  #6349.mail_forward={#6349,#4292} -- ur-Rog dostaje poczte, a Rog dostaje kopie.
 2
-  #6349.mail_forward={#-1}         -- ur-Rog's mail disappears without a trace.
+  #6349.mail_forward={#-1}         -- poczta ur-Roga znika bez sladu.
 2
 
 2
 .mail_notify
 2
- -- list of objects to be notified whenever mail is sent to you.
+ -- lista obiektow do powiadomienia za kazdym razem, gdy poczta jest do ciebie wysylana.
 2
-    This list may include anything that has a :notify_mail() verb.
+    Ta lista moze zawierac cokolwiek, co ma czasownik :notify_mail().
 2
-    Notification will take place regardless of whether or how your mail
+    Powiadomienie nastapi niezaleznie od tego, czy i jak twoja poczta
 2
-    is forwarded.  
-2
-
-2
-Thus, in the previous example
+    jest przekierowywana.  
 2
 
 2
-  #4292.mail_notify={#6349} --- means that ur-Rog will be told
+Zatem, w poprzednim przykladzie
 2
-                                whenever Rog is sent new mail.
+
+2
+  #4292.mail_notify={#6349} --- oznacza, ze ur-Rog zostanie poinformowany
+2
+                                za kazdym razem, gdy Rog dostanie nowa poczte.
 2
 
 2
 .mail_options
 2
- -- this controls lots of miscellaneous things.  Use the @mail-option command
+ -- to kontroluje mnostwo roznych rzeczy.  Uzyj polecenia @mail-option,
 2
-    to view and set these options (see `help @mail-option')
+    by zobaczyc i ustawic te opcje (zobacz `help @mail-option')
 2
 
 2
-See `help mail-resolve' for more detail on how mail forwarding and mail notification work.  See `help MR-subscribing' for information on how to change .mail_forward and .mail_notify on $mail_recipient children, where they are !c properties.
+Zobacz `help mail-resolve' po wiecej szczegolow o tym, jak dziala przekierowanie i powiadamianie o poczcie.  Zobacz `help MR-subscribing' po informacje o zmianie .mail_forward i .mail_notify na dzieciach $mail_recipient, gdzie sa to wlasciwosci !c.
 36
 5
 4
 18
 2
-Syntax:  @forward <msg> [on *<collection>] to <recipient> [<recipient>...]
+Skladnia:  @forward <wiad> [on *<kolekcja>] to <odbiorca> [<odbiorca>...]
 2
-Syntax:  @resend  <msg> [on *<collection>] to <recipient> [<recipient>...]
-2
-
-2
-Both of these commands take the indicated message in your (or some other) message collection, and sends it on to the indicated recipients in some form.
+Skladnia:  @resend  <wiad> [on *<kolekcja>] to <odbiorca> [<odbiorca>...]
 2
 
 2
-@forward sends an entirely new message whose body is the original message (both headers and body).
-2
-@resend sends the original message, but with a header containing the lines
+Oba te polecenia bierza wskazana wiadomosc z twojej (lub innej) kolekcji wiadomosci i przesylaja ja dalej do wskazanych odbiorcow w pewnej formie.
 2
 
 2
-  From:  original-sender
+@forward wysyla zupelnie nowa wiadomosc, ktorej trescia jest oryginalna wiadomosc (zarowno naglowki, jak i tresc).
 2
-  To:    original-recipients...
-2
-  Resent-By: you
-2
-  Resent-To: new-recipients...
+@resend wysyla oryginalna wiadomosc, ale z naglowkiem zawierajacym linie
 2
 
 2
-If you prefer to have yourself in the From: line of messages you @resend, set the mail option `resend_forw (see `help @mail-options').  In this case, the message will instead have a header containing the lines
+  From:  oryginalny-nadawca
+2
+  To:    oryginalni-odbiorcy...
+2
+  Resent-By: ty
+2
+  Resent-To: nowi-odbiorcy...
 2
 
 2
-  From:  you
+Jesli wolisz miec siebie w linii From: wiadomosci, ktore @resend, ustaw opcje poczty `resend_forw' (zobacz `help @mail-options').  W takim przypadku wiadomosc bedzie miala zamiast tego naglowek z liniami
 2
-  To:    new-recipients...
+
 2
-  Original-From:  original-sender
+  From:  ty
+2
+  To:    nowi-odbiorcy...
+2
+  Original-From:  oryginalny-nadawca
 36
 5
 4
 22
 2
-Syntax:  @subscribe *<collection> [with|without notification] [before|after *<collection>]
+Skladnia:  @subscribe *<kolekcja> [with|without notification] [before|after *<kolekcja>]
 2
          @subscribe
 2
@@ -37856,55 +37865,55 @@ Syntax:  @subscribe *<collection> [with|without notification] [before|after *<co
 2
 
 2
-The second and third form of the command gives a list of all mail collections that are readable by you. The third form omits the mail collection description.
+Druga i trzecia forma polecenia podaja liste wszystkich kolekcji poczty czytelnych dla ciebie. Trzecia forma pomija opis kolekcji poczty.
 2
 
 2
-The first form of this command sets up a current message and a last-read-time for the given mail collection so that when you next log in or issue the @rn command, you will be informed about new mail that has appeared there.  Note that this happens automatically whenever you @read messages on a given collection, so if this much is all you care about, you don't need to use this command; just do, e.g.,
+Pierwsza forma tego polecenia ustawia biezaca wiadomosc i czas ostatniego odczytu dla podanej kolekcji poczty, tak by przy nastepnym logowaniu lub wydaniu polecenia @rn zostac poinformowanym o nowej poczcie, jaka sie tam pojawila.  Uwaga: dzieje sie to automatycznie za kazdym razem, gdy @read wiadomosci w danej kolekcji, wiec jesli tylko o to ci chodzi, nie musisz uzywac tego polecenia; po prostu wykonaj np.
 2
-         @read last on *<collection>
-2
-
-2
-Specifying "with notification" causes you to be added to the immediate-notification list (.mail_notify) for that collection, i.e., whenever new mail arrives there, you will be notified immediately.  Specifying "without notification" causes you to be removed from the collection's .mail_notify.
+         @read last on *<kolekcja>
 2
 
 2
-Specifying "before *<other-collection>" causes <collection> to be placed immediately before *<collection> in your @rn listing (which see) and likewise for the "after" clause.  By default, new collections are placed at the end of your list.  The before/after specification is only useful if you have @mail-option rn_order=fixed set (see `help @mail-options').
+Podanie "with notification" dodaje cie do listy natychmiastowego powiadamiania (.mail_notify) dla tej kolekcji, tj. za kazdym razem, gdy pojawi sie tam nowa poczta, zostaniesz od razu powiadomiony.  Podanie "without notification" usuwa cie z .mail_notify tej kolekcji.
 2
 
 2
-@subscribing to a collection for which you already have a current-message/last-read-time has no effect other from possibly changing that collection's .mail_notify and/or reordering your collections for @rn.
+Podanie "before *<inna-kolekcja>" umieszcza <kolekcje> zaraz przed *<kolekcja> na twojej liscie @rn (patrz), podobnie dla klauzuli "after".  Domyslnie nowe kolekcje sa umieszczane na koncu twojej listy.  Specyfikacja before/after jest przydatna tylko wtedy, gdy masz ustawione @mail-option rn_order=fixed (zobacz `help @mail-options').
 2
 
 2
-You can only @subscribe to collections that are readable by you.
+@subscribe na kolekcje, dla ktorej juz masz biezaca-wiadomosc/czas-ostatniego-odczytu, nie ma efektu poza ewentualna zmiana .mail_notify tej kolekcji i/lub zmiana kolejnosci twoich kolekcji dla @rn.
 2
 
 2
-Note that this is entirely different from the Mail Room `subscribe' command
+Mozesz @subscribe tylko do kolekcji czytelnych dla ciebie.
 2
-which actually adds you to the .mail_forward list for a given collection/
+
 2
-mailing-list, so that mail sent to the list actually shows up in your own
+Uwaga: to jest zupelnie inna rzecz niz polecenie `subscribe' w pokoju pocztowym,
 2
-mail collection.
+ktore faktycznie dodaje cie do listy .mail_forward dla danej kolekcji/
 2
-We're probably going to phase out the Mail Room `subscribe' command...
+listy-mailingowej, tak by poczta wyslana na liste faktycznie pojawiala sie w twojej
+2
+wlasnej kolekcji poczty.
+2
+Prawdopodobnie bedziemy wygaszac polecenie `subscribe' w pokoju pocztowym...
 36
 5
 4
 5
 2
-Syntax:  @rn
+Skladnia:  @rn
 2
 
 2
-For each collection of mail messages that you read other from your own, a last-read-time is kept.  This command tells you which collections (out of all those you have ever read) have recently had messages added to them, i.e., more recently than when you last did a @read, @prev, @next, or @skip on that collection.
+Dla kazdej kolekcji wiadomosci pocztowych, ktora czytasz poza wlasna, trzymany jest czas ostatniego odczytu.  To polecenie mowi ci, ktore kolekcje (ze wszystkich, ktore kiedykolwiek czytales) mialy ostatnio dodane wiadomosci, tj. pozniej niz twoj ostatni @read, @prev, @next lub @skip na tej kolekcji.
 2
 
 2
-Etymologists' note:  If you thought @rn had anything to do with the popular UNIX newsreading program `rn', it's just your imagination.
+Uwaga etymologiczna:  Jesli myslales, ze @rn ma cokolwiek wspolnego z popularnym programem UNIX do czytania newsow `rn', to tylko twoja wyobraznia.
 36
 5
 4
@@ -37918,21 +37927,21 @@ Etymologists' note:  If you thought @rn had anything to do with the popular UNIX
 4
 8
 2
-Syntax:  @skip [<collection>...]
+Skladnia:  @skip [<kolekcja>...]
 2
-         @unsubscribe [<collection>...]
-2
-
-2
-For each collection of mail messages that you read other from your own, a current message and a last-read-time is kept.  Normally, if you neglect to actually @read any messages on a collection other from your own, @rn (or :check_mail_lists) will continue to remind you that they are there.
+         @unsubscribe [<kolekcja>...]
 2
 
 2
-The @skip command indicates that you're not interested in reading the rest of the messages that currently exist in that given collection.  
+Dla kazdej kolekcji wiadomosci pocztowych, ktora czytasz poza wlasna, trzymana jest biezaca wiadomosc i czas ostatniego odczytu.  Zwykle, jesli zaniedbasz faktyczne @read wiadomosci w kolekcji poza wlasna, @rn (lub :check_mail_lists) bedzie ci nadal przypominac, ze tam sa.
 2
 
 2
-The @unsubscribe command flushes the current-message/last-read-time information completely, indicating that you are not only uninterested in the rest of the messages on that collection, but also likewise uninterested in anything else that may appear on that collection later on.  @unsubscribe also removes you from the collection's .mail_notify list.
+Polecenie @skip oznacza, ze nie jestes zainteresowany czytaniem pozostalych wiadomosci obecnie istniejacych w danej kolekcji.  
+2
+
+2
+Polecenie @unsubscribe calkowicie czysci informacje o biezacej-wiadomosci/czasie-ostatniego-odczytu, oznaczajac, ze nie jestes zainteresowany nie tylko pozostalymi wiadomosciami w tej kolekcji, ale tez wszystkim, co moze sie tam pojawic pozniej.  @unsubscribe usuwa tez ciebie z listy .mail_notify tej kolekcji.
 36
 5
 4
@@ -37946,33 +37955,33 @@ The @unsubscribe command flushes the current-message/last-read-time information 
 4
 55
 2
-Certain mail commands, including @mail, @read, and @rmmail, allow a <message-sequence> argument that indicates to which messages in one's collection the command is to apply.  Any combination of the following may appear as a <message-sequence> argument to any of the various mail commands (@mail, @read, @answer, @rmm).
+Niektore polecenia poczty, w tym @mail, @read i @rmmail, pozwalaja na argument <sekwencja-wiadomosci>, ktory okresla, do ktorych wiadomosci w twojej kolekcji polecenie ma zostac zastosowane.  Dowolna kombinacja ponizszych moze wystapic jako argument <sekwencja-wiadomosci> dla dowolnego z roznych polecen poczty (@mail, @read, @answer, @rmm).
 2
 
 2
-  17        message number 17 if there is one (and likewise for other integers)
+  17        wiadomosc numer 17, jesli istnieje (i podobnie dla innych liczb calkowitych)
 2
-  17..23    all messages numbered between 17 and 23 (inclusive), if any.
+  17..23    wszystkie wiadomosci ponumerowane od 17 do 23 (wlacznie), jesli sa.
 2
-  cur       the current message
+  cur       biezaca wiadomosc
 2
-  prev      the message before
+  prev      poprzednia wiadomosc
 2
-  next      the message after
+  next      nastepna wiadomosc
 2
-  prev17    the 17 messages prior to the current message
+  prev17    17 wiadomosci przed biezaca wiadomoscia
 2
-  next17    the 17 messages after the current message
+  next17    17 wiadomosci po biezacej wiadomosci
 2
-  first     the first message if any
+  first     pierwsza wiadomosc, jesli jest
 2
-  last      the final message if any (`$' is a synonym for `last')
+  last      ostatnia wiadomosc, jesli jest (`$' to synonim `last')
 2
-  new       unread messages if any
+  new       nieprzeczytane wiadomosci, jesli sa
 2
 
 2
-You may use as many of these at once as sanity permits, e.g.,
+Mozesz uzyc tylu z nich naraz, na ile pozwala zdrowy rozsadek, np.
 2
 
 2
@@ -37980,111 +37989,111 @@ You may use as many of these at once as sanity permits, e.g.,
 2
 
 2
-which will display the header for your current message, your messages in the range 1..5, and your last message.  Though some of these ranges may overlap, the header for any given message is only shown once in any event.
+co wyswietli naglowek twojej biezacej wiadomosci, twoje wiadomosci w zakresie 1..5 i twoja ostatnia wiadomosc.  Chociaz niektore z tych zakresow moga sie nakladac, naglowek danej wiadomosci jest w kazdym wypadku pokazywany tylko raz.
 2
 
 2
-In addition, there are other message-sequence arguments that act as filters on whatever precedes them. 
+Dodatkowo sa inne argumenty sekwencji wiadomosci, ktore dzialaja jako filtry na tym, co je poprzedza. 
 2
 
 2
- before:<date>               messages strictly before the given date
+ before:<data>               wiadomosci scisle przed podana data
 2
- after:<date>                messages strictly after the given date
+ after:<data>                wiadomosci scisle po podanej dacie
 2
- since:<date>                messages on or after the given date
+ since:<data>                wiadomosci od podanej daty (wlacznie)
 2
- until:<date>                messages on or before the given date
+ until:<data>                wiadomosci do podanej daty (wlacznie)
 2
- from:<player>[|<player...]  messages from the given player(s)
+ from:<gracz>[|<gracz...]  wiadomosci od podanego gracza (graczy)
 2
- to:<recip>[|<recip>...]     messages to the given recipient(s)
+ to:<odbiorca>[|<odbiorca>...]     wiadomosci do podanego odbiorcy (odbiorcow)
 2
- %from:<string>              messages with <string> in the From: line
+ %from:<string>              wiadomosci z <string> w linii From:
 2
- %to:<string>                messages with <string> in the To: line
+ %to:<string>                wiadomosci z <string> w linii To:
 2
- subject:<string>            messages with <string> in the subject
+ subject:<string>            wiadomosci z <string> w temacie
 2
- body:<string>               messages with <string> in the body (SLOW!!!)
+ body:<string>               wiadomosci z <string> w tresci (WOLNE!!!)
 2
- first:<number>              the first <number> messages
+ first:<liczba>              pierwsze <liczba> wiadomosci
 2
- last:<number>               the last <number> messages
+ last:<liczba>               ostatnie <liczba> wiadomosci
 2
- kept:                       messages marked as kept (see `help @keep-mail')
+ kept:                       wiadomosci oznaczone jako zachowane (zobacz `help @keep-mail')
 2
- unkept:                     messages not marked as kept
-2
-
-2
-<date>  is either a weekday, "today", "yesterday", or
-2
-        a dd-Month, dd-Month-yy or dd-Month-yyyy date
-2
-<recip> is either <player> or *<$mail_recipient kid>
+ unkept:                     wiadomosci nieoznaczone jako zachowane
 2
 
 2
-Examples:
+<data>  to dzien tygodnia, "today", "yesterday", lub
+2
+        data w formacie dd-Month, dd-Month-yy lub dd-Month-yyyy
+2
+<odbiorca> to <gracz> lub *<dziecko $mail_recipient>
 2
 
 2
-  @read from:G7|Gemba              read all messages from G7 or Gemba
+Przyklady:
 2
-  @rmm to:yduJ|*Core               remove messages that are to yduJ or to *Core
+
 2
-  @mail since:1-Jan before:1-Feb   show messages dated in January
+  @read from:G7|Gemba              czytaj wszystkie wiadomosci od G7 lub Gemby
 2
-  @mail since:Tues                 show messages dated on or after Tuesday
+  @rmm to:yduJ|*Core               usun wiadomosci do yduJ lub do *Core
 2
-  @rmm subject:manners             remove msgs with `manners' in the subject:
+  @mail since:1-Jan before:1-Feb   pokaz wiadomosci z stycznia
 2
-  @mail subject:"stupid idiots"    (search string contains a space => need "'s)
+  @mail since:Tues                 pokaz wiadomosci od wtorku wlacznie
 2
-  @rmm to:yduJ to:*Core            remove messages that are to yduJ and *Core
+  @rmm subject:manners             usun wiadomosci z `manners' w temacie
 2
-  @mail from:Haakon last:5         show the last 5 messages from Haakon
+  @mail subject:"stupid idiots"    (szukany string zawiera spacje => potrzeba "'ow)
 2
-  @mail %from:guest                show mail from players with "guest" in
+  @rmm to:yduJ to:*Core            usun wiadomosci do yduJ i do *Core
 2
-                                   their names
+  @mail from:Haakon last:5         pokaz ostatnie 5 wiadomosci od Haakona
 2
-  @mail last:10 body:fribble       show those of the last 10 messages having
+  @mail %from:guest                pokaz poczte od graczy z "guest" w
 2
-                                   `fribble' in the body (one should always try
+                                   swoich imionach
 2
-                                   to narrow body searches in this way).
+  @mail last:10 body:fribble       pokaz te z ostatnich 10 wiadomosci majace
+2
+                                   `fribble' w tresci (zawsze warto zawezac
+2
+                                   przeszukiwanie tresci w ten sposob).
 36
 1
 4
 13
 2
-Syntax:  @unrmmail [list|expunge] [on *<collection>]
+Skladnia:  @unrmmail [list|expunge] [on *<kolekcja>]
 2
 
 2
-When you do @rmmail on a particular message collection, the messages removed don't go away immediately, but are rather saved elsewhere.  These "zombie" messages can be brought back or examined using the @UNrmmail command.
+Gdy wykonasz @rmmail na danej kolekcji wiadomosci, usuniete wiadomosci nie znikaja od razu, tylko sa zapisywane gdzie indziej.  Te "zombie" wiadomosci mozna przywrocic lub obejrzec poleceniem @UNrmmail.
 2
 
 2
-Without `list' or `expunge', @unrmm restores the zombie messages, thus undoing the effect of the most recent @rmmail command.  Only the most recent @rmmail can be undone in this way; messages deleted by any previous @rmmail commands on this same collection are lost and gone forever.
+Bez `list' lub `expunge', @unrmm przywraca zombie wiadomosci, cofajac efekt ostatniego polecenia @rmmail.  W ten sposob mozna cofnac tylko ostatnie @rmmail; wiadomosci usuniete przez wczesniejsze polecenia @rmmail na tej samej kolekcji sa stracone na zawsze.
 2
 
 2
-The `list' option merely lists the headers of the zombie messages without actually restoring them.
+Opcja `list' po prostu wypisuje naglowki zombie wiadomosci bez ich faktycznego przywracania.
 2
 
 2
-The `expunge' option banishes the zombie messages forever.
+Opcja `expunge' usuwa zombie wiadomosci na zawsze.
 2
 
 2
-Note that the message numbers used by zombie messages are held in reserve against the possibility that you might @unrmm them some day; with such messages around, new messages received will be given higher numbers than you might have expected.  @renumber does an implicit @unrmm expunge.
+Uwaga: numery wiadomosci uzywane przez zombie wiadomosci sa zarezerwowane na wypadek, gdybys kiedys chcial je @unrmm; z takimi wiadomosciami w poblizu, nowo otrzymane wiadomosci beda miec wyzsze numery, niz mozna by sie spodziewac.  @renumber wykonuje niejawne @unrmm expunge.
 2
 
 2
-`@unrmmail' and `@unrmmail expunge' on collections other than your own are only allowed when you have write access.  Likewise, `@unrmmail list' on other collections is only possible when they are readable by you.
+`@unrmmail' i `@unrmmail expunge' na kolekcjach innych niz twoja wlasna sa dozwolone tylko, gdy masz dostep do zapisu.  Podobnie, `@unrmmail list' na innych kolekcjach jest mozliwe tylko, gdy sa dla ciebie czytelne.
 36
 5
 4
@@ -38098,107 +38107,107 @@ Note that the message numbers used by zombie messages are held in reserve agains
 4
 5
 2
-Syntax:  @renumber [<collection>]
+Skladnia:  @renumber [<kolekcja>]
 2
 
 2
-Renumbers the messages in your collection to go from 1 to however many you have at the moment.  The optional argument allows you to renumber the messages stored in some other collection (@renumber, like @rmmail, requires write access).
+Przenumerowuje wiadomosci w twojej kolekcji, tak by isc od 1 do tylu, ile aktualnie masz.  Opcjonalny argument pozwala przenumerowac wiadomosci w innej kolekcji (@renumber, tak jak @rmmail, wymaga dostepu do zapisu).
 2
 
 2
-Note that if you have zombie messages from a previous @rmmail command (see `help zombie-messages'), these will be expunged.
+Uwaga: jesli masz zombie wiadomosci z wczesniejszego polecenia @rmmail (zobacz `help zombie-messages'), zostana one usuniete.
 36
 5
 4
 3
 2
-Syntax:  @prev [<number>] [on <collection>]
+Skladnia:  @prev [<liczba>] [on <kolekcja>]
 2
 
 2
-Print the 'previous' message in a given email collection (defaults to your own).  The mail system's notion of your 'current message' for that collection is decremented.  Thus, e.g., one can review all of one's previous messages one-by-one simply by typing '@prev' repeatedly.  If <number> is supplied, print (and decrement current message by) that many messages.
+Wypisuje 'poprzednia' wiadomosc w danej kolekcji poczty (domyslnie twoja wlasna).  Pojecie systemu poczty o twojej 'biezacej wiadomosci' dla tej kolekcji jest zmniejszane.  Zatem np. mozna przejrzec wszystkie swoje poprzednie wiadomosci jedna po drugiej, po prostu wpisujac '@prev' wielokrotnie.  Jesli podano <liczba>, wypisuje (i zmniejsza biezaca wiadomosc o) tyle wiadomosci.
 36
 5
 4
 3
 2
-Syntax:  @next [<number>] [on <collection>]
+Skladnia:  @next [<liczba>] [on <kolekcja>]
 2
 
 2
-Print the `next' message in a given email collection (defaults to your own).  The mail system's notion of your 'current message' for that collection is incremented.  Thus, e.g., one can read all of one's new messages one-by-one simply by typing '@next' repeatedly.  If <number> is supplied, prints and advances that many messages.
+Wypisuje 'nastepna' wiadomosc w danej kolekcji poczty (domyslnie twoja wlasna).  Pojecie systemu poczty o twojej 'biezacej wiadomosci' dla tej kolekcji jest zwiekszane.  Zatem np. mozna przeczytac wszystkie swoje nowe wiadomosci jedna po drugiej, po prostu wpisujac '@next' wielokrotnie.  Jesli podano <liczba>, wypisuje i przesuwa o tyle wiadomosci.
 36
 1
 4
 17
 2
-Syntax:  @answer [<message-number>] [sender] [all] [include] [noinclude] [followup]
+Skladnia:  @answer [<numer-wiadomosci>] [sender] [all] [include] [noinclude] [followup]
 2
 
 2
-Synonym: @reply
+Synonim: @reply
 2
 
 2
-Prepares for you to compose a MOO email message to the players who either received or composed the indicated message from your collection.  The usual editor is invoked (see `help editors' for details).  The subject line for the new message will be initialized from that of the indicated message.  If you leave off the message number, the reply will be to your current message, if that exists.  In fact you may give a general message-sequence (see `help message-sequences') argument here, provided that it indicates only a single message (e.g., `@answer last:1')
+Przygotowuje dla ciebie napisanie wiadomosci email MOO do graczy, ktorzy otrzymali lub napisali wskazana wiadomosc z twojej kolekcji.  Wywolywany jest zwykly edytor (zobacz `help editors' po szczegoly).  Linia tematu nowej wiadomosci zostanie zainicjowana na podstawie tematu wskazanej wiadomosci.  Jesli pominiesz numer wiadomosci, odpowiedz dotyczy twojej biezacej wiadomosci, jesli taka istnieje.  W rzeczywistosci mozna tu podac ogolny argument sekwencji wiadomosci (zobacz `help message-sequences'), o ile wskazuje tylko jedna wiadomosc (np. `@answer last:1')
 2
 
 2
-If there is a Reply-to: field in the message you are @answer'ing, its contents will be used to initialize the To: line of your reply.  Otherwise, a To: line is determined depending on whether you specified `sender', `all', or `followup' in the command line (or your .mail_options).
+Jesli w wiadomosci, na ktora @answer, jest pole Reply-to:, jego zawartosc bedzie uzyta do zainicjowania linii To: twojej odpowiedzi.  W przeciwnym razie linia To: jest okreslana w zaleznosci od tego, czy podales `sender', `all' lub `followup' w linii polecenia (lub w twoich .mail_options).
 2
-  `sender'   replies to sender only
+  `sender'   odpowiedz tylko do nadawcy
 2
-  `all'      replies to sender and all original recipients
+  `all'      odpowiedz do nadawcy i wszystkich oryginalnych odbiorcow
 2
-  `followup' replies to first original recipient that is a non-player
+  `followup' odpowiedz do pierwszego oryginalnego odbiorcy nie bedacego graczem
 2
-             (no effect if there are no non-player recipients).
-2
-
-2
-`include' includes the text of the original message in your reply, `noinclude' does not.  
+             (bez efektu, jesli nie ma odbiorcow nie bedacych graczami).
 2
 
 2
-`sender', `all', `followup', `include', and `noinclude' can all be abbreviated (e.g., `@answer i').
+`include' dolacza tekst oryginalnej wiadomosci do twojej odpowiedzi, `noinclude' nie.  
 2
 
 2
-Defaults are `sender' and `noinclude', but you can change this by setting your .mail-options (see `help mail-options').  
+`sender', `all', `followup', `include' i `noinclude' moga byc wszystkie skracane (np. `@answer i').
+2
+
+2
+Domyslne to `sender' i `noinclude', ale mozna to zmienic ustawiajac swoje .mail-options (zobacz `help mail-options').  
 36
 5
 4
 12
 2
-Syntax:  @rmmail [<message-sequence>] [from *<recipient>]
+Skladnia:  @rmmail [<sekwencja-wiadomosci>] [from *<odbiorca>]
 2
 
 2
-Deletes the indicated messages from your MOO email collection.
+Usuwa wskazane wiadomosci z twojej kolekcji poczty MOO.
 2
-By default, your current message is deleted.
+Domyslnie usuwana jest twoja biezaca wiadomosc.
 2
-See `help message-sequence' for the full list of possible arguments.
+Zobacz `help message-sequence' po pelna liste mozliwych argumentow.
 2
-You get the message numbers for use here by typing the '@mail' command.
-2
-
-2
-There is no confirmation for this action, so be careful.  While it is true that @unrmmail will be able to bring back the messages deleted by the last @rmm, any messages deleted before then are really gone, i.e., irrecoverable.  See `help @unrmmail' for more information.
+Numery wiadomosci do uzycia tutaj otrzymujesz wpisujac polecenie '@mail'.
 2
 
 2
-This command may be used on other mail recipients (children of $mail_recipient), but only ones to which you have write access (you either have to own it or be on good terms with whoever does...).
+Nie ma potwierdzenia dla tej akcji, wiec badz ostrozny.  Chociaz to prawda, ze @unrmmail moze przywrocic wiadomosci usuniete przez ostatnie @rmm, wiadomosci usuniete wczesniej sa naprawde stracone, tj. nieodwracalnie.  Zobacz `help @unrmmail' po wiecej informacji.
 2
 
 2
-You can try to delete messages that you accidentally sent to a person with the command @unsend (see `help @unsend').  Note there are restrictions on the operation, so it often will not work.
+To polecenie moze byc uzyte na innych odbiorcach poczty (dzieciach $mail_recipient), ale tylko takich, do ktorych masz dostep do zapisu (musisz albo je posiadac, albo byc w dobrych stosunkach z tym, kto je posiada...).
+2
+
+2
+Mozesz probowac usunac wiadomosci, ktore przypadkiem wyslales do jakiejs osoby, poleceniem @unsend (zobacz `help @unsend').  Uwaga: sa ograniczenia tej operacji, wiec czesto nie zadziala.
 36
 5
 4
 14
 2
-Syntax:  @read <message-number>
+Skladnia:  @read <numer-wiadomosci>
 2
          @read
 2
@@ -38206,159 +38215,159 @@ Syntax:  @read <message-number>
 2
 
 2
-Prints the contents of the indiciated messages from your MOO email collection.  You get the message numbers for use here by typing the '@mail' command, which prints a table of contents for your entire MOO email collection.  If no arguments are given to @read, then the 'current message' in your collection is printed.  In any case, the 'current message' after @read finishes is the last one printed.
+Wypisuje tresc wskazanych wiadomosci z twojej kolekcji poczty MOO.  Numery wiadomosci do uzycia tutaj otrzymujesz wpisujac polecenie '@mail', ktore wypisuje spis tresci calej twojej kolekcji poczty MOO.  Jesli nie podano zadnych argumentow do @read, wypisywana jest 'biezaca wiadomosc' w twojej kolekcji.  W kazdym przypadku 'biezaca wiadomosc' po zakonczeniu @read to ostatnia wypisana.
 2
 
 2
-The most general form of the @read command is
+Najogolniejsza forma polecenia @read to
 2
 
 2
-         @read <message-sequence> [on *<collection>]  
+         @read <sekwencja-wiadomosci> [on *<kolekcja>]  
 2
 
 2
-where <message-sequence> is as described in `help message-sequences'.
+gdzie <sekwencja-wiadomosci> jest opisana w `help message-sequences'.
 2
-As with the @mail command you may @read messages on any publically readable collection (child of $mail_recipient).
+Podobnie jak z poleceniem @mail, mozesz @read wiadomosci na dowolnej publicznie czytelnej kolekcji (dziecko $mail_recipient).
 2
 
 2
-The @peek command is a variant of @read that works no differently except that it refrains from setting your `current message'.  This is useful, for example, if you want to see some particular message on a collection without losing track of where you are in it.
+Polecenie @peek to wariant @read, ktory dziala identycznie, poza tym ze nie ustawia twojej 'biezacej wiadomosci'.  Przydatne np. gdy chcesz zobaczyc konkretna wiadomosc w kolekcji, nie tracac orientacji, gdzie w niej jestes.
 36
 5
 4
 10
 2
-Syntax:  @send <recipient> [<recipient> ...]  [subj[ect]="<subject>"]
+Skladnia:  @send <odbiorca> [<odbiorca> ...]  [subj[ect]="<temat>"]
 2
 
 2
-Prepares for you to compose a MOO email message to the recipients named on the command line.  A recipient can be specified by giving a player name or object-id, or a '*' followed by the name or object-id of some non-player mail recipient (e.g., a mailing list or a mail folder) -- a list of such non-player recipients is available from within the mailroom with the 'showlists' command.
+Przygotowuje dla ciebie napisanie wiadomosci email MOO do odbiorcow podanych w linii polecenia.  Odbiorce mozna podac przez nazwe gracza lub id obiektu, albo '*' i nazwe lub id obiektu jakiegos odbiorcy nie bedacego graczem (np. listy mailingowej lub folderu poczty) -- liste takich odbiorcow nie bedacych graczami mozna uzyskac z wnetrza pokoju pocztowego poleceniem 'showlists'.
 2
 
 2
-The usual editor is invoked.   
+Wywolywany jest zwykly edytor.   
 2
-You will be prompted for a subject line if you did not specify one in the @send command (see `help mail_options' for how to avoid this).
+Zostaniesz zapytany o linie tematu, jesli nie podales jej w poleceniu @send (zobacz `help mail_options' po sposob unikniecia tego).
 2
-Use `say' (") to insert lines in the body of your message.  
+Uzyj `say' (") by wstawiac linie w tresci wiadomosci.  
 2
-See `help editors' for details.
+Zobacz `help editors' po szczegoly.
 2
 
 2
-Giving this command without arguments resumes editing the previous unsent draft message if one exists.
+Wydanie tego polecenia bez argumentow wznawia edycje poprzedniego niewyslanego szkicu wiadomosci, jesli taki istnieje.
 36
 5
 4
 35
 2
-The MOO email system allows you to send and receive messages to and from other players.  It provides commands to view and manage your own collection of saved messages and, in addition, to browse through other collections that may be available (e.g.,archives of public mailing lists).  Help is available on the following commands:
+System poczty MOO pozwala wysylac i odbierac wiadomosci od innych graczy.  Zapewnia polecenia do przegladania i zarzadzania twoja wlasna kolekcja zapisanych wiadomosci, a dodatkowo do przegladania innych dostepnych kolekcji (np. archiwow publicznych list mailingowych).  Pomoc dostepna jest dla nastepujacych polecen:
 2
 
 2
-@mail     -- seeing a table of contents for a collection of email messages
+@mail     -- pokazuje spis tresci kolekcji wiadomosci email
 2
-@read     -- reading individual messages 
+@read     -- czytanie pojedynczych wiadomosci 
 2
-@next     -- reading the 'next'     message
+@next     -- czytanie 'nastepnej'    wiadomosci
 2
-@prev     -- reading the 'previous' message
-2
-
-2
-@send     -- composing and sending a message to other players
-2
-@answer   -- replying to one of the messages in a collection
-2
-@forward  -- resending one of the messages in a collection somewhere else
+@prev     -- czytanie 'poprzedniej' wiadomosci
 2
 
 2
-@rmmail   -- discarding some subset of a collection
+@send     -- tworzenie i wysylanie wiadomosci do innych graczy
 2
-@unrmmail -- undoing the most recent @rmm on a collection
+@answer   -- odpowiadanie na jedna z wiadomosci w kolekcji
 2
-@unsend   -- try to remove a message you accidentally sent
-2
-@renumber -- renumbering the messages in a collection
-2
-@keep-mail - marking messages in a collection as exempt from expiration
+@forward  -- przesylanie jednej z wiadomosci w kolekcji gdzie indziej
 2
 
 2
-@mail-option -- describes and sets various customization flags
+@rmmail   -- usuwanie pewnego podzbioru kolekcji
+2
+@unrmmail -- cofanie ostatniego @rmm na kolekcji
+2
+@unsend   -- probuje usunac wiadomosc, ktora przypadkiem wyslales
+2
+@renumber -- przenumerowywanie wiadomosci w kolekcji
+2
+@keep-mail - oznaczanie wiadomosci w kolekcji jako zwolnionych z wygasania
+2
+
+2
+@mail-option -- opisuje i ustawia rozne flagi dostosowania
 2
 
 2
 help mail-forwarding
 2
- -- describes mail forwarding
+ -- opisuje przekierowywanie poczty
 2
 help message-sequences
 2
- -- describes message-sequences arguments to @mail, @read, @rmm, and @answer.
+ -- opisuje argumenty sekwencji wiadomosci dla @mail, @read, @rmm i @answer.
 2
 
 2
-For viewing collections other from your own, the following commands are useful:
+By przegladac kolekcje inne niz wlasna, przydatne sa nastepujace polecenia:
 2
 
 2
-@rn          -- list those collections that have new messages on them
+@rn          -- wypisuje te kolekcje, ktore maja nowe wiadomosci
 2
-@subscribe   -- indicate that you want @rn to report on a given collection
+@subscribe   -- oznacza, ze chcesz by @rn raportowalo o danej kolekcji
 2
-                  and add yourself to its .mail_notify list
+                  i dodaje ciebie do jej listy .mail_notify
 2
-@skip        -- ignore any remaining new messages in a given collection
+@skip        -- ignoruje pozostale nowe wiadomosci w danej kolekcji
 2
-@unsubscribe -- ignore a given collection entirely from now on
+@unsubscribe -- ignoruje dana kolekcje calkowicie od teraz
 2
-                  and remove yourself from its .mail_notify list
+                  i usuwa ciebie z jej listy .mail_notify
 2
-@unsubscribed-- show the mailing lists that you aren't subscribed to.
+@unsubscribed-- pokazuje listy mailingowe, ktorych nie subskrybujesz.
 2
-@subscribed  -- like @rn, but shows all lists that you are subscribed to
+@subscribed  -- jak @rn, ale pokazuje wszystkie listy, ktore subskrybujesz
 2
-                even if they have no new activity
+                nawet jesli nie ma na nich nowej aktywnosci
 36
 5
 4
 16
 2
-Syntax:  @mail
+Skladnia:  @mail
 2
-         @mail new            (to see recent messages)
+         @mail new            (by zobaczyc ostatnie wiadomosci)
 2
-         @mail 1-$            (to see *all* messages)
-2
-
-2
-Shows a table of contents for your MOO email message collection.  You are notified when you connect to the MOO if there are any such messages.  A little arrow indicates the mail system's notion of your 'current message'.  
-2
-The first form lists all of your messages or the last 15 if you have more than that many; the second form lists only those messages after your `current message'.  The third form shows your entire collection.
+         @mail 1-$            (by zobaczyc *wszystkie* wiadomosci)
 2
 
 2
-If you have a large number of mail messages, you can give arguments so that @mail only lists the messages you're interested in.  You can also list messages residing on mail recipients which are public or for which you have read access.
+Pokazuje spis tresci twojej kolekcji wiadomosci email MOO.  Jestes powiadamiany przy laczeniu z MOO, jesli takie wiadomosci istnieja.  Mala strzalka wskazuje pojecie systemu poczty o twojej 'biezacej wiadomosci'.  
 2
-The general format is
-2
-
-2
-         @mail <message-sequence> [on *<recipient>]
+Pierwsza forma wypisuje wszystkie twoje wiadomosci lub ostatnie 15, jesli masz ich wiecej; druga forma wypisuje tylko te wiadomosci po twojej 'biezacej wiadomosci'.  Trzecia forma pokazuje cala twoja kolekcje.
 2
 
 2
-<recipient> must name some child of $mail_recipient (e.g., a mailing list);
+Jesli masz duzo wiadomosci pocztowych, mozesz podac argumenty, by @mail wypisywalo tylko te wiadomosci, ktorymi jestes zainteresowany.  Mozesz tez wypisywac wiadomosci znajdujace sie na odbiorcach poczty, ktore sa publiczne lub do ktorych masz dostep do odczytu.
 2
-<message-sequence> can be a sequence of message numbers; you can also scan the recipient for articles that fit a given description, as specified in `help message-sequences'.
+Ogolny format to
 2
 
 2
-Note that if you view mail on some other recipient and have "sticky" in your .mail_options (see `help mail-options'), all further mail commands (e.g., @read, @next, @rmm,...) will apply to that recipient.  In this case use `@mail on me' to go back to looking at your own mail.
+         @mail <sekwencja-wiadomosci> [on *<odbiorca>]
+2
+
+2
+<odbiorca> musi nazywac jakies dziecko $mail_recipient (np. liste mailingowa);
+2
+<sekwencja-wiadomosci> moze byc sekwencja numerow wiadomosci; mozesz tez przeskanowac odbiorce w poszukiwaniu wiadomosci pasujacych do danego opisu, jak okreslono w `help message-sequences'.
+2
+
+2
+Uwaga: jesli przegladasz poczte na innym odbiorcy i masz "sticky" w swoich .mail_options (zobacz `help mail-options'), wszystkie kolejne polecenia poczty (np. @read, @next, @rmm,...) beda dotyczyc tego odbiorcy.  W takim przypadku uzyj `@mail on me', by wrocic do przegladania wlasnej poczty.
 36
 1
 4
@@ -38372,81 +38381,81 @@ Note that if you view mail on some other recipient and have "sticky" in your .ma
 4
 3
 2
-Syntax: @subscribed
+Skladnia: @subscribed
 2
 
 2
-Like @rn, but shows you ALL mailing lists to which you are subscribed, even those which have no new messages.
+Jak @rn, ale pokazuje WSZYSTKIE listy mailingowe, ktore subskrybujesz, nawet te bez nowych wiadomosci.
 36
 5
 4
 16
 2
-Syntax:  @netforward <message-number>
+Skladnia:  @netforward <numer-wiadomosci>
 2
          @netforward 
 2
-         @netforward <message-sequence> on *collection
+         @netforward <sekwencja-wiadomosci> on *kolekcja
 2
 
 2
-Forwards the contents of the indiciated messages from your MOO email collection to your registered email address.  You get the message numbers for use here by typing the '@mail' command, which prints a table of contents for your entire MOO email collection.  If no arguments are given to @netforward, then the 'current message' in your collection is sent.  In any case, the 'current message' after @netforward finishes is not affected.
+Przekazuje tresc wskazanych wiadomosci z twojej kolekcji poczty MOO na twoj zarejestrowany adres email.  Numery wiadomosci do uzycia tutaj otrzymujesz wpisujac polecenie '@mail', ktore wypisuje spis tresci calej twojej kolekcji poczty MOO.  Jesli nie podano zadnych argumentow do @netforward, wysylana jest 'biezaca wiadomosc' w twojej kolekcji.  W kazdym przypadku 'biezaca wiadomosc' po zakonczeniu @netforward nie jest zmieniana.
 2
 
 2
-The most general form of the @netforward command is
+Najogolniejsza forma polecenia @netforward to
 2
 
 2
-         @netforward <message-sequence> [on *<collection>]
+         @netforward <sekwencja-wiadomosci> [on *<kolekcja>]
 2
 
 2
-where <message-sequence> is as described in `help message-sequences'.
+gdzie <sekwencja-wiadomosci> jest opisana w `help message-sequences'.
 2
-As with the @mail command you may @netforward messages on any publically readable collection (child of $mail_recipient).
-2
-
-2
-Before messages are sent, you are asked to confirm the email unless you have set your `expert_netfwd' mail option on.  See `help @mail-options' for details.
+Podobnie jak z poleceniem @mail, mozesz @netforward wiadomosci na dowolnej publicznie czytelnej kolekcji (dziecko $mail_recipient).
 2
 
 2
-If you do not have a valid registered email address, you will not be able to use this command and must first @registerme or get a wizard to register your address. `help @registerme' for details.
+Zanim wiadomosci zostana wyslane, jestes proszony o potwierdzenie emaila, chyba ze masz wlaczona opcje poczty `expert_netfwd'.  Zobacz `help @mail-options' po szczegoly.
+2
+
+2
+Jesli nie masz prawidlowego zarejestrowanego adresu email, nie bedziesz mogl uzyc tego polecenia i musisz najpierw @registerme lub poprosic wizarda o zarejestrowanie twojego adresu. `help @registerme' po szczegoly.
 36
 5
 4
 25
 2
-Syntax:  @keep-mail [<message-sequence>]
+Skladnia:  @keep-mail [<sekwencja-wiadomosci>]
 2
          @keep-mail none
 2
 
 2
-Synonym: @keepmail
+Synonim: @keepmail
 2
 
 2
-As a space-saving measure, there is a task that runs periodically and from all player collections removes those messages that are
+Jako srodek oszczedzajacy miejsce, istnieje zadanie uruchamiane okresowo, ktore usuwa ze wszystkich kolekcji graczy wiadomosci, ktore sa
 2
-  (1) marked as read (i.e., dated before the last-read-date), 
+  (1) oznaczone jako przeczytane (tj. datowane przed czasem ostatniego odczytu), 
 2
-  (2) older than a certain expire time, and
+  (2) starsze niz okreslony czas wygasania, oraz
 2
-  (3) not specifically marked as "kept".
-2
-
-2
-"kept" messages will show up in your @mail listing with an `=' to the right of the message number.
+  (3) nie oznaczone specjalnie jako "zachowane".
 2
 
 2
-The first form of the @keep-mail command marks the indicated messages as kept.  The message-sequence argument is as with other mail commands (see `help message-sequences').  @keep-mail without any arguments marks your current message as kept.
+"zachowane" wiadomosci beda widoczne na twojej liscie @mail z `=' po prawej stronie numeru wiadomosci.
 2
 
 2
-The second form of the command is used to remove all such marks from your mail collection.
+Pierwsza forma polecenia @keep-mail oznacza wskazane wiadomosci jako zachowane.  Argument sekwencja-wiadomosci jest taki jak w innych poleceniach poczty (zobacz `help message-sequences').  @keep-mail bez argumentow oznacza twoja biezaca wiadomosc jako zachowana.
+2
+
+2
+Druga forma polecenia sluzy do usuwania wszystkich takich oznaczen z twojej kolekcji poczty.
 2
 
 2
@@ -38454,19 +38463,19 @@ The second form of the command is used to remove all such marks from your mail c
 2
 
 2
-will produce a list of all messages marked as kept (see `help message-sequences').
+wygeneruje liste wszystkich wiadomosci oznaczonych jako zachowane (zobacz `help message-sequences').
 2
 
 2
-You can use @mail-option expire (see `help @mail-option') to change your expire time.
+Mozesz uzyc @mail-option expire (zobacz `help @mail-option'), by zmienic swoj czas wygasania.
 2
 
 2
-You can use the @netforward command (see `help @netforward') to send mail to your email address for local archival.
+Mozesz uzyc polecenia @netforward (zobacz `help @netforward'), by wyslac poczte na swoj adres email do lokalnego archiwizowania.
 2
 
 2
-[...At the time of this writing, player mail is taking up a large fraction of LambdaMOO's database.  It would be appreciated if you not @keep any more mail than you have to...]
+[...W chwili pisania tego tekstu poczta graczy zajmuje duza czesc bazy danych LambdaMOO.  Bylibysmy wdzieczni, gdybys nie @keep wiecej poczty, niz to konieczne...]
 36
 5
 4
@@ -38504,67 +38513,67 @@ You can use the @netforward command (see `help @netforward') to send mail to you
 4
 6
 2
-Syntax:   @quickreply  <msg> [on *<recipient>] [<flags>...]
+Skladnia:   @quickreply  <wiad> [on *<odbiorca>] [<flagi>...]
 2
-          @quickreply  <msg> [<flags>...] [on *<recipient>] 
-2
-
-2
-Synonym:  @qreply
+          @quickreply  <wiad> [<flagi>...] [on *<odbiorca>] 
 2
 
 2
-The @quickreply command allows you to do a short reply to a mail message without heading for the mail room.  As with @reply, the subject line on the reply message is taken from the original.  <flags> are as with @reply, except that `include' is not recognized --- if you're going to include the original message, you *have* to trim it down, and that requires the editor.
+Synonim:  @qreply
+2
+
+2
+Polecenie @quickreply pozwala na krotka odpowiedz na wiadomosc pocztowa bez wchodzenia do pokoju pocztowego.  Podobnie jak przy @reply, temat odpowiedzi jest brany z oryginalu.  <flagi> sa takie jak przy @reply, poza tym ze `include' nie jest rozpoznawane --- jesli chcesz dolaczyc oryginalna wiadomosc, *musisz* ja skrocic, a to wymaga edytora.
 36
 5
 4
 6
 2
-Syntax:   @quicksend <player> [subj="<text>"] <one-line-message>...
+Skladnia:   @quicksend <gracz> [subj="<tekst>"] <jednoliniowa-wiadomosc>...
 2
-          @quicksend <player> [subj="<text>"]
-2
-
-2
-Synonym:  @qsend
+          @quicksend <gracz> [subj="<tekst>"]
 2
 
 2
-The @quicksend command allows you to send a short mail message without heading for the mail room.  With the second form of the command you will be prompted for the body of the message (and a subject line unless your `nosubject' mailoption is set (see `help @mail-option') or you already gave a subject line).
+Synonim:  @qsend
+2
+
+2
+Polecenie @quicksend pozwala wyslac krotka wiadomosc pocztowa bez wchodzenia do pokoju pocztowego.  Z druga forma polecenia zostaniesz zapytany o tresc wiadomosci (i linie tematu, chyba ze masz ustawiona opcje poczty `nosubject' (zobacz `help @mail-option') lub juz podales linie tematu).
 36
 5
 4
 15
 2
-Alternative mail reading commands.
+Alternatywne polecenia czytania poczty.
 2
 
 2
-Syntax:  @nn
+Skladnia:  @nn
 2
 
 2
-This command finds a folder containing an unread message, displays the first such, and updates your last-read-time for that folder.  Your personal mail and all @subscribed folders are checked.
+To polecenie znajduje folder zawierajacy nieprzeczytana wiadomosc, wyswietla pierwsza taka, i aktualizuje twoj czas ostatniego odczytu dla tego folderu.  Sprawdzana jest twoja osobista poczta i wszystkie foldery @subscribed.
 2
 
 2
-Syntax:  @mail-all-new-mail
+Skladnia:  @mail-all-new-mail
 2
 
 2
-Displays headers of all unread messages on all of your folders (i.e., your personal folder and all @subscribed folders).
+Wyswietla naglowki wszystkich nieprzeczytanych wiadomosci na wszystkich twoich folderach (tj. twoim osobistym folderze i wszystkich folderach @subscribed).
 2
 
 2
-Syntax:  @read-all-new-mail
+Skladnia:  @read-all-new-mail
 2
 
 2
-Displays all unread messages on all of your folders (i.e., your personal folder and all @subscribed folders).  This command ends with a prompt, "Did you get all of that? [Enter `yes' or `no']."  Answering "yes" causes all of your last-read times to be updated.  You will probably want to check for <<<n lines flushed>>> indications before you answer this question.
+Wyswietla wszystkie nieprzeczytane wiadomosci na wszystkich twoich folderach (tj. twoim osobistym folderze i wszystkich folderach @subscribed).  To polecenie konczy sie pytaniem, "Did you get all of that? [Enter `yes' or `no']."  Odpowiedz "yes" powoduje aktualizacje wszystkich twoich czasow ostatniego odczytu.  Prawdopodobnie warto sprawdzic wskazania <<<n lines flushed>>> przed odpowiedzia na to pytanie.
 2
 
 2
-@read-all-new-mail (with a "yes" answer at the end) is equivalent to doing a large number of @nn's.
+@read-all-new-mail (z odpowiedzia "yes" na koncu) jest rownowazne wykonaniu wielu @nn pod rzad.
 36
 5
 4
@@ -38586,17 +38595,17 @@ Displays all unread messages on all of your folders (i.e., your personal folder 
 4
 6
 2
-Syntax:  @refile <message-seq> [on mail-recipient] to mail-recipient
+Skladnia:  @refile <sekwencja-wiadomosci> [on odbiorca-poczty] to odbiorca-poczty
 2
-         @copymail <message-seq> [on mail-recipient] to mail-recipient
-2
-
-2
-Moves a message sequence directly from one mail recipient (defaulting as per the sticky @mail-option) to another, without adding headers or reordering.
+         @copymail <sekwencja-wiadomosci> [on odbiorca-poczty] to odbiorca-poczty
 2
 
 2
-NOTE:  The recipient of @refiled messages may well have its mail out of order.  This can confuse a variety of features of the mail system, which expects its messages to always be in chronological order.  Care should be exercised with @refile/@copymail.
+Przenosi sekwencje wiadomosci bezposrednio od jednego odbiorcy poczty (domyslnie zgodnie z ustawieniem sticky @mail-option) do innego, bez dodawania naglowkow ani zmiany kolejnosci.
+2
+
+2
+UWAGA:  Odbiorca @refiled wiadomosci moze miec swoja poczte poza kolejnoscia.  Moze to zmylic rozne funkcje systemu poczty, ktore zakladaja, ze wiadomosci sa zawsze w kolejnosci chronologicznej.  Nalezy zachowac ostroznosc przy uzywaniu @refile/@copymail.
 36
 5
 4
@@ -38610,55 +38619,55 @@ NOTE:  The recipient of @refiled messages may well have its mail out of order.  
 4
 6
 2
-Usage:  @add-notify me to player
+Uzycie:  @add-notify me to gracz
 2
-    Sends mail to player saying that I want to be added to their mail notification property.
+    Wysyla poczte do gracza, mowiac ze chcesz zostac dodany do jego wlasciwosci powiadomien pocztowych.
 2
-Usage:  @add-notify player to me
+Uzycie:  @add-notify gracz to me
 2
-    Makes sure that player wants to be notified, if so, adds them to my .mail_notify property.
+    Sprawdza, czy gracz chce byc powiadamiany, jesli tak, dodaje go do mojej wlasciwosci .mail_notify.
 2
 
 2
-In order for one person to be notified that another person has new mail, both the mail recipient and the notification recipient should agree that this is an OK transfer of information.  This verb facilitates that transaction.
+By jedna osoba mogla byc powiadamiana, ze inna osoba ma nowa poczte, zarowno odbiorca poczty, jak i odbiorca powiadomienia powinni sie zgodzic, ze to jest w porzadku przekazanie informacji.  Ten czasownik ulatwia te transakcje.
 36
 5
 4
 17
 2
-The @unsend command was created by ballot on LambdaMOO, *B:Unsend (#77081).
+Polecenie @unsend zostalo stworzone glosowaniem na LambdaMOO, *B:Unsend (#77081).
 2
 
 2
-Syntax: @unsend [message-sequence] from <user>
+Skladnia: @unsend [sekwencja-wiadomosci] from <uzytkownik>
 2
 
 2
-A message cannot be unsent to a player if e has read the message, it has been forwarded to eir e-mail address, or e has set an option to prevent messages being unsent to em.  A message cannot be unsent to a group of players unless it can be unsent to each player in the group.
+Wiadomosci nie da sie cofnac (unsend) graczowi, jesli ja przeczytal, zostala przekazana na jego adres email, lub ustawil opcje zapobiegajaca cofaniu wiadomosci do niego.  Wiadomosci nie da sie cofnac grupie graczy, chyba ze da sie ja cofnac kazdemu graczowi w grupie.
 2
 
 2
-The unsender may not view a list of unread messages on a player.  E may only select the message(s) to be unsent by filters such as "subject:<subject>" or "since:today".
+Cofajacy nie moze zobaczyc listy nieprzeczytanych wiadomosci u gracza.  Moze wybrac wiadomosc(-ci) do cofniecia tylko przez filtry takie jak "subject:<temat>" lub "since:today".
 2
 
 2
-In order to protect privacy, if any of the restrictions above, such as one of the users having already read the message, are not met, the error message will be quite generic and not tell you exactly what went wrong, but simply that messages could not be unsent.
+By chronic prywatnosc, jesli ktores z powyzszych ograniczen, np. jeden z uzytkownikow juz przeczytal wiadomosc, nie jest spelnione, komunikat bledu bedzie dosc ogolny i nie powie dokladnie, co poszlo nie tak, tylko ze wiadomosci nie udalo sie cofnac.
 2
 
 2
-The following mail options are available:
+Dostepne sa nastepujace opcje poczty:
 2
 
 2
-@mail-option +no_unsend      No one may @unsend messages they sent to you
+@mail-option +no_unsend      Nikt nie moze @unsend wiadomosci, ktore ci wyslal
 2
-@mail-option -no_unsend      People may @unsend unread messages they send to you
+@mail-option -no_unsend      Ludzie moga @unsend nieprzeczytane wiadomosci, ktore ci wysylaja
 2
-@mail-option @unsend=<message sequence>
+@mail-option @unsend=<sekwencja wiadomosci>
 2
 
 2
-sets the default message sequence that the @unsend command will operate upon.  The default is "last:1".
+ustawia domyslna sekwencje wiadomosci, na ktorej dziala polecenie @unsend.  Domyslnie jest to "last:1".
 36
 5
 5
@@ -49387,289 +49396,289 @@ ansi-corehacks
 2
 *index*
 2
-ANSI Help Topics
+Tematy pomocy ANSI
 98
 1
 4
 76
 2
-You can customize the way the ANSI Player Class works with the @ansi-options
+Mozesz dostosowac dzialanie klasy gracza ANSI za pomoca polecenia @ansi-options
 2
-command.  The format of this command is:
-2
-
-2
-@ansi-option                         shows the ansi options
-2
-@ansi-option <option> [is] <value>   sets <option> to <value>
-2
-@ansi-option <option>=<value>        sets <option> to <value>
-2
-@ansi-option +<option>               sets <option>
-2
-@ansi-option -<option>               resets <option> (equiv. to <option>=0)
-2
-@ansi-option !<option>               resets <option> (equiv. to <option>=0)
-2
-@ansi-option <option>                displays value of <option>
+Format tego polecenia to:
 2
 
 2
-The ansi options available at this time are:
+@ansi-option                         pokazuje opcje ansi
+2
+@ansi-option <opcja> [is] <wartosc>   ustawia <opcje> na <wartosc>
+2
+@ansi-option <opcja>=<wartosc>        ustawia <opcje> na <wartosc>
+2
+@ansi-option +<opcja>               wlacza <opcje>
+2
+@ansi-option -<opcja>               resetuje <opcje> (rownowazne <opcja>=0)
+2
+@ansi-option !<opcja>               resetuje <opcje> (rownowazne <opcja>=0)
+2
+@ansi-option <opcja>                pokazuje wartosc <opcji>
 2
 
 2
- [bold][green]colors[normal]        This option specifies whether the MOO will display
-2
-               color sequences (such as [[null]blue] and [[null]red]).
+Obecnie dostepne opcje ansi to:
 2
 
 2
- [bold][green]backgrounds[normal]   This option specifies whether the MOO will display
+ colors        Ta opcja okresla, czy MOO bedzie wyswietlac
 2
-               background color sequences (such as [[null]b:blue] and [[null]b:red]).
-2
-	       Normal color, 256 color, and True Color all support background tags.
-2
-	       e.g. [[null]b:red]  [[null]b::200]  [[null]b:123:23:123]
-2
-	       
-2
- [bold][green]blinking[normal]      This option specifies whether the MOO will allow things to
-2
-               blink on and off.  Most people find this annoying so they
-2
-               keep this off most of the time.
+               sekwencje kolorow (takie jak [blue] i [red]).
 2
 
 2
- [bold][green]bold[normal]          This option specifies whether the MOO will allow bright
+ backgrounds   Ta opcja okresla, czy MOO bedzie wyswietlac
 2
-               colors.  This probably isn't very useful unless you happen to
+               sekwencje kolorow tla (takie jak [b:blue] i [b:red]).
 2
-               have a hangover (maybe from a MOO bash, right Chapman ;) and
+t       Zwykly kolor, 256 kolorow i True Color wszystkie wspieraja tagi tla.
 2
-               the bright colors are hurting your eyes or something.
+t       np. [b:red]  [b::200]  [b:123:23:123]
 2
-               (Or unless you're using a stupid windoze client that
+t       
 2
-                bolds as cyan.. gimme the name of a good freeware one
+ blinking      Ta opcja okresla, czy MOO pozwoli rzeczom
 2
-                and I'll be happy.. -Grant)
+               migac wlaczajac sie i wylaczajac.  Wiekszosc ludzi uznaje to za
 2
-
-2
- [bold][green]misc[normal]          This option specifies whether the MOO should display all the
-2
-               ANSI codes not covered by the ones above.  This should usually
-2
-               be on if any of the above ones are on and will probably cause
-2
-               some very strange effects if it's not.
+               irytujace, wiec trzyma to wylaczone przez wiekszosc czasu.
 2
 
 2
- [bold][green]extra[normal]         This option specifies whether the MOO will send certain
+ bold          Ta opcja okresla, czy MOO pozwoli na jasne
 2
-               non-printable characters.  So far, this option only includes
+               kolory.  Prawdopodobnie nie jest to zbyt przydatne, chyba ze masz
 2
-               beeps.  NOTE: these will probably work even if your terminal
+               kaca (moze po jakiejs imprezie MOO, prawda Chapman ;) i
 2
-               is not ANSI compatable.
+               jasne kolory bola cie w oczy albo cos w tym stylu.
+2
+               (Albo chyba ze uzywasz jakiegos glupiego klienta windoze, ktory
+2
+                pogrubia jako cyan.. podajcie mi nazwe jakiegos dobrego darmowego
+2
+                i bede szczesliwy.. -Grant)
 2
 
 2
- [bold][green]all[normal]           This turns on all of the above options.  Equivalent to
+ misc          Ta opcja okresla, czy MOO powinno wyswietlac wszystkie
 2
-               '@ansi-options -none' except that it automatically does an
+               kody ANSI nie objete tymi powyzej.  Zwykle powinna byc
+2
+               wlaczona, jesli ktoras z powyzszych jest wlaczona, i prawdopodobnie spowoduje
+2
+               dziwne efekty, jesli nie jest.
+2
+
+2
+ extra         Ta opcja okresla, czy MOO bedzie wysylac pewne
+2
+               niedrukowalne znaki.  Jak dotad ta opcja obejmuje tylko
+2
+               pikniecia.  UWAGA: te prawdopodobnie beda dzialac nawet jesli twoj terminal
+2
+               nie jest zgodny z ANSI.
+2
+
+2
+ all           To wlacza wszystkie powyzsze opcje.  Rownowazne
+2
+               '@ansi-options -none' z tym, ze automatycznie wykonuje
 2
                '@ansi-options -ignore'.
 2
 
 2
- [bold][green]none[normal]          This turns off all of the above options.  Equivalent to
+ none          To wylacza wszystkie powyzsze opcje.  Rownowazne
 2
                @ansi-options -all
 2
 
 2
- [bold][green]escape[normal]        This option specifies what character the MOO will send for
+ escape        Ta opcja okresla, jaki znak MOO bedzie wysylac dla
 2
-               an escape character.  The default is an ASCII character 27
+               znaku escape.  Domyslnie jest to znak ASCII 27,
 2
-               but it can be set to another string in case control characters
+               ale mozna go ustawic na inny string, gdyby znaki kontrolne
 2
-               won't get through to your terminal (like say if you are
+               nie docieraly do twojego terminala (np. jesli
 2
-               multimooing from another MOO or something, see 'help
+               multimoojujesz z innego MOO lub cos w tym stylu, zobacz 'help
 2
-               ansi-multimooing' for more information on that.)
-2
-
-2
- [bold][green]ignore[normal]        This option overrides all the other options and tells the
-2
-               MOO to completely ignore any ANSI codes.  This means that you
-2
-               will see the actual codes (like [[null]blue] or [[null]normal]) instead
-2
-               of having them either translated or stripped out like normal.
-2
-               This will probably screw up the line wrapping, text centering
-2
-               and a bunch of other things and will probably be very spammy
-2
-               but it's useful for checking the value of properties and
-2
-               other things.
+               ansi-multimooing' po wiecej informacji na ten temat.)
 2
 
 2
- [bold][green]no_connect_status[normal] This option specifies whether the ANSI status message
+ ignore        Ta opcja nadpisuje wszystkie inne opcje i mowi
 2
-               will be displayed when you log on.
+               MOO, by calkowicie ignorowal wszelkie kody ANSI.  Oznacza to, ze
+2
+               zobaczysz faktyczne kody (jak [blue] czy [normal]) zamiast
+2
+               tego, by byly przetlumaczone lub usuniete jak zwykle.
+2
+               Prawdopodobnie zepsuje to zawijanie linii, centrowanie tekstu
+2
+               i mnostwo innych rzeczy i bedzie bardzo spamerskie,
+2
+               ale jest przydatne przy sprawdzaniu wartosci wlasciwosci
+2
+               i innych rzeczy.
 2
 
 2
- [bold][green]truecolor[normal]    This option enables 24-bit True Color support. Your client
+ no_connect_status Ta opcja okresla, czy komunikat statusu ANSI
 2
-              must offer support for it. 
-2
-              Color sequences are in the form [[red]red[normal]:[green]green[normal]:[blue]blue[normal]]
+               bedzie wyswietlany przy logowaniu.
 2
 
 2
- [bold][green]256[normal]          This option enables Xterm 256 color support. Your client must
+ truecolor    Ta opcja wlacza wsparcie 24-bitowego True Color. Twoj klient
 2
-              support it.
+              musi je oferowac. 
 2
-              Color sequences are in the form [:number]. e.g. [:200[null]]
+              Sekwencje kolorow maja postac [red:green:blue]
+2
+
+2
+ 256          Ta opcja wlacza wsparcie 256 kolorow Xterm. Twoj klient musi
+2
+              je wspierac.
+2
+              Sekwencje kolorow maja postac [:numer]. np. [:200]
 98
 1
 4
 46
 2
-The ANSI Player Class works by either translating codes into the ANSI sequences for them, or by stripping them out before sending the rest of the text to the player. An ANSI code is made up of the name of the code with a pair of brackets ([]'s) around it. Note to put codes into the documentation, they had to be put with a [[null]null] in between the letters, so something like [[[null]null]green] had to be written (and to make that.. sigh)
+Klasa gracza ANSI dziala albo tlumaczac kody na odpowiadajace im sekwencje ANSI, albo usuwajac je przed wyslaniem reszty tekstu do gracza. Kod ANSI sklada sie z nazwy kodu w parze nawiasow kwadratowych ([]). Uwaga: by umiescic kody w tej dokumentacji, trzeba bylo wstawic [null] pomiedzy litery, wiec cos jak [[null]green] trzeba bylo zapisac (i zeby to zrobic.. westchnienie)
 2
 
 2
-These codes can be used in almost anything. MOOmail, messages, names, descriptions, and pages are all good places to put codes. ANSI codes are *not* allowed in player's names though because of all the problems this might cause. You can, however, use the new @ansi-title verb to put codes in your name.
+Te kody moga byc uzywane niemal wszedzie. MOOmail, komunikaty, imiona, opisy i pagery to dobre miejsca na kody. Kody ANSI *nie sa* jednak dozwolone w imionach graczy z powodu wszystkich problemow, ktore mogloby to spowodowac. Mozesz jednak uzyc nowego czasownika @ansi-title, by umiescic kody w swoim imieniu.
 2
 
 2
-The codes are separated into 6 main groups:
+Kody sa podzielone na 6 glownych grup:
 2
 
 2
- [bold][yellow]colors[normal]         Codes that change the text to another color.  These include:
+ colors         Kody zmieniajace kolor tekstu.  Naleza do nich:
 2
-                [[null]red], [[null]green], [[null]yellow], [[null]blue], [[null]purple], [[null]cyan],
+                [red], [green], [yellow], [blue], [purple], [cyan],
 2
-                [[null]gray], and [[null]white].  You can also use [[null]magenta] instead
+                [gray] i [white].  Mozesz tez uzyc [magenta] zamiast
 2
-                of [[null]purple] and [[null]grey] instead of [[null]gray] but this isn't
+                [purple] i [grey] zamiast [gray], ale nie jest to
 2
-                recommended.  NOTE: [[null]gray] implies a [[null]bold] so if you have:
+                zalecane.  UWAGA: [gray] implikuje [bold], wiec jesli masz:
 2
-                [[null]gray]This is gray.  [[null]red]This is red.[[null]normal]
+                [gray]This is gray.  [red]This is red.[normal]
 2
-                The 'This is red.' will be bright red, you must put an
+                'This is red.' bedzie jasnoczerwony, musisz umiescic
 2
-                [[null]unbold] in front of it if you want it to be dark red.
+                [unbold] przed nim, jesli chcesz ciemnoczerwony.
 2
-                In addition, if your client supports 24-bit True Color and you've enabled the 'truecolor'
+                Dodatkowo, jesli twoj klient wspiera 24-bitowy True Color i wlaczyles opcje 'truecolor',
 2
-                option, you can create tags from any arbitrary combination of red, green, and blue values.
+                mozesz tworzyc tagi z dowolnej kombinacji wartosci red, green i blue.
 2
-                e.g. [[null]255:255:153] to create the funky banana color.
+                np. [255:255:153] tworzy zwariowany banananowy kolor.
 2
-                These can be turned off with '@ansi-options -colors' and '@ansi-options -truecolor'
+                Mozna je wylaczyc przez '@ansi-options -colors' i '@ansi-options -truecolor'
 2
  
 2
- [bold][yellow]backgrounds[normal]    Codes that change the background of text to another color.
+ backgrounds    Kody zmieniajace tlo tekstu na inny kolor.
 2
-                The same color codes that can be used for normal colors also apply to background.
+                Te same kody kolorow uzywane dla normalnych kolorow dzialaja tez dla tla.
 2
-                To use backgrounds, simply add "b:" before your color name. For example:
+                By uzyc tla, po prostu dodaj "b:" przed nazwa koloru. Na przyklad:
 2
-                [[null]b:red] or [b:255:255:153[null]]
+                [b:red] lub [b:255:255:153]
 2
-                Backgrounds can be turned off with '@ansi-options -backgrounds'
-2
-
-2
- [bold][yellow]bold[normal]           Codes that make the text bright or not bright.  These include:
-2
-                [[null]bold] and [[null]unbold].  You can also use [[null]bright] and
-2
-                [[null]unbright] but, again, this is not recommended.  These can be
-2
-                turned off with '@ansi-options -bold'.  This can be used to make
-2
-                bright colors by putting a [[null]bold] in front of the color.
-2
-                (for example, in: [[null]green]A[[null]bold]B[[null]red]C[[null]unbold]D[[null]normal]
-2
-                the A would be dark green, the B would be bright green, the C
-2
-                would be bright red, and the D would be dark red)
+                Tlo mozna wylaczyc przez '@ansi-options -backgrounds'
 2
 
 2
-[bold][yellow]blinking[normal]       Codes that turn on and off the blinking.  These include:
+ bold           Kody sprawiajace, ze tekst jest jasny lub nie.  Naleza do nich:
 2
-                [[null]blink] and [[null]unblink].  They can be turned off with
+                [bold] i [unbold].  Mozesz tez uzyc [bright] i
+2
+                [unbright], ale, znowu, nie jest to zalecane.  Mozna je
+2
+                wylaczyc przez '@ansi-options -bold'.  Mozna tego uzyc, by uzyskac
+2
+                jasne kolory, umieszczajac [bold] przed kolorem.
+2
+                (na przyklad w: [green]A[bold]B[red]C[unbold]D[normal]
+2
+                A bedzie ciemnozielone, B bedzie jasnozielone, C
+2
+                bedzie jasnoczerwone, a D bedzie ciemnoczerwone)
+2
+
+2
+blinking       Kody wlaczajace i wylaczajace miganie.  Naleza do nich:
+2
+                [blink] i [unblink].  Mozna je wylaczyc przez
 2
                 '@ansi-options -blinking'.
 2
 
 2
- [bold][yellow]misc.[normal]          All the codes not covered by the ones above.  These include:
+ misc.          Wszystkie kody nie objete tymi powyzej.  Naleza do nich:
 2
-                [[null]underline] and [[null]inverse].  NOTE: [[null]underline]
+                [underline] i [inverse].  UWAGA: [underline]
 2
-                does not actually underline text on most computers.  These can
+                w rzeczywistosci nie podkresla tekstu na wiekszosci komputerow.  Mozna je
 2
-                be turned off with '@ansi-options -misc'.
+                wylaczyc przez '@ansi-options -misc'.
 2
 
 2
-[bold][yellow]extra[normal]          Codes that are not really ANSI and may work even if your
+extra          Kody, ktore tak naprawde nie sa ANSI i moga dzialac nawet jesli twoj
 2
-                terminal is not ANSI compatable .  These include:
+                terminal nie jest zgodny z ANSI.  Naleza do nich:
 2
-                [[null]beep].  It can be turned off with '@ansi-options -extra'.
+                [beep].  Mozna go wylaczyc przez '@ansi-options -extra'.
 98
 1
 4
 3
 2
-For those of you that are multimooing from another MOO (probably using Sunwiz's excellent MultiMOO PC) and your escape characters are getting stripped out, you can tell the MOO to send a certain string instead of an ASCII character 27 by typing:  '@ansi-options escape <string>'. You will then have to set your terminal program to translate <string> into an escape character. I would suggest setting <string> to '~' or some other character that is very rarely used.  You probably shouldn't tell anyone what character you are using though, because then they can clear your screen, reposition your cursor, and some other annoying things. To tell the MOO to start sending character 27's for the escape characters again, type '@ansi-options -escape'. 
+Dla tych z was, ktorzy multimoojuja z innego MOO (prawdopodobnie uzywajac swietnego MultiMOO PC Sunwiza) i ktorym znaki escape sa usuwane, mozecie kazac MOO wysylac okreslony string zamiast znaku ASCII 27, wpisujac:  '@ansi-options escape <string>'. Bedziesz musial wtedy ustawic swoj program terminalowy, by tlumaczyl <string> na znak escape. Sugerowalbym ustawienie <string> na '~' lub inny znak, ktory jest bardzo rzadko uzywany.  Nie powinienes chyba nikomu mowic, jakiego znaku uzywasz, bo wtedy moga wyczyscic twoj ekran, przesunac twoj kursor i robic inne irytujace rzeczy. By kazac MOO znowu wysylac znaki 27 jako znaki escape, wpisz '@ansi-options -escape'. 
 2
 
 2
-Other MOOs that have the ANSI PC or other color capability have their own method of transmitting colors, so you should probably set '@ansi-options +ignore' on all the MOOs except the one you are actually telnetting too, this is because inter-MOO connecting can't send escape characters, only ASCII text.
+Inne MOO majace ANSI PC lub inne mozliwosci kolorow maja wlasny sposob przesylania kolorow, wiec prawdopodobnie powinienes ustawic '@ansi-options +ignore' na wszystkich MOO poza tym, z ktorym faktycznie laczysz sie przez telnet -- to dlatego, ze polaczenia miedzy-MOO nie moga wysylac znakow escape, tylko tekst ASCII.
 98
 1
 4
 8
 2
-This ANSI system was written and designed by Don Schwarz <darkowl@mcs.net> aka Dark_Owl.  It is composed of an ANSI Player Class ($ansi_pc), an ANSI utility package ($ansi_utils), an ANSI help database ($ansi_help), and an ANSI option database ($ansi_options).
+Ten system ANSI zostal napisany i zaprojektowany przez Dona Schwarza <darkowl@mcs.net> aka Dark_Owl.  Sklada sie z klasy gracza ANSI ($ansi_pc), pakietu narzedziowego ANSI ($ansi_utils), bazy pomocy ANSI ($ansi_help) i bazy opcji ANSI ($ansi_options).
 2
-It converts ANSI 'codes', which are composed of a word surrounded by brackets ([]'s), into ANSI sequences which are recognized by most terminal programs and are used to display text in certain colors, underlined, inverse, and to make text blink.  Not all terminal programs support ANSI though so this will not work for everyone.
-2
-
-2
-You can put these ANSI codes in your descriptions, messages, mails, programs, and virtually anything else that is eventually sent through $player:notify().  See 'help ansi-codes' for a list of valid ANSI codes.
+Konwertuje 'kody' ANSI, skladajace sie ze slowa w nawiasach kwadratowych ([]), na sekwencje ANSI rozpoznawane przez wiekszosc programow terminalowych, uzywane do wyswietlania tekstu w okreslonych kolorach, podkreslonego, odwroconego i migajacego.  Nie wszystkie programy terminalowe wspieraja ANSI, wiec nie zadziala to dla kazdego.
 2
 
 2
-The ANSI PC is controlled with the @ansi-options command, see 'help @ansi-options' for more information on it.
+Mozesz umieszczac te kody ANSI w opisach, komunikatach, mailach, programach i praktycznie wszystkim innym, co ostatecznie trafia przez $player:notify().  Zobacz 'help ansi-codes' po liste prawidlowych kodow ANSI.
 2
 
 2
-To see a list of other ANSI help topics, see 'help ansi-index'.
+ANSI PC jest kontrolowane poleceniem @ansi-options, zobacz 'help @ansi-options' po wiecej informacji.
+2
+
+2
+By zobaczyc liste innych tematow pomocy ANSI, zobacz 'help ansi-index'.
 98
 1
 4
@@ -49685,169 +49694,169 @@ $ansi_pc
 4
 5
 2
-[bold][red]KNOWN BUGS:[normal]
+ZNANE BLEDY:
 2
-  [bold][blue]1)[normal] Some terminal programs seem to act strangely with lines that start with a [[null]bold] code.  I'm pretty sure this isn't a MOO problem so I can't do anything about it.  I'd recommend always putting [[null]bold] codes *after* color codes, or if you're using TinyFugue, try typing "/set emulation raw".
+  1) Niektore programy terminalowe zachowuja sie dziwnie przy liniach zaczynajacych sie od kodu [bold].  Jestem dosc pewien, ze to nie jest problem MOO, wiec nie moge nic z tym zrobic.  Poleciibym zawsze umieszczac kody [bold] *po* kodach kolorow, albo jesli uzywasz TinyFugue, sprobuj wpisac "/set emulation raw".
 2
-  [bold][blue]2)[normal] You can still write in black with [[null]gray][[null]unbold].  Not a major problem, but it bugs me.
+  2) Nadal mozna pisac na czarno przez [gray][unbold].  Nie jest to powazny problem, ale mnie to irytuje.
 2
-  [bold][blue]3)[normal] Some terminal programs seem to beep not only when they get a character 7, but also on every escape character they receive on the same line.
+  3) Niektore programy terminalowe zdaja sie piszczec nie tylko przy otrzymaniu znaku 7, ale przy kazdym znaku escape otrzymanym w tej samej linii.
 2
-  [bold][blue]4)[normal] There's no way to set random replacements with @ansi-title.
+  4) Nie ma sposobu na ustawienie losowych zamiennikow w @ansi-title.
 98
 1
 4
 52
 2
-There are a few verbs and properties that programmers might need to know about when programming things that interface with the ANSI system.  Some of the more useful ones include:
+Jest kilka czasownikow i wlasciwosci, ktore programisci moga chciec znac przy programowaniu rzeczy wspolpracujacych z systemem ANSI.  Niektore z bardziej przydatnych to:
 2
 
 2
-  $ansi_pc:ansi_option (STR option) - returns player's setting for <option>
+  $ansi_pc:ansi_option (STR option) - zwraca ustawienie gracza dla <option>
 2
-  $ansi_pc:set_ansi_option (LIST    - sets player's options
+  $ansi_pc:set_ansi_option (LIST    - ustawia opcje gracza
 2
                         options)
 2
-  $ansi_utils:add_noansi ()         - any text sent from the current task
+  $ansi_utils:add_noansi ()         - zaden tekst wyslany z biezacego zadania
 2
-                                      will not be translated by the ANSI PC.
+                                      nie bedzie tlumaczony przez ANSI PC.
 2
-  $ansi_utils:remove_noansi ()      - undoes a call to :add_noansi, this
+  $ansi_utils:remove_noansi ()      - cofa wywolanie :add_noansi, to
 2
-                                      is not usually necessary because it
+                                      zwykle nie jest konieczne, bo zostaje
 2
-                                      gets removed from the queue when the
+                                      usuniete z kolejki, gdy zadanie
 2
-                                      task ends anyway.
+                                      sie konczy i tak.
 2
-  $ansi_utils.noansi_queue          - list of tasks that are currently
+  $ansi_utils.noansi_queue          - lista zadan, ktore sa obecnie
 2
-                                      being ignored.
+                                      ignorowane.
 2
-  $ansi_utils:contains_codes (STR text) returns true if <text> contains
+  $ansi_utils:contains_codes (STR text) zwraca prawde, jesli <text> zawiera
 2
-                                      any ANSI codes.
+                                      jakiekolwiek kody ANSI.
 2
-  $ansi_utils:delete (STR text)     - returns <text> with all the ANSI
+  $ansi_utils:delete (STR text)     - zwraca <text> z usunietymi
 2
-                                      codes stripped.
+                                      wszystkimi kodami ANSI.
 2
-  $ansi_utils:length (STR text)     - returns the length of <text> not
+  $ansi_utils:length (STR text)     - zwraca dlugosc <text> bez
 2
-                                      including the ANSI codes.
+                                      liczenia kodow ANSI.
 2
-  $ansi_utils:index/rindex (STR     - same as the builtins index() and
+  $ansi_utils:index/rindex (STR     - to samo co wbudowane index() i
 2
-       text, STR text2[, NUM case]    rindex() but ignore ANSI codes.
+       text, STR text2[, NUM case]    rindex(), ale ignoruje kody ANSI.
 2
-  $ansi_utils:cutoff (STR text, NUM - same as text[start..end] for strings
+  $ansi_utils:cutoff (STR text, NUM - to samo co text[start..end] dla stringow,
 2
-       start, NUM end)                but ignores ANSI codes.
+       start, NUM end)                ale ignoruje kody ANSI.
 2
-  $ansi_utils:cutoff_assign (STR    - same as text[start..end] = replacement
+  $ansi_utils:cutoff_assign (STR    - to samo co text[start..end] = replacement
 2
        text, NUM start, NUM end, STR
 2
        replacement)
 2
-  $ansi_utils:notify (OBJ plr, STR  - Same as raw notify() but replaces
+  $ansi_utils:notify (OBJ plr, STR  - to samo co surowe notify(), ale zamienia
 2
                    line)              ANSI.
 2
-  $ansi_utils:self_diagnostic ()    - Runs a diagnostic on the ANSI stuff.
+  $ansi_utils:self_diagnostic ()    - uruchamia diagnostyke systemu ANSI.
 2
-  $ansi_utils:trusts (OBJ player)   - Is <player> trusted by the ANSI stuff?
+  $ansi_utils:trusts (OBJ player)   - czy <player> jest zaufany przez system ANSI?
 2
-  $ansi_utils:cutoff_locs (STR text - Returns a list of the real starting and
+  $ansi_utils:cutoff_locs (STR text - zwraca liste rzeczywistych lokalizacji poczatku
 2
-       NUM start, NUM end)            and ending locations.
+       NUM start, NUM end)            i konca.
 2
-  $ansi_utils:setadd (LIST l, ANY   - Same as setadd() but doesn't add it if
+  $ansi_utils:setadd (LIST l, ANY   - to samo co setadd(), ale nie dodaje, jesli
 2
-       element)                       element is already in the list (ignoring
+       element)                       element juz jest na liscie (ignorujac
 2
-                                      ANSI codes)
+                                      kody ANSI)
 2
-  $ansi_utils:setremove (LIST l,    - Same as setremove() but doesn't add it
+  $ansi_utils:setremove (LIST l,    - to samo co setremove(), ale nie dodaje
 2
-       ANY element)                   if element is already in the list
+       ANY element)                   jesli element juz jest na liscie
 2
-                                      (ignoring ANSI codes)
+                                      (ignorujac kody ANSI)
 2
-  $ansi_utils:terminate_normal (STR - Returns text with a [[null]normal] code
+  $ansi_utils:terminate_normal (STR - zwraca tekst z kodem [normal]
 2
-       text)                          at the end.
+       text)                          na koncu.
 2
-  $ansi_utils:ansi_title (OBJ plr)  - Returns <plr>'s name with ANSI codes.
+  $ansi_utils:ansi_title (OBJ plr)  - zwraca imie <plr> z kodami ANSI.
 2
-  $ansi_utils:quote_ansi (STR text) - Puts [[null]null] codes in the middle of
+  $ansi_utils:quote_ansi (STR text) - wstawia kody [null] w srodku
 2
-                                      all the other codes so they don't show.
+                                      wszystkich innych kodow, by sie nie pokazywaly.
 2
-  $ansi_utils:update_player_codes   - Should be run whenever <player>'s
+  $ansi_utils:update_player_codes   - powinno byc uruchamiane, gdy opcje
 2
-          (OBJ player)                options are changed.
+          (OBJ player)                <player> sa zmieniane.
 2
 
 2
-Trusted Users only:
+Tylko dla zaufanych uzytkownikow:
 2
-  $ansi_utils:update_all ()         - Updates all the caches and regexps
+  $ansi_utils:update_all ()         - aktualizuje wszystkie cache i wyrazenia regularne
 2
-  $ansi_utils:add_group (STR group) - adds <group> to the list of groups
+  $ansi_utils:add_group (STR group) - dodaje <group> do listy grup
 2
-  $ansi_utils:add_code (STR code,   - adds <code> to the codes in group
+  $ansi_utils:add_code (STR code,   - dodaje <code> do kodow w grupie
 2
-       STR group, ANY sequence)       <group> and set's it's ANSI sequence
+       STR group, ANY sequence)       <group> i ustawia jej sekwencje ANSI
 2
-                                      to <sequence>.
+                                      na <sequence>.
 98
 1
 4
 21
 2
-If you are starting a new MOO and wish to have ANSI on it, the easiest
+Jesli zaczynasz nowe MOO i chcesz miec na nim ANSI, najlatwiejszym
 2
-  way is to use the ANSICore.  The ANSICore is a copy of the December
+  sposobem jest uzycie ANSICore.  ANSICore to kopia LambdaCore z 25
 2
-  25, 1995 LambdaCore in which everything has been fixed to work
+  grudnia 1995, w ktorej wszystko zostalo naprawione, by dzialac
 2
-  correctly with the ANSI.  The escape and beep characters are already
+  poprawnie z ANSI.  Znaki escape i beep sa juz
 2
-  present in the database so no set up or installation is necessary.
+  obecne w bazie danych, wiec zadna konfiguracja ani instalacja nie jest potrzebna.
 2
-  The latest ANSICore is available via anonymous FTP from
+  Najnowsze ANSICore jest dostepne przez anonimowe FTP z
 2
-  ftp.mcs.net in the directory /mcsnet.users/darkowl/ANSI, in a
+  ftp.mcs.net w katalogu /mcsnet.users/darkowl/ANSI, w
 2
-  file named ANSICore.db.gz. (Sorry, due to file quotas I was unable to
+  pliku o nazwie ANSICore.db.gz. (Niestety, z powodu limitow plikow nie moglem
 2
-  include the uncompressed version, but it is still available from
+  dolaczyc niespakowanej wersji, ale jest ona nadal dostepna z
 2
-  darkowl.pr.mcs.net in the directory /pub/ANSI)
+  darkowl.pr.mcs.net w katalogu /pub/ANSI)
 2
-  NOTE: While the ANSI system is activated in the core, all players
+  UWAGA: Chociaz system ANSI jest aktywowany w rdzeniu, wszyscy gracze
 2
-    start out with the ANSI defaulting to off, so you will have to type
+    zaczynaja z ANSI domyslnie wylaczonym, wiec trzeba wpisac
 2
-    '@ansi-options +all' before you can see any color.
+    '@ansi-options +all', zanim bedzie widac jakikolwiek kolor.
 2
 
 2
-To install the ANSI system on an already existing MOO, you will need the
+By zainstalowac system ANSI na juz istniejacym MOO, potrzebny bedzie
 2
-  installation script.  This file should be uploaded into the MOO as a
+  skrypt instalacyjny.  Ten plik nalezy wgrac do MOO jako
 2
-  non-wizard (usually the second character of the wizard installing the
+  nie-wizard (zwykle druga postac wizarda instalujacego
 2
-  ANSI) and will port the objects and give you instructions on how to
+  ANSI) i przeniesie obiekty oraz poda instrukcje, jak
 2
-  start up the automatic setup program.  The latest installation script
+  uruchomic automatyczny program konfiguracyjny.  Najnowszy skrypt instalacyjny
 2
-  is available via anonymous FTP from ftp.mcs.net in the directory
+  jest dostepny przez anonimowe FTP z ftp.mcs.net w katalogu
 2
-  /mcsnet.users/darkowl/ANSI, in a file named ANSI.moo.
+  /mcsnet.users/darkowl/ANSI, w pliku o nazwie ANSI.moo.
 98
 1
 4
@@ -51684,37 +51693,37 @@ MCP
 2
 
 2
-Rewritten from `help mcp-spec' June 7, 1994 by Jay Carlson.  Comments solicited; send mail to the `@proj usability client MCP' mailing list, moo-cows, or private email to j@io.com.
+Przepisane z `help mcp-spec' 7 czerwca 1994 przez Jaya Carlsona.  Komentarze mile widziane; wyslij maila na liste mailingowa `@proj usability client MCP', moo-cows, lub prywatnie na j@io.com.
 2
 
 2
-The MOO Client Protocol is a standard for transmitting structured "requests" between MUD clients and servers.  The original specification is available as `help mcp-spec', but the skeleton of a rewrite is here:
+MOO Client Protocol to standard przesylania ustrukturyzowanych "zadan" (requests) miedzy klientami MUD a serwerami.  Oryginalna specyfikacja jest dostepna jako `help mcp-spec', ale szkielet przepisanej wersji jest tutaj:
 2
 
 2
-mcp-goals -- History and goals of the MCP protocol
+mcp-goals -- historia i cele protokolu MCP
 2
-mcp-syntax -- Syntactic description of MCP requests
+mcp-syntax -- opis skladni zadan MCP
 2
-mcp-semantics -- Semantics of MCP requests
+mcp-semantics -- semantyka zadan MCP
 2
-mcp-requests -- Documented request types
+mcp-requests -- udokumentowane typy zadan
 98
 5
 4
 15
 2
-MCP authentication
+Uwierzytelnianie MCP
 2
 1=================
 2
 
 2
-When an MCP client connects to an MCP server, it may set an `authentication key' for the duration of the connection.  The key is simply a string (in the format described in `help mcp-syntax') that must be sent by the server with every MCP request for the request to be authenticated.  The authentication key is a secret shared by the client and the MCP subsystem of the server.
+Gdy klient MCP laczy sie z serwerem MCP, moze ustawic 'klucz uwierzytelniajacy' na czas trwania polaczenia.  Klucz to po prostu string (w formacie opisanym w `help mcp-syntax'), ktory musi byc wysylany przez serwer z kazdym zadaniem MCP, by zadanie zostalo uwierzytelnione.  Klucz uwierzytelniajacy to sekret dzielony miedzy klientem a podsystemem MCP serwera.
 2
 
 2
-The syntax for setting the authentication key is:
+Skladnia ustawiania klucza uwierzytelniajacego to:
 2
 
 2
@@ -51724,35 +51733,35 @@ The syntax for setting the authentication key is:
 2
 
 2
-Clients may accept, reject, or query the user about MCP requests that are either missing an authentication key or have the incorrect key.
+Klienci moga akceptowac, odrzucac lub pytac uzytkownika o zadania MCP, ktorym brakuje klucza uwierzytelniajacego lub ktore maja niepoprawny klucz.
 2
 
 2
-Typically, clients will generate a random number or string on connection and use it as their key.
+Zwykle klienci generuja losowa liczbe lub string przy polaczeniu i uzywaja go jako swojego klucza.
 2
 
 2
-Proposal: eliminate reference to client and server, and make the authentication scheme symmetric.
+Propozycja: usunac odwolania do klienta i serwera, uczynic schemat uwierzytelniania symetrycznym.
 98
 5
 4
 22
 2
-MCP display-url request
+Zadanie MCP display-url
 2
 1======================
 2
 
 2
-This is a simplification of the display-url request specification used by AstroVR.  It is intended to represent baseline functionality that most clients can implement.
+To uproszczenie specyfikacji zadania display-url uzywanej przez AstroVR.  Ma reprezentowac podstawowa funkcjonalnosc, ktora wiekszosc klientow moze zaimplementowac.
 2
 
 2
-display-url presents a document specified by a URL to the user.
+display-url prezentuje uzytkownikowi dokument wskazany przez URL.
 2
 
 2
-Keywords
+Slowa kluczowe
 2
 2=======
 2
@@ -51764,17 +51773,17 @@ url:
 2
 
 2
-Required.  Must be an absolute URL, starting with a name scheme (such as "http:").
+Wymagane.  Musi byc pelnym (absolutnym) URL, zaczynajacym sie od schematu nazwy (np. "http:").
 2
 
 2
-Example
+Przyklad
 2
 2======
 2
 
 2
-Present the JHM home page:
+Zaprezentuj strone domowa JHM:
 2
 
 2
@@ -51786,17 +51795,17 @@ Present the JHM home page:
 4
 47
 2
-MCP edit* requests
+Zadania MCP edit*
 2
 1=================
 2
 
 2
-A multi-line request for the client to invoke a local editor on the attached text, and later send the edited text to the server.
+Wieloliniowe zadanie, by klient wywolal lokalny edytor na dolaczonym tekscie, a nastepnie wyslal edytowany tekst do serwera.
 2
 
 2
-Keywords
+Slowa kluczowe
 2
 2=======
 2
@@ -51808,7 +51817,7 @@ type:
 2
 
 2
-Optional.  Suggested values include program, text, string, value and mail.  The client may be able to use this information to provide a specialized editing mode.
+Opcjonalne.  Sugerowane wartosci to program, text, string, value i mail.  Klient moze uzyc tej informacji, by zapewnic specjalizowany tryb edycji.
 2
 
 2
@@ -51818,11 +51827,11 @@ name:
 2
 
 2
-Optional.  A human-readable descriptive name for what's being edited.
+Opcjonalne.  Czytelna dla czlowieka nazwa opisujaca, co jest edytowane.
 2
 
 2
-In existing Emacs clients, this is used for the buffer name.  In tkmoo, name: is used as the window and icon title for the workspace editing the text.
+W istniejacych klientach Emacs sluzy to jako nazwa bufora.  W tkmoo, name: sluzy jako tytul okna i ikony obszaru roboczego edytujacego tekst.
 2
 
 2
@@ -51832,31 +51841,31 @@ upload:
 2
 
 2
-Required.  Specifies a line to prefix the edited text with before sending to the server.  When the text is sent to the server, it is followed by a line of a single period.
+Wymagane.  Okresla linie, ktora nalezy poprzedzic edytowany tekst przed wyslaniem do serwera.  Gdy tekst jest wysylany do serwera, nastepuje po nim linia z pojedyncza kropka.
 2
 
 2
-Notes
+Uwagi
 2
 2====
 2
 
 2
-Typically the upload: value will be a command that starts reading input from the player, like @paste or @qsend; the MOO will use $command_utils:read_lines() to consume the uploaded lines.
+Zwykle wartosc upload: bedzie poleceniem, ktore zaczyna czytanie danych wejsciowych od gracza, jak @paste lub @qsend; MOO uzyje $command_utils:read_lines(), by odebrac wgrywane linie.
 2
 
 2
-Proposal: Every known use of #$#edit requires "." as its final line sent back to the server.  Worse, it's not defined that dot-quoting should be performed on the uploaded text, which $command_utils:read_lines() expects.  We should either explicitly state these things, or we should use multi-line MCP requests to send the text back to the server.
+Propozycja: kazde znane uzycie #$#edit wymaga "." jako ostatniej linii wysylanej z powrotem do serwera.  Co gorsza, nie jest zdefiniowane, czy na wgrywanym tekscie powinno byc wykonywane dot-quoting, ktorego oczekuje $command_utils:read_lines().  Powinnismy albo jasno to okreslic, albo uzywac wieloliniowych zadan MCP, by wysylac tekst z powrotem do serwera.
 2
 
 2
-Examples
+Przyklady
 2
 2=======
 2
 
 2
-A request to provide an editing session for a property:
+Zadanie zapewniajace sesje edycji dla wlasciwosci:
 2
 
 2
@@ -51870,7 +51879,7 @@ A request to provide an editing session for a property:
 2
 
 2
-A request to provide an editing session for a verb:
+Zadanie zapewniajace sesje edycji dla czasownika:
 2
 
 2
@@ -51884,21 +51893,21 @@ A request to provide an editing session for a verb:
 4
 42
 2
-MCP ftp request
+Zadanie MCP ftp
 2
 1==============
 2
 
 2
-I don't understand the semantics of the ftp request fully.  AstroVR uses this protocol to move remote files into users' directories.
+Nie do konca rozumiem semantyke zadania ftp.  AstroVR uzywa tego protokolu, by przenosic zdalne pliki do katalogow uzytkownikow.
 2
 
 2
-This specification does not specify whether anonymous ftp or authenticated ftp is used.
+Ta specyfikacja nie okresla, czy uzywany jest anonimowy czy uwierzytelniony ftp.
 2
 
 2
-Keywords
+Slowa kluczowe
 2
 2=======
 2
@@ -51910,7 +51919,7 @@ host:
 2
 
 2
-Required.  Name of the FTP host containing the document.
+Wymagane.  Nazwa hosta FTP zawierajacego dokument.
 2
 
 2
@@ -51920,7 +51929,7 @@ directory:
 2
 
 2
-Required.  The directory containing the document.
+Wymagane.  Katalog zawierajacy dokument.
 2
 
 2
@@ -51930,7 +51939,7 @@ file:
 2
 
 2
-Required.  The filename of the document.
+Wymagane.  Nazwa pliku dokumentu.
 2
 
 2
@@ -51940,7 +51949,7 @@ type:
 2
 
 2
-Required.  File type of the document.  Possible values are "ascii", "binary", "fits", "plaintext", "postscript", "compressed", and "tar".
+Wymagane.  Typ pliku dokumentu.  Mozliwe wartosci to "ascii", "binary", "fits", "plaintext", "postscript", "compressed" i "tar".
 2
 
 2
@@ -51950,17 +51959,17 @@ destination:
 2
 
 2
-Required.  Directory on the local machine the document is to be placed in.
+Wymagane.  Katalog na lokalnej maszynie, w ktorym dokument ma zostac umieszczony.
 2
 
 2
-Example
+Przyklad
 2
 2======
 2
 
 2
-Upload a file from an anonymous ftp site:
+Wgraj plik z anonimowego serwera ftp:
 2
 
 2
@@ -51972,45 +51981,45 @@ Upload a file from an anonymous ftp site:
 4
 12
 2
-MCP goals
+Cele MCP
 2
 1========
 2
 
 2
-Most MUD clients and servers communicate by an informal protocol: lines of printable ASCII characters separated by newlines.  This is closely related to the TELNET protocol, which will in fact interoperate with MUD servers.  But TELNET clients don't provide user interface support for even the simplest of MUD tasks.  Specialized MUD clients provided these tools.
+Wiekszosc klientow i serwerow MUD komunikuje sie nieformalnym protokolem: liniami drukowalnych znakow ASCII oddzielonymi nowymi liniami.  Jest to blisko zwiazane z protokolem TELNET, ktory faktycznie wspolpracuje z serwerami MUD.  Ale klienci TELNET nie zapewniaja wsparcia interfejsu uzytkownika nawet dla najprostszych zadan MUD.  Wyspecjalizowani klienci MUD dostarczali te narzedzia.
 2
 
 2
-Once people started to use clients, several realized that intelligence and user interface closer to the user could be exploited by the MUD.  
+Gdy ludzie zaczeli uzywac klientow, kilku zdalo sobie sprawe, ze inteligencja i interfejs uzytkownika blizsze uzytkownikowi moga byc wykorzystane przez MUD.  
 2
 
 2
-In particular, the LambdaCore editor system allows an option to ship whole documents (to a mud.el variant) to be edited locally, then returned.  The $gopher system can direct clients to fetch Gopher text directly (presenting a better UI and avoiding funneling texts through the MOO).
+W szczegolnosci system edytora LambdaCore pozwala na opcje wysylania calych dokumentow (do wariantu mud.el), by byly edytowane lokalnie, a nastepnie zwrocone.  System $gopher moze kierowac klientow do pobierania tekstu Gopher bezposrednio (prezentujac lepszy interfejs i unikajac przepychania tekstow przez MOO).
 2
 
 2
-Such "requests" are out of band; that is, they can occur at any point in the interaction between client and server.  In particular, client requests may occur while a MOO is using the read() primitive.  The MOO server has a compile-time option to process lines starting with a given prefix as if they were truly out of band.
+Takie "zadania" sa poza pasmem (out of band); to znaczy moga wystapic w dowolnym momencie interakcji miedzy klientem a serwerem.  W szczegolnosci zadania klienta moga wystapic, gdy MOO uzywa prymitywu read().  Serwer MOO ma opcje kompilacyjna do przetwarzania linii zaczynajacych sie od danego prefiksu tak, jakby byly rzeczywiscie poza pasmem.
 2
 
 2
-MCP is a simple protocol for transmitting structured messages between client and server.  It traffics in "requests", which have types, properties, and optional multi-line extensions.  Standard requests exist for local editing, URL display and gopher access.
+MCP to prosty protokol do przesylania ustrukturyzowanych wiadomosci miedzy klientem a serwerem.  Operuje na "zadaniach", ktore maja typy, wlasciwosci i opcjonalne rozszerzenia wieloliniowe.  Istnieja standardowe zadania dla lokalnej edycji, wyswietlania URL i dostepu do gopher.
 98
 5
 4
 39
 2
-MCP gopher request
+Zadanie MCP gopher
 2
 1=================
 2
 
 2
-The original MOO $gopher system used a private protocol.  This is a rendering of it into MCP.  It has become deprecated in favor of display-url.
+Oryginalny system $gopher MOO uzywal prywatnego protokolu.  To jego odwzorowanie na MCP.  Zostal uznany za przestarzaly na rzecz display-url.
 2
 
 2
-Keywords
+Slowa kluczowe
 2
 2=======
 2
@@ -52022,7 +52031,7 @@ host:
 2
 
 2
-Required.  Name of the gopher host to connect to.
+Wymagane.  Nazwa hosta gopher, z ktorym nalezy sie polaczyc.
 2
 
 2
@@ -52032,7 +52041,7 @@ port:
 2
 
 2
-Optional.  Port number to connect to on gopher host; defaults to 70.
+Opcjonalne.  Numer portu do polaczenia z hostem gopher; domyslnie 70.
 2
 
 2
@@ -52042,7 +52051,7 @@ path:
 2
 
 2
-Optional.  Pathname to send to the gopher host.  Defaults to the empty string.
+Opcjonalne.  Sciezka do wyslania do hosta gopher.  Domyslnie pusty string.
 2
 
 2
@@ -52052,21 +52061,21 @@ description:
 2
 
 2
-Required.  Description string; first character is the gopher type character, rest of characters are the human-readable name of the object.
+Wymagane.  String opisu; pierwszy znak to znak typu gopher, reszta znakow to czytelna dla czlowieka nazwa obiektu.
 2
 
 2
-Proposal: separate type from description.
+Propozycja: oddzielic typ od opisu.
 2
 
 2
-Example
+Przyklad
 2
 2======
 2
 
 2
-A request to retrive Gustavus Adolphus College's root menu:
+Zadanie pobrania menu glownego Gustavus Adolphus College:
 2
 
 2
@@ -52076,41 +52085,41 @@ A request to retrive Gustavus Adolphus College's root menu:
 2
 
 2
-Note that port and path default to 70 and "" respectively.
+Uwaga: port i path domyslnie to odpowiednio 70 i "".
 98
 5
 4
 9
 2
-MCP requests
+Zadania MCP
 2
 1===========
 2
 
 2
-There are several standard MCP request types.  If clients provide functionality similar to those described below, they should implement the MCP request as documented.
+Istnieje kilka standardowych typow zadan MCP.  Jesli klienci zapewniaja funkcjonalnosc podobna do opisanych ponizej, powinni implementowac zadanie MCP zgodnie z dokumentacja.
 2
 
 2
-mcp-edit -- Perform local editing on a text
+mcp-edit -- wykonaj lokalna edycje tekstu
 2
-mcp-gopher -- Display a gopher text to the user
+mcp-gopher -- wyswietl uzytkownikowi tekst gopher
 2
-mcp-ftp -- Use ftp to download a file to the user's machine
+mcp-ftp -- uzyj ftp, by pobrac plik na maszyne uzytkownika
 2
-mcp-display-url -- Display a URL to the user
+mcp-display-url -- wyswietl uzytkownikowi URL
 98
 5
 4
 19
 2
-MCP request semantics
+Semantyka zadan MCP
 2
 1====================
 2
 
 2
-An MCP request is of the general form:
+Zadanie MCP ma ogolna postac:
 2
 
 2
@@ -52120,27 +52129,27 @@ An MCP request is of the general form:
 2
 
 2
-<request-name> identifies the `type' of the request.  The type of the request can be thought of as a function that processes the structures in the rest of the line.
+<request-name> okresla 'typ' zadania.  Typ zadania mozna traktowac jak funkcje, ktora przetwarza struktury z reszty linii.
 2
 
 2
-<auth-key> is an optional authentication key.  See `help mcp-authentication'.
+<auth-key> to opcjonalny klucz uwierzytelniajacy.  Zobacz `help mcp-authentication'.
 2
 
 2
-The set of <keyword>: <value> pairs are a function mapping <keyword>s onto <value>s.  <keyword>s are names of arguments to the request; <value>s are the corresponding values of arguments.
+Zestaw par <keyword>: <value> to funkcja odwzorowujaca <keyword>y na <value>y.  <keyword>y to nazwy argumentow zadania; <value>y to odpowiadajace im wartosci argumentow.
 2
 
 2
-Duplicate <keyword>s are not allowed.  Arbitrary order of <keyword>: <value> pairs is allowed.
+Zduplikowane <keyword>y sa niedozwolone.  Dowolna kolejnosc par <keyword>: <value> jest dozwolona.
 2
 
 2
-Specific <keyword>s may be optional for a given request type, with default <value>s assumed.
+Konkretne <keyword>y moga byc opcjonalne dla danego typu zadania, z zalozonymi domyslnymi <value>ami.
 2
 
 2
-<keyword>s may be unrecognized by a request type.  A suggested strategy for request handlers is to ignore any <keyword>s they don't understand.
+<keyword>y moga byc nierozpoznane przez typ zadania.  Sugerowana strategia dla obslugi zadan to ignorowanie wszelkich nierozpoznanych <keyword>ow.
 98
 5
 4
@@ -52156,25 +52165,25 @@ Erik Ostrom, Dave Van Buren, Pavel Curtis, David Nichols, Jay Carlson
 2
 
 2
-22 Feb 1993
+22 lutego 1993
 2
 
 2
-Conversion to `help help-format' 21 May 1994 by Jay Carlson.
+Konwersja do `help help-format' 21 maja 1994 przez Jaya Carlsona.
 2
 
 2
-(Any first-person pronouns refer to Erik.)
+(Wszelkie zaimki pierwszej osoby odnosza sie do Erika.)
 2
 
 2
-AUTHENTICATION
+UWIERZYTELNIANIE
 2
 --------------
 2
 
 2
-An authentication key is generated and uploaded by the client to the server at login.  Proposed method:
+Klucz uwierzytelniajacy jest generowany i wgrywany przez klienta do serwera przy logowaniu.  Proponowana metoda:
 2
 
 2
@@ -52184,17 +52193,17 @@ An authentication key is generated and uploaded by the client to the server at l
 2
 
 2
-This requires that the server be compiled with OUT_OF_BAND_PREFIX set to "#$#".  (It's actually possible to do it as a verb on $player, but many MOOs have a programmer command "#" which does something very different.)  The authentication key may not contain spaces, double-quotes, colons, or backslashes.
+Wymaga to, by serwer byl skompilowany z OUT_OF_BAND_PREFIX ustawionym na "#$#".  (Da sie to faktycznie zrobic jako czasownik na $player, ale wiele MOO ma polecenie programisty "#", ktore robi cos zupelnie innego.)  Klucz uwierzytelniajacy nie moze zawierac spacji, cudzyslowow, dwukropkow ani ukosnikow wstecznych.
 2
 
 2
-GENERAL RULES
+REGULY OGOLNE
 2
 -------------
 2
 
 2
-String sent by server:
+String wysylany przez serwer:
 2
 
 2
@@ -52204,27 +52213,27 @@ String sent by server:
 2
 
 2
-An identifying tag #$# is placed at the beginning of the request line.
+Identyfikujacy tag #$# jest umieszczany na poczatku linii zadania.
 2
 
 2
-  o  <request-name> is the type of request, e.g. "edit" or "ftp".
+  o  <request-name> to typ zadania, np. "edit" lub "ftp".
 2
-  o  <request-name> cannot contain spaces, double-quotes, backslashes, or asterisks.
+  o  <request-name> nie moze zawierac spacji, cudzyslowow, ukosnikow wstecznych ani gwiazdek.
 2
-  o  <*-if-data-follows> is either "*" if this request is followed by additional lines of data, or the empty string.
+  o  <*-if-data-follows> to albo "*", jesli po tym zadaniu nastepuja dodatkowe linie danych, albo pusty string.
 2
-  o  <keyword> is the name of an argument to the request.  Keywords cannot contain spaces, double-quotes, colons, or backslashes.
+  o  <keyword> to nazwa argumentu zadania.  Slowa kluczowe nie moga zawierac spacji, cudzyslowow, dwukropkow ani ukosnikow wstecznych.
 2
-  o  <value> is the value of the corresponding argument.  A <value> can contain any printing ASCII character (including space), but must be quoted in the standard MOO style (with double quotes, using backslash to escape quotes and backslashes) if it either contains spaces or is the empty string.  Arbitrary order of keyword: value pairs is allowed.
-2
-
-2
-Keyword: value pairs may be optional.  We haven't discussed what clients should do with unrecognized keywords; my plan is for the client simply to ignore them and work with the keywords it recognizes.
+  o  <value> to wartosc odpowiadajacego argumentu.  <value> moze zawierac dowolny drukowalny znak ASCII (wlacznie ze spacja), ale musi byc w cudzyslowach w standardowym stylu MOO (z podwojnymi cudzyslowami, z ukosnikiem wstecznym jako znakiem ucieczki dla cudzyslowow i ukosnikow wstecznych), jesli zawiera spacje lub jest pustym stringiem.  Dowolna kolejnosc par keyword: value jest dozwolona.
 2
 
 2
-REQUEST DEFINITIONS
+Pary keyword: value moga byc opcjonalne.  Nie ustalilismy, co klienci powinni robic z nierozpoznanymi slowami kluczowymi; moj plan jest taki, by klient po prostu je ignorowal i dzialal na tych, ktore rozpoznaje.
+2
+
+2
+DEFINICJE ZADAN
 2
 -------------------
 2
@@ -52240,7 +52249,7 @@ type: <program|text|string|value|mail|...>
 2
 
 2
-Type of information.  Clients may or may not be able to use a special editing mode depending on type.
+Typ informacji.  Klienci moga (lub nie) uzyc specjalnego trybu edycji zaleznie od typu.
 2
 
 2
@@ -52248,7 +52257,7 @@ name: <name>
 2
 
 2
-User-friendly indication of what's in this.  Good for buffer name.
+Przyjazna dla uzytkownika wskazowka, co tu jest.  Dobre jako nazwa bufora.
 2
 
 2
@@ -52256,7 +52265,7 @@ upload: <command>
 2
 
 2
-Command to use to begin upload of this text.
+Polecenie uzywane, by rozpoczac wgrywanie tego tekstu.
 2
 
 2
@@ -52270,7 +52279,7 @@ host: <name>
 2
 
 2
-Name of the host that has the document.
+Nazwa hosta, ktory ma dokument.
 2
 
 2
@@ -52278,7 +52287,7 @@ directory: <dir>
 2
 
 2
-Name of the directory that the document is in.
+Nazwa katalogu, w ktorym jest dokument.
 2
 
 2
@@ -52286,7 +52295,7 @@ file: <name>
 2
 
 2
-Name of the file within the directory.
+Nazwa pliku wewnatrz katalogu.
 2
 
 2
@@ -52294,7 +52303,7 @@ type: <type>
 2
 
 2
-Type of document.  Current types include ($ftp.recognized_types):
+Typ dokumentu.  Obecne typy obejmuja ($ftp.recognized_types):
 2
 
 2
@@ -52308,7 +52317,7 @@ destination: <dir>
 2
 
 2
-Place to store the document locally.  I don't fully understand this.
+Miejsce lokalnego przechowywania dokumentu.  Nie rozumiem tego do konca.
 2
 
 2
@@ -52318,7 +52327,7 @@ gopher
 2
 
 2
-(Larry has a local-gopher protocol--this is my attempt to render it into the New Protocol.)
+(Larry ma lokalny protokol gopher -- to moja proba przelozenia go na Nowy Protokol.)
 2
 
 2
@@ -52326,7 +52335,7 @@ host: <name>
 2
 
 2
-Name of the host to connect to.
+Nazwa hosta, z ktorym nalezy sie polaczyc.
 2
 
 2
@@ -52334,7 +52343,7 @@ port: <number>
 2
 
 2
-Port to connect to.  Default is 70.
+Port do polaczenia.  Domyslnie 70.
 2
 
 2
@@ -52342,7 +52351,7 @@ path: <string>
 2
 
 2
-String to send to the gopher server.  Default is the empty string.
+String do wyslania do serwera gopher.  Domyslnie pusty string.
 2
 
 2
@@ -52350,17 +52359,17 @@ description:
 2
 
 2
-Description string.  First character is the type character, rest of characters are human-readable name of object.  This seems unnecessarily arcane to me--why not separate these?
+String opisu.  Pierwszy znak to znak typu, reszta znakow to czytelna dla czlowieka nazwa obiektu.  Wydaje mi sie to niepotrzebnie zawile -- czemu nie oddzielic tych rzeczy?
 2
 
 2
-EXAMPLES
+PRZYKLADY
 2
 --------
 2
 
 2
-A request to provide an editing session for a property.  The request is followed by lines of data, prepended with a special tag (@@@, unless someone has strong feelings about changing it), and marked at the end with another tag (#$#END, again subject to change).  The advantage of this over dot-quoting is that it should be fairly easy for the client to figure out if there's been some breakage on the server end and the transmission has terminated early.  (A line that doesn't start with @@@ and isn't #$#END should set off warning bells.)
+Zadanie zapewniajace sesje edycji dla wlasciwosci.  Po zadaniu nastepuja linie danych, poprzedzone specjalnym tagiem (@@@, chyba ze ktos ma silne uczucia co do jego zmiany), i oznaczone na koncu kolejnym tagiem (#$#END, tez podlegajacym zmianie).  Zaleta tego nad dot-quotingiem jest to, ze klientowi powinno byc dosc latwo zorientowac sie, czy nastapila jakas awaria po stronie serwera i transmisja zakonczyla sie przedwczesnie.  (Linia, ktora nie zaczyna sie od @@@ i nie jest #$#END, powinna wlaczyc dzwonki alarmowe.)
 2
 
 2
@@ -52374,7 +52383,7 @@ A request to provide an editing session for a property.  The request is followed
 2
 
 2
-A request to provide an editing session for a verb.
+Zadanie zapewniajace sesje edycji dla czasownika.
 2
 
 2
@@ -52386,7 +52395,7 @@ A request to provide an editing session for a verb.
 2
 
 2
-A request to upload a file from an anonymous ftp site.  The request line contains all the data necessary.
+Zadanie wgrania pliku z anonimowego serwera ftp.  Linia zadania zawiera wszystkie potrzebne dane.
 2
 
 2
@@ -52396,7 +52405,7 @@ A request to upload a file from an anonymous ftp site.  The request line contain
 2
 
 2
-A request to retrieve a document from a gopher server.
+Zadanie pobrania dokumentu z serwera gopher.
 2
 
 2
@@ -52406,23 +52415,23 @@ A request to retrieve a document from a gopher server.
 2
 
 2
-In this case, we take advantage of default values for the port: and path: arguments ("70" and "", respectively).
+W tym przypadku korzystamy z domyslnych wartosci dla argumentow port: i path: (odpowiednio "70" i "").
 98
 5
 4
 34
 2
-MCP request syntax
+Skladnia zadan MCP
 2
 1=================
 2
 
 2
-Input and output to and from client and server is presumed to be divided into records (called `lines' hereafter).
+Zaklada sie, ze wejscie i wyjscie miedzy klientem a serwerem jest podzielone na rekordy (dalej zwane 'liniami').
 2
 
 2
-An MCP request is of the general form:
+Zadanie MCP ma ogolna postac:
 2
 
 2
@@ -52432,69 +52441,69 @@ An MCP request is of the general form:
 2
 
 2
-"#$#" must be the first three characters in the line.
+"#$#" musi byc pierwszymi trzema znakami w linii.
 2
 
 2
-<request-name> is a string of one or more printable ASCII characters.  It may not contain spaces, double-quotes, backslashes or asterisks.
+<request-name> to string zlozony z jednego lub wiecej drukowalnych znakow ASCII.  Nie moze zawierac spacji, cudzyslowow, ukosnikow wstecznych ani gwiazdek.
 2
 
 2
-Proposal: require <request-name> to start with a letter.  This reserves a substantial part of the namespace for private out-of-band protocols, or other protocol extensions.
+Propozycja: wymagac, by <request-name> zaczynalo sie od litery.  Rezerwuje to znaczna czesc przestrzeni nazw dla prywatnych protokolow poza-pasmowych lub innych rozszerzen protokolu.
 2
 
 2
-<auth-key> is a string of one or more printable ASCII characters.  It may not contain spaces, double-quotes, colons or backslashes.
+<auth-key> to string zlozony z jednego lub wiecej drukowalnych znakow ASCII.  Nie moze zawierac spacji, cudzyslowow, dwukropkow ani ukosnikow wstecznych.
 2
 
 2
-<keyword> is a string of one or more printable ASCII characters.  It may not contain spaces, double-quotes, colons, or backslashes.
+<keyword> to string zlozony z jednego lub wiecej drukowalnych znakow ASCII.  Nie moze zawierac spacji, cudzyslowow, dwukropkow ani ukosnikow wstecznych.
 2
 
 2
-<value> is 
+<value> to 
 2
 
 2
-  o  a string of one or more printable ASCII characters not containing spaces, double-quotes or backslashes 
+  o  string zlozony z jednego lub wiecej drukowalnych znakow ASCII, nie zawierajacy spacji, cudzyslowow ani ukosnikow wstecznych 
 2
-  o  OR is a string of zero or more printable ASCII characters, enclosed in double-quotes, with double-quotes and backslashes inside the string `quoted' by preceding them with a backslash.
-2
-
-2
-Note that the empty string must be quoted.  Also, the ASCII TAB character is not allowed in <value>s, at all.
+  o  ALBO string zlozony z zera lub wiecej drukowalnych znakow ASCII, ujety w cudzyslowy, z cudzyslowami i ukosnikami wstecznymi wewnatrz stringa 'cytowanymi' przez poprzedzenie ich ukosnikiem wstecznym.
 2
 
 2
-Proposal: disallow unquoted <value>s with colons in them.  This is not strictly necessary, but it could detect some bugs in MCP request generators.
+Uwaga: pusty string musi byc w cudzyslowach.  Rowniez znak ASCII TAB nie jest w ogole dozwolony w <value>ach.
 2
 
 2
-If the asterisk after <request-name> is present, this line starts a `multi-line request'.  Zero or more lines of data associated with the request follow, prepended with "@@@".  These lines are terminated with a single line of the form "#$#END".
+Propozycja: zabronic nie-cytowanych <value>ow zawierajacych dwukropki.  Nie jest to scisle konieczne, ale mogloby wykryc pewne bledy w generatorach zadan MCP.
 2
 
 2
-Note that the 1.7.7 LambdaMOO server cannot properly handle multi-line requests sent by a client if OUT_OF_BAND_PREFIX is defined as "#$#".
+Jesli gwiazdka po <request-name> jest obecna, ta linia rozpoczyna 'zadanie wieloliniowe'.  Nastepuje zero lub wiecej linii danych zwiazanych z zadaniem, poprzedzonych "@@@".  Te linie sa zakonczone pojedyncza linia postaci "#$#END".
 2
 
 2
-Proposal: multi-line requests, in their current form, should be deprecated in favor of some other construct providing this functionality.
+Uwaga: serwer 1.7.7 LambdaMOO nie potrafi poprawnie obslugiwac zadan wieloliniowych wysylanych przez klienta, jesli OUT_OF_BAND_PREFIX jest zdefiniowany jako "#$#".
+2
+
+2
+Propozycja: zadania wieloliniowe w obecnej formie powinny zostac uznane za przestarzale na rzecz jakiejs innej konstrukcji zapewniajacej te funkcjonalnosc.
 98
 5
 4
 30
 2
-MCP x-audio request
+Zadanie MCP x-audio
 2
 1==================
 2
 
 2
-This is a description of the interim protocol tkmoo uses to provide a single channel of multicast audio.  New requests change the channel.
+To opis prowizorycznego protokolu uzywanego przez tkmoo, by zapewnic pojedynczy kanal audio multicast.  Nowe zadania zmieniaja kanal.
 2
 
 2
-Keywords
+Slowa kluczowe
 2
 2=======
 2
@@ -52506,7 +52515,7 @@ my-name
 2
 
 2
-Optional.  Name to identify the user inside a multicast conference.  Defaults to username.
+Opcjonalne.  Nazwa identyfikujaca uzytkownika wewnatrz konferencji multicast.  Domyslnie nazwa uzytkownika.
 2
 
 2
@@ -52516,7 +52525,7 @@ key
 2
 
 2
-Optional.  Encryption key for the channel.  Defaults to "", which is no key.
+Opcjonalne.  Klucz szyfrujacy dla kanalu.  Domyslnie "", czyli brak klucza.
 2
 
 2
@@ -52526,7 +52535,7 @@ address
 2
 
 2
-Required.  Multicast address 
+Wymagane.  Adres multicast 
 2
 
 2
@@ -52550,7 +52559,7 @@ title
 2
 *index*
 2
-MCP help topics
+Tematy pomocy MCP
 98
 5
 5
@@ -53648,6 +53657,46 @@ ich
 0
 0
 36
+1
+1
+#134
+
+0
+98
+1
+-1
+0
+0
+4
+0
+1
+108
+4
+0
+0
+0
+7
+1
+2
+98
+1
+5
+98
+0
+5
+98
+1
+5
+98
+0
+5
+98
+1
+5
+98
+0
+5
+98
 1
 0
 1953
