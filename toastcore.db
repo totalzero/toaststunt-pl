@@ -9,7 +9,145 @@
 0 values pending finalization
 0 clocks
 0 queued tasks
-0 suspended tasks
+1 suspended tasks
+1784114631 1491010538 0
+0
+10
+0
+0 0 0 50
+language version 17
+if (!$perm_utils:controls(caller_perms(), this))
+"perms don't control the $housekeeper; probably not called by $room:disfunc then. Used to let args[1] call this. No longer.";
+return E_PERM;
+endif
+this.player_queue = {@this.player_queue, {args[1], time() + 300}};
+if ($code_utils:task_valid(this.move_player_task))
+"the move-players-home task is already running";
+return;
+endif
+fork tid (10)
+while (this.player_queue)
+if ((mtime = this.player_queue[1][2]) < (time() + 10))
+who = this.player_queue[1][1];
+"Remove from queue first so that if they do something malicious, like put a kill_task in a custom :accept_for_abode, they won't be in the queue when the task restarts with the next player disconnect. Ho_Yan 12/3/98";
+this.player_queue = listdelete(this.player_queue, 1);
+if (is_player(who) && (!$object_utils:connected(who)))
+dest = `who.home:accept_for_abode(who) ! ANY => 0' ? who.home | $player_start;
+if (who.location != dest)
+player = who;
+this:move_em(who, dest);
+endif
+endif
+else
+suspend(mtime - time());
+endif
+$command_utils:suspend_if_needed(1);
+endwhile
+endfork
+this.move_player_task = tid;
+.
+28 variables
+NUM
+0
+0
+OBJ
+0
+1
+STR
+0
+2
+LIST
+0
+4
+ERR
+0
+3
+player
+1
+2
+this
+1
+71
+caller
+1
+47
+verb
+2
+move_players_home
+args
+4
+1
+1
+2
+argstr
+2
+
+dobj
+1
+-1
+dobjstr
+2
+
+prepstr
+2
+
+iobj
+1
+-1
+iobjstr
+2
+
+INT
+0
+0
+FLOAT
+0
+9
+MAP
+0
+10
+ANON
+0
+12
+WAIF
+0
+13
+BOOL
+0
+14
+true
+14
+1
+false
+14
+0
+mtime
+0
+1784114630
+who
+6
+dest
+6
+tid
+0
+1491010538
+0 rt_stack slots in use
+0
+-111
+1
+71
+1
+71
+1
+71 -7 -8 2 -9 2 71 -10 1
+No
+More
+Parse
+Infos
+move_players_home
+move_players_home
+6
+138 0 136
 0 interrupted tasks
 0 active connections with listeners
 134
@@ -664,7 +802,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784109639
+1784113442
 2
 name
 2
@@ -1224,7 +1362,7 @@ Wizard
 7
 2
 1
-15
+47
 10
 2
 2
@@ -1234,7 +1372,7 @@ source
 2
 time
 0
-1784111491
+1784114324
 4
 0
 1
@@ -1392,11 +1530,19 @@ time
 2
 5
 4
-6
+7
 0
 0
 0
 0
+4
+3
+1
+61
+0
+1
+0
+1721212110
 4
 3
 1
@@ -1454,7 +1600,7 @@ time
 4
 2
 0
-1784111459
+1784114501
 2
 localhost
 2
@@ -1463,7 +1609,7 @@ localhost
 2
 0
 0
-1784111491
+1784114529
 2
 1
 0
@@ -1627,7 +1773,7 @@ localhost
 2
 5
 0
-1784111484
+1784114522
 2
 1
 0
@@ -4147,7 +4293,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--61
+-51
 0
 2
 2
@@ -4161,7 +4307,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-11
+12
+4
+2
+0
+1784113442
+0
+0
 4
 2
 0
@@ -5165,9 +5317,7 @@ Limbo
 0
 0
 4
-1
-1
-2
+0
 1
 1
 4
@@ -24202,7 +24352,9 @@ Mail Room
 0
 0
 4
-0
+1
+1
+2
 1
 50
 4
@@ -24315,27 +24467,41 @@ subjects
 sending
 42
 4
-0
-36
-0
+1
 4
 0
 36
 0
 4
+1
+4
+1
+1
+2
+36
+0
+4
+1
+2
+;;return $wiz:length_all_msgs();
+36
+0
+4
+1
+0
 0
 36
 0
 4
+1
 0
-36
-0
-4
 0
 96
 1
 4
+1
 0
+1784114324
 96
 1
 4
@@ -24549,23 +24715,33 @@ You're not editing anything!
 36
 5
 4
-0
-96
-0
-4
-0
-96
 1
 4
 0
 96
 0
 4
+1
+1
+2
+96
+1
+4
+1
+0
 0
 96
 0
 4
+1
 0
+1
+96
+0
+4
+1
+1
+62
 96
 1
 2
@@ -26987,25 +27163,17 @@ feature_task
 4
 9
 0
-438684549
+1897298068
 2
-this
+@abort
 4
-4
+0
 2
-is
-2
-total
-2
-gibberish
-2
-blah
-2
-is total gibberish blah
+
 1
--3
+-1
 2
-is total gibberish blah
+
 2
 
 1
@@ -33768,7 +33936,79 @@ cleaning_index
 71
 5
 4
+12
+4
+2
+1
+2
 0
+1784114630
+4
+2
+1
+2
+0
+1784114649
+4
+2
+1
+2
+0
+1784114664
+4
+2
+1
+2
+0
+1784114684
+4
+2
+1
+2
+0
+1784114704
+4
+2
+1
+2
+0
+1784114724
+4
+2
+1
+2
+0
+1784114748
+4
+2
+1
+2
+0
+1784114760
+4
+2
+1
+2
+0
+1784114764
+4
+2
+1
+2
+0
+1784114785
+4
+2
+1
+2
+0
+1784114806
+4
+2
+1
+2
+0
+1784114829
 71
 1
 2
@@ -33780,7 +34020,7 @@ Ktos przychodzi i odklada %n. %n twardo spi.
 71
 5
 0
-42319438
+1491010538
 71
 1
 0
@@ -61058,7 +61298,7 @@ endfor
 handle = this._mgr:next(@listdelete(handle, 1));
 endwhile
 endfor
-return fseq || ("%f %<has> no messages from " + $string_utils:english_list($list_utils:map_arg(2, $string_utils, "pronoun_sub", "%n (%#)", plist), "no one", " or "));
+return fseq || ("%f %<has> wiadomosci od " + $string_utils:english_list($list_utils:map_arg(2, $string_utils, "pronoun_sub", "%n (%#)", plist), "nikogo", " lub "));
 .
 #14:30
 ":%from_msg_seq(string or list of strings)";
@@ -61089,7 +61329,7 @@ endfor
 handle = this._mgr:next(@listdelete(handle, 1));
 endwhile
 endfor
-return fseq || ("%f %<has> no messages from " + $string_utils:english_list($list_utils:map_arg($string_utils, "print", nlist), "no one", " or "));
+return fseq || ("%f %<has> wiadomosci od " + $string_utils:english_list($list_utils:map_arg($string_utils, "print", nlist), "nikogo", " lub "));
 .
 #14:31
 ":to_msg_seq(object or list) => msg_seq of messages to those people";
@@ -61119,7 +61359,7 @@ endfor
 handle = this._mgr:next(@listdelete(handle, 1));
 endwhile
 endfor
-return seq || ("%f %<has> no messages to " + $string_utils:english_list($list_utils:map_arg(2, $string_utils, "pronoun_sub", "%n (%#)", plist), "no one", " or "));
+return seq || ("%f %<has> wiadomosci do " + $string_utils:english_list($list_utils:map_arg(2, $string_utils, "pronoun_sub", "%n (%#)", plist), "nikogo", " lub "));
 .
 #14:32
 ":%to_msg_seq(string or list of strings)";
@@ -61150,7 +61390,7 @@ endfor
 handle = this._mgr:next(@listdelete(handle, 1));
 endwhile
 endfor
-return seq || ("%f %<has> no messages to " + $string_utils:english_list($list_utils:map_arg($string_utils, "print", nlist), "no one", " or "));
+return seq || ("%f %<has> wiadomosci do " + $string_utils:english_list($list_utils:map_arg($string_utils, "print", nlist), "nikogo", " lub "));
 .
 #14:33
 ":subject_msg_seq(target) => msg_seq of messages with target in the Subject:";
@@ -61174,7 +61414,7 @@ endfor
 handle = this._mgr:next(@listdelete(handle, 1));
 endwhile
 endfor
-return seq || (("%f %<has> no messages with subjects containing `" + target) + "'");
+return seq || (("%f %<has> wiadomosci z tematem zawierajacym `" + target) + "'");
 .
 #14:34
 ":body_msg_seq(target) => msg_seq of messages with target in the body";
@@ -61206,7 +61446,7 @@ endfor
 handle = this._mgr:next(@listdelete(handle, 1));
 endwhile
 endfor
-return seq || tostr("%f %<has> no messages containing `", target, "' in the body.");
+return seq || tostr("%f %<has> wiadomosci zawierajacych `", target, "' w tresci.");
 .
 #14:35
 return E_VERBNF;
@@ -66330,7 +66570,7 @@ endif
 i = i + 1;
 $command_utils:suspend_if_needed(0);
 endfor
-return fseq || ("%f %<has> no messages from " + $string_utils:english_list($list_utils:map_arg(2, $string_utils, "pronoun_sub", "%n (%#)", plist), "no one", " or "));
+return fseq || ("%f %<has> wiadomosci od " + $string_utils:english_list($list_utils:map_arg(2, $string_utils, "pronoun_sub", "%n (%#)", plist), "nikogo", " lub "));
 .
 #29:4
 ":to_msg_seq(object or list[,mask]) => msg_seq of messages to those people";
@@ -66355,7 +66595,7 @@ endif
 i = i + 1;
 $command_utils:suspend_if_needed(0);
 endfor
-return fseq || ("%f %<has> no messages about @programmer'ing " + $string_utils:english_list(plist, "no one", " or "));
+return fseq || ("%f %<has> wiadomosci o mianowaniu na programiste: " + $string_utils:english_list(plist, "nikogo", " lub "));
 .
 #29:5
 ":%to_msg_seq/subject_msg_seq(string or list of strings[,mask])";
@@ -66381,7 +66621,7 @@ endif
 i = i + 1;
 $command_utils:suspend_if_needed(0);
 endfor
-return fseq || ("%f %<has> no messages about @programmer'ing " + $string_utils:english_list(nlist, "no one", " or "));
+return fseq || ("%f %<has> wiadomosci o mianowaniu na programiste: " + $string_utils:english_list(nlist, "nikogo", " lub "));
 .
 #29:6
 return this.name + " doesn't understand %%from:";
@@ -68546,31 +68786,31 @@ if (typeof(pms = folder:parse_message_seq(pfs[2], @cur)) == LIST)
 rest = {@listdelete(pms, 1), @pfs[3]};
 if ((!extra) && rest)
 "...everything should have been gobbled by :parse_message_seq...";
-player:tell("I don't understand `", rest[1], "'");
+player:tell("Nie rozumiem `", rest[1], "'");
 return 0;
 elseif (pms[1])
 "...we have a nonempty message sequence...";
 return {folder, pms[1], cur, rest};
 elseif (used = (length(pfs[2]) + 1) - length(pms))
 "...:parse_message_seq used some words, but didn't get anything out of it";
-pms = ("%f %<has> no `" + $string_utils:from_list(pfs[2][1..used], " ")) + "' messages.";
+pms = ("%f %<has> zadnych wiadomosci `" + $string_utils:from_list(pfs[2][1..used], " ")) + "'.";
 elseif (typeof(pms = folder:parse_message_seq(default, @cur)) == LIST)
 "...:parse_message_seq used nothing, try the default; wow it worked";
 return {folder, pms[1], cur, rest};
 endif
 elseif (typeof(pms) == ERR)
-player:tell($mail_agent:name(folder), " is not readable by you.");
+player:tell($mail_agent:name(folder), " nie jest czytelne dla ciebie.");
 if (!$object_utils:isa(folder, $mail_recipient))
-player:tell("Use * to indicate a non-player mail recipient.");
+player:tell("Uzyj *, by wskazac odbiorce poczty niebedacego graczem.");
 endif
 return 0;
 endif
 if (folder == this)
-subst = {{"%f's", "Your"}, {"%f", "You"}, {"%<has>", "have"}};
+subst = {{"%f's", "Twoja"}, {"%f", "Ty"}, {"%<has>", "nie masz"}};
 elseif (is_player(folder))
-subst = {{"%f", folder.name}, {"%<has>", $gender_utils:get_conj("has", folder)}};
+subst = {{"%f", folder.name}, {"%<has>", $gender_utils:get_conj("nie ma/nie maja", folder)}};
 else
-subst = {{"%f", $mail_agent:name(folder)}, {"%<has>", "has"}};
+subst = {{"%f", $mail_agent:name(folder)}, {"%<has>", "nie ma"}};
 endif
 player:tell($string_utils:substitute(pms, {@subst, {"%%", "%"}}));
 return 0;
@@ -71801,7 +72041,7 @@ return tostr(date, "   ", $string_utils:left(from, 20), "   ", subject);
 set_task_perms(caller_perms());
 {strings, ?cur = 0, ?last_old = 0} = args;
 if (!(nummsgs = caller:length_all_msgs()))
-return "%f %<has> no messages.";
+return "%f %<has> zadnych wiadomosci.";
 elseif (typeof(strings) != LIST)
 strings = {strings};
 endif
@@ -71844,7 +72084,7 @@ endif
 elseif (k <= 51)
 "...before, since, after, until...";
 if (typeof(date = this:_parse_date(string[c + 1..$])) != INT)
-return tostr("Bad date `", string, "':  ", date);
+return tostr("Nieprawidlowa data `", string, "':  ", date);
 endif
 s = caller:length_date_le((keywd in {"before", "since"}) ? date - 1 | (date + 86399));
 if (keywd in {"before", "until"})
@@ -71857,14 +72097,14 @@ elseif (k <= 63)
 if (n = toint(string[c + 1..$]))
 seq = $seq_utils:(keywd + "n")(seq, n);
 else
-return tostr("Bad number in `", string, "'");
+return tostr("Nieprawidlowa liczba w `", string, "'");
 endif
 else
 "...kept, unkept...";
 if (c < length(string))
-return tostr("Unexpected junk after `", keywd, ":'");
+return tostr("Nieoczekiwane znaki po `", keywd, ":'");
 elseif ((!(seq = caller:(keywd + "_msg_seq")(seq))) && (strnum == 1))
-return tostr("%f %<has> no ", keywd, " messages.");
+return tostr("%f %<has> zadnych wiadomosci (", keywd, ").");
 endif
 endif
 else
@@ -71880,32 +72120,32 @@ if (cur)
 i = min(caller:length_num_le(cur - 1) + 1, nummsgs);
 seq = $seq_utils:add(seq, i, i);
 else
-return "%f %<has> no current message.";
+return "%f %<has> zadnej biezacej wiadomosci.";
 endif
 elseif ((index(string, "next") == 1) && (!index(string, "-")))
 string[1..4] = "";
 if ((n = string ? toint(string) | 1) <= 0)
-return tostr("Bad number `", string, "'");
+return tostr("Nieprawidlowa liczba `", string, "'");
 elseif ((i = caller:length_num_le(cur) + 1) <= nummsgs)
 seq = $seq_utils:add(seq, i, min((i + n) - 1, nummsgs));
 else
-return "%f %<has> no next message.";
+return "%f %<has> zadnej kolejnej wiadomosci.";
 endif
 elseif ((index(string, "prev") == 1) && (!index(string, "-")))
 string[1..4] = "";
 if ((n = string ? toint(string) | 1) <= 0)
-return tostr("Bad number `", string, "'");
+return tostr("Nieprawidlowa liczba `", string, "'");
 elseif (i = caller:length_num_le(cur - 1))
 seq = $seq_utils:add(seq, max(1, (i - n) + 1), i);
 else
-return "%f %<has> no previous message.";
+return "%f %<has> zadnej poprzedniej wiadomosci.";
 endif
 elseif (string == "new")
 s = last_old ? caller:length_date_le(last_old) | caller:length_num_le(cur);
 if (s < nummsgs)
 seq = $seq_utils:add(seq, s + 1, nummsgs);
 else
-return "%f %<has> no new messages.";
+return "%f %<has> zadnych nowych wiadomosci.";
 endif
 elseif (string == "first")
 seq = $seq_utils:add(seq, 1, 1);
@@ -71915,7 +72155,7 @@ seq = $seq_utils:add(seq, max(0, nummsgs + n) + 1, nummsgs);
 elseif (i = caller:exists_num_eq(n))
 seq = $seq_utils:add(seq, i, i);
 else
-return (string == "cur") ? "%f's current message has been removed." | tostr("%f %<has> no message numbered `", string, "'.");
+return (string == "cur") ? "%f's biezaca wiadomosc zostala usunieta." | tostr("%f %<has> zadnej wiadomosci o numerze `", string, "'.");
 endif
 elseif (((i = index(string, "..")) > 1) || ((i = index(string, "-")) > 1))
 if ((start = toint(sst = string[1..i - 1])) > 0)
@@ -71944,10 +72184,10 @@ endif
 if (s < e)
 seq = $seq_utils:add(seq, s + 1, e);
 else
-return tostr("%f %<has> no messages in range ", string, ".");
+return tostr("%f %<has> zadnych wiadomosci w zakresie ", string, ".");
 endif
 elseif (string == "cur")
-return "%f %<has> no current message.";
+return "%f %<has> zadnej biezacej wiadomosci.";
 else
 return {$seq_utils:union(result, seq), @strings[strnum..$]};
 endif
@@ -71973,8 +72213,8 @@ plist = {};
 for w in ($string_utils:explode(args[1], "|"))
 if (fail_obj:(fail_verb)(p = match_obj:(match_verb)(w), w))
 p = $string_utils:literal_object(w);
-if ((p == $failed_match) || (!$command_utils:yes_or_no("Continue? ")))
-return "Bad address list:  " + args[1];
+if ((p == $failed_match) || (!$command_utils:yes_or_no("Kontynuowac? ")))
+return "Nieprawidlowa lista adresow:  " + args[1];
 endif
 endif
 plist = setadd(plist, p);
@@ -71989,10 +72229,10 @@ time = $time_utils:dst_midnight((time() - (time() % 86400)) - 86400);
 elseif (index("today", words[1]) == 1)
 time = $time_utils:dst_midnight(time() - (time() % 86400));
 elseif (typeof(time = $time_utils:from_day(words[1], -1)) == ERR)
-time = "weekday, `Today', `Yesterday', or date expected.";
+time = "oczekiwano dnia tygodnia, `Today', `Yesterday' lub daty.";
 endif
 elseif ((!words) || ((length(words) > 3) || ((!toint(words[1])) || (E_TYPE == (year = $code_utils:toint({@words, "-1"}[3]))))))
-time = "Date should be of the form `5-Jan', `5-Jan-92', `Wed',`Wednesday'";
+time = "Data powinna miec postac `5-Jan', `5-Jan-92', `Wed', `Wednesday'";
 else
 day = toint(words[1]);
 time = $time_utils:dst_midnight($time_utils:from_month(words[2], -1, day));
@@ -72106,7 +72346,7 @@ endif
 i = i + 1;
 $command_utils:suspend_if_needed(0);
 endfor
-return fseq || ("%f %<has> no messages from " + $string_utils:english_list($list_utils:map_arg(2, $string_utils, "pronoun_sub", "%n (%#)", plist), "no one", " or "));
+return fseq || ("%f %<has> wiadomosci od " + $string_utils:english_list($list_utils:map_arg(2, $string_utils, "pronoun_sub", "%n (%#)", plist), "nikogo", " lub "));
 .
 #46:33
 ":%from_msg_seq(string or list of strings[,mask])";
@@ -72133,7 +72373,7 @@ endif
 i = i + 1;
 $command_utils:suspend_if_needed(0);
 endfor
-return fseq || ("%f %<has> no messages from " + $string_utils:english_list($list_utils:map_arg($string_utils, "print", nlist), "no one", " or "));
+return fseq || ("%f %<has> wiadomosci od " + $string_utils:english_list($list_utils:map_arg($string_utils, "print", nlist), "nikogo", " lub "));
 .
 #46:34
 ":to_msg_seq(object or list[,mask]) => msg_seq of messages to those people";
@@ -72159,7 +72399,7 @@ endif
 i = i + 1;
 $command_utils:suspend_if_needed(0);
 endfor
-return seq || ("%f %<has> no messages to " + $string_utils:english_list($list_utils:map_arg(2, $string_utils, "pronoun_sub", "%n (%#)", plist), "no one", " or "));
+return seq || ("%f %<has> wiadomosci do " + $string_utils:english_list($list_utils:map_arg(2, $string_utils, "pronoun_sub", "%n (%#)", plist), "nikogo", " lub "));
 .
 #46:35
 ":%to_msg_seq(string or list of strings[,mask])";
@@ -72186,7 +72426,7 @@ endif
 i = i + 1;
 $command_utils:suspend_if_needed(0);
 endfor
-return seq || ("%f %<has> no messages to " + $string_utils:english_list($list_utils:map_arg($string_utils, "print", nlist), "no one", " or "));
+return seq || ("%f %<has> wiadomosci do " + $string_utils:english_list($list_utils:map_arg($string_utils, "print", nlist), "nikogo", " lub "));
 .
 #46:36
 ":subject_msg_seq(target) => msg_seq of messages with target in the Subject:";
@@ -72207,7 +72447,7 @@ endif
 i = i + 1;
 $command_utils:suspend_if_needed(0);
 endfor
-return seq || (("%f %<has> no messages with subjects containing `" + target) + "'");
+return seq || (("%f %<has> wiadomosci z tematem zawierajacym `" + target) + "'");
 .
 #46:37
 ":body_msg_seq(target[,mask]) => msg_seq of messages with target in the body";
@@ -72233,7 +72473,7 @@ endif
 i = i + 1;
 $command_utils:suspend_if_needed(0);
 endfor
-return seq || tostr("%f %<has> no messages containing `", target, "' in the body.");
+return seq || tostr("%f %<has> wiadomosci zawierajacych `", target, "' w tresci.");
 .
 #46:38
 ":messages_in_seq(msg_seq) => list of messages in msg_seq on folder (caller)";
@@ -81884,15 +82124,15 @@ endif
 .
 #61:15
 if (!(strings = args[1]))
-return "You need to specify a message sequence";
+return "Musisz podac sekwencje wiadomosci";
 elseif (typeof(pms = this:parse_message_seq(@args)) == STR)
-return $string_utils:substitute(pms, {{"%f", "The news"}, {"%<has>", "has"}, {"%%", "%"}});
+return $string_utils:substitute(pms, {{"%f", "Nowosci"}, {"%<has>", "nie maja"}, {"%%", "%"}});
 elseif (typeof(pms) != LIST)
 return tostr(pms);
 elseif (length(pms) > 1)
-return tostr("I don't understand `", pms[2], "'.");
+return tostr("Nie rozumiem `", pms[2], "'.");
 elseif (!(seq = pms[1]))
-return tostr("The News (", this, ") has no `", $string_utils:from_list(strings, " "), "' messages.");
+return tostr("Nowosci (", this, ") nie maja wiadomosci `", $string_utils:from_list(strings, " "), "'.");
 else
 return seq;
 endif
