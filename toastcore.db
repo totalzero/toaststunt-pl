@@ -664,7 +664,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784121738
+1784125063
 2
 name
 2
@@ -1234,7 +1234,7 @@ source
 2
 time
 0
-1784122023
+1784125223
 4
 0
 1
@@ -1462,7 +1462,7 @@ time
 4
 2
 0
-1784121989
+1784125159
 2
 localhost
 2
@@ -1471,7 +1471,7 @@ localhost
 2
 0
 0
-1784122023
+1784125223
 2
 1
 0
@@ -1635,11 +1635,11 @@ localhost
 2
 5
 0
-1784122016
+1784125215
 2
 1
 0
-100
+-10000
 36
 0
 1
@@ -1673,7 +1673,7 @@ localhost
 0
 1721212110
 0
-1000
+1001
 36
 0
 0
@@ -3784,31 +3784,31 @@ Login Commands
 2
 93
 -1
-wel*come @wel*come
+wel*come @wel*come witaj
 2
 93
 -1
-w*ho @w*ho
+w*ho @w*ho kto
 2
 93
 -1
-co*nnect @co*nnect
+co*nnect @co*nnect polacz
 2
 93
 -1
-cr*eate @cr*eate
+cr*eate @cr*eate stworz
 2
 93
 -1
-q*uit @q*uit
+q*uit @q*uit wyjdz
 2
 93
 -1
-up*time @up*time
+up*time @up*time czaspracy
 2
 93
 -1
-v*ersion @v*ersion
+v*ersion @v*ersion wersja
 2
 93
 -1
@@ -3892,11 +3892,11 @@ request_character
 2
 173
 -1
-req*uest @req*uest
+req*uest @req*uest prosba
 2
 93
 -1
-h*elp @h*elp
+h*elp @h*elp pomoc
 2
 93
 -1
@@ -4033,11 +4033,11 @@ Prawdopodobnie zechcesz zmienic ten tekst oraz wynik polecenia `help', ktore sa 
 2
 5
 2
-Your character is temporarily hosed.
+Twoja postac jest tymczasowo zablokowana.
 2
 5
 2
-Character creation is disabled.
+Tworzenie postaci jest wylaczone.
 2
 5
 2
@@ -4155,7 +4155,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--12
+-6
 0
 2
 2
@@ -4169,7 +4169,19 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-16
+18
+4
+2
+0
+1784125063
+0
+0
+4
+2
+0
+1784124233
+0
+0
 4
 2
 0
@@ -14752,9 +14764,11 @@ localhost.localdomain
 2
 localhost
 4
-1
+2
 1
 2
+1
+134
 36
 0
 2
@@ -27025,17 +27039,19 @@ feature_task
 4
 9
 0
-842329453
+1435617898
 2
-no
+@nuke
 4
-0
-2
-
 1
--1
 2
-
+testowygracz
+2
+testowygracz
+1
+-3
+2
+testowygracz
 2
 
 1
@@ -59140,8 +59156,8 @@ clist = {@clist, $string_utils:uppercase(vname[1..star - 1]) + strsub(vname[star
 endif
 endfor
 endfor
-notify(player, "I don't understand that.  Valid commands at this point are");
-notify(player, "   " + $string_utils:english_list(setremove(clist, "?"), "", " or "));
+notify(player, "Nie rozumiem tego.  Prawidlowe komendy w tym miejscu to");
+notify(player, "   " + $string_utils:english_list(setremove(clist, "?"), "", " lub "));
 return 0;
 endif
 .
@@ -59170,15 +59186,15 @@ return E_PERM;
 elseif (!args)
 plyrs = connected_players();
 if (length(plyrs) > 100)
-this:notify(tostr("You have requested a listing of ", length(plyrs), " players.  Please restrict the number of players in any single request to a smaller number.  The lag thanks you."));
+this:notify(tostr("Prosba o liste ", length(plyrs), " graczy. Ogranicz liczbe graczy w jednym zapytaniu. Lag ci dziekuje."));
 return 0;
 else
-$ansi_utils:show_who_listing($set_utils:difference(plyrs, masked)) || this:notify("No one logged in.");
+$ansi_utils:show_who_listing($set_utils:difference(plyrs, masked)) || this:notify("Nikt nie jest zalogowany.");
 endif
 else
 plyrs = listdelete($command_utils:player_match_result($string_utils:match_player(args), args), 1);
 if (length(plyrs) > 100)
-this:notify(tostr("You have requested a listing of ", length(plyrs), " players.  Please restrict the number of players in any single request to a smaller number.  The lag thanks you."));
+this:notify(tostr("Prosba o liste ", length(plyrs), " graczy. Ogranicz liczbe graczy w jednym zapytaniu. Lag ci dziekuje."));
 return 0;
 endif
 $ansi_utils:show_who_listing(plyrs, $set_utils:intersection(plyrs, masked));
@@ -59196,14 +59212,14 @@ try
 {name, ?password = 0} = args;
 name = strsub(name, " ", "_");
 except (E_ARGS)
-notify(player, tostr("Usage:  ", verb, " <existing-player-name> <password>"));
+notify(player, tostr("Uzycie:  ", verb, " <nazwa-istniejacego-gracza> <haslo>"));
 return 0;
 endtry
 try
 "=================================================================";
 "=== Is our candidate name invalid?";
 if (!valid(candidate = orig_candidate = this:_match_player(name)))
-raise(E_INVARG, tostr("`", name, "' matches no player name."));
+raise(E_INVARG, tostr("`", name, "' nie pasuje do zadnej nazwy gracza."));
 endif
 "=================================================================";
 "=== Is our candidate unable to connect for generic security";
@@ -59221,14 +59237,14 @@ if (password)
 if (!argon2_verify(cp, password))
 "=== Candidate requires a password, and one was provided, which was wrong";
 server_log(tostr("FAILED CONNECT: ", name, " (", candidate, ") on ", connection_name(player), ($string_utils:connection_hostname(player) in candidate.all_connect_places) ? "" | "******"));
-raise(E_INVARG, "Invalid password.");
+raise(E_INVARG, "Nieprawidlowe haslo.");
 else
 "=== Candidate requires a password, and one was provided, which was right";
 endif
 else
 "=== Candidate requires a password, and none was provided";
 set_connection_option(player, "binary", 1);
-notify(player, "Password: ");
+notify(player, "Haslo: ");
 set_connection_option(player, "binary", 0);
 set_connection_option(player, "client-echo", 0);
 this:add_interception(player, "intercepted_password", candidate);
@@ -59252,9 +59268,9 @@ endif
 if ($object_utils:isa(candidate, $guest) && (!valid(candidate = candidate:defer())))
 if (candidate == #-2)
 server_log(tostr("GUEST DENIED: ", connection_name(player)));
-notify(player, "Sorry, guest characters are not allowed from your site at the current time.");
+notify(player, "Niestety, postacie typu guest nie sa obecnie dozwolone z twojej lokalizacji.");
 else
-notify(player, "Sorry, all of our guest characters are in use right now.");
+notify(player, "Niestety, wszystkie nasze postacie typu guest sa teraz zajete.");
 endif
 return 0;
 endif
@@ -59295,12 +59311,12 @@ endif
 "=================================================================";
 "=== Log the player on!";
 if (candidate != orig_candidate)
-notify(player, tostr("Okay,... ", name, " is in use.  Logging you in as `", candidate.name, "'"));
+notify(player, tostr("Ok,... ", name, " jest zajete.  Logowanie jako `", candidate.name, "'"));
 endif
 this:record_connection(candidate);
 return candidate;
 except (E_INVARG)
-notify(player, "Either that player does not exist, or has a different password.");
+notify(player, "Ten gracz nie istnieje lub ma inne haslo.");
 return 0;
 endtry
 .
@@ -59312,27 +59328,27 @@ elseif (!this:player_creation_enabled(player))
 notify(player, this:registration_string());
 "... we've disabled player creation ...";
 elseif (length(args) != 2)
-notify(player, tostr("Usage:  ", verb, " <new-player-name> <new-password>"));
+notify(player, tostr("Uzycie:  ", verb, " <nazwa-nowego-gracza> <nowe-haslo>"));
 elseif ($player_db.frozen)
-notify(player, "Sorry, can't create any new players right now.  Try again in a few minutes.");
+notify(player, "Niestety, nie mozna teraz tworzyc nowych graczy.  Sprobuj ponownie za kilka minut.");
 elseif ((!(name = args[1])) || (name == "<>"))
-notify(player, "You can't have a blank name!");
+notify(player, "Nie mozesz miec pustej nazwy!");
 if (name)
-notify(player, "Also, don't use angle brackets (<>).");
+notify(player, "Poza tym, nie uzywaj nawiasow ostrych (<>).");
 endif
 elseif ((name[1] == "<") && (name[$] == ">"))
-notify(player, "Try that again but without the angle brackets, e.g.,");
+notify(player, "Sprobuj ponownie, ale bez nawiasow ostrych, np.,");
 notify(player, tostr(" ", verb, " ", name[2..$ - 1], " ", strsub(strsub(args[2], "<", ""), ">", "")));
-notify(player, "This goes for other commands as well.");
+notify(player, "To dotyczy rowniez innych komend.");
 elseif (index(name, " "))
-notify(player, "Sorry, no spaces are allowed in player names.  Use dashes or underscores.");
+notify(player, "Niestety, spacje nie sa dozwolone w nazwach graczy.  Uzyj myslnikow lub podkreslen.");
 "... lots of routines depend on there not being spaces in player names...";
 elseif ((!$player_db:available(name)) || (this:_match_player(name) != $failed_match))
-notify(player, "Sorry, that name is not available.  Please choose another.");
+notify(player, "Niestety, ta nazwa jest niedostepna.  Wybierz inna.");
 "... note the :_match_player call is not strictly necessary...";
 "... it is merely there to handle the case that $player_db gets corrupted.";
 elseif (!(password = args[2]))
-notify(player, "You must set a password for your player.");
+notify(player, "Musisz ustawic haslo dla swojego gracza.");
 else
 new = $quota_utils:bi_create($player_class, $nothing);
 set_player_flag(new, 1);
@@ -59365,7 +59381,7 @@ endif
 if ((caller != #0) && (caller != this))
 return E_PERM;
 else
-notify(player, tostr("The server has been up for ", $time_utils:english_time(time() - $server["last_restart_time"]), "."));
+notify(player, tostr("Serwer dziala od ", $time_utils:english_time(time() - $server["last_restart_time"]), "."));
 return 0;
 endif
 .
@@ -59373,7 +59389,7 @@ endif
 if ((caller != #0) && (caller != this))
 return E_PERM;
 else
-notify(player, tostr("The MOO is currently running version ", server_version(), " of the ", $server["name"], " server code."));
+notify(player, tostr("To MOO obecnie dziala na wersji ", server_version(), " kodu serwera ", $server["name"], "."));
 return 0;
 endif
 .
@@ -59681,29 +59697,29 @@ if (reason = $wiz_utils:check_player_request(name, address, connection))
 prefix = "";
 if (reason[1] == "-")
 reason = reason[2..$];
-prefix = "Please";
+prefix = "Prosze";
 else
-prefix = "Please try again, or, to register another way,";
+prefix = "Sprobuj ponownie, albo, by zarejestrowac sie w inny sposob,";
 endif
 notify(who, reason);
-msg = tostr(prefix, " send mail to ", $login.registration_address, ", with the character name you want.");
+msg = tostr(prefix, " wyslij email na ", $login.registration_address, ", z nazwa postaci, ktora chcesz.");
 for l in ($generic_editor:fill_string(msg, 70))
 notify(who, l);
 endfor
 return 0;
 endif
 if (lines = $no_one:eval_d("$local.help.(\"multiple-characters\")")[2])
-notify(who, "Remember, in general, only one character per person is allowed.");
-notify(who, tostr("Do you already have a ", $network.moo_name, " character? [enter `yes' or `no']"));
+notify(who, "Pamietaj, ze co do zasady dozwolona jest tylko jedna postac na osobe.");
+notify(who, tostr("Czy masz juz postac na ", $network.moo_name, "? [wpisz `yes' lub `no']"));
 answer = read(who);
 if (answer == "yes")
-notify(who, "Process terminated *without* creating a character.");
+notify(who, "Proces zakonczony *bez* tworzenia postaci.");
 return 0;
 elseif (answer != "no")
-return notify(who, tostr("Please try again; when you get this question, answer `yes' or `no'. You answered `", answer, "'"));
+return notify(who, tostr("Sprobuj ponownie; gdy pojawi sie to pytanie, odpowiedz `yes' lub `no'. Podana odpowiedz to `", answer, "'"));
 endif
-notify(who, "For future reference, do you want to see the full policy (from `help multiple-characters'?");
-notify(who, "[enter `yes' or `no']");
+notify(who, "Na przyszlosc, czy chcesz zobaczyc pelna polityke (z `help multiple-characters')?");
+notify(who, "[wpisz `yes' lub `no']");
 if (read(who) == "yes")
 for x in (lines)
 for y in ($generic_editor:fill_string(x, 70))
@@ -59712,34 +59728,34 @@ endfor
 endfor
 endif
 endif
-notify(who, tostr("A character named `", name, "' will be created."));
-notify(who, tostr("A random password will be generated, and e-mailed along with"));
-notify(who, tostr(" an explanatory message to: ", address));
-notify(who, tostr(" [Please double-check your email address and answer `no' if it is incorrect.]"));
-notify(who, "Is this OK? [enter `yes' or `no']");
+notify(who, tostr("Zostanie utworzona postac o nazwie `", name, "'."));
+notify(who, tostr("Zostanie wygenerowane losowe haslo i wyslane emailem wraz z"));
+notify(who, tostr(" wiadomoscia wyjasniajaca na adres: ", address));
+notify(who, tostr(" [Sprawdz dokladnie swoj adres email i odpowiedz `no', jesli jest nieprawidlowy.]"));
+notify(who, "Czy to OK? [wpisz `yes' lub `no']");
 if (read(who) != "yes")
-notify(who, "Process terminated *without* creating a character.");
+notify(who, "Proces zakonczony *bez* tworzenia postaci.");
 return 0;
 endif
 if (!$network.active)
-$mail_agent:send_message(this.owner, $registration_db.registrar, "Player request", {"Player request from " + connection, ":", "", (("@make-player " + name) + " ") + address});
-notify(who, tostr("Request for new character ", name, " email address '", address, "' accepted."));
-notify(who, tostr("Please be patient until the registrar gets around to it."));
-notify(who, tostr("If you don't get email within a week, please send regular"));
-notify(who, tostr("  email to: ", $login.registration_address, "."));
+$mail_agent:send_message(this.owner, $registration_db.registrar, "Prosba o gracza", {"Prosba o gracza z " + connection, ":", "", (("@make-player " + name) + " ") + address});
+notify(who, tostr("Prosba o nowa postac ", name, " z adresem email '", address, "' zostala przyjeta."));
+notify(who, tostr("Uzbroj sie w cierpliwosc, az rejestrator sie tym zajmie."));
+notify(who, tostr("Jesli nie otrzymasz emaila w ciagu tygodnia, wyslij zwykly"));
+notify(who, tostr("  email na: ", $login.registration_address, "."));
 elseif ($player_db.frozen)
-notify(who, "Sorry, can't create any new players right now.  Try again in a few minutes.");
+notify(who, "Niestety, nie mozna teraz tworzyc nowych graczy.  Sprobuj ponownie za kilka minut.");
 else
 new = $wiz_utils:make_player(name, address);
 password = new[2];
 new = new[1];
-notify(who, tostr("Character ", name, " (", new, ") created."));
-notify(who, tostr("Mailing password to ", address, "; you should get the mail very soon."));
-notify(who, tostr("If you do not get it, please do NOT request another character."));
-notify(who, tostr("Instead, send regular email to ", $login.registration_address, ","));
-notify(who, tostr("with the name of the character you requested."));
-$mail_agent:send_message(this.owner, $new_player_log, tostr(name, " (", new, ")"), {address, tostr(" Automatically created at request of ", valid(player) ? player.name | "unconnected player", " from ", connection, ".")});
-$wiz_utils:send_new_player_mail(tostr("Someone connected from ", connection, " at ", ctime(), " requested a character on ", $network.moo_name, " for email address ", address, "."), name, address, new, password);
+notify(who, tostr("Postac ", name, " (", new, ") utworzona."));
+notify(who, tostr("Wysylanie hasla na ", address, "; haslo powinno dotrzec bardzo szybko."));
+notify(who, tostr("Jesli go nie otrzymasz, NIE zamawiaj kolejnej postaci."));
+notify(who, tostr("Zamiast tego wyslij zwykly email na ", $login.registration_address, ","));
+notify(who, tostr("z nazwa zamowionej postaci."));
+$mail_agent:send_message(this.owner, $new_player_log, tostr(name, " (", new, ")"), {address, tostr(" Automatycznie utworzone na prosbe ", valid(player) ? player.name | "niepolaczonego gracza", " z ", connection, ".")});
+$wiz_utils:send_new_player_mail(tostr("Ktos polaczony z ", connection, " o ", ctime(), " zamowil postac na ", $network.moo_name, " dla adresu email ", address, "."), name, address, new, password);
 return 1;
 endif
 .
@@ -59753,7 +59769,7 @@ for line in ($generic_editor:fill_string(this:registration_string(), 70))
 notify(player, line);
 endfor
 elseif ((length(args) != 3) || (args[2] != "for"))
-notify(player, tostr("Usage:  ", verb, " <new-player-name> for <email-address>"));
+notify(player, tostr("Uzycie:  ", verb, " <nazwa-nowego-gracza> for <adres-email>"));
 elseif ($login:request_character(player, args[1], args[3]))
 boot_player(player);
 endif
@@ -59909,7 +59925,7 @@ return 1;
 endif
 .
 #10:38
-return ("Your character is unavailable for another " + $time_utils:english_time(args[1])) + ".";
+return ("Twoja postac jest niedostepna jeszcze przez " + $time_utils:english_time(args[1])) + ".";
 .
 #10:39
 (caller == this) || raise(E_PERM);
@@ -88883,27 +88899,27 @@ endif
 idles = itimes = offs = otimes = listing = {};
 for p in (args[2])
 if (!valid(p))
-listing = {@listing, tostr(p, " <invalid>")};
+listing = {@listing, tostr(p, " <nieprawidlowy>")};
 elseif (typeof(t = p.last_disconnect_time) == NUM)
 (p in offs) || ((offs = {@offs, p}) && (otimes = {@otimes, {-t, -t, p}}));
 elseif (is_player(p))
-listing = {@listing, tostr(p.name, " (", p, ") ", (t == E_PROPNF) ? "is not a $player." | "has a garbled .last_disconnect_time.")};
+listing = {@listing, tostr(p.name, " (", p, ") ", (t == E_PROPNF) ? "nie jest $player." | "ma uszkodzona wartosc .last_disconnect_time.")};
 else
-listing = {@listing, tostr(p.name, " (", p, ") is not a player.")};
+listing = {@listing, tostr(p.name, " (", p, ") nie jest graczem.")};
 endif
 endfor
 for p in (args[1])
 if (p in offs)
 elseif (!valid(p))
-listing = {@listing, tostr(p, " <invalid>")};
+listing = {@listing, tostr(p, " <nieprawidlowy>")};
 elseif ((typeof(i = idle_seconds(p)) != ERR) && (p in connected_players()))
 (p in idles) || ((idles = {@idles, p}) && (itimes = {@itimes, {i, connected_seconds(p), p}}));
 elseif (typeof(t = p.last_disconnect_time) == NUM)
 (offs = {@offs, p}) && (otimes = {@otimes, {-t, -t, p}});
 elseif (is_player(p))
-listing = {@listing, tostr(p.name, " (", p, ") not logged in.", (t == E_PROPNF) ? "  Not a $player." | "  Garbled .last_disconnect_time.")};
+listing = {@listing, tostr(p.name, " (", p, ") niezalogowany.", (t == E_PROPNF) ? "  Nie $player." | "  Uszkodzona wartosc .last_disconnect_time.")};
 else
-listing = {@listing, tostr(p.name, " (", p, ") is not a player.")};
+listing = {@listing, tostr(p.name, " (", p, ") nie jest graczem.")};
 endif
 endfor
 if (!(idles || offs))
@@ -88911,7 +88927,7 @@ return 0;
 endif
 idles = $list_utils:sort_alist(itimes);
 offs = $list_utils:sort_alist(otimes);
-headers = {"Player name", @idles ? {"Connected", "Idle time"} | {"Last disconnect time", ""}, "Location"};
+headers = {"Nazwa gracza", @idles ? {"Polaczony", "Bezczynny"} | {"Ostatnie rozlaczenie", ""}, "Lokalizacja"};
 total_width = caller:linelen() || 79;
 max_name = total_width / 4;
 name_width = length(headers[1]);
@@ -88923,7 +88939,7 @@ p = lst[3];
 namestr = tostr(this:cutoff(this:ansi_title(p), 1, min(max_name, z = length(p.name)), 1), " (", p, ")");
 name_width = max((z + 3) + length(tostr(p)), name_width);
 names = {@names, namestr};
-(typeof(wlm = p.location:who_location_msg(p)) == STR) || (wlm = valid(p.location) ? p.location.name | tostr("** Nowhere ** (", p.location, ")"));
+(typeof(wlm = p.location:who_location_msg(p)) == STR) || (wlm = valid(p.location) ? p.location.name | tostr("** Nigdzie ** (", p.location, ")"));
 locations = {@locations, wlm};
 endfor
 time_width = offs ? 15 | 13;
@@ -88952,9 +88968,9 @@ else
 lct = offs[i - ilen][3].last_connect_time;
 ldt = offs[i - ilen][3].last_disconnect_time;
 ctime = caller:ctime(ldt) || ctime(ldt);
-l = {names[i], (lct <= time()) ? ctime | "Never", "", locations[i]};
+l = {names[i], (lct <= time()) ? ctime | "Nigdy", "", locations[i]};
 if ((i == (ilen + 1)) && idles)
-listing = {@listing, su:space(before[2]) + "------- Disconnected -------"};
+listing = {@listing, su:space(before[2]) + "------- Rozlaczeni -------"};
 endif
 endif
 tell1 = l[1];
@@ -88965,13 +88981,13 @@ listing = {@listing, this:cutoff(tell1, 1, min(this:length(tell1), total_width))
 if ($command_utils:running_out_of_time())
 if ($login:is_lagging())
 "Check lag two ways---global lag, but we might still fail due to individual lag of the queue this runs in, so check again later.";
-listing = {@listing, tostr("Plus ", total - i, " other players (", total, " total; out of time and lag is high).")};
+listing = {@listing, tostr("Plus ", total - i, " ", $polish_utils:count(total - i, "inny gracz", "innych graczy", "innych graczy"), " (", total, " w sumie; brak czasu i lag jest wysoki).")};
 return;
 endif
 now = time();
 suspend(0);
 if ((time() - now) > 10)
-listing = {@listing, tostr("Plus ", total - i, " other players (", total, " total; out of time and lag is high).")};
+listing = {@listing, tostr("Plus ", total - i, " ", $polish_utils:count(total - i, "inny gracz", "innych graczy", "innych graczy"), " (", total, " w sumie; brak czasu i lag jest wysoki).")};
 return;
 endif
 endif
@@ -88979,19 +88995,7 @@ endfor
 "...";
 "...epilogue...";
 listing = {@listing, ""};
-if (total == 1)
-active_str = ", who has" + ((active == 1) ? "" | " not");
-else
-if (active == total)
-active_str = (active == 2) ? "s, both" | "s, all";
-elseif (active == 0)
-active_str = "s, none";
-else
-active_str = tostr("s, ", active);
-endif
-active_str = tostr(active_str, " of whom ha", (active == 1) ? "s" | "ve");
-endif
-listing = {@listing, tostr("Total: ", total, " player", active_str, " been active recently.")};
+listing = {@listing, tostr("Razem: ", total, " ", $polish_utils:count(total, "gracz", "graczy", "graczy"), " (aktywnych ostatnio: ", active, ").")};
 vrb = ((caller == $login) || $perm_utils:controls($code_utils:verb_perms(), caller)) ? "notify" | "tell";
 for line in (listing)
 caller:(vrb)(line);
