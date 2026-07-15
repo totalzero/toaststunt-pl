@@ -664,7 +664,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784132357
+1784133508
 2
 name
 2
@@ -1234,7 +1234,7 @@ source
 2
 time
 0
-1784133384
+1784134021
 4
 0
 1
@@ -1462,7 +1462,7 @@ time
 4
 2
 0
-1784133314
+1784133990
 2
 localhost
 2
@@ -1471,7 +1471,7 @@ localhost
 2
 0
 0
-1784133384
+1784134021
 2
 1
 0
@@ -1636,7 +1636,7 @@ localhost
 2
 5
 0
-1784133375
+1784134012
 2
 1
 0
@@ -4216,7 +4216,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--57
+-34
 0
 2
 2
@@ -4230,7 +4230,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-20
+21
+4
+2
+0
+1784133508
+0
+0
 4
 2
 0
@@ -27374,19 +27380,17 @@ feature_task
 4
 9
 0
-824097295
+1444304919
 2
-@wrap
+@recreate
 4
+0
+2
+
 1
+-1
 2
-off
-2
-off
-1
--3
-2
-off
+
 2
 
 1
@@ -55504,21 +55508,21 @@ endif
 .
 #3:13
 if (!$perm_utils:controls(valid(caller_perms()) ? caller_perms() | player, this))
-player:tell("Sorry, only the owner of a room may list its entrances.");
+player:tell("Niestety, tylko wlasciciel pokoju moze wyswietlic jego wejscia.");
 elseif (this.entrances == {})
-player:tell("This room has no conventional entrances.");
+player:tell("Ten pokoj nie ma konwencjonalnych wejsc.");
 else
 try
 for exit in (this.entrances)
 try
-player:tell(exit.name, " (", exit, ") comes from ", valid(exit.source) ? exit.source.name | "???", " (", exit.source, ") via {", $string_utils:from_list(exit.aliases, ", "), "}.");
+player:tell(exit.name, " (", exit, ") prowadzi z ", valid(exit.source) ? exit.source.name | "???", " (", exit.source, ") przez {", $string_utils:from_list(exit.aliases, ", "), "}.");
 except (ANY)
-player:tell("Bad entrance object or missing .source property: ", $string_utils:nn(exit));
+player:tell("Nieprawidlowy obiekt wejscia lub brakujaca wlasciwosc .source: ", $string_utils:nn(exit));
 continue exit;
 endtry
 endfor
 except (E_TYPE)
-player:tell("Bad .entrances property. This should be a list of exit objects. Please fix this.");
+player:tell("Nieprawidlowa wlasciwosc .entrances. Powinna byc lista obiektow wyjsc. Popraw to.");
 endtry
 endif
 .
@@ -55631,7 +55635,7 @@ return `this.entrances = setremove(this.entrances, exit) ! E_PERM' != E_PERM;
 #3:22
 set_task_perms(player);
 if (!dobjstr)
-player:tell("Usage:  @add-exit <exit-number>");
+player:tell("Uzycie:  @add-exit <numer-wyjscia>");
 return;
 endif
 exit = this:match_object(dobjstr);
@@ -55639,35 +55643,35 @@ if ($command_utils:object_match_failed(exit, dobjstr))
 return;
 endif
 if (!($exit in $object_utils:ancestors(exit)))
-player:tell("That doesn't look like an exit object to me...");
+player:tell("To nie wyglada mi na obiekt wyjscia...");
 return;
 endif
 try
 dest = exit.dest;
 except (E_PERM)
-player:tell("You can't read the exit's destination to check that it's consistent!");
+player:tell("Nie mozesz odczytac celu wyjscia, by sprawdzic jego spojnosc!");
 return;
 endtry
 try
 source = exit.source;
 except (E_PERM)
-player:tell("You can't read that exit's source to check that it's consistent!");
+player:tell("Nie mozesz odczytac zrodla tego wyjscia, by sprawdzic jego spojnosc!");
 return;
 endtry
 if (source == $nothing)
-player:tell("That exit's source has not yet been set; set it to be this room, then run @add-exit again.");
+player:tell("Zrodlo tego wyjscia nie zostalo jeszcze ustawione; ustaw je na ten pokoj, a nastepnie uruchom @add-exit ponownie.");
 return;
 elseif (source != this)
-player:tell("That exit wasn't made to be attached here; it was made as an exit from ", source.name, " (", source, ").");
+player:tell("To wyjscie nie zostalo stworzone, by tu byc podlaczone; zostalo stworzone jako wyjscie z ", source.name, " (", source, ").");
 return;
 elseif (((typeof(dest) != OBJ) || (!valid(dest))) || (!($room in $object_utils:ancestors(dest))))
-player:tell("That exit doesn't lead to a room!");
+player:tell("To wyjscie nie prowadzi do pokoju!");
 return;
 endif
 if (!this:add_exit(exit))
-player:tell("Sorry, but you must not have permission to add exits to this room.");
+player:tell("Niestety, nie masz chyba uprawnien, by dodawac wyjscia do tego pokoju.");
 else
-player:tell("You have added ", exit, " as an exit that goes to ", exit.dest.name, " (", exit.dest, ") via ", $string_utils:english_list(setadd(exit.aliases, exit.name)), ".");
+player:tell("Dodano ", exit, " jako wyjscie prowadzace do ", exit.dest.name, " (", exit.dest, ") przez ", $string_utils:english_list(setadd(exit.aliases, exit.name)), ".");
 endif
 .
 #3:23
@@ -55973,13 +55977,13 @@ else
 dobj = $string_utils:match_player(dobjstr);
 endif
 if (!valid(dobj))
-player:notify("Show whose quota?");
+player:notify("Pokazac czyj limit (quota)?");
 return;
 endif
 $quota_utils:display_quota(dobj);
 try
 if (dobj in $local.informed_quota_consumers.uninformed_quota_consumers)
-player:notify(tostr("Note that quota is held in escrow -- `look ", $local.informed_quota_consumers, "' for more details."));
+player:notify(tostr("Zwroc uwage, ze limit jest przetrzymywany w depozycie -- `look ", $local.informed_quota_consumers, "', by uzyskac wiecej szczegolow."));
 endif
 except id (ANY)
 endtry
@@ -56057,21 +56061,21 @@ endif
 endif
 .
 #4:3
-"@recreate <object> as <parent-class> named [name:]alias,alias,...";
-"  effectively recycles and creates <object> all over again.";
+"@recreate <obiekt> jako <klasa-rodzica> nazwany [nazwa:]alias,alias,...";
+"  efektywnie recyklinguje i tworzy <obiekt> od nowa.";
 set_task_perms(player);
 as = prepstr in args;
-named = "named" in args;
+named = "nazwany" in args;
 if ((named <= (as + 1)) || (named == length(args)))
-named = "called" in args;
+named = "zwany" in args;
 endif
 if ((named <= (as + 1)) || (named == length(args)))
-player:notify_lines({tostr("Usage:  ", verb, " <object> as <parent-class> named [name:]alias,...,alias"), "", "where <parent-class> is one of the standard classes ($note, $letter, $thing, or $container) or an object number (e.g., #999), or the name of some object in the current room.  The [name:]alias... specification is as in @create.", "", "You can use \"called\" instead of \"named\", if you wish."});
+player:notify_lines({tostr("Uzycie:  ", verb, " <obiekt> jako <klasa-rodzica> nazwany [nazwa:]alias,...,alias"), "", "gdzie <klasa-rodzica> to jedna ze standardowych klas ($note, $letter, $thing lub $container) albo numer obiektu (np. #999), albo nazwa jakiegos obiektu w biezacym pokoju.  Specyfikacja [nazwa:]alias... dziala jak w @create.", "", "Mozesz uzyc \"zwany\" zamiast \"nazwany\", jesli chcesz."});
 return;
 elseif ($command_utils:object_match_failed(dobj = player:my_match_object(dobjstr), dobjstr, 1))
 return;
 elseif (valid(dobj) && is_player(dobj))
-player:notify("You really *don't* want to do that!");
+player:notify("Naprawde *nie* chcesz tego robic!");
 return;
 endif
 parentstr = $string_utils:from_list(args[as + 1..named - 1], " ");
@@ -56079,7 +56083,7 @@ namestr = $string_utils:from_list(args[named + 1..$], " ");
 if (parentstr[1] == "$")
 parent = $string_utils:literal_object(parentstr);
 if ((parent == $failed_match) || (typeof(parent) != OBJ))
-player:notify(tostr("\"", parentstr, "\" does not name an object."));
+player:notify(tostr("\"", parentstr, "\" nie oznacza zadnego obiektu."));
 return;
 endif
 else
@@ -56099,11 +56103,11 @@ endfor
 `move(dobj, player) ! ANY';
 $building_utils:set_names(dobj, namestr);
 if ((other_names = setremove(dobj.aliases, dobj.name)) != {})
-aka = (" (aka " + $string_utils:english_list(other_names)) + ")";
+aka = (" (czyli " + $string_utils:english_list(other_names)) + ")";
 else
 aka = "";
 endif
-player:notify(tostr("Object number ", dobj, " is now ", dobj.name, aka, " with parent ", parent.name, " (", parent, ")."));
+player:notify(tostr("Numer obiektu ", dobj, " to teraz ", dobj.name, aka, " z rodzicem ", parent.name, " (", parent, ")."));
 .
 #4:4
 set_task_perms(player);
@@ -56111,15 +56115,15 @@ nargs = length(args);
 if (nargs == 1)
 room = args[1];
 exit_spec = "";
-elseif ((nargs >= 3) && (args[2] == "to"))
+elseif ((nargs >= 3) && (args[2] == "do"))
 exit_spec = args[1];
 room = $string_utils:from_list(args[3..$], " ");
 elseif (argstr && (!prepstr))
 room = argstr;
 exit_spec = "";
 else
-player:notify(tostr("Usage:  ", verb, " <new-room-name>"));
-player:notify(tostr("    or  ", verb, " <exit-description> to <new-room-name-or-old-room-object-number>"));
+player:notify(tostr("Uzycie:  ", verb, " <nazwa-nowego-pokoju>"));
+player:notify(tostr("    lub  ", verb, " <opis-wyjscia> do <nazwa-nowego-pokoju-lub-numeru-istniejacego-pokoju>"));
 return;
 endif
 if (room != tostr(other_room = toobj(room)))
@@ -56129,7 +56133,7 @@ room_kind = $room;
 endif
 other_room = player:_create(room_kind);
 if (typeof(other_room) == ERR)
-player:notify(tostr("Cannot create new room as a child of ", $string_utils:nn(room_kind), ": ", other_room, ".  See `help @build-options' for information on how to specify the kind of room this command tries to create."));
+player:notify(tostr("Nie mozna utworzyc nowego pokoju jako potomka ", $string_utils:nn(room_kind), ": ", other_room, ".  Zobacz `help @build-options', by dowiedziec sie, jak okreslic rodzaj pokoju, ktory ta komenda probuje utworzyc."));
 return;
 endif
 for f in ($string_utils:char_list(player:build_option("create_flags") || ""))
@@ -56138,15 +56142,15 @@ endfor
 other_room.name = room;
 other_room.aliases = {room};
 move(other_room, $nothing);
-player:notify(tostr(other_room.name, " (", other_room, ") created."));
+player:notify(tostr(other_room.name, " (", other_room, ") utworzony."));
 elseif (nargs == 1)
-player:notify("You can't dig a room that already exists!");
+player:notify("Nie mozesz wykopac pokoju, ktory juz istnieje!");
 return;
 elseif ((!valid(player.location)) || (!($room in $object_utils:ancestors(player.location))))
-player:notify(tostr("You may only use the ", verb, " command from inside a room."));
+player:notify(tostr("Mozesz uzyc komendy ", verb, " tylko bedac wewnatrz pokoju."));
 return;
 elseif ((!valid(other_room)) || (!($room in $object_utils:ancestors(other_room))))
-player:notify(tostr(other_room, " doesn't look like a room to me..."));
+player:notify(tostr(other_room, " nie wyglada mi na pokoj..."));
 return;
 endif
 if (exit_spec)
@@ -56156,9 +56160,9 @@ exit_kind = $exit;
 endif
 exits = $string_utils:explode(exit_spec, "|");
 if ((length(exits) < 1) || (length(exits) > 2))
-player:notify("The exit-description must have the form");
-player:notify("     [name:]alias,...,alias");
-player:notify("or   [name:]alias,...,alias|[name:]alias,...,alias");
+player:notify("Opis wyjscia musi miec postac");
+player:notify("     [nazwa:]alias,...,alias");
+player:notify("lub  [nazwa:]alias,...,alias|[nazwa:]alias,...,alias");
 return;
 endif
 do_recreate = !player:build_option("bi_create");
@@ -56214,14 +56218,14 @@ set_task_perms(player);
 count = 0;
 for o in [#1..max_object()]
 if ($command_utils:running_out_of_time())
-player:notify("Counting...");
+player:notify("Liczenie...");
 suspend(5);
 endif
 if (valid(o) && (o.owner == dobj))
 count = count + 1;
 endif
 endfor
-player:notify(tostr(dobj.name, " currently owns ", count, " object", (count == 1) ? "." | "s."));
+player:notify(tostr(dobj.name, " obecnie posiada ", count, " ", $polish_utils:count(count, "obiekt", "obiekty", "obiektow"), "."));
 .
 #4:8
 "$player:owned_objects -- sorts a players .owned_objects property in ascending";
@@ -56237,30 +56241,30 @@ ret = $list_utils:reverse_suspended($list_utils:sort_suspended(0, player.owned_o
 endif
 if (typeof(ret) == LIST)
 player.owned_objects = ret;
-player:tell("Your .owned_objects list has been sorted.");
+player:tell("Twoja lista .owned_objects zostala posortowana.");
 return 1;
 else
-player:tell("Something went wrong. .owned_objects not sorted.");
+player:tell("Cos poszlo nie tak. .owned_objects nie zostala posortowana.");
 return 0;
 endif
 else
-player:tell("You are not enrolled in .owned_objects scheme, sorry.");
+player:tell("Niestety, nie uczestniczysz w systemie .owned_objects.");
 endif
 .
 #4:9
 if (player != this)
-player:tell("Permission Denied");
+player:tell("Brak uprawnien");
 return E_PERM;
 endif
 if (!valid(dobj))
-player:tell("Don't understand `", dobjstr, "' as an object to add.");
+player:tell("Nie rozumiem `", dobjstr, "' jako obiektu do dodania.");
 elseif (dobj.owner != player)
-player:tell("You don't own ", dobj.name, ".");
+player:tell("Nie jestes wlascicielem ", dobj.name, ".");
 elseif (dobj in player.owned_objects)
-player:tell(dobj.name, " is already recorded in your .owned_objects.");
+player:tell(dobj.name, " jest juz zapisany w twoim .owned_objects.");
 else
 player.owned_objects = setadd(player.owned_objects, dobj);
-player:tell("Added ", dobj, " to your .owned_objects.");
+player:tell("Dodano ", dobj, " do twojego .owned_objects.");
 endif
 .
 #4:10
@@ -56513,11 +56517,11 @@ endif
 .
 #4:24
 "Copied from generic programmer (#217):@check-chparent by ur-Rog (#6349) Sun Nov  8 22:13:53 1992 PST";
-"@check-chparent object to newparent";
-"checks for property name conflicts that would make @chparent bomb.";
+"@check-chparent obiekt do nowego-rodzica";
+"sprawdza konflikty nazw wlasciwosci, ktore uniemozliwilyby @chparent.";
 set_task_perms(player);
 if (!(dobjstr && iobjstr))
-player:notify(tostr("Usage:  ", verb, " <object> to <newparent>"));
+player:notify(tostr("Uzycie:  ", verb, " <obiekt> do <nowy-rodzic>"));
 elseif ($command_utils:object_match_failed(object = player:my_match_object(dobjstr), dobjstr))
 "...bogus object...";
 elseif ($command_utils:object_match_failed(parent = player:my_match_object(iobjstr), iobjstr))
@@ -56529,14 +56533,14 @@ player:notify(tostr(result));
 elseif (result)
 su = $string_utils;
 player:notify("");
-player:notify(su:left("Property", 30) + "Also Defined on");
-player:notify(su:left("--------", 30) + "---------------");
+player:notify(su:left("Wlasciwosc", 30) + "Takze zdefiniowana na");
+player:notify(su:left("----------", 30) + "----------------------");
 for r in (result)
 player:notify(su:left(tostr(parent, ".", r[1]), 30) + su:from_list(listdelete(r, 1), " "));
 $command_utils:suspend_if_needed(0);
 endfor
 else
-player:notify("No property conflicts found.");
+player:notify("Nie znaleziono konfliktow wlasciwosci.");
 endif
 .
 #4:25
@@ -85618,23 +85622,21 @@ return baseline;
 .
 #79:15
 {who, quota, usage, timestamp, unmeasured, unmeasurable} = args;
-player:tell(who.name, " has a total building quota of ", $string_utils:group_number(quota), " bytes.");
-player:tell($gender_utils:get_pronoun("P", who), " total usage was ", $string_utils:group_number(usage), " as of ", player:ctime(timestamp), ".");
+player:tell(who.name, " ma calkowity limit budowania (quota) wynoszacy ", $string_utils:group_number(quota), " bajtow.");
+player:tell($gender_utils:get_pronoun("P", who), " calkowite zuzycie wynosilo ", $string_utils:group_number(usage), " na dzien ", player:ctime(timestamp), ".");
 if (usage > quota)
-player:tell(who.name, " is over quota by ", $string_utils:group_number(usage - quota), " bytes.");
+player:tell(who.name, " ma przekroczony limit o ", $string_utils:group_number(usage - quota), " bajtow.");
 else
-player:tell(who.name, " may create up to ", $string_utils:group_number(quota - usage), " more bytes of objects, properties, or verbs.");
+player:tell(who.name, " moze jeszcze utworzyc do ", $string_utils:group_number(quota - usage), " bajtow obiektow, wlasciwosci lub czasownikow.");
 endif
 if (unmeasured)
-plural = unmeasured != 1;
-player:tell("There ", plural ? tostr("are ", unmeasured, " objects") | "is 1 object", " which ", plural ? "are" | "is", " not yet included in the tally; this tally may thus be inaccurate.");
+player:tell("Liczba obiektow jeszcze nie uwzglednionych w podsumowaniu: ", unmeasured, " (przez to podsumowanie moze byc niedokladne).");
 if (unmeasured >= this.max_unmeasured)
-player:tell("The number of unmeasured objects is too large; no objects may be created until @measure new is used.");
+player:tell("Liczba niezmierzonych obiektow jest zbyt duza; nie mozna tworzyc nowych obiektow, dopoki nie uzyjesz @measure new.");
 endif
 endif
 if (unmeasurable)
-plural = unmeasurable != 1;
-player:tell("There ", plural ? tostr("are ", unmeasurable, " objects") | "is 1 object", " which do", plural ? "" | "es", " not have a .object_size property and will thus prevent additional building.", (who == player) ? "  Contact a wizard for assistance in having this situation repaired." | "");
+player:tell("Liczba obiektow bez wlasciwosci .object_size (co uniemozliwia dalsze budowanie): ", unmeasurable, ".", (who == player) ? "  Skontaktuj sie z wizardem, by naprawic te sytuacje." | "");
 endif
 .
 #79:16
