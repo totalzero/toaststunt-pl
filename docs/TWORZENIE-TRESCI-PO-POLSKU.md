@@ -15,6 +15,7 @@ Jesli szukasz szybkiej wersji tego samego materialu bezposrednio w grze, wpisz `
 7. [Aliasy komend](#7-aliasy-komend)
 8. [Znane, swiadome uproszczenia](#8-znane-swiadome-uproszczenia)
 9. [Checklist przed dodaniem nowej tresci](#9-checklist-przed-dodaniem-nowej-tresci)
+10. [Status prac i co zostalo do zrobienia](#10-status-prac-i-co-zostalo-do-zrobienia)
 
 ---
 
@@ -180,6 +181,9 @@ Te ograniczenia sa celowe (nie przeoczeniem) i nie powinny byc "naprawiane" bez 
 - Brak zgodnosci rodzaju w czasie przeszlym (polski czasownik w czasie przeszlym odmienia sie przez rodzaj, np. "zrobil"/"zrobila" -- to nie jest obslugiwane; komunikaty unikaja czasu przeszlego z podmiotem o zmiennym rodzaju, uzywajac np. czasu terazniejszego albo przeformulowania zdania).
 - Przymiotniki stanu obiektu (otwarty/zamkniety/pusty) zawsze w formie nijakiej, niezaleznie od prawdziwego rodzaju rzeczownika.
 - Zero diakrytykow, wszedzie (patrz sekcja 1).
+- Angielskie nazwy dni/miesiecy w wyjsciu `ctime()` (np. "Wed Jul 15...") -- swiadoma decyzja uzytkownika (2026-07-16), zeby tego NIE naprawiac. `ctime()` w `src/numbers.cc` uzywa `strftime()` w locale "C", a zadna tresc bazy tego nie zmienia.
+- Czas trwania w opcjach mail (`@mailoption expire`) i sekwencje `@unsend`/`unsend_sequences` (before/after/since/until/subject/body/last) -- pozostaja po angielsku, bo parser rozpoznaje doslownie te angielskie slowa kluczowe (`$time_utils:parse_english_time_interval`, itp.); przetlumaczenie samego opisu bez zmiany parsera wprowadziloby gracza w blad co do tego, co naprawde da sie wpisac.
+- **Pulapka "sklejonego slowa-klucza"** (ten sam wzorzec, co `prep_list` z Fazy 1, ale odkryty pozniej na `@blacklist`/`@toad`): kilka wizardowskich narzedzi (`@blacklist`/`@graylist`/`@redlist`/`@spooflist`, `@toad`) wyznacza angielskie slowo (np. `"blacklist"`) na podstawie nazwy wywolanej komendy (`$login:listname(...)`), a nastepnie **jednoczesnie** (a) wkleja to slowo bezposrednio w tekst komunikatu dla gracza ("is already blacklisted") i (b) uzywa tej samej zmiennej do wywolania czasownika po nazwie (`$login:(which + "_add")`). Przetlumaczenie samego tekstu bez nadania `$login` rownoleglych polskich nazw czasownikow albo zepsuloby wywolanie, albo zostawiloby angielskie slowo wklejone w srodek polskiego zdania. W `@blacklist` przetlumaczono wszystkie samodzielne komunikaty, a te "sklejone" zdania zostawiono jak byly (udokumentowane, nie przeoczone). **Jesli dodajesz nowy kod w tym stylu (budowanie nazwy czasownika/wlasciwosci z tej samej zmiennej, co widoczny dla gracza tekst) -- rozdziel od razu te dwie role (osobna zmienna do wyswietlania, osobna do dispatchu), zeby uniknac tej samej pulapki.**
 
 ## 9. Checklist przed dodaniem nowej tresci
 
@@ -188,3 +192,20 @@ Te ograniczenia sa celowe (nie przeoczeniem) i nie powinny byc "naprawiane" bez 
 - [ ] Jesli komunikat odnosi sie do nazwy obiektu w innym przypadku niz mianownik -- sprawdz, czy da sie przeformulowac zdanie (sekcja 5), zamiast zakladac, ze odmiana zadziala automatycznie.
 - [ ] Liczby czegokolwiek -- uzyj `$polish_utils:count()`, nie doklejaj "-y"/"-ow" na sztywno.
 - [ ] Przetestuj na zywo z kilkoma roznymi `@gender` (przynajmniej `nijaki`, `meski`, `zenski`, `mnogi`), zeby zobaczyc realny wynik podstawiania.
+
+## 10. Status prac i co zostalo do zrobienia
+
+Stan na 2026-07-15 (koniec sesji). Lokalizacja jest prowadzona jako wyczerpujacy przeglad calej bazy: diagnoza (szukanie angielskiej tresci) -> tlumaczenie -> test na zywo -> commit. Ponizej lista tego, co jeszcze zostalo, zeby kolejna sesja mogla zaczac dokladnie w tym miejscu.
+
+**W trakcie (etap "Generic Wizard", #57)** -- pozostale czasowniki do sprawdzenia i przetlumaczenia (kazdy ma tylko 1-4 trafien angielskiej tresci w ostatnim przegladzie): `mcd_2`, `@chown`, `@untoad`, `@new-password`, `@temp-newt`, `@lock-login`, wlasciwosci `toad_msg`/`toad_victim_msg`/`programmer_msg`/itp. (jeszcze nie sprawdzone -- moga juz byc po polsku, tak jak nieoczekiwanie okazalo sie z baza pomocy edytora, `#44`), `@newt`, `@log`, `@make-guest`, `@grant`, `@shutdown`, `@who-calls`, `@quota`, `@grepcore`, `@make-player`, `@unnewt`, `@guests`, `@corify`, `@deprogrammer`, `toad_cleanup`. Po zakonczeniu #57, warto zrobic jeszcze jeden przeglad #57 i #58 od zera -- metoda szukania angielskiej tresci po numerach linii jest zawodna, bo numery przesuwaja sie po kazdej edycji; skuteczniejsze jest przeszukiwanie tresci czasownikow bezposrednio (patrz uwaga w sekcji 1 o naturze bajtowej stringow -- ta sama ostroznosc dotyczy zaslepych przeszukiwan po linii).
+
+**Kolejne, wieksze kieszenie tresci do sprawdzenia** (z ostatniego pelnego przegladu bazy): Frand's Player Class (`#88`, ~22 trafien -- poczta/teleportacja poza juz naprawionymi), mniejsze kieszenie 1-4 trafien na obiektach poczty (`#40`/`#14`/`#11`), News (`#61`), ANSI PC (`#100`), Housekeeper (`#71`), Registration Database (`#16`) i inne.
+
+**Nowe zadanie zgloszone przez uzytkownika (2026-07-15), jeszcze nie zaczete**: w `docs/README.md`, sekcja polska (~linia 160) linkuje zewnetrznie do przewodnika dla poczatkujacych: `https://lisdude.com/moo/toaststunt_newbie.txt`. Trzeba:
+1. Pobrac tresc tego pliku (`WebFetch` albo `curl`),
+2. Przetlumaczyc na polski (ASCII-only, jak reszta tresci),
+3. Zapisac jako nowy plik w `docs/` (np. `docs/PRZEWODNIK-DLA-POCZATKUJACYCH.md`),
+4. Zmienic link w polskiej sekcji README tak, zeby wskazywal na ten nowy lokalny plik zamiast na zewnetrzna strone.
+Sekcja angielska w README (~linia 23, "Getting Started Guide") ma zostac BEZ ZMIAN -- to dotyczy tylko polskiej sekcji.
+
+**Po zakonczeniu calego przegladu**: zbudowac przykladowy, przechodni MOO (kilka/kilkanascie polaczonych lokacji, kilka przedmiotow, kilka NPC), zeby uzytkownik mogl sie zalogowac, stworzyc postac i osobiscie sprawdzic dzialanie lokalizacji w praktyce -- to byl warunek koncowy calego zadania (dopiero po potwierdzeniu, ze tlumaczenie jest kompletne).
