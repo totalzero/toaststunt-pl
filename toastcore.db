@@ -1235,7 +1235,7 @@ source
 2
 time
 0
-1784091739
+1784092414
 4
 0
 1
@@ -1455,16 +1455,16 @@ time
 4
 2
 0
-1784091720
+1784092399
 2
-127.0.0.1
+localhost
 2
 0
 5
 2
 0
 0
-1784091724
+1784092404
 2
 1
 0
@@ -1628,7 +1628,7 @@ localhost
 2
 5
 0
-1784091739
+1784092414
 2
 1
 0
@@ -4124,7 +4124,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--27
+-31
 0
 2
 2
@@ -5624,167 +5624,165 @@ $core_objects
 make-core-database
 49
 4
-81
+80
 2
 $login
 2
 ------
 2
-This object manages command parsing for unconnected players and governs the initiation of an actual connection.  There are verbs pertaining to registration, controlling player creation, and doing site-locks (see `help blacklist' on $wiz_help).
+Ten obiekt zarzadza parsowaniem polecen dla niepolaczonych graczy i kieruje rozpoczeciem faktycznego polaczenia.  Sa czasowniki dotyczace rejestracji, kontroli tworzenia graczy i blokad miejsc (zobacz `help blacklist' w $wiz_help).
 2
 
 2
-COMMANDS FOR UNCONNECTED PLAYERS
+POLECENIA DLA NIEPOLACZONYCH GRACZY
 2
 
 2
-Recall that for each line that an unconnected player types, the server parses that line into words (the same way normal commands are parsed into a list of words that is then assigned to `args') and then #0:do_login_command is called.
+Przypomnijmy, ze dla kazdej linii wpisanej przez niepolaczonego gracza, serwer parsuje te linie na slowa (tak samo jak zwykle polecenia sa parsowane na liste slow, ktora nastepnie jest przypisywana do `args'), a nastepnie wywolywane jest #0:do_login_command.
 2
 
 2
   :parse_command (@args) => {verb, @args}
 2
-    given the sequence of arguments that were fed to #0:do_login_command
+    dla podanej sekwencji argumentow przekazanych do #0:do_login_command
 2
-    this returns the name of a verb on $login to be called together with a 
+    zwraca nazwe czasownika na $login do wywolania wraz z 
 2
-    list of arguments to be passed to it.
-2
-
-2
-By default this just returns args iff args[1] names an actual verb on $login that is +x and has args {"any","none","any"}.  Otherwise, it returns one of
+    lista argumentow do przekazania mu.
 2
 
 2
-  .blank_command   -- verb to call if command line is empty
-2
-  .bogus_command   -- verb to call if command line otherwise unintelligible
+Domyslnie zwraca po prostu args, jesli args[1] nazywa faktyczny czasownik na $login, ktory jest +x i ma args {"any","none","any"}.  W przeciwnym razie zwraca jeden z
 2
 
 2
-In both cases :parse_command returns a verbname followed by the entire args list passed to it (including the would-be verb at the beginning if any).
+  .blank_command   -- czasownik do wywolania, jesli linia polecenia jest pusta
+2
+  .bogus_command   -- czasownik do wywolania, jesli linia polecenia jest niezrozumiala w inny sposob
 2
 
 2
-Currently the following verbs are available to non-connected players
+W obu przypadkach :parse_command zwraca nazwe czasownika, po ktorej nastepuje cala lista args, jaka mu przekazano (wlacznie z rzekomym czasownikiem na poczatku, jesli byl).
 2
 
 2
-  h*elp @h*elp       -- print .welcome_message
-2
-  ?                  -- print a short list of available commands
-2
-  w*ho @w*ho         -- print a list of logged in players (excluding wizards)
-2
-  co*nnect @co*nnect -- connect to an existing player
-2
-  cr*eate @cr*eate   -- create a new player
-2
-  up*time @up*time   -- tell how long the server has been running
-2
-  version @version   -- tell which version of the server is running
-2
-  q*uit @q*uit       -- logoff
+Obecnie nastepujace czasowniki sa dostepne dla niepolaczonych graczy
 2
 
 2
-Adding a new command is fairly straightforward; just create a verb on $login, making sure a previous verb doesn't already match the name you want to give it.  Then give it args of "any" "none "any" and make sure it is +x.  Such a verb should begin with `if (caller != #0) return E_PERM; ...' so as to prevent anyone other from a not-logged-in player from making use of it.
+  h*elp @h*elp       -- wypisz .welcome_message
+2
+  ?                  -- wypisz krotka liste dostepnych polecen
+2
+  w*ho @w*ho         -- wypisz liste zalogowanych graczy (bez wizardow)
+2
+  co*nnect @co*nnect -- polacz sie z istniejacym graczem
+2
+  cr*eate @cr*eate   -- utworz nowego gracza
+2
+  up*time @up*time   -- powiedz, jak dlugo serwer dziala
+2
+  version @version   -- powiedz, jaka wersja serwera dziala
+2
+  q*uit @q*uit       -- wyloguj sie
 2
 
 2
-CUSTOMIZATIONS
+Dodanie nowego polecenia jest dosc proste; po prostu utworz czasownik na $login, upewniajac sie, ze zaden wczesniejszy czasownik nie pasuje juz do nazwy, jaka chcesz mu nadac.  Nastepnie nadaj mu args "any" "none" "any" i upewnij sie, ze jest +x.  Taki czasownik powinien zaczynac sie od `if (caller != #0) return E_PERM; ...', by zapobiec korzystaniu z niego przez kogos innego niz niezalogowany gracz.
+2
+
+2
+DOSTOSOWANIA
 2
 
 2
   .welcome_message 
 2
-    -- the message for "help" to print.
+    -- komunikat wypisywany przez "help".
 2
   .create_enabled 
 2
-    == 0 => @create prints .registration_string if one tries to use it
+    == 0 => @create wypisuje .registration_string, gdy ktos probuje go uzyc
 2
-    == 1 => anyone from a non-blacklisted site (see `help blacklist')
+    == 1 => kazdy z miejsca nie bedacego na czarnej liscie (zobacz `help blacklist')
 2
-            may use @create to make a new player
+            moze uzyc @create, by stworzyc nowego gracza
 2
 
 2
   .registration_address
 2
-    -- an email address for character creation requests
+    -- adres email dla zadan utworzenia postaci
 2
   .registration_string  
 2
-    -- string to print to players to give them information about how to get 
+    -- string wypisywany graczom, informujacy jak uzyskac utworzenie postaci, 
 2
-       a character created for them, .registration_address is substituted 
-2
-       for %e, % for %%
+       .registration_address jest podstawiany za %e, % za %%
 2
   .newt_registration_string
 2
-    -- string to print to @newted players (see `help @newt').
+    -- string wypisywany zanewtowanym graczom (zobacz `help @newt').
 2
-       same substitutions as for .registration_string.
+       te same podstawienia co dla .registration_string.
 2
 
 2
   .max_connections
 2
-    -- integer representing the maximum connected players permitted on this moo.
+    -- liczba calkowita reprezentujaca maksymalna liczbe polaczonych graczy dozwolona na tym moo.
 2
   .connection_limit_msg
 2
-    -- string printed out when this is reached.
+    -- string wypisywany, gdy ten limit zostanie osiagniety.
 2
   .lag_exemptions
 2
-    -- list of non-wizard players who may login anyway.
+    -- lista graczy nie-wizardow, ktorzy moga sie zalogowac mimo to.
 2
 
 2
   .argon2
 2
-    -- parameters for hashing passwords. See HELP ARGON2() for information on the
+    -- parametry hashowania hasel. Zobacz HELP ARGON2() po informacje o dostepnych
 2
-       options available. 
+       opcjach. 
 2
 
 2
-Other verbs
+Inne czasowniki
 2
-   :registration_string()      => .registration_string with substitutions
+   :registration_string()      => .registration_string z podstawieniami
 2
-   :newt_registration_string() => .newt_registration_string with substitutions
+   :newt_registration_string() => .newt_registration_string z podstawieniami
 2
    :player_creation_enabled(connection) 
 2
-       decides whether someone on connection should be allowed to create 
+       decyduje, czy ktos na danym polaczeniu powinien miec pozwolenie na stworzenie
 2
-       a player.  If you decide this shouldn't depend strictly on the blacklist
+       gracza.  Jesli chcesz, by nie zalezalo to scisle od czarnej listy
 2
-       and on the value of .create_enabled, here's where the extra code can go.
+       i wartosci .create_enabled, tutaj mozna dodac dodatkowy kod.
 2
    :check_for_shutdown()
 2
-       prints a warning message to append to the login banner in the event 
+       wypisuje ostrzezenie dolaczane do banera logowania, jesli
 2
-       that the server will be going down soon.
+       serwer wkrotce sie wylaczy.
 2
    :check_player_db()
 2
-       prints a warning message to append to the login banner in the event 
+       wypisuje ostrzezenie dolaczane do banera logowania, jesli
 2
-       that $player_db is being reloaded to warn players that their character
+       $player_db jest przeladowywana, by ostrzec graczy, ze nazwy ich postaci
 2
-       names might not be recognized.
+       moga nie zostac rozpoznane.
 2
 
 2
-SITE LOCKS
+BLOKADY MIEJSC
 2
-see `help blacklist'
+zobacz `help blacklist'
 2
 
 36
@@ -5792,63 +5790,63 @@ see `help blacklist'
 4
 29
 2
-The Generic Container (for programmers)
+Generyczny Kontener (dla programistow)
 2
 
 2
-In addition to the command verbs described under `help containers'
+Oprocz czasownikow polecen opisanych w `help containers'
 2
-and the _msg properties described in `help container-messages',
+i wlasciwosci _msg opisanych w `help container-messages',
 2
-the following verbs and properties are available for use within programs
+dostepne sa nastepujace czasowniki i wlasciwosci do uzycia w programach
 2
 
 2
-.opened == TRUE iff the container is open
+.opened == TRUE wtedy i tylko wtedy, gdy kontener jest otwarty
 2
-.dark   == TRUE iff the contents of the container may be seen
+.dark   == TRUE wtedy i tylko wtedy, gdy zawartosc kontenera moze byc widoczna
 2
-.opaque -- describes the correlation between .open and .dark
+.opaque -- opisuje zaleznosc miedzy .open a .dark
 2
-   == 0  container is always !dark
+   == 0  kontener jest zawsze !dark
 2
-   == 1  container is dark iff it is closed
+   == 1  kontener jest dark wtedy i tylko wtedy, gdy jest zamkniety
 2
-   == 2  container is always dark              
+   == 2  kontener jest zawsze dark              
 2
 
 2
 :set_opaque(newvalue)   
 2
-  changes the .opaque value for the container
+  zmienia wartosc .opaque kontenera
 2
-  => newvalue or E_PERM or E_INVARG
+  => newvalue lub E_PERM lub E_INVARG
 2
 
 2
 :set_opened(newvalue)   
 2
-  opens/closes the container (updates .open and .dark) according to newvalue
+  otwiera/zamyka kontener (aktualizuje .open i .dark) zgodnie z newvalue
 2
-  => newvalue or E_PERM
+  => newvalue lub E_PERM
 2
 
 2
 :is_openable_by(player) 
 2
- what the :open command uses to test whether the player should be able to open
+ tego uzywa polecenie :open, by sprawdzic, czy gracz powinien miec mozliwosc otworzenia
 2
- the container.  By default this refers to .open_key  (set by
+ kontenera.  Domyslnie odnosi sie to do .open_key  (ustawianego przez
 2
- @(un)lock_for_open), but the object owner is free to customize this.
+ @(un)lock_for_open), ale wlasciciel obiektu moze to dowolnie dostosowac.
 2
 
 2
-N.B.:  There is no way to directly set .dark; .dark can be changed only by 
+UWAGA:  Nie ma sposobu na bezposrednie ustawienie .dark; .dark mozna zmienic tylko 
 2
-changing one of .opaque or .opened.  Use :set_opaque(0) and :set_opaque(2)
+zmieniajac .opaque lub .opened.  Uzyj :set_opaque(0) i :set_opaque(2),
 2
-to have .dark change independently of the value of .opened.
+by .dark zmienialo sie niezaleznie od wartosci .opened.
 36
 5
 4
@@ -5858,31 +5856,31 @@ $mail_agent
 2
 
 2
-This object contains a two distinct sets of routines:
+Ten obiekt zawiera dwa odrebne zestawy procedur:
 2
 
 2
-  1.  utilities for performing basic mailsystem functions, e.g.,
+  1.  narzedzia do wykonywania podstawowych funkcji systemu poczty, np.,
 2
-      matching on recipient names, resolving mail forwarding, 
+      dopasowywanie nazw odbiorcow, rozwiazywanie przekierowan poczty, 
 2
-      formatting messages, sending messages
-2
-
-2
-Recipient Matching
+      formatowanie wiadomosci, wysylanie wiadomosci
 2
 
 2
-match           - match on a $mail_recipient
-2
-match_recipient - match on either a $mail_recipient or a player
-2
-match_failed    - print angry messages to the user for $failed/ambiguous_match
+Dopasowywanie odbiorcow
 2
 
 2
-look_self  - provides a list of available $mail_recipients
+match           - dopasuj do $mail_recipient
+2
+match_recipient - dopasuj do $mail_recipient lub gracza
+2
+match_failed    - wypisz gniewne komunikaty do uzytkownika dla $failed/ambiguous_match
+2
+
+2
+look_self  - podaje liste dostepnych $mail_recipients
 2
 check_names
 2
@@ -5892,39 +5890,39 @@ accept
 2
 
 2
-Message Format
+Format wiadomosci
 2
 
 2
-make_message        - produces a message in the canonical transmission format
+make_message        - tworzy wiadomosc w kanonicznym formacie transmisji
 2
-name                - single recipient     => string for address field
+name                - pojedynczy odbiorca     => string dla pola adresu
 2
-name_list           - list of recipients   => string for address field
+name_list           - lista odbiorcow   => string dla pola adresu
 2
-parse_address_field - address field string => object list
-2
-
-2
-Sending Messages
+parse_address_field - string pola adresu => lista obiektow
 2
 
 2
-send_message  - advertised message sending routine.
-2
-raw_send      - raw message sending routine 
-2
-                (only called by $mail_editor:send and this:send_message)
-2
-resolve_addr  - converts a given list recipients into a list of actual 
-2
-                recipients and objects to be notified.
-2
-sends_to      - Does X forward (transitively) to Y
+Wysylanie wiadomosci
 2
 
 2
-Mail Options
+send_message  - reklamowana procedura wysylania wiadomosci.
+2
+raw_send      - surowa procedura wysylania wiadomosci 
+2
+                (wywolywana tylko przez $mail_editor:send i this:send_message)
+2
+resolve_addr  - konwertuje podana liste odbiorcow na liste faktycznych 
+2
+                odbiorcow i obiektow do powiadomienia.
+2
+sends_to      - czy X przekierowuje (przechodnio) do Y
+2
+
+2
+Opcje poczty
 2
 
 2
@@ -5934,123 +5932,123 @@ option_verbose
 2
 
 2
-  2.  canonical versions of mail_recipient verbs
+  2.  kanoniczne wersje czasownikow mail_recipient
 2
 
 2
-Ideally, the verbs to perform operations on a given mail recipient would be located on the recipient itself, except for the fact that these verbs also need to be located on players, which for various reasons, shouldn't be children of $mail_recipient.  Multiple inheritance would solve our problems, but we don't have it yet.  Ergo, both $mail_recipient and $player refer to the following verbs here:
+Idealnie czasowniki do wykonywania operacji na danym odbiorcy poczty znajdowalyby sie na samym odbiorcy, gdyby nie fakt, ze te czasowniki musza tez znajdowac sie na graczach, ktorzy z roznych powodow nie powinni byc dziecmi $mail_recipient.  Dziedziczenie wielokrotne rozwiazaloby nasze problemy, ale jeszcze go nie mamy.  Zatem zarowno $mail_recipient, jak i $player odwoluja sie tutaj do nastepujacych czasownikow:
 2
 
 2
-display_seq_full     print entire text of messages  (@read)
+display_seq_full     wypisz caly tekst wiadomosci  (@read)
 2
-display_seq_headers  print headers of messages      (@mail)
+display_seq_headers  wypisz naglowki wiadomosci      (@mail)
 2
-rm_message_seq       remove messages                (@rmm)
+rm_message_seq       usun wiadomosci                (@rmm)
 2
-undo_rmm             undo last rm_message_seq       (@unrmm)
+undo_rmm             cofnij ostatnie rm_message_seq       (@unrmm)
 2
-expunge_rmm          flush removed messages         (@unrmm expunge)
+expunge_rmm          usun na trwale usuniete wiadomosci         (@unrmm expunge)
 2
-list_rmm             list removed messages          (@unrmm list)
+list_rmm             wypisz usuniete wiadomosci          (@unrmm list)
 2
-renumber             renumber messages              (@renumber)
+renumber             przenumeruj wiadomosci              (@renumber)
 2
-msg_summary_line     msg header => display_seq_headers/list_rmm summary line
-2
-
-2
-parse_message_seq    command line msg sequence spec => message sequence
-2
-new_message_num      => message number of next new message
-2
-length_all_msgs      => number of messages (total)
-2
-length_num_le        => number of messages numbered <= some number
-2
-length_date_le       => number of messages dated <= some date
-2
-exists_num_eq        => true iff there exists a messsage with the given number
-2
-from_msg_seq         => message sequence of msgs from given sender(s)
-2
-to_msg_seq           => message sequence of msgs to given recipient(s)
-2
-subject_msg_seq      => message sequence of msgs with subjects containing text
-2
-body_msg_seq         => message sequence of msgs with bodies containing text
-2
-messages_in_seq      => list of {message number, message} pairs
+msg_summary_line     naglowek wiadomosci => linia podsumowania display_seq_headers/list_rmm
 2
 
 2
-messages             == :messages_in_seq(1,:length_all_msgs()+1)   (obsolete)
+parse_message_seq    specyfikacja sekwencji wiadomosci z linii polecen => sekwencja wiadomosci
+2
+new_message_num      => numer wiadomosci nastepnej nowej wiadomosci
+2
+length_all_msgs      => liczba wiadomosci (calkowita)
+2
+length_num_le        => liczba wiadomosci o numerze <= podana liczba
+2
+length_date_le       => liczba wiadomosci datowanych <= podana data
+2
+exists_num_eq        => prawda wtedy i tylko wtedy, gdy istnieje wiadomosc o podanym numerze
+2
+from_msg_seq         => sekwencja wiadomosci od podanego nadawcy (nadawcow)
+2
+to_msg_seq           => sekwencja wiadomosci do podanego odbiorcy (odbiorcow)
+2
+subject_msg_seq      => sekwencja wiadomosci z tematami zawierajacymi tekst
+2
+body_msg_seq         => sekwencja wiadomosci z tresciami zawierajacymi tekst
+2
+messages_in_seq      => lista par {numer wiadomosci, wiadomosc}
 2
 
 2
-The $mail_agent versions of these verbs are set_task_perms(caller_perms()) and perform their operations on caller, which in turn is assumed to have done any necessary security checks.
+messages             == :messages_in_seq(1,:length_all_msgs()+1)   (przestarzale)
+2
+
+2
+Wersje tych czasownikow na $mail_agent wykonuja set_task_perms(caller_perms()) i przeprowadzaja swoje operacje na caller, ktore z kolei zaklada sie, ze wykonalo wszelkie niezbedne sprawdzenia bezpieczenstwa.
 36
 5
 4
 38
 2
-Subscribing to Mail Recipients
+Subskrybowanie odbiorcow poczty
 2
 ------------------------------
 2
-There are two notions of being "subscribed" to a mailing list/recipient.
+Istnieja dwa pojecia bycia "zasubskrybowanym" na liste mailingowa/odbiorce.
 2
 
 2
-(1) Hard subscribed == being on the recipient's .mail_forward list so that mail sent to this list is forwarded to one's own .messages as well (see `help mail-forwarding').
+(1) Subskrypcja twarda == bycie na liscie .mail_forward odbiorcy, tak by poczta wyslana na te liste byla przekierowywana tez do wlasnych .messages (zobacz `help mail-forwarding').
 2
 
 2
-(2) Soft subscribed == keeping track of a current message for this recipient and (optionally) being on the recipient's .mail_notify list.
+(2) Subskrypcja miekka == sledzenie biezacej wiadomosci dla tego odbiorcy i (opcjonalnie) bycie na liscie .mail_notify odbiorcy.
 2
 
 2
 
 2
-Each player has a .current_message property that contains, for each recipient the player cares to keep track of, a current message number and a last read date.
+Kazdy gracz ma wlasciwosc .current_message zawierajaca, dla kazdego odbiorcy, ktorego gracz chce sledzic, numer biezacej wiadomosci i date ostatniego odczytu.
 2
 
 2
-player:current_message(rcpt)                 (somewhat obsolete)
+player:current_message(rcpt)                 (nieco przestarzale)
 2
- => player's current message number for rcpt 
+ => numer biezacej wiadomosci gracza dla rcpt 
 2
 
 2
 player:get_current_message(rcpt) 
 2
- => player's {current message number for rcpt, last-read-date for rcpt}
+ => {numer biezacej wiadomosci gracza dla rcpt, data ostatniego odczytu dla rcpt}
 2
 
 2
 player:make_current_message(rcpt)
 2
- => adds a current_message entry for rcpt  (NOOP if rcpt == player)
+ => dodaje wpis current_message dla rcpt  (NOOP, jesli rcpt == player)
 2
 
 2
 player:set_current_message(rcpt,n|E_NONE,[,date])
 2
- => sets player's current message number for rcpt to n iff n!=E_NONE
+ => ustawia numer biezacej wiadomosci gracza dla rcpt na n, jesli n!=E_NONE
 2
-    updates the last-read-date for rcpt to date iff date > last-read-date
+    aktualizuje date ostatniego odczytu dla rcpt na date, jesli date > data ostatniego odczytu
 2
 
 2
 player:kill_current_message(rcpt)
 2
- => removes current-message info for rcpt  (NOOP if rcpt == player)
+ => usuwa informacje o biezacej wiadomosci dla rcpt  (NOOP, jesli rcpt == player)
 2
 
 2
 
 2
-On $mail_recipient, .mail_forward and .mail_notify are -c so one needs to use the following verbs to actually modify them.
+Na $mail_recipient .mail_forward i .mail_notify sa -c, wiec trzeba uzywac nastepujacych czasownikow, by faktycznie je zmodyfikowac.
 2
 
 2
@@ -6064,93 +6062,93 @@ On $mail_recipient, .mail_forward and .mail_notify are -c so one needs to use th
 2
 
 2
-A recipient's owner is, of course, allowed to make arbitrary changes to .mail_forward and .mail_notify.  However, the default versions of these verbs also allow any player to add him/herself to a recipient's .mail_forward or .mail_notify if the recipient is readable (see `help MR-access') by him/her.
+Wlasciciel odbiorcy oczywiscie moze wprowadzac dowolne zmiany do .mail_forward i .mail_notify.  Jednak domyslne wersje tych czasownikow pozwalaja tez kazdemu graczowi dodac siebie do .mail_forward lub .mail_notify odbiorcy, jesli odbiorca jest dla niego czytelny (zobacz `help MR-access').
 2
 
 2
-Likewise any player may use the :delete* verbs to delete him/herself from any .mail_forward/.mail_notify list, regardless of his actual access to the list.
+Podobnie kazdy gracz moze uzyc czasownikow :delete*, by usunac siebie z dowolnej listy .mail_forward/.mail_notify, niezaleznie od jego faktycznego dostepu do listy.
 36
 5
 4
 15
 2
-One may always refer to a list by its object number.  In order to refer to it by name, it must be contained in $mail_agent, which holds all mailing lists, i.e., those that you want others to be able to refer to by name.
+Zawsze mozna odwolac sie do listy po jej numerze obiektu.  By odwolac sie do niej po nazwie, musi byc zawarta w $mail_agent, ktory przechowuje wszystkie listy mailingowe, tj. te, do ktorych chcesz, by inni mogli sie odwolywac po nazwie.
 2
 
 2
-The .aliases field holds the names by which one may refer to the list, but only those names not containing spaces actually count for anything.  As with certain other types of objects (e.g., players), set_aliases() needs to be called in order to change the .aliases field.
+Pole .aliases przechowuje nazwy, po ktorych mozna odwolac sie do listy, ale tylko te nazwy niezawierajace spacji faktycznie sie licza.  Podobnie jak przy innych typach obiektow (np. graczach), trzeba wywolac set_aliases(), by zmienic pole .aliases.
 2
 
 2
 $mail_agent:match(name) 
 2
-    is the canonical way to obtain the objectid of a mailing list 
+    to kanoniczny sposob na uzyskanie objectid listy mailingowej 
 2
-    given the name ("*" is assumed; an initial "*" will be dropped).
+    na podstawie nazwy ("*" jest zakladane; poczatkowe "*" zostanie usuniete).
 2
 
 2
 $mail_agent:match_recipient(name) 
 2
-    is the canonical way to obtain the objectid of a list or player
+    to kanoniczny sposob na uzyskanie objectid listy lub gracza
 2
-    matching the given name.  An initial "*" indicates that this is 
+    pasujacego do podanej nazwy.  Poczatkowe "*" wskazuje, ze ma to
 2
-    supposed to be a list.
+    byc lista.
 2
 
 2
 $mail_agent:match_failed(objid,name) 
 2
-    is the mail_recipient counterpart to $command_utils:object_match_failed
+    to odpowiednik $command_utils:object_match_failed dla mail_recipient
 36
 5
 4
 32
 2
-Controlling Access to Mail Recipients
+Kontrola dostepu do odbiorcow poczty
 2
 -------------------------------------
 2
-:is_writable_by(one) - one may alter/add/remove saved messages
+:is_writable_by(one) - moze zmieniac/dodawac/usuwac zapisane wiadomosci
 2
-:is_readable_by(one) - one may read messages.
+:is_readable_by(one) - moze czytac wiadomosci.
 2
-:is_usable_by(one)   - one may send to this list
-2
-
-2
-By default, these verbs refer to the following properties:
+:is_usable_by(one)   - moze wysylac na te liste
 2
 
 2
-writers   - list of players other from the owner who can do anything
-2
-readers   - if == 1, indicates a public mailing list.
-2
-            list of additional readers (by default anyone who receives mail 
-2
-            sent to the list can read the saved messages).
-2
-moderated - if false, indicates a normal mail recipient everyone can send to.
-2
-            otherwise this should be a list of approved senders.
+Domyslnie te czasowniki odwoluja sie do nastepujacych wlasciwosci:
 2
 
 2
-Terminology:
+writers   - lista graczy innych niz wlasciciel, ktorzy moga zrobic wszystko
 2
-  A mailing list is "public" if everyone can read it.
+readers   - jesli == 1, oznacza publiczna liste mailingowa.
 2
-  A mailing list is "moderated" if not everyone can send to it.
+            lista dodatkowych czytelnikow (domyslnie kazdy, kto otrzymuje poczte
+2
+            wyslana na liste, moze czytac zapisane wiadomosci).
+2
+moderated - jesli falszywe, oznacza zwyklego odbiorce poczty, na ktorego kazdy moze wysylac.
+2
+            w przeciwnym razie powinna to byc lista zatwierdzonych nadawcow.
 2
 
 2
-Note that while being able to write to a recipient implies being able to read from it or send to it, neither of read-ability or send-ability implies the other.
+Terminologia:
+2
+  Lista mailingowa jest "publiczna", jesli kazdy moze ja czytac.
+2
+  Lista mailingowa jest "moderowana", jesli nie kazdy moze na nia wysylac.
 2
 
 2
-It is highly recommended that if you are creating custom mail recipients with variable reader/sender lists, i.e., you find you need to write your own :is_readable/usable/writabe_by verbs, you are best off if such verbs are of the form
+Uwaga: choc mozliwosc zapisu na odbiorce implikuje mozliwosc czytania z niego lub wysylania na niego, ani czytelnosc, ani mozliwosc wysylania nie implikuje drugiej.
+2
+
+2
+Zdecydowanie zaleca sie, by jesli tworzysz wlasnych odbiorcow poczty ze zmiennymi listami czytelnikow/nadawcow, tj. musisz napisac wlasne czasowniki :is_readable/usable/writabe_by, mialy one postac
 2
 
 2
@@ -6158,113 +6156,113 @@ It is highly recommended that if you are creating custom mail recipients with va
 2
 
 2
-and have .writers == .readers == {} and .moderated == 1.  This will ensure
+i miec .writers == .readers == {} oraz .moderated == 1.  Zapewni to
 2
- (1) wizards having write access
+ (1) wizardom dostep do zapisu
 2
-     --- necessary in order for :receive_message to work
+     --- niezbedny, by :receive_message dzialalo
 2
- (2) writers being able to read and send (the converse being a ludicrous 
+ (2) mozliwosc czytania i wysylania przez writers (przeciwna sytuacja bylaby 
 2
-     situation), 
+     absurdalna), 
 2
- (3) persons on the mail_forward list of someone with reader access will also
+ (3) osoby na liscie mail_forward kogos z dostepem do odczytu tez beda
 2
-     have read access (convenient).
+     miec dostep do odczytu (wygodne).
 36
 5
 4
 20
 2
-Generic Mail Recipient
+Generyczny Odbiorca Poczty
 2
 ----------------------
 2
-A "mail recipient" is, by definition, an object that can be sent mail.
+"Odbiorca poczty" to z definicji obiekt, do ktorego mozna wyslac poczte.
 2
-Mail recipients must either be players or descendants of $mail_recipient.
-2
-
-2
-One source of confusion is that the terms "mail recipient", "mail folder", "mailing list", and "mail collection" really all refer to the same kind of object.  It so happens that $mail_recipient serve several distinct functions and we tend to use whatever term happens to best match the application under discussion, e.g., it's a "mailing list" if we're playing with its .mail_forward property but it's also a "mail folder" if we're examining the messages that have been saved in it.
+Odbiorcy poczty musza byc albo graczami, albo potomkami $mail_recipient.
 2
 
 2
-Note that, by default, a freshly created recipient is accessibly only by you.  If you wish to make a publically accessible recipient, set .readers=1.  Furthermore, if you want to allow a message on your recipient to be removed by its sender without your intervention, set .rmm_own_msgs=1.  Finally, in order for other players to be able to refer to your recipient by name, the object must reside in $mail_agent.  $mail_agent will not accept the object unless it has an actual description and a name distinct from all other mail recipient names/aliases.
+Jednym ze zrodel zamieszania jest to, ze terminy "odbiorca poczty", "folder poczty", "lista mailingowa" i "kolekcja poczty" tak naprawde odnosza sie do tego samego rodzaju obiektu.  Tak sie sklada, ze $mail_recipient sluzy kilku odrebnym funkcjom i zwykle uzywamy tego terminu, ktory najlepiej pasuje do omawianego zastosowania, np. to "lista mailingowa", gdy manipulujemy jej wlasciwoscia .mail_forward, ale to tez "folder poczty", gdy przegladamy zapisane w nim wiadomosci.
 2
 
 2
-Topics:
+Uwaga: domyslnie swiezo utworzony odbiorca jest dostepny tylko dla ciebie.  Jesli chcesz stworzyc publicznie dostepnego odbiorce, ustaw .readers=1.  Ponadto jesli chcesz pozwolic, by wiadomosc na twoim odbiorcy mogla byc usunieta przez nadawce bez twojej interwencji, ustaw .rmm_own_msgs=1.  Wreszcie, by inni gracze mogli odwolywac sie do twojego odbiorcy po nazwie, obiekt musi znajdowac sie w $mail_agent.  $mail_agent nie zaakceptuje obiektu, dopoki nie ma faktycznego opisu i nazwy odroznialnej od wszystkich innych nazw/aliasow odbiorcow poczty.
 2
 
 2
-  MR-access       -- controlling read, write and send access to a recipient
+Tematy:
 2
-  MR-naming       -- naming conventions and how to match on recipient names
+
 2
-  MR-sequences    -- message sequence arguments to $mail_recipient verbs
+  MR-access       -- kontrola dostepu do odczytu, zapisu i wysylania na odbiorce
 2
-  MR-reading      -- reading messages/headers on recipients
+  MR-naming       -- konwencje nazewnictwa i sposob dopasowywania nazw odbiorcow
 2
-  MR-searching    -- searching message lists for patterns in certain fields
+  MR-sequences    -- argumenty sekwencji wiadomosci dla czasownikow $mail_recipient
 2
-  MR-writing      -- removing and renumbering messages
+  MR-reading      -- czytanie wiadomosci/naglowkow na odbiorcach
 2
-  MR-subscribing  -- updating .mail_forward, .mail_notify 
+  MR-searching    -- przeszukiwanie list wiadomosci w poszukiwaniu wzorcow w okreslonych polach
 2
-                       and the story of .current_message
+  MR-writing      -- usuwanie i przenumerowywanie wiadomosci
 2
-  MR-expiration   -- expiring and netmailing messages from recipients
+  MR-subscribing  -- aktualizowanie .mail_forward, .mail_notify 
+2
+                       i historia .current_message
+2
+  MR-expiration   -- wygasanie i wysylanie na email wiadomosci z odbiorcow
 36
 5
 4
 24
 2
-Receiving Mail
+Odbieranie poczty
 2
 --------------
 2
-By definition a recipient "receives" a mail message when its :receive_message verb is called with that message as an argument.
+Z definicji odbiorca "odbiera" wiadomosc pocztowa, gdy jego czasownik :receive_message zostanie wywolany z ta wiadomoscia jako argumentem.
 2
 
 2
 :new_message_num()
 2
-=> number that will be assigned to the next incoming message.
+=> numer, ktory zostanie przypisany nastepnej przychodzacej wiadomosci.
 2
-By default this returns the maximum of the message numbers appearing in 
+Domyslnie zwraca maksimum numerow wiadomosci wystepujacych w 
 2
-messages or .messages_going, incremented by 1.  If the recipient is a player
+messages lub .messages_going, zwiekszone o 1.  Jesli odbiorca jest graczem,
 2
-then the value returned will be 1 higher if it conflicts with the player's 
+zwrocona wartosc bedzie o 1 wieksza, jesli koliduje z biezacym numerem wiadomosci 
 2
-current message number for him/herself.
+gracza dla samego siebie.
 2
 
 2
 :receive_message(msg,sender)
 2
-By default this first calls this:new_message_num to obtain a message number to assign to the incoming message and then appends {num,msg} to this.messages.  
+Domyslnie najpierw wywoluje this:new_message_num, by uzyskac numer wiadomosci do przypisania przychodzacej wiadomosci, a nastepnie dopisuje {num,msg} do this.messages.  
 2
-`sender', the original sender, is supplied in case one wants different 
+`sender', oryginalny nadawca, jest podawany na wypadek, gdyby ktos chcial inne 
 2
-action depending on who is sending the message (e.g., mail-gagging).
+dzialanie zaleznie od tego, kto wysyla wiadomosc (np. blokowanie poczty).
 2
-The return value should be an error or string if :receive_message is considered to have failed in some way.  Otherwise, a number should be returned --- this number is given to any :notify_mail routines that are called and is expected to either be 0 or the number assigned to the incoming message.
+Wartoscia zwracana powinien byc blad lub string, jesli uznaje sie, ze :receive_message w jakis sposob zawiodlo.  W przeciwnym razie powinna byc zwrocona liczba --- ta liczba jest podawana wszelkim wywolywanym procedurom :notify_mail i powinna byc albo 0, albo numerem przypisanym przychodzacej wiadomosci.
 2
 
 2
-Note that :receive_message can do arbitrary things, including resending the same message to a new destination.  Hacking :receive_message to resend messages is different from using .mail_forward in the following respects
+Uwaga: :receive_message moze robic dowolne rzeczy, wlacznie z ponownym wyslaniem tej samej wiadomosci do nowego celu.  Modyfikowanie :receive_message, by ponownie wysylalo wiadomosci, rozni sie od uzycia .mail_forward w nastepujacych aspektach
 2
-  (1) the resent message is considered to be a distinct message having this 
+  (1) ponownie wyslana wiadomosc jest uznawana za odrebna wiadomosc, ktorej 
 2
-      object as its "author" --- i.e., the From: line will necessarily be 
+      "autorem" jest ten obiekt --- tj. linia From: bedzie z koniecznosci 
 2
-      different.
+      inna.
 2
-  (2) since this "forwarding" is invisible to the mailsystem, 
+  (2) poniewaz to "przekierowanie" jest niewidoczne dla systemu poczty, 
 2
-      there is no protection against loops and multiple copies.
+      nie ma zabezpieczenia przed petlami i wieloma kopiami.
 2
 
 36
@@ -6272,65 +6270,65 @@ Note that :receive_message can do arbitrary things, including resending the same
 4
 34
 2
-Mail Transmission Format
+Format transmisji poczty
 2
 ------------------------
 2
-There is a standard message format used for transmitting messages.  This is the format that $mail_editor:make_message produces, and that :receive_message verbs on players and $mail_recipients expect to see.  The (currently experimental) @refile and @copym commands also use this format to transfer messages.
+Istnieje standardowy format wiadomosci uzywany do przesylania wiadomosci.  Jest to format, ktory tworzy $mail_editor:make_message, i ktorego oczekuja czasowniki :receive_message na graczach i $mail_recipients.  Polecenia (obecnie eksperymentalne) @refile i @copym rowniez uzywaja tego formatu do przenoszenia wiadomosci.
 2
 
 2
-This *transmission* format is distinct from the *storage* format, though, for convenience this same format is often used as well for storing messages in player collections and ordinary $mail_recipient children though, in general, there is no requirement that this be the case.
+Ten format *transmisji* rozni sie od formatu *przechowywania*, choc dla wygody ten sam format jest czesto uzywany rowniez do przechowywania wiadomosci w kolekcjach graczy i zwyklych dzieciach $mail_recipient, choc ogolnie nie ma wymogu, by tak bylo.
 2
 
 2
-A transmitted message is a list in the following form
+Przesylana wiadomosc to lista w nastepujacej postaci
 2
 
 2
-   date (number),
+   date (liczba),
 2
-     the time() value at the time the message was sent.
+     wartosc time() w momencie wyslania wiadomosci.
 2
    from (string),
 2
-     the sending object (address list form)
+     obiekt wysylajacy (w formie listy adresowej)
 2
-     if this is not a player, an additional header will indicate the 
+     jesli to nie gracz, dodatkowy naglowek wskaze
 2
-     current ownership of the object.
+     biezacego wlasciciela obiektu.
 2
    to  (string),
 2
-     recipients (address list form) which can either be players 
+     odbiorcy (w formie listy adresowej), ktorzy moga byc graczami
 2
-     or $mail_recipient descendents.
+     lub potomkami $mail_recipient.
 2
    subject (string),
 2
-     subject of the message, or " " if there is no subject,
+     temat wiadomosci, lub " " jesli nie ma tematu,
 2
-  @additional optional headers (list of strings),
+  @dodatkowe opcjonalne naglowki (lista stringow),
 2
-     each header has the form "<header-name>: text" where <header-name>: 
+     kazdy naglowek ma postac "<nazwa-naglowka>: tekst", gdzie <nazwa-naglowka>: 
 2
-     is padded out to a width of 10 columns for the convenience of 
+     jest wyrownana do szerokosci 10 kolumn dla wygody 
 2
-     :display_message.  Currently "Reply-to: <address list>" is the only 
+     :display_message.  Obecnie "Reply-to: <lista adresow>" to jedyny 
 2
-     additional header in use,
+     uzywany dodatkowy naglowek,
 2
    "",
 2
-  @body of message (list of strings)
+  @tresc wiadomosci (lista stringow)
 2
 
 2
-Note that the from, to and subject lines do *not* include a header name like "From:", "To:", or "Subject:".  The @'s indicate that the lists in question get spliced in (as usual), thus the entire message is a list whose first element is a number and the rest are strings.
+Uwaga: linie from, to i subject *nie* zawieraja nazwy naglowka jak "From:", "To:" ani "Subject:".  @ wskazuja, ze odpowiednie listy sa wplatane (jak zwykle), zatem cala wiadomosc to lista, ktorej pierwszy element to liczba, a reszta to stringi.
 2
 
 2
-The address lists that appear in the from and to lines is a string in the form a sequence of object ids, each enclosed in parentheses and preceded by optional text, e.g.,
+Listy adresowe wystepujace w liniach from i to to string w postaci sekwencji identyfikatorow obiektow, kazdy w nawiasach i poprzedzony opcjonalnym tekstem, np.,
 2
 
 2
@@ -6338,103 +6336,103 @@ The address lists that appear in the from and to lines is a string in the form a
 2
 
 2
-The text is intended to give the current name of each object for the benefit of human readers, but is actually ignored by all header parsing routines.  The convention is that the text is either a player name or a * followed by a mailing list name.
+Tekst ma podawac biezaca nazwe kazdego obiektu dla wygody ludzkich czytelnikow, ale jest w rzeczywistosci ignorowany przez wszystkie procedury parsujace naglowki.  Konwencja jest taka, ze tekst to albo nazwa gracza, albo * po ktorym nastepuje nazwa listy mailingowej.
 36
 5
 4
 52
 2
-Resolving Mail Forwarding & Notification
+Rozwiazywanie przekierowan i powiadomien poczty
 2
 ----------------------------------------
 2
-For each recipient of a given mail message, the following two verbs are called to determine where the message should actually go and who should be notified about it:
+Dla kazdego odbiorcy danej wiadomosci pocztowej wywolywane sa nastepujace dwa czasowniki, by okreslic, gdzie wiadomosc faktycznie powinna trafic i kto powinien byc o niej powiadomiony:
 2
 
 2
 :mail_forward([from])
 2
-    should return either
+    powinien zwrocic albo
 2
-     . a list of objects (either players or $mail_recipients)
+     . liste obiektow (graczy lub $mail_recipients)
 2
-         to which mail for this recipient will be redirected.
+         do ktorych poczta dla tego odbiorcy zostanie przekierowana.
 2
-     . a string error message to be printed to the player sending the message.
+     . string komunikatu bledu do wypisania graczowi wysylajacemu wiadomosc.
 2
-         If this recipient is one of the original destinations (i.e., not the
+         Jesli ten odbiorca jest jednym z oryginalnych celow (tj. nie
 2
-         result of a previous forwarding), no mail is actually sent.
+         wynikiem poprzedniego przekierowania), zadna poczta nie jest faktycznie wysylana.
 2
 
 2
-    If :mail_forward returns a nonempty list, the recipient itself will *not*
+    Jesli :mail_forward zwroci niepusta liste, sam odbiorca *nie*
 2
-    actually receive the mail message unless it is included in the list.
+    otrzyma faktycznie wiadomosci pocztowej, chyba ze jest wlaczony do listy.
 2
-    #-1 is allowed to be on the list; it is ignored but does make the list 
+    #-1 moze byc na liscie; jest ignorowany, ale sprawia, ze lista jest
 2
-    nonempty.  Thus, having :mail_forward() return {#-1} is the canonical way
+    niepusta.  Zatem zwrocenie przez :mail_forward() {#-1} to kanoniczny sposob,
 2
-    to have arriving mail disappear without being kept or forwarded.
+    by przychodzaca poczta znikala bez zachowania ani przekierowania.
 2
 
 2
 :mail_notify([from]) 
 2
-    should return a list of objects that are to be told about any mail sent 
+    powinien zwrocic liste obiektow, ktore maja byc poinformowane o kazdej poczcie wyslanej 
 2
-    to this recipient (whether or not the recipient actually receives it).
+    do tego odbiorcy (niezaleznie od tego, czy odbiorca faktycznie ja otrzyma).
 2
-    Said objects must have a :notify_mail verb, but other from that, there 
+    Wspomniane obiekty musza miec czasownik :notify_mail, ale poza tym nie ma
 2
-    is no restriction on what these can be.
-2
-
-2
-    object:notify_mail is called with the arguments 
-2
-    (sender,recipients,msgnumbers) where 
-2
-      recipients  == list of recipients including object in .mail_notify
-2
-      msgsnumbers == corresponding list of :receive_message return values
-2
-                 (or 0 if :receive_message is not actually called, which
-2
-                  will be the case if the recipient forwards without keeping)
+    ograniczen co do tego, czym moga byc.
 2
 
 2
-When called as part of a mail send, the `from' argument is the immediate predecessor on the forwarding chain.  The default versions of these verbs return the values of .mail_forward and .mail_notify respectively (pronoun_subbing if the value is a string), unless this is a moderated mailing list and `from' is an unapproved sender (see `help MR-access') in which case the following verbs are called instead:
+    object:notify_mail jest wywolywane z argumentami 
+2
+    (sender,recipients,msgnumbers), gdzie 
+2
+      recipients  == lista odbiorcow zawierajaca object w .mail_notify
+2
+      msgsnumbers == odpowiadajaca lista wartosci zwracanych przez :receive_message
+2
+                 (lub 0, jesli :receive_message nie zostalo faktycznie wywolane, co
+2
+                  bedzie miec miejsce, jesli odbiorca przekierowuje bez zachowywania)
+2
+
+2
+Gdy wywolywane jako czesc wysylania poczty, argument `from' to bezposredni poprzednik w lancuchu przekierowan.  Domyslne wersje tych czasownikow zwracaja odpowiednio wartosci .mail_forward i .mail_notify (z pronoun_subbing, jesli wartosc to string), chyba ze to moderowana lista mailingowa, a `from' to niezatwierdzony nadawca (zobacz `help MR-access'), w takim przypadku zamiast tego wywolywane sa nastepujace czasowniki:
 2
 
 2
 :moderator_forward(from) 
 2
-    what :mail_forward should return for mail coming from unapproved senders
+    co :mail_forward powinno zwracac dla poczty od niezatwierdzonych nadawcow
 2
-    This returns .moderator_forward (pronoun_subbed if a string) by default.
+    Domyslnie zwraca .moderator_forward (pronoun_subbed, jesli string).
 2
 
 2
 :moderator_notify(from)
 2
-    what :mail_notify should return for mail coming from unapproved senders
+    co :mail_notify powinno zwracac dla poczty od niezatwierdzonych nadawcow
 2
-    This returns .moderator_notify (pronoun_subbed if a string) by default.
-2
-
-2
-Since the :mail_forward verbs only see the previous sender in the forwarding chain, if, e.g, B is moderated but A can send to B (i.e., B:mail_forward(A) returns an actual list), then any mail sent to A goes to B even if the original sender isn't normally allowed to send to B directly.
+    Domyslnie zwraca .moderator_notify (pronoun_subbed, jesli string).
 2
 
 2
-These verbs should all allow `from' to be omitted in which case they should return as if `from' were a generic approved sender (e.g., wizard).
+Poniewaz czasowniki :mail_forward widza tylko poprzedniego nadawce w lancuchu przekierowan, jesli np. B jest moderowane, ale A moze wysylac do B (tj. B:mail_forward(A) zwraca faktyczna liste), to kazda poczta wyslana do A trafia do B, nawet jesli oryginalny nadawca normalnie nie moze wysylac bezposrednio do B.
 2
 
 2
-It should rarely be necessary to actually modify any of :*_forward/*_notify verbs, since one has a fair amount of control over their behavior via the following properties
+Wszystkie te czasowniki powinny pozwalac na pominiecie `from', w ktorym to przypadku powinny zwracac tak, jakby `from' bylo generycznym zatwierdzonym nadawca (np. wizardem).
+2
+
+2
+Rzadko powinno byc konieczne faktyczne modyfikowanie ktoregokolwiek z czasownikow :*_forward/*_notify, bo mamy spora kontrole nad ich zachowaniem za pomoca nastepujacych wlasciwosci
 2
 
 2
@@ -6442,7 +6440,7 @@ It should rarely be necessary to actually modify any of :*_forward/*_notify verb
 2
   .mail_notify
 2
-  .moderated          (see `help MR-access')
+  .moderated          (zobacz `help MR-access')
 2
   .moderator_forward
 2
@@ -6452,155 +6450,153 @@ It should rarely be necessary to actually modify any of :*_forward/*_notify verb
 4
 24
 2
-Sending Mail
+Wysylanie poczty
 2
 ------------
 2
 $mail_agent:send_message(from,recipients,headers,body)
 2
-  from:        sender of the message 
+  from:        nadawca wiadomosci 
 2
-               (this must be you or something you own; otherwise => E_PERM)
+               (musi byc toba lub czyms, co posiadasz; w przeciwnym razie => E_PERM)
 2
-  recipients:  object or list of objects (must all be players or 
+  recipients:  obiekt lub lista obiektow (musza byc graczami lub
 2
-               $mail_recipient descendants)
+               potomkami $mail_recipient)
 2
-  headers:     either a string (contents of the Subject: line) 
+  headers:     albo string (zawartosc linii Subject:) 
 2
-               or a list {subject,replytos} replytos is a list 
+               albo lista {subject,replytos}, gdzie replytos to lista
 2
-               of objects designated to receive replies.
+               obiektow wyznaczonych do otrzymywania odpowiedzi.
 2
-               Use {"",replytos} to have a Reply-to: without a Subject:
-2
-
-2
-This is the canonical way to send a mail message from a program.
-2
-This calls $mail_agent:make_message to format the arguments into an actual message (see `help mail-format') and then $mail_agent:raw_send to do the actual sending which goes as follows:
+               Uzyj {"",replytos}, by miec Reply-to: bez Subject:
 2
 
 2
-  (1) Call :mail_forward on all recipients add any new recipients thus obtained to final recipient list, keep calling mail:forward on the new recipients until we obtain no additional recipients.  If one of the initial recipients is invalid, is not a player or $mail_recipient, or has its mail_forward return a string error, then we print the error message and abort at this point with no mail being sent.  If one of the later recipients bombs similarly, error messages are printed, but in this case mail still goes out to the other recipients.
+To kanoniczny sposob wysylania wiadomosci pocztowej z programu.
+2
+Wywoluje to $mail_agent:make_message, by sformatowac argumenty w faktyczna wiadomosc (zobacz `help mail-format'), a nastepnie $mail_agent:raw_send, by wykonac faktyczne wysylanie, ktore przebiega nastepujaco:
 2
 
 2
-  (2) Call :mail_notify on all recipients encountered in stage (1) to get a list of objects to notify.
+  (1) Wywolaj :mail_forward na wszystkich odbiorcach, dodajac wszelkich nowych odbiorcow w ten sposob uzyskanych do koncowej listy odbiorcow, kontynuuj wywolywanie mail:forward na nowych odbiorcach, dopoki nie uzyskamy dodatkowych odbiorcow.  Jesli jeden z poczatkowych odbiorcow jest niepoprawny, nie jest graczem ani $mail_recipient, lub jego mail_forward zwroci blad-string, wypisujemy komunikat bledu i przerywamy w tym momencie, nie wysylajac zadnej poczty.  Jesli jeden z pozniejszych odbiorcow zawiedzie podobnie, wypisywane sa komunikaty bledow, ale w tym przypadku poczta nadal jest wysylana do pozostalych odbiorcow.
 2
 
 2
-  (3) All final recipients receive the message (see `help receive-mail')
-2
-  (4) All notifications are delivered (using :notify_mail())
+  (2) Wywolaj :mail_notify na wszystkich odbiorcach napotkanych w etapie (1), by uzyskac liste obiektow do powiadomienia.
 2
 
 2
-We return {0, @failed_recipients} if we bombed out at step 1.
+  (3) Wszyscy koncowi odbiorcy otrzymuja wiadomosc (zobacz `help receive-mail')
 2
-Otherwise return {1, @actual_rcpts} indicating what mail was sent.
+  (4) Wszystkie powiadomienia sa dostarczane (za pomoca :notify_mail())
+2
+
+2
+Zwracamy {0, @failed_recipients}, jesli zawiedlismy w kroku 1.
+2
+W przeciwnym razie zwracamy {1, @actual_rcpts}, wskazujac jaka poczta zostala wyslana.
 36
 5
 4
 13
 2
-Mail System
+System poczty
 2
 -----------
 2
-The following topics describe the guts of the LambdaCore mail system
+Nastepujace tematy opisuja wnetrzosci systemu poczty LambdaCore
 2
 
 2
-sending-mail     -- how to send mail from a program; what happens.
+sending-mail     -- jak wyslac poczte z programu; co sie dzieje.
 2
-mail-forwarding  -- how to do mail forwarding/notification (the simple version)
+mail-forwarding  -- jak wykonac przekierowanie/powiadomienie poczty (prosta wersja)
 2
-mail-resolve     -- how mail forwarding/notification works, in gory detail
+mail-resolve     -- jak dziala przekierowanie/powiadomienie poczty, w szczegolach
 2
-receiving-mail   -- what :receive_message should do
+receiving-mail   -- co powinno robic :receive_message
 2
-mail-format      -- format of transmitted messages
+mail-format      -- format przesylanych wiadomosci
 2
-mail-command-parsing   (TODO) -- routines for parsing mail commands
+mail-command-parsing   (TODO) -- procedury parsowania polecen poczty
 2
 
 2
-$mail_recipient  -- generic non-player mail recipient
+$mail_recipient  -- generyczny odbiorca poczty nie bedacy graczem
 2
-$mail_agent      -- mail utility object
+$mail_agent      -- obiekt narzedziowy poczty
 36
 5
 4
-34
+33
 2
 
 2
-Database of Players
+Baza danych graczy
 2
 -------------------
 2
-This is an instance of the Generic Database ($generic_db) that
+To instancja Generycznej Bazy Danych ($generic_db), ktora
 2
-holds the {name/alias,#objectid} pairs for every 
+przechowuje pary {nazwa/alias,#objectid} dla kazdej
 2
-name and alias of every player in the MOO.
-2
-
-2
-Verbs supplied include
+nazwy i aliasu kazdego gracza w MOO.
 2
 
 2
-  :find(string)        => player or $ambiguous_match or $failed_match
+Dostepne czasowniki obejmuja
 2
-  :find_exact(string)  => player or $failed_match (does not do partial matches)
+
 2
-  :find_all(string)    => list of all matching players
+  :find(string)        => gracz lub $ambiguous_match lub $failed_match
+2
+  :find_exact(string)  => gracz lub $failed_match (nie wykonuje czesciowych dopasowan)
+2
+  :find_all(string)    => lista wszystkich pasujacych graczy
 2
 
 2
   :insert(string,player) 
 2
-       records that string is now a name or alias of player
+       zapisuje, ze string jest teraz nazwa lub aliasem gracza
 2
   :delete(string) 
 2
-       removes string from the db
+       usuwa string z bazy
 2
   :available(string)
 2
-       returns 1 if string is available as a player name or alias,
+       zwraca 1, jesli string jest dostepny jako nazwa lub alias gracza,
 2
-       an object if string is in use, or 0 if string is otherwise unavailable.
+       obiekt, jesli string jest w uzyciu, lub 0, jesli string jest niedostepny z innego powodu.
 2
   :load()
 2
-       resets the db, inserting all current player names and aliases.
+       resetuje baze, wstawiajac wszystkie biezace nazwy i aliasy graczy.
 2
 
 2
-The internal representation and all of the above verbs (except :load() and
+Wewnetrzna reprezentacja i wszystkie powyzsze czasowniki (poza :load() i
 2
-:available()) are as described for $generic_db.
-2
-
-2
-It should be noted that for any application that involves resolving a player name from a command line, you should be using $string_utils:match_player() rather than $player_db:find(), since the former will deal correctly with other ways of referring to players apart from their names and aliases (e.g., literal object numbers, "me", "$no_one"...).
+:available()) sa takie, jak opisano dla $generic_db.
 2
 
 2
-:load() needs to be done periodically as it is possible for the player db 
-2
-to get out of synch with reality.  In particular, there is currently no way
-2
-to block someone writing his own player :recycle() verb that neglects to 
-2
-remove his names from the player db.
+Warto zauwazyc, ze dla kazdego zastosowania obejmujacego rozwiazywanie nazwy gracza z linii polecenia, powinienes uzywac $string_utils:match_player() zamiast $player_db:find(), poniewaz ta pierwsza poprawnie obsluzy inne sposoby odwolywania sie do graczy poza ich nazwami i aliasami (np. doslownymi numerami obiektow, "me", "$no_one"...).
 2
 
 2
-While a :load() is in progress the .frozen property is set to 1 to indicate that any results of :find*() are not to be trusted.
+:load() trzeba wykonywac okresowo, bo baza graczy moze wypasc z synchronizacji 
+2
+z rzeczywistoscia.  W szczegolnosci obecnie nie ma sposobu, by zablokowac napisanie
+2
+wlasnego czasownika :recycle() gracza, ktory zaniedba usuniecie jego nazw z bazy graczy.
+2
+
+2
+Podczas trwania :load() wlasciwosc .frozen jest ustawiana na 1, by wskazac ze wynikom :find*() nie mozna ufac.
 36
 5
 4
@@ -6608,7 +6604,7 @@ While a :load() is in progress the .frozen property is set to 1 to indicate that
 2
 *index*
 2
-Core Utility Help Topics
+Tematy pomocy narzedzi rdzenia
 36
 5
 4
@@ -6616,115 +6612,115 @@ Core Utility Help Topics
 2
 
 2
-Which :match...() Verb Do I Call?
+Ktorego czasownika :match...() uzyc?
 2
 ---------------------------------
 2
-There are many situations where one wishes to obtain an object from a room or a player's .contents whose name/aliases matches a particular string.  There are four main verbs available for this and it is important to understand the distinctions between them and how they are supposed to be used.
+Jest wiele sytuacji, w ktorych chce sie uzyskac obiekt z pokoju lub .contents gracza, ktorego nazwa/aliasy pasuja do konkretnego stringa.  Dostepne sa cztery glowne czasowniki do tego celu i wazne jest zrozumienie roznic miedzy nimi i jak maja byc uzywane.
 2
 
 2
 (*)  LOC:match("X")
 2
-     -- what you get looking for something that is inside LOC and named "X".
+     -- to, co dostajesz szukajac czegos, co jest wewnatrz LOC i nazywa sie "X".
 2
-        By default, this looks through LOC.contents to find a unique object 
+        Domyslnie przeszukuje LOC.contents w poszukiwaniu unikalnego obiektu 
 2
-        having a name or alias that has "X" as a prefix.
-2
-
-2
-Essentially, you can think of :match as a contents-matching verb, though, e.g., for rooms you also get matches on exits as well.
+        majacego nazwe lub alias z "X" jako prefiksem.
 2
 
 2
-(*)  LOC:match_object("X", YOU)           [YOU defaults to player]
+Zasadniczo mozna myslec o :match jako o czasowniku dopasowujacym zawartosc, choc np. dla pokoi dostajesz tez dopasowania na wyjsciach.
 2
-(*)  YOU:my_match_object("X", LOC)        [LOC defaults to player.location]
+
 2
-     -- what YOU get being located at LOC and looking for something named "X".
+(*)  LOC:match_object("X", YOU)           [YOU domyslnie to player]
 2
-        By default these both return $string_utils:match_object("X",LOC,YOU)
+(*)  YOU:my_match_object("X", LOC)        [LOC domyslnie to player.location]
+2
+     -- to, co TY dostajesz, znajdujac sie w LOC i szukajac czegos o nazwie "X".
+2
+        Domyslnie obie te funkcje zwracaja $string_utils:match_object("X",LOC,YOU)
 2
 
 2
 (*)  $string_utils:match_object("X", LOC, YOU) 
 2
-   -- what you *would* get *if* YOU were a typical player, YOU were inside LOC,
+   -- to, co *dostalbys*, *gdyby* YOU byl typowym graczem, YOU byl wewnatrz LOC,
 2
-      YOU were looking for something named "X", *and* LOC were a typical place.
-2
-
-2
-In other words, $string_utils:match_object describes the :match_object() algorithm for "typical places" and the :my_match_object for "typical players":
+      YOU szukal czegos o nazwie "X", *a* LOC byloby typowym miejscem.
 2
 
 2
-    (1)  check for "X" being one of "", "me", "here", "$something", or "#n"
-2
-    (2)  try YOU:match("X") i.e., something in your inventory (maybe)
-2
-    (3)  try LOC:match("X") i.e., some object in the room (maybe)
+Innymi slowy, $string_utils:match_object opisuje algorytm :match_object() dla "typowych miejsc", a :my_match_object dla "typowych graczy":
 2
 
 2
-The distinction between these location:match_object and player:my_match_object has to do with whether the player or the location should determine what the matching algorithm is.  Which one you should use depends on the command that you are writing.  If you are writing a command with a virtual-reality flavor, then you should be respecting the room owner's idea of which objects you can "see" and thus the command should be calling the location's :match_object verb.  If you are writing a building/programming command where it is appropriate for the player to determine the matching algorithm  --- whether because the current location is irrelevant, not to be trusted, or both --- then the player's :my_match_object verb should be called.
+    (1)  sprawdz, czy "X" to jedno z "", "me", "here", "$cos" lub "#n"
+2
+    (2)  sprobuj YOU:match("X") tj. cos w twoim ekwipunku (moze)
+2
+    (3)  sprobuj LOC:match("X") tj. jakis obiekt w pokoju (moze)
 2
 
 2
-Examples:
+Roznica miedzy tym location:match_object a player:my_match_object dotyczy tego, czy to gracz, czy lokalizacja powinny okreslac algorytm dopasowywania.  To, ktorego uzyc, zalezy od pisanego polecenia.  Jesli piszesz polecenie o charakterze wirtualnej rzeczywistosci, powinienes szanowac koncepcje wlasciciela pokoju o tym, jakie obiekty mozesz "widziec", wiec polecenie powinno wywolywac czasownik :match_object lokalizacji.  Jesli piszesz polecenie budowlane/programistyczne, gdzie odpowiednie jest, by to gracz okreslal algorytm dopasowywania --- czy to dlatego, ze biezaca lokalizacja jest nieistotna, niewiarygodna, czy jedno i drugie --- powinien byc wywolywany czasownik :my_match_object gracza.
+2
+
+2
+Przyklady:
 2
 
 2
   `look diamond in box'
 2
-      calls box:match("diamond").  This is a match on the contents of box.
+      wywoluje box:match("diamond").  To dopasowanie na zawartosci box.
 2
 
 2
   `take ball', 
 2
-      calls player.location:match_object("ball")
+      wywoluje player.location:match_object("ball")
 2
-      to determine which "ball" to take.  Note that if the room is dark, 
+      by okreslic, ktora "pilke" wziac.  Uwaga: jesli pokoj jest ciemny, 
 2
-      we might not be able to find any "ball".
+      mozemy nie znalezc zadnej "pilki".
 2
 
 2
   `@program widget:foo', 
 2
-      calls player:my_match_object("widget") to get the player's own idea
+      wywoluje player:my_match_object("widget"), by uzyskac wlasna koncepcje gracza
 2
-      of what "widget" should be.  Note that if I were carrying something 
+      tego, czym powinien byc "widget".  Uwaga: gdybym niosl cos 
 2
-      named "widget" and expecting to be programming a :foo() verb on it,
+      o nazwie "widget" i spodziewal sie programowania na nim czasownika :foo(),
 2
-      it would be potentially disastrous should the room where I am decide
+      byloby potencjalnie katastrofalne, gdyby pokoj, w ktorym jestem, zdecydowal
 2
-      for me to be programming something else (not even necessarily 
+      za mnie, ze programuje cos innego (niekoniecznie 
 2
-      called "widget").
+      nazwanego "widget").
 2
 
 2
-Object Matching Failures
+Niepowodzenia dopasowywania obiektow
 2
 ------------------------
 2
-As with other matching routines, one gets back 
+Podobnie jak inne procedury dopasowujace, dostajesz z powrotem 
 2
 
 2
-  $failed_match in the case of no matching object
+  $failed_match, gdy brak pasujacego obiektu
 2
-  $ambiguous_match in the case of more than one matching object
+  $ambiguous_match, gdy jest wiecej niz jeden pasujacy obiekt
 2
-  $nothing in the case of a blank string argument
+  $nothing, gdy argument-string jest pusty
 2
 
 2
-or an object-id.  In these first 3 cases, one usually wants to translate these nonresults to the player; this is what $command_utils:object_match_failed.  The standard idiom to mimic what the builtin parser does, say, with the direct object is
+lub object-id.  W tych pierwszych 3 przypadkach zwykle chce sie przetlumaczyc te nie-wyniki dla gracza; to wlasnie robi $command_utils:object_match_failed.  Standardowy idiom nasladujacy dzialanie wbudowanego parsera, powiedzmy, dla dopelnienia blizszego to
 2
 
 2
@@ -6732,11 +6728,11 @@ or an object-id.  In these first 3 cases, one usually wants to translate these n
 2
   if($command_utils:object_match_failed(dobj, dobjstr))
 2
-    "...give up.  nothing to do.   error message has already printed...";
+    "...poddaj sie.  nic do zrobienia.   komunikat bledu juz wypisany...";
 2
   else
 2
-    "...dobj is something useful.  Continue...";
+    "...dobj jest czyms uzytecznym.  Kontynuuj...";
 2
     ...
 2
@@ -6750,17 +6746,17 @@ $no_one
 2
 -------
 2
-... is a powerless player.  He owns no objects, not even himself; nor does he own any verbs.  He is, however, a programmer and thus may use eval().  In fact his sole purpose is to evaluate questionable code.  `questionable' could be in either or both of the following senses 
+... to bezsilny gracz.  Nie posiada zadnych obiektow, nawet samego siebie; nie posiada tez zadnych czasownikow.  Jest jednak programista i moze wiec uzywac eval().  Faktycznie jego jedynym celem jest ewaluowanie watpliwego kodu.  "Watpliwy" moze oznaczac jedno lub oba z ponizszych 
 2
 
 2
-(1) Its origin is sufficiently uncertain so that there is no obvious way of deciding whose permissions it should run under.
+(1) jego pochodzenie jest na tyle niepewne, ze nie ma oczywistego sposobu na zdecydowanie, czyimi uprawnieniami powinien dzialac.
 2
-(2) The code itself is potentially malicious, i.e., to the extent that one does not want to be evaluating it using one's own permissions.
+(2) sam kod jest potencjalnie zlosliwy, tj. na tyle, ze nie chcesz go ewaluowac uzywajac wlasnych uprawnien.
 2
 
 2
-set_task_perms($no_one);  is thus the canonical idiom in wizard code for rendering anything that follows mostly harmless.  For use by ordinary programmers, we have:
+set_task_perms($no_one);  to wiec kanoniczny idiom w kodzie wizardow, sluzacy uczynieniu wszystkiego co nastepuje w wiekszosci nieszkodliwym.  Do uzytku przez zwyklych programistow mamy:
 2
 
 2
@@ -6768,13 +6764,13 @@ set_task_perms($no_one);  is thus the canonical idiom in wizard code for renderi
 2
 
 2
-which attempts to evaluate an arbitrary string using $no_one's permissions.
+ktore probuje zewaluowac dowolny string uzywajac uprawnien $no_one.
 2
-string is either an expression or ";" followed by one or more statements, of which the final semicolon may be omitted.  return values are what eval() would return (either {1,value} or {0,@error_messages}).
+string to albo wyrazenie, albo ";" po ktorym nastepuje jedna lub wiecej instrukcji, przy czym koncowy srednik moze byc pominiety.  wartosci zwracane sa takie, jakie zwrocilby eval() (albo {1,value}, albo {0,@error_messages}).
 2
 
 2
-Similarly, we have
+Podobnie mamy
 2
 
 2
@@ -6782,11 +6778,11 @@ Similarly, we have
 2
 
 2
-which attempts to evaluate the specified string, but does it without the debug flag turned on (so that, for example, you'll get an error as opposed to terminating by traceback).
+ktore probuje zewaluowac podany string, ale robi to bez wlaczonej flagi debug (tak wiec, na przyklad, dostaniesz blad zamiast zakonczenia przez traceback).
 2
 
 2
-And, as a helpful utility for calling verbs whose behavior may be unpredictable, there is
+I, jako pomocne narzedzie do wywolywania czasownikow o niepewnym zachowaniu, mamy
 2
 
 2
@@ -6794,69 +6790,69 @@ And, as a helpful utility for calling verbs whose behavior may be unpredictable,
 2
 
 2
-which calls the specified verb with $no_one's permissions.
+ktore wywoluje podany czasownik z uprawnieniami $no_one.
 36
 5
 4
 19
 2
-Exits
+Wyjscia
 2
 -----
 2
-An exit can be renamed by either the owner of the exit or the owner of its source.
+Wyjscie moze byc przemianowane przez wlasciciela wyjscia lub wlasciciela jego zrodla.
 2
 
 2
-The standard verbs that are called in exit movement are:
+Standardowe czasowniki wywolywane przy ruchu przez wyjscie to:
 2
 
 2
-:move(object)  - moves the object via this exit
+:move(object)  - przenosi obiekt przez to wyjscie
 2
-:invoke()      - equivalent to :move(player)
-2
-
-2
-When an exit is invoked on a particular object (via exit:move(object)), the following occurs.
+:invoke()      - rownowazne :move(player)
 2
 
 2
-(1) The exit may be locked against the object, in which case we print the 
-2
-   nogo messages and quit.
+Gdy wyjscie jest wywolywane na konkretnym obiekcie (przez exit:move(object)), nastepuje co ponizej.
 2
 
 2
-(2) (room=exit.dest):bless_for_entry(object) is called.  Assuming that exit is recognized by room as being a legitimate entrance (i.e., is in room.entrances), this will enable room:accept(object) to return true.
+(1) Wyjscie moze byc zablokowane dla obiektu, w takim przypadku wypisujemy
+2
+   komunikaty nogo i konczymy.
 2
 
 2
-(3) object:moveto(room) is called and the various messages (see `help exit-messages') are :announced/:told.  Note that this, in accordance with the way the builtin move() (and hence the default :moveto()) works, we get a call to room:accept(object) which checks for the room itself being locked against the object, and otherwise returns true if the blessing in the previous step worked.  The move is performed, here:exitfunc(object) and room:enterfunc(object) are called.  In particular, room:enterfunc clears the blessing bestowed in (2) now that it is no longer needed.
+(2) Wywolywane jest (room=exit.dest):bless_for_entry(object).  Zakladajac, ze exit jest rozpoznawane przez room jako prawidlowe wejscie (tj. jest w room.entrances), umozliwi to room:accept(object) zwrocenie prawdy.
 2
 
 2
-In general, the move may fail, in which case we :announce the (o)nogo_msgs.
+(3) Wywolywane jest object:moveto(room) i rozne komunikaty (zobacz `help exit-messages') sa :announced/:told.  Uwaga: to, zgodnie ze sposobem dzialania wbudowanego move() (a wiec i domyslnego :moveto()), skutkuje wywolaniem room:accept(object), ktore sprawdza, czy sam pokoj jest zablokowany dla obiektu, a w przeciwnym razie zwraca prawde, jesli blogoslawienstwo z poprzedniego kroku zadzialalo.  Przeniesienie jest wykonywane, wywolywane sa here:exitfunc(object) i room:enterfunc(object).  W szczegolnosci room:enterfunc czysci blogoslawienstwo nadane w (2), skoro nie jest juz potrzebne.
+2
+
+2
+Ogolnie przeniesienie moze sie nie udac, w takim przypadku :announce (o)nogo_msgs.
 36
 5
 4
 81
 2
-The Generic Room ($room)
+Generyczny Pokoj ($room)
 2
 ----------------
 2
 
 2
-(1)  Announcements
+(1)  Ogloszenia
 2
 
 2
-:announce         (@text)         => broadcasts to all except player
+:announce         (@text)         => rozglasza wszystkim poza graczem
 2
-:announce_all     (@text)         => broadcasts to all
+:announce_all     (@text)         => rozglasza wszystkim
 2
-:announce_all_but (objects,@text) => broadcasts to all except those in objects
+:announce_all_but (objects,@text) => rozglasza wszystkim poza tymi w objects
 2
 
 2
@@ -6866,33 +6862,33 @@ say, emote
 2
 
 2
-(2)  Command recovery
+(2)  Odzyskiwanie polecen
 2
 
 2
-:huh            (verb,args) - server hook: last chance to make sense of verb
+:huh            (verb,args) - hak serwera: ostatnia szansa na zrozumienie czasownika
 2
-:here_huh       (verb,args) - room's last attempt to parse something
+:here_huh       (verb,args) - ostatnia proba pokoju sparsowania czegos
 2
-:here_explain_syntax (this,verb,args) - attempts to explain usage of verb
-2
-
+:here_explain_syntax (this,verb,args) - probuje wyjasnic uzycie czasownika
 2
 
 2
-(3)  Residency
+
+2
+(3)  Zamieszkanie
 2
 
 2
-free_home  - true => @sethome allows anyone to set his .home to be here
+free_home  - prawda => @sethome pozwala kazdemu ustawic swoj .home na tutaj
 2
-residents  - objects on this list may teleport in and/or set their homes here.
+residents  - obiekty na tej liscie moga teleportowac sie tutaj i/lub ustawic tu swoje domy.
 2
 
 2
 :accept_for_abode(player) 
 2
-            => true iff player should be allowed to set .home to this room.
+            => prawda wtedy i tylko wtedy, gdy gracz powinien miec pozwolenie na ustawienie .home na ten pokoj.
 2
 
 2
@@ -6902,19 +6898,19 @@ residents  - objects on this list may teleport in and/or set their homes here.
 2
 
 2
-(4)  Looking
+(4)  Patrzenie
 2
 
 2
-dark  - true => contents are not visible
+dark  - prawda => zawartosc jest niewidoczna
 2
-ctype - 0..3 for four different styles of .contents lists
+ctype - 0..3 dla czterech roznych stylow list .contents
 2
 
 2
-:match         (string)        => exit or object in room's .contents
+:match         (string)        => wyjscie lub obiekt w .contents pokoju
 2
-:tell_contents (objects,ctype) - format objects according to ctype, tell player
+:tell_contents (objects,ctype) - formatuje obiekty wedlug ctype, mowi graczowi
 2
 
 2
@@ -6924,55 +6920,55 @@ l*ook
 2
 
 2
-(5)  Entrance and exit.
+(5)  Wejscie i wyjscie.
 2
 
 2
-:accept (object) - Called by move() and :moveto() before an object enters a room, if false is returned, movement is prevented.  Protocol permits this verb to make noise (though this is discouraged) as this is the only place the room will learn the object's original location.
+:accept (object) - wywolywane przez move() i :moveto() przed wejsciem obiektu do pokoju, jesli zwrocony zostanie falsz, ruch jest zablokowany.  Protokol pozwala temu czasownikowi "halasowac" (choc jest to odradzane), bo to jedyne miejsce, gdzie pokoj pozna oryginalna lokalizacje obiektu.
 2
 
 2
-:acceptable (object) - Called by verbs which wish to check whether movement will be possible.  Protocol prohibits this verb from making noise and requires it to return the same value as :accept would for the same arguments.
+:acceptable (object) - wywolywane przez czasowniki chcace sprawdzic, czy ruch bedzie mozliwy.  Protokol zabrania temu czasownikowi "halasowac" i wymaga, by zwracal te sama wartosc co :accept dla tych samych argumentow.
 2
 
 2
-:is_unlocked_for (object) - interface with the @lock protocol.  Returns true or false depending on the state of locks for the object with the room.  Other things may prevent entrance even if this returns true.  Protocol prohibits this verb from making noise. 
+:is_unlocked_for (object) - interfejs z protokolem @lock.  Zwraca prawde lub falsz w zaleznosci od stanu blokad dla obiektu wzgledem pokoju.  Inne rzeczy moga zapobiegac wejsciu, nawet jesli to zwraca prawde.  Protokol zabrania temu czasownikowi "halasowac". 
 2
 
 2
-:enterfunc (object) - called after entrance has succeeded.  Noise is fine.
+:enterfunc (object) - wywolywane po udanym wejsciu.  Halasowanie jest w porzadku.
 2
 
 2
-:exitfunc (object) - called after an object has successfully left.  Noisemaking is fine.
+:exitfunc (object) - wywolywane po tym, jak obiekt pomyslnie opuscil pokoj.  Halasowanie jest w porzadku.
 2
 
 2
-(6)  Topology and Movement via Exits
+(6)  Topologia i ruch przez wyjscia
 2
 
 2
-See `help $exit' for an explanation of how the generic $exit works.
+Zobacz `help $exit' po wyjasnienie, jak dziala generyczne $exit.
 2
 
 2
-free_entry     - true  => `teleporting' in is allowed
+free_entry     - prawda  => "teleportowanie sie" jest dozwolone
 2
-                  false => only residents may teleport in
+                  falsz => tylko mieszkancy moga teleportowac sie tutaj
 2
-exits          - list of invokable exits leading from this room
+exits          - lista wywolywalnych wyjsc prowadzacych z tego pokoju
 2
-entrances      - list of recognized exits leading to this room
+entrances      - lista rozpoznawanych wyjsc prowadzacych do tego pokoju
 2
-blessed_object - object currently entering via an exit
+blessed_object - obiekt obecnie wchodzacy przez wyjscie
 2
-blessed_task   - task_id for entering object
+blessed_task   - task_id dla wchodzacego obiektu
 2
 
 2
-:match_exit      (string) => exit whose name matches string
+:match_exit      (string) => wyjscie, ktorego nazwa pasuje do string
 2
-:bless_for_entry (object) - set up room to accept object arriving from entrance
+:bless_for_entry (object) - przygotowuje pokoj do przyjecia obiektu przybywajacego z wejscia
 2
 :add_exit        (exit)
 2
@@ -6990,13 +6986,13 @@ e/east/w/west/s/south/n/north/ne/northeast/nw/northwest/se/southeast/sw/southwes
 2
 
 2
-(7)  Ejection
+(7)  Wyrzucenie
 2
 
 2
 victim_ejection_msg/oejection_msg/ejection_msg
 2
-:*_msg()  messages
+:*_msg()  komunikaty
 2
 
 2
@@ -7016,133 +7012,133 @@ $generic_help
 4
 79
 2
-Generic Database
+Generyczna Baza Danych
 2
 ----------------
 2
-This holds a collection of {string key, datum} pairs, where datum can be anything.  At most one datum may be associated with any given string.  Data may be anything (lists, strings, numbers, objectids).  If you like, you can think of this as an array indexed by strings.
+Ta baza przechowuje kolekcje par {klucz-string, dana}, gdzie dana moze byc czymkolwiek.  Co najwyzej jedna dana moze byc powiazana z danym stringiem.  Dane moga byc czymkolwiek (listy, stringi, liczby, objectid).  Jesli chcesz, mozesz myslec o tym jako o tablicy indeksowanej stringami.
 2
-Verbs supplied include
+Dostepne czasowniki obejmuja
 2
 
 2
-  :find(string)          => datum, $ambiguous_match or $failed_match
+  :find(string)          => dana, $ambiguous_match lub $failed_match
 2
-  :find_key(string)      => full string key,  $ambiguous_match or $failed_match
+  :find_key(string)      => pelny klucz-string,  $ambiguous_match lub $failed_match
 2
-  :find_exact(string)    => datum or $failed_match (no partial matches)
+  :find_exact(string)    => dana lub $failed_match (bez czesciowych dopasowan)
 2
-  :find_all(string)      => list of all data corresponding to matching strings
+  :find_all(string)      => lista wszystkich danych odpowiadajacych pasujacym stringom
 2
-  :find_all_keys(string) => list of all matching strings
+  :find_all_keys(string) => lista wszystkich pasujacych stringow
 2
 
 2
   :insert(string,datum)  
 2
-       if the string is already present in the db, 
+       jesli string juz jest obecny w bazie, 
 2
-       changes the associated datum and returns {old_datum};
+       zmienia powiazana dana i zwraca {old_datum};
 2
-       otherwise enters a new {string,datum} pair and return 0.
+       w przeciwnym razie wpisuje nowa pare {string,datum} i zwraca 0.
 2
   :delete(string)
 2
-       if there is a datum associated with string, 
+       jesli jest dana powiazana ze string, 
 2
-       remove this association and return {datum}; otherwise return 0.
+       usuwa to powiazanie i zwraca {datum}; w przeciwnym razie zwraca 0.
 2
   :delete2(string,datum)
 2
-       if the given datum is associated with string, 
+       jesli podana dana jest powiazana ze string, 
 2
-       removes that association and return {datum}, 
+       usuwa to powiazanie i zwraca {datum}, 
 2
-       if some other datum is associated with string, just return {other datum}
+       jesli inna dana jest powiazana ze string, po prostu zwraca {other datum}
 2
-       otherwise return 0.
+       w przeciwnym razie zwraca 0.
 2
   :clearall([4|3])
 2
-       removes all associations from the database.
+       usuwa wszystkie powiazania z bazy.
 2
-       optional argument changes the type of the database 
+       opcjonalny argument zmienia typ bazy 
 2
-       (4 is normal, 3 is a kludge for when the data are simply boolean flags
+       (4 to normalny, 3 to obejscie dla przypadku gdy dane sa po prostu flagami logicznymi,
 2
-        i.e., this is a set of strings rather than a string-indexed array;
+        tj. to zbior stringow zamiast tablicy indeksowanej stringami;
 2
-        more on this below)
+        wiecej o tym ponizej)
 2
 
 2
   count [entries|chars] in this
 2
-        provide some vague statistics about how big this thing is.
+        podaje pewne przyblizone statystyki o tym, jak duza jest ta rzecz.
 2
 
 2
-N.B.  As entries get made, properties belonging to $generic_db.owner will be created on the db object itself.  These properties will be created having flags as specified by .node_perms, which by default is "r", but can be changed to "" should you want to ensure that randoms don't have access to the raw information.
+UWAGA.  W miare dodawania wpisow, wlasciwosci nalezace do $generic_db.owner beda tworzone na samym obiekcie bazy.  Te wlasciwosci beda tworzone z flagami okreslonymi przez .node_perms, ktore domyslnie to "r", ale mozna zmienic na "", jesli chcesz zapewnic, ze przypadkowe osoby nie beda miec dostepu do surowych informacji.
 2
 
 2
-Implementation notes
+Notatki implementacyjne
 2
  - - - - - - - - - -
 2
-The representation is as a `trie', a tree in which each internal node corresponds to a prefix shared by two or more strings in the db.
+Reprezentacja to "trie", drzewo, w ktorym kazdy wewnetrzny wezel odpowiada prefiksowi wspoldzielonemu przez dwa lub wiecej stringow w bazie.
 2
-Each internal node is kept in a property named " "+<prefix>, where <prefix> is a prefix shared by all strings in the subtree under this node.
+Kazdy wewnetrzny wezel jest przechowywany we wlasciwosci o nazwie " "+<prefix>, gdzie <prefix> to prefiks wspoldzielony przez wszystkie stringi w poddrzewie pod tym wezlem.
 2
-The property value is a 4 element list
+Wartoscia wlasciwosci jest 4-elementowa lista
 2
 
 2
 this.(" "+<prefix>)[1] = <common>
 2
-   maximal continuation shared by all strings beginning with prefix
+   maksymalna kontynuacja wspoldzielona przez wszystkie stringi zaczynajace sie od prefix
 2
-   i.e., all these names actually begin with <prefix>+<common>
+   tj. wszystkie te nazwy faktycznie zaczynaja sie od <prefix>+<common>
 2
 
 2
 this.(" "+<prefix>)[2] = <continuations>
 2
-   string of all characters <c> that can follow <prefix>+<common> for which
+   string wszystkich znakow <c>, ktore moga nastapic po <prefix>+<common>, dla ktorych
 2
-   there is more than one string in the db beginning with <prefix>+<common>+<c>
+   jest wiecej niz jeden string w bazie zaczynajacy sie od <prefix>+<common>+<c>
 2
 
 2
 this.(" "+<prefix>)[3] = <exact_matches>
 2
-   list of all strings in this subtree for which 
+   lista wszystkich stringow w tym poddrzewie, dla ktorych 
 2
-   the character (or lack thereof) following the <prefix>+<common> substring 
+   znak (lub jego brak) nastepujacy po podciagu <prefix>+<common> 
 2
-   suffices to determine the string.
+   wystarcza do jednoznacznego okreslenia stringa.
 2
 
 2
 this.(" "+<prefix>)[4] = <data>
 2
-   list of data corresponding to the strings in [3].
+   lista danych odpowiadajacych stringom w [3].
 2
 
 2
-Child nodes are       this.(" "+<prefix>+<common>+<c>) 
+Wezly-dzieci to       this.(" "+<prefix>+<common>+<c>) 
 2
-       for all <c> in this.(" "+<prefix>)[2].
+       dla wszystkich <c> w this.(" "+<prefix>)[2].
 2
-The root node is this.(" ").
+Wezel-korzen to this.(" ").
 2
-If, e.g., there are 2 or more strings in the db beginning with a, 
+Jesli np. sa 2 lub wiecej stringi w bazie zaczynajace sie od a, 
 2
-there will be a node this.(" a").  
+bedzie wezel this.(" a").  
 2
-If all of these strings actually begin with "ani", then this.(" a")[1]=="ni".
+Jesli wszystkie te stringi faktycznie zaczynaja sie od "ani", to this.(" a")[1]=="ni".
 2
-The db consisting of the 5 correspondences
+Baza skladajaca sie z 5 powiazan
 2
 
 2
@@ -7158,7 +7154,7 @@ The db consisting of the 5 correspondences
 2
 
 2
-would be represented
+byla by reprezentowana
 2
 
 2
@@ -7172,13 +7168,13 @@ this.(" anil")=={"",  "",   {"anil","anile"},  {#3,#4}}
 2
 
 2
-In some cases one may merely wish to hold a collection of strings without trying to associate a particular datum with each string.  One may then instead set up a db without the fourth field on each of the properties.  In this case the datum is taken to be the found string itself and that is what gets returned by :find*() in the event of a successful search.   :find and :find_key are then equivalent as are :find_all and :find_all_keys.  To setup the db this way, do a :clearall(3).  :clearall(4) reverts to the above described type of db with a separately kept datum.  Note that you can't change the type without emptying the db.  3 and 4 are currently the only db types allowed.
+W niektorych przypadkach ktos moze chciec po prostu przechowywac kolekcje stringow bez probowania powiazania konkretnej danej z kazdym stringiem.  Mozna wtedy zamiast tego skonfigurowac baze bez czwartego pola na kazdej z wlasciwosci.  W tym przypadku dana jest przyjmowana jako sam znaleziony string, i to jest zwracane przez :find*() w przypadku udanego wyszukiwania.   :find i :find_key sa wtedy rownowazne, podobnie jak :find_all i :find_all_keys.  By skonfigurowac baze w ten sposob, wykonaj :clearall(3).  :clearall(4) przywraca opisany powyzej typ bazy z osobno przechowywana dana.  Uwaga: nie mozna zmienic typu bez oproznienia bazy.  3 i 4 sa obecnie jedynymi dozwolonymi typami bazy.
 36
 5
 4
 201
 2
-The Generic Editor enables a player to edit a list of strings.  While one might contrive to use it directly, it is rather intended as a parent for some actual editor.  It supplies the following commands:
+Generyczny Edytor pozwala graczowi edytowac liste stringow.  Choc mozna by go uzywac bezposrednio, jest raczej przeznaczony jako rodzic dla faktycznego edytora.  Udostepnia nastepujace polecenia:
 2
 
 2
@@ -7206,237 +7202,237 @@ fill        [<range>] [@<col>]
 2
 
 2
-$editor_help.(cmdname) descrbes cmdname
+$editor_help.(cmdname) opisuje cmdname
 2
-$editor_help.insert    descrbes insertion points (<ins>)
+$editor_help.insert    opisuje punkty wstawiania (<ins>)
 2
-$editor_help.ranges    descrbes range specifications (<range>)
+$editor_help.ranges    opisuje specyfikacje zakresow (<range>)
 2
 
 2
-You'll notice that nowhere does it say how to load in a given list of strings or how and where one may save said list away when one is done editing.  These commands are supplied by the child editor object.  The generic editor contains only the code for editing lines, though it defines additional functions for use by the children:
+Zauwazysz, ze nigdzie nie ma mowy o tym, jak wczytac dana liste stringow, ani jak i gdzie mozna zapisac te liste po zakonczeniu edycji.  Te polecenia sa dostarczane przez obiekt-dziecko edytora.  Generyczny edytor zawiera tylko kod do edycji linii, choc definiuje dodatkowe funkcje do uzytku przez dzieci:
 2
 
 2
   :loaded(player)
 2
-     returns the index (player in this.active) iff text has been loaded
+     zwraca indeks (player in this.active) wtedy i tylko wtedy, gdy tekst zostal wczytany
 2
-     from somewhere, otherwise returns 0.
-2
-
-2
-     Note that, by default, there is a difference between 
+     skads, w przeciwnym razie zwraca 0.
 2
 
 2
-        having nothing loaded                (:text(who)==0) and 
-2
-        having loaded something with no text (:text(who)=={}).
+     Uwaga: domyslnie jest roznica miedzy 
 2
 
 2
-     If you don't care about this distinction in a particular case,
+        niczym niewczytanym                (:text(who)==0) a 
 2
-     just do (player in this.active) instead of this:loaded(player).  
-2
-     If you don't want your editor to make this distinction at all, do
+        wczytaniem czegos bez tekstu (:text(who)=={}).
 2
 
 2
-        @stateprop texts={} for <youreditor>
+     Jesli nie zalezy ci na tej roznicy w konkretnym przypadku,
+2
+     po prostu wykonaj (player in this.active) zamiast this:loaded(player).  
+2
+     Jesli nie chcesz, by twoj edytor w ogole rozrozial te przypadki, wykonaj
 2
 
 2
-     which changes the initial value of :text() to {} 
+        @stateprop texts={} for <twoj-edytor>
 2
 
 2
-In all functions below, 'who' is the index returned by :loaded(player) 
+     co zmienia poczatkowa wartosc :text() na {} 
 2
 
 2
-BTW, be careful about using 'player' in non-user (i.e., +x this-none-this) verbs --- much better to have the user verb get the index with :loaded() and then pass that around.  
+We wszystkich ponizszych funkcjach 'who' to indeks zwrocony przez :loaded(player) 
 2
 
 2
-Also be careful about suspend() and verbs that call suspend().  In particular, the player's index in the .active list can change during the suspend interval, so you must be sure to obtain the index (e.g., using :loaded()) again after the suspend() returns.
+Btw, uwazaj z uzywaniem 'player' w czasownikach nie-uzytkownikowych (tj. +x this-none-this) --- o wiele lepiej, by czasownik uzytkownika pobral indeks przez :loaded(), a potem przekazywal go dalej.  
 2
 
 2
-For your non-user verbs, we have
+Uwazaj tez z suspend() i czasownikami wywolujacymi suspend().  W szczegolnosci indeks gracza na liscie .active moze sie zmienic podczas przerwy na zawieszenie, wiec musisz upewnic sie, ze uzyskujesz indeks (np. za pomoca :loaded()) ponownie po powrocie z suspend().
+2
+
+2
+Dla twoich czasownikow nie-uzytkownikowych mamy
 2
 
 2
   :ok(who)
 2
-     returns E_PERM if the caller is not an editor verb and E_RANGE
+     zwraca E_PERM, jesli wywolujacy nie jest czasownikiem edytora, i E_RANGE,
 2
-     if 'who' does not point to a valid session.
+     jesli 'who' nie wskazuje na prawidlowa sesje.
 2
 
 2
-which should take care of the more egregious security holes (but maybe not the less egregious ones).  For getting and loading text, we have
+co powinno zalatwic wieksze dziury bezpieczenstwa (ale moze nie te mniejsze).  Do pobierania i wczytywania tekstu mamy
 2
 
 2
   :text(who)    
 2
-     the current text string list or 0 if nothing loaded yet.
+     biezaca lista-string tekstu lub 0, jesli nic jeszcze nie wczytano.
 2
   :load(who,text)
 2
-     loads the given list of strings as the text to be edited.
+     wczytuje podana liste stringow jako tekst do edycji.
 2
-     this also resets the 'changed' flag and pushes the insertion 
+     resetuje tez flage 'changed' i przesuwa punkt wstawiania
 2
-     point to the end.
+     na koniec.
 2
 
 2
-and various flags and properties (all of the set_* routines return E_PERM when not called from an editor verb, E_RANGE if who is out of bounds, E_INVARG if something is wrong with the 2nd arg, or the new value, which may not necessarily be the same as the 2nd arg (e.g., set_insertion(..,37) on a 5 line text buffer returns 6).
+i rozne flagi i wlasciwosci (wszystkie procedury set_* zwracaja E_PERM, gdy nie sa wywolane z czasownika edytora, E_RANGE, jesli who jest poza zakresem, E_INVARG, jesli cos jest nie tak z drugim argumentem, lub nowa wartosc, ktora niekoniecznie musi byc taka sama jak drugi argument (np. set_insertion(..,37) na buforze tekstu o 5 liniach zwraca 6).
 2
 
 2
   :changed(who)
 2
-     has the text been altered since the last save/load?
+     czy tekst zostal zmieniony od ostatniego zapisu/wczytania?
 2
-     (the child editor gets to define what "save" means).
+     (edytor-dziecko definiuje, co oznacza "zapisz").
 2
   :set_changed(who,value)
 2
-     Any child editor command that is considered to save the text should do a 
+     Kazde polecenie edytora-dziecka, ktore ma zapisywac tekst, powinno wykonac 
 2
      :set_changed(who,0).  
 2
-     Note that if the changed flag is 0, the session will be flushed when 
+     Uwaga: jesli flaga changed to 0, sesja zostanie wyczyszczona, gdy
 2
-     the player leaves the editor, so you may also want certain commands to
+     gracz opusci edytor, wiec mozesz tez chciec, by pewne polecenia
 2
-     do set_changed(who,1)...
+     wykonywaly set_changed(who,1)...
 2
 
 2
   :origin(who)
 2
-     room where the player came from.  
+     pokoj, z ktorego przyszedl gracz.  
 2
   :set_origin(who,room)
 2
-     can be used to change the room the player will return to when finished
+     mozna uzyc, by zmienic pokoj, do ktorego gracz wroci po zakonczeniu
 2
-     editing.  Since origin gets set even in cases where the player teleports
+     edycji.  Poniewaz origin jest ustawiane nawet w przypadkach, gdy gracz teleportuje sie
 2
-     into the editor you probably won't usually need to do this.
+     do edytora, zwykle nie bedziesz musial tego robic.
 2
 
 2
   :insertion(who)
 2
-     current insertion point.
+     biezacy punkt wstawiania.
 2
   :set_insertion(who,linenumber)
 2
-     linenumber needs to be a positive integer and will get 
+     linenumber musi byc dodatnia liczba calkowita i zostanie 
 2
 
 2
   :readable(who)
 2
-     whether the current editing session has been made globally readable.
+     czy biezaca sesja edycji zostala uczyniona ogolnie czytelna.
 2
   :set_readable(who,boolean)
 2
-     change the readability of the current editing session.
+     zmien czytelnosc biezacej sesji edycji.
 2
-     This is used by the publish/perish verbs.
+     Uzywane przez czasowniki publish/perish.
 2
 
 2
-We also provide
+Dostarczamy tez
 2
 
 2
   :invoke(...)
 2
-      If the player has a previous unsaved (i.e., :changed()!=0)
+      Jesli gracz ma poprzednia niezapisana (tj. :changed()!=0)
 2
-      session, we return to it, moving the player to the editor.  
+      sesje, wracamy do niej, przenoszac gracza do edytora.  
 2
-      If the player is already in the editor, this has no effect other
+      Jesli gracz jest juz w edytorze, to nie ma efektu poza wypisaniem
 2
-      than to print a few nasty messages.  In any case a :changed()
+      kilku niemilych komunikatow.  W kazdym razie sesja :changed()
 2
-      session must be aborted or set_changed(,0) before anything else 
+      musi zostac przerwana lub set_changed(,0) zanim cokolwiek innego 
 2
-      can be started
-2
-
-2
-      Otherwise, we pass the arguments (which are assumed to be the
-2
-      result of some munging of the command line) to :parse_invoke(),
-2
-      move the player to the editor and load whatever parse_invoke()
-2
-      specified.  The only interpretation the generic editor makes on
-2
-      the arguments is that if the boolean value of the first is true,
-2
-      this indicates that the player wanted to load something as
-2
-      opposed to resume a previous session.  Usually a command calling
-2
-      :invoke will have a true (i.e., nonzero number, nonempty list or
-2
-      string) first arg iff the command line is nonempty, in which case 
-2
-      'args' works fine for this purpose.
+      moze byc rozpoczete
 2
 
 2
-      If the command parses sucessfully (:parse_invoke() returns a list),
+      W przeciwnym razie przekazujemy argumenty (o ktorych zaklada sie, ze sa
 2
-      we move the player to the editor if necessary and then call 
+      wynikiem jakiegos przetworzenia linii polecenia) do :parse_invoke(),
 2
-      :init_session() to set things up.
+      przenosimy gracza do edytora i wczytujemy to, co parse_invoke()
+2
+      okreslilo.  Jedyna interpretacja, jaka generyczny edytor wykonuje na
+2
+      argumentach, to sprawdzenie, czy wartosc logiczna pierwszego jest prawdziwa,
+2
+      co wskazuje, ze gracz chcial cos wczytac, w
+2
+      odroznieniu od wznowienia poprzedniej sesji.  Zwykle polecenie wywolujace
+2
+      :invoke bedzie miec prawdziwy (tj. niezerowa liczbe, niepusta liste lub
+2
+      string) pierwszy argument wtedy i tylko wtedy, gdy linia polecenia jest niepusta, w takim przypadku 
+2
+      'args' dziala dla tego celu.
 2
 
 2
-The child editor is assumed to provide
+      Jesli polecenie sparsuje sie pomyslnie (:parse_invoke() zwraca liste),
+2
+      przenosimy gracza do edytora w razie potrzeby, a nastepnie wywolujemy 
+2
+      :init_session(), by wszystko przygotowac.
+2
+
+2
+Zaklada sie, ze edytor-dziecko dostarcza
 2
 
 2
   :parse_invoke(...)
 2
-     given :invoke()'s arguments, determines what the player wants to edit.
+     na podstawie argumentow :invoke() okresla, co gracz chce edytowac.
 2
-     It either returns 0 and reports syntax errors to player,
+     Albo zwraca 0 i raportuje bledy skladniowe graczowi,
 2
-     or it returns some list that :init_session() will understand.
+     albo zwraca jakas liste, ktora :init_session() zrozumie.
 2
 
 2
   :init_session(who,@spec)
 2
-     where spec is something that was returned by :parse_invoke().
+     gdzie spec to cos, co zwrocilo :parse_invoke().
 2
-     Loads the text and sets the stateprops (below) to indicate that 
+     Wczytuje tekst i ustawia stateprops (ponizej), by wskazac, ze
 2
-     we are working on whatever it is we're suppose to be working on.
+     pracujemy nad tym, nad czym mamy pracowac.
 2
 
 2
   :working_on(who)   
 2
-     returns a string X as in "You are working on X."
+     zwraca string X jak w "You are working on X."
 2
-     This is called by the 'w*hat' command, among other things.
+     Wywolywane m.in. przez polecenie 'w*hat'.
 2
 
 2
-Child editors may have their own properties giving state information for the various editing sessions.  The value of each such property will be a list giving a value for each player in the editor.  For each such property, you should, once the editor object has been created, initialize the property to {} and do one of
+Edytory-dzieci moga miec wlasne wlasciwosci podajace informacje o stanie dla roznych sesji edycji.  Wartoscia kazdej takiej wlasciwosci bedzie lista podajaca wartosc dla kazdego gracza w edytorze.  Dla kazdej takiej wlasciwosci powinienes, po utworzeniu obiektu edytora, zainicjowac wlasciwosc na {} i wykonac jedno z
 2
 
 2
@@ -7444,11 +7440,11 @@ Child editors may have their own properties giving state information for the var
 2
     @stateprop <propname>=<default-value> for <editor>
 2
-               (0 is the default <default-value>)
+               (0 to domyslna <default-value>)
 2
 
 2
-Henceforth, adding and deleting new editing sessions will amend the list held by the given property.  The value of the property for a given session can be obtained via this.<propname>[player in this.active] and can be changed with a corresponding listset() call.  The usual idiom for an editor command is
+Odtad dodawanie i usuwanie nowych sesji edycji bedzie zmieniac liste przechowywana przez podana wlasciwosc.  Wartosc wlasciwosci dla danej sesji mozna uzyskac przez this.<propname>[player in this.active] i mozna ja zmienic odpowiednim wywolaniem listset().  Zwykly idiom dla polecenia edytora to
 2
 
 2
@@ -7458,13 +7454,13 @@ Henceforth, adding and deleting new editing sessions will amend the list held by
 2
    else
 2
-      ... various references to  this.<propname>[who] ...
+      ... rozne odwolania do  this.<propname>[who] ...
 2
    endif
 2
 
 2
-To remove such a property from the list of such state properties:
+By usunac taka wlasciwosc z listy takich wlasciwosci stanu:
 2
 
 2
@@ -7472,45 +7468,45 @@ To remove such a property from the list of such state properties:
 2
 
 2
-Note that you can only do this with properties defined on the child editor itself.  
+Uwaga: mozna to zrobic tylko z wlasciwosciami zdefiniowanymi na samym edytorze-dziecku.  
 2
 
 2
-Sometimes you may wish to @stateprop a new property on an editor where active editing sessions exist.  @stateprop will fail if the property in question does not hold a list of the correct length (== length(editor.active); one value for each editing session).  You need to either give the @flush command to clear out all sessions and boot all players currently in the editor or somehow manually initialize the property to a list of appropriate values and pray that nobody enters/exits the editor between the property initialization and the @stateprop command --- this problem can be avoided by doing an eval() that does all of the initializations (beware of suspends()) and calls :set_stateprops directly.
+Czasem mozesz chciec wykonac @stateprop na nowej wlasciwosci na edytorze, na ktorym istnieja aktywne sesje edycji.  @stateprop zawiedzie, jesli dana wlasciwosc nie zawiera listy poprawnej dlugosci (== length(editor.active); jedna wartosc na kazda sesje edycji).  Musisz albo wydac polecenie @flush, by wyczyscic wszystkie sesje i wyrzucic wszystkich graczy obecnie w edytorze, albo jakos recznie zainicjowac wlasciwosc na liste odpowiednich wartosci i modlic sie, by nikt nie wszedl/wyszedl z edytora miedzy inicjalizacja wlasciwosci a poleceniem @stateprop --- tego problemu mozna uniknac wykonujac eval(), ktory wykona wszystkie inicjalizacje (uwazaj na suspend()) i wywola :set_stateprops bezposrednio.
 2
 
 2
-Incidentally, the @flush command may be used at any time to clean out the editor or to remove all sessions older than a given date.
+Przy okazji, polecenia @flush mozna uzyc w dowolnym momencie, by wyczyscic edytor lub usunac wszystkie sesje starsze niz podana data.
 2
 
 2
-There are also numerous _msg properties that may be customized
+Sa tez liczne wlasciwosci _msg, ktore mozna dostosowac
 2
 
 2
-    @depart          announced at the origin when :invoke() is called. 
+    @depart          ogloszane w miejscu pochodzenia, gdy wywolano :invoke(). 
 2
-    @return          announced at the origin the player is returned there.
+    @return          ogloszane w miejscu pochodzenia, gdy gracz tam wraca.
 2
-    @nothing_loaded  printed when user attempts editing 
+    @nothing_loaded  wypisywane, gdy uzytkownik probuje edytowac 
 2
-                     before anything has been loaded.
+                     zanim cokolwiek zostalo wczytane.
 2
-    @no_text         response to 'list' when :text()=={}
+    @no_text         odpowiedz na 'list', gdy :text()=={}
 2
-    @no_change       printed by 'what' when :changed()==0
+    @no_change       wypisywane przez 'what', gdy :changed()==0
 2
-    @change          printed by 'what' when :changed()==1
+    @change          wypisywane przez 'what', gdy :changed()==1
 2
-    @no_littering    printed upon leaving the editor with :changed()==1.
+    @no_littering    wypisywane przy opuszczaniu edytora z :changed()==1.
 2
-    @previous_session  printed by :invoke() when player tries to start a 
+    @previous_session  wypisywane przez :invoke(), gdy gracz probuje rozpoczac 
 2
-                     new session without aborting or saving the old one
+                     nowa sesje bez przerwania lub zapisania starej
 2
 
 2
-The general procedure for creating a child editor:
+Ogolna procedura tworzenia edytora-dziecka:
 2
 
 2
@@ -7518,29 +7514,29 @@ The general procedure for creating a child editor:
 2
 
 2
-. define additional <editor> verbs/properties
+. zdefiniuj dodatkowe czasowniki/wlasciwosci <editor>
 2
-    At the very least you need 'edit' and 'save' commands.
+    Na sam poczatek potrzebujesz polecen 'edit' i 'save'.
 2
-    Usually you can get away with just having 'edit' call :invoke();
+    Zwykle wystarczy, by 'edit' wywolywalo :invoke();
 2
-    Presumably, you'll need at least a command to load text from somewhere
+    Prawdopodobnie potrzebujesz co najmniej polecenia do wczytania tekstu skads,
 2
-    as well as a command to save it back out.
+    a takze polecenia do zapisania go z powrotem.
 2
 
 2
-. define a verb (somewhere) to invoke the editor 
+. zdefiniuj czasownik (gdzies), by wywolywac edytor 
 2
-    This could be just a one-liner that calls <editor>:invoke(args,verb).
+    Moze to byc tylko jednolinijkowy czasownik wywolujacy <editor>:invoke(args,verb).
 2
-    Either that or
+    Albo, albo
 2
-      .  you have to set up an exit somewhere whose destination is <editor>
+      .  musisz stworzyc gdzies wyjscie, ktorego celem jest <editor>
 2
-      .  you have to advertise the object number so that people can 
+      .  musisz zareklamowac numer obiektu, by ludzie mogli sie
 2
-         teleport to it.
+         tam teleportowac.
 2
   
 2
@@ -7548,319 +7544,319 @@ The general procedure for creating a child editor:
 2
 
 2
-. if you want the 'abort' command to boot the player from the editor do
+. jesli chcesz, by polecenie 'abort' wyrzucalo gracza z edytora, wykonaj
 2
     <editor>.exit_on_abort = 1;
 2
 
 2
-. set <editor>.commands to be the list of additional commands defined
+. ustaw <editor>.commands na liste dodatkowych polecen zdefiniowanych
 2
-    by <editor>.  
+    przez <editor>.  
 2
-    Each element of the list is itself a list of the form {name,args}.
+    Kazdy element listy jest sam lista postaci {name,args}.
 2
-  set <editor>.commands2 to be the list of commands that should appear
+  ustaw <editor>.commands2 na liste polecen, ktore powinny pojawic sie
 2
-    in the `look' listing, and should be a list of strings appearing 
+    w listingu 'look', i powinna byc lista stringow wystepujacych 
 2
-    as names in .commands on either <editor> or some editor ancestor.
+    jako nazwy w .commands na <editor> lub jakims przodku edytora.
 2
-  look at $verb_editor or $note_editor for an example.
+  spojrz na $verb_editor lub $note_editor po przyklad.
 2
 
 2
-. If you want to have help text for new verbs you define, create a child of 
+. Jesli chcesz miec tekst pomocy dla nowych czasownikow, ktore definiujesz, stworz dziecko 
 2
-    $generic_help and add properties to this object for each of the topics 
+    $generic_help i dodaj wlasciwosci do tego obiektu dla kazdego z tematow, 
 2
-    that you want to provide help text.
+    dla ktorych chcesz dostarczyc tekst pomocy.
 2
-    Finally, set <editor>.help = {this object} so that the help system
+    Na koniec ustaw <editor>.help = {this object}, by system pomocy
 2
-    knows to consult this object.
+    wiedzial, ze ma sie odwolac do tego obiektu.
 36
 5
 4
 87
 2
-The Help System
+System pomocy
 2
 ---------------
 2
-When a player types help, the following list of objects is consulted for .help properties:  the player itself, all ancestors of player up to and including $player, and, if the current location is a room, the current location together with all ancestors of the current location back to and including $room.  Each help property should have as value either an object or a list of objects (otherwise we just ignore it).  These objects are then strung together as a list of `help databases' to be searched in order for the requested topic.
+Gdy gracz wpisze help, konsultowana jest nastepujaca lista obiektow w poszukiwaniu wlasciwosci .help:  sam gracz, wszyscy przodkowie gracza az do $player wlacznie, oraz, jesli biezaca lokalizacja jest pokojem, biezaca lokalizacja wraz ze wszystkimi przodkami biezacej lokalizacji az do $room wlacznie.  Kazda wlasciwosc help powinna miec jako wartosc albo obiekt, albo liste obiektow (w przeciwnym razie po prostu ja ignorujemy).  Te obiekty sa nastepnie laczone w liste "baz danych pomocy" do przeszukania po kolei w poszukiwaniu zadanego tematu.
 2
 
 2
-A help database (in the sense of anything that is usable by $player:help()) is any object having the following three verbs:
+Baza danych pomocy (w sensie czegokolwiek uzywalnego przez $player:help()) to dowolny obiekt majacy nastepujace trzy czasowniki:
 2
 
 2
   :find_topics([string])
 2
-     where string is a supposed help topic, returns a list of strings,
+     gdzie string to rzekomy temat pomocy, zwraca liste stringow,
 2
-     i.e., actual help topics that this db knows about, or some boolean 
+     tj. faktyczne tematy pomocy, o ktorych ta baza wie, albo jakas falszywa
 2
-     false value in the event that this db is clueless...
+     wartosc logiczna, jesli ta baza nie ma pojecia...
 2
-     If no arguments are given, this should return a list of all topics
+     Jesli nie podano argumentow, powinna zwrocic liste wszystkich tematow
 2
-     in the db
+     w bazie
 2
 
 2
   :get_topic(string)
 2
-     given one of the strings returned by :find_topics this either
+     dla jednego ze stringow zwroconych przez :find_topics albo
 2
-     returns a list of strings (text to be spewed to the player) or
+     zwraca liste stringow (tekst do wypisania graczowi), albo
 2
-     returns 1 to indicate that it has already taken care of printing
+     zwraca 1, by wskazac, ze juz zajela sie wypisaniem
 2
-     information to the player.
+     informacji graczowi.
 2
 
 2
   :dump_topic(string)
 2
-     like get_topic, but instead returns the raw text of a help topic
+     jak get_topic, ale zamiast tego zwraca surowy tekst tematu pomocy
 2
-     as a (download/upload) script
-2
-
-2
-In short if :find_topic reports that a particular db knows about a given topic
-2
-it returns the full topic name, so that :get_topic may be called on it later.
-2
-:dump_topic is used by maintainers (see $wiz:@gethelp) to edit help topics.
+     jako skrypt (download/upload)
 2
 
 2
-$generic_help and $help
+Krotko mowiac, jesli :find_topic zglosi, ze dana baza wie o danym temacie,
+2
+zwraca pelna nazwe tematu, tak by mozna bylo pozniej wywolac na nim :get_topic.
+2
+:dump_topic jest uzywane przez opiekunow (zobacz $wiz:@gethelp), by edytowac tematy pomocy.
+2
+
+2
+$generic_help i $help
 2
 -----------------------
 2
-The Generic Help Database, $generic_help, is the parent class of a particular kind of help database of which $help is an instance.  On help databases of this type, every help topic has a corresponding property, interpreted as follows:
+Generyczna Baza Pomocy, $generic_help, to klasa-rodzic konkretnego rodzaju bazy pomocy, ktorej instancja jest $help.  Na bazach pomocy tego typu kazdy temat pomocy ma odpowiadajaca wlasciwosc, interpretowana nastepujaco:
 2
 
 2
   this.(topic) = string             
 2
-      one-line help text.
+      jednoliniowy tekst pomocy.
 2
 
 2
   this.(topic) = {"*<verb>*",@args}
 2
-      call this:<verb>(args,dblist) to get text where dblist is the list of 
+      wywolaj this:<verb>(args,dblist), by uzyskac tekst, gdzie dblist to lista 
 2
-      help objects that would have been consulted had the topic not been found 
+      obiektow pomocy, ktore zostalyby skonsultowane, gdyby temat nie zostal znaleziony 
 2
-      on this object.
-2
-
-2
-  this.(topic) = other list of strings 
-2
-      multi-line help text
+      na tym obiekcie.
 2
 
 2
-For the {"*<verb>*",...} form, the current verbs available are
+  this.(topic) = inna lista stringow 
+2
+      wieloliniowy tekst pomocy
+2
+
+2
+Dla formy {"*<verb>*",...} obecnie dostepne czasowniki to
 2
 
 2
   {"*forward*", topic, @rest}   
 2
-     - get help text for topic and then append the lines of `rest'.  
+     - pobierz tekst pomocy dla topic, a nastepnie dolacz linie `rest'.  
 2
-       rest may, in turn, begin with a "*<verb>*"...
+       rest moze z kolei zaczynac sie od "*<verb>*"...
 2
 
 2
   {"*pass*", topic, @rest}   
 2
-     - get help text for topic from the first help database after this one
+     - pobierz tekst pomocy dla topic z pierwszej bazy pomocy po tej,
 2
-       that actually has help text for topic, and then append lines of `rest'.
+       ktora faktycznie ma tekst pomocy dla topic, a nastepnie dolacz linie `rest'.
 2
-       As with "*forward*" rest may, in turn, begin with a "*<verb>*"...
+       Podobnie jak z "*forward*", rest moze z kolei zaczynac sie od "*<verb>*"...
 2
 
 2
   {"*subst*", @lines} 
 2
-     - All occurences of %[exp] in lines are replaced with the value of exp
+     - Wszystkie wystapienia %[exp] w lines sa zastepowane wartoscia exp,
 2
-         which is assumed to evaluate to a string.  
+         ktora zaklada sie, ze ewaluuje sie do stringa.  
 2
-       All lines beginning with %;exp are replaced with the value of exp 
+       Wszystkie linie zaczynajace sie od %;exp sa zastepowane wartoscia exp,
 2
-         which is assumed to evaluate to a list of strings.
+         ktora zaklada sie, ze ewaluuje sie do listy stringow.
 2
-       Evaluation is done using $no_one's permissions so exp in either case
+       Ewaluacja jest wykonywana z uprawnieniami $no_one, wiec exp w obu przypadkach
 2
-       can only refer to public information.
+       moze odwolywac sie tylko do informacji publicznych.
 2
 
 2
   {"*index*", title}
 2
-     - returns a list of all topics in this database, arranged in columns.
+     - zwraca liste wszystkich tematow w tej bazie, ulozona w kolumnach.
 2
-       title is used as a heading for this index.
+       title jest uzywany jako naglowek tego indeksu.
 2
 
 2
-       In order for your help database to appear in the list presented
+       By twoja baza pomocy pojawiala sie na liscie pokazywanej
 2
-       by 'help index', your db object must be set to +r.
+       przez 'help index', obiekt bazy musi byc ustawiony na +r.
 2
 
 2
   {"*objectdoc*", object}
 2
-     - gets the documentation for the given object (i.e., object:help_msg())
+     - pobiera dokumentacje dla podanego obiektu (tj. object:help_msg())
 2
-       N.B. as with all other *verb* arguments, object must be a string.
+       UWAGA: podobnie jak przy wszystkich innych argumentach *verb*, object musi byc stringiem.
 2
 
 2
   {"*verbdoc*", object, verbname}
 2
-     - gets the documentation for the named verb on the given object
+     - pobiera dokumentacje dla nazwanego czasownika na podanym obiekcie
 2
-       (i.e., any strings at the beginning of said verbcode)
+       (tj. wszelkie stringi na poczatku tego kodu czasownika)
 2
 
 2
-Individual help dbs are free to define additional verbs that may be used in this context.  $help itself defines the following additional such verbs:
+Poszczegolne bazy pomocy moga swobodnie definiowac dodatkowe czasowniki uzywalne w tym kontekscie.  Sam $help definiuje nastepujace dodatkowe czasowniki:
 2
 
 2
   {"*index_list*"}
 2
-     - returns a list of all index topics in all databases in the search list.
+     - zwraca liste wszystkich tematow-indeksow we wszystkich bazach na liscie przeszukiwania.
 2
-       An index topic is one whose actual text is {"*index*", something}.
+       Temat-indeks to taki, ktorego faktyczny tekst to {"*index*", cos}.
 2
-       When creating a help db, you should be sure to make an index topic.
+       Tworzac baze pomocy, upewnij sie, ze masz temat-indeks.
 2
 
 2
   {"*full_index*"}
 2
-     - prints indices for all help databases in the search list.
+     - wypisuje indeksy dla wszystkich baz pomocy na liscie przeszukiwania.
 2
 
 2
-It should be noted (once again) that help databases need not be children of $generic_help, so long as they have :find_topics/:get_topic/:dump_topic working as specified above.
+Warto zauwazyc (po raz kolejny), ze bazy pomocy nie musza byc dziecmi $generic_help, o ile maja dzialajace :find_topics/:get_topic/:dump_topic zgodnie z powyzszym opisem.
 36
 5
 4
 62
 2
-Generic Option Package
+Generyczny Pakiet Opcji
 2
 ----------------------
 2
-It occasionally happens that one has a command or set of commands for which one wishes to provide several options/flags that a player can set to customize the command's behavior for him/herself.  Making each option a separate property is a bit expensive, especially when the option in question is merely a boolean flag that gets set to false in most cases.  This package provides an alternative, as well as providing a uniform set of commands for setting these flags/options and checking that the values given are of appropriate types.
+Czasem zdarza sie, ze ma sie polecenie lub zestaw polecen, dla ktorych chce sie dostarczyc kilka opcji/flag, ktore gracz moze ustawic, by dostosowac zachowanie polecenia dla siebie.  Uczynienie kazdej opcji osobna wlasciwoscia jest dosc kosztowne, zwlaszcza gdy dana opcja to po prostu flaga logiczna, ktora w wiekszosci przypadkow jest ustawiona na falsz.  Ten pakiet zapewnia alternatywe, a takze dostarcza jednolity zestaw polecen do ustawiania tych flag/opcji i sprawdzania, czy podane wartosci sa odpowiedniego typu.
 2
 
 2
-Instead of needing several properties, only one is required to store a list containing values for all of the options.  An "option package" (pkg, below) is then an object of this class, which provides routines for manipulating such lists.
+Zamiast potrzebowac kilku wlasciwosci, wystarczy jedna, by przechowywac liste zawierajaca wartosci wszystkich opcji.  "Pakiet opcji" (pkg, ponizej) to wtedy obiekt tej klasy, ktory dostarcza procedur do manipulowania takimi listami.
 2
 
 2
-The set of option names is divided into a set of "real" options, those whose names will actually appear in a given list, and "extras" which are either synonyms for or represent combinations of real options.
+Zbior nazw opcji jest podzielony na zbior "prawdziwych" opcji, ktorych nazwy faktycznie pojawiaja sie na danej liscie, i "dodatkowych", ktore sa albo synonimami, albo reprezentuja kombinacje prawdziwych opcji.
 2
 
 2
- pkg:add_name(name)      adds name to .names  (remove it from .extras if there)
+ pkg:add_name(name)      dodaje name do .names  (usuwa go z .extras, jesli tam byl)
 2
- pkg:add_name(name,1)    adds name to .extras (remove it from .names if there)
+ pkg:add_name(name,1)    dodaje name do .extras (usuwa go z .names, jesli tam byl)
 2
-    => 1 - ok, 0 - already added, E_INVARG - illegal name, E_PERM
-2
-
-2
- pkg:remove_name(name)   remove name from either .names or .extras
-2
-    => 1 - ok, 0 - not present, E_PERM
+    => 1 - ok, 0 - juz dodane, E_INVARG - niepoprawna nazwa, E_PERM
 2
 
 2
-For setting or retrieving values we have
+ pkg:remove_name(name)   usun name z .names lub .extras
+2
+    => 1 - ok, 0 - nieobecne, E_PERM
+2
+
+2
+Do ustawiania lub pobierania wartosci mamy
 2
 
 2
  pkg:get(options,name) 
 2
-    => value (or 0 if name isn't a real option)
+    => wartosc (lub 0, jesli name nie jest prawdziwa opcja)
 2
  pkg:set(options,name,value)
 2
-    => revised options (or string error message if something goes wrong)
+    => poprawione options (lub string komunikatu bledu, jesli cos pojdzie nie tak)
 2
 
 2
-By default, a given option can only be a boolean flag, having one of the values 0 (absent from the list), or 1 (present in the list).  :set translates 0/""/{} to 0 and any other non-object value to 1.
+Domyslnie dana opcja moze byc tylko flaga logiczna, majaca jedna z wartosci 0 (nieobecna na liscie) lub 1 (obecna na liscie).  :set tlumaczy 0/""/{} na 0 i kazda inna nie-obiektowa wartosc na 1.
 2
 
 2
-One may however designate a wider range of possible values for an option "foo" by either installing one of
+Mozna jednak wyznaczyc szerszy zakres mozliwych wartosci dla opcji "foo", instalujac jedno z
 2
 
 2
   pkg.type_foo
 2
-    -- list of allowed types, 
+    -- lista dozwolonych typow, 
 2
-       e.g., {NUM,STR}   => must be a number or a string
+       np. {NUM,STR}   => musi byc liczba lub string
 2
-       e.g., {OBJ,{OBJ}} => must be an object or a list of objects
+       np. {OBJ,{OBJ}} => musi byc obiekt lub lista obiektow
 2
-    for anything fancier use:
+    dla czegos bardziej wyszukanego uzyj:
 2
 
 2
   pkg:check_foo(value)
 2
-    => string error message or {value munged as desired}
+    => string komunikatu bledu lub {value przeksztalcone wedlug potrzeb}
 2
 
 2
-In general, the only restriction on option values is that 0 is the only false value; setting an option to "" or {} sets it to 0.  Every option defaults to 0, and no matter what you install as .type_foo or :check_foo(), 0 will always be a legal value for option "foo".
+Ogolnie jedynym ograniczeniem wartosci opcji jest to, ze 0 to jedyna wartosc falszywa; ustawienie opcji na "" lub {} ustawia ja na 0.  Kazda opcja domyslnie to 0, i niezaleznie od tego, co zainstalujesz jako .type_foo lub :check_foo(), 0 zawsze bedzie prawidlowa wartoscia dla opcji "foo".
 2
 
 2
-When presented with an option that is in .extras, :set will typecheck the value as described, however, then :actual(name, value) will be called to obtain a list of {name-of-real-option, value} pairs indicating which combination of real options should be set.
+Gdy podana zostanie opcja bedaca w .extras, :set sprawdzi typ wartosci jak opisano, jednak nastepnie wywolane zostanie :actual(name, value), by uzyskac liste par {nazwa-prawdziwej-opcji, value} wskazujacych, jaka kombinacja prawdziwych opcji powinna byc ustawiona.
 2
 
 2
-Other verbs
+Inne czasowniki
 2
   pkg:parse(args,...)
 2
-    parses the command line arguments of a @whatever_option command
+    parsuje argumenty linii polecenia polecenia @whatever_option
 2
-    => {optionname, value}  if the player wants to set an option
+    => {optionname, value}  jesli gracz chce ustawic opcje
 2
-    => {optionname}         if the player wants to view an option
+    => {optionname}         jesli gracz chce zobaczyc opcje
 2
-    => string error message  otherwise
+    => string komunikatu bledu  w przeciwnym razie
 2
 
 2
-  one may install pkg:parse_foo to parse arguments for option "foo" 
+  mozna zainstalowac pkg:parse_foo, by parsowac argumenty dla opcji "foo" 
 2
-    !foo     => {"foo",0}  (:parse_foo not called)
+    !foo     => {"foo",0}  (:parse_foo niewywolane)
 2
-    foo=     => {"foo",0}  (:parse_foo not called)
+    foo=     => {"foo",0}  (:parse_foo niewywolane)
 2
-    -foo     => {"foo",0}  (:parse_foo not called)
+    -foo     => {"foo",0}  (:parse_foo niewywolane)
 2
     +foo     => pkg:parse_foo("foo",1)
 2
@@ -7874,157 +7870,157 @@ Other verbs
 2
  pkg:show(options,name|list of names)
 2
-    => list of strings describing the current value of the named option(s).
+    => lista stringow opisujacych biezaca wartosc podanej opcji (opcji).
 2
-       calls     pkg:show_foo(options,list of names) or
+       wywoluje     pkg:show_foo(options,list of names) lub
 2
-       refers to pkg.show_foo
+       odwoluje sie do pkg.show_foo
 2
-       to describe option "foo"
+       by opisac opcje "foo"
 2
 
 2
-(see sources for details...  at some point I'll finish writing this... --Rog)
+(zobacz zrodla po szczegoly...  kiedys to dokoncze pisac... --Rog)
 36
 5
 4
 24
 2
-Message Sequences
+Sekwencje wiadomosci
 2
 -----------------
 2
-A "message sequence" is a handle by which one may refer to a particular subset of a mail recipient's (player or $mail_recipient-descendant) saved messages.  Routines like rcpt:display_seq_headers or rcpt:display_seq_full need to be supplied with message-sequence arguments to deterimine which headers or full-messages to display.
+"Sekwencja wiadomosci" to uchwyt, za pomoca ktorego mozna odwolac sie do konkretnego podzbioru zapisanych wiadomosci odbiorcy poczty (gracza lub potomka $mail_recipient).  Procedury takie jak rcpt:display_seq_headers czy rcpt:display_seq_full musza otrzymac argumenty sekwencji wiadomosci, by okreslic, ktore naglowki lub pelne wiadomosci wyswietlic.
 2
 
 2
-Message sequences can in turn be obtained from routines like rcpt:parse_message_seq, which takes a command-line description of a message sequence on that particular recipient and returns the corresponding message sequence handle.
+Sekwencje wiadomosci mozna z kolei uzyskac z procedur takich jak rcpt:parse_message_seq, ktora przyjmuje opis sekwencji wiadomosci z linii polecenia dla tego konkretnego odbiorcy i zwraca odpowiadajacy uchwyt sekwencji wiadomosci.
 2
 
 2
-The actual form of a message sequence (though you shouldn't actually need to make use of this) is that of a set of integers in the format used by $seq_utils (see `help $seq_utils').  It should however be noted that these integers are *not* themselves message numbers, but rather indices into the list of saved messages.  For example, if a particular recipient holds 5 messages numbered 1,3,5,7,9.  Then the message sequence handle representing messages 3,5,7 collectively, would be {2,5} which is $seq_utils-ese for the range 2..4, namely the second, third and fourth messages saved on that recipient.
+Faktyczna postac sekwencji wiadomosci (choc nie powinienes tego naprawde potrzebowac) to zbior liczb calkowitych w formacie uzywanym przez $seq_utils (zobacz `help $seq_utils').  Warto jednak zauwazyc, ze te liczby calkowite *nie* sa same w sobie numerami wiadomosci, tylko indeksami do listy zapisanych wiadomosci.  Na przyklad, jesli dany odbiorca przechowuje 5 wiadomosci ponumerowanych 1,3,5,7,9.  Wtedy uchwyt sekwencji wiadomosci reprezentujacy wiadomosci 3,5,7 lacznie bylby {2,5}, co jest zapisem $seq_utils dla zakresu 2..4, mianowicie drugiej, trzeciej i czwartej wiadomosci zapisanej u tego odbiorcy.
 2
 
 2
-The following verbs are available for obtaining indices to use in message sequences
+Nastepujace czasowniki sa dostepne do uzyskiwania indeksow do uzycia w sekwencjach wiadomosci
 2
 
 2
-  :length_all_msgs()    => total number of messages, or equivalently,
+  :length_all_msgs()    => calkowita liczba wiadomosci, lub rownowaznie,
 2
-                        => index of last message
+                        => indeks ostatniej wiadomosci
 2
-  :length_num_le(n)     => number of messages numbered <= n, or equivalently,
+  :length_num_le(n)     => liczba wiadomosci o numerze <= n, lub rownowaznie,
 2
-                        => index of highest numbered message <= n
+                        => indeks wiadomosci o najwyzszym numerze <= n
 2
-  :exists_num_eq(n)     => 0 unless there exists a message numbered n in which
+  :exists_num_eq(n)     => 0, chyba ze istnieje wiadomosc o numerze n, w takim
 2
-                           case we return the index of that message.
+                           przypadku zwracamy indeks tej wiadomosci.
 2
-  :length_date_le(date) => number of messages dated <= date, or equivalently,
+  :length_date_le(date) => liczba wiadomosci datowanych <= date, lub rownowaznie,
 2
-                        => index of most recent message dated <= date
-2
-
-2
-  :length_date_gt(date) => number of messages dated > date
+                        => indeks najnowszej wiadomosci datowanej <= date
 2
 
 2
-Note that r:length_date_gt(date) == r:length_all_msgs()-r:length_date_le(date).
+  :length_date_gt(date) => liczba wiadomosci datowanych > date
 2
-The only reason :length_date_gt is provided as a separate routine is in order 
+
 2
-to do quick checks for the existence of new mail (as @rn needs to do).
+Uwaga: r:length_date_gt(date) == r:length_all_msgs()-r:length_date_le(date).
+2
+Jedynym powodem, dla ktorego :length_date_gt jest dostarczane jako osobna procedura, jest
+2
+wykonywanie szybkich sprawdzen istnienia nowej poczty (tak jak musi to robic @rn).
 36
 5
 4
 24
 2
-Read verbs
+Czasowniki czytania
 2
 ----------
 2
-The following verbs may be used to extract headers/messages from readable mail recipients/players;
+Nastepujace czasowniki mozna uzyc do wyciagania naglowkow/wiadomosci z czytelnych odbiorcow poczty/graczy;
 2
 
 2
-:display_seq_headers (message sequence, current message number, last_read_date)
+:display_seq_headers (sekwencja wiadomosci, numer biezacej wiadomosci, last_read_date)
 2
-  Does a @mail listing of the given message sequence.  If current message
+  Wykonuje listing @mail dla podanej sekwencji wiadomosci.  Jesli podano numer
 2
-  number is given and the sequence includes it, we mark it with a `>'.
+  biezacej wiadomosci, a sekwencja go zawiera, oznaczamy go `>'.
 2
-  Likewise if the sequence includes any new messages (i.e., dated after 
+  Podobnie, jesli sekwencja zawiera jakies nowe wiadomosci (tj. datowane po 
 2
-  last_read_date), these are also indicated as such.
-2
-
-2
-display_seq_full (message sequence, preamble)
-2
-  Does a @read listing of the given message sequence.  Each message is preceded
-2
-  by preamble.
-2
-  => {new current message number, new last_read_date}
+  last_read_date), sa one rowniez tak oznaczane.
 2
 
 2
-:messages_in_seq (index)
+display_seq_full (sekwencja wiadomosci, preambula)
+2
+  Wykonuje listing @read dla podanej sekwencji wiadomosci.  Kazda wiadomosc jest poprzedzona
+2
+  przez preambule.
+2
+  => {nowy numer biezacej wiadomosci, nowa last_read_date}
+2
+
+2
+:messages_in_seq (indeks)
 2
   => {n, msg}
 2
-:messages_in_seq (message sequence)
+:messages_in_seq (sekwencja wiadomosci)
 2
   => {{n_1,msg_1},{n_2,msg_2},...}
 2
-  where the n_i are message numbers and the msg_i are messages in transmission
+  gdzie n_i to numery wiadomosci, a msg_i to wiadomosci w formacie transmisji
 2
-  format (see `help mail-format')
+  (zobacz `help mail-format')
 2
 
 2
 :list_rmm ()
 2
-  Does an `@unrmm list' listing of messages in .messages_going
+  Wykonuje listing `@unrmm list' wiadomosci w .messages_going
 36
 5
 4
 17
 2
-Write verbs
+Czasowniki zapisu
 2
 -----------
 2
-The following verbs can be used to manipulate writable mail recipients/players:
+Nastepujace czasowniki mozna uzyc do manipulowania zapisywalnymi odbiorcami poczty/graczami:
 2
 
 2
-:rm_message_seq (message sequence)
+:rm_message_seq (sekwencja wiadomosci)
 2
-  Does an @rmmail.  Messages in message sequence are removed from this 
+  Wykonuje @rmmail.  Wiadomosci w sekwencji wiadomosci sa usuwane z zapisanych 
 2
-  recipient's saved .messages and written to .messages_going.
+  .messages tego odbiorcy i zapisywane do .messages_going.
 2
 
 2
 :undo_rmm ()
 2
-  Does an @unrmm.  Messages in .messages_going are copied back to .messages.
+  Wykonuje @unrmm.  Wiadomosci z .messages_going sa kopiowane z powrotem do .messages.
 2
 
 2
 :expunge_rmm ()
 2
-  Does an @unrmm expunge.  Blows away .messages_going.
+  Wykonuje @unrmm expunge.  Usuwa .messages_going.
 2
 
 2
 :renumber ()
 2
-  Does a @renumber.
+  Wykonuje @renumber.
 2
 
 36
@@ -8032,145 +8028,145 @@ The following verbs can be used to manipulate writable mail recipients/players:
 4
 25
 2
-Search verbs
+Czasowniki wyszukiwania
 2
 ------------
 2
-The following verbs can be used on a readable mail-recipient/player to search for messages with fields matching a given pattern.
+Nastepujace czasowniki mozna uzyc na czytelnym odbiorcy poczty/graczu, by szukac wiadomosci z polami pasujacymi do danego wzorca.
 2
 
 2
-from_msg_seq (objectid or list [,mask])
+from_msg_seq (objectid lub lista [,mask])
 2
-  => message sequence: messages from (one of) the given objectid(s)
-2
-
-2
-%from_msg_seq (string or list [,mask])
-2
-  => message sequence: messages with (one of) the given string(s)
-2
-     in the From: line
+  => sekwencja wiadomosci: wiadomosci od (jednego z) podanych objectid
 2
 
 2
-to_msg_seq (objectid or list [,mask])
+%from_msg_seq (string lub lista [,mask])
 2
-  => message sequence: messages to (one of) the given objectid(s)
+  => sekwencja wiadomosci: wiadomosci z (jednym z) podanych stringow
+2
+     w linii From:
 2
 
 2
-%to_msg_seq (string or list [,mask])
+to_msg_seq (objectid lub lista [,mask])
 2
-  => message sequence: messages with (one of) the given string(s)
+  => sekwencja wiadomosci: wiadomosci do (jednego z) podanych objectid
 2
-     in the To: line
+
+2
+%to_msg_seq (string lub lista [,mask])
+2
+  => sekwencja wiadomosci: wiadomosci z (jednym z) podanych stringow
+2
+     w linii To:
 2
 
 2
 subject_msg_seq (string [,mask])
 2
-  => message sequence: messages with given string occurring in Subject:
+  => sekwencja wiadomosci: wiadomosci z podanym stringiem w Subject:
 2
 
 2
 body_msg_seq (string [,mask])
 2
-  => message sequence: messages with given string occurring in body of message
+  => sekwencja wiadomosci: wiadomosci z podanym stringiem w tresci wiadomosci
 2
 
 2
-In all cases `mask' is a message sequence which one may supply to limit the range of the search.  One way of looking at it is that the message sequence to be returned is first intersected with mask.
+We wszystkich przypadkach `mask' to sekwencja wiadomosci, ktora mozna podac, by ograniczyc zakres wyszukiwania.  Jednym ze sposobow patrzenia na to jest to, ze zwracana sekwencja wiadomosci jest najpierw przecinana z mask.
 36
 5
 4
 43
 2
-The housekeeper is an object that can help keep other objects where they belong.  New MOOs may want to add their own user interface for the housekeeper; here is some information that may be helpful.
+Housekeeper to obiekt, ktory moze pomoc utrzymac inne obiekty tam, gdzie powinny byc.  Nowe MOO moga chciec dodac wlasny interfejs uzytkownika dla housekeepera; oto informacje, ktore moga byc pomocne.
 2
 
 2
-To indicate what objects should be cleaned:
+By wskazac, ktore obiekty powinny byc sprzatniete:
 2
 
 2
   :add_cleanup(object[, requestor[, where]])
 2
-    Ask the housekeeper to clean 'object' for 'requestor' to 'where'.
+    Poprosi housekeepera o posprzatanie 'object' dla 'requestor' do 'where'.
 2
-    Requestor defaults to 'player'.
+    Requestor domyslnie to 'player'.
 2
-    Where defaults to object.location.
+    Where domyslnie to object.location.
 2
 
 2
   :remove_cleanup(what[, requestor])
 2
-    Remove 'what' from the cleanup list at 'requestor's request.
+    Usun 'what' z listy sprzatania na zadanie 'requestor'.
 2
-    Will remove it only if 'requestor' made the original request and owns
+    Usunie tylko, jesli 'requestor' zlozyl oryginalne zadanie i posiada
 2
-    the object or the destination.
+    obiekt lub cel.
 2
 
 2
-To actually get the housekeeper to clean stuff up:
+By faktycznie sprawic, by housekeeper posprzatal rzeczy:
 2
 
 2
   :cleanup([insist])
 2
-    Clean up player's objects.  Argument is 'up' or 'up!' for manually
+    Posprzataj obiekty gracza.  Argument to 'up' lub 'up!' dla recznie
 2
-    requested cleanups.  'up!' means to clean things even if it's against
+    zadanych sprzatan.  'up!' oznacza posprzatanie rzeczy nawet wbrew
 2
-    the housekeeper's better judgement.
+    lepszemu osadowi housekeepera.
 2
 
 2
   :replace(object[, insist])
 2
-    Clean up the indicated object.  'insist' is as in :cleanup.
+    Posprzataj wskazany obiekt.  'insist' jak w :cleanup.
 2
 
 2
   :continuous()
 2
-    Starts the housekeeper cleaning continuously, killing any previous
+    Uruchamia ciagle sprzatanie przez housekeepera, zabijajac poprzednie
 2
-    continuous task.  This should be called only when starting up a new MOO,
+    ciagle zadanie.  Powinno byc wywolywane tylko przy uruchamianiu nowego MOO,
 2
-    or if something has gone wrong, as normally it will just keep going
+    lub gdy cos poszlo nie tak, bo normalnie samo bedzie kontynuowac
 2
-    without any help.
+    bez zadnej pomocy.
 2
 
 2
   :litterbug()
 2
-    Clean up all the places in housekeeper.public_places by getting rid of
+    Sprzata wszystkie miejsca w housekeeper.public_places, pozbywajac sie
 2
-    all contents not in their .residents lists.  This is called by
+    calej zawartosci spoza list .residents.  Wywolywane przez
 2
-    :continuous, so it doesn't need to be called directly.
+    :continuous, wiec nie trzeba wywolywac go bezposrednio.
 2
 
 2
-To find out what's being cleaned to where for whom:
+By dowiedziec sie, co jest sprzatane, dokad i dla kogo:
 2
 
 2
   :cleanup_list([whom])
 2
-    Show 'player' the personal cleanup list for 'whom', or the housekeeper's
+    Pokaz 'player' osobista liste sprzatania dla 'whom', lub pelna
 2
-    complete list if no argument is given.
+    liste housekeepera, jesli nie podano argumentu.
 2
 
 2
   :clean_status()
 2
-    Show 'player' a brief summary of eir personal cleanup list.
+    Pokaz 'player' krotkie podsumowanie jego osobistej listy sprzatania.
 36
 5
 4
@@ -8182,11 +8178,11 @@ $recycler
 2
 
 2
-Rather than having the server built-in recycle() and create() functions handle the creation and destruction of objects, a recycling center has been created to simulate these actions by  changing objects that would have been recycled into children of $garbage (The Generic Garbage Object) and making them owned by Hacker, and then when they're needed again, to avoid a raw create() command, those objects are given to whoever's asking for them.
+Zamiast pozwolic wbudowanym funkcjom serwera recycle() i create() obslugiwac tworzenie i niszczenie obiektow, stworzono centrum recyklingu, ktore symuluje te akcje, zmieniajac obiekty, ktore bylyby zrecyklingowane, w dzieci $garbage (Generyczny Obiekt Smieciowy) i czyniac je nalezacymi do Hackera, a nastepnie, gdy sa znowu potrzebne, by uniknac surowego polecenia create(), te obiekty sa oddawane temu, kto o nie prosi.
 2
 
 2
-Most Useful Verbs
+Najbardziej przydatne czasowniki
 2
 -----------------
 2
@@ -8194,43 +8190,43 @@ Most Useful Verbs
 2
 $recycler:_recycle( object )
 2
-  This will effectively recycle an object. (As a point of fact, it changes ownership of the object to Hacker and makes the object a child of $garbage.)  It handles .ownership_quota and .owned_objects properly.  Generally, use this instead of a recycle() in your verbs.
+  To efektywnie recyklinguje obiekt. (Faktycznie zmienia wlasciciela obiektu na Hackera i czyni obiekt dzieckiem $garbage.)  Obsluguje poprawnie .ownership_quota i .owned_objects.  Ogolnie uzywaj tego zamiast recycle() w swoich czasownikach.
 2
 
 2
 $recycler:_create( parent object [ , new owner object ] )
 2
-  This effectively creates an object (with the specified parent, if possible, and with the specified owner, if possible; these are the same restrictions as on the server create() builtin).  This is what should generally be used instead of create() in your programming.
+  To efektywnie tworzy obiekt (z podanym rodzicem, jesli mozliwe, i podanym wlascicielem, jesli mozliwe; te same ograniczenia co dla wbudowanego create() serwera).  Tego nalezy ogolnie uzywac zamiast create() w twoim programowaniu.
 2
 
 2
 $recycler:valid ( object )
 2
-  This is a variant of the server built-in valid() except that it handles the $garbage objects as well.  It returns a 1 if the object specified -is- valid and is -not- a $garbage object.
+  To wariant wbudowanego valid() serwera, z tym ze obsluguje tez obiekty $garbage.  Zwraca 1, jesli podany obiekt -jest- prawidlowy i -nie jest- obiektem $garbage.
 2
 
 2
-Other Notes
+Inne uwagi
 2
 -----------
 2
 
 2
-request <object> from <recycler>
+request <obiekt> from <recycler>
 2
-  This is not an internal verb (it's !x).  It is, however, a command-line verb that can be used to request a specific object from the recycler.  It's also useful for the creation of objects like a Magic Number Repository.  When the object is removed from the recycler, the .announce_removal_msg is announced to the room if it's set (it's piped through $string_utils for pronoun substitution).
+  To nie jest czasownik wewnetrzny (jest !x).  Jest jednak czasownikiem linii polecen, ktorego mozna uzyc, by zazadac konkretnego obiektu od recyklera.  Jest tez przydatny do tworzenia obiektow takich jak Magazyn Numerow Magicznych.  Gdy obiekt jest usuwany z recyklera, .announce_removal_msg jest ogloszane pokojowi, jesli jest ustawione (jest przepuszczane przez $string_utils do podstawienia zaimkow).
 2
 
 2
 show-history <recycler>
 2
-  This is a wizardly verb which allows wizards to check the `history list' of the recycler. The history maintains the latest ($recycler.nhist) entries.
+  To czasownik wizardowski, pozwalajacy wizardom sprawdzic 'liste historii' recyklera. Historia przechowuje najnowsze ($recycler.nhist) wpisy.
 2
 
 2
 $recycler.orphans
 2
-  This maintains a list of objects for which the recreation process got mangled. It ought to be checked every once in a while to see what's up.
+  To przechowuje liste obiektow, dla ktorych proces odtworzenia sie zepsul. Warto to sprawdzac od czasu do czasu, by zobaczyc co sie dzieje.
 2
 1
 4
@@ -8242,91 +8238,91 @@ $error
 2
 
 2
-The Error Generator, $error, may be used to automatically generate errors. This is particularly useful if you are working in a !d verb but have occasion to -want- to crash with traceback. To raise a specific error, use $error:raise(error type) -- for example, $error:raise(E_PERM) will produce traceback resulting from a Permission Denied error.
+Generator Bledow, $error, moze byc uzywany do automatycznego generowania bledow. Jest to szczegolnie przydatne, jesli pracujesz w czasowniku !d, ale zdarza ci sie -chciec- ulec awarii z tracebackiem. By podniesc konkretny blad, uzyj $error:raise(typ bledu) -- na przyklad $error:raise(E_PERM) wygeneruje traceback wynikajacy z bledu Permission Denied.
 2
 
 2
-Random notes about $error:
+Przypadkowe notatki o $error:
 2
 
 2
-+ The complete list of errors is stored in $error.names.
++ Pelna lista bledow jest przechowywana w $error.names.
 2
-+ The seemingly useless :accept() verb on $error is so that $error:E_RECMOVE and $error:E_NACC will be guaranteed success (success meaning, of course, a termination by traceback).
++ Pozornie bezuzyteczny czasownik :accept() na $error istnieje po to, by $error:E_RECMOVE i $error:E_NACC byly gwarantowanym sukcesem (sukces oznaczajacy, oczywiscie, zakonczenie przez traceback).
 2
-+ There is, unfortunately, no way to raise the error E_NONE.
++ Niestety, nie ma sposobu na podniesienie bledu E_NONE.
 2
 1
 4
 72
 2
-Generic BigList Utilities
+Generyczne narzedzia BigList
 2
 ----------------------------
 2
-$biglist is a collection of routines for maintaining huge persistent (sorted) lists in a format that is less likely to spam the server (which runs into a certain amount of trouble dealing with long ordinary lists --- btw we use `biglist' to refer to the huge data structure we're about to describe and `list' to refer to ordinary MOO lists {...}).  The biglist in question lives on a particular object, to which we will refer in the discussion below as the `home' object, and its various elements appear as leaves of a tree whose nodes are kept in properties of the home object.  It should be noted that the home object does not need to be (and in fact should *not* be) a descendant of $biglist one; $biglist merely provides utilities for manipulating the properties on the home object that are used in a particular biglist manipulation.  
+$biglist to zbior procedur do utrzymywania ogromnych trwalych (posortowanych) list w formacie mniej podatnym na zaspamowanie serwera (ktory ma pewne klopoty z obsluga dlugich zwyklych list --- btw uzywamy terminu 'biglist' na oznaczenie ogromnej struktury danych, ktora zaraz opiszemy, a 'list' na oznaczenie zwyklych list MOO {...}).  Dany biglist mieszka na konkretnym obiekcie, do ktorego bedziemy sie odnosic w ponizszej dyskusji jako 'obiekt-dom', a jego rozne elementy pojawiaja sie jako liscie drzewa, ktorego wezly sa przechowywane we wlasciwosciach obiektu-domu.  Warto zauwazyc, ze obiekt-dom nie musi byc (i faktycznie *nie powinien* byc) potomkiem $biglist; $biglist po prostu dostarcza narzedzi do manipulowania wlasciwosciami na obiekcie-domu, uzywanymi w konkretnej manipulacji biglist.  
 2
 
 2
-All of the utilities below refer to `caller' to locate the home object.  Thus verbs to manipulate a given biglist must be located on or inherited by its home object itself.  The home object needs to define the following verbs
+Wszystkie ponizsze narzedzia odwoluja sie do 'caller', by zlokalizowac obiekt-dom.  Zatem czasowniki manipulujace danym biglist musza znajdowac sie na samym obiekcie-domu lub byc przez niego dziedziczone.  Obiekt-dom musi definiowac nastepujace czasowniki
 2
 
 2
-  :_make(@args)     => new property on home object with value args
+  :_make(@args)     => nowa wlasciwosc na obiekcie-domu z wartoscia args
 2
-  :_kill(prop)      delete a given property that was created by :_make
+  :_kill(prop)      usun podana wlasciwosc, ktora zostala utworzona przez :_make
 2
   :_get(prop)       => home.prop
 2
-  :_put(prop,@args) set home.prop = args
+  :_put(prop,@args) ustaw home.prop = args
 2
-  :_ord(element)    given something that is of the form of a biglist element
+  :_ord(element)    dla czegos majacego postac elementu biglist
 2
-                    return the corresponding ordinal (for sorting purposes).
+                    zwraca odpowiadajaca liczbe porzadkowa (do celow sortowania).
 2
-                    If you never intend to use :find_ord, then this can be a 
+                    Jesli nigdy nie zamierzasz uzywac :find_ord, moze to byc
 2
-                    routine that always returns 0 or some other random value.
-2
-
-2
-See $generic_biglist_home or $big_mail_recipient for examples.
+                    procedura zawsze zwracajaca 0 lub inna losowa wartosc.
 2
 
 2
-Those of the following routines that take a biglist argument are expecting
-2
-either {} (empty biglist) or some biglist returned by one of the other routines
+Zobacz $generic_biglist_home lub $big_mail_recipient po przyklady.
 2
 
 2
-  :length(biglist)          => length(biglist) (i.e., number of elements)
+Te z ponizszych procedur, ktore przyjmuja argument biglist, oczekuja
+2
+albo {} (pusty biglist), albo jakiegos biglist zwroconego przez inna procedure
+2
+
+2
+  :length(biglist)          => length(biglist) (tj. liczba elementow)
 2
   :find_nth(biglist,n)      => biglist[n]
 2
-  :find_ord(biglist,k,comp) => n where n is
+  :find_ord(biglist,k,comp) => n, gdzie n to
 2
-     the largest such that home:(comp)(k,home:_ord(biglist[n])) is false, or
+     najwieksze takie, ze home:(comp)(k,home:_ord(biglist[n])) jest falszywe, lub
 2
-     the smallest such that home:(comp)(k,home:_ord(biglist[n+1])) is true.
+     najmniejsze takie, ze home:(comp)(k,home:_ord(biglist[n+1])) jest prawdziwe.
 2
-     Always returns a value between 0 and length(biglist) inclusive.
+     Zawsze zwraca wartosc miedzy 0 a length(biglist) wlacznie.
 2
-     This assumes biglist to be sorted in order of increasing :_ord values 
+     Zaklada to, ze biglist jest posortowany w kolejnosci rosnacych wartosci :_ord 
 2
-     with respect to home:(comp)().
+     wzgledem home:(comp)().
 2
-     Standard situation is :_ord returns a number and comp is a < verb.
+     Standardowa sytuacja to :_ord zwracajacy liczbe, a comp to czasownik <.
 2
 
 2
-  :start(biglist,s,e)  => {biglist[s..?],@handle} or {}
+  :start(biglist,s,e)  => {biglist[s..?],@handle} lub {}
 2
-  :next(@handle)       => {biglist[?+1..??],@newhandle} or {}
+  :next(@handle)       => {biglist[?+1..??],@newhandle} lub {}
 2
-     These two are used for iterating over a range of elements of a biglist
+     Te dwa sa uzywane do iterowania po zakresie elementow biglist
 2
-     The canonical incantation for doing
+     Kanoniczne zaklecie do wykonania
 2
         for elt in (biglist[first..last])
 2
@@ -8334,7 +8330,7 @@ either {} (empty biglist) or some biglist returned by one of the other routines
 2
         endfor
 2
-     is
+     to
 2
         handle = :start(biglist,first,last);
 2
@@ -8352,13 +8348,13 @@ either {} (empty biglist) or some biglist returned by one of the other routines
 2
 
 2
-The following all destructively modify their biglist argument(s) L (and M).
+Nastepujace wszystkie destrukcyjnie modyfikuja swoje argumenty biglist L (i M).
 2
 
 2
   :set_nth(L,n,value)  =>  L[n] = value
 2
-     replaces the indicated element
+     zastepuje wskazany element
 2
 
 2
@@ -8366,15 +8362,15 @@ The following all destructively modify their biglist argument(s) L (and M).
 2
   :insert_after (L,M,n) => {@L[1..n],  @M,@L[n+1..length(L)]}
 2
-     takes two distinct biglists, inserts one into the other at the given point
+     bierze dwa odrebne biglisty, wstawia jeden do drugiego w podanym miejscu
 2
-     returns the resulting consolidated biglist
+     zwraca wynikowy skonsolidowany biglist
 2
 
 2
   :extract_range(L,m,n) => {{@L[1..m-1],@L[n+1..]}, L[m..n]} 
 2
-     breaks the given biglist into two distinct biglists.
+     dzieli podany biglist na dwa odrebne biglisty.
 2
 
 2
@@ -8382,27 +8378,27 @@ The following all destructively modify their biglist argument(s) L (and M).
 2
   :keep_range  (L,m,n[,leafkiller]) => L[m..n]
 2
-     like extract_range only we destroy what we don't want.
+     jak extract_range, tylko ze niszczymy to, czego nie chcemy.
 2
 
 2
   :insertlast(L,value)  => {@L,value}
 2
-     inserts a new element at the end of biglist.  
+     wstawia nowy element na koncu biglist.  
 2
-     If find_ord is to continue to work properly, it is assumed that the 
+     By find_ord nadal dzialalo poprawnie, zaklada sie, ze 
 2
-     home:_ord(elt) is greater (comp-wise) than all of the :_ord values
+     home:_ord(elt) jest wieksze (wg comp) niz wszystkie wartosci :_ord
 2
-     of elements currently in the biglist.
+     elementow obecnie w biglist.
 2
 
 2
   :kill(L[,leafkiller]) 
 2
-     destroys all nodes used by biglist.  
+     niszczy wszystkie wezly uzywane przez biglist.  
 2
-     Calls home:leafkiller on each element.
+     Wywoluje home:leafkiller na kazdym elemencie.
 36
 1
 4
@@ -8412,35 +8408,35 @@ $guest_log
 2
 
 2
-records guest connect/disconnect events.
+zapisuje zdarzenia polaczenia/rozlaczenia goscia.
 2
 
 2
-.max_events  -- maximum number of connect/disconnect events kept
+.max_events  -- maksymalna liczba przechowywanych zdarzen polaczenia/rozlaczenia
 2
-.connections -- actual list of events, the most recent ones first
+.connections -- faktyczna lista zdarzen, od najnowszych
 2
-    each element is of the form
+    kazdy element ma postac
 2
       {object, is_connect, time, site}
 2
-    object is the particular guest that (dis)connected
+    object to konkretny gosc, ktory sie (roz)laczyl
 2
-    is_connect 1 or 0 according as this is a connect or not.
+    is_connect 1 lub 0, w zaleznosci czy to polaczenie czy nie.
 2
 
 2
 :find(who,when)
 2
-  => site name of WHO at the particular time
+  => nazwa miejsca WHO w danym czasie
 2
-     (or 0 if WHO was not logged in then)
+     (lub 0, jesli WHO nie byl wtedy zalogowany)
 2
 
 2
 :last(n) 
 2
-  prints a listing of the last n events
+  wypisuje listing ostatnich n zdarzen
 36
 5
 4
@@ -8460,63 +8456,63 @@ $news
 2
 -----
 2
-This object is a mail_recipient like any other (see `help $mail_recipient').  One may send messages to it and use the usual recipient manipulation commands (@mail, @read, @rmm,...).  
+Ten obiekt to mail_recipient jak kazdy inny (zobacz `help $mail_recipient').  Mozna wysylac do niego wiadomosci i uzywac zwyklych polecen manipulacji odbiorca (@mail, @read, @rmm,...).  
 2
 
 2
-Selected messages on this recipient are ordered in reverse date order (i.e., most recent first) and concatenated to produce the "news" that is printed in response to the player `news' command.  Each news item is thus a distinct message.  The default $player:confunc checks to see if any new messages have been selected for inclusion in the "news" since the player last read the news.
+Wybrane wiadomosci na tym odbiorcy sa uporzadkowane w odwrotnym porzadku daty (tj. najnowsze pierwsze) i laczone, by wytworzyc "newsy" wypisywane w odpowiedzi na polecenie gracza `news'.  Kazdy element newsow jest wiec odrebna wiadomoscia.  Domyslne $player:confunc sprawdza, czy jakies nowe wiadomosci zostaly wybrane do wlaczenia w "newsy" od czasu, gdy gracz ostatnio przeczytal newsy.
 2
 
 2
-The property $news.current_news holds the message sequence of messages currently considered as comprising "the news".  The following commands are used to change .current_news:
+Wlasciwosc $news.current_news przechowuje sekwencje wiadomosci obecnie uznawanych za skladajace sie na "newsy".  Nastepujace polecenia sluza do zmiany .current_news:
 2
 
 2
-  @addnews <message-seq> to %[$news]
+  @addnews <sekwencja-wiadomosci> to %[$news]
 2
-  @rmnews <message-seq> from %[$news]
+  @rmnews <sekwencja-wiadomosci> from %[$news]
 2
-  @setnews %[$news] to <message-seq>
-2
-
-2
-@addnews includes the specified messages, @rmnews excludes the specified messages, and @setnews changes .current_news to be the given message sequence.  Note that these ONLY change whether a given message is marked as being "in the news" and do not actually add or remove messages from the mail recipient $news.
+  @setnews %[$news] to <sekwencja-wiadomosci>
 2
 
 2
-The procedure for adding a news article is
+@addnews wlacza podane wiadomosci, @rmnews wyklucza podane wiadomosci, a @setnews zmienia .current_news na podana sekwencje wiadomosci.  Uwaga: to TYLKO zmienia, czy dana wiadomosc jest oznaczona jako "w newsach", i nie dodaje ani nie usuwa faktycznie wiadomosci z odbiorcy poczty $news.
 2
 
 2
-  Send a mail message to %[$mail_agent:name($news)]
+Procedura dodawania artykulu do newsow to
+2
+
+2
+  Wyslij wiadomosc pocztowa do %[$mail_agent:name($news)]
 2
   @addnews last to %[$news]
 2
-    This marks the message as belonging to the current newspaper.
+    To oznacza wiadomosc jako nalezaca do biezacej gazety.
 2
-    This also announces to any player who have not yet read this message 
+    To tez oglasza kazdemu graczowi, ktory jeszcze nie przeczytal tej wiadomosci,
 2
-    that there is a new version of the newspaper.
-2
-
-2
-The preferred method for updating a news items is to send a new version of the item, @rmnews the old version and @addnews the new one.
+    ze jest nowa wersja gazety.
 2
 
 2
-The following ordinary mail commands behave differently
-2
-  @rmm   removes any reference to message from .current_news 
-2
-         in addition to removing the message itself from .messages
-2
-  @unrmm completely undoes the effect of the previous @rmm; 
-2
-         this includes restoring .current_news.
+Preferowana metoda aktualizacji elementu newsow to wyslanie nowej wersji elementu, @rmnews starej wersji i @addnews nowej.
 2
 
 2
-By default, the newspaper is moderated, however there is the possibility of unmoderating it (see `help MR-access'), letting arbitrary players send mail to it; administrators could then @addnews those items deemed worthy.
+Nastepujace zwykle polecenia poczty zachowuja sie inaczej
+2
+  @rmm   usuwa wszelkie odwolania do wiadomosci z .current_news 
+2
+         oprocz usuniecia samej wiadomosci z .messages
+2
+  @unrmm calkowicie cofa efekt poprzedniego @rmm; 
+2
+         to obejmuje przywrocenie .current_news.
+2
+
+2
+Domyslnie gazeta jest moderowana, ale istnieje mozliwosc jej odmoderowania (zobacz `help MR-access'), pozwalajac dowolnym graczom wysylac do niej poczte; administratorzy moga wtedy wykonac @addnews na tych elementach, ktore uznaja za godne.
 36
 5
 4
@@ -8530,7 +8526,7 @@ object-matching
 4
 32
 2
-The mail messages stored in mail recipients may be removed automatically by a weekly expiration task. New core owners who wish to turn this feature on and cut down on the db space used by mail recipients (Remember, players are mail recipients too) should start this task:
+Wiadomosci pocztowe przechowywane w odbiorcach poczty moga byc usuwane automatycznie przez cotygodniowe zadanie wygasania. Nowi wlasciciele rdzenia, ktorzy chca wlaczyc te funkcje i zmniejszyc miejsce w bazie danych zajmowane przez odbiorcow poczty (Pamietaj, gracze tez sa odbiorcami poczty), powinni uruchomic to zadanie:
 2
 
 2
@@ -8538,61 +8534,61 @@ The mail messages stored in mail recipients may be removed automatically by a we
 2
 
 2
-When this task runs, it searches through all mail recipients and checks their .expire_period property. This property contains a time, in seconds, that messages should expire after. If this property is set to 0, then no expiration will take place from that recipient. The task, then, will compile a list of messages that are older than the expire period (e.g., if the property is set to 30 days, messages older than 30 days from the current date will expire). The default expiration period for mail recipients is 30 days.
+Gdy to zadanie sie uruchamia, przeszukuje wszystkich odbiorcow poczty i sprawdza ich wlasciwosc .expire_period. Ta wlasciwosc zawiera czas, w sekundach, po ktorym wiadomosci powinny wygasac. Jesli ta wlasciwosc jest ustawiona na 0, zaden odbiorca nie bedzie mial wygasania. Zadanie skompiluje wtedy liste wiadomosci starszych niz okres wygasania (np. jesli wlasciwosc jest ustawiona na 30 dni, wiadomosci starsze niz 30 dni od biezacej daty wygasna). Domyslny okres wygasania dla odbiorcow poczty to 30 dni.
 2
 
 2
-Normally, when the mail messages are expired from the recipient they are deleted. However, the owner of the recipient may elect to have the messages mailed to an email address prior to their erasure. There are two methods for doing this, one for players and one for children of $mail_recipient.
+Normalnie, gdy wiadomosci pocztowe wygasaja u odbiorcy, sa usuwane. Jednak wlasciciel odbiorcy moze wybrac, by wiadomosci byly wysylane na adres email przed ich usunieciem. Sa dwie metody, by to zrobic, jedna dla graczy, jedna dla dzieci $mail_recipient.
 2
 
 2
-Players:
+Gracze:
 2
 
 2
-  Players may completely turn off mail expiration by setting the mail option `expire' off. If it is on, then $mail_agent.player_expire_time is the expire period used for mail on players. 
+  Gracze moga calkowicie wylaczyc wygasanie poczty, ustawiajac opcje poczty `expire' na off. Jesli jest wlaczona, $mail_agent.player_expire_time to okres wygasania uzywany dla poczty graczy. 
 2
-  If a player has a registered email address, he may simply turn the mail option `no_auto_forward' off in order to have the expired messages sent to his email address before they are deleted. (The reversed logic saves on db space). See `help mail-options' and `help @registerme'.
-2
-
-2
-Mail Recipients:
+  Jesli gracz ma zarejestrowany adres email, moze po prostu wylaczyc opcje poczty `no_auto_forward', by wygasajace wiadomosci byly wysylane na jego adres email przed usunieciem. (Odwrocona logika oszczedza miejsce w bazie.) Zobacz `help mail-options' i `help @registerme'.
 2
 
 2
-  The command to set the expiration period of a mail recipient is:
+Odbiorcy poczty:
 2
 
 2
-    @set_expire <recipient> to <time>
+  Polecenie do ustawienia okresu wygasania odbiorcy poczty to:
 2
 
 2
-The <time> specified can be in english format (30 days, 60 days, etc.). If left off (the owner types `@set_expire <recipient> to'), the command will print out the current expiration information for that recipient. A list owner may set the expiration period up to a maximum of 180 days.
+    @set_expire <odbiorca> to <czas>
 2
 
 2
-  Similar to players, the owner of a mail recipient may have the mail sent to either his registered email address or to any other address he specifies before it expires. To prevent unsolicited email from going to a random address, confirmation must be made before the owner may set the address to something other than his registered address.
+Podany <czas> moze byc w formacie angielskim (30 days, 60 days itd.). Jesli pominiety (wlasciciel wpisuje `@set_expire <odbiorca> to'), polecenie wypisze biezace informacje o wygasaniu dla tego odbiorcy. Wlasciciel listy moze ustawic okres wygasania maksymalnie do 180 dni.
 2
 
 2
-  The command is:
+  Podobnie jak gracze, wlasciciel odbiorcy poczty moze wysylac poczte na swoj zarejestrowany adres email lub jakikolwiek inny podany przez siebie adres przed jej wygasnieciem. By zapobiec niechcianej poczcie trafiajacej na przypadkowy adres, wymagane jest potwierdzenie, zanim wlasciciel bedzie mogl ustawic adres inny niz jego zarejestrowany.
 2
 
 2
-    @register <recipient> to <address>
+  Polecenie to:
 2
 
 2
-If the owner leaves off the <address>, the current registered address (if any) and expiration period will be returned. Again, if the address specified is the player's registered address, nothing more need be done. If it is not, then an email message will be sent to that address containing a password. Presumably, the owner can retrieve that password and then log back into the MOO and type:
+    @register <odbiorca> to <adres>
 2
 
 2
-   @validate <recipient> with <password>
+Jesli wlasciciel pominie <adres>, zwrocony zostanie biezacy zarejestrowany adres (jesli jest) i okres wygasania. Ponownie, jesli podany adres to zarejestrowany adres gracza, nic wiecej nie trzeba robic. Jesli nie, wtedy na ten adres zostanie wyslana wiadomosc email zawierajaca haslo. Zapewne wlasciciel moze odzyskac to haslo, a nastepnie zalogowac sie z powrotem do MOO i wpisac:
 2
 
 2
-which will enable the mail forwarding before expiration.
+   @validate <odbiorca> with <haslo>
+2
+
+2
+co wlaczy przekierowanie poczty przed wygasnieciem.
 36
 5
 4
@@ -8606,23 +8602,23 @@ MR-expiration
 4
 41
 2
-Generic Large Capacity Mail Recipient
+Generyczny Odbiorca Poczty Duzej Pojemnosci
 2
 -------------------------------------
 2
-Since any modifications to large lists entail copying the entire list over, operations on ordinary mail recipients having large numbers of messages, that actually change the content of .messages will take inordinately long.  Thus we have this version which makes use of the $biglist package, scattering the messages onto numerous properties so that write operations involving only a few messages will not require recopying of the entire list.
+Poniewaz jakiekolwiek modyfikacje duzych list wymagaja skopiowania calej listy, operacje na zwyklych odbiorcach poczty majacych duza liczbe wiadomosci, ktore faktycznie zmieniaja zawartosc .messages, beda trwac niewspolmiernie dlugo.  Mamy wiec te wersje, ktora korzysta z pakietu $biglist, rozpraszajac wiadomosci na liczne wlasciwosci, tak by operacje zapisu dotyczace tylko kilku wiadomosci nie wymagaly przepisywania calej listy.
 2
 
 2
-In nearly all respects it behaves as the ordinary Mail Recipient, except that it is faster for certain kinds of operations.
+Niemal pod kazdym wzgledem zachowuje sie jak zwykly Odbiorca Poczty, poza tym ze jest szybszy dla pewnych rodzajow operacji.
 2
 
 2
-Certain unimplemented verbs, like :date_sort(), and :messages() currently return E_VERBNF.
+Niektore niezaimplementowane czasowniki, jak :date_sort() i :messages(), obecnie zwracaja E_VERBNF.
 2
 
 2
-To convert an existing $mail_recipient-child (call it #MR) into a $big_mail_recipient-child the basic procedure is
+By przeksztalcic istniejace dziecko $mail_recipient (nazwijmy je #MR) w dziecko $big_mail_recipient, podstawowa procedura to
 2
 
 2
@@ -8638,21 +8634,21 @@ To convert an existing $mail_recipient-child (call it #MR) into a $big_mail_reci
 2
 
 2
-Reconstructing Damaged Big Mail Recipients
+Odbudowa uszkodzonych Duzych Odbiorcow Poczty
 2
 ------------------------------------------
 2
-On rare occasions, the tree structure created by $biglist can be corrupted (this can happen on lists sufficiently large that a list-modification operation (e.g., @rmm, @renumber) runs out of ticks/seconds).  In the vast majority of such cases, your messages are all still there; it's simply that the tree we use for finding/searching them is messed up.
+W rzadkich przypadkach struktura drzewa stworzona przez $biglist moze zostac uszkodzona (moze sie to zdarzyc na listach na tyle duzych, ze operacja modyfikacji listy (np. @rmm, @renumber) skonczy tickow/sekund).  W zdecydowanej wiekszosci takich przypadkow twoje wiadomosci nadal tam sa; po prostu drzewo, ktorego uzywamy do ich znajdowania/przeszukiwania, jest zabalaganione.
 2
 
 2
-To recover messages from a damaged big mail recipient (#DBMR)
+By odzyskac wiadomosci z uszkodzonego duzego odbiorcy poczty (#DBMR)
 2
- --- read to the end before you start typing any commands ---
+ --- przeczytaj do konca zanim zaczniesz wpisywac jakiekolwiek polecenia ---
 2
 
 2
-create a fresh $big_mail_recipient (#NEWBMR) and then do the following:
+stworz swiezy $big_mail_recipient (#NEWBMR), a nastepnie wykonaj:
 2
 
 2
@@ -8660,11 +8656,11 @@ create a fresh $big_mail_recipient (#NEWBMR) and then do the following:
 2
 
 2
-When this finishes, #NEWBMR will contain all of the mail messages we were able to find.  (note that this will include messages that you had deleted from #DBMR but not expunged).  #NEWMBR should thenceforth be useable in place of #DBMR, however if #DBMR contains custom verbs and non-clear properties, these will also need to be copied over.
+Gdy to sie zakonczy, #NEWBMR bedzie zawierac wszystkie wiadomosci pocztowe, jakie udalo nam sie znalezc.  (uwaga: bedzie to obejmowac wiadomosci, ktore usunales z #DBMR, ale nie wykonales expunge).  #NEWMBR powinno byc odtad uzywalne zamiast #DBMR, jednak jesli #DBMR zawiera niestandardowe czasowniki i niepuste (nie-clear) wlasciwosci, trzeba je bedzie tez skopiowac.
 2
 
 2
-Alternatively, one may do
+Alternatywnie mozna wykonac
 2
 
 2
@@ -8674,19 +8670,19 @@ Alternatively, one may do
 2
 
 2
-to rebuild #DBMR in place.  This, however, will take about twice as long.
+by odbudowac #DBMR w miejscu.  To jednak zajmie okolo dwa razy dluzej.
 2
 
 2
 oooooooooooooooooooooooooooooooo
 2
-WARNING!!! WARNING!!! WARNING!!!
+UWAGA!!! UWAGA!!! UWAGA!!!
 2
 oooooooooooooooooooooooooooooooo
 2
 
 2
-Calling #OBJ:restore_from(...) COMPLETELY AND IRREVOCABLY REMOVES ALL MESSAGES from the object that it is run on (#OBJ); you MUST be sure to EITHER have made a copy of #OBJ OR be doing the restore to a DIFFERENT object.
+Wywolanie #OBJ:restore_from(...) CALKOWICIE I NIEODWOLALNIE USUWA WSZYSTKIE WIADOMOSCI z obiektu, na ktorym jest uruchamiane (#OBJ); MUSISZ miec pewnosc, ze ALBO zrobiles kopie #OBJ, ALBO wykonujesz przywrocenie do INNEGO obiektu.
 36
 5
 4
@@ -8698,67 +8694,67 @@ OBJECT:init_for_core([CORE_VARIANT_SPEC])
 2
 
 2
-This verb is called in the final stage of core extraction (see $wiz:make-core-database), which occurs after all non-core objects have been recycled, the remaining ones have been renumbered and moved to #-1.  This verbcall then performs any final cleanups to establish the initial state of the object and is (pretty much) the last thing to happen to the object before the new core database is saved.
+Ten czasownik jest wywolywany w koncowym etapie ekstrakcji rdzenia (zobacz $wiz:make-core-database), ktory nastepuje po tym, jak wszystkie obiekty spoza rdzenia zostaly zrecyklingowane, pozostale zostaly przenumerowane i przeniesione do #-1.  To wywolanie czasownika wykonuje wtedy wszelkie ostateczne sprzatania, by ustanowic poczatkowy stan obiektu, i jest (mniej wiecej) ostatnia rzecza, jaka dzieje sie z obiektem przed zapisaniem nowej bazy danych rdzenia.
 2
 
 2
-What exactly goes in an :init_for_core verb varies hugely.  Some considerations:
+To, co dokladnie znajduje sie w czasowniku :init_for_core, bardzo sie rozni.  Kilka uwag:
 2
 
 2
-(1)  The :init_for_core verbs are invoked from the top down, i.e., a given object's :init_for_core call verb precedes that of any of its children.  Thus, when a given object's init_for_core() runs, you can safely assume that its entire ancestor chain has already been initialized in this way, and likewise that NONE of the descendants have been initialized yet.
+(1)  Czasowniki :init_for_core sa wywolywane od gory w dol, tj. wywolanie czasownika :init_for_core danego obiektu poprzedza wywolanie u ktoregokolwiek z jego dzieci.  Zatem gdy uruchamia sie init_for_core() danego obiektu, mozna bezpiecznie zalozyc, ze caly lancuch jego przodkow zostal juz w ten sposob zainicjowany, i podobnie ze ZADEN z potomkow jeszcze nie zostal zainicjowany.
 2
 
 2
-(2)  For non-ancestral objects, all bets are off --- with a few exceptions, you should not assume that they will be in working order, i.e., only invoke verbs that you know aren't being changed, and don't mess with their properties.   Or if you must, make sure whatever you do works in BOTH the case where the other object's init_for_core has already run AND the case where it has not.
+(2)  Dla obiektow spoza lancucha przodkow wszystko jest niepewne --- z kilkoma wyjatkami nie powinienes zakladac, ze beda dzialac poprawnie, tj. wywoluj tylko czasowniki, o ktorych wiesz, ze nie sa zmieniane, i nie mieszaj przy ich wlasciwosciach.   Albo, jesli musisz, upewnij sie, ze cokolwiek robisz, dziala zarowno w przypadku, gdy init_for_core innego obiektu juz sie uruchomilo, JAK I w przypadku, gdy jeszcze nie.
 2
 
 2
-(3)  The object's own properties, where they contain references to other objects, will be GARBAGE; renumber() does not update object values within properties or lists.  That's your job (i.e., you qua author of :init_for_core).
+(3)  Wlasne wlasciwosci obiektu, tam gdzie zawieraja odwolania do innych obiektow, beda SMIECIEM; renumber() nie aktualizuje wartosci obiektow wewnatrz wlasciwosci ani list.  To twoje zadanie (tj. jako autora :init_for_core).
 2
 
 2
-(4)  The root object's :init_for_core will copy code from any verb whose name ends in "(core)" to the corresponding verbname obtained by dropping that suffix.  So, for example, if you find yourself writing 'set_verb_code(this, "verbname", {...})', you should instead create a (non-executable) "verbname(core)" verb, so as to have the verbcode in a place where you can edit it in a more readable form.  This means...
+(4)  :init_for_core obiektu-korzenia skopiuje kod z kazdego czasownika, ktorego nazwa konczy sie na "(core)", do odpowiadajacej nazwy czasownika uzyskanej przez usuniecie tego sufiksu.  Wiec na przyklad, jesli zauwazysz ze piszesz 'set_verb_code(this, "verbname", {...})', powinienes zamiast tego stworzyc (niewykonywalny) czasownik "verbname(core)", by miec kod czasownika w miejscu, gdzie mozesz go edytowac w bardziej czytelnej formie.  To oznacza...
 2
 
 2
-  (4a)  For non-root objects, it is very important that pass(@args) be called.
+  (4a)  Dla obiektow nie-korzeni bardzo wazne jest, by wywolac pass(@args).
 2
-        And yes the @args need to be there, too, since while the 
+        I tak, @args tez musza tam byc, bo choc argument
 2
-        CORE_VARIANT_SPEC argument is currently unspecified and ignored
+        CORE_VARIANT_SPEC jest obecnie nieokreslony i ignorowany
 2
-        by all existing init_for_core verbs, it is intended to mean
+        przez wszystkie istniejace czasowniki init_for_core, ma
 2
-        mean something someday.
-2
-
-2
-  (4b)  A given object's init_for_core will be applied to every descendant.
-2
-        Bracket the parts that only apply to the object itself with 
+        kiedys cos oznaczac.
 2
 
 2
-	   if ($code_utils:verb_location() == this)
+  (4b)  init_for_core danego obiektu bedzie zastosowane do kazdego potomka.
 2
-	     ... 
-2
-	   endif
+        Ujmij w klamry czesci dotyczace tylko samego obiektu za pomoca
 2
 
 2
-(5) Oddly enough, init_for_core verbs by default become part of the core database.  You can arrange for them to remove themselves, but in the cases where they're performing generic sorts of initializations that are likely to be applicable to other MOOs, it's best to leave them in place.  This is for the sake of other MOO admins who may, after some amount of their own development, want to (re)extract their own cores.  While they will most likely be modifying the various init_for_core verbs as needed, if they do NOT make such modifications then (ideally) a core extraction should produce the same core they started with.
+t   if ($code_utils:verb_location() == this)
+2
+t     ... 
+2
+t   endif
 2
 
 2
-Thus,
+(5) Co ciekawe, czasowniki init_for_core domyslnie staja sie czescia bazy danych rdzenia.  Mozna sprawic, by same sie usuwaly, ale w przypadkach, gdy wykonuja generyczne rodzaje inicjalizacji prawdopodobnie majace zastosowanie do innych MOO, najlepiej pozostawic je na miejscu.  Dzieje sie tak ze wzgledu na innych administratorow MOO, ktorzy po pewnym wlasnym rozwoju moga chciec (ponownie) wyekstrahowac swoje wlasne rdzenie.  Choc najprawdopodobniej beda modyfikowac rozne czasowniki init_for_core wedlug potrzeb, jesli NIE dokonaja takich modyfikacji, ekstrakcja rdzenia powinna (idealnie) wyprodukowac ten sam rdzen, od ktorego zaczeli.
 2
 
 2
-   (5a) init_for_core should be IDEMPOTENT; i.e., running it a second time on the
+Zatem,
 2
-        same object should achieve the same result.  So, e.g., rather than
+
+2
+   (5a) init_for_core powinno byc IDEMPOTENTNE; tj. uruchomienie go po raz drugi na tym
+2
+        samym obiekcie powinno dac ten sam wynik.  Wiec np. zamiast
 2
 
 2
@@ -8766,7 +8762,7 @@ Thus,
 2
 
 2
-        which will create a duplicate entry the second time around, do
+        co stworzy duplikat wpisu za drugim razem, wykonaj
 2
 
 2
@@ -8774,69 +8770,69 @@ Thus,
 2
 
 2
-   (5b) init_for_core should not depend on any non-core verbs/properties.  
+   (5b) init_for_core nie powinno zalezec od zadnych czasownikow/wlasciwosci spoza rdzenia.  
 2
-        In particular, if your init_for_core deletes a LambdaMOO-specific 
+        W szczegolnosci, jesli twoje init_for_core usuwa specyficzny dla LambdaMOO 
 2
-        verb/property and you don't arrange to delete the init_for_core as well,
+        czasownik/wlasciwosc, a nie zadbasz o usuniecie tez init_for_core,
 2
-        then you should bracket that call (e.g., with `... ! E_PROPNF,E_VERBNF')
+        powinienes ujac to wywolanie w klamry (np. z `... ! E_PROPNF,E_VERBNF'),
 2
-        so that it will work elsewhere even after said verb/property is long gone.
-2
-
-2
-   (5c) if your init_for_core has a large amount of LambdaMOO-specific material, 
-2
-        consider splitting the verb into 
+        by dzialalo tez gdzie indziej, nawet gdy wspomniany czasownik/wlasciwosc dawno zniknie.
 2
 
 2
-        (*) an :init_for_core that eliminates the LambdaMOO-specific material,
+   (5c) jesli twoje init_for_core ma duzo materialu specyficznego dla LambdaMOO, 
 2
-            and 
-2
-
-2
-        (*) an :init_for_core(core) that accomplishes the generic initialization
-2
-            (and will be copied into place by $root_object:init_for_core so that
-2
-            ONLY the generic stuff escapes to the outside world.).  
+        rozwaz podzielenie czasownika na 
 2
 
 2
-        You can arrange for BOTH verbs to be called as follows:
+        (*) :init_for_core, ktore eliminuje material specyficzny dla LambdaMOO,
+2
+            oraz 
 2
 
 2
-	#foo:init_for_core
+        (*) :init_for_core(core), ktore dokonuje generycznej inicjalizacji
 2
-	if (caller_perms().wizard)
+            (i zostanie skopiowane na miejsce przez $root_object:init_for_core, tak by
 2
-	  pass(@args);  // copies :init_for_core(core) to this
-2
-
-2
-	  if ($code_utils:verb_location() == this)
-2
-	     // wipe LambdaMOO-specific properties/verbs from this object
-2
-	     ...
-2
-	     // call init_for_core(core) code
-2
-	     this:init_for_core()
-2
-	  endif
-2
-	endif
+            TYLKO generyczne rzeczy wydostaly sie na zewnatrz).  
 2
 
 2
-        though again, this depends on the various parent verbs being idempotent
+        Mozna sprawic, by OBA czasowniki byly wywolywane w nastepujacy sposob:
 2
-        since in this case they will be invoked twice.
+
+2
+t#foo:init_for_core
+2
+tif (caller_perms().wizard)
+2
+t  pass(@args);  // kopiuje :init_for_core(core) do this
+2
+
+2
+t  if ($code_utils:verb_location() == this)
+2
+t     // wymaz wlasciwosci/czasowniki specyficzne dla LambdaMOO z tego obiektu
+2
+t     ...
+2
+t     // wywolaj kod init_for_core(core)
+2
+t     this:init_for_core()
+2
+t  endif
+2
+tendif
+2
+
+2
+        choc ponownie, to zalezy od tego, czy rozne czasowniki rodzicow sa idempotentne,
+2
+        poniewaz w tym przypadku zostana wywolane dwukrotnie.
 36
 5
 4
@@ -8860,161 +8856,161 @@ $core_objects
 2
 
 2
-    $core_objects           ([CORE_VARIANT_SPEC])         => object list
+    $core_objects           ([CORE_VARIANT_SPEC])         => lista obiektow
 2
-    OBJECT:proxy_for_core   ([CORE_VARIANT_SPEC, IN_MCD]) => object
+    OBJECT:proxy_for_core   ([CORE_VARIANT_SPEC, IN_MCD]) => obiekt
 2
-    OBJECT:include_for_core ([CORE_VARIANT_SPEC])         => property list
-2
-
-2
-$core_objects() returns a list of those objects currently considered to be part of the core database.  
-2
-See help 'make-core-database' for a description of the overall core database extraction process.
+    OBJECT:include_for_core ([CORE_VARIANT_SPEC])         => lista wlasciwosci
 2
 
 2
-The list of core objects is determined by a traversal of properties starting with #0.sysobj (normally == #0).
+$core_objects() zwraca liste obiektow obecnie uznawanych za czesc bazy danych rdzenia.  
+2
+Zobacz help 'make-core-database' po opis calego procesu ekstrakcji bazy danych rdzenia.
 2
 
 2
-If a given property being traversed is not object-valued or the object id is invalid we are done with that property.
+Lista obiektow rdzenia jest okreslana przez przejscie po wlasciwosciach zaczynajac od #0.sysobj (zwykle == #0).
 2
 
 2
-Otherwise the property's value is a valid object and we call its 'proxy_for_core' verb, if one exists.  Any such verb is expected to return an object id which will then be used to update this property and any others encountered in the traversal that likewise were pointing to the same object.  If the verb does not exist we use the original property value (i.e., exactly as if the verbcode had been "return this;").
+Jesli dana przechodzona wlasciwosc nie ma wartosci-obiektu lub id obiektu jest nieprawidlowe, konczymy z ta wlasciwoscia.
 2
 
 2
-If the object thus obtained is valid, we add it to the list of core objects.
+W przeciwnym razie wartosc wlasciwosci to prawidlowy obiekt i wywolujemy jego czasownik 'proxy_for_core', jesli istnieje.  Oczekuje sie, ze taki czasownik zwroci id obiektu, ktore zostanie nastepnie uzyte do zaktualizowania tej wlasciwosci i wszelkich innych napotkanych podczas przejscia, ktore rowniez wskazywaly na ten sam obiekt.  Jesli czasownik nie istnieje, uzywamy oryginalnej wartosci wlasciwosci (tj. dokladnie tak, jakby kod czasownika brzmial "return this;").
 2
 
 2
-For each object added, we call its 'include_for_core' verb if one exists.  Any such verb is expected to return a list of properties on that object, which are then recursively traversed as above.  If the verb does not exist, no additional properties are traversed (i.e., exactly as if the verb had returned an empty list).
+Jesli w ten sposob uzyskany obiekt jest prawidlowy, dodajemy go do listy obiektow rdzenia.
 2
 
 2
-The traversal ends when there are no further properties to visit.
+Dla kazdego dodanego obiektu wywolujemy jego czasownik 'include_for_core', jesli istnieje.  Oczekuje sie, ze taki czasownik zwroci liste wlasciwosci na tym obiekcie, ktore sa nastepnie rekurencyjnie przechodzone jak powyzej.  Jesli czasownik nie istnieje, zadne dodatkowe wlasciwosci nie sa przechodzone (tj. dokladnie tak, jakby czasownik zwrocil pusta liste).
 2
 
 2
-The CORE_VARIANT_SPEC argument is reserved for future use.  For now, the value provided to $core_objects() is passed straight through to the various hook verbs (proxy/include) and otherwise ignored.
+Przejscie konczy sie, gdy nie ma juz wiecej wlasciwosci do odwiedzenia.
 2
 
 2
-Note that the verb '$core_objects()' can be called at any time to see the full list of objects to be included in the core as per the above algorithm.
+Argument CORE_VARIANT_SPEC jest zarezerwowany na przyszle uzycie.  Na razie wartosc podana do $core_objects() jest przekazywana bezposrednio do roznych czasownikow-hakow (proxy/include) i w przeciwnym razie ignorowana.
 2
 
 2
-Note that proxy_for_core is only called once for any given object during the traversal.  The IN_MCD parameter will be true for calls coming from within an actual run of make-core-database and false in all other invocations of $core_objects().  Thus, provided IN_MCD is true, it is safe for proxy_for_core to create an object to return.
+Uwaga: czasownik '$core_objects()' mozna wywolac w dowolnym momencie, by zobaczyc pelna liste obiektow, ktore maja byc wlaczone do rdzenia zgodnie z powyzszym algorytmem.
+2
+
+2
+Uwaga: proxy_for_core jest wywolywane tylko raz dla danego obiektu podczas przejscia.  Parametr IN_MCD bedzie prawdziwy dla wywolan pochodzacych z faktycznego uruchomienia make-core-database, a falszywy we wszystkich innych wywolaniach $core_objects().  Zatem, o ile IN_MCD jest prawdziwe, dla proxy_for_core bezpieczne jest stworzenie obiektu do zwrocenia.
 36
 5
 4
 52
 2
-Syntax:  make-core-database
+Skladnia:  make-core-database
 2
 
 2
-!!! NOTE:
+!!! UWAGA:
 2
 !!! 
 2
-!!! This is, by design, an extraordinarily destructive command, 
+!!! To jest, celowo, niezwykle destrukcyjne polecenie, 
 2
-!!! one NOT INTENDED to be run in the live instance of your MOO.
+!!! NIEPRZEZNACZONE do uruchamiania na zywej instancji twojego MOO.
 2
 !!! 
 2
-!!! While there are various safeguards to keep it from being run in
+!!! Choc istnieja rozne zabezpieczenia, by zapobiec jego uruchomieniu w
 2
-!!! situations where it looks like this might be the live instance of
+!!! sytuacjach, gdzie wyglada na to, ze moze to byc zywa instancja
 2
-!!! the MOO (e.g., >1 player connected), there are limits on how
+!!! MOO (np. >1 polaczony gracz), sa granice tego, jak bardzo
 2
-!!! idiot-proof we can be.
+!!! mozemy zabezpieczyc przed glupota.
 2
 !!!
 2
-!!! You have been warned.
+!!! Zostales ostrzezony.
 2
 
 2
-The correct use of this command is in a separate process.  
+Poprawne uzycie tego polecenia to osobny proces.  
 2
-That is, once you have identified a database/checkpoint file from which you wish to extract a core, you
+To znaczy, gdy juz zidentyfikowales plik bazy danych/checkpointu, z ktorego chcesz wyekstrahowac rdzen, powinienes
 2
 
 2
-(*) Run a LOCAL moo process reading from that database file,
+(*) uruchomic LOKALNY proces moo czytajacy z tego pliku bazy danych,
 2
     
 2
-(*) Connect as $owner (usually $owner == #2).
+(*) polaczyc sie jako $owner (zwykle $owner == #2).
 2
 
 2
-(*) Invoke ($wiz:)make-core-database
+(*) wywolac ($wiz:)make-core-database
 2
 
 2
-Here "LOCAL" means you have open_network_connection() disabled (so that, e.g., spurious registration email doesn't go out) and you either run the moo on a port that is not accessible from the outside world or use one of the single-user/local configurations of the server (e.g., NETWORK_PROTOCOL = NP_SINGLE or -a 127.0.0.1 on the command line) so that no one else can connect while you're destroying the world (and perhaps mess with what eventually gets saved).
+Tutaj "LOKALNY" oznacza, ze masz wylaczone open_network_connection() (tak by np. falszywy email rejestracyjny nie zostal wyslany) i albo uruchamiasz moo na porcie niedostepnym z zewnatrz, albo uzywasz jednej z jednoosobowych/lokalnych konfiguracji serwera (np. NETWORK_PROTOCOL = NP_SINGLE lub -a 127.0.0.1 w linii polecen), tak by nikt inny nie mogl sie polaczyc, podczas gdy niszczysz swiat (i byc moze mieszasz przy tym, co ostatecznie zostanie zapisane).
 2
 
 2
-Once you type 'make-core-database', the actual extraction process then goes as follows:
+Gdy wpiszesz 'make-core-database', faktyczny proces ekstrakcji przebiega nastepujaco:
 2
 
 2
-(1) A particular set of objects, the "core objects" as determined by,
+(1) Identyfikowany jest konkretny zbior obiektow, "obiekty rdzenia", okreslony,
 2
-    oddly enough, $core_objects(), is identified.  
+    co ciekawe, przez $core_objects().  
 2
     
 2
-    See 'help $core_objects' for details on the algorithm used.
+    Zobacz 'help $core_objects' po szczegoly uzywanego algorytmu.
 2
     
 2
-(2) Any core object and any property/verb thereon that has a non-core owner
+(2) Kazdy obiekt rdzenia i kazda jego wlasciwosc/czasownik majace wlasciciela spoza rdzenia
 2
-    is chowned either to the (assumed wizardly) player or $hacker 
+    sa przenoszone na wlasnosc albo (zakladanego wizardowskiego) gracza, albo $hacker,
 2
-    according as the item in question is wizard-owned.
-2
-
-2
-(3) All non-core objects are mercilessly recycled.
+    zaleznie od tego, czy dany element nalezy do wizarda.
 2
 
 2
-(4) Core objects are renumbered and max_object is reset,
-2
-    so as to produce a contiguous array [#0..max_object()] of objects.
+(3) Wszystkie obiekty spoza rdzenia sa bezlitosnie recyklingowane.
 2
 
 2
-(5) All objects are moved to #-1.
+(4) Obiekty rdzenia sa przenumerowywane, a max_object jest resetowane,
+2
+    by uzyskac ciagla tablice [#0..max_object()] obiektow.
 2
 
 2
-(6) OBJECT:init_for_core is called on all objects having such verbs.
+(5) Wszystkie obiekty sa przenoszone do #-1.
 2
-    The sequence of calls is unspecified except in that an object 
+
 2
-    is initialized prior to any of its children.
+(6) OBJECT:init_for_core jest wywolywane na wszystkich obiektach majacych taki czasownik.
+2
+    Kolejnosc wywolan jest nieokreslona, poza tym, ze obiekt 
+2
+    jest inicjowany przed ktorymkolwiek ze swoich dzieci.
 2
     
 2
-    See 'help init_for_core' for more on what these verbs should look like.
+    Zobacz 'help init_for_core' po wiecej o tym, jak powinny wygladac te czasowniki.
 2
 
 2
-(7) The byte-quota statistics are redone
+(7) Statystyki limitu bajtowego sa przeliczane od nowa
 2
 
 2
-(8) The moo is shut down and the database is saved.
+(8) Moo jest wylaczane, a baza danych zapisywana.
 36
 5
 5
