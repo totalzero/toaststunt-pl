@@ -11,8 +11,7 @@
 0 queued tasks
 0 suspended tasks
 0 interrupted tasks
-1 active connections with listeners
-2 0
+0 active connections with listeners
 134
 #0
 The System Object
@@ -665,7 +664,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784097643
+1784109094
 2
 name
 2
@@ -964,7 +963,7 @@ The System Object
 2
 5
 2
-The known universe.
+Znany wszechswiat.
 2
 5
 4
@@ -1225,17 +1224,17 @@ Wizard
 7
 2
 1
-62
+15
 10
 2
 2
 source
 1
-15
+62
 2
 time
 0
-1784098475
+1784109157
 4
 0
 1
@@ -1455,7 +1454,7 @@ time
 4
 2
 0
-1784098458
+1784109133
 2
 localhost
 2
@@ -1464,7 +1463,7 @@ localhost
 2
 0
 0
-1784098465
+1784109157
 2
 1
 0
@@ -1628,7 +1627,7 @@ localhost
 2
 5
 0
-1784098475
+1784109150
 2
 1
 0
@@ -1676,8 +1675,8 @@ localhost
 5
 2
 0
-12
-134
+1
+-1
 2
 1
 5
@@ -2483,7 +2482,7 @@ Generic Builder
 2
 1
 2
-You see a player who should type '@describe me as ...'.
+Widzisz gracza, ktory powinien wpisac '@describe me as ...'.
 2
 5
 4
@@ -3255,7 +3254,7 @@ Generic Player
 2
 1
 2
-You see a player who should type '@describe me as ...'.
+Widzisz gracza, ktory powinien wpisac '@describe me as ...'.
 2
 5
 4
@@ -4125,7 +4124,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--27
+-4
 0
 2
 2
@@ -4139,7 +4138,19 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-8
+10
+4
+2
+0
+1784109094
+0
+0
+4
+2
+0
+1784108286
+0
+0
 4
 2
 0
@@ -4239,7 +4250,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 36
 0
 0
-1
+0
 2
 5
 0
@@ -4276,7 +4287,7 @@ Login Commands
 2
 5
 2
-This provides everything needed by #0:do_login_command.  See `help $login' on $core_help for details.
+To dostarcza wszystko, co potrzebne dla #0:do_login_command. Zobacz `help $login' na $core_help, by uzyskac szczegoly.
 2
 5
 4
@@ -4330,7 +4341,7 @@ Player Last_huh Verbs
 2
 5
 2
-A repository of last-resort player verbs to be called by $player:last_huh
+Repozytorium czasownikow ostatniej szansy, wywolywanych przez $player:last_huh
 2
 5
 4
@@ -5125,7 +5136,9 @@ Limbo
 0
 0
 4
-0
+1
+1
+2
 1
 1
 4
@@ -5294,7 +5307,8 @@ abcdefghijklmnopqrstuvwxy0123456789_.@+z
 Registration Database
 36
 5
-5
+2
+Ogolna `baza danych' (a wlasciwie bardziej tablica indeksowana lancuchami znakow, jesli mowic szczerze...). Zobacz `help $generic_db', by uzyskac szczegoly.
 36
 5
 4
@@ -5450,7 +5464,7 @@ PCL
 36
 1
 2
-Log of player creations.
+Dziennik tworzenia graczy.
 2
 5
 4
@@ -5553,7 +5567,7 @@ vh
 36
 5
 2
-A `help database' that knows about all of the documented verbs.
+`Baza pomocy', ktora zna wszystkie udokumentowane czasowniki.
 36
 5
 4
@@ -9045,7 +9059,7 @@ Core Utility Help
 36
 5
 2
-Help database for LambdaCore utility objects and generics.
+Baza pomocy dla obiektow narzedziowych i ogolnych LambdaCore.
 36
 5
 4
@@ -12618,7 +12632,7 @@ Programmer Help
 36
 5
 2
-This provides help on the programmer commands available on $prog and related topics.
+To dostarcza pomocy na temat komend programistycznych dostepnych na $prog i tematow pokrewnych.
 36
 5
 4
@@ -18686,7 +18700,7 @@ NPL
 36
 1
 2
-Record of who's been made a @programmer.
+Zapis tego, kto zostal @programmer.
 2
 5
 4
@@ -18806,7 +18820,7 @@ Generic Help Database
 36
 5
 2
-A help database of the standard form in need of a description. See `help $generic_help'...
+Baza pomocy standardowej postaci, wymagajaca opisu. Zobacz `help $generic_help'...
 36
 5
 4
@@ -19301,7 +19315,7 @@ spell
 36
 5
 2
-For help on using the speller, use 'help spelling' and 'help @spell'.
+By uzyskac pomoc w korzystaniu ze sprawdzania pisowni, wpisz 'help spelling' i 'help @spell'.
 36
 5
 4
@@ -19630,7 +19644,7 @@ Quota
 36
 1
 2
-Record of whose quota has been messed with and why.
+Zapis tego, komu zmieniono limit (quota) i dlaczego.
 2
 5
 4
@@ -20144,7 +20158,7 @@ Hacker
 2
 1
 2
-A system character used to own non-wizardly system verbs , properties, and objects in the core.
+Postac systemowa, uzywana jako wlasciciel niewizardowskich czasownikow, wlasciwosci i obiektow systemowych w rdzeniu.
 36
 5
 4
@@ -20291,7 +20305,7 @@ Generic Database
 36
 5
 2
-A generic `database' (well, really more like a string-indexed array if you want the truth...). See `help $generic_db' for details.
+Ogolna `baza danych' (a wlasciwie bardziej tablica indeksowana lancuchami znakow, jesli mowic szczerze...). Zobacz `help $generic_db', by uzyskac szczegoly.
 36
 5
 4
@@ -20567,7 +20581,7 @@ noone
 2
 1
 2
-The character used for "safe" evals.
+Postac uzywana do "bezpiecznych" evali.
 36
 5
 4
@@ -21311,7 +21325,8 @@ messages
 Generic Mail Receiving Player
 2
 1
-5
+2
+Gracz z mozliwoscia widzenia rzeczy w kolorze.
 2
 5
 4
@@ -23739,7 +23754,7 @@ Generic Mail Recipient
 36
 1
 2
-This can either be a mailing list or a mail folder, depending on what mood you're in...
+To moze byc albo lista mailingowa, albo folder pocztowy, zaleznie od nastroju...
 36
 5
 4
@@ -25988,7 +26003,8 @@ For more documentation, see help $match_utils:<specific verb>.
 Matching Utilities
 36
 5
-5
+2
+To jest obiekt-zastepczy (placeholder), rodzic dla wszystkich pakietow $..._utils, ulatwiajacy ich znajdowanie i obsluge. Obecnie ten obiekt nie definiuje zadnych przydatnych czasownikow ani wlasciwosci. (Filfre.)
 36
 5
 4
@@ -26383,7 +26399,7 @@ Lock Utilities
 2
 5
 2
-This the lock utilities package, used by the MOOwide locking mechanisms. See `help $lock_utils' for more details.
+To pakiet narzedzi blokad, uzywany przez mechanizmy blokowania w calym MOO. Zobacz `help $lock_utils', by uzyskac wiecej szczegolow.
 2
 5
 4
@@ -26487,7 +26503,7 @@ Generic Letter
 36
 5
 2
-Some writing on the letter explains that you should 'read letter', and when you've finished, 'burn letter'.
+Napis na liscie wyjasnia, ze nalezy wpisac 'read letter', a po przeczytaniu 'burn letter'.
 36
 5
 4
@@ -26898,19 +26914,25 @@ feature_task
 4
 9
 0
-868917152
+438684549
 2
-poloz
+this
 4
-1
+4
 2
-banan
+is
 2
-banan
+total
+2
+gibberish
+2
+blah
+2
+is total gibberish blah
 1
 -3
 2
-banan
+is total gibberish blah
 2
 
 1
@@ -27541,7 +27563,7 @@ Generic Wizard
 2
 1
 2
-You see a wizard who chooses not to reveal its true appearance.
+Widzisz wizarda, ktory postanowil nie ujawniac swojego prawdziwego wygladu.
 2
 5
 4
@@ -28043,7 +28065,7 @@ Generic Programmer
 2
 1
 2
-You see a player who is too experienced to have any excuse for not having a description.
+Widzisz gracza, ktory jest zbyt doswiadczony, by miec jakiekolwiek usprawiedliwienie dla braku opisu.
 2
 5
 4
@@ -31994,7 +32016,7 @@ News
 36
 1
 2
-It's the current issue of the News, dated %d.
+To biezace wydanie Nowosci (News), datowane na %d.
 36
 5
 4
@@ -32014,9 +32036,7 @@ Pierwszy Pokoj
 0
 0
 4
-1
-1
-2
+0
 1
 3
 4
@@ -32258,7 +32278,7 @@ Center
 36
 5
 2
-Object reuse. Call $recycler:_create() to create an object (semantics the same as create()), $recycler:_recycle() to recycle an object. Will create a new object if nothing available in its contents. Note underscores, to avoid builtin :recycle() verb called when objects are recycled. Uses $building_utils:recreate() to prepare objects.
+Ponowne uzycie obiektow. Wywolaj $recycler:_create(), by stworzyc obiekt (semantyka taka sama jak create()), $recycler:_recycle(), by go zutylizowac. Stworzy nowy obiekt, jesli nic nie jest dostepne w jego zawartosci. Zwroc uwage na podkreslenia, ktore pozwalaja uniknac wywolania wbudowanego czasownika :recycle() przy utylizacji obiektow. Uzywa $building_utils:recreate() do przygotowania obiektow.
 36
 5
 4
@@ -32834,7 +32854,7 @@ Mail Options
 36
 5
 2
-Options for mailing
+Opcje dotyczace poczty
 36
 5
 4
@@ -32943,7 +32963,8 @@ noisy_insert
 Edit Options
 36
 5
-5
+2
+pakiet opcji wymagajacy opisu. Zobacz `help $generic_option'...
 36
 5
 4
@@ -33028,7 +33049,8 @@ thisonly
 Display Options
 36
 5
-5
+2
+pakiet opcji wymagajacy opisu. Zobacz `help $generic_option'...
 36
 5
 4
@@ -33146,7 +33168,7 @@ Generic Option Package
 36
 5
 2
-an option package in need of a description.  See `help $generic_option'...
+pakiet opcji wymagajacy opisu. Zobacz `help $generic_option'...
 36
 5
 4
@@ -33463,7 +33485,7 @@ Site-Locks
 36
 1
 2
-Notes on annoying sites.
+Notatki o uciazliwych witrynach (sites).
 2
 5
 4
@@ -33991,7 +34013,7 @@ Housekeeper
 2
 1
 2
-A very clean, neat, tidy person who doesn't mind lugging players and their gear all over the place.
+Bardzo czysta, schludna i uporzadkowana osoba, ktorej nie przeszkadza taszczenie graczy i ich rzeczy w rozne miejsca.
 71
 5
 4
@@ -34654,7 +34676,7 @@ Feature Object
 36
 5
 2
-This is the Generic Feature Object.  It is not meant to be used as a feature object itself, but is handy for making new feature objects.
+To jest Ogolny Obiekt Funkcyjny (Generic Feature Object). Nie jest przeznaczony do uzycia jako obiekt funkcyjny sam w sobie, ale jest przydatny do tworzenia nowych obiektow funkcyjnych.
 36
 5
 4
@@ -35179,7 +35201,7 @@ Generic Utilities Package
 2
 5
 2
-This is a placeholder parent for all the $..._utils packages, to more easily find them and manipulate them. At present this object defines no useful verbs or properties. (Filfre.)
+To jest obiekt-zastepczy (placeholder), rodzic dla wszystkich pakietow $..._utils, ulatwiajacy ich znajdowanie i obsluge. Obecnie ten obiekt nie definiuje zadnych przydatnych czasownikow ani wlasciwosci. (Filfre.)
 2
 5
 4
@@ -37462,7 +37484,7 @@ BHD
 36
 5
 2
-This help database contains topics about the generic builder and building commands.
+Ta baza pomocy zawiera tematy dotyczace ogolnego budowniczego i komend budowania.
 36
 5
 4
@@ -38695,7 +38717,7 @@ Mail Commands Help Db
 36
 5
 2
-This help database contains topics relating to the general use of the mail system.
+Ta baza pomocy zawiera tematy zwiazane z ogolnym uzyciem systemu poczty.
 36
 5
 4
@@ -42381,7 +42403,7 @@ ToastStunt Help Database
 36
 5
 2
-A help database of the standard form in need of a description. See `help $generic_help'...
+Baza pomocy standardowej postaci, wymagajaca opisu. Zobacz `help $generic_help'...
 36
 5
 4
@@ -42557,7 +42579,7 @@ Password Verifier
 2
 5
 2
-The password verifier verifies passwords.
+Weryfikator hasel weryfikuje hasla.
 2
 5
 4
@@ -43234,7 +43256,7 @@ Frand's Player Class
 2
 1
 2
-You see a player who should type '@describe me as ...'.
+Widzisz gracza, ktory powinien wpisac '@describe me as ...'.
 36
 5
 4
@@ -43438,7 +43460,7 @@ Pasting Feature
 36
 5
 2
-Verbs useful to people using a windowing system to paste text at people.
+Czasowniki przydatne dla osob korzystajacych z systemu okienkowego, by wklejac tekst innym graczom.
 36
 5
 4
@@ -43722,7 +43744,7 @@ Vector And Matrix Utils
 36
 5
 2
-This is a utilities package for dealing with lists as representations of vectors and matrices. Type `help $matrix_utils' for more details.
+To pakiet narzedziowy do obslugi list jako reprezentacji wektorow i macierzy. Wpisz `help $matrix_utils', by uzyskac wiecej szczegolow.
 36
 5
 4
@@ -44607,7 +44629,8 @@ frand-index
 Frand Help DB
 36
 5
-5
+2
+Baza pomocy standardowej postaci, wymagajaca opisu. Zobacz `help $generic_help'...
 36
 5
 4
@@ -46747,7 +46770,7 @@ Conversion Utils
 36
 5
 2
-This is a utilities package for converting from one unit of measurement to another. Type 'help #770' for more details.
+To pakiet narzedziowy do konwersji jednostek miary. Wpisz 'help #770', by uzyskac wiecej szczegolow.
 36
 5
 4
@@ -47509,7 +47532,7 @@ Editor_Owner
 2
 1
 2
-This player owns all editor-related verbs.
+Ten gracz jest wlascicielem wszystkich czasownikow zwiazanych z edytorem.
 96
 5
 4
@@ -48006,7 +48029,8 @@ time
 5
 2
 1
-5
+2
+Widzisz gracza, ktory jest zbyt doswiadczony, by miec jakiekolwiek usprawiedliwienie dla braku opisu.
 98
 5
 4
@@ -49074,7 +49098,7 @@ au
 98
 5
 2
-{A utility for controlling ANSI sequences from within the MOO.  See 'help ansi-intro' for more info.}
+{Narzedzie do sterowania sekwencjami ANSI z poziomu MOO. Zobacz 'help ansi-intro', by uzyskac wiecej informacji.}
 98
 5
 4
@@ -49347,7 +49371,7 @@ apc
 2
 1
 2
-A player with the ability to see things in [red]c[bold][yellow]o[green]l[blue]o[purple]r[normal].
+Gracz z mozliwoscia widzenia rzeczy w [red]k[bold][yellow]o[green]l[blue]o[purple]r[normal]ze.
 98
 5
 4
@@ -50028,7 +50052,7 @@ ah
 98
 5
 2
-A help database of the standard form in need of a description. See `help $generic_help'...
+Baza pomocy standardowej postaci, wymagajaca opisu. Zobacz `help $generic_help'...
 98
 5
 4
@@ -50247,7 +50271,7 @@ ao
 98
 5
 2
-An option package for controlling and customizing the ANSI PC.
+Pakiet opcji do sterowania i dostosowywania ANSI PC.
 98
 5
 4
@@ -52584,7 +52608,8 @@ mcp-index
 MCP Help Database
 98
 5
-5
+2
+Baza pomocy standardowej postaci, wymagajaca opisu. Zobacz `help $generic_help'...
 98
 5
 4
@@ -53252,7 +53277,7 @@ flexible
 2
 5
 2
-This is a placeholder parent for all the $..._utils packages, to more easily find them and manipulate them. At present this object defines no useful verbs or properties. (Filfre.)
+To jest obiekt-zastepczy (placeholder), rodzic dla wszystkich pakietow $..._utils, ulatwiajacy ich znajdowanie i obsluge. Obecnie ten obiekt nie definiuje zadnych przydatnych czasownikow ani wlasciwosci. (Filfre.)
 2
 5
 4
@@ -53449,7 +53474,8 @@ options_menu
 Menu Utilities
 2
 5
-5
+2
+To jest obiekt-zastepczy (placeholder), rodzic dla wszystkich pakietow $..._utils, ulatwiajacy ich znajdowanie i obsluge. Obecnie ten obiekt nie definiuje zadnych przydatnych czasownikow ani wlasciwosci. (Filfre.)
 2
 5
 4
@@ -53584,7 +53610,8 @@ ich
 5
 57
 5
-5
+2
+Pakiet narzedzi jezykowych dla polskiej lokalizacji: zaimki (:pronoun), odmiana czasownikow przez liczbe (:conj) oraz odmiana rzeczownikow przez liczebnik/ilosc (:count). Zobacz verb-code $polish_utils:pronoun/:conj/:count.
 57
 5
 4
@@ -53660,46 +53687,6 @@ ich
 0
 0
 36
-1
-1
-#134
-
-0
-98
-1
--1
-0
-0
-4
-0
-1
-108
-4
-0
-0
-0
-7
-1
-2
-98
-1
-5
-98
-0
-5
-98
-1
-5
-98
-0
-5
-98
-1
-5
-98
-0
-5
-98
 1
 0
 1953
