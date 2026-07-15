@@ -665,7 +665,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784093342
+1784097643
 2
 name
 2
@@ -1235,7 +1235,7 @@ source
 2
 time
 0
-1784094305
+1784098475
 4
 0
 1
@@ -1455,7 +1455,7 @@ time
 4
 2
 0
-1784094290
+1784098458
 2
 localhost
 2
@@ -1464,7 +1464,7 @@ localhost
 2
 0
 0
-1784094297
+1784098465
 2
 1
 0
@@ -1628,7 +1628,7 @@ localhost
 2
 5
 0
-1784094305
+1784098475
 2
 1
 0
@@ -1985,15 +1985,15 @@ ctype
 2
 5
 2
-You have been expelled from %i by %n.
+%N wyrzuca cie z %i.
 2
 5
 2
-You expel %d from %i.
+Wyrzucasz %d z %i.
 2
 5
 2
-%N unceremoniously %{!expels} %d from %i.
+%N bezceremonialnie wyrzuca %d z %i.
 2
 5
 4
@@ -4075,7 +4075,7 @@ welcome
 36
 5
 2
-*** The MOO is too busy! The current lag is %l; there are %n connected.  WAIT FIVE MINUTES BEFORE TRYING AGAIN.
+*** MOO jest zbyt zajete! Biezace opoznienie to %l; polaczonych jest %n.  POCZEKAJ PIEC MINUT I SPROBUJ PONOWNIE.
 36
 1
 4
@@ -4123,7 +4123,11 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 0
 10
+1
+1
+-27
 0
+2
 2
 5
 0
@@ -4135,7 +4139,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-7
+8
+4
+2
+0
+1784097643
+0
+0
 4
 2
 0
@@ -25576,7 +25586,7 @@ q*uit,done,pause
 96
 5
 2
-There are no lines of text.
+Nie ma zadnych linii tekstu.
 96
 5
 4
@@ -25720,11 +25730,11 @@ readable
 96
 1
 2
-%N heads off to the Generic Editing Room.
+%N wychodzi do Generycznego Pokoju Edycji.
 96
 5
 2
-%N comes back from the Generic Editing Room.
+%N wraca z Generycznego Pokoju Edycji.
 96
 5
 2
@@ -25732,11 +25742,11 @@ Keeping your [whatever] for later work.  Since this the Generic Editor, you have
 96
 5
 2
-There have been no changes since the last save.
+Nie bylo zadnych zmian od ostatniego zapisu.
 96
 5
 2
-Text has been altered since the last save.
+Tekst zostal zmieniony od ostatniego zapisu.
 96
 5
 2
@@ -26418,7 +26428,7 @@ burn_failed_msg
 burn_succeeded_msg
 19
 2
-stares at %t; %[tps] bursts into flame and disappears, leaving no ash.
+spoglada na %t; %t plonie i znika, nie zostawiajac popiolu.
 2
 5
 0
@@ -26426,11 +26436,11 @@ stares at %t; %[tps] bursts into flame and disappears, leaving no ash.
 2
 5
 2
-%T might be damp.  In any case, %[tps] won't burn.
+%T moze byc wilgotne.  Tak czy inaczej, %T sie nie spali.
 2
 5
 2
-%T burns with a smokeless flame and leaves no ash.
+%T plonie bezdymnym plomieniem i nie zostawia popiolu.
 2
 5
 5
@@ -27213,15 +27223,15 @@ advertised
 2
 5
 2
-%d is now a programmer.
+%d jest teraz programista.
 2
 5
 2
-You are now a programmer.
+Jestes teraz programista.
 2
 5
 2
-Have a nice life...
+Milego zycia...
 2
 5
 2
@@ -33645,11 +33655,11 @@ cleaning_index
 71
 1
 2
-%[tpsc] arrives to cart %n off to bed.
+Ktos przychodzi, by zaniesc %n do lozka.
 71
 5
 2
-%[tpsc] arrives to drop off %n, who is sound asleep.
+Ktos przychodzi i odklada %n. %n twardo spi.
 71
 5
 0
@@ -34591,7 +34601,7 @@ feature_ok
 36
 1
 2
-The Generic Feature Object--not to be used as a feature object.
+Generyczny Obiekt Funkcji -- nie powinien byc uzywany jako obiekt funkcji.
 36
 5
 4
@@ -42922,7 +42932,7 @@ spurned_objects
 36
 5
 2
-You join %n.
+Dolaczasz do %n.
 36
 5
 2
@@ -42942,7 +42952,7 @@ teleports you.
 36
 5
 2
-You teleport %n.
+Teleportujesz %n.
 36
 5
 2
@@ -42954,7 +42964,7 @@ You teleport %n.
 36
 5
 2
-You teleport %n.
+Teleportujesz %n.
 36
 5
 2
@@ -43002,15 +43012,15 @@ You teleport %n.
 36
 1
 2
-%N refuses your page.
+%N odrzuca twoj pager.
 36
 5
 2
-%N refuses your whisper.
+%N odrzuca twoj szept.
 36
 5
 2
-%N refuses your mail.
+%N odrzuca twoja poczte.
 36
 5
 4
@@ -55006,15 +55016,14 @@ set_task_perms(player);
 if ($command_utils:object_match_failed(dobj, dobjstr))
 return;
 elseif (dobj.location != this)
-is = $gender_utils:get_conj("is", dobj);
-player:tell(dobj.name, "(", dobj, ") ", is, " not here.");
+player:tell(dobj.name, " (", dobj, ") nie ma tutaj.");
 return;
 elseif (!$perm_utils:controls(player, this))
-player:tell("You are not the owner of this room.");
+player:tell("Nie jestes wlascicielem tego pokoju.");
 return;
 elseif (dobj.wizard)
-player:tell("Sorry, you can't ", verb, " a wizard.");
-dobj:tell(player.name, " tried to ", verb, " you.");
+player:tell("Przykro mi, nie mozesz uzyc ", verb, " na wizardzie.");
+dobj:tell(player.name, " probuje uzyc na tobie ", verb, ".");
 return;
 endif
 iobj = this;
@@ -70161,11 +70170,10 @@ endif
 "or time() format. if a reference time is not given, it is set to time().";
 {_time, ?reftime = time()} = args;
 if (_time < 1)
-return "0 seconds";
+return "0 sekund";
 endif
 _ctime = (typeof(reftime) == INT) ? ctime(reftime) | reftime;
 seclist = {60, 60, 24};
-units = {"year", "month", "day", "hour", "minute", "second"};
 timelist = {};
 for unit in (seclist)
 timelist = {_time % unit, @timelist};
@@ -70183,21 +70191,20 @@ year = year + 1;
 month = 1;
 endif
 if (months > 2400)
-return tostr(">", months / 12, " years");
+return tostr(">", months / 12, " lat");
 endif
 $command_utils:suspend_if_needed(0);
 endwhile
 timelist = {months / 12, months % 12, _time, @timelist};
-for unit in (units)
-i = unit in units;
+forms = {{"rok", "lata", "lat"}, {"miesiac", "miesiace", "miesiecy"}, {"dzien", "dni", "dni"}, {"godzina", "godziny", "godzin"}, {"minuta", "minuty", "minut"}, {"sekunda", "sekundy", "sekund"}};
+strs = {};
+for i in [1..length(timelist)]
 if (timelist[i] > 0)
-units[i] = ((tostr(timelist[i]) + " ") + units[i]) + ((timelist[i] == 1) ? "" | "s");
-else
-units = listdelete(units, i);
-timelist = listdelete(timelist, i);
+f = forms[i];
+strs = {@strs, tostr(timelist[i], " ", $polish_utils:count(timelist[i], f[1], f[2], f[3]))};
 endif
 endfor
-return $string_utils:english_list(units);
+return $string_utils:english_list(strs);
 .
 #43:8
 "from_day(day_of_week,which [,reference time])";
@@ -76915,10 +76922,10 @@ endtry
 .
 #57:5
 if (!player.wizard)
-player:notify("Sorry.");
+player:notify("Przykro mi.");
 return;
 elseif ($code_utils:task_valid($wiz_utils.shutdown_task))
-player:notify(tostr("Shutdown already in progress.  The MOO will be shut down in ", $time_utils:english_time($server["shutdown_time"] - time()), ", by ", $wiz_utils.shutdown_message));
+player:notify(tostr("Wylaczanie juz trwa.  MOO zostanie wylaczone za ", $time_utils:english_time($server["shutdown_time"] - time()), ", przez ", $wiz_utils.shutdown_message));
 return;
 endif
 if (s = match(argstr, "^in +%([0-9]+%)%( +%|$%)"))
@@ -76928,8 +76935,8 @@ argstr = argstr[s[2] + 1..$];
 else
 delay = 2;
 endif
-if (!$command_utils:yes_or_no(tostr("Do you really want to shut down the server in ", delay, " minutes?")))
-player:notify("Aborted.");
+if (!$command_utils:yes_or_no(tostr("Czy na pewno chcesz wylaczyc serwer za ", delay, " minut?")))
+player:notify("Przerwano.");
 return;
 endif
 announce_times = {};
@@ -76944,7 +76951,7 @@ endif
 $wiz_utils.shutdown_message = tostr(player.name, " (", player, "): ", argstr);
 $wiz_utils.shutdown_task = task_id();
 for i in [1..length(announce_times)]
-base_msg = tostr("*** The server will be shut down by ", player.name, " (", player, ") in ", $time_utils:english_time(announce_times[i]), ":");
+base_msg = tostr("*** Serwer zostanie wylaczony przez ", player.name, " (", player, ") za ", $time_utils:english_time(announce_times[i]), ":");
 msg = {base_msg, @$generic_editor:fill_string("*** " + argstr, length(base_msg) - 4, "*** ")};
 "...use raw notify() since :notify() verb could be broken...";
 for p in (connected_players())
@@ -76956,7 +76963,7 @@ endfor
 suspend(announce_times[i] - {@announce_times, 0}[i + 1]);
 endfor
 for p in (connected_players())
-notify(p, tostr("*** Server shutdown by ", $wiz_utils.shutdown_message, " ***"));
+notify(p, tostr("*** Wylaczenie serwera przez ", $wiz_utils.shutdown_message, " ***"));
 boot_player(p);
 endfor
 suspend(0);
@@ -77448,9 +77455,9 @@ return $wiz_utils:do_make_player(@args);
 .
 #57:17
 if (!player.wizard)
-player:notify("Sorry.");
+player:notify("Przykro mi.");
 elseif (!$code_utils:task_valid($wiz_utils.shutdown_task))
-player:notify("No server shutdown in progress.");
+player:notify("Nie trwa zadne wylaczanie serwera.");
 $wiz_utils.shutdown_task = E_NONE;
 else
 "... Reset time so that $login:check_for_shutdown shuts up...";
@@ -77458,7 +77465,7 @@ kill_task($wiz_utils.shutdown_task);
 $wiz_utils.shutdown_task = E_NONE;
 $server["shutdown_time"] = time() - 1;
 for p in (connected_players())
-notify(p, tostr("*** Server shutdown ABORTED by ", player.name, " (", player, ")", argstr && (":  " + argstr), " ***"));
+notify(p, tostr("*** Wylaczanie serwera PRZERWANE przez ", player.name, " (", player, ")", argstr && (":  " + argstr), " ***"));
 endfor
 endif
 .
