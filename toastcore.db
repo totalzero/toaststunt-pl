@@ -664,7 +664,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784125454
+1784132357
 2
 name
 2
@@ -1234,7 +1234,7 @@ source
 2
 time
 0
-1784126283
+1784133384
 4
 0
 1
@@ -1462,7 +1462,7 @@ time
 4
 2
 0
-1784126258
+1784133314
 2
 localhost
 2
@@ -1471,7 +1471,7 @@ localhost
 2
 0
 0
-1784126283
+1784133384
 2
 1
 0
@@ -1597,7 +1597,8 @@ localhost
 133
 2
 1
-5
+0
+-10
 36
 1
 1
@@ -1635,7 +1636,7 @@ localhost
 2
 5
 0
-1784126275
+1784133375
 2
 1
 0
@@ -4215,7 +4216,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--26
+-57
 0
 2
 2
@@ -4229,7 +4230,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-19
+20
+4
+2
+0
+1784132357
+0
+0
 4
 2
 0
@@ -21059,12 +21066,16 @@ Everyman
 2
 Hen
 4
+3
 2
+TestAlias
 2
 Core
 2
 Wizard
 4
+3
+1
 2
 1
 98
@@ -27363,19 +27374,19 @@ feature_task
 4
 9
 0
-1435617898
+824097295
 2
-@nuke
+@wrap
 4
 1
 2
-testowygracz
+off
 2
-testowygracz
+off
 1
 -3
 2
-testowygracz
+off
 2
 
 1
@@ -57015,7 +57026,7 @@ return 1;
 endif
 endif
 if ($command_utils:running_out_of_time())
-player:tell("You have too many features.  Parsing your command runs out of ticks while checking ", fobj.name, " (", fobj, ").");
+player:tell("Masz za duzo funkcji (features).  Parsowanie twojej komendy wyczerpuje ticki podczas sprawdzania ", fobj.name, " (", fobj, ").");
 return 1;
 endif
 endfor
@@ -57197,12 +57208,12 @@ return;
 endif
 linelen = player.linelen;
 if (!(prepstr in {"on", "off"}))
-player:notify("Usage:  @wrap on|off");
-player:notify(tostr("Word wrap is currently ", (linelen > 0) ? "on" | "off", "."));
+player:notify("Uzycie:  @wrap on|off");
+player:notify(tostr("Zawijanie wierszy jest obecnie ", (linelen > 0) ? "wlaczone" | "wylaczone", "."));
 return;
 endif
 player.linelen = abs(linelen) * ((prepstr == "on") ? 1 | -1);
-player:notify(tostr("Word wrap is now ", prepstr, "."));
+player:notify(tostr("Zawijanie wierszy jest teraz ", (prepstr == "on") ? "wlaczone" | "wylaczone", "."));
 .
 #6:16
 if (callers() ? (caller != this) && (!$perm_utils:controls(caller_perms(), this)) | (player != this))
@@ -57211,29 +57222,29 @@ return;
 endif
 curlen = player.linelen;
 wrap = curlen > 0;
-wrapstr = wrap ? "on" | "off";
+wrapstr = wrap ? "wlaczone" | "wylaczone";
 if (!dobjstr)
-player:notify(tostr("Usage:  ", verb, " <number>"));
-player:notify(tostr("Current line length is ", abs(curlen), ".  Word wrapping is ", wrapstr, "."));
+player:notify(tostr("Uzycie:  ", verb, " <liczba>"));
+player:notify(tostr("Biezaca dlugosc wiersza to ", abs(curlen), ".  Zawijanie wierszy jest ", wrapstr, "."));
 return;
 endif
 newlen = toint(dobjstr);
 if (newlen < 0)
-player:notify("Line length can't be a negative number.");
+player:notify("Dlugosc wiersza nie moze byc liczba ujemna.");
 return;
 elseif (newlen == 0)
-return player:notify("Linelength zero makes no sense.  You want to use '@wrap off' if you want to turn off wrapping.");
+return player:notify("Zerowa dlugosc wiersza nie ma sensu.  Uzyj '@wrap off', jesli chcesz wylaczyc zawijanie.");
 elseif (newlen < 10)
-player:notify("You don't want your linelength that small.  Setting it to 10.");
+player:notify("Nie chcesz az tak malej dlugosci wiersza.  Ustawiono na 10.");
 newlen = 10;
 elseif (newlen > 1000)
-player:notify("You don't want your line length that large.  Setting it to 1000.");
+player:notify("Nie chcesz az tak duzej dlugosci wiersza.  Ustawiono na 1000.");
 newlen = 1000;
 endif
 this:set_linelength(newlen);
-player:notify(tostr("Line length is now ", abs(player.linelen), ".  Word wrapping is ", wrapstr, "."));
+player:notify(tostr("Dlugosc wiersza to teraz ", abs(player.linelen), ".  Zawijanie wierszy jest ", wrapstr, "."));
 if (!wrap)
-player:notify("To enable word wrapping, type `@wrap on'.");
+player:notify("By wlaczyc zawijanie wierszy, wpisz `@wrap on'.");
 endif
 .
 #6:17
@@ -57325,22 +57336,22 @@ endif
 #6:21
 set_task_perms(player);
 if (player != this)
-player:notify("Permission denied.");
+player:notify("Brak uprawnien.");
 return;
 endif
 if (!args)
-player:notify(tostr("Usage:  ", verb, " <player or object> [<player or object>...]"));
+player:notify(tostr("Uzycie:  ", verb, " <gracz lub obiekt> [<gracz lub obiekt>...]"));
 return;
 endif
 victims = $string_utils:match_player_or_object(@args);
 changed = 0;
 for p in (victims)
 if (p in player.gaglist)
-player:notify(tostr("You are already gagging ", p.name, "."));
+player:notify(tostr("Juz wyciszasz ", p.name, "."));
 elseif (p == player)
-player:notify("Gagging yourself is a bad idea.");
+player:notify("Wyciszanie samego siebie to zly pomysl.");
 elseif (children(p) && (verb != "@gag!"))
-player:tell("If you really want to gag all descendents of ", $string_utils:nn(p), ", use `@gag! ", p, "' instead.");
+player:tell("Jesli naprawde chcesz wyciszyc wszystkich potomkow ", $string_utils:nn(p), ", uzyj `@gag! ", p, "'.");
 else
 changed = 1;
 player:set_gaglist(@setadd(this.gaglist, p));
@@ -57353,21 +57364,21 @@ endif
 #6:22
 set_task_perms(valid(caller_perms()) ? caller_perms() | player);
 if (!this.gaglist)
-player:notify(tostr("You are ", callers() ? "no longer gagging anything." | "not gagging anything right now."));
+player:notify(callers() ? "Juz nikogo nie wyciszasz." | "Obecnie nikogo nie wyciszasz.");
 else
-player:notify(tostr("You are ", callers() ? "now" | "currently", " gagging ", $string_utils:nn(this.gaglist), "."));
+player:notify(tostr(callers() ? "Teraz wyciszasz " | "Obecnie wyciszasz ", $string_utils:nn(this.gaglist), "."));
 endif
 gl = {};
 if (args)
-player:notify("Searching for players who may be gagging you...");
+player:notify("Szukanie graczy, ktorzy moga cie wyciszac...");
 for p in (players())
 if ((typeof(`p.gaglist ! E_PERM') == LIST) && (this in p.gaglist))
 gl = {@gl, p};
 endif
-$command_utils:suspend_if_needed(10, "...searching gaglist...");
+$command_utils:suspend_if_needed(10, "...szukanie w listach wyciszen...");
 endfor
 if (gl || (!callers()))
-player:notify(tostr($string_utils:nn(gl, " ", "No one"), " appear", (length(gl) <= 1) ? "s" | "", " to be gagging you."));
+player:notify(tostr("Wyglada na to, ze ", $string_utils:nn(gl, " i ", "nikt"), " cie ", (length(gl) <= 1) ? "wycisza" | "wyciszaja", "."));
 endif
 endif
 .
@@ -57654,14 +57665,14 @@ endif
 set_task_perms(this);
 here = this.location;
 if (!$perm_utils:controls(player, player))
-player:notify("Players who do not own themselves may not modify their home.");
+player:notify("Gracze, ktorzy nie sa wlascicielami samych siebie, nie moga zmieniac swojego domu.");
 elseif (!$object_utils:has_callable_verb(here, "accept_for_abode"))
-player:notify("This is a pretty odd place.  You should make your home in an actual room.");
+player:notify("To dosc dziwne miejsce.  Dom trzeba zrobic w prawdziwym pokoju.");
 elseif (here:accept_for_abode(this))
 this.home = here;
-player:notify(tostr(here.name, " is your new home."));
+player:notify(tostr(here.name, " to teraz twoj nowy dom."));
 else
-player:notify(tostr("This place doesn't want to be your home.  Contact ", here.owner.name, " to be added to the residents list of this place, or choose another place as your home."));
+player:notify(tostr("To miejsce nie chce byc twoim domem.  Skontaktuj sie z ", here.owner.name, ", by trafic na liste mieszkancow tego miejsca, albo wybierz inne miejsce na swoj dom."));
 endif
 .
 #6:36
@@ -57758,7 +57769,7 @@ else
 who = $command_utils:player_match_result($string_utils:match_player(args), args);
 if (length(who) <= 1)
 if (!who[1])
-player:notify("Where is who?");
+player:notify("Gdzie jest kto?");
 endif
 return;
 elseif (who[1])
@@ -58006,27 +58017,27 @@ vname = spec[2];
 if (bynumber)
 vname = $code_utils:toint(vname);
 if (vname == E_TYPE)
-return player:notify("Verb number expected.");
+return player:notify("Oczekiwano numeru czasownika.");
 elseif ((vname < 1) || `vname > length(verbs(object)) ! E_PERM => 0')
-return player:notify("Verb number out of range.");
+return player:notify("Numer czasownika poza zakresem.");
 endif
 endif
 try
 info = verb_info(object, vname);
 try
 result = set_verb_info(object, vname, listset(info, iobjstr, 3));
-player:notify("Verb name changed.");
+player:notify("Nazwa czasownika zmieniona.");
 except e (ANY)
 player:notify(e[2]);
 endtry
 except (E_VERBNF)
-player:notify("That object does not define that verb.");
+player:notify("Ten obiekt nie definiuje takiego czasownika.");
 except e (ANY)
 player:notify(e[2]);
 endtry
 endif
 elseif (bynumber)
-player:notify("@rename# can only be used with verbs.");
+player:notify("@rename# moze byc uzywane tylko z czasownikami.");
 elseif (pspec = $code_utils:parse_propref(dobjstr))
 if (!player.programmer)
 return player:notify(tostr(E_PERM));
@@ -58038,12 +58049,12 @@ try
 info = property_info(object, pname);
 try
 result = set_property_info(object, pname, {@info, iobjstr});
-player:notify("Property name changed.");
+player:notify("Nazwa wlasciwosci zmieniona.");
 except e (ANY)
 player:notify(e[2]);
 endtry
 except (E_PROPNF)
-player:notify("That object does not define that property.");
+player:notify("Ten obiekt nie definiuje takiej wlasciwosci.");
 except e (ANY)
 player:notify(e[2]);
 endtry
@@ -58055,28 +58066,28 @@ old_name = object.name;
 old_aliases = object.aliases;
 if (e = $building_utils:set_names(object, iobjstr))
 if (strcmp(object.name, old_name) == 0)
-name_message = tostr("Name of ", object, " (", old_name, ") is unchanged");
+name_message = tostr("Nazwa ", object, " (", old_name, ") jest niezmieniona");
 else
-name_message = tostr("Name of ", object, " changed to \"", object.name, "\"");
+name_message = tostr("Nazwa ", object, " zmieniona na \"", object.name, "\"");
 endif
 aliases = $string_utils:from_value(object.aliases, 1);
 if (object.aliases == old_aliases)
-alias_message = tostr(".  Aliases are unchanged (", aliases, ").");
+alias_message = tostr(".  Aliasy sa niezmienione (", aliases, ").");
 else
-alias_message = tostr(", with aliases ", aliases, ".");
+alias_message = tostr(", z aliasami ", aliases, ".");
 endif
 player:notify(name_message + alias_message);
 elseif (e == E_INVARG)
-player:notify("That particular name change not allowed (see help @rename).");
+player:notify("Ta konkretna zmiana nazwy jest niedozwolona (zobacz help @rename).");
 if (object == player)
 player:notify($player_db:why_bad_name(player, iobjstr));
 endif
 elseif (e == E_NACC)
-player:notify("Oops.  You can't update that name right now; try again in a few minutes.");
+player:notify("Ups.  Nie mozesz teraz zaktualizowac tej nazwy; sprobuj ponownie za kilka minut.");
 elseif (e == E_ARGS)
-player:notify(tostr("Sorry, name too long.  Maximum number of characters in a name:  ", $login.max_player_name));
+player:notify(tostr("Niestety, nazwa zbyt dluga.  Maksymalna liczba znakow w nazwie:  ", $login.max_player_name));
 elseif (e == 0)
-player:notify("Name and aliases remain unchanged.");
+player:notify("Nazwa i aliasy pozostaja niezmienione.");
 else
 player:notify(tostr(e));
 endif
@@ -58084,28 +58095,28 @@ endif
 endif
 .
 #6:50
-"Syntax: @addalias <alias>[,...,<alias>] to <object>";
-"        @addalias <alias>[,...,<alias>] to <object>:<verb>";
+"Skladnia: @addalias <alias>[,...,<alias>] to <obiekt>";
+"        @addalias <alias>[,...,<alias>] to <obiekt>:<czasownik>";
 "";
-"The first form is used to add aliases to an object's list of aliases.  You can separate multiple aliases with commas.  The aliases will be checked against the object's current aliases and all aliases not already in the object's list of aliases will be added.";
+"Pierwsza forma sluzy do dodawania aliasow do listy aliasow obiektu.  Mozesz oddzielic wiele aliasow przecinkami.  Aliasy zostana sprawdzone wzgledem biezacych aliasow obiektu i wszystkie aliasy, ktorych jeszcze nie ma na liscie, zostana dodane.";
 "";
-"Example:";
-"Muchkin wants to add new aliases to Rover the Wonder Dog:";
+"Przyklad:";
+"Muchkin chce dodac nowe aliasy do Rover the Wonder Dog:";
 "  @addalias Dog,Wonder Dog to Rover";
-"Since Rover the Wonder Dog already has the alias \"Dog\" but does not have the alias \"Wonder Dog\", Munchkin sees:";
-"  Rover the Wonder Dog(#4237) already has the alias Dog.";
-"  Alias Wonder Dog added to Rover the Wonder Dog(#4237).";
+"Poniewaz Rover the Wonder Dog ma juz alias \"Dog\", ale nie ma aliasu \"Wonder Dog\", Munchkin widzi:";
+"  Rover the Wonder Dog(#4237) juz ma alias Dog.";
+"  Alias Wonder Dog dodano do Rover the Wonder Dog(#4237).";
 "";
-"If the object is a player, spaces will also be assumed to be separations between aliases and each alias will be checked against the Player Name Database to make sure no one else is using it. Any already used aliases will be identified.";
+"Jesli obiekt jest graczem, spacje beda rowniez traktowane jako separatory miedzy aliasami, a kazdy alias zostanie sprawdzony w bazie nazw graczy, by upewnic sie, ze nikt inny go nie uzywa.  Wszystkie juz uzywane aliasy zostana wskazane.";
 "";
-"Example:";
-"Munchkin wants to add his nicknames to his own list of aliases:";
+"Przyklad:";
+"Munchkin chce dodac swoje przezwiska do wlasnej listy aliasow:";
 "  @addalias Foobar Davey to me";
-"@Addalias recognizes that Munchkin is trying to add an alias to a valid player and checks the aliases against the Player Name Database.  Unfortunately, DaveTheMan is already using the alias \"Davey\" so Munchkin sees:";
-"  DaveTheMan(#5432) is already using the alias Davey";
-"  Alias Foobar added to Munchkin(#1523).";
+"@Addalias rozpoznaje, ze Munchkin probuje dodac alias do prawidlowego gracza i sprawdza aliasy w bazie nazw graczy.  Niestety DaveTheMan juz uzywa aliasu \"Davey\", wiec Munchkin widzi:";
+"  DaveTheMan(#5432) juz uzywa aliasu Davey";
+"  Alias Foobar dodano do Munchkin(#1523).";
 "";
-"The second form of the @addalias command is for use by programmers, to add aliases to a verb they own.  All commas and spaces are assumed to be separations between aliases.";
+"Druga forma polecenia @addalias jest przeznaczona dla programistow, do dodawania aliasow do wlasnych czasownikow.  Wszystkie przecinki i spacje sa traktowane jako separatory miedzy aliasami.";
 if (player != this)
 return;
 endif
@@ -58121,9 +58132,9 @@ if (!$command_utils:object_match_failed(object, spec[1]))
 vname = spec[2];
 if (bynumber)
 if ((vname = $code_utils:toint(vname)) == E_TYPE)
-return player:notify("Verb number expected.");
+return player:notify("Oczekiwano numeru czasownika.");
 elseif ((vname < 1) || `vname > length(verbs(object)) ! E_PERM => 0')
-return player:notify("Verb number out of range.");
+return player:notify("Numer czasownika poza zakresem.");
 endif
 endif
 try
@@ -58137,30 +58148,30 @@ new_aliases = setremove(new_aliases, alias);
 endif
 endfor
 if (used)
-player:notify(tostr(object.name, "(", object, "):", vname, " already has the alias", (length(used) > 1) ? "es" | "", " ", $string_utils:english_list(used), "."));
+player:notify(tostr(object.name, "(", object, "):", vname, " juz ma alias", (length(used) > 1) ? "y" | "", " ", $string_utils:english_list(used), "."));
 endif
 if (new_aliases)
 info = listset(info, aliases = $string_utils:from_list({@old_aliases, @new_aliases}, " "), 3);
 try
 result = set_verb_info(object, vname, info);
-player:notify(tostr("Alias", (length(new_aliases) > 1) ? "es" | "", " ", $string_utils:english_list(new_aliases), " added to verb ", object.name, "(", object, "):", vname));
-player:notify(tostr("Verbname is now ", object.name, "(", object, "):\"", aliases, "\""));
+player:notify(tostr("Alias", (length(new_aliases) > 1) ? "y" | "", " ", $string_utils:english_list(new_aliases), " dodano do czasownika ", object.name, "(", object, "):", vname));
+player:notify(tostr("Nazwa czasownika to teraz ", object.name, "(", object, "):\"", aliases, "\""));
 except e (ANY)
 player:notify(e[2]);
 endtry
 endif
 if ((!new_aliases) && (!used))
 "Pathological case, we failed to parse dobjstr, possibly consisted only of commas, spaces, or just the empty string";
-player:notify("Did not understand what aliases to add from value:  " + dobjstr);
+player:notify("Nie zrozumiano, jakie aliasy dodac z wartosci:  " + dobjstr);
 endif
 except (E_VERBNF)
-player:notify("That object does not define that verb.");
+player:notify("Ten obiekt nie definiuje takiego czasownika.");
 except e (ANY)
 player:notify(e[2]);
 endtry
 endif
 elseif (bynumber)
-player:notify(tostr(verb, " can only be used with verbs."));
+player:notify(tostr(verb, " moze byc uzywane tylko z czasownikami."));
 else
 object = player:my_match_object(iobjstr);
 if (!$command_utils:object_match_failed(object, iobjstr))
@@ -58171,38 +58182,38 @@ if (alias in old_aliases)
 used = {@used, alias};
 new_aliases = setremove(new_aliases, alias);
 elseif (is_player(object) && valid(someone = $player_db:find_exact(alias)))
-player:notify(tostr(someone.name, "(", someone, ") is already using the alias ", alias, "."));
+player:notify(tostr(someone.name, "(", someone, ") juz uzywa aliasu ", alias, "."));
 new_aliases = setremove(new_aliases, alias);
 endif
 endfor
 if (used)
-player:notify(tostr(object.name, "(", object, ") already has the alias", (length(used) > 1) ? "es" | "", " ", $string_utils:english_list(used), "."));
+player:notify(tostr(object.name, "(", object, ") juz ma alias", (length(used) > 1) ? "y" | "", " ", $string_utils:english_list(used), "."));
 endif
 if (new_aliases)
 if ((e = object:set_aliases(aliases = {@old_aliases, @new_aliases})) && (object.aliases == aliases))
-player:notify(tostr("Alias", (length(new_aliases) > 1) ? "es" | "", " ", $string_utils:english_list(new_aliases), " added to ", object.name, "(", object, ")."));
-player:notify(tostr("Aliases for ", $string_utils:nn(object), " are now ", $string_utils:from_value(aliases, 1)));
+player:notify(tostr("Alias", (length(new_aliases) > 1) ? "y" | "", " ", $string_utils:english_list(new_aliases), " dodano do ", object.name, "(", object, ")."));
+player:notify(tostr("Aliasy dla ", $string_utils:nn(object), " to teraz ", $string_utils:from_value(aliases, 1)));
 elseif (e)
-player:notify("That particular name change not allowed (see help @rename or help @addalias).");
+player:notify("Ta konkretna zmiana nazwy jest niedozwolona (zobacz help @rename lub help @addalias).");
 elseif (e == E_INVARG)
 if ($object_utils:has_property(#0, "local"))
 if ($object_utils:has_property($local, "max_player_aliases"))
 max = $local.max_player_aliases;
-player:notify(("You are not allowed more than " + tostr(max)) + " aliases.");
+player:notify(("Nie mozesz miec wiecej niz " + tostr(max)) + " aliasow.");
 endif
 else
-player:notify("You are not allowed any more aliases.");
+player:notify("Nie mozesz miec juz wiecej aliasow.");
 endif
 elseif (e == E_NACC)
-player:notify("Oops.  You can't update that object's aliases right now; try again in a few minutes.");
+player:notify("Ups.  Nie mozesz teraz zaktualizowac aliasow tego obiektu; sprobuj ponownie za kilka minut.");
 elseif (e == 0)
-player:notify("Aliases not changed as expected!");
-player:notify(tostr("Aliases for ", $string_utils:nn(object), " are now ", $string_utils:from_value(object.aliases, 1)));
+player:notify("Aliasy nie zmienily sie zgodnie z oczekiwaniami!");
+player:notify(tostr("Aliasy dla ", $string_utils:nn(object), " to teraz ", $string_utils:from_value(object.aliases, 1)));
 else
 player:notify(tostr(e));
 endif
 else
-player:tell("No new aliases found to add.");
+player:tell("Nie znaleziono nowych aliasow do dodania.");
 endif
 endif
 endif
@@ -58614,13 +58625,13 @@ this:("@features")();
 mem = call_function("memory_usage");
 MB = 0.001;
 PAGE = 4.0;
-player:tell($network.moo_name, " Memory Statistics");
+player:tell($network.moo_name, " Statystyki pamieci");
 player:tell();
-player:tell("Total Memory Usage: ", (mem[1] * PAGE) * MB, " MB");
-player:tell("Resident Set Size:  ", (mem[2] * PAGE) * MB, " MB");
-player:tell("Shared Pages:       ", (mem[3] * PAGE) * MB, " MB");
-player:tell("Text (Code):        ", (mem[4] * PAGE) * MB, " MB");
-player:tell("Data + Stack:       ", (mem[5] * PAGE) * MB, " MB");
+player:tell("Calkowite uzycie pamieci: ", (mem[1] * PAGE) * MB, " MB");
+player:tell("Rozmiar zbioru rezydentnego:  ", (mem[2] * PAGE) * MB, " MB");
+player:tell("Strony wspoldzielone:       ", (mem[3] * PAGE) * MB, " MB");
+player:tell("Tekst (kod):        ", (mem[4] * PAGE) * MB, " MB");
+player:tell("Dane + stos:       ", (mem[5] * PAGE) * MB, " MB");
 .
 #6:66
 if ($object_utils:has_property($local, "server_hardware"))
@@ -58972,15 +58983,15 @@ player:notify(tostr($string_utils:pronoun_sub("%S %<ma> ", dobj), notice, "."));
 endif
 .
 #6:84
-"Usage: news [contents] [articles]";
+"Uzycie: news [contents] [articles]";
 "";
-"Common uses:";
-"news           -- display all current news, or as @mail-options decree";
-"news new       -- display articles you haven't seen yet";
-"news all       -- display all current news";
-"news contents  -- display headers of current news";
-"news <article> -- display article";
-"news archive   -- display news which has been marked as archived.";
+"Typowe uzycia:";
+"news           -- wyswietla wszystkie biezace nowosci, albo zgodnie z @mail-options";
+"news new       -- wyswietla jeszcze nieprzeczytane artykuly";
+"news all       -- wyswietla wszystkie biezace nowosci";
+"news contents  -- wyswietla naglowki biezacych nowosci";
+"news <article> -- wyswietla artykul";
+"news archive   -- wyswietla nowosci oznaczone jako zarchiwizowane.";
 set_task_perms(player);
 cur = this:get_current_message($news) || {0, 0};
 arch = 0;
@@ -59003,14 +59014,14 @@ player:notify(seq);
 return;
 elseif (seq = $seq_utils:intersection(seq, $news.current_news))
 else
-player:notify((args == {"new"}) ? "No new news." | "None of those are current articles.");
+player:notify((args == {"new"}) ? "Brak nowych nowosci." | "Zadne z nich nie sa biezacymi artykulami.");
 return;
 endif
 elseif (arch && (seq = $news.archive_news))
 "yduJ hates this coding style.  Just so you know.";
 elseif (seq = $news.current_news)
 else
-player:notify("No news");
+player:notify("Brak nowosci");
 return;
 endif
 if (hdrs_only)
