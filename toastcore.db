@@ -11,7 +11,8 @@
 0 queued tasks
 0 suspended tasks
 0 interrupted tasks
-0 active connections with listeners
+1 active connections with listeners
+2 0
 134
 #0
 The System Object
@@ -664,7 +665,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784133508
+1784134150
 2
 name
 2
@@ -1224,17 +1225,17 @@ Wizard
 7
 2
 1
-15
+62
 10
 2
 2
 source
 1
-62
+15
 2
 time
 0
-1784134021
+1784136610
 4
 0
 1
@@ -1382,7 +1383,13 @@ time
 2
 5
 4
+1
+4
+2
+2
+expire
 0
+-1
 2
 5
 5
@@ -1462,7 +1469,7 @@ time
 4
 2
 0
-1784133990
+1784136598
 2
 localhost
 2
@@ -1471,7 +1478,7 @@ localhost
 2
 0
 0
-1784134021
+1784136601
 2
 1
 0
@@ -1620,7 +1627,8 @@ localhost
 5
 2
 5
-5
+0
+1
 2
 5
 5
@@ -1636,7 +1644,7 @@ localhost
 2
 5
 0
-1784134012
+1784136610
 2
 1
 0
@@ -1684,8 +1692,8 @@ localhost
 5
 2
 0
-1
--1
+12
+134
 2
 1
 5
@@ -4216,7 +4224,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--34
+-171
 0
 2
 2
@@ -4230,7 +4238,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-21
+22
+4
+2
+0
+1784134150
+0
+0
 4
 2
 0
@@ -4408,7 +4422,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 36
 0
 0
-0
+1
 2
 5
 0
@@ -5294,9 +5308,7 @@ Limbo
 0
 0
 4
-1
-1
-2
+0
 1
 1
 4
@@ -32554,7 +32566,9 @@ Pierwszy Pokoj
 0
 0
 4
-0
+1
+1
+2
 1
 3
 4
@@ -32741,23 +32755,7 @@ lost_souls
 36
 0
 4
-8
-1
-127
-1
-131
-1
-129
-1
-130
-1
-132
-1
-134
-1
-135
-1
-136
+0
 36
 5
 5
@@ -33129,67 +33127,41 @@ unsend_sequences
 4
 2
 2
-Original message will not be included in replies
+Wiadomosc oryginalna nie bedzie dolaczana do odpowiedzi
 2
-Original message will be included in replies
+Wiadomosc oryginalna bedzie dolaczana do odpowiedzi
 36
 5
 4
 2
 2
-Replies will go to original sender only.
+Odpowiedzi ida tylko do oryginalnego nadawcy.
 2
-Replies will go to original sender and all previous recipients.
+Odpowiedzi ida do oryginalnego nadawcy i wszystkich poprzednich odbiorcow.
 36
 5
 4
 2
 2
-Mail editor will initially require a subject line.
+Edytor poczty bedzie na poczatku wymagal tematu.
 2
-Mail editor will not initially require a subject line.
+Edytor poczty nie bedzie na poczatku wymagal tematu.
 36
 5
 4
 2
 2
-Novice mail user...
+Poczatkujacy uzytkownik poczty...
 2
-Expert mail user...
+Zaawansowany uzytkownik poczty...
 36
 5
 4
 2
 2
-Mail editor will not start with an implicit `enter' command.
+Edytor poczty nie zacznie od niejawnego polecenia `enter'.
 2
-Mail editor will start with an implicit `enter' command.
-36
-5
-4
-1
-0
-0
-36
-5
-4
-2
-0
-2
-4
-1
-0
-2
-36
-5
-4
-2
-0
-1
-4
-1
-0
-1
+Edytor poczty zacznie od niejawnego polecenia `enter'.
 36
 5
 4
@@ -33200,18 +33172,44 @@ Mail editor will start with an implicit `enter' command.
 5
 4
 2
+0
 2
-No special reply action for messages with non-player recipients.
+4
+1
+0
 2
-Replies go only to first non-player recipient if any.
+36
+5
+4
+2
+0
+1
+4
+1
+0
+1
+36
+5
+4
+1
+0
+0
 36
 5
 4
 2
 2
-@resend puts player in Resent-By: header
+Brak specjalnej akcji odpowiedzi dla wiadomosci z odbiorcami niebedacymi graczami.
 2
-@resend puts player in From: header (like @forward)
+Odpowiedzi ida tylko do pierwszego odbiorcy niebedacego graczem, jesli taki istnieje.
+36
+5
+4
+2
+2
+@resend wstawia gracza w naglowek Resent-By:
+2
+@resend wstawia gracza w naglowek From: (jak @forward)
 36
 5
 4
@@ -33223,7 +33221,7 @@ read
 4
 1
 2
-.current_message folders are sorted by last read date.
+.foldery .current_message sortowane sa wg daty ostatniego odczytu.
 4
 2
 2
@@ -33231,7 +33229,7 @@ send
 4
 1
 2
-.current_message folders are sorted by last send date.
+.foldery .current_message sortowane sa wg daty ostatniego wyslania.
 4
 2
 2
@@ -33239,39 +33237,39 @@ fixed
 4
 1
 2
-.current_message folders are not sorted.
+.foldery .current_message nie sa sortowane.
 36
 5
 4
 2
 2
-@netforward when expiring messages
+wykonuj @netforward przy wygasaniu wiadomosci
 2
-do not @netforward messages when expiring mail
+nie wykonuj @netforward przy wygasaniu wiadomosci
 36
 5
 4
 2
 2
-@netforward confirms before emailing messages
+@netforward pyta o potwierdzenie przed wyslaniem wiadomosci email
 2
-@netforward doesn't confirm before emailing messages
+@netforward nie pyta o potwierdzenie przed wyslaniem wiadomosci email
 36
 5
 4
 2
 2
-i want to read mail to me also sent to lists i read
+chce czytac poczte do mnie takze wyslana do list, ktore czytam
 2
-don't send me personal copies of mail also sent to lists i read
+nie wysylaj mi osobistych kopii poczty takze wyslanej do list, ktore czytam
 36
 1
 4
 2
 2
-People may @unsend unread messages they send to me
+Inni moga uzyc @unsend na nieprzeczytanych wiadomosciach, ktore mi wyslali
 2
-No one may @unsend messages they sent to me
+Nikt nie moze uzyc @unsend na wiadomosciach, ktore mi wyslal
 2
 1
 4
@@ -33415,33 +33413,33 @@ show_no_parens
 4
 2
 2
-Report line numbers on insert or append.
+Pokazuj numery linii przy insert lub append.
 2
-No echo on insert or append.
+Bez echo przy insert lub append.
 36
 5
 4
 2
 2
-Ignore .eval_subs when compiling verbs.
+Ignoruj .eval_subs przy kompilacji czasownikow.
 2
-Use .eval_subs when compiling verbs.
+Uzywaj .eval_subs przy kompilacji czasownikow.
 36
 5
 4
 2
 2
-Use in-MOO text editors.
+Uzywaj edytorow tekstu wewnatrz MOO.
 2
-Ship text to client for local editing.
+Wysylaj tekst do klienta do edycji lokalnej.
 36
 5
 4
 2
 2
-include all parentheses when fetching verbs.
+dolaczaj wszystkie nawiasy przy pobieraniu czasownikow.
 2
-includes only necessary parentheses when fetching verbs.
+dolaczaj tylko niezbedne nawiasy przy pobieraniu czasownikow.
 36
 5
 4
@@ -33516,25 +33514,25 @@ show_thisonly
 4
 2
 2
-Treat `this none this' verbs like the others.
+Traktuj czasowniki `this none this' jak pozostale.
 2
-Blank out the args on `this none this' verbs.
+Wyczysc argumenty w czasownikach `this none this'.
 36
 5
 4
 2
 2
-Display prepositions in full.
+Wyswietlaj przyimki w pelnej formie.
 2
-Use short forms of prepositions.
+Uzywaj krotkich form przyimkow.
 36
 5
 4
 2
 2
-./: will show ancestor properties/verbs if none on this.
+./: pokaze wlasciwosci/czasowniki przodkow, jesli brak ich na tym obiekcie.
 2
-./: will not show ancestor properties/verbs.
+./: nie pokaze wlasciwosci/czasownikow przodkow.
 36
 5
 4
@@ -35415,33 +35413,33 @@ show_//_comments
 4
 2
 2
-eval does not show ticks/seconds consumed.
+eval nie pokazuje zuzytych tickow/sekund.
 2
-eval shows ticks/seconds consumed.
+eval pokazuje zuzyte ticki/sekundy.
 36
 5
 4
 2
 2
-@list shows only necessary parentheses by default
+@list domyslnie pokazuje tylko niezbedne nawiasy
 2
-@list shows all parentheses by default
+@list domyslnie pokazuje wszystkie nawiasy
 36
 5
 4
 2
 2
-@list gives line numbers by default
+@list domyslnie pokazuje numery linii
 2
-@list omits line numbers by default
+@list domyslnie pomija numery linii
 36
 5
 4
 2
 2
-@copy prints warning message.
+@copy wypisuje ostrzezenie.
 2
-@copy omits warning message.
+@copy pomija ostrzezenie.
 36
 5
 4
@@ -35453,25 +35451,25 @@ eval shows ticks/seconds consumed.
 4
 2
 2
-@list does not display permissions in header
+@list nie pokazuje uprawnien w naglowku
 2
-@list displays permissions in header
+@list pokazuje uprawnienia w naglowku
 36
 5
 4
 2
 2
-@rmverb does not email you a backup
+@rmverb nie wysyla ci kopii zapasowej mailem
 2
-@rmverb emails you a backup before deleting the verb
+@rmverb wysyla ci mailem kopie zapasowa przed usunieciem czasownika
 36
 5
 4
 2
 2
-Comments shown in editors will be MOO-style.
+Komentarze w edytorach beda w stylu MOO.
 2
-Comments shown in editors will begin with //
+Komentarze w edytorach beda zaczynac sie od //
 36
 5
 4
@@ -35581,9 +35579,9 @@ show_audit_float
 4
 2
 2
-@create/@recycle re-use object numbers.
+@create/@recycle ponownie wykorzystuja numery obiektow.
 2
-@create/@recycle call create()/recycle() directly.
+@create/@recycle wywoluja bezposrednio create()/recycle().
 36
 5
 4
@@ -35601,17 +35599,17 @@ show_audit_float
 4
 2
 2
-@audit/@prospectus shows `<1K'
+@audit/@prospectus pokazuje `<1K'
 2
-@audit/@prospectus shows bytes
+@audit/@prospectus pokazuje bajty
 2
 1
 4
 2
 2
-@audit/@prospectus shows integer sizes (1K)
+@audit/@prospectus pokazuje rozmiary calkowite (1K)
 2
-@audit/@prospectus shows floating-point sizes (1.0K)
+@audit/@prospectus pokazuje rozmiary zmiennoprzecinkowe (1.0K)
 2
 1
 4
@@ -50865,57 +50863,57 @@ show_256
 4
 2
 2
-Strip out standard 16 color sequences.
+Usuwaj standardowe 16-kolorowe sekwencje.
 2
-Translate standard 16 color sequences.
+Tlumacz standardowe 16-kolorowe sekwencje.
 98
 1
 4
 2
 2
-Strip out background color sequences.
+Usuwaj sekwencje koloru tla.
 2
-Translate background color sequences.
+Tlumacz sekwencje koloru tla.
 98
 5
 4
 2
 2
-Do not show blinking sequences.
+Nie pokazuj sekwencji migotania.
 2
-Show blinking sequences.
+Pokazuj sekwencje migotania.
 98
 1
 4
 2
 2
-Do not show bright colors.
+Nie pokazuj jasnych kolorow.
 2
-Send bright colors.
+Wysylaj jasne kolory.
 98
 1
 4
 2
 2
-Do not send all the other ANSI sequences.
+Nie wysylaj pozostalych sekwencji ANSI.
 2
-Send all the other ANSI sequences.
+Wysylaj wszystkie pozostale sekwencje ANSI.
 98
 1
 4
 2
 2
-Do not send any ANSI sequences.
+Nie wysylaj zadnych sekwencji ANSI.
 2
-Send all ANSI sequences.
+Wysylaj wszystkie sekwencje ANSI.
 98
 1
 4
 2
 2
-Send all ANSI sequences.
+Wysylaj wszystkie sekwencje ANSI.
 2
-Do not send any ANSI sequences.
+Nie wysylaj zadnych sekwencji ANSI.
 98
 1
 4
@@ -50927,49 +50925,49 @@ Do not send any ANSI sequences.
 4
 2
 2
-See 'help ansi-options' for more information.
+Zobacz help ansi-options, by dowiedziec sie wiecej.
 2
-Overriding other options and ignoring all ANSI codes.
+Nadpisuje inne opcje i ignoruje wszystkie kody ANSI.
 98
 1
 4
 2
 2
-Don't show any status messages upon connecting.
+Nie pokazuj zadnych komunikatow statusu przy laczeniu.
 2
-Show status messages about ANSI upon connecting.
+Pokazuj komunikaty statusu ANSI przy laczeniu.
 98
 1
 4
 2
 2
-Do not send extra non-ANSI codes (such as beep).
+Nie wysylaj dodatkowych kodow spoza ANSI (np. beep).
 2
-Send extra non-ANSI codes (such as beep).
+Wysylaj dodatkowe kody spoza ANSI (np. beep).
 98
 1
 4
 2
 2
-Strip out 24-bit True Color sequences.
+Usuwaj 24-bitowe sekwencje True Color.
 2
-Translate 24-bit True Color sequences.
+Tlumacz 24-bitowe sekwencje True Color.
 98
 1
 4
 2
 2
-24-bit color sequences are not approximated to 8-bit sequences for older clients.
+24-bitowe sekwencje kolorow nie sa przyblizane do 8-bitowych dla starszych klientow.
 2
-24-bit color sequences are approximated to 8-bit sequences for older clients.
+24-bitowe sekwencje kolorow sa przyblizane do 8-bitowych dla starszych klientow.
 98
 5
 4
 2
 2
-Strip out Xterm 256 color sequences.
+Usuwaj sekwencje 256 kolorow Xterm.
 2
-Translate Xterm 256 color sequences.
+Tlumacz sekwencje 256 kolorow Xterm.
 98
 5
 4
@@ -54444,6 +54442,46 @@ Pakiet narzedzi jezykowych dla polskiej lokalizacji: zaimki (:pronoun), odmiana 
 0
 36
 1
+1
+#134
+
+0
+98
+1
+-1
+0
+0
+4
+0
+1
+108
+4
+0
+0
+0
+7
+1
+2
+98
+1
+5
+98
+0
+5
+98
+1
+5
+98
+0
+5
+98
+1
+5
+98
+0
+5
+98
+1
 0
 1953
 #0:0
@@ -56628,19 +56666,19 @@ return 1;
 endif
 .
 #4:28
-"@<what>-option <option> [is] <value>   sets <option> to <value>";
-"@<what>-option <option>=<value>        sets <option> to <value>";
-"@<what>-option +<option>     sets <option>   (usually equiv. to <option>=1";
-"@<what>-option -<option>     resets <option> (equiv. to <option>=0)";
-"@<what>-option !<option>     resets <option> (equiv. to <option>=0)";
-"@<what>-option <option>      displays value of <option>";
+"@<what>-option <opcja> [is] <wartosc>   ustawia <opcje> na <wartosc>";
+"@<what>-option <opcja>=<wartosc>        ustawia <opcje> na <wartosc>";
+"@<what>-option +<opcja>     ustawia <opcje>   (zazwyczaj rownowazne <opcja>=1";
+"@<what>-option -<opcja>     resetuje <opcje> (rownowazne <opcja>=0)";
+"@<what>-option !<opcja>     resetuje <opcje> (rownowazne <opcja>=0)";
+"@<what>-option <opcja>      wyswietla wartosc <opcji>";
 set_task_perms(player);
 what = "build";
 options = what + "_options";
 option_pkg = $options[what];
 set_option = ("set_" + what) + "_option";
 if (!args)
-player:notify_lines({("Current " + what) + " options:", "", @option_pkg:show(this.(options), option_pkg.names)});
+player:notify_lines({("Biezace opcje " + what) + ":", "", @option_pkg:show(this.(options), option_pkg.names)});
 return;
 elseif (typeof(presult = option_pkg:parse(args)) == STR)
 player:notify(presult);
@@ -56651,7 +56689,7 @@ if (typeof(sresult = this:(set_option)(@presult)) == STR)
 player:notify(sresult);
 return;
 elseif (!sresult)
-player:notify("No change.");
+player:notify("Bez zmian.");
 return;
 endif
 endif
@@ -57252,22 +57290,22 @@ player:notify("By wlaczyc zawijanie wierszy, wpisz `@wrap on'.");
 endif
 .
 #6:17
-"@pagelength number  -- sets page buffering to that many lines (or 0 to turn off page buffering)";
+"@pagelength liczba  -- ustawia buforowanie stron na tyle linii (albo 0, by wylaczyc buforowanie stron)";
 if (player != this)
 "... somebody is being sneaky ...";
 "... Can't do set_task_perms(player) since we need to be `this'...";
 "... to notify and `this.owner' to change +c properties...";
 return;
 elseif (!dobjstr)
-notify(player, tostr("Usage:  ", verb, " <number>"));
-notify(player, tostr("Current page length is ", player.pagelen, "."));
+notify(player, tostr("Uzycie:  ", verb, " <liczba>"));
+notify(player, tostr("Biezaca dlugosc strony to ", player.pagelen, "."));
 return;
 elseif (0 > (newlen = toint(dobjstr)))
-notify(player, "Page length can't be a negative number.");
+notify(player, "Dlugosc strony nie moze byc liczba ujemna.");
 return;
 elseif (newlen == 0)
 player.pagelen = 0;
-notify(player, "Page buffering off.");
+notify(player, "Buforowanie stron wylaczone.");
 if (lb = this.linebuffer)
 "queued text remains";
 this:notify_lines(lb);
@@ -57275,9 +57313,9 @@ clear_property(this, "linebuffer");
 endif
 elseif (newlen < 5)
 player.pagelen = 5;
-notify(player, "Too small.  Setting it to 5.");
+notify(player, "Za mala.  Ustawiono na 5.");
 else
-notify(player, tostr("Page length is now ", player.pagelen = newlen, "."));
+notify(player, tostr("Dlugosc strony to teraz ", player.pagelen = newlen, "."));
 endif
 if (this.linebuffer)
 notify(this, strsub(this.more_msg, "%n", tostr(length(this.linebuffer))));
@@ -57388,12 +57426,12 @@ endif
 .
 #6:23
 if ((player != this) || ((caller != this) && (!$perm_utils:controls(caller_perms(), this))))
-player:notify("Permission denied.");
+player:notify("Brak uprawnien.");
 elseif (dobjstr == "")
-player:notify(tostr("Usage:  ", verb, " <player>  or  ", verb, " everyone"));
-elseif (dobjstr == "everyone")
+player:notify(tostr("Uzycie:  ", verb, " <gracz>  lub  ", verb, " wszyscy"));
+elseif (dobjstr == "wszyscy")
 this.gaglist = {};
-player:notify("You are no longer gagging anyone or anything.");
+player:notify("Nie wyciszasz juz nikogo ani niczego.");
 else
 if (valid(dobj))
 match = dobj;
@@ -57402,12 +57440,12 @@ else
 match = $string_utils:match(dobjstr, this.gaglist, "name", this.gaglist, "aliases");
 endif
 if (match == $failed_match)
-player:notify(tostr("You don't seem to be gagging anything named ", dobjstr, "."));
+player:notify(tostr("Nie wyglada na to, zeby cokolwiek o nazwie ", dobjstr, " bylo wyciszane."));
 elseif (match == $ambiguous_match)
-player:notify(tostr("I don't know which \"", dobjstr, "\" you mean."));
+player:notify(tostr("Nie wiem, ktore \"", dobjstr, "\" masz na mysli."));
 else
 this.gaglist = setremove(this.gaglist, match);
-player:notify(tostr(valid(match) ? match.name | match, " removed from gag list."));
+player:notify(tostr(valid(match) ? match.name | match, " usunieto z listy wyciszen."));
 endif
 this:("@listgag")();
 endif
@@ -57680,11 +57718,11 @@ player:notify(tostr("To miejsce nie chce byc twoim domem.  Skontaktuj sie z ", h
 endif
 .
 #6:36
-player:tell("This is not a pick-up joint!");
-this:tell(player.name, " tried to pick you up.");
+player:tell("To nie jest miejsce na podrywanie ludzi!");
+this:tell(player.name, " probuje cie wziac.");
 .
 #6:37
-"'@move <object> to <place>' - Teleport an object. Example: '@move trash to #11' to move trash to the closet.";
+"'@move <obiekt> do <miejsce>' - teleportuje obiekt. Przyklad: '@move smieci do #11', by przeniesc smieci do schowka.";
 set_task_perms((caller == this) ? this | $no_one);
 dobj = this:my_match_object(dobjstr);
 iobj = this:my_match_object(iobjstr);
@@ -57692,38 +57730,38 @@ if ($command_utils:object_match_failed(dobj, dobjstr) || ((iobj != $nothing) && 
 return;
 endif
 if ((!$perm_utils:controls(this, dobj)) && (this != dobj))
-player:tell("You may only @move your own things.");
+player:tell("Mozesz uzyc @move tylko na swoich rzeczach.");
 return;
 endif
 old_loc = dobj.location;
 if (old_loc == iobj)
-player:tell(dobj.name, " is already ", valid(iobj) ? "in " + iobj.name | "nowhere", ".");
+player:tell(dobj.name, " juz jest ", valid(iobj) ? "w " + iobj.name | "nigdzie", ".");
 return;
 endif
 dobj:moveto(iobj);
 if (dobj.location == iobj)
-player:tell("Moved.");
+player:tell("Przeniesiono.");
 if (is_player(dobj))
 if (valid(old_loc))
-old_loc:announce_all(dobj.name, " disappears suddenly for parts unknown.");
+old_loc:announce_all(dobj.name, " nagle znika w nieznanym kierunku.");
 if (dobj != player)
-dobj:tell("You have been moved by ", player.name, ".");
+dobj:tell(player.name, " cie przenosi.");
 endif
 endif
 if (valid(dobj.location))
-dobj.location:announce(dobj.name, " materializes out of thin air.");
+dobj.location:announce(dobj.name, " materializuje sie z powietrza.");
 endif
 endif
 elseif (dobj.location == old_loc)
 if ($object_utils:contains(dobj, iobj))
-player:tell(iobj.name, " is inside of ", dobj.name, "!");
+player:tell(iobj.name, " jest wewnatrz ", dobj.name, "!");
 else
-player:tell($string_utils:pronoun_sub("Either %d doesn't want to go, or %i doesn't want to accept %[dpo]."));
+player:tell($string_utils:pronoun_sub("Albo %d nie chce isc, albo %i nie chce przyjac %[dpo]."));
 endif
 elseif (dobj == player)
-player:tell("You have been deflected from your original destination.");
+player:tell("Twoja podroz do pierwotnego celu zostala odbita.");
 else
-player:tell($string_utils:pronoun_sub("%D has been deflected from %[dpp] original destination."));
+player:tell($string_utils:pronoun_sub("Podroz %d do %[dpp] pierwotnego celu zostala odbita."));
 endif
 .
 #6:38
@@ -57794,7 +57832,7 @@ plyrs = args ? listdelete($command_utils:player_match_result($string_utils:match
 if (!plyrs)
 return;
 elseif (length(plyrs) > 100)
-player:tell("You have requested a listing of ", length(plyrs), " players.  Please either specify individual players you are interested in, to reduce the number of players in any single request, or else use the `@users' command instead.  The lag thanks you.");
+player:tell("To zapytanie o liste ", length(plyrs), " graczy.  Podaj konkretnych graczy, ktorzy cie interesuja, by zmniejszyc liczbe graczy w pojedynczym zapytaniu, albo uzyj komendy `@users'.  Lag ci dziekuje.");
 return;
 endif
 $code_utils:show_who_listing(plyrs);
@@ -57900,19 +57938,19 @@ return 1;
 endif
 .
 #6:46
-"@<what>-option <option> [is] <value>   sets <option> to <value>";
-"@<what>-option <option>=<value>        sets <option> to <value>";
-"@<what>-option +<option>     sets <option>   (usually equiv. to <option>=1";
-"@<what>-option -<option>     resets <option> (equiv. to <option>=0)";
-"@<what>-option !<option>     resets <option> (equiv. to <option>=0)";
-"@<what>-option <option>      displays value of <option>";
+"@<what>-option <opcja> [is] <wartosc>   ustawia <opcje> na <wartosc>";
+"@<what>-option <opcja>=<wartosc>        ustawia <opcje> na <wartosc>";
+"@<what>-option +<opcja>     ustawia <opcje>   (zazwyczaj rownowazne <opcja>=1";
+"@<what>-option -<opcja>     resetuje <opcje> (rownowazne <opcja>=0)";
+"@<what>-option !<opcja>     resetuje <opcje> (rownowazne <opcja>=0)";
+"@<what>-option <opcja>      wyswietla wartosc <opcji>";
 set_task_perms(player);
 what = {"mail", "edit", "display", "general"}[index("medg", verb[2])];
 options = what + "_options";
 option_pkg = $options[what];
 set_option = ("set_" + what) + "_option";
 if (!args)
-player:notify_lines({("Current " + what) + " options:", "", @option_pkg:show(this.(options), option_pkg.names)});
+player:notify_lines({("Biezace opcje " + what) + ":", "", @option_pkg:show(this.(options), option_pkg.names)});
 return;
 elseif (typeof(presult = option_pkg:parse(args)) == STR)
 player:notify(presult);
@@ -57923,7 +57961,7 @@ if (typeof(sresult = this:(set_option)(@presult)) == STR)
 player:notify(sresult);
 return;
 elseif (!sresult)
-player:notify("No change.");
+player:notify("Bez zmian.");
 return;
 endif
 endif
@@ -58223,14 +58261,14 @@ endif
 endif
 .
 #6:51
-"Syntax: @rmalias <alias>[,...,<alias>] from <object>";
-"        @rmalias <alias>[,...,<alias>] from <object>:<verb>";
+"Skladnia: @rmalias <alias>[,...,<alias>] from <obiekt>";
+"        @rmalias <alias>[,...,<alias>] from <obiekt>:<czasownik>";
 "";
-"The first form is used to remove aliases from an object.  If the object is a valid player, space and commas will be assumed to be separations between unwanted aliases.  Otherwise, only commas will be assumed to be separations.";
+"Pierwsza forma sluzy do usuwania aliasow z obiektu.  Jesli obiekt jest prawidlowym graczem, spacje i przecinki beda traktowane jako separatory miedzy niechcianymi aliasami.  W przeciwnym razie tylko przecinki beda traktowane jako separatory.";
 "[5/10/93 Nosredna: flushed above is_player feature";
-"Note that @rmalias will not affect the object's name, only its aliases.";
+"Zwroc uwage, ze @rmalias nie wplynie na nazwe obiektu, tylko na jego aliasy.";
 "";
-"The second form is for use by programmers, to remove aliases from a verb they own.  All spaces and commas are assumed to be separations between unwanted aliases.";
+"Druga forma jest przeznaczona dla programistow, do usuwania aliasow z wlasnych czasownikow.  Wszystkie spacje i przecinki sa traktowane jako separatory miedzy niechcianymi aliasami.";
 if (player != this)
 return;
 endif
@@ -58246,9 +58284,9 @@ if (!$command_utils:object_match_failed(object, spec[1]))
 vname = spec[2];
 if (bynumber)
 if ((vname = $code_utils:toint(vname)) == E_TYPE)
-return player:notify("Verb number expected.");
+return player:notify("Oczekiwano numeru czasownika.");
 elseif ((vname < 1) || `vname > length(verbs(object)) ! E_PERM => 0')
-return player:notify("Verb number out of range.");
+return player:notify("Numer czasownika poza zakresem.");
 endif
 endif
 try
@@ -58264,30 +58302,30 @@ old_aliases = setremove(old_aliases, alias);
 endif
 endfor
 if (not_used)
-player:notify(tostr(object.name, "(", object, "):", vname, " does not have the alias", (length(not_used) > 1) ? "es" | "", " ", $string_utils:english_list(not_used), "."));
+player:notify(tostr(object.name, "(", object, "):", vname, " nie ma aliasu", (length(not_used) > 1) ? "ow" | "", " ", $string_utils:english_list(not_used), "."));
 endif
 if (bad_aliases && old_aliases)
 info = listset(info, aliases = $string_utils:from_list(old_aliases, " "), 3);
 try
 result = set_verb_info(object, vname, info);
-player:notify(tostr("Alias", (length(bad_aliases) > 1) ? "es" | "", " ", $string_utils:english_list(bad_aliases), " removed from verb ", object.name, "(", object, "):", vname));
-player:notify(tostr("Verbname is now ", object.name, "(", object, "):\"", aliases, "\""));
+player:notify(tostr("Alias", (length(bad_aliases) > 1) ? "y" | "", " ", $string_utils:english_list(bad_aliases), " usunieto z czasownika ", object.name, "(", object, "):", vname));
+player:notify(tostr("Nazwa czasownika to teraz ", object.name, "(", object, "):\"", aliases, "\""));
 except e (ANY)
 player:notify(e[2]);
 endtry
 elseif (!old_aliases)
-player:notify("You have to leave a verb with at least one alias.");
+player:notify("Musisz zostawic czasownikowi przynajmniej jeden alias.");
 else
-player:notify("No aliases removed.");
+player:notify("Nie usunieto zadnych aliasow.");
 endif
 except (E_VERBNF)
-player:notify("That object does not define that verb.");
+player:notify("Ten obiekt nie definiuje takiego czasownika.");
 except e (ANY)
 player:notify(e[2]);
 endtry
 endif
 elseif (bynumber)
-player:notify(tostr(verb, " can only be used with verbs."));
+player:notify(tostr(verb, " moze byc uzywane tylko z czasownikami."));
 else
 object = player:my_match_object(iobjstr);
 if (!$command_utils:object_match_failed(object, iobjstr))
@@ -58303,24 +58341,24 @@ old_aliases = setremove(old_aliases, alias);
 endif
 endfor
 if (not_used)
-player:notify(tostr(object.name, "(", object, ") does not have the alias", (length(not_used) > 1) ? "es" | "", " ", $string_utils:english_list(not_used), "."));
+player:notify(tostr(object.name, "(", object, ") nie ma aliasu", (length(not_used) > 1) ? "ow" | "", " ", $string_utils:english_list(not_used), "."));
 endif
 if (bad_aliases)
 if (e = object:set_aliases(old_aliases))
-player:notify(tostr("Alias", (length(bad_aliases) > 1) ? "es" | "", " ", $string_utils:english_list(bad_aliases), " removed from ", object.name, "(", object, ")."));
-player:notify(tostr("Aliases for ", object.name, "(", object, ") are now ", $string_utils:from_value(old_aliases, 1)));
+player:notify(tostr("Alias", (length(bad_aliases) > 1) ? "y" | "", " ", $string_utils:english_list(bad_aliases), " usunieto z ", object.name, "(", object, ")."));
+player:notify(tostr("Aliasy dla ", object.name, "(", object, ") to teraz ", $string_utils:from_value(old_aliases, 1)));
 elseif (e == E_INVARG)
-player:notify("That particular name change not allowed (see help @rename or help @rmalias).");
+player:notify("Ta konkretna zmiana nazwy jest niedozwolona (zobacz help @rename lub help @rmalias).");
 elseif (e == E_NACC)
-player:notify("Oops.  You can't update that object's aliases right now; try again in a few minutes.");
+player:notify("Ups.  Nie mozesz teraz zaktualizowac aliasow tego obiektu; sprobuj ponownie za kilka minut.");
 elseif (e == 0)
-player:notify("Aliases not changed as expected!");
-player:notify(tostr("Aliases for ", $string_utils:nn(object), " are ", $string_utils:from_value(object.aliases, 1)));
+player:notify("Aliasy nie zmienily sie zgodnie z oczekiwaniami!");
+player:notify(tostr("Aliasy dla ", $string_utils:nn(object), " to ", $string_utils:from_value(object.aliases, 1)));
 else
 player:notify(tostr(e));
 endif
 else
-player:notify("Aliases unchanged.");
+player:notify("Aliasy niezmienione.");
 endif
 endif
 endif
@@ -58339,7 +58377,7 @@ endif
 #6:53
 set_task_perms(player);
 if (dobjstr == "")
-player:notify(tostr("Usage:  ", verb, " <object>"));
+player:notify(tostr("Uzycie:  ", verb, " <obiekt>"));
 return;
 endif
 dobj = player:my_match_object(dobjstr);
@@ -58349,7 +58387,7 @@ endif
 found_one = 0;
 props = $object_utils:all_properties(dobj);
 if (typeof(props) == ERR)
-player:notify("You can't read the messages on that.");
+player:notify("Nie mozesz odczytac komunikatow na tym.");
 return;
 endif
 for pname in (props)
@@ -58358,50 +58396,50 @@ if ((len > 4) && (pname[len - 3..len] == "_msg"))
 found_one = 1;
 msg = `dobj.(pname) ! ANY';
 if (msg == E_PERM)
-value = "isn't readable by you.";
+value = "nie jest czytelny dla ciebie.";
 elseif (!msg)
-value = "isn't set.";
+value = "nie jest ustawiony.";
 elseif (typeof(msg) == LIST)
-value = "is a list.";
+value = "jest lista.";
 elseif (typeof(msg) != STR)
-value = "is corrupted! **";
+value = "jest uszkodzony! **";
 else
-value = "is " + $string_utils:print(msg);
+value = "to " + $string_utils:print(msg);
 endif
 player:notify(tostr("@", pname[1..len - 4], " ", dobjstr, " ", value));
 endif
 endfor
 if (!found_one)
-player:notify("That object doesn't have any messages to set.");
+player:notify("Ten obiekt nie ma zadnych komunikatow do ustawienia.");
 endif
 .
 #6:54
 $note_editor:invoke(dobjstr, verb);
 .
 #6:55
-"@last-c           reports when and from where you last connected.";
-"@last-c all       adds the 10 most recent places you connected from.";
-"@last-c confunc   is like `@last-c' but is silent on first login.";
-opts = {"all", "confunc"};
+"@last-c           zglasza kiedy i skad ostatnio sie polaczyles.";
+"@last-c wszystkie dodaje 10 ostatnich miejsc, z ktorych sie laczyles.";
+"@last-c confunc   jest jak `@last-c', ale milczy przy pierwszym logowaniu.";
+opts = {"wszystkie", "confunc"};
 i = 0;
 if (caller != this)
 return E_PERM;
 elseif (args && ((length(args) > 1) || (!(i = $string_utils:find_prefix(args[1], opts)))))
-this:notify(tostr("Usage:  ", verb, " [all]"));
+this:notify(tostr("Uzycie:  ", verb, " [wszystkie]"));
 return;
 endif
-opt_all = i && (opts[i] == "all");
+opt_all = i && (opts[i] == "wszystkie");
 opt_confunc = i && (opts[i] == "confunc");
 if (!(prev = this.previous_connection))
-this:notify("Something was broken when you logged in; tell a wizard.");
+this:notify("Cos sie zepsulo podczas logowania; powiadom wizarda.");
 elseif (prev[1] == 0)
-opt_confunc || this:notify("Your previous connection was before we started keeping track.");
+opt_confunc || this:notify("Twoje poprzednie polaczenie mialo miejsce, zanim zaczelismy prowadzic rejestr.");
 elseif (prev[1] > time())
-this:notify("This is your first time connected.");
+this:notify("To twoje pierwsze polaczenie.");
 else
-this:notify(tostr("Last connected ", this:ctime(prev[1]), " from ", prev[2]));
+this:notify(tostr("Ostatnio polaczono ", this:ctime(prev[1]), " z ", prev[2]));
 if (opt_all)
-this:notify("Previous connections have been from the following sites:");
+this:notify("Poprzednie polaczenia pochodzily z nastepujacych miejsc:");
 for l in (this.all_connect_places)
 this:notify("   " + l);
 endfor
@@ -58423,28 +58461,28 @@ endif
 endif
 .
 #6:57
-"@mode <mode>";
-"Current modes are brief and verbose.";
-"General verb for setting player `modes'.";
-"Modes are coded right here in the verb.";
+"@mode <tryb>";
+"Biezace tryby to krotki i szczegolowy.";
+"Ogolny czasownik do ustawiania `trybow' gracza.";
+"Tryby sa zakodowane bezposrednio w tym czasowniku.";
 if (caller != this)
-player:tell("You can't set someone else's modes.");
+player:tell("Nie mozesz ustawiac trybow innej osoby.");
 return E_PERM;
 endif
-modes = {"brief", "verbose"};
+modes = {"krotki", "szczegolowy"};
 mode = `modes[$string_utils:find_prefix(dobjstr, modes)] ! E_TYPE, E_RANGE => 0';
 if (!mode)
-player:tell("Unknown mode \"", dobjstr, "\".  Known modes:");
+player:tell("Nieznany tryb \"", dobjstr, "\".  Znane tryby:");
 for mode in (modes)
 player:tell("  ", mode);
 endfor
 return 0;
-elseif (mode == "brief")
+elseif (mode == "krotki")
 this:set_brief(1);
-elseif (mode == "verbose")
+elseif (mode == "szczegolowy")
 this:set_brief(0);
 endif
-player:tell($string_utils:capitalize(mode), " mode set.");
+player:tell("Tryb ", mode, " ustawiony.");
 return 1;
 .
 #6:58
@@ -58520,11 +58558,11 @@ return E_PERM;
 endif
 .
 #6:61
-"Usage:";
+"Uzycie:";
 "  @add-feature";
-"  @add-feature <feature object>";
+"  @add-feature <obiekt funkcji>";
 "Modified 10 Oct 94, by Michele, to check the warehouse and match.";
-"Lists all features or adds an object to your features list.";
+"Wyswietla wszystkie funkcje albo dodaje obiekt do twojej listy funkcji.";
 set_task_perms(player);
 if (dobjstr)
 if (dobj == $failed_match)
@@ -58532,17 +58570,17 @@ dobj = $feature.warehouse:match_object(dobjstr);
 endif
 if (!$command_utils:object_match_failed(dobj, dobjstr))
 if (dobj in player.features)
-player:tell(dobjstr, " is already one of your features.");
+player:tell(dobjstr, " jest juz jedna z twoich funkcji.");
 elseif (player:add_feature(dobj))
-player:tell(dobj, " (", dobj.name, ") added as a feature.");
+player:tell(dobj, " (", dobj.name, ") dodano jako funkcje.");
 else
-player:tell("You can't seem to add ", dobj, " (", dobj.name, ") to your features list.");
+player:tell("Nie udalo sie dodac ", dobj, " (", dobj.name, ") do twojej listy funkcji.");
 endif
 endif
 else
-player:tell("Usage:  @add-feature <object>");
+player:tell("Uzycie:  @add-feature <obiekt>");
 if (length($feature.warehouse.contents) < 20)
-player:tell("Available features include:");
+player:tell("Dostepne funkcje:");
 player:tell("--------------------------");
 fe = {};
 for c in ($feature.warehouse.contents)
@@ -58550,13 +58588,13 @@ fe = {(c in player.features) ? c:title() + " (*)" | c:title()};
 player:tell("  " + $string_utils:english_list(fe));
 endfor
 player:tell("--------------------------");
-player:tell("A * after the feature name means that you already have that feature.");
+player:tell("Gwiazdka (*) po nazwie funkcji oznacza, ze juz ja masz.");
 endif
 endif
 .
 #6:62
-"Usage:  @remove-feature <feature object>";
-"Remove an object from your .features list.";
+"Uzycie:  @remove-feature <obiekt funkcji>";
+"Usuwa obiekt z twojej listy .features.";
 set_task_perms(player);
 if (dobjstr)
 features = player.features;
@@ -58566,13 +58604,13 @@ endif
 if (!$command_utils:object_match_failed(dobj, dobjstr))
 if (dobj in features)
 player:remove_feature(dobj);
-player:tell(dobj, " (", dobj.name, ") removed from your features list.");
+player:tell(dobj, " (", dobj.name, ") usunieto z twojej listy funkcji.");
 else
-player:tell(dobjstr, " is not one of your features.");
+player:tell(dobjstr, " nie jest jedna z twoich funkcji.");
 endif
 endif
 else
-player:tell("Usage:  @remove-feature <object>");
+player:tell("Uzycie:  @remove-feature <obiekt>");
 endif
 .
 #6:63
@@ -58639,7 +58677,7 @@ player:tell("Dane + stos:       ", (mem[5] * PAGE) * MB, " MB");
 .
 #6:66
 if ($object_utils:has_property($local, "server_hardware"))
-hw = (" on " + $local.server_hardware) + ".";
+hw = (" na " + $local.server_hardware) + ".";
 else
 hw = ".";
 endif
@@ -58647,14 +58685,14 @@ server_version = server_version();
 if (server_version[1] == "v")
 server_version[1..1] = "";
 endif
-player:notify(tostr("The MOO is currently running version ", server_version, " of the ", $server["name"], " server code", hw));
+player:notify(tostr("To MOO obecnie dziala na wersji ", server_version, " kodu serwera ", $server["name"], hw));
 try
 {MOOname, sversion, coretime} = $server["core_history"][1];
-player:notify(tostr("The database was derived from a core created on ", $time_utils:time_sub("$n $t, $Y", coretime), " at ", MOOname, " for version ", sversion, " of the server."));
+player:notify(tostr("Baza danych zostala wyprowadzona z rdzenia utworzonego ", $time_utils:time_sub("$n $t, $Y", coretime), " w ", MOOname, " dla wersji ", sversion, " serwera."));
 except (E_RANGE)
-player:notify("The database was created from scratch.");
+player:notify("Baza danych zostala utworzona od podstaw.");
 except (ANY)
-player:notify("No information is available on the database version.");
+player:notify("Brak informacji o wersji bazy danych.");
 endtry
 .
 #6:67
@@ -58783,7 +58821,7 @@ this:notify_lines(lines);
 if (dobjstr != "")
 dobj = $string_utils:match_player(dobjstr);
 if (!valid(dobj))
-player:tell("Who?");
+player:tell("Kto?");
 return;
 endif
 folks = {dobj};
@@ -58791,7 +58829,7 @@ else
 folks = players();
 endif
 if (length(folks) > 100)
-player:tell("You have requested a listing of ", length(folks), " players.  That is too long a list; specify individual players you are interested in.");
+player:tell("To zapytanie o liste ", length(folks), " graczy.  To zbyt dluga lista; podaj konkretnych graczy, ktorzy cie interesuja.");
 return;
 endif
 day = week = month = ever = never = {};
@@ -58814,16 +58852,16 @@ else
 ever = {@ever, x};
 endif
 endfor
-for entry in ({{day, "the last day"}, {week, "the last week"}, {month, "the last 30 days"}, {ever, "recorded history"}})
+for entry in ({{day, "ostatniego dnia"}, {week, "ostatniego tygodnia"}, {month, "ostatnich 30 dni"}, {ever, "zarejestrowanej historii"}})
 if (entry[1])
-player:tell("Players who have connected within ", entry[2], ":");
+player:tell("Gracze, ktorzy laczyli sie w ciagu ", entry[2], ":");
 for x in (entry[1])
-player:tell("  ", x.name, " last connected ", ctime(x.last_connect_time), ".");
+player:tell("  ", x.name, " -- ostatnie polaczenie: ", ctime(x.last_connect_time), ".");
 endfor
 endif
 endfor
 if (never)
-player:tell("Players who have never connected:");
+player:tell("Gracze, ktorzy nigdy sie nie laczyli:");
 player:tell("  ", $string_utils:english_list($list_utils:map_prop(never, "name")));
 endif
 .
@@ -59035,15 +59073,15 @@ player:set_current_message($news, @$news:news_display_seq_full(seq));
 endif
 .
 #6:85
-"Calls the verb editor on verbs, the note editor on properties, and on anything else assumes it's an object for which you want to edit the .description.";
+"Wywoluje edytor czasownikow na czasownikach, edytor notatek na wlasciwosciach, a przy wszystkim innym zaklada, ze to obiekt, ktorego .description chcesz edytowac.";
 if (!args)
 ((player in $note_editor.active) ? $note_editor | $verb_editor):invoke(dobjstr, verb);
 elseif ($code_utils:parse_verbref(args[1]))
 if (player.programmer)
 $verb_editor:invoke(argstr, verb);
 else
-player:notify("You need to be a programmer to do this.");
-player:notify("If you want to become a programmer, talk to a wizard.");
+player:notify("Musisz byc programista, by to zrobic.");
+player:notify("Jesli chcesz zostac programista, porozmawiaj z wizardem.");
 return;
 endif
 else
@@ -80472,19 +80510,19 @@ return tostr("=> ", toliteral(val));
 endif
 .
 #58:27
-"@<what>-option <option> [is] <value>   sets <option> to <value>";
-"@<what>-option <option>=<value>        sets <option> to <value>";
-"@<what>-option +<option>     sets <option>   (usually equiv. to <option>=1";
-"@<what>-option -<option>     resets <option> (equiv. to <option>=0)";
-"@<what>-option !<option>     resets <option> (equiv. to <option>=0)";
-"@<what>-option <option>      displays value of <option>";
+"@<what>-option <opcja> [is] <wartosc>   ustawia <opcje> na <wartosc>";
+"@<what>-option <opcja>=<wartosc>        ustawia <opcje> na <wartosc>";
+"@<what>-option +<opcja>     ustawia <opcje>   (zazwyczaj rownowazne <opcja>=1";
+"@<what>-option -<opcja>     resetuje <opcje> (rownowazne <opcja>=0)";
+"@<what>-option !<opcja>     resetuje <opcje> (rownowazne <opcja>=0)";
+"@<what>-option <opcja>      wyswietla wartosc <opcji>";
 set_task_perms(player);
 what = "prog";
 options = what + "_options";
 option_pkg = $options[what];
 set_option = ("set_" + what) + "_option";
 if (!args)
-player:notify_lines({("Current " + what) + " options:", "", @option_pkg:show(this.(options), option_pkg.names)});
+player:notify_lines({("Biezace opcje " + what) + ":", "", @option_pkg:show(this.(options), option_pkg.names)});
 return;
 elseif (typeof(presult = option_pkg:parse(args)) == STR)
 player:notify(presult);
@@ -80495,7 +80533,7 @@ if (typeof(sresult = this:(set_option)(@presult)) == STR)
 player:notify(sresult);
 return;
 elseif (!sresult)
-player:notify("No change.");
+player:notify("Bez zmian.");
 return;
 endif
 endif
@@ -83006,44 +83044,44 @@ return {oname, value};
 if (typeof(raw) == STR)
 raw = $string_utils:explode(raw, ",");
 elseif (typeof(raw) == INT)
-return raw ? "You need to give one or more recipients." | {oname, 0};
+return raw ? "Musisz podac jednego lub wiecej odbiorcow." | {oname, 0};
 endif
 value = $mail_editor:parse_recipients({}, raw);
 if (value)
 return {oname, value};
 else
-return "No valid recipients in list.";
+return "Brak prawidlowych odbiorcow na liscie.";
 endif
 .
 #65:4
 value = this:get(@args);
 if (value)
-return {tostr(value), {tostr("Query when asking for ", value, " or more messages.")}};
+return {tostr(value), {tostr("Pytaj o potwierdzenie przy prosbie o ", value, " lub wiecej wiadomosci.")}};
 else
-return {0, {"Willing to be spammed with arbitrarily many messages/headers"}};
+return {0, {"Zgadzam sie na zalanie dowolnie wieloma wiadomosciami/naglowkami"}};
 endif
 .
 #65:5
 value = this:get(@args);
 if (value)
-return {value, {"Sticky folders:  mail commands default to whatever", "mail collection the previous successful command looked at."}};
+return {value, {"Lepkie foldery:  polecenia mail domyslnie dzialaja na", "kolekcji poczty, na ktora ostatnio patrzylo poprzednie udane polecenie."}};
 else
-return {0, {"Teflon folders:  mail commands always default to `on me'."}};
+return {0, {"Nielepkie foldery:  polecenia mail zawsze domyslnie dzialaja na `on me'."}};
 endif
 .
 #65:6
 if (value = this:get(@args))
-return {"", {tostr("Default message sequence for @mail:  ", (typeof(value) == STR) ? value | $string_utils:from_list(value, " "))}};
+return {"", {tostr("Domyslna sekwencja wiadomosci dla @mail:  ", (typeof(value) == STR) ? value | $string_utils:from_list(value, " "))}};
 else
 default = $mail_agent.("player_default_@mail");
-return {0, {tostr("Default message sequence for @mail:  ", (typeof(default) == STR) ? default | $string_utils:from_list(default, " "))}};
+return {0, {tostr("Domyslna sekwencja wiadomosci dla @mail:  ", (typeof(default) == STR) ? default | $string_utils:from_list(default, " "))}};
 endif
 .
 #65:7
 if (value = this:get(@args))
-return {"", {tostr("Default Reply-to:  ", $mail_agent:name_list(@value))}};
+return {"", {tostr("Domyslny adres Reply-to:  ", $mail_agent:name_list(@value))}};
 else
-return {0, {"No default Reply-to: field"}};
+return {0, {"Brak domyslnego pola Reply-to:"}};
 endif
 .
 #65:8
@@ -83060,16 +83098,16 @@ value = args[1];
 if (typeof(value) == OBJ)
 return {{value}};
 elseif (!this:istype(value, {{OBJ}}))
-return $string_utils:capitalize("Object or list of objects expected.");
+return $string_utils:capitalize("oczekiwano obiektu lub listy obiektow.");
 else
 return {value};
 endif
 .
 #65:10
 if (value = this:get(@args))
-return {value, {"Have MOO-mail automatically forwarded to me at", "my registered email-address."}};
+return {value, {"Chce, by MOO-mail byl automatycznie przekazywany na", "moj zarejestrowany adres email."}};
 else
-return {value, {"Receive MOO-mail here on the MOO."}};
+return {value, {"Odbieram MOO-mail tutaj, na MOO."}};
 endif
 "Last modified Tue Jun  1 02:10:08 1993 EDT by Edison@OpalMOO (#200).";
 .
@@ -83082,16 +83120,16 @@ if (caller != this)
 return E_PERM;
 endif
 if (args[1] && (reason = $network:email_will_fail($wiz_utils:get_email_address(player))))
-return tostr("Invalid registered email_address: ", reason);
+return tostr("Nieprawidlowy zarejestrowany adres email: ", reason);
 endif
 return args;
 .
 #65:12
 value = this:get(args[1], "expire");
 if (value < 0)
-return {1, {"Messages will not expire."}};
+return {1, {"Wiadomosci nigdy nie wygasna."}};
 else
-return {value, {tostr("Unkept messages expire in ", $time_utils:english_time(value || $mail_agent.player_expire_time), value ? "" | " (default)")}};
+return {value, {tostr("Nieprzeczytane wiadomosci wygasaja po ", $time_utils:english_time(value || $mail_agent.player_expire_time), value ? "" | " (domyslnie)")}};
 endif
 .
 #65:13
@@ -83108,7 +83146,7 @@ elseif (typeof(value) == LIST)
 if (length(value) > 1)
 nval = $time_utils:parse_english_time_interval(@value);
 if (typeof(nval) == ERR)
-return "Time interval should be of a form like \"30 days, 10 hours and 43 minutes\".";
+return "Przedzial czasu powinien miec postac np. \"30 days, 10 hours and 43 minutes\".";
 else
 return {oname, nval};
 endif
@@ -83120,7 +83158,7 @@ return {oname, (nval < 0) ? -1 | nval};
 elseif (value == "Never")
 return {oname, -1};
 else
-return "Number, time interval (e.g., \"30 days\"), or \"Never\" expected";
+return "Oczekiwano liczby, przedzialu czasu (np. \"30 days\") lub \"Never\"";
 endif
 .
 #65:14
@@ -83139,50 +83177,50 @@ endif
 if ((what = args[1]) in {"new", "contents", "all"})
 return {what};
 else
-return "Error: `news' option must be one of `new' or `contents' or `all'";
+return "Blad: opcja `news' musi byc jedna z `new', `contents' lub `all'";
 endif
 .
 #65:16
 if (typeof(args[2]) == INT)
-return tostr(strsub(verb, "parse_", ""), " is not a boolean option.");
+return tostr(strsub(verb, "parse_", ""), " nie jest opcja logiczna (boolean).");
 else
 return {args[1], (typeof(args[2]) == STR) ? args[2] | $string_utils:from_list(args[2], " ")};
 endif
 .
 #65:17
 if ((value = this:get(@args)) == "all")
-return {value, {"the `news' command will show all news"}};
+return {value, {"polecenie `news' pokaze wszystkie newsy"}};
 elseif (value == "contents")
-return {value, {"the `news' command will show the titles of all articles"}};
+return {value, {"polecenie `news' pokaze tytuly wszystkich artykulow"}};
 elseif (value == "new")
-return {value, {"the `news' command will show only new news"}};
+return {value, {"polecenie `news' pokaze tylko nowe newsy"}};
 else
-return {0, {"the `news' command will show all news"}};
+return {0, {"polecenie `news' pokaze wszystkie newsy"}};
 endif
 .
 #65:18
 {name, value, bleh} = args;
 if (typeof(value) == INT)
-return tostr(name, " is not a boolean option.");
+return tostr(name, " nie jest opcja logiczna (boolean).");
 elseif (typeof(value) == STR)
 value = {value};
 endif
 ok = this.unsend_sequences;
 for x in (value)
 if ((!(pos = index(x, ":"))) || (!(x[1..pos - 1] in ok)))
-return tostr("Invalid sequence - ", x);
+return tostr("Nieprawidlowa sekwencja - ", x);
 elseif (pos != rindex(x, ":"))
-return tostr("As a preventative measure, you may not use more than one : in a sequence. The following sequence is therefore invalid - ", x);
+return tostr("Dla bezpieczenstwa nie mozna uzywac wiecej niz jednego : w sekwencji. Ta sekwencja jest wiec nieprawidlowa - ", x);
 endif
 endfor
 return {name, value};
 .
 #65:19
 if (value = this:get(@args))
-return {"", {tostr("Default message sequence for @unsend:  ", (typeof(value) == STR) ? value | $string_utils:from_list(value, " "))}};
+return {"", {tostr("Domyslna sekwencja wiadomosci dla @unsend:  ", (typeof(value) == STR) ? value | $string_utils:from_list(value, " "))}};
 else
 default = $mail_agent.("player_default_@unsend");
-return {0, {tostr("Default message sequence for @unsend:  ", (typeof(default) == STR) ? default | $string_utils:from_list(default, " "))}};
+return {0, {tostr("Domyslna sekwencja wiadomosci dla @unsend:  ", (typeof(default) == STR) ? default | $string_utils:from_list(default, " "))}};
 endif
 .
 #66:0
@@ -83195,7 +83233,7 @@ endif
 #66:1
 if (o = (name = args[2]) in {"parens", "noisy_insert"})
 args[2] = {"no_parens", "quiet_insert"}[o];
-return {@pass(@args), tostr("(", name, " is a synonym for -", args[2], ")")};
+return {@pass(@args), tostr("(", name, " jest synonimem dla -", args[2], ")")};
 else
 return pass(@args);
 endif
@@ -83231,10 +83269,10 @@ endif
 "";
 {options, oname, value} = args;
 if (!((oname in this.names) || (oname in this.extras)))
-return "Unknown option:  " + oname;
+return "Nieznana opcja:  " + oname;
 elseif (typeof(value) == ERR)
 "... no option should have an error value...";
-return "Error value";
+return "Nieprawidlowa wartosc (kod bledu)";
 elseif ((!value) && (typeof(value) != OBJ))
 "... always accept FALSE (0, blankstring, emptylist)...";
 elseif ($object_utils:has_callable_verb(this, check = "check_" + oname))
@@ -83247,19 +83285,19 @@ elseif ($object_utils:has_property(this, tprop = "type_" + oname))
 "... a .type_foo property exists...";
 "... property value should be a type or list of types...";
 if (!this:istype(value, t = this.(tprop)))
-return $string_utils:capitalize(this:desc_type(t) + " value expected.");
+return $string_utils:capitalize(("oczekiwano wartosci typu: " + this:desc_type(t)) + ".");
 endif
 elseif ($object_utils:has_property(this, cprop = "choices_" + oname))
 "... a .choices_foo property exists...";
 "... property value should be a list of {value,docstring} pairs...";
 if (!$list_utils:assoc(value, c = this.(cprop)))
-return tostr("Allowed values: ", $string_utils:english_list($list_utils:slice(c, 1), "(??)", " or "));
+return tostr("Dozwolone wartosci: ", $string_utils:english_list($list_utils:slice(c, 1), "(??)", " lub "));
 endif
 else
 "... value is considered to be boolean...";
 if (!value)
 "... must be an object.  oops.";
-return tostr("Non-object value expected.");
+return tostr("Oczekiwano wartosci nie bedacej obiektem.");
 endif
 value = 1;
 endif
@@ -83268,7 +83306,7 @@ endif
 if (oname in this.names)
 nvlist = {{oname, value}};
 elseif ((typeof(nvlist = this:actual(oname, value)) != LIST) || (!nvlist))
-return nvlist || "Not implemented.";
+return nvlist || "Nie zaimplementowano.";
 endif
 "... :actual returns a list of pairs...";
 for nv in (nvlist)
@@ -83311,20 +83349,20 @@ rawval = option[i + 1..$];
 option = option[1..i - 1];
 if (i == 1)
 "... =bar ...";
-return "Blank option name?";
+return "Pusta nazwa opcji?";
 elseif (flag)
 "... +foo=bar";
-return "Don't give a value if you use +, -, or !";
+return "Nie podawaj wartosci, jesli uzywasz +, - lub !";
 elseif (words)
 "... foo=bar junk";
 return $string_utils:from_list(words, " ") + "??";
 endif
 elseif (!option)
-return "Blank option name?";
+return "Pusta nazwa opcji?";
 elseif (flag)
 if (words)
 "... +foo junk";
-return "Don't give a value if you use +, -, or !";
+return "Nie podawaj wartosci, jesli uzywasz +, - lub !";
 endif
 rawval = (flag - 1) % 2;
 else
@@ -83333,7 +83371,7 @@ rawval = words;
 endif
 "... do we know about this option?...";
 if (!(oname = this:_name(strsub(option, "-", "_"))))
-return tostr((oname == $failed_match) ? "Unknown" | "Ambiguous", " option:  ", option);
+return tostr((oname == $failed_match) ? "Nieznana" | "Niejednoznaczna", " opcja:  ", option);
 endif
 "... determine new value...";
 if (!rawval)
@@ -83348,7 +83386,7 @@ return {oname, 0};
 elseif (rawval in {1, "1", {"1"}})
 return {oname, 1};
 else
-return tostr("Option is a flag, use `+", option, "' or `-", option, "' (or `!", option, "')");
+return tostr("Ta opcja jest flaga, uzyj `+", option, "' lub `-", option, "' (albo `!", option, "')");
 endif
 .
 #68:3
@@ -83433,7 +83471,7 @@ text = {@text, @this:show(@listset(args, n, 2))};
 endfor
 return text;
 elseif (!((name in this.names) || (name in this.extras)))
-return {"Unknown option:  " + name};
+return {"Nieznana opcja:  " + name};
 elseif ($object_utils:has_callable_verb(this, sverb = "show_" + name))
 r = this:(sverb)(@args);
 value = r[1];
@@ -83447,15 +83485,15 @@ elseif ($object_utils:has_property(this, cprop = "choices_" + name))
 if (!(value = this:get(args[1], name)))
 desc = this.(cprop)[1][2];
 elseif (!(a = $list_utils:assoc(value, this.(cprop))))
-return {(name + " has unexpected value ") + toliteral(value)};
+return {(name + " ma nieoczekiwana wartosc ") + toliteral(value)};
 else
 desc = a[2];
 endif
 elseif (name in this.extras)
-return {name + " not documented (complain)"};
+return {name + " nie jest udokumentowana (zglos to)"};
 else
 value = this:get(args[1], name);
-desc = {"not documented (complain)"};
+desc = {"nie jest udokumentowana (zglos to)"};
 if (typeof(value) in {LIST, STR})
 desc[1..0] = toliteral(value);
 value = "";
@@ -83512,17 +83550,17 @@ nlist = {};
 for t in (types = args[1])
 if (typeof(t) == LIST)
 if (length(t) > 1)
-nlist = {@nlist, tostr("(", this:desc_type(t), ")-list")};
+nlist = {@nlist, tostr("(", this:desc_type(t), ")-lista")};
 else
-nlist = {@nlist, tostr(this:desc_type(t), "-list")};
+nlist = {@nlist, tostr(this:desc_type(t), "-lista")};
 endif
 elseif (t in {INT, OBJ, STR, LIST})
-nlist = {@nlist, {"number", "object", "string", "?", "list"}[t + 1]};
+nlist = {@nlist, {"liczba", "obiekt", "lancuch znakow", "?", "lista"}[t + 1]};
 else
-return "Bad type list";
+return "Nieprawidlowa lista typow";
 endif
 endfor
-return $string_utils:english_list(nlist, "nothing", " or ");
+return $string_utils:english_list(nlist, "nic", " lub ");
 .
 #68:11
 ":parsechoice(oname,rawval,assoclist)";
@@ -83530,7 +83568,7 @@ which = {};
 oname = args[1];
 rawval = args[2];
 choices = $list_utils:slice(args[3], 1);
-errmsg = tostr("Allowed values for this flag: ", $string_utils:english_list(choices, "(??)", " or "));
+errmsg = tostr("Dozwolone wartosci dla tej flagi: ", $string_utils:english_list(choices, "(??)", " lub "));
 if (typeof(rawval) == LIST)
 if (length(rawval) > 1)
 return errmsg;
@@ -83547,7 +83585,7 @@ endfor
 if (!which)
 return errmsg;
 elseif (length(which) > 1)
-return tostr(rawval, " is ambiguous.");
+return tostr(rawval, " jest niejednoznaczne.");
 else
 return {oname, which[1]};
 endif
@@ -85239,30 +85277,30 @@ endif
 #76:1
 if (o = (name = args[2]) in {"list_numbers"})
 args[2] = {"list_no_numbers"}[o];
-return {@pass(@args), tostr("(", name, " is a synonym for -", args[2], ")")};
+return {@pass(@args), tostr("(", name, " jest synonimem dla -", args[2], ")")};
 else
 return pass(@args);
 endif
 .
 #76:2
 if (value = this:get(@args))
-return {value, {tostr("Default args for @verb:  ", $string_utils:from_list(value, " "))}};
+return {value, {tostr("Domyslne argumenty dla @verb:  ", $string_utils:from_list(value, " "))}};
 else
-return {0, {"Default args for @verb:  none none none"}};
+return {0, {"Domyslne argumenty dla @verb:  none none none"}};
 endif
 .
 #76:3
 value = args[1];
 if (typeof(value) != LIST)
-return "List expected";
+return "Oczekiwano listy";
 elseif (length(value) != 3)
-return "List of length 3 expected";
+return "Oczekiwano listy o dlugosci 3";
 elseif (!(value[1] in {"this", "none", "any"}))
-return tostr("Invalid dobj specification:  ", value[1]);
+return tostr("Nieprawidlowa specyfikacja dobj:  ", value[1]);
 elseif (!((p = $code_utils:short_prep(value[2])) || (value[2] in {"none", "any"})))
-return tostr("Invalid preposition:  ", value[2]);
+return tostr("Nieprawidlowy przyimek:  ", value[2]);
 elseif (!(value[3] in {"this", "none", "any"}))
-return tostr("Invalid iobj specification:  ", value[3]);
+return tostr("Nieprawidlowa specyfikacja iobj:  ", value[3]);
 else
 if (p)
 value[2] = p;
@@ -85281,7 +85319,7 @@ value = $code_utils:parse_argspec(@raw);
 if (typeof(value) != LIST)
 return tostr(value);
 elseif (value[2])
-return tostr("I don't understand \"", $string_utils:from_list(value[2], " "), "\"");
+return tostr("Nie rozumiem \"", $string_utils:from_list(value[2], " "), "\"");
 else
 value = {@value[1], "none", "none", "none"}[1..3];
 return {oname, (value == {"none", "none", "none"}) ? 0 | value};
@@ -85290,20 +85328,20 @@ endif
 #76:5
 value = this:get(@args);
 if (value)
-return {value, {tostr("Default permissions for @property=`", value, "'.")}};
+return {value, {tostr("Domyslne uprawnienia dla @property=`", value, "'.")}};
 else
-return {0, {"Default permissions for @property=`rc'."}};
+return {0, {"Domyslne uprawnienia dla @property=`rc'."}};
 endif
 .
 #76:7
 {oname, raw, data} = args;
 if (typeof(raw) != STR)
-return "Must be a string composed of the characters `rwc'.";
+return "Musi to byc lancuch zlozony ze znakow `rwc'.";
 endif
 len = length(raw);
 for x in [1..len]
 if (!(raw[x] in {"r", "w", "c"}))
-return "Must be a string composed of the characters `rwc'.";
+return "Musi to byc lancuch zlozony ze znakow `rwc'.";
 endif
 endfor
 return {oname, raw};
@@ -85311,19 +85349,19 @@ return {oname, raw};
 #76:8
 value = args[1];
 if (typeof(value) != STR)
-return "Must be a string composed of the characters `RWXD'.";
+return "Musi to byc lancuch zlozony ze znakow `RWXD'.";
 elseif ((stripped = $string_utils:subst(value, {{"R", ""}, {"W", ""}, {"X", ""}, {"D", ""}})) != "")
 "I know you can strip_all_but, but we want to report invalid values.";
-return tostr("Invalid permission ", $s("character", length(stripped)), ": ", stripped);
+return tostr("Nieprawidlowy(e) znak(i) uprawnien: ", stripped);
 else
 return {value};
 endif
 .
 #76:9
 if (value = this:get(@args))
-return {value, {tostr("Default permissions for @verb:  ", value)}};
+return {value, {tostr("Domyslne uprawnienia dla @verb:  ", value)}};
 else
-return {0, {"Default permissions for @verb:  rd"}};
+return {0, {"Domyslne uprawnienia dla @verb:  rd"}};
 endif
 .
 #76:10
@@ -85345,16 +85383,16 @@ return {oname, (value[1] == "RD") ? 0 | value[1]};
 #77:0
 value = args[1];
 if (m = match(value, "[^rwf]"))
-return tostr("Unknown object flag:  ", value[m[1]]);
+return tostr("Nieznana flaga obiektu:  ", value[m[1]]);
 else
 return {tostr(index(value, "r") ? "r" | "", index(value, "w") ? "w" | "", index(value, "f") ? "f" | "")};
 endif
 .
 #77:1
 if (value = this:get(@args))
-return {value, {tostr("Object flags for @create:  ", value)}};
+return {value, {tostr("Flagi obiektu dla @create:  ", value)}};
 else
-return {0, {tostr("@create leaves all object flags reset")}};
+return {0, {tostr("@create zostawia wszystkie flagi obiektu wyzerowane")}};
 endif
 .
 #77:2
@@ -85367,7 +85405,7 @@ return args[1..2];
 elseif (typeof(raw) != LIST)
 return "???";
 elseif (length(raw) > 1)
-return tostr("I don't understand \"", $string_utils:from_list(listdelete(raw, 1), " "), "\"");
+return tostr("Nie rozumiem \"", $string_utils:from_list(listdelete(raw, 1), " "), "\"");
 else
 return {args[1], raw[1]};
 endif
@@ -85375,24 +85413,25 @@ endif
 #77:3
 name = args[2];
 what = (verb == "show_dig_room") ? "room" | "exit";
+whatpl = (verb == "show_dig_room") ? "pokoje" | "wyjscia";
 if ((value = this:get(args[1], name)) == 0)
-return {0, {tostr("@dig ", what, "s are children of $", what, ".")}};
+return {0, {tostr("@dig ", whatpl, " sa dziecmi $", what, ".")}};
 else
-return {value, {tostr("@dig ", what, "s are children of ", value, " (", valid(value) ? value.name | "invalid", ").")}};
+return {value, {tostr("@dig ", whatpl, " sa dziecmi ", value, " (", valid(value) ? value.name | "nieprawidlowy", ").")}};
 endif
 .
 #77:4
 {oname, raw, data} = args;
 if (typeof(raw) == LIST)
 if (length(raw) > 1)
-return tostr("I don't understand \"", $string_utils:from_list(listdelete(raw, 1), " "), "\".");
+return tostr("Nie rozumiem \"", $string_utils:from_list(listdelete(raw, 1), " "), "\".");
 endif
 raw = raw[1];
 endif
 if (typeof(raw) != STR)
-return "You need to give an object id.";
+return "Musisz podac id obiektu.";
 elseif ($command_utils:object_match_failed(value = player:my_match_object(raw), raw))
-return "Option unchanged.";
+return "Opcja niezmieniona.";
 endif
 what = (verb == "parse_dig_room") ? "room" | "exit";
 generic = #0.(what);
@@ -85400,7 +85439,7 @@ if (value == generic)
 return {oname, 0};
 else
 if (!$object_utils:isa(value, generic))
-player:tell("Warning: ", value, " is not a descendant of $", what, ".");
+player:tell("Uwaga: ", value, " nie jest potomkiem $", what, ".");
 endif
 return {oname, value};
 endif
@@ -89566,7 +89605,7 @@ return E_PERM;
 else
 count = 0;
 for x in (this.diagnostic_tests)
-player:tell("Running test \"", x, "\"...");
+player:tell("Uruchamianie testu \"", x, "\"...");
 count = count + (!(!this:("test_" + x)(@args)));
 endfor
 return count;
@@ -89632,7 +89671,7 @@ return E_PERM;
 else
 new = $recycler:_create($ansi_pc);
 if (typeof(new) != OBJ)
-return player:tell("Unable to create Benchmark test player: ", new);
+return player:tell("Nie udalo sie utworzyc gracza testowego Benchmark: ", new);
 endif
 new:set_name("Benchmark_test_player");
 suspend(0);
@@ -89658,7 +89697,7 @@ for x in [1..3]
 $ansi_utils:notify(new, "[123:123:123]B[1:1:1]e[0:100:0]n[100:0:100]c[100:100:100]h[100:0:0]m[0:0:100]a[255:0:255]r[255:0:0]k [0:255:0]T[0:0:255]e[255:255:0]s[123:45:6]t.");
 endfor
 for x in [1..3]
-$ansi_utils:notify(new, "Testing...");
+$ansi_utils:notify(new, "Testowanie...");
 endfor
 this:add_noansi();
 for x in [1..3]
@@ -89671,7 +89710,7 @@ this:remove_noansi();
 ticks = ticks - ticks_left();
 seconds = seconds - seconds_left();
 $recycler:_recycle(new);
-player:tell("21 notifies: ", ticks, " tick", (ticks == 1) ? "" | "s", ", ", seconds, " second", (seconds == 1) ? "" | "s", ".");
+player:tell("21 powiadomien: ", $polish_utils:count(ticks, "1 tick", tostr(ticks, " ticki"), tostr(ticks, " tickow")), ", ", $polish_utils:count(seconds, "1 sekunda", tostr(seconds, " sekundy"), tostr(seconds, " sekund")), ".");
 endif
 .
 #99:19
@@ -89727,12 +89766,14 @@ return l;
 .
 #99:22
 mess = {};
-mess = {@mess, tostr("ANSI Version ", this.version, ":")};
+mess = {@mess, tostr("Wersja ANSI ", this.version, ":")};
 a = 0;
 for x in (this.groups)
 a = a + length(this.("group_" + x));
 endfor
-mess = {@mess, tostr("It is ", this.active ? "currently" | "not", " active.  There are ", $string_utils:english_number(a), " codes defined in ", $string_utils:english_number(length(this.groups)), " groups.  There ", (length(this.noansi_queue) == 1) ? "is" | "are", " ", $string_utils:english_number(length(this.noansi_queue)), " tasks in the ignore ANSI task queue, and the cleanup task is ", $code_utils:task_valid(this.noansi_queue) ? "currently" | "not", " running.")};
+ngroups = length(this.groups);
+nq = length(this.noansi_queue);
+mess = {@mess, tostr(this.active ? "System jest aktywny." | "System nie jest aktywny.", "  Zdefiniowano ", $polish_utils:count(a, "1 kod", tostr(a, " kody"), tostr(a, " kodow")), " w ", $polish_utils:count(ngroups, "1 grupie", tostr(ngroups, " grupach"), tostr(ngroups, " grupach")), ".  W kolejce zadan ignorowania ANSI ", (nq == 1) ? "jest" | "sa", " ", $polish_utils:count(nq, "1 zadanie", tostr(nq, " zadania"), tostr(nq, " zadan")), ", a zadanie porzadkujace ", $code_utils:task_valid(this.noansi_queue) ? "jest aktualnie uruchomione." | "nie jest uruchomione.")};
 return mess;
 .
 #99:23
@@ -90251,14 +90292,14 @@ return !(!(a in this.ansi_options));
 endif
 .
 #100:1
-"@ansi-option <option> [is] <value>   sets <option> to <value>";
-"@ansi-option <option>=<value>        sets <option> to <value>";
-"@ansi-option +<option>     sets <option>   (usually equiv. to <option>=1";
-"@ansi-option -<option>     resets <option> (equiv. to <option>=0)";
-"@ansi-option !<option>     resets <option> (equiv. to <option>=0)";
-"@ansi-option <option>      displays value of <option>";
+"@ansi-option <opcja> [is] <wartosc>   ustawia <opcje> na <wartosc>";
+"@ansi-option <opcja>=<wartosc>        ustawia <opcje> na <wartosc>";
+"@ansi-option +<opcja>     ustawia <opcje>   (zazwyczaj rownowazne <opcja>=1";
+"@ansi-option -<opcja>     resetuje <opcje> (rownowazne <opcja>=0)";
+"@ansi-option !<opcja>     resetuje <opcje> (rownowazne <opcja>=0)";
+"@ansi-option <opcja>      wyswietla wartosc <opcji>";
 if (!args)
-player:notify_lines({"Current ANSI options:", "", @$options["ansi"]:show(this.ansi_options, $options["ansi"].names)});
+player:notify_lines({"Biezace opcje ANSI:", "", @$options["ansi"]:show(this.ansi_options, $options["ansi"].names)});
 return;
 elseif (typeof(presult = $options["ansi"]:parse(args)) == STR)
 player:notify(presult);
@@ -90269,7 +90310,7 @@ if (typeof(sresult = this:set_ansi_option(@presult)) == STR)
 player:notify(sresult);
 return;
 elseif (!sresult)
-player:notify("No change.");
+player:notify("Bez zmian.");
 return;
 endif
 endif
@@ -90379,9 +90420,9 @@ endwhile
 return {@cline, line};
 .
 #100:5
-"Usage:  @ansi-test";
-"Displays a screen that uses all of the ANSI codes possible.  Useful for testing which codes your terminal program is capable of displaying.";
-player:notify($string_utils:center(tostr(" ANSI Test Screen "), l = player:linelen(), "-"));
+"Uzycie:  @ansi-test";
+"Wyswietla ekran uzywajacy wszystkich mozliwych kodow ANSI. Przydatne do sprawdzenia, jakie kody potrafi wyswietlic twoj program terminalowy.";
+player:notify($string_utils:center(tostr(" Ekran Testowy ANSI "), l = player:linelen(), "-"));
 player:notify_lines($ansi_utils.test_screen);
 player:notify($string_utils:space(l, "-"));
 .
@@ -90533,24 +90574,24 @@ return pass(@args);
 endif
 .
 #100:14
-"Usage:";
-"  @ansi-status                   - Displays various information about the";
-"                                   status of the ANSI system.";
-"  @ansi-status version           - Only displays the version number.";
-"  @ansi-status message           - Only displays the ANSI message.";
-"Trusted users only:";
-"  @ansi-status activate          - Activates the ANSI system.";
-"  @ansi-status deactivate        - Deactivates the ANSI system.";
-"  @ansi-status message <message> - Sets the ANSI message to <message>.";
-"  @ansi-status input             - Same as 'message' but lets you input";
-"                                   more than one line.";
-"  @ansi-status clear             - Clears the ANSI message.";
-"  @ansi-status diagnostic        - Runs the ANSI self-diagnostic and";
-"                                   reports the results.";
-"  @ansi-status diagnostic fix    - Same as above but fixes anything it can.";
-"  @ansi-status update            - Updates all the caches, this should be";
-"                                   run every once in a while.  See";
-"                                   'help $ansi_utils:update_all' for more info.";
+"Uzycie:";
+"  @ansi-status                   - Wyswietla rozne informacje o stanie";
+"                                   systemu ANSI.";
+"  @ansi-status version           - Wyswietla tylko numer wersji.";
+"  @ansi-status message           - Wyswietla tylko komunikat ANSI.";
+"Tylko dla zaufanych uzytkownikow:";
+"  @ansi-status activate          - Aktywuje system ANSI.";
+"  @ansi-status deactivate        - Deaktywuje system ANSI.";
+"  @ansi-status message <message> - Ustawia komunikat ANSI na <message>.";
+"  @ansi-status input             - To samo co 'message', ale pozwala wpisac";
+"                                   wiecej niz jedna linie.";
+"  @ansi-status clear             - Czysci komunikat ANSI.";
+"  @ansi-status diagnostic        - Uruchamia autodiagnostyke ANSI i";
+"                                   pokazuje wyniki.";
+"  @ansi-status diagnostic fix    - To samo co wyzej, ale naprawia, co sie da.";
+"  @ansi-status update            - Aktualizuje wszystkie pamieci podreczne,";
+"                                   nalezy to robic od czasu do czasu. Zobacz";
+"                                   'help $ansi_utils:update_all', by dowiedziec sie wiecej.";
 au = $ansi_utils;
 if (args)
 subcommand = args[1];
@@ -90564,60 +90605,60 @@ if (player != this)
 player:tell(E_PERM);
 elseif (!subcommand)
 player:notify_lines($ansi_utils:ansi_status());
-trusts && player:notify("You are trusted by the ANSI system.");
+trusts && player:notify("Jestes zaufany przez system ANSI.");
 show = 1;
-elseif (subcommand == "help")
+elseif (subcommand in {"help", "pomoc"})
 player:notify_lines($code_utils:verb_documentation());
-elseif (subcommand == "version")
-player:notify(tostr("Currently running ANSI Version ", au.version, "."));
-elseif (subcommand == "message")
+elseif (subcommand in {"version", "wersja"})
+player:notify(tostr("Obecnie dziala ANSI w wersji ", au.version, "."));
+elseif (subcommand in {"message", "wiadomosc"})
 if (!args)
 show = 1;
 elseif (trusts)
 message = $string_utils:from_list(args, " ");
 au.status_message = message;
-player:notify("Message set to:  " + message);
-if ($command_utils:yes_or_no("Notify users?"))
-notify = tostr("The ANSI status message was just set by ", player.name, "; type \"@ansi-status message\" to see it.");
+player:notify("Komunikat ustawiony na:  " + message);
+if ($command_utils:yes_or_no("Powiadomic uzytkownikow?"))
+notify = tostr("Komunikat statusu ANSI zostal wlasnie ustawiony przez ", player.name, "; wpisz \"@ansi-status message\", by go zobaczyc.");
 for x in (setremove($object_utils:leaves_suspended($ansi_pc), player))
 x:tell(notify);
 endfor
 endif
 else
-player:notify("The message can only be set by trusted users, type \"@ansi-status message\" to see the message.");
+player:notify("Komunikat moze ustawic tylko zaufany uzytkownik, wpisz \"@ansi-status message\", by go zobaczyc.");
 endif
 elseif (!trusts)
-player:notify(tostr("The subcommand \"", subcommand, "\" either doesn't exist or is limited to trusted users only."));
-elseif (subcommand == "input")
-player:notify("What do you want to set the message to?");
+player:notify(tostr("Podpolecenie \"", subcommand, "\" nie istnieje albo jest dostepne tylko dla zaufanych uzytkownikow."));
+elseif (subcommand in {"input", "wpisz"})
+player:notify("Na co chcesz ustawic komunikat?");
 message = $command_utils:read_lines();
 au.status_message = message;
-player:notify("Message set to:");
+player:notify("Komunikat ustawiony na:");
 player:notify_lines(message);
-if ($command_utils:yes_or_no("Notify users?"))
-notify = tostr("The ANSI status message was just set by ", player.name, "; type \"@ansi-status message\" to see it.");
+if ($command_utils:yes_or_no("Powiadomic uzytkownikow?"))
+notify = tostr("Komunikat statusu ANSI zostal wlasnie ustawiony przez ", player.name, "; wpisz \"@ansi-status message\", by go zobaczyc.");
 for x in (setremove($object_utils:leaves_suspended($ansi_pc), player))
 x:notify(notify);
 endfor
 endif
-elseif (subcommand == "clear")
+elseif (subcommand in {"clear", "wyczysc"})
 au.status_message = "";
-player:notify("Cleared status message.");
-elseif (subcommand in {"activate", "active", "on"})
-player:notify(au.active ? "The ANSI system is already active." | "The ANSI system has been activated.");
+player:notify("Komunikat statusu wyczyszczony.");
+elseif (subcommand in {"activate", "active", "on", "aktywuj", "aktywne"})
+player:notify(au.active ? "System ANSI jest juz aktywny." | "System ANSI zostal aktywowany.");
 au.active = 1;
-elseif (subcommand in {"deactivate", "deactive", "off"})
-player:notify(au.active ? "The ANSI system has been deactivated, type \"@ansi-status activate\" to reactivate it." | "The ANSI system is not active.");
+elseif (subcommand in {"deactivate", "deactive", "off", "deaktywuj", "nieaktywne"})
+player:notify(au.active ? "System ANSI zostal deaktywowany, wpisz \"@ansi-status activate\", by go ponownie aktywowac." | "System ANSI nie jest aktywny.");
 au.active = 0;
-elseif (subcommand == "diagnostic")
-status = au:self_diagnostic(fix = index(tostr(@args), "fix"), player);
-player:notify(tostr("Diagnostic completed, ", fix ? "fixed" | "found", " ", status, " problem", (status == 1) ? "" | "s", "."));
-elseif (subcommand == "update")
-player:notify("Updating caches...");
+elseif (subcommand in {"diagnostic", "diagnostyka"})
+status = au:self_diagnostic(fix = index(tostr(@args), "fix") || index(tostr(@args), "napraw"), player);
+player:notify(tostr("Diagnostyka zakonczona, ", fix ? "naprawiono " | "znaleziono ", $polish_utils:count(status, "1 problem", tostr(status, " problemy"), tostr(status, " problemow")), "."));
+elseif (subcommand in {"update", "aktualizuj"})
+player:notify("Aktualizowanie pamieci podrecznych...");
 au:update_all();
-player:notify("Done updating caches.");
+player:notify("Aktualizacja pamieci podrecznych zakonczona.");
 else
-player:notify("Invalid subcommand: " + subcommand);
+player:notify("Nieprawidlowe podpolecenie: " + subcommand);
 endif
 if (show)
 if (m = au.status_message)
@@ -90628,12 +90669,12 @@ for b in ($generic_editor:fill_string(a, ml))
 lines = {@lines, b};
 endfor
 endfor
-player:notify("ANSI message: " + lines[1]);
+player:notify("Komunikat ANSI: " + lines[1]);
 for x in (listdelete(lines, 1))
-player:notify("              " + x);
+player:notify("                " + x);
 endfor
 else
-player:notify("There is no ANSI message set.");
+player:notify("Nie ustawiono komunikatu ANSI.");
 endif
 endif
 .
@@ -90770,9 +90811,9 @@ endif
 .
 #102:1
 if (value = this:get(@args))
-return {value, {tostr("Send \"", value, "\" for the escape character.")}};
+return {value, {tostr("Wysylaj \"", value, "\" jako znak escape.")}};
 else
-return {0, {"Use a character 27 as the escape character."}};
+return {0, {"Uzywaj znaku 27 jako znaku escape."}};
 endif
 .
 #102:2
@@ -90781,7 +90822,7 @@ raw = args[2];
 if (typeof(raw) == STR)
 return {oname, raw};
 else
-return "String value expected.";
+return "Oczekiwano wartosci typu string.";
 endif
 .
 #103:0
