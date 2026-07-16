@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784196746 567763848 0
+1784197101 567763848 0
 0
 10
 0
@@ -1368,7 +1368,7 @@ source
 2
 time
 0
-1784196738
+1784197093
 4
 0
 1
@@ -1624,7 +1624,7 @@ expire
 4
 2
 0
-1784196722
+1784197068
 2
 localhost
 2
@@ -1633,7 +1633,7 @@ localhost
 2
 0
 0
-1784196724
+1784197071
 2
 1
 0
@@ -1803,7 +1803,7 @@ localhost
 2
 5
 0
-1784196738
+1784197093
 2
 1
 0
@@ -4384,7 +4384,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--52
+-61
 0
 2
 2
@@ -86109,7 +86109,7 @@ unmeasurable = unmeasured / 100;
 unmeasured = unmeasured % 100;
 endif
 if (many)
-player:tell(x.name, " quota: ", $string_utils:group_number(quota), "; usage: ", $string_utils:group_number(usage), "; unmeasured: ", unmeasured, "; no .object_size: ", unmeasurable, ".");
+player:tell(x.name, " limit: ", $string_utils:group_number(quota), "; uzycie: ", $string_utils:group_number(usage), "; niezmierzone: ", unmeasured, "; brak .object_size: ", unmeasurable, ".");
 tquota = tquota + quota;
 tusage = tusage + usage;
 ttime = min(ttime, timestamp);
@@ -86262,12 +86262,12 @@ return b;
 who = args[1];
 results = this:summarize_one_user(who);
 {total, nuncounted, nzeros, oldest, eldest} = results;
-player:tell(who.name, " statistics:");
-player:tell("  ", $string_utils:group_number(total), " bytes of storage measured.");
-player:tell("  Oldest measurement date ", ctime(oldest), " (", $string_utils:from_seconds(time() - oldest), " ago) of object ", eldest, " (", valid(eldest) ? eldest.name | "$nothing", ")");
+player:tell("Statystyki ", who.name, ":");
+player:tell("  Zmierzono ", $string_utils:group_number(total), " bajtow pamieci.");
+player:tell("  Data najstarszego pomiaru ", ctime(oldest), " (", $string_utils:from_seconds(time() - oldest), " temu) obiektu ", eldest, " (", valid(eldest) ? eldest.name | "$nothing", ")");
 if (nzeros || nuncounted)
-player:tell("  Number of objects with no statistics recorded:  ");
-player:tell("      ", nzeros, " recently created, ", nuncounted, " not descendents of #1");
+player:tell("  Liczba obiektow bez zarejestrowanych statystyk:  ");
+player:tell("      ", nzeros, " niedawno utworzonych, ", nuncounted, " niebedacych potomkami #1");
 endif
 .
 #79:20
@@ -86759,15 +86759,15 @@ if (caller_perms() == who)
 q = who.ownership_quota;
 total = (typeof(who.owned_objects) == LIST) ? length(setremove(who.owned_objects, who)) | 0;
 if (q == 0)
-player:tell(tostr("You can't create any more objects", (total < 1) ? "." | tostr(" until you recycle some of the ", total, " you already own.")));
+player:tell(tostr("Nie mozesz juz tworzyc wiecej obiektow", (total < 1) ? "." | tostr(", dopoki nie zutylizujesz czesci z ", total, " juz posiadanych.")));
 else
-player:tell(tostr("You can create ", q, " new object", (q == 1) ? "" | "s", (total == 0) ? "." | tostr(" without recycling any of the ", total, " that you already own.")));
+player:tell(tostr("Mozesz utworzyc ", q, " ", $polish_utils:count(q, "nowy obiekt", "nowe obiekty", "nowych obiektow"), (total == 0) ? "." | tostr(" bez utylizowania ktoregokolwiek z ", total, " juz posiadanych.")));
 endif
 else
 if ($perm_utils:controls(caller_perms(), who))
-player:tell(tostr(who.name, "'s quota is currently ", who.ownership_quota, "."));
+player:tell(tostr(who.name, " ma obecnie limit ", who.ownership_quota, "."));
 else
-player:tell("Permission denied.");
+player:tell("Brak uprawnien.");
 endif
 endif
 .
@@ -91981,9 +91981,9 @@ endif
 {name, package} = args;
 if ((caller == this) || $perm_utils:controls(caller_perms(), this))
 if (name in this.package_names)
-raise(E_INVARG, "Another package with that name already exists");
+raise(E_INVARG, "Inny pakiet o tej nazwie juz istnieje");
 elseif (package in this.packages)
-raise(E_INVARG, "That package already is registered under a different name.");
+raise(E_INVARG, "Ten pakiet jest juz zarejestrowany pod inna nazwa.");
 else
 this.package_names = {@this.package_names, name};
 this.packages = {@this.packages, package};
@@ -91997,7 +91997,7 @@ if (idx = name in this.package_names)
 this.package_names = listdelete(this.package_names, idx);
 this.packages = listdelete(this.packages, idx);
 else
-raise(E_INVARG, "Not a defined package");
+raise(E_INVARG, "Nie ma takiego zdefiniowanego pakietu");
 endif
 endif
 .
@@ -93590,7 +93590,7 @@ return new;
 "Similarly, you can include ##<header> as a menu item if you want to render an automatically capitalized heading in the midst of your menu.";
 SU = $string_utils;
 {menu, ?options = 0} = args;
-default_options = ["invalid_selection_msg" -> "Invalid selection.", "prompt" -> "Enter your selection:", "map_verb" -> "title", "kill_after_invalid_selection" -> 1, "expires_in" -> 0, "expired_msg" -> "Selection time expired; menu closed.", "target" -> player, "header_msg" -> 0, "blank_input_msg" -> 0, "input" -> 0, "hidden_menu" -> 0, "autofit_header" -> {}, "autofit_padding" -> 2, "columns" -> 0, "capitalize_string_entries" -> 1];
+default_options = ["invalid_selection_msg" -> "Nieprawidlowy wybor.", "prompt" -> "Wprowadz swoj wybor:", "map_verb" -> "title", "kill_after_invalid_selection" -> 1, "expires_in" -> 0, "expired_msg" -> "Czas na wybor uplynal; menu zamkniete.", "target" -> player, "header_msg" -> 0, "blank_input_msg" -> 0, "input" -> 0, "hidden_menu" -> 0, "autofit_header" -> {}, "autofit_padding" -> 2, "columns" -> 0, "capitalize_string_entries" -> 1];
 if (options == 0)
 options = default_options;
 else
@@ -93670,7 +93670,7 @@ endif
 if (!options["input"])
 options["hidden_menu"] && player:tell();
 player:tell_lines(options["prompt"]);
-player:notify(tostr("[Type a line of input or `@abort' to abort the command.]"));
+player:notify(tostr("[Wpisz linie tekstu lub `@abort', by przerwac polecenie.]"));
 selection = read(player);
 else
 selection = tostr(options["input"]);
@@ -93700,7 +93700,7 @@ return 1;
 else
 if (selection != "")
 if (selection == "@abort")
-player:tell(">> Command Aborted <<");
+player:tell(">> Polecenie przerwane <<");
 return kill_task(task_id());
 endif
 i = 0;
@@ -93727,7 +93727,7 @@ match_menu = {};
 for x in (matches)
 match_menu = {@match_menu, menu[x]};
 endfor
-player:tell("Multiple matches were detected. Please be more specific.");
+player:tell("Wykryto wiele dopasowan. Sprecyzuj wybor.");
 for x in ({"hidden_menu", "input"})
 `options = options:delete(x) ! ANY';
 endfor
