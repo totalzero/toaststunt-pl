@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784189767 567763848 0
+1784195890 567763848 0
 0
 10
 0
@@ -798,7 +798,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784185964
+1784194874
 2
 name
 2
@@ -1368,7 +1368,7 @@ source
 2
 time
 0
-1784189765
+1784195885
 4
 0
 1
@@ -1624,7 +1624,7 @@ expire
 4
 2
 0
-1784189752
+1784195867
 2
 localhost
 2
@@ -1633,7 +1633,7 @@ localhost
 2
 0
 0
-1784189753
+1784195872
 2
 1
 0
@@ -1656,7 +1656,7 @@ localhost
 36
 1
 4
-51
+52
 1
 0
 1
@@ -1759,6 +1759,8 @@ localhost
 133
 1
 135
+1
+62
 2
 1
 0
@@ -1801,7 +1803,7 @@ localhost
 2
 5
 0
-1784189765
+1784195885
 2
 1
 0
@@ -1836,7 +1838,7 @@ localhost
 0
 50000
 0
-1152283
+1158794
 0
 1721212110
 0
@@ -4380,7 +4382,11 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 0
 10
+1
+1
+-32
 0
+2
 2
 5
 0
@@ -4392,7 +4398,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-27
+28
+4
+2
+0
+1784194874
+0
+0
 4
 2
 0
@@ -20527,7 +20539,7 @@ init_for_core
 0
 100000008
 0
--28300100
+-28306611
 0
 1008125633
 0
@@ -32788,7 +32800,7 @@ To biezace wydanie Nowosci (News), datowane na %d.
 #62
 Pierwszy Pokoj
 16
-36
+2
 1
 -1
 0
@@ -32811,7 +32823,7 @@ enterfunc
 173
 -1
 match
-36
+2
 173
 -1
 init_for_core
@@ -32825,57 +32837,57 @@ keep_clean
 0
 17
 5
-36
+2
 5
 5
-36
+2
 5
 5
-36
+2
 5
 5
-36
+2
 5
 5
-36
-5
-4
-0
-36
-5
-5
-36
+2
 5
 4
 0
-36
-4
-5
-36
+2
 5
 5
-36
+2
 5
 4
 0
-36
+2
 4
 5
-36
+2
 5
 5
-36
+2
+5
+4
+0
+2
+4
+5
+2
 5
 5
-36
+2
+5
+5
+2
 4
 4
 0
-36
+2
 5
 2
 To na razie wszystko, co tutaj jest.
-36
+2
 5
 4
 2
@@ -60487,7 +60499,7 @@ notify(player, "");
 notify(player, line);
 notify(player, line);
 notify(player, "****");
-notify(player, ("****  WARNING:  The server will shut down in " + $time_utils:english_time(when - (when % 60))) + ".");
+notify(player, ("****  UWAGA:  Serwer zostanie wylaczony za " + $time_utils:english_time(when - (when % 60))) + ".");
 for piece in ($generic_editor:fill_string($wiz_utils.shutdown_message, 60))
 notify(player, "****            " + piece);
 endfor
@@ -61035,8 +61047,8 @@ notify(player, "");
 notify(player, line);
 notify(player, line);
 notify(player, "****");
-notify(player, "****  NOTICE:  The server is very slow now.");
-notify(player, "****           The database is being saved to disk.");
+notify(player, "****  UWAGA:  Serwer jest teraz bardzo wolny.");
+notify(player, "****           Baza danych jest zapisywana na dysk.");
 notify(player, "****");
 notify(player, line);
 notify(player, line);
@@ -64940,7 +64952,7 @@ set_task_perms(caller_perms());
 {spec, source, dest, ?use_recycler, ?exit_kind = $exit} = args;
 exit = player:_create(exit_kind);
 if (typeof(exit) == ERR)
-player:notify(tostr("Cannot create new exit as a child of ", $string_utils:nn(exit_kind), ": ", exit, ".  See `help @build-options' for information on how to specify the kind of exit this command tries to create."));
+player:notify(tostr("Nie mozna utworzyc nowego wyjscia jako dziecka ", $string_utils:nn(exit_kind), ": ", exit, ".  Zobacz `help @build-options' - opisano tam sposob okreslania rodzaju wyjscia tworzonego przez to polecenie."));
 return;
 endif
 for f in ($string_utils:char_list(player:build_option("create_flags") || ""))
@@ -64954,17 +64966,17 @@ dest_ok = dest:add_entrance(exit);
 move(exit, $nothing);
 via = $string_utils:from_value(setadd(exit.aliases, exit.name), 1);
 if (source_ok)
-player:tell("Exit from ", source.name, " (", source, ") to ", dest.name, " (", dest, ") via ", via, " created with id ", exit, ".");
+player:tell("Utworzono wyjscie z ", source.name, " (", source, ") do ", dest.name, " (", dest, ") przez ", via, ", o numerze ", exit, ".");
 if (!dest_ok)
-player:tell("However, I couldn't add ", exit, " as a legal entrance to ", dest.name, ".  You may have to get its owner, ", dest.owner.name, " to add it for you.");
+player:tell("Nie udalo sie jednak dodac ", exit, " jako prawidlowego wejscia do ", dest.name, ".  Byc moze bedziesz musial poprosic wlasciciela, ", dest.owner.name, ", by dodal je za ciebie.");
 endif
 return {exit};
 elseif (dest_ok)
-player:tell("Exit to ", dest.name, " (", dest, ") via ", via, " created with id ", exit, ".  However, I couldn't add ", exit, " as a legal exit from ", source.name, ".  Get its owner, ", source.owner.name, " to add it for you.");
+player:tell("Utworzono wyjscie do ", dest.name, " (", dest, ") przez ", via, ", o numerze ", exit, ".  Nie udalo sie jednak dodac ", exit, " jako prawidlowego wyjscia z ", source.name, ".  Popros wlasciciela, ", source.owner.name, ", by dodal je za ciebie.");
 return {exit};
 else
 player:_recycle(exit);
-player:tell("I couldn't add a new exit as EITHER a legal exit from ", source.name, " OR as a legal entrance to ", dest.name, ".  Get their owners, ", source.owner.name, " and ", dest.owner.name, ", respectively, to add it for you.");
+player:tell("Nie udalo sie dodac nowego wyjscia ani jako prawidlowego wyjscia z ", source.name, ", ani jako prawidlowego wejscia do ", dest.name, ".  Popros ich wlascicieli, odpowiednio ", source.owner.name, " i ", dest.owner.name, ", by dodali je za ciebie.");
 return 0;
 endif
 .
@@ -65137,11 +65149,11 @@ return tostr(vstr, $string_utils:right(o, olen), " ", $string_utils:left(o.name[
 pros = verb == "do_prospectus";
 "the set_task_perms is to make the task owned by the player. There are no other security aspects";
 set_task_perms(caller_perms());
-if ((((((start == 0) && (end == toint(max_object()))) && (!match)) && (typeof(who.owned_objects) == LIST)) && (length(who.owned_objects) > 100)) && (!$command_utils:yes_or_no(tostr(who.name, " has ", length(who.owned_objects), " objects.  This will be a very long list.  Do you wish to proceed?"))))
+if ((((((start == 0) && (end == toint(max_object()))) && (!match)) && (typeof(who.owned_objects) == LIST)) && (length(who.owned_objects) > 100)) && (!$command_utils:yes_or_no(tostr(who.name, " ma ", length(who.owned_objects), " obiektow.  To bedzie bardzo dluga lista.  Czy chcesz kontynuowac?"))))
 v = pros ? "@prospectus" | "@audit";
-return player:tell(v, " aborted.  Usage:  ", v, " [player] [from <start>] [to <end>] [for <match>]");
+return player:tell(v, " przerwano.  Uzycie:  ", v, " [gracz] [z <poczatek>] [do <koniec>] [dla <nazwa>]");
 endif
-player:tell(tostr("Objects owned by ", who.name, " (from #", start, " to #", end, match ? " matching " + match | "", ")", ":"));
+player:tell(tostr("Obiekty nalezace do ", who.name, " (od #", start, " do #", end, match ? " pasujace do " + match | "", ")", ":"));
 count = bytes = 0;
 if (typeof(who.owned_objects) == LIST)
 for o in (who.owned_objects)
@@ -65170,7 +65182,7 @@ endif
 endif
 endfor
 endif
-player:tell($string_utils:left(tostr("-- ", count, " object", (count == 1) ? "." | "s.", $quota_utils.byte_based ? tostr("  Total bytes: ", $string_utils:group_number(bytes), ".") | ""), player:linelen() - 1, "-"));
+player:tell($string_utils:left(tostr("-- ", count, " ", $polish_utils:count(count, "obiekt", "obiekty", "obiektow"), ".", $quota_utils.byte_based ? tostr("  Calkowita liczba bajtow: ", $string_utils:group_number(bytes), ".") | ""), player:linelen() - 1, "-"));
 .
 #21:7
 ":do_audit_item(object, match-name-string, prospectus-flag)";
@@ -65312,11 +65324,11 @@ $quota_utils:adjust_quota_for_programmer(victim);
 if (!$object_utils:isa(victim, $prog))
 if (typeof(e = `chparent(victim, $prog) ! ANY') == ERR)
 "...this isn't really supposed to happen but it could...";
-player:notify(tostr("chparent(", victim, ",", $prog, ") failed:  ", e));
-player:notify("Check for common properties.");
+player:notify(tostr("chparent(", victim, ",", $prog, ") nie powiodl sie:  ", e));
+player:notify("Sprawdz wspolne wlasciwosci.");
 endif
 else
-player:notify(tostr(victim.name, " was already a child of ", parent(victim).name, " (", parent(victim), ")"));
+player:notify(tostr(victim.name, " byl juz dzieckiem ", parent(victim).name, " (", parent(victim), ")"));
 endif
 if (!$mail_agent:send_message(mailfrom, {$new_prog_log, victim}, tostr("@programmer ", victim.name, " (", victim, ")"), tostr("I just gave ", victim.name, " a programmer bit."))[1])
 $mail_agent:send_message(mailfrom, {$new_prog_log}, tostr("@programmer ", victim.name, " (", victim, ")"), tostr("I just gave ", victim.name, " a programmer bit."));
@@ -65571,7 +65583,7 @@ if (!caller_perms().wizard)
 return E_PERM;
 else
 set_task_perms(caller_perms());
-player:tell("Beginning initialize_owned:  ", ctime());
+player:tell("Rozpoczynanie initialize_owned:  ", ctime());
 for o in [#0..max_object()]
 if (valid(o))
 if ($object_utils:isa(owner = o.owner, $player) && (typeof(owner.owned_objects) == LIST))
@@ -65580,9 +65592,9 @@ endif
 endif
 $command_utils:suspend_if_needed(0);
 endfor
-player:tell("Done adding, beginning verification pass.");
+player:tell("Dodawanie zakonczone, rozpoczynanie weryfikacji.");
 this:verify_owned_objects();
-player:tell("Finished:  ", ctime());
+player:tell("Zakonczono:  ", ctime());
 endif
 .
 #24:11
@@ -65594,7 +65606,7 @@ if (typeof(p.owned_objects) == LIST)
 for o in (p.owned_objects)
 if (((typeof(o) != OBJ) || (!valid(o))) || (o.owner != p))
 p.owned_objects = setremove(p.owned_objects, o);
-player:tell("Removed ", $string_utils:nn(o), " from ", $string_utils:nn(p), "'s .owned_objects list.");
+player:tell("Usunieto ", $string_utils:nn(o), " z listy .owned_objects gracza ", $string_utils:nn(p), ".");
 if (((typeof(o) == OBJ) && valid(o)) && (typeof(o.owner.owned_objects) == LIST))
 o.owner.owned_objects = setadd(o.owner.owned_objects, o);
 endif
@@ -65681,7 +65693,7 @@ endif
 endfor
 sorted = $list_utils:sort_suspended(0, strs);
 len = length(sorted);
-player:tell(" miss ambig word");
+player:tell(" chyb niejedn slowo");
 for x in [1..len]
 $command_utils:suspend_if_needed(0);
 player:tell(sorted[(len - x) + 1]);
@@ -65700,7 +65712,7 @@ this.rename_restricted = {};
 this.change_password_restricted = {};
 this.record_missed_help = 0;
 this.missed_help_counters = this.missed_help_strings = {};
-this.suicide_string = "You don't *really* want to commit suicide, do you?";
+this.suicide_string = "Czy naprawde *chcesz* popelnic samobojstwo?";
 this.wizards = {#2};
 this.next_perm_index = 1;
 this.system_chars = {$hacker, $no_one, $housekeeper};
@@ -65872,19 +65884,19 @@ name = args[1];
 if (verb == "check_reregistration")
 "don't check player name";
 elseif (!name)
-return "A blank name isn't allowed.";
+return "Puste imie nie jest dozwolone.";
 elseif (name == "<>")
-return "Names with angle brackets aren't allowed.";
+return "Imiona z nawiasami ostrymi nie sa dozwolone.";
 elseif (index(name, " "))
-return "Names with spaces are not allowed. Use dashes or underscores.";
+return "Imiona ze spacjami nie sa dozwolone. Uzyj myslnikow lub podkreslen.";
 elseif (match(name, "^<.*>$"))
-return tostr("Try using ", name[2..$ - 1], " instead of ", name, ".");
+return tostr("Sprobuj uzyc ", name[2..$ - 1], " zamiast ", name, ".");
 elseif ($player_db.frozen)
-return "New players cannot be created at the moment, try again later.";
+return "Nowi gracze nie moga byc obecnie tworzeni, sprobuj ponownie pozniej.";
 elseif (!$player_db:available(name))
-return ("The name '" + name) + "' is not available.";
+return ("Imie '" + name) + "' jest niedostepne.";
 elseif ($login:_match_player(name) != $failed_match)
-return ("The name '" + name) + "' doesn't seem to be available.";
+return ("Imie '" + name) + "' wyglada na niedostepne.";
 endif
 if (length(args) == 1)
 "no email address supplied.";
@@ -65893,26 +65905,26 @@ endif
 address = args[2];
 addrargs = (verb == "check_reregistration") ? {name} | {};
 if ($registration_db:suspicious_address(address, @addrargs))
-return "-There has already been a character with that or a similar email address.";
+return "-Istnieje juz postac z tym samym lub podobnym adresem email.";
 endif
 if (reason = $network:invalid_email_address(address))
 return reason + ".";
 endif
 parsed = $network:parse_address(address);
 if ($registration_db:suspicious_userid(parsed[1]))
-return tostr("-Automatic registration from an account named ", parsed[1], " is not allowed.");
+return tostr("-Automatyczna rejestracja z konta o nazwie ", parsed[1], " nie jest dozwolona.");
 endif
 connection = (length(args) > 2) ? args[3] | parsed[2];
 check_connection = $wiz_utils.registration_domain_restricted && (verb == "check_player_request");
 if ((connection[max($ - 2, 1)..$] == ".uk") && (parsed[2][1..3] == "uk."))
-return tostr("Addresses must be in internet form. Try ", parsed[1], "@", $string_utils:from_list($list_utils:reverse($string_utils:explode(parsed[2], ".")), "."), ".");
+return tostr("Adresy musza byc w formie internetowej. Sprobuj ", parsed[1], "@", $string_utils:from_list($list_utils:reverse($string_utils:explode(parsed[2], ".")), "."), ".");
 elseif (check_connection && match(connection, "^[0-9.]+$"))
 "Allow reregistration from various things we wouldn't allow registration from.  Let them register to their yahoo acct...";
-return "-The system cannot resolve the name of the system you're connected from.";
+return "-System nie moze rozpoznac nazwy systemu, z ktorego jestes polaczony.";
 elseif (check_connection && ((a = $network:local_domain(connection)) != (b = $network:local_domain(parsed[2]))))
-return tostr("-The connection is from '", a, "' but the mail address is '", b, "'; these don't seem to be the same place.");
+return tostr("-Polaczenie pochodzi z '", a, "', ale adres email to '", b, "'; wyglada na to, ze to nie to samo miejsce.");
 elseif ((verb == "check_player_request") && $login:spooflisted(parsed[2]))
-return tostr("-Automatic registration is not allowed from ", parsed[2], ".");
+return tostr("-Automatyczna rejestracja nie jest dozwolona z ", parsed[2], ".");
 endif
 return "";
 .
@@ -65933,7 +65945,7 @@ new.last_connect_time = $maxint;
 new.last_disconnect_time = time();
 $quota_utils:initialize_quota(new);
 if (!(error = $wiz_utils:set_player(new)))
-return player:tell("An error, ", error, " occurred while trying to make ", new, " a player. The database is probably inconsistent.");
+return player:tell("Wystapil blad, ", error, ", podczas proby uczynienia ", new, " graczem. Baza danych jest prawdopodobnie niespojna.");
 endif
 $wiz_utils:set_email_address(new, address);
 $registration_db:add(new, address, @rest);
@@ -65949,7 +65961,7 @@ return E_PERM;
 endif
 {preface, name, address, new, password} = args;
 msg = {preface};
-msg = {@msg, tostr("A character has been created, with name \"", name, "\" and password \"", password, "\"."), "Passwords are case sensitive, which means you have to type it exactly as", "it appears here, including capital and lowercase letters.", "So, to log in, you would type:", tostr("  Connect ", name, " ", password)};
+msg = {@msg, tostr("Utworzono postac o nazwie \"", name, "\" i hasle \"", password, "\"."), "Wielkosc liter w hasle ma znaczenie, co oznacza, ze musisz wpisac je dokladnie tak,", "jak jest tu pokazane, wraz z wielkimi i malymi literami.", "Aby sie zalogowac, wpisz:", tostr("  connect ", name, " ", password)};
 if ($object_utils:has_property($local, "new_player_message"))
 msg = {@msg, @$local.new_player_message};
 endif
@@ -65967,37 +65979,37 @@ endif
 comments = $string_utils:from_list(comments, " ");
 reason = $wiz_utils:check_player_request(name, email);
 if (others = $registration_db:find_exact(email))
-player:notify(email + " is the registered address of the following characters:");
+player:notify(email + " jest zarejestrowanym adresem nastepujacych postaci:");
 for x in (others)
-player:notify(tostr(valid(x[1]) ? x[1].name | "<recycled>", (valid(x[1]) && (!is_player(x[1]))) ? " {nonplayer}" | "", " (", x[1], ") ", (length(x) > 1) ? ("[" + tostr(@x[2..$])) + "]" | ""));
+player:notify(tostr(valid(x[1]) ? x[1].name | "<zutylizowany>", (valid(x[1]) && (!is_player(x[1]))) ? " {niegracz}" | "", " (", x[1], ") ", (length(x) > 1) ? ("[" + tostr(@x[2..$])) + "]" | ""));
 endfor
 if (!reason)
-reason = "Already registered.";
+reason = "Juz zarejestrowany.";
 endif
 endif
 if (reason)
 player:notify(reason);
-if (!$command_utils:yes_or_no("Create character anyway? "))
-player:notify("Character not created.");
+if (!$command_utils:yes_or_no("Utworzyc postac mimo to? "))
+player:notify("Postac nie zostala utworzona.");
 return;
 endif
 endif
 new = $wiz_utils:make_player(name, email, comments);
-player:notify(tostr(name, " (", new[1], ") created with password `", new[2], "' for ", email, comments ? (" [" + comments) + "]" | ""));
+player:notify(tostr(name, " (", new[1], ") utworzono z haslem `", new[2], "' dla ", email, comments ? (" [" + comments) + "]" | ""));
 $mail_agent:send_message(player, $new_player_log, tostr(name, " (", new[1], ")"), tostr(email, comments ? " " + comments | ""));
 if ($network.active)
-if ($command_utils:yes_or_no(("Send email to " + email) + " with password? "))
-player:notify(tostr("Sending the password to ", email, "."));
+if ($command_utils:yes_or_no(("Wyslac email do " + email) + " z haslem? "))
+player:notify(tostr("Wysylanie hasla do ", email, "."));
 if ((result = $wiz_utils:send_new_player_mail(tostr("From ", player.name, "@", $network.moo_name, ":"), name, email, new[1], new[2])) == 0)
-player:notify(tostr("Mail sent successfully to ", email, "."));
+player:notify(tostr("Mail wyslany pomyslnie do ", email, "."));
 else
-player:tell("Cannot send mail: ", result);
+player:tell("Nie mozna wyslac maila: ", result);
 endif
 else
-player:notify("No mail sent.");
+player:notify("Nie wyslano maila.");
 endif
 else
-player:notify("Sorry, the network isn't active.");
+player:notify("Przykro mi, siec nie jest aktywna.");
 endif
 .
 #24:24
@@ -66144,11 +66156,11 @@ booted = pll[$];
 guest = $object_utils:isa(booted, $guest);
 min = guest ? minguest | mintime;
 if (`idle_seconds(booted) ! ANY => 0' > min)
-notify(booted, tostr("*** You've been idle more than ", min / 60, " minutes, and there are more than ", maxplayers, " players connected. If you're still idle and ", $network.moo_name, " is still busy in ", bootdelay, " minute", (bootdelay == 1) ? "" | "s", ", you will be booted. ***"));
+notify(booted, tostr("*** Jestes bezczynny juz ponad ", min / 60, " ", $polish_utils:count(min / 60, "minute", "minuty", "minut"), ", a polaczonych jest wiecej niz ", maxplayers, " graczy. Jesli nadal bedziesz bezczynny, a ", $network.moo_name, " nadal bedzie zajete za ", bootdelay, " ", $polish_utils:count(bootdelay, "minute", "minuty", "minut"), ", zostaniesz wyrzucony. ***"));
 fork (60 * bootdelay)
 idle = `idle_seconds(booted) ! ANY => 0';
 if ((idle > min) && (length(connected_players()) > ($login:max_connections() - threshold)))
-notify(booted, tostr("*** You've been idle too long and ", $network.moo_name, " is still too busy ***"));
+notify(booted, tostr("*** Byles bezczynny zbyt dlugo, a ", $network.moo_name, " nadal jest zbyt zajete ***"));
 server_log(tostr("IDLE: ", booted.name, " (", booted, ") idle ", idle / 60));
 boot_player(booted);
 endif
@@ -66189,7 +66201,7 @@ endif
 endfor
 suspend(0);
 $wiz_utils:set_owner(object, newowner, 1);
-return same ? "nothing changed" | "grant changed";
+return same ? "nic sie nie zmienilo" | "przekazanie zmienione";
 .
 #24:29
 "connection_hash(forwhom, host [,seed])";
@@ -67788,7 +67800,7 @@ if (!caller_perms().wizard)
 return;
 endif
 player = this;
-this:notify(tostr("Sorry, but you've been here for ", $string_utils:from_seconds(connected_seconds(this)), " and someone else wants to be a guest now.  Feel free to come back", @$login:player_creation_enabled(player) ? {" or even create your own character if you want..."} | {" or type `create' to learn more about how to get a character of your own."}));
+this:notify(tostr("Przykro mi, ale jestes tutaj juz ", $string_utils:from_seconds(connected_seconds(this)), ", a ktos inny chce teraz byc gosciem.  Mozesz wrocic", @$login:player_creation_enabled(player) ? {" lub nawet stworzyc wlasna postac, jesli chcesz..."} | {" lub wpisac `create', by dowiedziec sie, jak zdobyc wlasna postac."}));
 "boot_player(this)";
 return;
 "See #0:user_reconnected.";
@@ -67852,7 +67864,7 @@ return;
 .
 #31:4
 if ($login:player_creation_enabled(player))
-player:tell("First @quit, then connect to the MOO again and, rather than doing `connect guest' do `create <name> <password>'");
+player:tell("Najpierw @quit, potem polacz sie z MOO ponownie i, zamiast `connect guest', wykonaj `create <nazwa> <haslo>'");
 else
 player:tell($login:registration_string());
 endif
@@ -67889,7 +67901,7 @@ endif
 .
 #31:9
 if (!valid(caller_perms()))
-player:tell("Sorry, that information is not available.");
+player:tell("Przykro mi, ta informacja jest niedostepna.");
 endif
 .
 #31:10
@@ -67961,7 +67973,7 @@ if (player != this)
 return player:tell(E_PERM);
 endif
 if (this.request)
-return player:tell("Sorry, you appear to have already requested a character.");
+return player:tell("Przykro mi, wyglada na to, ze juz poprosiles o postac.");
 endif
 name = dobjstr;
 if ((prepstr != "for") || ((!dobjstr) || index(address = iobjstr, " ")))
@@ -67988,8 +68000,8 @@ return E_PERM;
 endif
 if (!args)
 all_mlists = {@$mail_agent.contents, @this.mail_lists};
-if ((length(all_mlists) > 50) && (!$command_utils:yes_or_no(tostr("There are ", length(all_mlists), " mailing lists.  Are you sure you want the whole list?"))))
-return player:tell("OK, aborting.");
+if ((length(all_mlists) > 50) && (!$command_utils:yes_or_no(tostr("Jest ", length(all_mlists), " ", $polish_utils:count(length(all_mlists), "lista mailingowa", "listy mailingowe", "list mailingowych"), ".  Czy na pewno chcesz cala liste?"))))
+return player:tell("OK, przerywam.");
 endif
 for c in (all_mlists)
 $command_utils:suspend_if_needed(0);
@@ -67997,9 +68009,9 @@ if ((c:is_usable_by(this) || c:is_readable_by(this)) && (verb != "@unsubscribed"
 `c:look_self(1) ! ANY';
 endif
 endfor
-player:tell("--End of List--");
+player:tell("--Koniec listy--");
 else
-player:tell("Sorry, Guests don't have full mailing privileges.  You may use @read and @peek for mailing lists.  Or try @request to get yourself a character.");
+player:tell("Przykro mi, Goscie nie maja pelnych uprawnien do poczty.  Mozesz uzyc @read i @peek dla list mailingowych.  Albo sprobuj @request, by zdobyc wlasna postac.");
 endif
 "Paragraph (#122534) - Tue Nov 8, 2005 - Added to prevent a silly traceback from occuring, since Guests can't read their own .current_message.";
 .
