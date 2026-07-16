@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784207991 567763848 0
+1784220769 567763848 0
 0
 10
 0
@@ -144,9 +144,8 @@ continuous
 6
 67 0 65
 0 interrupted tasks
-1 active connections with listeners
-2 0
-144
+0 active connections with listeners
+136
 #0
 The System Object
 24
@@ -798,7 +797,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784206420
+1784219303
 2
 name
 2
@@ -1358,17 +1357,17 @@ Wizard
 7
 2
 1
-62
+15
 10
 2
 2
 source
 1
-15
+62
 2
 time
 0
-1784207984
+1784220761
 4
 0
 1
@@ -1624,7 +1623,7 @@ expire
 4
 2
 0
-1784207950
+1784220721
 2
 localhost
 2
@@ -1633,7 +1632,7 @@ localhost
 2
 0
 0
-1784207967
+1784220761
 2
 1
 0
@@ -1803,7 +1802,7 @@ localhost
 2
 5
 0
-1784207984
+1784220750
 2
 1
 0
@@ -1852,8 +1851,8 @@ localhost
 5
 2
 0
-12
-144
+1
+-1
 2
 1
 5
@@ -4384,7 +4383,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--37
+-30
 0
 2
 2
@@ -4398,7 +4397,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-31
+32
+4
+2
+0
+1784219303
+0
+0
 4
 2
 0
@@ -4636,7 +4641,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 36
 0
 0
-1
+0
 2
 5
 0
@@ -5522,7 +5527,9 @@ Limbo
 0
 0
 4
-0
+1
+1
+2
 1
 1
 4
@@ -20565,7 +20572,7 @@ init_for_core
 0
 1008125633
 0
-1510995
+1510996
 36
 0
 5
@@ -27652,19 +27659,23 @@ feature_task
 4
 9
 0
-1842259135
+2058586516
 2
-quit
+@oleave
 4
-0
 2
-
+2
+#129
+2
+jest
+2
+#129 jest
 1
--1
+129
 2
-
+#129
 2
-
+jest
 1
 -1
 2
@@ -32832,9 +32843,7 @@ Pierwszy Pokoj
 0
 0
 4
-1
-1
-2
+0
 1
 3
 4
@@ -36888,31 +36897,31 @@ messages: 'boot_msg', 'connect_msg', 'create_msg', 'recycle_msg', 'redirect_from
 2
 A number of the messages printed to a connection by the server under various circumstances can now be customized or eliminated from within the DB.  In each case, a property on $server_options is checked at the time the message would be printed.  If the property does not exist, the standard message is printed.  If the property exists and its value is not a string, then no message is printed at all.  Otherwise, the string is printed in place of the standard message.  The following list covers all of the newly customizable messages, showing for each the name of the relevant property on $server_options, the default/standard message, and the circumstances under which the message is printed:
 2
-'boot_msg'              "*** Disconnected ***"
+'boot_msg'              "*** Rozlaczono ***"
 2
 The function boot_player() was called on this connection.
 2
-'connect_msg'           "*** Connected ***"
+'connect_msg'           "*** Polaczono ***"
 2
 The user object that just logged in on this connection existed before #0:do_login_command() was called.
 2
-'create_msg'            "*** Created ***"
+'create_msg'            "*** Utworzono ***"
 2
 The user object that just logged in on this connection did not exist before #0:do_login_command() was called.
 2
-'recycle_msg'           "*** Recycled ***"
+'recycle_msg'           "*** Skasowano ***"
 2
 The logged-in user of this connection has been recycled.
 2
-'redirect_from_msg'     "*** Redirecting connection to new port ***"
+'redirect_from_msg'     "*** Przekierowywanie polaczenia na nowy port ***"
 2
 The logged-in user of this connection has just logged in on some other connection.
 2
-'redirect_to_msg'       "*** Redirecting old connection to this port ***"
+'redirect_to_msg'       "*** Przekierowywanie starego polaczenia na ten port ***"
 2
 The user who just logged in on this connection was already logged in on some other connection.
 2
-'timeout_msg'           "*** Timed-out waiting for login. ***"
+'timeout_msg'           "*** Przekroczono czas oczekiwania na logowanie. ***"
 2
 This in-bound network connection was idle and un-logged-in for at least CONNECT_TIMEOUT seconds (as defined in options.h).
 2
@@ -55029,54 +55038,6 @@ diag
 0
 36
 1
-# 136 recycled
-# 137 recycled
-# 138 recycled
-# 139 recycled
-# 140 recycled
-# 141 recycled
-# 142 recycled
-# 143 recycled
-1
-#144
-
-0
-98
-1
--1
-0
-0
-4
-0
-1
-108
-4
-0
-0
-0
-7
-1
-2
-98
-1
-5
-98
-0
-5
-98
-1
-5
-98
-0
-5
-98
-1
-5
-98
-0
-5
-98
-1
 0
 1954
 #0:0
@@ -57675,7 +57636,7 @@ endfor
 ":last_huh(verb,args)  final attempt to parse a command...";
 set_task_perms(caller_perms());
 {verb, args} = args;
-if ((verb[1] == "@") && (prepstr == "is"))
+if ((verb[1] == "@") && (prepstr == "jest"))
 "... set or show _msg property ...";
 set_task_perms(player);
 $last_huh:(verb)(@args);
@@ -58192,7 +58153,7 @@ player:tell("Szepczesz: \"", dobjstr, "\" do ", this.name, ".");
 #6:29
 nargs = length(args);
 if (nargs < 1)
-player:notify(tostr("Uzycie: ", verb, " <gracz> [with <wiadomosc>]"));
+player:notify(tostr("Uzycie: ", verb, " <gracz> [z <wiadomosc>]"));
 return;
 endif
 who = $string_utils:match_player(args[1]);
@@ -58208,7 +58169,7 @@ iobj = player;
 header = player:page_origin_msg();
 text = "";
 if (nargs > 1)
-if ((args[2] == "with") && (nargs > 2))
+if (((args[2] == "z") || (args[2] == "with")) && (nargs > 2))
 msg_start = 3;
 else
 msg_start = 2;
@@ -61170,14 +61131,14 @@ return 0;
 endif
 .
 #11:0
-"{last_huh}  @<msg_name> <obiekt> is [<tekst>]";
+"{last_huh}  @<msg_name> <obiekt> jest [<tekst>]";
 "Jesli podano <tekst>, wywoluje <obiekt>:set_message(<msg_name>,<tekst>),";
 "w przeciwnym razie wyswietla wartosc danej wlasciwosci wiadomosci";
 set_task_perms(caller_perms());
 nargs = length(args);
-pos = "is" in args;
+pos = "jest" in args;
 if (pos == 1)
-player:notify(tostr("Uzycie:  ", verb, " <obiekt> is <tekst>"));
+player:notify(tostr("Uzycie:  ", verb, " <obiekt> jest <tekst>"));
 return;
 endif
 dobjstr = $string_utils:from_list(args[1..pos - 1], " ");
