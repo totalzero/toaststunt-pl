@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784183640 567763848 0
+1784185050 567763848 0
 0
 10
 0
@@ -798,7 +798,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784183329
+1784184575
 2
 name
 2
@@ -1368,7 +1368,7 @@ source
 2
 time
 0
-1784183636
+1784185049
 4
 0
 1
@@ -1553,11 +1553,19 @@ expire
 2
 5
 4
-6
+7
 0
 0
 0
 1784180445
+4
+3
+1
+61
+0
+1
+0
+1721212110
 4
 3
 1
@@ -1616,7 +1624,7 @@ expire
 4
 2
 0
-1784183626
+1784185026
 2
 localhost
 2
@@ -1625,7 +1633,7 @@ localhost
 2
 0
 0
-1784183627
+1784185028
 2
 1
 0
@@ -1791,7 +1799,7 @@ localhost
 2
 5
 0
-1784183636
+1784185049
 2
 1
 0
@@ -4381,7 +4389,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-25
+26
+4
+2
+0
+1784184575
+0
+0
 4
 2
 0
@@ -14478,87 +14492,87 @@ You don't *really* want to commit suicide, do you?
 4
 148
 2
-Getting Started with your ToastCore MOO
+Pierwsze kroki z twoim ToastCore MOO
 2
 ========================================
 2
 
 2
-Thank you for choosing ToastCore! ToastCore is derived from LambdaCore, so similarities are no coincidence.
+Dziekujemy za wybranie ToastCore! ToastCore wywodzi sie z LambdaCore, wiec podobienstwa nie sa przypadkowe.
 2
 
 2
-Initial Setup Notes
+Poczatkowe notatki konfiguracyjne
 2
 -------------------
 2
 
 2
-The "welcome" screen, seen when a player connects.
+Ekran "powitalny", widziany, gdy gracz sie laczy.
 2
-  -- this is stored in $login.welcome_message
-2
-
-2
-Do you want on-line character creation?
-2
-  -- this is stored in $login.create_enabled
-2
-     for more detailed information, edit $login:player_creation_enabled
+  -- jest przechowywany w $login.welcome_message
 2
 
 2
-Do you want to limit the number of players on the MOO at once?
+Czy chcesz tworzenia postaci online?
 2
-  -- look at $login.max_connections
+  -- jest to przechowywane w $login.create_enabled
 2
-     the `connection_limit' message on $login is the message printed
-2
-     when this limit is reached.
+     po wiecej szczegolowych informacji, edytuj $login:player_creation_enabled
 2
 
 2
-Do you want a different default player class?
+Czy chcesz ograniczyc liczbe graczy na MOO jednoczesnie?
 2
-  -- set $player_class to a different value
+  -- zobacz $login.max_connections
 2
-     *do not* change $player
+     wiadomosc `connection_limit' na $login to komunikat wyswietlany
+2
+     gdy ten limit zostanie osiagniety.
 2
 
 2
-You should also set the following:
+Czy chcesz inna domyslna klase gracza?
+2
+  -- ustaw $player_class na inna wartosc
+2
+     *nie zmieniaj* $player
+2
+
+2
+Nalezy tez ustawic nastepujace:
 2
   $network.postmaster
 2
-    -- your email address, or the email address of the person who will 
+    -- twoj adres email, albo adres email osoby, ktora bedzie 
 2
-       handle your email
+       obslugiwac twoja poczte
 2
   $network.site
 2
-    -- the machine your MOO is running on (e.g. "lambda.moo.mud.org")
+    -- maszyna, na ktorej dziala twoje MOO (np. "lambda.moo.mud.org")
 2
   $network.port
 2
-    -- the port your MOO is running on (e.g. 8888)
+    -- port, na ktorym dziala twoje MOO (np. 8888)
 2
   $network.MOO_Name
 2
-    -- the name of your MOO (e.g. "LambdaMOO")
+    -- nazwa twojego MOO (np. "LambdaMOO")
 2
   $site_db.domain
 2
-    -- this is set to the `domain' of your address
+    -- jest to ustawione na `domene' twojego adresu
 2
-       (eg `foo.com' for `moo.foo.com')
+       (np. `foo.com' dla `moo.foo.com')
 2
 
 2
-If you compiled the server with open_network_connection() enabled (allowing the MOO to open up connections with other computers on the network), then you should set
+Jesli serwer zostal skompilowany z wlaczonym open_network_connection() (co pozwala MOO otwierac polaczenia z innymi komputerami w sieci), nalezy ustawic
 2
   $network.active = 1
 2
-     This will enable @newpassword, @registerme, @password, @mailme, @netforward, and others to send mail from the MOO.
+     To umozliwi @newpassword, @registerme, @password, @mailme, @netforward i innym wysylanie poczty z MOO.
 2
 
 2
@@ -14566,31 +14580,31 @@ If you compiled the server with open_network_connection() enabled (allowing the 
 2
 
 2
-Setting Yourself Up
+Konfigurowanie samego siebie
 2
 -------------------
 2
 
 2
-Set a password for yourself.
+Ustaw sobie haslo.
 2
-  -- @password <new-password>
-2
-
-2
-Set a description for yourself.
-2
-  -- @describe me as <anything>
+  -- @password <nowe-haslo>
 2
 
 2
-Set a gender for yourself.
+Ustaw sobie opis.
 2
-  -- @gender <gender>
+  -- @describe me jako <cokolwiek>
 2
 
 2
-There are, also, a large number of messages you can set on yourself.  Setting them will enhance the virtual reality.
+Ustaw sobie plec.
+2
+  -- @gender <plec>
+2
+
+2
+Jest tez wiele wiadomosci, ktore mozna sobie ustawic.  Ustawienie ich wzbogaci wirtualna rzeczywistosc.
 2
 
 2
@@ -14598,39 +14612,39 @@ There are, also, a large number of messages you can set on yourself.  Setting th
 2
 
 2
-About Guests
+O gosciach
 2
 ------------
 2
 
 2
-To make a new Guest character:
+By stworzyc nowa postac Goscia:
 2
-  -- @make-guest <guestname>
+  -- @make-guest <nazwa-goscia>
 2
-     will make a new guest with the name you specify with `_Guest' appended
+     stworzy nowego goscia z podana nazwa z dodanym `_Guest'
 2
-     and some other standard but useful aliases
-2
-
-2
-This is the easiest way to make Guest characters.  The most important things to remember about Guests, if you want to make them yourself, are:
-2
-  -- make them owned by nonwizards, and not owned by themselves
-2
-  -- make sure they've got .password == 0, and that .password is nonclear
-2
-  -- at least one Guest must always be named `Guest'; this can be an alias
+     oraz kilkoma innymi standardowymi, ale przydatnymi aliasami
 2
 
 2
-To set the default description and gender for a guest:
+To najlatwiejszy sposob tworzenia postaci Gosci.  Najwazniejsze rzeczy do zapamietania o Gosciach, jesli chcesz tworzyc ich samodzielnie, to:
 2
-  -- set .default_description to the description the guest should start with
+  -- niech ich wlascicielami beda niewizardzi, a nie oni sami
 2
-  -- set .default_gender to the gender the guest should start with
+  -- upewnij sie, ze maja .password == 0, i ze .password jest nonclear
 2
-  -- remember to set .description and .gender too, for the guest's first use
+  -- co najmniej jeden Gosc musi zawsze nazywac sie `Guest'; moze to byc alias
+2
+
+2
+By ustawic domyslny opis i plec dla goscia:
+2
+  -- ustaw .default_description na opis, z ktorym gosc ma zaczynac
+2
+  -- ustaw .default_gender na plec, z ktora gosc ma zaczynac
+2
+  -- pamietaj, by ustawic tez .description i .gender, na pierwsze uzycie goscia
 2
 
 2
@@ -14638,17 +14652,17 @@ To set the default description and gender for a guest:
 2
 
 2
-Adding to the Newspaper
+Dodawanie do gazety
 2
 -----------------------
 2
 
 2
-The newspaper is a special mailing list.  To add a post to the newspaper, send mail to it (as *News or $news), and then note the number of your post (let's call it <x> and:
+Gazeta to specjalna lista mailingowa.  By dodac wpis do gazety, wyslij do niej maila (jako *News albo $news), a nastepnie zanotuj numer swojego wpisu (nazwijmy go <x>) i:
 2
-  -- @addnews <x> to *News
+  -- @addnews <x> do *News
 2
-... in general, `@addnews $ to *News' will work as well.
+... ogolnie, `@addnews $ do *News' tez zadziala.
 2
 
 2
@@ -14656,29 +14670,29 @@ The newspaper is a special mailing list.  To add a post to the newspaper, send m
 2
 
 2
-Quota
+Limit (Quota)
 2
 -----
 2
 
 2
-By default, ToastCore runs with byte-based quota, an in-DB quota system, limiting users by total database space as opposed to total objects.  You'll need to do two things:
+Domyslnie, ToastCore dziala z limitem opartym na bajtach, systemem limitow w bazie danych, ograniczajacym uzytkownikow wedlug calkowitej przestrzeni bazy danych, a nie liczby obiektow.  Trzeba zrobic dwie rzeczy:
 2
-  -- decide on the default quota:
+  -- zdecydowac o domyslnym limicie:
 2
-     ;$byte_quota_utils.default_quota[1] = <a number of bytes>
+     ;$byte_quota_utils.default_quota[1] = <liczba bajtow>
 2
-  -- start the measurement task; see `help routine_tasks' for more information (Note: this help topic contains information about more than just the quota task; it should be read regardless of how quota is set).
-2
-
-2
-If you prefer the quota system documented in the LambdaMOO / ToastStunt Programmer's Manual, directly supported by the server, you can enable object-based quota:
-2
-  -- set $quota_utils to $object_quota_utils
+  -- uruchomic zadanie pomiaru; zobacz `help routine_tasks' po wiecej informacji (Uwaga: ten temat pomocy zawiera informacje o czyms wiecej niz tylko zadanie limitu; warto go przeczytac niezaleznie od tego, jak ustawiony jest limit).
 2
 
 2
-It's best that you make this switch before users start, because converting existing users is an awkward (and inherently arbitrary and political) move.
+Jesli wolisz system limitow opisany w Podreczniku Programisty LambdaMOO / ToastStunt, bezposrednio wspierany przez serwer, mozna wlaczyc limit oparty na obiektach:
+2
+  -- ustaw $quota_utils na $object_quota_utils
+2
+
+2
+Najlepiej dokonac tej zmiany przed startem uzytkownikow, bo konwersja istniejacych uzytkownikow to niewygodny (i z natury arbitralny oraz polityczny) ruch.
 2
 
 2
@@ -14686,61 +14700,61 @@ It's best that you make this switch before users start, because converting exist
 2
 
 2
-Making Programmers
+Tworzenie programistow
 2
 ------------------
 2
 
 2
-The command to turn someone into a programmer is `@programmer'  Its syntax is `@programmer <user>'.  For example:
+Polecenie zamieniajace kogos w programiste to `@programmer'  Jego skladnia to `@programmer <uzytkownik>'.  Na przyklad:
 2
   -- @programmer Haakon
 2
-The `@programmer' verb will prompt you if the user isn't set up with a description and a gender.
+Czasownik `@programmer' zapyta cie, jesli uzytkownik nie ma ustawionego opisu i plci.
 2
 
 2
-No code to automatically grant programmer bits is included with ToastCore.
+ToastCore nie zawiera kodu do automatycznego przyznawania flagi programisty.
 2
 
 2
-Making Wizards
+Tworzenie wizardow
 2
 --------------
 2
 
 2
-THINK CAREFULLY.
+POMYSL DOKLADNIE.
 2
 
 2
-Be very careful before giving someone a wizard bit.  That person can do gross damage to your database, and fixable but serious damage to the machine it runs on.  That person can quite possibly open outbound network connections from your machine, and thus commit acts for which your host system will be blamed.  That person can ruin your MOO's as-yet-untarnished reputation.
+Nalezy zachowac duza ostroznosc, zanim nada sie komus flage wizarda.  Taka osoba moze wyrzadzic powazne szkody bazie danych oraz naprawialne, ale powazne szkody maszynie, na ktorej dziala.  Taka osoba mogla by tez otworzyc wychodzace polaczenia sieciowe z twojej maszyny i tym samym popelnic czyny, za ktore zostanie obwiniony twoj system hostujacy.  Taka osoba moze zniszczyc dotychczas nieskalana reputacje twojego MOO.
 2
 
 2
-Wizards have technical power, the ability to change anything within the database, to create anything within the database.  Be careful with the idea of a `Social Wizard' -- a nontechnical person holding a wizard bit is fairly likely to, at some point, accidentally do something destructive.  It's a good idea not to socialize as your wizard character, for the same reason, to make it less likely to be accidentally destructive.
+Wizardzi maja techniczna wladze, zdolnosc zmiany czegokolwiek w bazie danych, tworzenia czegokolwiek w bazie danych.  Nalezy uwazac z pomyslem `Wizarda Spolecznosciowego' -- osoba nietechniczna z flaga wizarda dosc prawdopodobnie w pewnym momencie przypadkowo zrobi cos destrukcyjnego.  Dobrym pomyslem jest nie utrzymywac kontaktow towarzyskich jako postac wizarda, z tego samego powodu, by zmniejszyc szanse na przypadkowe dzialanie destrukcyjne.
 2
 
 2
-That said, in general you don't turn an existing character into a wizard, you make a -new- character to be the wizard.  This is because the existing character probably owns code and objects which could be destructive if suddenly made wizardly; it's a good security measure to make a fresh player.  So, to make a fresh player:
+To powiedziawszy, ogolnie nie zamienia sie istniejacej postaci w wizarda, tylko tworzy -nowa- postac na wizarda.  Dzieje sie tak, bo istniejaca postac prawdopodobnie posiada kod i obiekty, ktore moglyby byc destrukcyjne, gdyby nagle stala sie wizardem; to dobry srodek bezpieczenstwa, by stworzyc swiezego gracza.  Wiec, by stworzyc swiezego gracza:
 2
-  -- @make-player (see `help @make-player' for more information)
+  -- @make-player (zobacz `help @make-player' po wiecej informacji)
 2
-     this will make you a new player. for this example, #123
+     to stworzy nowego gracza. dla tego przykladu, #123
 2
 
 2
-To make #123 a wizard:
+By zrobic z #123 wizarda:
 2
   -- @programmer #123
 2
-     (a nonprogrammer wizard is a truly strange beast)
+     (wizard-nie-programista to naprawde dziwna bestia)
 2
   -- ;#123.wizard = 1;
 2
-  -- @chparent #123 to $wiz
+  -- @chparent #123 do $wiz
 2
-  -- ;#123.public_identity = <the player's nonwizard character's object number>
+  -- ;#123.public_identity = <numer obiektu niewizardzkiej postaci gracza>
 2
 
 2
@@ -14748,31 +14762,31 @@ To make #123 a wizard:
 2
 
 2
-Good luck with your new ToastCore database!
+Powodzenia z twoja nowa baza danych ToastCore!
 2
 
 2
-Visit us at LambdaMOO: lambda.moo.mud.org 8888
+Odwiedz nas na LambdaMOO: lambda.moo.mud.org 8888
 2
 
 2
-Join the international mailing list for MOO coders: https://groups.google.com/g/MOO-talk
+Dolacz do miedzynarodowej listy mailingowej dla programistow MOO: https://groups.google.com/g/MOO-talk
 2
 
 2
-Join the ToastStunt / MOO Discord: https://discord.gg/JUz3zwZamW
+Dolacz do ToastStunt / MOO Discord: https://discord.gg/JUz3zwZamW
 2
 
 2
-Do good things.
+Rob dobre rzeczy.
 2
 
 2
-The LambdaMOO Wizards
+Wizardzi LambdaMOO
 2
-[authored February 15, 1999]
+[napisano 15 lutego 1999]
 2
-[edited April 24, 2024 for ToastCore]
+[edytowano 24 kwietnia 2024 dla ToastCore]
 2
 1
 4
@@ -32402,7 +32416,7 @@ archive_news
 0
 1
 4
-153
+154
 0
 1721212110
 2
@@ -32410,91 +32424,93 @@ Wizard (#2)
 2
 *News (#61)
 2
-Welcome to ToastCore
+Witaj w ToastCore
 2
 
 2
-Getting Started with your ToastCore MOO
+
+2
+Pierwsze kroki z twoim ToastCore MOO
 2
 ========================================
 2
 
 2
-Thank you for choosing ToastCore! ToastCore is derived from LambdaCore, so similarities are no coincidence.
+Dziekujemy za wybranie ToastCore! ToastCore wywodzi sie z LambdaCore, wiec podobienstwa nie sa przypadkowe.
 2
 
 2
-Initial Setup Notes
+Poczatkowe notatki konfiguracyjne
 2
 -------------------
 2
 
 2
-The "welcome" screen, seen when a player connects.
+Ekran "powitalny", widziany, gdy gracz sie laczy.
 2
-  -- this is stored in $login.welcome_message
-2
-
-2
-Do you want on-line character creation?
-2
-  -- this is stored in $login.create_enabled
-2
-     for more detailed information, edit $login:player_creation_enabled
+  -- jest przechowywany w $login.welcome_message
 2
 
 2
-Do you want to limit the number of players on the MOO at once?
+Czy chcesz tworzenia postaci online?
 2
-  -- look at $login.max_connections
+  -- jest to przechowywane w $login.create_enabled
 2
-     the `connection_limit' message on $login is the message printed
-2
-     when this limit is reached.
+     po wiecej szczegolowych informacji, edytuj $login:player_creation_enabled
 2
 
 2
-Do you want a different default player class?
+Czy chcesz ograniczyc liczbe graczy na MOO jednoczesnie?
 2
-  -- set $player_class to a different value
+  -- zobacz $login.max_connections
 2
-     *do not* change $player
+     wiadomosc `connection_limit' na $login to komunikat wyswietlany
+2
+     gdy ten limit zostanie osiagniety.
 2
 
 2
-You should also set the following:
+Czy chcesz inna domyslna klase gracza?
+2
+  -- ustaw $player_class na inna wartosc
+2
+     *nie zmieniaj* $player
+2
+
+2
+Nalezy tez ustawic nastepujace:
 2
   $network.postmaster
 2
-    -- your email address, or the email address of the person who will 
+    -- twoj adres email, albo adres email osoby, ktora bedzie 
 2
-       handle your email
+       obslugiwac twoja poczte
 2
   $network.site
 2
-    -- the machine your MOO is running on (e.g. "lambda.moo.mud.org")
+    -- maszyna, na ktorej dziala twoje MOO (np. "lambda.moo.mud.org")
 2
   $network.port
 2
-    -- the port your MOO is running on (e.g. 8888)
+    -- port, na ktorym dziala twoje MOO (np. 8888)
 2
   $network.MOO_Name
 2
-    -- the name of your MOO (e.g. "LambdaMOO")
+    -- nazwa twojego MOO (np. "LambdaMOO")
 2
   $site_db.domain
 2
-    -- this is set to the `domain' of your address
+    -- jest to ustawione na `domene' twojego adresu
 2
-       (eg `foo.com' for `moo.foo.com')
+       (np. `foo.com' dla `moo.foo.com')
 2
 
 2
-If you compiled the server with open_network_connection() enabled (allowing the MOO to open up connections with other computers on the network), then you should set
+Jesli serwer zostal skompilowany z wlaczonym open_network_connection() (co pozwala MOO otwierac polaczenia z innymi komputerami w sieci), nalezy ustawic
 2
   $network.active = 1
 2
-     This will enable @newpassword, @registerme, @password, @mailme, @netforward, and others to send mail from the MOO.
+     To umozliwi @newpassword, @registerme, @password, @mailme, @netforward i innym wysylanie poczty z MOO.
 2
 
 2
@@ -32502,31 +32518,31 @@ If you compiled the server with open_network_connection() enabled (allowing the 
 2
 
 2
-Setting Yourself Up
+Konfigurowanie samego siebie
 2
 -------------------
 2
 
 2
-Set a password for yourself.
+Ustaw sobie haslo.
 2
-  -- @password <new-password>
-2
-
-2
-Set a description for yourself.
-2
-  -- @describe me as <anything>
+  -- @password <nowe-haslo>
 2
 
 2
-Set a gender for yourself.
+Ustaw sobie opis.
 2
-  -- @gender <gender>
+  -- @describe me jako <cokolwiek>
 2
 
 2
-There are, also, a large number of messages you can set on yourself.  Setting them will enhance the virtual reality.
+Ustaw sobie plec.
+2
+  -- @gender <plec>
+2
+
+2
+Jest tez wiele wiadomosci, ktore mozna sobie ustawic.  Ustawienie ich wzbogaci wirtualna rzeczywistosc.
 2
 
 2
@@ -32534,39 +32550,39 @@ There are, also, a large number of messages you can set on yourself.  Setting th
 2
 
 2
-About Guests
+O gosciach
 2
 ------------
 2
 
 2
-To make a new Guest character:
+By stworzyc nowa postac Goscia:
 2
-  -- @make-guest <guestname>
+  -- @make-guest <nazwa-goscia>
 2
-     will make a new guest with the name you specify with `_Guest' appended
+     stworzy nowego goscia z podana nazwa z dodanym `_Guest'
 2
-     and some other standard but useful aliases
-2
-
-2
-This is the easiest way to make Guest characters.  The most important things to remember about Guests, if you want to make them yourself, are:
-2
-  -- make them owned by nonwizards, and not owned by themselves
-2
-  -- make sure they've got .password == 0, and that .password is nonclear
-2
-  -- at least one Guest must always be named `Guest'; this can be an alias
+     oraz kilkoma innymi standardowymi, ale przydatnymi aliasami
 2
 
 2
-To set the default description and gender for a guest:
+To najlatwiejszy sposob tworzenia postaci Gosci.  Najwazniejsze rzeczy do zapamietania o Gosciach, jesli chcesz tworzyc ich samodzielnie, to:
 2
-  -- set .default_description to the description the guest should start with
+  -- niech ich wlascicielami beda niewizardzi, a nie oni sami
 2
-  -- set .default_gender to the gender the guest should start with
+  -- upewnij sie, ze maja .password == 0, i ze .password jest nonclear
 2
-  -- remember to set .description and .gender too, for the guest's first use
+  -- co najmniej jeden Gosc musi zawsze nazywac sie `Guest'; moze to byc alias
+2
+
+2
+By ustawic domyslny opis i plec dla goscia:
+2
+  -- ustaw .default_description na opis, z ktorym gosc ma zaczynac
+2
+  -- ustaw .default_gender na plec, z ktora gosc ma zaczynac
+2
+  -- pamietaj, by ustawic tez .description i .gender, na pierwsze uzycie goscia
 2
 
 2
@@ -32574,17 +32590,17 @@ To set the default description and gender for a guest:
 2
 
 2
-Adding to the Newspaper
+Dodawanie do gazety
 2
 -----------------------
 2
 
 2
-The newspaper is a special mailing list.  To add a post to the newspaper, send mail to it (as *News or $news), and then note the number of your post (let's call it <x> and:
+Gazeta to specjalna lista mailingowa.  By dodac wpis do gazety, wyslij do niej maila (jako *News albo $news), a nastepnie zanotuj numer swojego wpisu (nazwijmy go <x>) i:
 2
-  -- @addnews <x> to *News
+  -- @addnews <x> do *News
 2
-... in general, `@addnews $ to *News' will work as well.
+... ogolnie, `@addnews $ do *News' tez zadziala.
 2
 
 2
@@ -32592,29 +32608,29 @@ The newspaper is a special mailing list.  To add a post to the newspaper, send m
 2
 
 2
-Quota
+Limit (Quota)
 2
 -----
 2
 
 2
-By default, ToastCore runs with byte-based quota, an in-DB quota system, limiting users by total database space as opposed to total objects.  You'll need to do two things:
+Domyslnie, ToastCore dziala z limitem opartym na bajtach, systemem limitow w bazie danych, ograniczajacym uzytkownikow wedlug calkowitej przestrzeni bazy danych, a nie liczby obiektow.  Trzeba zrobic dwie rzeczy:
 2
-  -- decide on the default quota:
+  -- zdecydowac o domyslnym limicie:
 2
-     ;$byte_quota_utils.default_quota[1] = <a number of bytes>
+     ;$byte_quota_utils.default_quota[1] = <liczba bajtow>
 2
-  -- start the measurement task; see `help routine_tasks' for more information (Note: this help topic contains information about more than just the quota task; it should be read regardless of how quota is set).
-2
-
-2
-If you prefer the quota system documented in the LambdaMOO / ToastStunt Programmer's Manual, directly supported by the server, you can enable object-based quota:
-2
-  -- set $quota_utils to $object_quota_utils
+  -- uruchomic zadanie pomiaru; zobacz `help routine_tasks' po wiecej informacji (Uwaga: ten temat pomocy zawiera informacje o czyms wiecej niz tylko zadanie limitu; warto go przeczytac niezaleznie od tego, jak ustawiony jest limit).
 2
 
 2
-It's best that you make this switch before users start, because converting existing users is an awkward (and inherently arbitrary and political) move.
+Jesli wolisz system limitow opisany w Podreczniku Programisty LambdaMOO / ToastStunt, bezposrednio wspierany przez serwer, mozna wlaczyc limit oparty na obiektach:
+2
+  -- ustaw $quota_utils na $object_quota_utils
+2
+
+2
+Najlepiej dokonac tej zmiany przed startem uzytkownikow, bo konwersja istniejacych uzytkownikow to niewygodny (i z natury arbitralny oraz polityczny) ruch.
 2
 
 2
@@ -32622,61 +32638,61 @@ It's best that you make this switch before users start, because converting exist
 2
 
 2
-Making Programmers
+Tworzenie programistow
 2
 ------------------
 2
 
 2
-The command to turn someone into a programmer is `@programmer'  Its syntax is `@programmer <user>'.  For example:
+Polecenie zamieniajace kogos w programiste to `@programmer'  Jego skladnia to `@programmer <uzytkownik>'.  Na przyklad:
 2
   -- @programmer Haakon
 2
-The `@programmer' verb will prompt you if the user isn't set up with a description and a gender.
+Czasownik `@programmer' zapyta cie, jesli uzytkownik nie ma ustawionego opisu i plci.
 2
 
 2
-No code to automatically grant programmer bits is included with ToastCore.
+ToastCore nie zawiera kodu do automatycznego przyznawania flagi programisty.
 2
 
 2
-Making Wizards
+Tworzenie wizardow
 2
 --------------
 2
 
 2
-THINK CAREFULLY.
+POMYSL DOKLADNIE.
 2
 
 2
-Be very careful before giving someone a wizard bit.  That person can do gross damage to your database, and fixable but serious damage to the machine it runs on.  That person can quite possibly open outbound network connections from your machine, and thus commit acts for which your host system will be blamed.  That person can ruin your MOO's as-yet-untarnished reputation.
+Nalezy zachowac duza ostroznosc, zanim nada sie komus flage wizarda.  Taka osoba moze wyrzadzic powazne szkody bazie danych oraz naprawialne, ale powazne szkody maszynie, na ktorej dziala.  Taka osoba mogla by tez otworzyc wychodzace polaczenia sieciowe z twojej maszyny i tym samym popelnic czyny, za ktore zostanie obwiniony twoj system hostujacy.  Taka osoba moze zniszczyc dotychczas nieskalana reputacje twojego MOO.
 2
 
 2
-Wizards have technical power, the ability to change anything within the database, to create anything within the database.  Be careful with the idea of a `Social Wizard' -- a nontechnical person holding a wizard bit is fairly likely to, at some point, accidentally do something destructive.  It's a good idea not to socialize as your wizard character, for the same reason, to make it less likely to be accidentally destructive.
+Wizardzi maja techniczna wladze, zdolnosc zmiany czegokolwiek w bazie danych, tworzenia czegokolwiek w bazie danych.  Nalezy uwazac z pomyslem `Wizarda Spolecznosciowego' -- osoba nietechniczna z flaga wizarda dosc prawdopodobnie w pewnym momencie przypadkowo zrobi cos destrukcyjnego.  Dobrym pomyslem jest nie utrzymywac kontaktow towarzyskich jako postac wizarda, z tego samego powodu, by zmniejszyc szanse na przypadkowe dzialanie destrukcyjne.
 2
 
 2
-That said, in general you don't turn an existing character into a wizard, you make a -new- character to be the wizard.  This is because the existing character probably owns code and objects which could be destructive if suddenly made wizardly; it's a good security measure to make a fresh player.  So, to make a fresh player:
+To powiedziawszy, ogolnie nie zamienia sie istniejacej postaci w wizarda, tylko tworzy -nowa- postac na wizarda.  Dzieje sie tak, bo istniejaca postac prawdopodobnie posiada kod i obiekty, ktore moglyby byc destrukcyjne, gdyby nagle stala sie wizardem; to dobry srodek bezpieczenstwa, by stworzyc swiezego gracza.  Wiec, by stworzyc swiezego gracza:
 2
-  -- @make-player (see `help @make-player' for more information)
+  -- @make-player (zobacz `help @make-player' po wiecej informacji)
 2
-     this will make you a new player. for this example, #123
+     to stworzy nowego gracza. dla tego przykladu, #123
 2
 
 2
-To make #123 a wizard:
+By zrobic z #123 wizarda:
 2
   -- @programmer #123
 2
-     (a nonprogrammer wizard is a truly strange beast)
+     (wizard-nie-programista to naprawde dziwna bestia)
 2
   -- ;#123.wizard = 1;
 2
-  -- @chparent #123 to $wiz
+  -- @chparent #123 do $wiz
 2
-  -- ;#123.public_identity = <the player's nonwizard character's object number>
+  -- ;#123.public_identity = <numer obiektu niewizardzkiej postaci gracza>
 2
 
 2
@@ -32684,31 +32700,31 @@ To make #123 a wizard:
 2
 
 2
-Good luck with your new ToastCore database!
+Powodzenia z twoja nowa baza danych ToastCore!
 2
 
 2
-Visit us at LambdaMOO: lambda.moo.mud.org 8888
+Odwiedz nas na LambdaMOO: lambda.moo.mud.org 8888
 2
 
 2
-Join the international mailing list for MOO coders: https://groups.google.com/g/MOO-talk
+Dolacz do miedzynarodowej listy mailingowej dla programistow MOO: https://groups.google.com/g/MOO-talk
 2
 
 2
-Join the ToastStunt / MOO Discord: https://discord.gg/JUz3zwZamW
+Dolacz do ToastStunt / MOO Discord: https://discord.gg/JUz3zwZamW
 2
 
 2
-Do good things.
+Rob dobre rzeczy.
 2
 
 2
-The LambdaMOO Wizards
+Wizardzi LambdaMOO
 2
-[authored February 15, 1999]
+[napisano 15 lutego 1999]
 2
-[edited April 24, 2024 for ToastCore]
+[edytowano 24 kwietnia 2024 dla ToastCore]
 36
 0
 5
