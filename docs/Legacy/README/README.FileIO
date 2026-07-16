@@ -1,432 +1,429 @@
   File I/O
   Ken Fox, Andy Bakun, Todd Sundsted
 
-  This is the documentation for the File I/O (FIO) patch for the Lamb-
-  daMOO server.  FIO adds several administrator-only builtins for manip-
-  ulating files from inside the MOO.  Security is enforced by making
-  these builtins executable with wizard permissions only as well as only
-  allowing access to a directory under the current directory (the one
-  the server is running in).
+  To dokumentacja latki File I/O (FIO) dla serwera LambdaMOO. FIO dodaje
+  kilka funkcji wbudowanych dostepnych tylko dla administratorow, sluzacych
+  do manipulowania plikami z wnetrza MOO. Bezpieczenstwo jest zapewnione
+  przez to, ze te funkcje wbudowane mozna wywolywac wylacznie z
+  uprawnieniami wizarda, a takze przez ograniczenie dostepu do katalogu
+  wewnatrz katalogu biezacego (tego, w ktorym dziala serwer).
 
-  1.  Introduction
+  1.  Wprowadzenie
 
-  1.1.  Purpose
+  1.1.  Cel
 
-  This patch to the LambdaMOO server adds several new builtins that
-  allow the manipulation of files from MOO code.   The new builtins are
-  structured similarly to the stdio library for C.  This allows MOO-code
-  to perform stream-oriented I/O to files.
+  Ta lataka do serwera LambdaMOO dodaje kilka nowych funkcji wbudowanych,
+  ktore pozwalaja manipulowac plikami z poziomu kodu MOO. Nowe funkcje
+  wbudowane sa skonstruowane podobnie do biblioteki stdio jezyka C.
+  Pozwala to kodowi MOO wykonywac strumieniowe operacje wejscia/wyjscia
+  na plikach.
 
-  Granting MOO code direct access to files opens a hole in the otherwise
-  fairly good wall that the LambdaMOO server puts up between the OS and
-  the database.  The patch contains the risk as much as possible by
-  restricting where files can be opened and allowing the new builtins to
-  be called by wizard permissions only.  It is still possible execute
-  various forms denial of service attacks, but the MOO server allows
-  this form of attack as well.
+  Danie kodowi MOO bezposredniego dostepu do plikow otwiera dziure w
+  skadinad dosc dobrym murze, ktory serwer LambdaMOO wznosi miedzy
+  systemem operacyjnym a baza danych. Lataka minimalizuje to ryzyko, jak
+  tylko sie da, ograniczajac miejsca, w ktorych mozna otwierac pliki, i
+  pozwalajac wywolywac nowe funkcje wbudowane wylacznie z uprawnieniami
+  wizarda. Nadal mozliwe jest wykonanie roznych form ataku typu odmowa
+  uslugi (denial of service), ale serwer MOO i tak dopuszcza ten rodzaj
+  ataku.
 
-  There is a related package available that contains a db front end for
-  this package as well as a help database with help for all the builtin
-  functions and for the front end.  It is not recommended that you use
-  these functions directly.
+  Istnieje powiazany pakiet zawierajacy interfejs bazodanowy do tego
+  pakietu, a takze baze pomocy z opisami wszystkich funkcji wbudowanych
+  oraz samego interfejsu. Nie zaleca sie uzywania tych funkcji
+  bezposrednio.
 
-  1.2.  Copyright, License, and Disclaimer
+  1.2.  Prawa autorskie, licencja i zastrzezenie
 
   Copyright 1996, 1997 by Ken Fox.  Copyright 1997 by Andy Bakun.
   Copyright 2011 by Todd Sundsted.
 
-  All Rights Reserved
+  Wszelkie prawa zastrzezone (All Rights Reserved)
 
-  Permission to use, copy, modify, and distribute this software and its
-  documentation for any purpose and without fee is hereby granted,
-  provided that the above copyright notice appear in all copies and that
-  both that copyright notice and this permission notice appear in
-  supporting documentation.
+  Zezwala sie na uzywanie, kopiowanie, modyfikowanie i rozpowszechnianie
+  tego oprogramowania oraz jego dokumentacji w dowolnym celu i bez oplat,
+  pod warunkiem, ze powyzsza informacje o prawach autorskich zamieszcza
+  sie we wszystkich kopiach, a zarowno ta informacja, jak i niniejsze
+  zezwolenie zamieszcza sie w towarzyszacej dokumentacji.
 
-  KEN FOX AND ANDY BAKUN AND TODD SUNDSTED DISCLAIM ALL WARRANTIES WITH
-  REGARD TO THIS SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF
-  MERCHANTABILITY AND FITNESS, IN NO EVENT SHALL KEN FOX OR ANDY BAKUN
-  OR TODD SUNDSTED BE LIABLE FOR ANY SPECIAL, INDIRECT OR
-  CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
-  OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT,
-  NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION
-  WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+  KEN FOX I ANDY BAKUN I TODD SUNDSTED ZRZEKAJA SIE WSZELKICH GWARANCJI
+  DOTYCZACYCH TEGO OPROGRAMOWANIA, W TYM WSZYSTKICH DOROZUMIANYCH GWARANCJI
+  PRZYDATNOSCI HANDLOWEJ I PRZYDATNOSCI DO OKRESLONEGO CELU; W ZADNYM
+  WYPADKU KEN FOX ANI ANDY BAKUN ANI TODD SUNDSTED NIE PONOSZA
+  ODPOWIEDZIALNOSCI ZA JAKIEKOLWIEK SZKODY SZCZEGOLNE, POSREDNIE LUB
+  WTORNE, ANI ZA JAKIEKOLWIEK SZKODY WYNIKAJACE Z UTRATY MOZLIWOSCI
+  UZYTKOWANIA, DANYCH LUB ZYSKOW, CZY TO W DZIALANIU WYNIKAJACYM Z UMOWY,
+  ZANIEDBANIA CZY INNEGO DZIALANIA DELIKTOWEGO, POWSTALYCH W ZWIAZKU
+  Z UZYWANIEM LUB DZIALANIEM TEGO OPROGRAMOWANIA.
 
-  2.  Installation
+  2.  Instalacja
 
-  Most of the new code for this patch are in the files extension-
-  fileio.c and extension-fileio.h.  These files contain the header and
-  implementation for all of the new builtin functions.  One line has to
-  be added to bf_register.h and a related line must be added
-  functions.c.
+  Wiekszosc nowego kodu tej latki znajduje sie w plikach
+  extension-fileio.c i extension-fileio.h. Te pliki zawieraja naglowek
+  i implementacje wszystkich nowych funkcji wbudowanych. Trzeba dodac
+  jedna linie do bf_register.h oraz powiazana linie do functions.c.
 
-  The distribution archive should contain the text version of this
-  documentation (fileio-README), extension-fileio.c, extension-fileio.h,
-  and fileio.patch.
+  Archiwum dystrybucyjne powinno zawierac tekstowa wersje tej
+  dokumentacji (fileio-README), extension-fileio.c, extension-fileio.h
+  oraz fileio.patch.
 
-  If you are going to use patch to install it, just copy fileio.patch
-  into the server directory and apply the patch:
+  Jesli chcesz zainstalowac ja za pomoca polecenia patch, po prostu
+  skopiuj fileio.patch do katalogu serwera i zastosuj lataka:
 
          patch < fileio.patch
 
-  It is recommended that you use patch to install it, but you can also
-  manually make the changes to the server source.  First, copy the
-  extension-fileio.c and .h files into a directory with the freshly
-  untarred server source.  Add extension-fileio.c to the CSRCS line of
-  Makefile.in, add
+  Zaleca sie uzycie polecenia patch do instalacji, ale mozna tez recznie
+  wprowadzic zmiany w zrodlach serwera. Najpierw skopiuj pliki
+  extension-fileio.c i .h do katalogu ze swiezo rozpakowanymi zrodlami
+  serwera. Dodaj extension-fileio.c do linii CSRCS w Makefile.in, dodaj
 
           extern void register_fileio(void);
 
-  to bf_register.h and add
+  do bf_register.h oraz dodaj
 
          register_fileio
 
-  to the list of functions in functions.c.
+  do listy funkcji w functions.c.
 
-  Finally, make the files directory in the directory the MOO server is
-  run in.  Only files in this directory will be accessible using this
-  patch.
+  Na koniec utworz katalog files w katalogu, w ktorym dziala serwer MOO.
+  Tylko pliki w tym katalogu beda dostepne przez te lataka.
 
          mkdir files
 
-  Pathnames passed to these functions are restricted to prevent access
-  outside this directory.
+  Sciezki przekazywane do tych funkcji sa ograniczone, zeby uniemozliwic
+  dostep poza ten katalog.
 
-  3.  Functions
+  3.  Funkcje
 
-  The functions in this patch are grouped into a few categories.  There
-  is a function to open a file and a function for closing a file, a set
-  of functions for doing stream-oriented I/O from files, and a set of
-  housekeeping functions.
+  Funkcje w tej latace sa pogrupowane w kilka kategorii. Jest funkcja do
+  otwierania pliku i funkcja do jego zamykania, zestaw funkcji do
+  strumieniowych operacji wejscia/wyjscia na plikach oraz zestaw funkcji
+  porzadkowych.
 
-  Function documentation includes a prototype, information about the
-  function, and a list of exceptions the function might raise (in
-  addition to the ones outlined in "Error handling".
+  Dokumentacja kazdej funkcji zawiera prototyp, informacje o funkcji oraz
+  liste wyjatkow, jakie funkcja moze zglosic (oprocz tych opisanych w
+  "Obsluga bledow").
 
-  WARNING: All of the actual I/O functions in this package are
-  implemented using the stdio portion of libc.  Your system's
-  documentation may have applicable warnings for these functions.  When
-  appropriate, the function documentation will say which libc function
-  is used.
+  UWAGA: Wszystkie faktyczne funkcje wejscia/wyjscia w tym pakiecie sa
+  zaimplementowane za pomoca czesci stdio biblioteki libc. Dokumentacja
+  twojego systemu moze zawierac odpowiednie ostrzezenia dotyczace tych
+  funkcji. Tam gdzie to istotne, dokumentacja funkcji podaje, ktorej
+  funkcji libc uzyto.
 
-  3.1.  Error handling
+  3.1.  Obsluga bledow
 
-  Errors are always handled by raising some kind of exception.  The
-  following exceptions are defined:
+  Bledy sa zawsze obslugiwane przez zglaszanie odpowiedniego wyjatku.
+  Zdefiniowane sa nastepujace wyjatki:
 
      E_FILE
-        This is raised when a stdio call returned an error value.
-        CODE is set to E_FILE, MSG is set to the return of strerror()
-        (which may vary from system to system), and VALUE depends on
-        which function raised the error.  When a function fails
-        because the stdio function returned EOF, VALUE is set to
+        Zglaszany, gdy wywolanie stdio zwrocilo wartosc bledu. CODE jest
+        ustawione na E_FILE, MSG jest ustawione na wynik strerror()
+        (ktory moze sie roznic w zaleznosci od systemu), a VALUE zalezy
+        od tego, ktora funkcja zglosila blad. Gdy funkcja zawodzi,
+        poniewaz funkcja stdio zwrocila EOF, VALUE jest ustawione na
         "EOF".
 
      E_INVARG
-        This is raised for a number of reasons.  The common reasons are
-        an invalid FHANDLE being passed to a function and an invalid
-        pathname specification.  In each of these cases MSG will be set
-        to the cause and VALUE will be the offending value.
+        Zglaszany z wielu powodow. Najczestsze to nieprawidlowy FHANDLE
+        przekazany do funkcji oraz nieprawidlowa specyfikacja sciezki.
+        W kazdym z tych przypadkow MSG bedzie ustawione na przyczyne,
+        a VALUE na wartosc, ktora ja spowodowala.
 
      E_PERM
-        This is raised when any of these functions are called with non-
-        wizardly permissions.
+        Zglaszany, gdy ktorakolwiek z tych funkcji jest wywolywana bez
+        uprawnien wizarda.
 
-  3.2.  Version
+  3.2.  Wersja
 
-  Function: STR file_version()
+  Funkcja: STR file_version()
 
-  Returns the package shortname/version number of this package e.g.
+  Zwraca krotka nazwe/numer wersji tego pakietu, np.
 
          ;file_version()
          => "FIO/1.5p3"
 
-  3.3.  Opening and closing of files and related functions
+  3.3.  Otwieranie i zamykanie plikow oraz funkcje powiazane
 
-  File streams are associated with FHANDLES.  FHANDLES are similar to
-  the FILE* using stdio.  You get an FHANDLE from file_open.  You should
-  not depend on the actual type of FHANDLEs (currently TYPE_INT).
-  FHANDLEs are not persistent across server restarts.  That is, files
-  open when the server is shut down are closed when it comes back up and
-  no information about open files is saved in the DB.
+  Strumienie plikow sa powiazane z FHANDLE. FHANDLE sa podobne do FILE*
+  z biblioteki stdio. FHANDLE otrzymujesz z file_open. Nie powinienes
+  polegac na faktycznym typie FHANDLE (obecnie TYPE_INT). FHANDLE nie sa
+  trwale pomiedzy restartami serwera. Oznacza to, ze pliki otwarte w
+  momencie zamkniecia serwera sa zamykane, gdy serwer wraca, a zadna
+  informacja o otwartych plikach nie jest zapisywana w bazie danych.
 
   3.3.1.  file_open
 
-  Function: FHANDLE file_open(STR pathname, STR mode)
+  Funkcja: FHANDLE file_open(STR pathname, STR mode)
 
-  Raises: E_INVARG if mode is not a valid mode, E_QUOTA if too many
-  files open
-  This opens a file specified by pathname and returns an FHANDLE for it.
-  It ensures pathname is legal.  mode is a string of characters
-  indicating what mode the file is opened in.  The mode string is four
-  characters.
+  Zglasza: E_INVARG, jesli mode nie jest prawidlowym trybem; E_QUOTA,
+  jesli otwartych jest zbyt wiele plikow.
+  Otwiera plik wskazany przez pathname i zwraca dla niego FHANDLE. Dba
+  o to, by pathname byla legalna. mode to ciag znakow okreslajacy tryb,
+  w jakim plik jest otwierany. Ciag mode ma cztery znaki.
 
-  The first character must be (r)ead, (w)rite, or (a)ppend.  The second
-  must be '+' or '-'.  This modifies the previous argument.
+  Pierwszy znak musi oznaczac (r)ead (odczyt), (w)rite (zapis) lub
+  (a)ppend (dopisywanie). Drugi musi byc '+' albo '-'. Modyfikuje on
+  poprzedni argument.
 
-  o  r- opens the file for reading and fails if the file does not exist.
+  o  r- otwiera plik do odczytu i zawodzi, jesli plik nie istnieje.
 
-  o  r+ opens the file for reading and writing and fails if the file
-     does not exist.
+  o  r+ otwiera plik do odczytu i zapisu i zawodzi, jesli plik nie
+     istnieje.
 
-  o  w- opens the file for writing, truncating if it exists and creating
-     if not.
+  o  w- otwiera plik do zapisu, obcinajac go, jesli istnieje, i tworzac,
+     jesli nie istnieje.
 
-  o  w+ opens the file for reading and writing, truncating if it exists
-     and creating if not.
+  o  w+ otwiera plik do odczytu i zapisu, obcinajac go, jesli istnieje,
+     i tworzac, jesli nie istnieje.
 
-  o  a- opens a file for writing, creates it if it does not exist and
-     positions the stream at the end of the file.
+  o  a- otwiera plik do zapisu, tworzy go, jesli nie istnieje, i ustawia
+     strumien na koncu pliku.
 
-  o  a+ opens the file for reading and writing, creates it if does not
-     exist and positions the stream at the end of the file.
+  o  a+ otwiera plik do odczytu i zapisu, tworzy go, jesli nie istnieje,
+     i ustawia strumien na koncu pliku.
 
-     The third character is either (t)ext or (b)inary.  In text mode,
-     data is written as-is from the MOO and data read in by the MOO is
-     stripped of unprintable characters.  In binary mode, data is
-     written filtered through the binary-string->raw-bytes conversion
-     and data is read filtered through the raw-bytes->binary-string
-     conversion.  For example, in text mode writing " 1B" means three
-     bytes are written: ' ' Similarly, in text mode reading " 1B" means
-     the characters ' ' '1' 'B' were present in the file.  In binary
-     mode reading " 1B" means an ASCII ESC was in the file.  In text
-     mode, reading an ESC from a file results in the ESC getting
-     stripped.
+     Trzeci znak to (t)ext (tekst) albo (b)inary (binarny). W trybie
+     tekstowym dane sa zapisywane doslownie takie, jakie sa w MOO, a
+     dane odczytane przez MOO sa oczyszczane ze znakow niedrukowalnych.
+     W trybie binarnym dane przy zapisie sa filtrowane przez konwersje
+     string-binarny -> surowe bajty, a przy odczycie przez konwersje
+     surowe bajty -> string-binarny. Na przyklad w trybie tekstowym
+     zapis " 1B" oznacza zapisanie trzech bajtow: ' ' Podobnie, w trybie
+     tekstowym odczyt " 1B" oznacza, ze w pliku byly znaki ' ' '1' 'B'.
+     W trybie binarnym odczyt " 1B" oznacza, ze w pliku byl bajt ASCII
+     ESC. W trybie tekstowym odczyt bajtu ESC z pliku powoduje, ze
+     zostaje on oczyszczony (usuniety).
 
-  It is not recommended that files containing unprintable ASCII  data be
-  read in text mode, for obvious reasons.
+  Z oczywistych powodow nie zaleca sie odczytu w trybie tekstowym
+  plikow zawierajacych niedrukowalne dane ASCII.
 
-  The final character is either 'n' or 'f'.  If this character is 'f',
-  whenever data is written to the file, the MOO will force it to finish
-  writing to the physical disk before returning.  If it is 'n' then
-  this won't happen.
+  Ostatni znak to 'n' albo 'f'. Jesli ten znak to 'f', to za kazdym
+  razem, gdy dane sa zapisywane do pliku, MOO wymusi dokonczenie zapisu
+  na fizyczny dysk przed powrotem z funkcji. Jesli to 'n', to sie to nie
+  stanie.
 
-  This is implemented using fopen().
+  Zaimplementowane za pomoca fopen().
 
   3.3.2.  file_close
 
-  Function: void file_close(FHANDLE fh)
+  Funkcja: void file_close(FHANDLE fh)
 
-  Closes the file associated with fh.
+  Zamyka plik powiazany z fh.
 
-  This is implemented using fclose().
+  Zaimplementowane za pomoca fclose().
 
   3.3.3.  file_name
 
-  Function: STR file_name(FHANDLE fh)
+  Funkcja: STR file_name(FHANDLE fh)
 
-  Returns the pathname originally associated with fh by file_open().
-  This is not necessarily the file's current name if it was renamed or
-  unlinked after the fh was opened.
+  Zwraca sciezke pierwotnie powiazana z fh przez file_open(). Niekoniecznie
+  jest to biezaca nazwa pliku, jesli zostal on zmieniony lub odlaczony
+  (unlinked) po otwarciu fh.
 
   3.3.4.  file_openmode
 
-  Function: STR file_openmode(FHANDLE fh)
+  Funkcja: STR file_openmode(FHANDLE fh)
 
-  Returns the mode the file associated with fh was opened in.
+  Zwraca tryb, w jakim plik powiazany z fh zostal otwarty.
 
-  3.4.  Input and Ouput operations
+  3.4.  Operacje wejscia i wyjscia
 
   3.4.1.  file_readline
 
-  Function: STR file_readline(FHANDLE fh)
+  Funkcja: STR file_readline(FHANDLE fh)
 
-  Reads the next line in the file and returns it (without the newline).
+  Czyta kolejna linie z pliku i ja zwraca (bez znaku nowej linii).
 
-  Not recommended for use on files in binary mode.
+  Nie zaleca sie uzywania tej funkcji dla plikow w trybie binarnym.
 
-  This is implemented using fgetc().
+  Zaimplementowane za pomoca fgetc().
 
   3.4.2.  file_readlines
 
-  Function: LIST file_readlines(FHANDLE fh, INT start, INT end)
+  Funkcja: LIST file_readlines(FHANDLE fh, INT start, INT end)
 
-  Rewinds the file and then reads the specified lines from the file,
-  returning them as a list of strings.  After this operation, the stream
-  is positioned right after the last line read.
+  Przewija plik na poczatek, a nastepnie czyta wskazane linie z pliku,
+  zwracajac je jako liste stringow. Po tej operacji strumien jest
+  ustawiony zaraz za ostatnia przeczytana linia.
 
-  Not recommended for use on files in binary mode.
+  Nie zaleca sie uzywania tej funkcji dla plikow w trybie binarnym.
 
-  This is implemented using fgetc().
+  Zaimplementowane za pomoca fgetc().
 
   3.4.3.  file_writeline
 
-  Function: void file_writeline(FHANDLE fh, STR line)
+  Funkcja: void file_writeline(FHANDLE fh, STR line)
 
-  Writes the specified line to the file (adding a newline).
+  Zapisuje wskazana linie do pliku (dodajac znak nowej linii).
 
-  Not recommended for use on files in binary mode.
+  Nie zaleca sie uzywania tej funkcji dla plikow w trybie binarnym.
 
-  This is implemented using fputs().
+  Zaimplementowane za pomoca fputs().
 
   3.4.4.  file_read
 
-  Function: STR file_read(FHANDLE fh, INT bytes)
+  Funkcja: STR file_read(FHANDLE fh, INT bytes)
 
-  Reads up to the specified number of bytes from the file and returns
-  them.
+  Czyta z pliku az do wskazanej liczby bajtow i je zwraca.
 
-  Not recommended for use on files in text mode.
+  Nie zaleca sie uzywania tej funkcji dla plikow w trybie tekstowym.
 
-  This is implemented using fread().
+  Zaimplementowane za pomoca fread().
 
   3.4.5.  file_write
 
-  Function: INT file_write(FHANDLE fh, STR data)
+  Funkcja: INT file_write(FHANDLE fh, STR data)
 
-  Writes the specified data to the file.  Returns number of bytes
-  written.
+  Zapisuje wskazane dane do pliku. Zwraca liczbe zapisanych bajtow.
 
-  Not recommended for use on files in text mode.
+  Nie zaleca sie uzywania tej funkcji dla plikow w trybie tekstowym.
 
-  This is implemented using fwrite().
+  Zaimplementowane za pomoca fwrite().
 
-  3.4.6.  Getting and setting stream position
+  3.4.6.  Odczyt i ustawianie pozycji w strumieniu
 
   3.4.7.  file_tell
 
-  Function: INT file_tell(FHANDLE fh)
+  Funkcja: INT file_tell(FHANDLE fh)
 
-  Returns position in file.
+  Zwraca pozycje w pliku.
 
-  This is implemented using ftell().
+  Zaimplementowane za pomoca ftell().
 
   3.4.8.  file_seek
 
-  Function: void file_seek(FHANDLE fh, INT loc, STR whence)
+  Funkcja: void file_seek(FHANDLE fh, INT loc, STR whence)
 
-  Seeks to a particular location in a file.  whence is one of the
-  strings:
+  Przechodzi do okreslonego miejsca w pliku. whence to jeden z ciagow:
 
-  o  "SEEK_SET" - seek to location relative to beginning
+  o  "SEEK_SET" - przejscie do miejsca wzgledem poczatku
 
-  o  "SEEK_CUR" - seek to location relative to current
+  o  "SEEK_CUR" - przejscie do miejsca wzgledem biezacej pozycji
 
-  o  "SEEK_END" - seek to location relative to end
+  o  "SEEK_END" - przejscie do miejsca wzgledem konca
 
-  This is implemented using fseek().
+  Zaimplementowane za pomoca fseek().
 
   3.4.9.  file_eof
 
-  Function: INT file_eof(FHANDLE fh)
+  Funkcja: INT file_eof(FHANDLE fh)
 
-  Returns true if and only if fh's stream is positioned at EOF.
+  Zwraca prawde wtedy i tylko wtedy, gdy strumien fh jest ustawiony na
+  EOF (koniec pliku).
 
-  This is implemented using feof().
+  Zaimplementowane za pomoca feof().
 
-  3.5.  Housekeeping operations
+  3.5.  Operacje porzadkowe
 
   3.5.1.  file_size, file_mode, file_last_access, file_last_modify,
   file_last_change
 
-  Function: INT file_size(STR pathname)
-  Function: STR file_mode(STR pathname)
-  Function: INT file_last_access(STR pathname)
-  Function: INT file_last_modify(STR pathname)
-  Function: INT file_last_change(STR pathname)
-  Function: INT file_size(FHANDLE fh)
-  Function: STR file_mode(FHANDLE fh)
-  Function: INT file_last_access(FHANDLE fh)
-  Function: INT file_last_modify(FHANDLE fh)
-  Function: INT file_last_change(FHANDLE fh)
+  Funkcja: INT file_size(STR pathname)
+  Funkcja: STR file_mode(STR pathname)
+  Funkcja: INT file_last_access(STR pathname)
+  Funkcja: INT file_last_modify(STR pathname)
+  Funkcja: INT file_last_change(STR pathname)
+  Funkcja: INT file_size(FHANDLE fh)
+  Funkcja: STR file_mode(FHANDLE fh)
+  Funkcja: INT file_last_access(FHANDLE fh)
+  Funkcja: INT file_last_modify(FHANDLE fh)
+  Funkcja: INT file_last_change(FHANDLE fh)
 
-  Returns the size, mode, last access time, last modify time, or last
-  change time of the specified file.   All of these functions also take
-  FHANDLE arguments and then operate on the open file.
+  Zwraca rozmiar, tryb, czas ostatniego dostepu, czas ostatniej
+  modyfikacji lub czas ostatniej zmiany wskazanego pliku. Wszystkie te
+  funkcje przyjmuja tez argumenty typu FHANDLE i wtedy dzialaja na
+  otwartym pliku.
 
-  These are all implemented using fstat() (for open FHANDLEs) or stat()
-  (for pathnames).
+  Wszystkie zaimplementowane za pomoca fstat() (dla otwartych FHANDLE)
+  lub stat() (dla sciezek).
 
   3.5.2.  file_stat
 
-  Function: void file_stat(STR pathname)
-  Function: void file_stat(FHANDLE fh)
+  Funkcja: void file_stat(STR pathname)
+  Funkcja: void file_stat(FHANDLE fh)
 
-  Returns the result of stat() (or fstat()) on the given file.
-  Specifically a list as follows:
+  Zwraca wynik stat() (lub fstat()) dla podanego pliku. Konkretnie liste
+  postaci:
 
-  {file size in bytes, file type, file access mode, owner, group,
-       last access, last modify, and last change}
+  {rozmiar pliku w bajtach, typ pliku, tryb dostepu do pliku,
+       wlasciciel, grupa, czas ostatniego dostepu, czas ostatniej
+       modyfikacji, czas ostatniej zmiany}
 
-  owner and group are always the empty string.
+  wlasciciel i grupa sa zawsze pustym stringiem.
 
-  It is recommended that the specific information functions file_size,
-  file_type, file_mode, file_last_access, file_last_modify, and
-  file_last_change be used instead.  In most cases only one of these
-  elements is desired and in those cases there's no reason to make and
-  free a list.
+  Zaleca sie uzywanie zamiast tego konkretnych funkcji informacyjnych
+  file_size, file_type, file_mode, file_last_access, file_last_modify i
+  file_last_change. W wiekszosci przypadkow potrzebny jest tylko jeden
+  z tych elementow i wtedy nie ma powodu, zeby tworzyc i zwalniac liste.
 
   3.5.3.  file_rename
 
-  Function: void file_rename(STR oldpath, STR newpath)
+  Funkcja: void file_rename(STR oldpath, STR newpath)
 
-  Attempts to rename the oldpath to newpath.
+  Probuje zmienic nazwe oldpath na newpath.
 
-  This is implemented using rename().
+  Zaimplementowane za pomoca rename().
 
   3.5.4.  file_remove
 
-  Function: void file_remove(STR pathname)
+  Funkcja: void file_remove(STR pathname)
 
-  Attempts to remove the given file.
+  Probuje usunac wskazany plik.
 
-  This is implemented using remove().
+  Zaimplementowane za pomoca remove().
 
   3.5.5.  file_mkdir
 
-  Function: void file_mkdir(STR pathname)
+  Funkcja: void file_mkdir(STR pathname)
 
-  Attempts to create the given directory.
+  Probuje utworzyc wskazany katalog.
 
-  This is implemented using mkdir().
+  Zaimplementowane za pomoca mkdir().
 
   3.5.6.  file_rmdir
 
-  Function: void file_rmdir(STR pathname)
+  Funkcja: void file_rmdir(STR pathname)
 
-  Attempts to remove the given directory.
+  Probuje usunac wskazany katalog.
 
-  This is implemented using rmdir().
+  Zaimplementowane za pomoca rmdir().
 
   3.5.7.  file_list
 
-  Function: LIST file_list(STR pathname, [ANY detailed])
+  Funkcja: LIST file_list(STR pathname, [ANY detailed])
 
-  Attempts to list the contents of the given directory.  Returns a list
-  of files in the directory.  If the detailed argument is provided and
-  true, then the list contains detailed entries, otherwise it contains a
-  simple list of names.
+  Probuje wypisac zawartosc wskazanego katalogu. Zwraca liste plikow w
+  katalogu. Jesli podano argument detailed i jest on prawdziwy, lista
+  zawiera szczegolowe wpisy, w przeciwnym razie zawiera prosta liste nazw.
 
-  detailed entry:
-    {STR filename, STR file type, STR file mode, INT file size}
-  normal entry:
-    STR filename
+  wpis szczegolowy:
+    {STR nazwa_pliku, STR typ_pliku, STR tryb_pliku, INT rozmiar_pliku}
+  wpis normalny:
+    STR nazwa_pliku
 
-  This is implemented using scandir().
+  Zaimplementowane za pomoca scandir().
 
   3.5.8.  file_type
 
-  Function: STR file_type(STR pathname)
+  Funkcja: STR file_type(STR pathname)
 
-  Returns the type of the given pathname, one of "reg", "dir", "dev",
-  "fifo", or "socket".
+  Zwraca typ wskazanej sciezki, jeden z "reg", "dir", "dev", "fifo" lub
+  "socket".
 
-  This is implemented using stat().
+  Zaimplementowane za pomoca stat().
 
   3.5.9.  file_mode
 
-  Function: STR file_mode(STR filename)
+  Funkcja: STR file_mode(STR filename)
 
-  Returns octal mode for a file (e.g. "644").
+  Zwraca osmiowy tryb pliku (np. "644").
 
-  This is implemented using stat().
+  Zaimplementowane za pomoca stat().
 
   3.5.10.  file_chmod
 
-  Function: void file_chmod(STR filename, STR mode)
+  Funkcja: void file_chmod(STR filename, STR mode)
 
-  Attempts to set mode of a file using mode as an octal string of
-  exactly three characters.
+  Probuje ustawic tryb pliku, uzywajac mode jako ciagu osmiowego
+  dokladnie trzech znakow.
 
-  This is implemented using chmod().
-
+  Zaimplementowane za pomoca chmod().
