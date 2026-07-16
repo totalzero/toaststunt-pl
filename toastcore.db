@@ -9,7 +9,140 @@
 0 values pending finalization
 0 clocks
 0 queued tasks
-0 suspended tasks
+1 suspended tasks
+1784182957 567763848 0
+0
+10
+0
+0 1 0 50
+language version 17
+"start the housekeeper cleaning continuously. Kill any previous continuous";
+"task. Not meant to be called interactively.";
+if (!$perm_utils:controls(caller_perms(), this))
+return E_PERM;
+endif
+if ($code_utils:task_valid(this.task))
+taskn = this.task;
+this.task = 0;
+kill_task(taskn);
+endif
+fork taskn (0)
+while (1)
+index = 1;
+while (index <= length(this.clean))
+this.cleaning = x = this.clean[index];
+this.cleaning_index = index;
+index = index + 1;
+fork (0)
+`this:replace(x) ! ANY';
+endfork
+suspend(this.testing ? 2 | this:time());
+endwhile
+suspend(5);
+this:litterbug();
+endwhile
+endfork
+this.task = taskn;
+.
+27 variables
+NUM
+0
+0
+OBJ
+0
+1
+STR
+0
+2
+LIST
+0
+4
+ERR
+0
+3
+player
+1
+2
+this
+1
+71
+caller
+1
+71
+verb
+2
+continuous
+args
+4
+0
+argstr
+2
+
+dobj
+1
+-1
+dobjstr
+2
+
+prepstr
+2
+
+iobj
+1
+-1
+iobjstr
+2
+
+INT
+0
+0
+FLOAT
+0
+9
+MAP
+0
+10
+ANON
+0
+12
+WAIF
+0
+13
+BOOL
+0
+14
+true
+14
+1
+false
+14
+0
+taskn
+0
+567763848
+index
+0
+2
+x
+1
+134
+0 rt_stack slots in use
+0
+-111
+1
+71
+1
+71
+1
+71 -7 -8 2 -9 71 71 -10 1
+No
+More
+Parse
+Infos
+continuous
+continuous
+6
+60 0 58
 0 interrupted tasks
 1 active connections with listeners
 2 0
@@ -665,7 +798,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784176033
+1784178537
 2
 name
 2
@@ -1235,7 +1368,7 @@ source
 2
 time
 0
-1784177022
+1784179374
 4
 0
 1
@@ -1488,7 +1621,7 @@ expire
 4
 2
 0
-1784177012
+1784179363
 2
 localhost
 2
@@ -1497,7 +1630,7 @@ localhost
 2
 0
 0
-1784177013
+1784179364
 2
 1
 0
@@ -1663,7 +1796,7 @@ localhost
 2
 5
 0
-1784177022
+1784179374
 2
 1
 0
@@ -4241,11 +4374,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 0
 10
-1
-1
--30
 0
-2
 2
 5
 0
@@ -4257,7 +4386,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-23
+24
+4
+2
+0
+1784178537
+0
+0
 4
 2
 0
@@ -27445,29 +27580,29 @@ feature_task
 4
 9
 0
-598362054
+766376402
 2
-whisper
+give
 4
 3
 2
-hejka
+#3
 2
-to
+do
 2
 Wizard
 2
-hejka to Wizard
+#3 do Wizard
 1
--3
+3
 2
-hejka to Wizard
+#3
 2
-
+do
 1
--1
 2
-
+2
+Wizard
 36
 0
 4
@@ -34312,7 +34447,7 @@ cleaning_index
 71
 5
 1
--1
+134
 71
 5
 4
@@ -34328,7 +34463,7 @@ cleaning_index
 71
 5
 0
-0
+567763848
 71
 5
 4
@@ -34368,7 +34503,7 @@ Ktos przychodzi i odklada %n. %n twardo spi.
 71
 5
 0
-0
+1
 71
 5
 4
@@ -60739,14 +60874,14 @@ return 0;
 endif
 .
 #11:0
-"{last_huh}  @<msg_name> <object> is [<text>]";
-"If <text> is given calls <object>:set_message(<msg_name>,<text>),";
-"otherwise prints the value of the specified message property";
+"{last_huh}  @<msg_name> <obiekt> is [<tekst>]";
+"Jesli podano <tekst>, wywoluje <obiekt>:set_message(<msg_name>,<tekst>),";
+"w przeciwnym razie wyswietla wartosc danej wlasciwosci wiadomosci";
 set_task_perms(caller_perms());
 nargs = length(args);
 pos = "is" in args;
 if (pos == 1)
-player:notify(tostr("Usage:  ", verb, " <object> is <message>"));
+player:notify(tostr("Uzycie:  ", verb, " <obiekt> is <tekst>"));
 return;
 endif
 dobjstr = $string_utils:from_list(args[1..pos - 1], " ");
@@ -60757,13 +60892,13 @@ if ($command_utils:object_match_failed(dobj, dobjstr))
 "... oh well ...";
 elseif (pos == nargs)
 if (E_PROPNF == (get = `dobj.(msg_name + "_msg") ! ANY'))
-player:notify(tostr(dobj.name, " (", dobj, ") has no \"", msg_name, "\" message."));
+player:notify(tostr(dobj.name, " (", dobj, ") nie ma wiadomosci \"", msg_name, "\"."));
 elseif (typeof(get) == ERR)
 player:notify(tostr(get));
 elseif (!get)
-player:notify("Message is not set.");
+player:notify("Wiadomosc nie jest ustawiona.");
 else
-player:notify(tostr("The \"", msg_name, "\" message of ", dobj.name, " (", dobj, "):"));
+player:notify(tostr("Wiadomosc \"", msg_name, "\" dla ", dobj.name, " (", dobj, "):"));
 player:notify(tostr(get));
 endif
 else
@@ -60772,84 +60907,84 @@ if (set)
 if (typeof(set) == STR)
 player:notify(set);
 else
-player:notify(tostr("You set the \"", msg_name, "\" message of ", dobj.name, " (", dobj, ")."));
+player:notify(tostr("Ustawiono wiadomosc \"", msg_name, "\" dla ", dobj.name, " (", dobj, ")."));
 endif
 elseif (set == E_PROPNF)
-player:notify(tostr(dobj.name, " (", dobj, ") has no \"", msg_name, "\" message to set."));
+player:notify(tostr(dobj.name, " (", dobj, ") nie ma wiadomosci \"", msg_name, "\" do ustawienia."));
 elseif (typeof(set) == ERR)
 player:notify(tostr(set));
 else
-player:notify(tostr("You clear the \"", msg_name, "\" message of ", dobj.name, " (", dobj, ")."));
+player:notify(tostr("Wyczyszczono wiadomosc \"", msg_name, "\" dla ", dobj.name, " (", dobj, ")."));
 endif
 endif
 .
 #11:1
 "{last_huh}  give any to any";
-"a give \"verb\" that works for non-$things.";
+"czasownik \"give\", ktory dziala dla obiektow niebedacych $thing.";
 set_task_perms(caller_perms());
 if (((verb == "give") && (dobjstr == "up")) && (!prepstr))
-player:tell("Try this instead: @quit");
+player:tell("Sprobuj zamiast tego: @quit");
 elseif (dobj == $nothing)
-player:tell("What do you want to give?");
+player:tell("Co chcesz dac?");
 elseif (iobj == $nothing)
-player:tell("To whom/what do you want to give it?");
+player:tell("Komu/czemu chcesz to dac?");
 elseif ($command_utils:object_match_failed(dobj, dobjstr) || $command_utils:object_match_failed(iobj, iobjstr))
 "...lose...";
 elseif (dobj.location != player)
-player:tell("You don't have that!");
+player:tell("Nie masz tego!");
 elseif (iobj.location != player.location)
-player:tell("I don't see ", iobj.name, " here.");
+player:tell("Nie widze tu ", iobj.name, ".");
 else
 dobj:moveto(iobj);
 if (dobj.location == iobj)
-player:tell("You give ", dobj:title(), " to ", iobj.name, ".");
-iobj:tell(player.name, " gives you ", dobj:title(), ".");
+player:tell("Dajesz ", dobj:title(), " dla ", iobj.name, ".");
+iobj:tell(player.name, " daje ci ", dobj:title(), ".");
 else
-player:tell("Either that doesn't want to be given away or ", iobj.name, " doesn't want it.");
+player:tell("Albo to nie chce byc oddane, albo ", iobj.name, " tego nie chce.");
 endif
 endif
 .
 #11:2
 "{last_huh}  get/take any";
-"a take \"verb\" that works for non-$things.";
+"czasownik \"take\", ktory dziala dla obiektow niebedacych $thing.";
 set_task_perms(caller_perms());
 if (dobj == $nothing)
-player:tell(verb, " what?");
+player:tell(verb, " co?");
 elseif ($command_utils:object_match_failed(dobj, dobjstr))
 "...lose...";
 elseif (dobj.location == player)
-player:tell("You already have that!");
+player:tell("Juz to masz!");
 elseif (dobj.location != player.location)
-player:tell("I don't see that here.");
+player:tell("Nie widze tego tutaj.");
 else
 dobj:moveto(player);
 if (dobj.location == player)
-player:tell("Taken.");
-player.location:announce(player.name, " takes ", dobj.name, ".");
+player:tell("Wzieto.");
+player.location:announce(player.name, " bierze ", dobj.name, ".");
 else
-player:tell("You can't pick that up.");
+player:tell("Nie mozesz tego podniesc.");
 endif
 endif
 .
 #11:3
 "{last_huh}  drop/throw any";
-"a drop \"verb\" that works for non-$things.";
+"czasownik \"drop\", ktory dziala dla obiektow niebedacych $thing.";
 set_task_perms(caller_perms());
 if (dobj == $nothing)
-player:tell(verb, " what?");
+player:tell(verb, " co?");
 elseif ($command_utils:object_match_failed(dobj, dobjstr))
 "...lose...";
 elseif (dobj.location != player)
-player:tell("You don't have that.");
+player:tell("Nie masz tego.");
 elseif (!player.location:acceptable(dobj))
-player:tell("You can't drop that here.");
+player:tell("Nie mozesz tego tu upuscic.");
 else
 dobj:moveto(player.location);
 if (dobj.location == player.location)
-player:tell_lines((verb[1] == "d") ? "Dropped." | "Thrown.");
-player.location:announce(player.name, (verb[1] == "d") ? " dropped " | " threw away ", dobj.name, ".");
+player:tell_lines((verb[1] == "d") ? "Upuszczone." | "Rzucone.");
+player.location:announce(player.name, (verb[1] == "d") ? " upuszcza " | " odrzuca ", dobj.name, ".");
 else
-player:tell_lines("You can't seem to drop that here.");
+player:tell_lines("Nie udaje ci sie tego tu upuscic.");
 endif
 endif
 .
@@ -62400,15 +62535,15 @@ endif
 .
 #16:3
 "suspicious(address [,who])";
-"Determine whether an address appears to be another player in disguise.";
-"returns a list of similar addresses.";
-"If second argument given, then if all similar addresses are held by that";
-"person, let it pass---they're just switching departments at the same school";
-"or something.";
+"Sprawdza, czy adres wyglada na innego gracza w przebraniu.";
+"zwraca liste podobnych adresow.";
+"Jesli podano drugi argument, to jesli wszystkie podobne adresy naleza do tej";
+"osoby, przepuszcza - to po prostu zmiana wydzialu w tej samej szkole";
+"albo cos takiego.";
 "";
-"at the moment,";
+"w tej chwili,";
 "  foo@bar.baz.bing.boo";
-"is considered 'similar' to anything matching";
+"jest uwazane za 'podobne' do wszystkiego pasujacego do";
 "  foo@*.bing.boo";
 if (!caller_perms().wizard)
 return E_PERM;
@@ -62448,7 +62583,7 @@ return others;
 .
 #16:4
 "suspicious_userid(userid)";
-"Return yes if userid is root or postmaster or something like that.";
+"Zwraca prawde, jesli userid to root, postmaster albo cos podobnego.";
 if ($object_utils:has_property(#0, "local") && $object_utils:has_property($local, "suspicious_userids"))
 extra = $local.suspicious_userids;
 else
@@ -62458,19 +62593,19 @@ return ((((args[1] in {@$network.suspicious_userids, @extra}) || match(args[1], 
 "Thinking about ruling out hyphenated names, on the grounds that they're probably mailing lists.";
 .
 #16:5
-"Returns a list of strings describing the registration data for an email address.  Args[1] should be the result of this:find.";
+"Zwraca liste stringow opisujacych dane rejestracyjne adresu email.  Args[1] powinno byc wynikiem this:find.";
 set_task_perms(caller_perms());
 result = {};
 for x in (args[1])
-name = (valid(x[1]) && is_player(x[1])) ? x[1].name | "<recycled>";
+name = (valid(x[1]) && is_player(x[1])) ? x[1].name | "<zutylizowany>";
 email = (valid(x[1]) && is_player(x[1])) ? $wiz_utils:get_email_address(x[1]) | "<???>";
-result = {@result, tostr("  ", name, " (", x[1], ") current email: ", email, (length(x) > 1) ? (" [" + x[2]) + "]" | "")};
+result = {@result, tostr("  ", name, " (", x[1], ") biezacy email: ", email, (length(x) > 1) ? (" [" + x[2]) + "]" | "")};
 endfor
 return result;
 .
 #16:6
-"Carefully loop through the db and delete items associated with reaped objects.  If that results in no objects remaining for a username, delete that username.";
-"Attempt to keep memory usage down by only asking for a small number of items at a time.  Should probably have some arguments to control this.";
+"Ostroznie przechodzi przez baze i usuwa wpisy powiazane z usunietymi obiektami.  Jesli w wyniku tego nie zostaje zadnych obiektow dla danej nazwy uzytkownika, usuwa te nazwe.";
+"Probuje ograniczyc zuzycie pamieci, prosza tylko o male ilosci elementow naraz.  Powinno chyba miec jakies argumenty do kontrolowania tego.";
 if (!caller_perms().wizard)
 raise(E_PERM);
 endif
@@ -62511,10 +62646,10 @@ set_task_perms($wiz_utils:random_wizard());
 suspend(0);
 endif
 endwhile
-player:tell("Prune stopped at ", toliteral(this.prune_progress));
+player:tell("Przycinanie zatrzymane na ", toliteral(this.prune_progress));
 .
 #16:7
-player:tell("Prune is up to ", toliteral(this.prune_progress), ".");
+player:tell("Przycinanie doszlo do ", toliteral(this.prune_progress), ".");
 mine = 0;
 alphalen = length(this.alphabet);
 if (typeof(this.prune_progress) == STR)
@@ -62527,17 +62662,17 @@ total = 256 * 256;
 mine = (this.prune_progress[1] * 256) + this.prune_progress[2];
 endif
 percent = (100.0 * tofloat(mine)) / tofloat(total);
-player:tell("We have processed ", mine, " entries out of ", total, ", or ", toint(percent), ".", toint(10.0 * percent) % 10, "%.");
-player:tell("There were ", this.total_pruned_characters, " individual list entries removed, and ", this.total_pruned_people, " whole email addresses removed.");
+player:tell("Przetworzono ", mine, " wpisow z ", total, ", czyli ", toint(percent), ".", toint(10.0 * percent) % 10, "%.");
+player:tell("Usunieto ", this.total_pruned_characters, " pojedynczych wpisow z listy oraz ", this.total_pruned_people, " calych adresow email.");
 if ($code_utils:task_valid(this.prune_task))
-player:tell("Prune task is ", this.prune_task, ".  Stacktrace:");
+player:tell("Zadanie przycinania to ", this.prune_task, ".  Stos wywolan:");
 for x in (task_stack(this.prune_task, 1))
 if (valid(x[4]))
 player:tell(x[4], ":", x[2], " [", x[1], "]  ", x[3].name, "  (", x[6], ")");
 endif
 endfor
 else
-player:tell("The recorded task_id is no longer valid.");
+player:tell("Zapisany task_id juz nie jest prawidlowy.");
 endif
 .
 #16:8
@@ -82586,7 +82721,7 @@ endif
 .
 #61:8
 ":news_display_seq_full(msg_seq) => {cur, last-read-date}";
-"Display the given msg_seq as a collection of news items";
+"Wyswietla dany msg_seq jako zbior artykulow";
 set_task_perms(caller_perms());
 desc = this:description();
 player:notify((typeof(desc) == LIST) ? desc[1] | desc);
@@ -82598,7 +82733,7 @@ player:notify_lines(this:to_text(@x[2]));
 player:notify("");
 $command_utils:suspend_if_needed(0);
 endfor
-player:notify("(end)");
+player:notify("(koniec)");
 return {msgs[n][1], msgs[n][2][1]};
 .
 #61:9
@@ -82616,24 +82751,24 @@ return {subject, tostr("  by ", by, " on ", ctime), "", @text};
 set_task_perms(caller_perms());
 if ((player:get_current_message(this) || {0, 0})[2] < this.last_news_time)
 if ((n = player:mail_option("news")) in {0, "all"})
-player:tell("There is new news.  Type `news' to read all news or `news new' to read just new news.");
+player:tell("Sa nowe wiadomosci.  Wpisz `news' aby przeczytac wszystkie, albo `news new' aby przeczytac tylko nowe.");
 elseif (n == "contents")
-player:tell("There is new news.  Type `news all' to read all news or `news new' to read just new news.");
+player:tell("Sa nowe wiadomosci.  Wpisz `news all' aby przeczytac wszystkie, albo `news new' aby przeczytac tylko nowe.");
 elseif (n == "new")
-player:tell("There is new news.  Type `news' to read new news, or `news all' to read all news.");
+player:tell("Sa nowe wiadomosci.  Wpisz `news' aby przeczytac nowe, albo `news all' aby przeczytac wszystkie.");
 endif
 endif
 .
 #61:11
 if (!this:ok_write(caller, valid(who = caller_perms()) ? who | player))
-player:notify("Permission denied.");
+player:notify("Odmowa dostepu.");
 return;
 endif
 fork (0)
 for p in (connected_players())
 $command_utils:suspend_if_needed(0);
 if ((p:get_current_message(this) || {0, 0})[2] < this.last_news_time)
-p:notify("There's a new edition of the newspaper.  Type 'news new' to see the new article(s).");
+p:notify("Jest nowe wydanie gazety.  Wpisz 'news new' aby zobaczyc nowe artykuly.");
 endif
 endfor
 endfork
@@ -82644,16 +82779,16 @@ raise(E_PERM);
 endif
 set_task_perms(player);
 if (!this:is_writable_by(player))
-player:notify("You can't write the news.");
+player:notify("Nie mozesz pisac do gazety.");
 elseif (typeof(result = this:add_news(args[1..(prepstr in args) - 1], player:get_current_message(this) || {0, 0})) == STR)
 player:notify(result);
 else
 new = this.current_news;
 if (new)
-player:notify("Current newspaper set.");
+player:notify("Ustawiono biezaca gazete.");
 this:display_seq_headers(new);
 else
-player:notify("Current newspaper is now empty.");
+player:notify("Biezaca gazeta jest teraz pusta.");
 endif
 endif
 .
@@ -82663,36 +82798,36 @@ raise(E_PERM);
 endif
 set_task_perms(player);
 if (!this:is_writable_by(player))
-player:notify("You can't write the news.");
+player:notify("Nie mozesz pisac do gazety.");
 elseif (typeof(result = this:rm_news(args[1..(prepstr in args) - 1], player:get_current_message(this) || {0, 0})) == STR)
 player:notify(result);
 else
 new = this.current_news;
 if (new)
-player:notify("Current newspaper set.");
+player:notify("Ustawiono biezaca gazete.");
 this:display_seq_headers(new);
 else
-player:notify("Current newspaper is now empty.");
+player:notify("Biezaca gazeta jest teraz pusta.");
 endif
 endif
 .
 #61:14
 set_task_perms(player);
 if (!this:is_writable_by(player))
-player:notify("You can't write the news.");
+player:notify("Nie mozesz pisac do gazety.");
 elseif (typeof(seq = this:_parse(strings = args[(prepstr in args) + 1..$], @player:get_current_message(this) || {0, 0})) == STR)
 player:notify(seq);
 else
 old = this.current_news;
 if (old == seq)
-player:notify("No change.");
+player:notify("Bez zmian.");
 else
 this:set_current_news(seq);
 if (seq)
-player:notify("Current newspaper set.");
+player:notify("Ustawiono biezaca gazete.");
 this:display_seq_headers(seq);
 else
-player:notify("Current newspaper is now empty.");
+player:notify("Biezaca gazeta jest teraz pusta.");
 endif
 endif
 endif
@@ -82715,13 +82850,13 @@ endif
 #61:16
 if (caller_perms().wizard)
 pass(@args);
-this.description = "It's the current issue of the News, dated %d.";
+this.description = "To biezace wydanie Gazety, z dnia %d.";
 this.moderated = 1;
 this.last_news_time = 0;
 this.readers = 1;
 this.expire_period = 0;
 this.archive_news = {};
-$mail_agent:send_message(#2, this, "Welcome to ToastCore", $wiz_utils.new_core_message);
+$mail_agent:send_message(#2, this, "Witaj w ToastCore", $wiz_utils.new_core_message);
 this:add_news("$");
 else
 return E_PERM;
@@ -82739,7 +82874,7 @@ endif
 old = this.current_news;
 new = $seq_utils:union(old, seq);
 if (old == new)
-return "Those messages are already in the news.";
+return "Te wiadomosci sa juz w gazecie.";
 endif
 this:set_current_news(new);
 return 1;
@@ -82756,22 +82891,22 @@ endif
 old = this.current_news;
 new = $seq_utils:intersection(old, $seq_utils:complement(seq));
 if (old == new)
-return "Those messages were not in the news.";
+return "Tych wiadomosci nie bylo w gazecie.";
 endif
 this:set_current_news(new);
 return 1;
 .
 #61:19
-player:notify("The following articles are currently in the newspaper:");
+player:notify("Nastepujace artykuly sa obecnie w gazecie:");
 this:display_seq_headers(this.current_news);
 .
 #61:20
 set_task_perms(player);
 if (this:is_writable_by(player))
 this:set_current_news({});
-player:notify("Current newspaper is now empty.");
+player:notify("Biezaca gazeta jest teraz pusta.");
 else
-player:notify("You can't write the news.");
+player:notify("Nie mozesz pisac do gazety.");
 endif
 .
 #62:0
@@ -83874,7 +84009,7 @@ player:tell_lines(this:description());
 player:tell($string_utils:pronoun_sub("%S %<krzata sie/krzataja sie> od pokoju do pokoju, sprzatajac.", this));
 .
 #71:1
-"$housekeeper:cleanup([insist]) => clean up player's objects. Argument is 'up' or 'up!' for manually requested cleanups (notify player differently)";
+"$housekeeper:cleanup([insist]) => sprzata obiekty gracza. Argument to 'up' lub 'up!' dla recznie zadanych sprzatan (inaczej powiadamia gracza)";
 if (caller_perms() != this)
 return E_PERM;
 endif
@@ -83887,14 +84022,14 @@ endif
 endif
 $command_utils:suspend_if_needed(0);
 endfor
-player:tell("The housekeeper has finished cleaning up your objects.");
+player:tell("Porzadkowanie twoich obiektow zostalo zakonczone.");
 .
 #71:2
 "replace the object given to its proper spot (if there is one).";
 {object, ?insist = 0} = args;
 i = object in this.clean;
 if (!i)
-return tostr(object, " is not on the ", this.name, "'s cleanup list");
+return tostr(object, " nie jest na liscie sprzatania obiektu ", this.name, ".");
 endif
 place = this.destination[i];
 if (!((($recycler:valid(object) && ($recycler:valid(r = this.requestors[i]) && is_player(r))) && ($recycler:valid(place) || (place == #-1))) && (!(object.location in this.recycle_bins))))
@@ -83902,7 +84037,7 @@ if (!((($recycler:valid(object) && ($recycler:valid(r = this.requestors[i]) && i
 this.clean = listdelete(this.clean, i);
 this.requestors = listdelete(this.requestors, i);
 this.destination = listdelete(this.destination, i);
-return tostr(object) + " is no longer valid, removed from cleaning list";
+return tostr(object) + " jest juz nieprawidlowy, usuniety z listy sprzatania";
 endif
 oldloc = loc = object.location;
 if (object.location == place)
@@ -83912,33 +84047,33 @@ endif
 requestor = $recycler:valid(tr = this.requestors[i]) ? tr | $no_one;
 if (insist != "up!")
 if ($code_utils:verb_or_property(object, "in_use"))
-return ("Not returning " + object.name) + " because it claims to be in use";
+return ("Nie zwracam " + object.name) + ", bo twierdzi, ze jest w uzyciu";
 endif
 for thing in (object.contents)
 if (thing:is_listening())
-return ((("Not returning " + object.name) + " because ") + thing.name) + " is inside";
+return ((("Nie zwracam " + object.name) + ", bo ") + thing.name) + " jest w srodku";
 endif
 $command_utils:suspend_if_needed(0);
 endfor
 if (valid(loc) && (loc != $limbo))
 if (loc:is_listening())
-return ((("Not returning " + object.name) + " because ") + loc.name) + " is holding it";
+return ((("Nie zwracam " + object.name) + ", bo ") + loc.name) + " to trzyma";
 endif
 for y in (loc:contents())
 if ((y != object) && y:is_listening())
-return (((("Not returning " + object.name) + " because ") + y.name) + " is in ") + loc.name;
+return (((("Nie zwracam " + object.name) + ", bo ") + y.name) + " jest w ") + loc.name;
 endif
 $command_utils:suspend_if_needed(0);
 endfor
 endif
 endif
 if (valid(place) && (!place:acceptable(object)))
-return (place.name + " won't accept ") + object.name;
+return (place.name + " nie chce przyjac ") + object.name;
 endif
 try
-requestor:tell("As you requested, the housekeeper tidies ", $string_utils:nn(object), " from ", $string_utils:nn(loc), " to ", $string_utils:nn(place), ".");
+requestor:tell("Zgodnie z twoja prosba, ", this.name, " zanosi ", $string_utils:nn(object), " z ", $string_utils:nn(loc), " do ", $string_utils:nn(place), ".");
 if ($object_utils:has_verb(loc, "announce_all_but"))
-loc:announce_all_but({requestor, object}, "At ", requestor.name, "'s request, the ", this.name, " sneaks in, picks up ", object.name, " and hurries off to put ", ($object_utils:has_property(object, "po") && (typeof(object.po) == STR)) ? object.po | "it", " away.");
+loc:announce_all_but({requestor, object}, "Na prosbe ", requestor.name, ", ", this.name, " wkrada sie, podnosi ", object.name, " i pospiesznie odnosi ", ($object_utils:has_property(object, "po") && (typeof(object.po) == STR)) ? object.po | "to", " na miejsce.");
 endif
 except (ANY)
 "Ignore errors";
@@ -83946,14 +84081,14 @@ endtry
 fork (0)
 this:moveit(object, place, requestor);
 if ((loc = object.location) == oldloc)
-return (object.name + " wouldn't go; ") + ((!place:acceptable(object)) ? (" perhaps " + $string_utils:nn(place)) + " won't let it in" | ((" perhaps " + $string_utils:nn(loc)) + " won't let go of it"));
+return (("Nie udalo sie przeniesc " + object.name) + "; ") + ((!place:acceptable(object)) ? ("byc moze " + $string_utils:nn(place)) + " nie chce tego wpuscic" | (("byc moze " + $string_utils:nn(loc)) + " tego nie puszcza"));
 endif
 try
-object:tell("The housekeeper puts you away.");
+object:tell(this.name, " odklada cie na miejsce.");
 if ($object_utils:isa(loc, $room))
-loc:announce_all_but({object}, "At ", requestor.name, "'s request, the housekeeper sneaks in, deposits ", object:title(), " and leaves.");
+loc:announce_all_but({object}, "Na prosbe ", requestor.name, ", ", this.name, " wkrada sie, zostawia ", object:title(), " i wychodzi.");
 else
-loc:tell("You notice the housekeeper sneak in, give you ", object:title(), " and leave.");
+loc:tell("Zauwazasz, jak ", this.name, " wkrada sie, daje ci ", object:title(), " i wychodzi.");
 endif
 except (ANY)
 "Ignore errors";
@@ -83966,10 +84101,10 @@ if (args)
 if (!valid(who = args[1]))
 return;
 endif
-player:tell(who.name, "'s personal cleanup list:");
+player:tell(who.name, ": osobista lista sprzatania:");
 else
 who = 0;
-player:tell("Housekeeper's complete cleanup list:");
+player:tell(this.name, ": pelna lista sprzatania:");
 endif
 player:tell("------------------------------------------------------------------");
 printed_anything = 0;
@@ -83984,15 +84119,15 @@ ob = objs[i];
 place = dest[i];
 if (((who == 0) || (req == who)) || (ob.owner == who))
 if (!valid(ob))
-player:tell($string_utils:left(tostr(ob), objfieldwid), $string_utils:left("** recycled **", 50), "(", req.name, ")");
+player:tell($string_utils:left(tostr(ob), objfieldwid), $string_utils:left("** zutylizowany **", 50), "(", req.name, ")");
 else
-player:tell($string_utils:left(tostr(ob), objfieldwid), $string_utils:left(ob.name, 26), "=>", $string_utils:left(tostr(place), objfieldwid), (valid(place) ? place.name | "nowhere") || "nowhere", " (", req.name, ")");
+player:tell($string_utils:left(tostr(ob), objfieldwid), $string_utils:left(ob.name, 26), "=>", $string_utils:left(tostr(place), objfieldwid), (valid(place) ? place.name | "nigdzie") || "nigdzie", " (", req.name, ")");
 endif
 printed_anything = 1;
 endif
 endfor
 if (!printed_anything)
-player:tell("** The housekeeper has nothing in the cleanup list.");
+player:tell("** ", this.name, " nie ma nic na liscie sprzatania.");
 endif
 player:tell("------------------------------------------------------------------");
 .
@@ -84002,19 +84137,19 @@ return E_PERM;
 endif
 {what, ?who = player, ?where = what.location} = args;
 if ((what < #1) || (!valid(what)))
-return "invalid object";
+return "nieprawidlowy obiekt";
 endif
 if ($object_utils:isa(who, $guest))
-return tostr("Guests can't use the ", this.name, ".");
+return tostr("Goscie nie moga korzystac z ", this.name, ".");
 endif
 if (!is_player(who))
-return tostr("Non-players can't use the ", this.name, ".");
+return tostr("Nie-gracze nie moga korzystac z ", this.name, ".");
 endif
 if (!valid(where))
-return tostr("The ", this.name, " doesn't know how to find ", where, " in order to put away ", what.name, ".");
+return tostr(this.name, " nie wie, jak znalezc ", where, ", zeby odlozyc ", what.name, ".");
 endif
 if (is_player(what))
-return ("The " + this.name) + " doesn't do players, except to cart them home when they fall asleep.";
+return this.name + " nie zajmuje sie graczami, poza odwozeniem ich do domu, gdy zasna.";
 endif
 for x in (this.eschews)
 if ($object_utils:isa(what, x[1]))
@@ -84025,16 +84160,16 @@ ok = 1;
 endif
 endfor
 if (!ok)
-return tostr("The ", this.name, " doesn't do ", x[2], "!");
+return tostr(this.name, " nie zajmuje sie: ", x[2], "!");
 endif
 endif
 endfor
 if ($object_utils:has_callable_verb(where, "litterp") ? where:litterp(what) | ((where in this.public_places) && (!(what in where.residents))))
-return tostr("The ", this.name, " won't litter ", where.name, "!");
+return tostr(this.name, " nie zasmieci w ", where.name, "!");
 endif
 if (i = what in this.clean)
 if ((!this:controls(i, who)) && valid(this.destination[i]))
-return tostr($recycler:valid(tr = this.requestors[i]) ? tr.name | "Someone", " already asked that ", what.name, " be kept at ", this.destination[i].name, "!");
+return tostr($recycler:valid(tr = this.requestors[i]) ? tr.name | "Ktos", " ma juz prosbe, by ", what.name, " bylo trzymane w ", this.destination[i].name, "!");
 endif
 this.requestors[i] = who;
 this.destination[i] = where;
@@ -84043,7 +84178,7 @@ this.clean = {what, @this.clean};
 this.requestors = {who, @this.requestors};
 this.destination = {where, @this.destination};
 endif
-return tostr("The ", this.name, " will keep ", what.name, " (", what, ") at ", valid(where) ? ((where.name + " (") + tostr(where)) + ")" | where, ".");
+return tostr(this.name, " bedzie trzymac ", what.name, " (", what, ") w ", valid(where) ? ((where.name + " (") + tostr(where)) + ")" | where, ".");
 .
 #71:5
 if (!$perm_utils:controls(caller_perms(), this))
@@ -84052,27 +84187,27 @@ endif
 {what, ?who = player} = args;
 if (i = what in this.clean)
 if (!this:controls(i, who))
-return tostr("You may remove an object from ", this.name, " list only if you own the object, the place it is kept, or if you placed the original cleaning order.");
+return tostr("Mozesz usunac obiekt z listy ", this.name, " tylko jesli jestes wlascicielem obiektu lub miejsca, w ktorym jest trzymany, albo jesli to od ciebie pochodzi pierwotne zlecenie sprzatania.");
 endif
 this.clean = listdelete(this.clean, i);
 this.destination = listdelete(this.destination, i);
 this.requestors = listdelete(this.requestors, i);
-return tostr(what.name, " (", what, ") removed from cleanup list.");
+return tostr(what.name, " (", what, ") usuniete z listy sprzatania.");
 else
-return tostr(what.name, " not in cleanup list.");
+return tostr(what.name, " nie jest na liscie sprzatania.");
 endif
 .
 #71:6
 "does player control entry I?";
 {i, who} = args;
 if ((who in {this.owner, @this.owners}) || who.wizard)
-return "Yessir.";
+return "Tak jest.";
 endif
 cleanable = this.clean[i];
 if (this.requestors[i] == who)
-return "you asked for the previous result, you can change this one.";
+return "to byla twoja poprzednia prosba, mozesz to zmienic.";
 elseif (((who == cleanable.owner) || (!valid(dest = this.destination[i]))) || (who == dest.owner))
-return "you own the object or the place where it is being cleaned to, or the destination is no longer valid.";
+return "jestes wlascicielem obiektu lub miejsca docelowego, albo cel jest juz nieprawidlowy.";
 else
 return "";
 endif
@@ -84132,12 +84267,12 @@ littering = litter.location;
 this:ejectit(litter, littering);
 home = litter.location;
 if ($object_utils:isa(home, $room))
-home:announce_all("The ", this.name, " sneaks in, deposits ", litter:title(), " and leaves.");
+home:announce_all(this.name, " wkrada sie, zostawia ", litter:title(), " i wychodzi.");
 else
-home:tell("You notice the ", this.name, " sneak in, give you ", litter:title(), " and leave.");
+home:tell("Zauwazasz, jak ", this.name, " wkrada sie, daje ci ", litter:title(), " i wychodzi.");
 endif
 if ($object_utils:has_callable_verb(littering, "announce_all_but"))
-littering:announce_all_but({litter}, "The ", this.name, " sneaks in, picks up ", litter:title(), " and rushes off to put it away.");
+littering:announce_all_but({litter}, this.name, " wkrada sie, podnosi ", litter:title(), " i pospiesznie odnosi to na miejsce.");
 endif
 .
 #71:11
@@ -84201,16 +84336,16 @@ count = count + 1;
 endif
 $command_utils:suspend_if_needed(1);
 endfor
-player:tell("Number of items in cleanup list: ", tostr(length(this.clean)));
-player:tell("Number of items you requested to be tidied: ", tostr(count));
-player:tell("Number of requestors: ", tostr(length($list_utils:remove_duplicates(this.requestors))));
-player:tell("Time to complete one cleaning circuit: ", $time_utils:english_time(length(this.clean) * this:time()));
-player:tell("The Housekeeper is in " + (($housekeeper.testing == 0) ? "normal, non-testing mode." | "testing mode. "));
+player:tell("Liczba przedmiotow na liscie sprzatania: ", tostr(length(this.clean)));
+player:tell("Liczba przedmiotow zgloszonych przez ciebie do uporzadkowania: ", tostr(count));
+player:tell("Liczba zglaszajacych: ", tostr(length($list_utils:remove_duplicates(this.requestors))));
+player:tell("Czas na ukonczenie jednego cyklu sprzatania: ", $time_utils:english_time(length(this.clean) * this:time()));
+player:tell(this.name, " dziala w trybie " + (($housekeeper.testing == 0) ? "normalnym (nie testowym)." | "testowym. "));
 if (!$code_utils:task_valid($housekeeper.task))
-player:tell("The Housekeeper task has died. Restarting...");
+player:tell(this.name, ": zadanie umarlo. Restartuje...");
 $housekeeper:continuous();
 else
-player:tell("The Housekeeper is actively cleaning.");
+player:tell(this.name, " aktywnie sprzata.");
 endif
 .
 #71:17
@@ -84218,14 +84353,14 @@ endif
 cleanable = args[1];
 info = this:is_object_cleaned(cleanable);
 if (info == 0)
-return tostr(cleanable.name, " is not cleaned by the ", this.name, ".");
+return tostr(cleanable.name, " nie jest sprzatane przez ", this.name, ".");
 else
-return tostr(cleanable.name, " is kept tidy at ", $string_utils:nn(info[1]), " at the request of ", $string_utils:nn(info[2]), ".");
+return tostr(cleanable.name, " jest utrzymywane w porzadku w ", $string_utils:nn(info[1]), ", na prosbe ", $string_utils:nn(info[2]), ".");
 endif
 .
 #71:18
-"Returns the amount of time to suspend between objects while continuous cleaning.";
-"Currently set to try to complete cleaning circuit in one hour, but not exceed one object every 20 seconds.";
+"Zwraca czas do zawieszenia miedzy obiektami podczas ciaglego sprzatania.";
+"Ustawione tak, by probowac ukonczyc cykl sprzatania w godzine, ale nie przekraczac jednego obiektu na 20 sekund.";
 return max(20 + $login:current_lag(), length(this.clean) ? 3600 / length(this.clean) | 0);
 .
 #71:19
@@ -90568,8 +90703,8 @@ endif
 endif
 .
 #100:4
-":linesplit(line,len) => list of substrings of line";
-"used by :notify to split up long lines if .linelen>0";
+":linesplit(line,len) => lista podciagow line";
+"uzywane przez :notify do dzielenia dlugich linii, jesli .linelen>0";
 line = args[1];
 len = args[2];
 cline = {};
@@ -90595,14 +90730,14 @@ player:notify_lines($ansi_utils.test_screen);
 player:notify($string_utils:space(l, "-"));
 .
 #100:6
-"This makes sure that people don't have color codes in their name. They shouldn't, anyway since it makes it hard to identify them (especially if they use black.)";
+"Zapewnia, ze ludzie nie maja kodow kolorow w swoim imieniu. Nie powinni ich miec zreszta, bo to utrudnia identyfikacje (zwlaszcza jesli uzyja czerni.)";
 if (!($perm_utils:controls(caller_perms(), this) || (caller == this)))
 return E_PERM;
 elseif (!is_player(this))
 "we don't worry about the names of player classes.";
 return pass(@args);
 elseif ((name = args[1]) != $ansi_utils:delete(name))
-player:notify("Sorry, you can't have color codes in your name. It messes up the db listings and people might not know how to address you if you didn't have your normal name as an alias. You can make a :title, though.");
+player:notify("Przykro mi, nie mozesz miec kodow kolorow w swoim imieniu. To psuje listingi bazy danych, a inni moga nie wiedziec, jak sie do ciebie zwrocic, gdybys nie mial(a) normalnego imienia jako alias. Mozesz za to ustawic :title.");
 return E_INVARG;
 else
 return pass(@args);
@@ -90622,7 +90757,7 @@ player:tell(tostr(action1, ": \"", argstr, "\""));
 player.location:announce(tostr(au:ansi_title(player), " ", action3, ": \"", argstr, "\""));
 .
 #100:8
-"Redirects calls to @who to $ansi_utils:show_who_listing.";
+"Przekierowuje wywolania @who do $ansi_utils:show_who_listing.";
 if (caller != player)
 return E_PERM;
 elseif (!(valid(au = $ansi_utils) && au.active))
@@ -90670,12 +90805,12 @@ elseif (!(valid(au = $ansi_utils) && au.active))
 return pass(@args);
 elseif (!(lbuf = this.linebuffer))
 this.linesleft = this.pagelen - 2;
-notify(this, "*** No more ***");
-elseif (index("flush", dobjstr || "x") == 1)
+notify(this, "*** Nic wiecej ***");
+elseif ((index("flush", dobjstr || "x") == 1) || (index("wyczysc", dobjstr || "x") == 1))
 this.linesleft = this.pagelen - 2;
-notify(this, tostr("*** Flushed ***  ", length(lbuf), " lines"));
+notify(this, tostr("*** Wyczyszczono ***  ", length(lbuf), " linii"));
 this.linebuffer = {};
-elseif ((index("rest", dobjstr || "x") == 1) || (!this.pagelen))
+elseif (((index("rest", dobjstr || "x") == 1) || (index("reszta", dobjstr || "x") == 1)) || (!this.pagelen))
 this.linesleft = this.pagelen - 2;
 for l in (lbuf)
 au:notify(this, l);
@@ -90696,7 +90831,7 @@ endif
 this.linetask[2] = task_id();
 .
 #100:11
-"This makes sure that people don't have color codes in their aliases. They shouldn't, anyway since it makes it hard to identify them (especially if they use black.)";
+"Zapewnia, ze ludzie nie maja kodow kolorow w swoich aliasach. Nie powinni ich miec zreszta, bo to utrudnia identyfikacje (zwlaszcza jesli uzyja czerni.)";
 if (!($perm_utils:controls(caller_perms(), this) || (caller == this)))
 return E_PERM;
 elseif (!is_player(this))
@@ -90709,7 +90844,7 @@ aliases = setremove(aliases, name);
 endif
 endfor
 if (aliases != args[1])
-player:notify("Sorry, you can't have color codes in your aliases.");
+player:notify("Przykro mi, nie mozesz miec kodow kolorow w swoich aliasach.");
 endif
 return pass(aliases);
 endif
@@ -90723,14 +90858,14 @@ return E_PERM;
 else
 au = $ansi_utils;
 if (au.active)
-this:notify(tostr("ANSI Version ", au.version, " is currently active.  Type \"?ansi-intro\" for more information."));
+this:notify(tostr("Wersja ANSI ", au.version, " jest obecnie aktywna.  Wpisz \"?ansi-intro\" aby dowiedziec sie wiecej."));
 endif
 if (((mess = au.status_message) && (!$object_utils:isa(this, $guest))) && (!this:ansi_option("no_connect_status")))
 fork (0)
 line = $string_utils:space((l = this:linelen()) - 2, "*");
-btmmsg = "Type \"@ansi-o +no_connect_status\" to ignore this message.";
+btmmsg = "Wpisz \"@ansi-o +no_connect_status\" by zignorowac ta wiadomosc.";
 this:notify(line);
-for a in ((typeof(mess) == LIST) ? {"ANSI Message:", @mess, btmmsg} | {"ANSI Message: " + mess, btmmsg})
+for a in ((typeof(mess) == LIST) ? {"Wiadomosc ANSI:", @mess, btmmsg} | {"Wiadomosc ANSI: " + mess, btmmsg})
 for b in ($generic_editor:fill_string(a, l - 2))
 this:notify("* " + b);
 endfor
@@ -90847,22 +90982,22 @@ endif
 endif
 .
 #100:15
-"Usage:";
-"  @ansi-title                 - Displays your current ANSI title settings";
-"  @ansi-title <name>          - Displays the title you have set for <name>";
-"  @ansi-title <name> is <new> - Sets <new> as the title for <name>";
-"  @ansi-title is <new>        - Sets <new> as the title for your current name";
+"Uzycie:";
+"  @ansi-title                 - Wyswietla twoje biezace ustawienia tytulu ANSI";
+"  @ansi-title <nazwa>          - Wyswietla tytul ustawiony dla <nazwa>";
+"  @ansi-title <nazwa> jest <nowy> - Ustawia <nowy> jako tytul dla <nazwa>";
+"  @ansi-title jest <nowy>        - Ustawia <nowy> jako tytul dla twojej biezacej nazwy";
 name = dobjstr || this.name;
 if (player != this)
 player:tell(E_PERM);
 elseif (!argstr)
 if (typeof(this.ansi_title) != LIST)
-player:notify("Your ANSI title seems to be screwed up, resetting it.");
+player:notify("Twoj tytul ANSI wyglada na zepsuty, resetuje go.");
 this:set_ansi_title({});
 elseif (!this.ansi_title)
-player:notify("You don't have any ANSI titles set.");
+player:notify("Nie masz ustawionych zadnych tytulow ANSI.");
 else
-player:notify("Current ANSI title substrings:");
+player:notify("Biezace podciagi tytulu ANSI:");
 l = player:linelen() - 21;
 for x in (this.ansi_title)
 z = $generic_editor:fill_string($string_utils:english_list((typeof(x[2]) == LIST) ? x[2] | {x[2]}), l);
@@ -90871,18 +91006,18 @@ for i in (listdelete(z, 1))
 player:notify("                     " + i);
 endfor
 endfor
-player:notify(tostr("Your current name is set to ", $ansi_utils:ansi_title(player), "."));
+player:notify(tostr("Twoja biezaca nazwa jest ustawiona na ", $ansi_utils:ansi_title(player), "."));
 endif
-elseif (iobjstr && (prepstr != "is"))
+elseif (iobjstr && (prepstr != "jest"))
 player:notify_lines($code_utils:verb_documentation());
 elseif (!prepstr)
 if (i = $list_utils:assoc(name, this.ansi_title))
-player:notify(tostr("The substring ", name, " will be replaced with ", i[2], "."));
+player:notify(tostr("Podciag ", name, " bedzie zastapiony przez ", i[2], "."));
 else
-player:notify(tostr("There is no set replacement for the substring ", name, "."));
+player:notify(tostr("Nie ma ustawionego zastapienia dla podciagu ", name, "."));
 endif
 elseif ($ansi_utils:contains_codes(name))
-player:notify("The replacement string shouldn't contain ANSI codes.");
+player:notify("String zastepczy nie powinien zawierac kodow ANSI.");
 else
 at = this.ansi_title;
 i = $list_utils:iassoc(name, at);
@@ -90897,14 +91032,14 @@ at = listdelete(at, i);
 endif
 if (typeof(result = this:set_ansi_title(at)) != ERR)
 if (iobjstr)
-player:notify(tostr("Substring ", name, " will be replaced with ", iobjstr, "."));
+player:notify(tostr("Podciag ", name, " bedzie zastapiony przez ", iobjstr, "."));
 else
-player:notify(tostr("Cleared substring ", name, "."));
+player:notify(tostr("Wyczyszczono podciag ", name, "."));
 endif
 elseif (result == E_NACC)
-player:notify("The replacement string must be the same as the string replaced except for the ANSI strings.");
+player:notify("String zastepczy musi byc taki sam jak zastepowany string, poza kodami ANSI.");
 else
-player:notify(tostr("Error: ", result));
+player:notify(tostr("Blad: ", result));
 endif
 endif
 .
