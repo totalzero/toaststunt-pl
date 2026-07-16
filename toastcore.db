@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784186550 567763848 0
+1784186790 567763848 0
 0
 10
 0
@@ -1368,7 +1368,7 @@ source
 2
 time
 0
-1784186544
+1784186786
 4
 0
 1
@@ -1624,7 +1624,7 @@ expire
 4
 2
 0
-1784186531
+1784186778
 2
 localhost
 2
@@ -1633,7 +1633,7 @@ localhost
 2
 0
 0
-1784186532
+1784186779
 2
 1
 0
@@ -1799,7 +1799,7 @@ localhost
 2
 5
 0
-1784186544
+1784186786
 2
 1
 0
@@ -32828,7 +32828,8 @@ keep_clean
 5
 36
 5
-5
+4
+0
 36
 5
 5
@@ -55843,21 +55844,21 @@ endif
 .
 #3:8
 if (!$perm_utils:controls(valid(caller_perms()) ? caller_perms() | player, this))
-player:tell("Sorry, only the owner of a room may list its exits.");
+player:tell("Niestety, tylko wlasciciel pokoju moze wyswietlic jego wyjscia.");
 elseif (this.exits == {})
-player:tell("This room has no conventional exits.");
+player:tell("Ten pokoj nie ma konwencjonalnych wyjsc.");
 else
 try
 for exit in (this.exits)
 try
-player:tell(exit.name, " (", exit, ") leads to ", valid(exit.dest) ? exit.dest.name | "???", " (", exit.dest, ") via {", $string_utils:from_list(exit.aliases, ", "), "}.");
+player:tell(exit.name, " (", exit, ") prowadzi do ", valid(exit.dest) ? exit.dest.name | "???", " (", exit.dest, ") przez {", $string_utils:from_list(exit.aliases, ", "), "}.");
 except (ANY)
-player:tell("Bad exit or missing .dest property:  ", $string_utils:nn(exit));
+player:tell("Nieprawidlowy obiekt wyjscia lub brakujaca wlasciwosc .dest:  ", $string_utils:nn(exit));
 continue exit;
 endtry
 endfor
 except (E_TYPE)
-player:tell("Bad .exits property. This should be a list of exit objects. Please fix this.");
+player:tell("Nieprawidlowa wlasciwosc .exits. Powinna byc lista obiektow wyjsc. Popraw to.");
 endtry
 endif
 .
@@ -55905,7 +55906,7 @@ endif
 .
 #3:14
 if ((!args) || (!(dir = args[1])))
-player:tell("You need to specify a direction.");
+player:tell("Musisz podac kierunek.");
 return E_INVARG;
 elseif (valid(exit = player.location:match_exit(dir)))
 exit:invoke();
@@ -55919,9 +55920,9 @@ player.location:go(@listdelete(args, 1));
 endif
 endif
 elseif (exit == $failed_match)
-player:tell("You can't go that way (", dir, ").");
+player:tell("Nie mozesz tak isc (", dir, ").");
 else
-player:tell("I don't know which direction `", dir, "' you mean.");
+player:tell("Nie wiem, o jaki kierunek `", dir, "' chodzi.");
 endif
 .
 #3:15
@@ -56054,7 +56055,7 @@ endif
 #3:23
 set_task_perms(player);
 if (!dobjstr)
-player:tell("Usage:  @add-entrance <exit-number>");
+player:tell("Uzycie:  @add-entrance <numer-wyjscia>");
 return;
 endif
 exit = this:match_object(dobjstr);
@@ -56062,23 +56063,23 @@ if ($command_utils:object_match_failed(exit, dobjstr))
 return;
 endif
 if (!($exit in $object_utils:ancestors(exit)))
-player:tell("That doesn't look like an exit object to me...");
+player:tell("To nie wyglada mi na obiekt wyjscia...");
 return;
 endif
 try
 dest = exit.dest;
 except (E_PERM)
-player:tell("You can't read the exit's destination to check that it's consistent!");
+player:tell("Nie mozesz odczytac celu wyjscia, by sprawdzic jego spojnosc!");
 return;
 endtry
 if (dest != this)
-player:tell("That exit doesn't lead here!");
+player:tell("To wyjscie nie prowadzi tutaj!");
 return;
 endif
 if (!this:add_entrance(exit))
-player:tell("Sorry, but you must not have permission to add entrances to this room.");
+player:tell("Niestety, nie masz chyba uprawnien, by dodawac wejscia do tego pokoju.");
 else
-player:tell("You have added ", exit, " as an entrance that gets here via ", $string_utils:english_list(setadd(exit.aliases, exit.name)), ".");
+player:tell("Dodano ", exit, " jako wejscie prowadzace tutaj przez ", $string_utils:english_list(setadd(exit.aliases, exit.name)), ".");
 endif
 .
 #3:24
@@ -56163,7 +56164,7 @@ return this:basic_accept_for_abode(who) && this:acceptable(who);
 .
 #3:29
 if (!$perm_utils:controls(player, this))
-player:tell("You must own this room to manipulate the legal residents list.  Try contacting ", this.owner.name, ".");
+player:tell("Musisz byc wlascicielem tego pokoju, by zarzadzac lista dozwolonych rezydentow.  Sprobuj skontaktowac sie z ", this.owner.name, ".");
 else
 if (typeof(this.residents) != LIST)
 this.residents = {this.residents};
@@ -56172,11 +56173,11 @@ if (!dobjstr)
 "First, remove !valid objects from this room...";
 for x in (this.residents)
 if ((typeof(x) != OBJ) || (!$recycler:valid(x)))
-player:tell("Warning: removing ", x, ", an invalid object, from the residents list.");
+player:tell("Uwaga: usuwanie ", x, ", nieprawidlowego obiektu, z listy rezydentow.");
 this.residents = setremove(this.residents, x);
 endif
 endfor
-player:tell("Allowable residents in this room:  ", $string_utils:english_list($list_utils:map_prop(this.residents, "name"), "no one"), ".");
+player:tell("Dozwoleni rezydenci w tym pokoju:  ", $string_utils:english_list($list_utils:map_prop(this.residents, "name"), "nikt"), ".");
 return;
 elseif (dobjstr[1] == "!")
 notflag = 1;
@@ -56192,18 +56193,18 @@ else
 result = result[1];
 if (notflag)
 if (!(result in this.residents))
-player:tell(result.name, " doesn't appear to be in the residents list of ", this.name, ".");
+player:tell(result.name, " nie wydaje sie byc na liscie rezydentow ", this.name, ".");
 else
 this.residents = setremove(this.residents, result);
-player:tell(result.name, " removed from the residents list of ", this.name, ".");
+player:tell(result.name, " usuniety z listy rezydentow ", this.name, ".");
 endif
 else
 if (result in this.residents)
-is = $gender_utils:get_conj("is", result);
-player:tell(result.name, " ", is, " already an allowed resident of ", this.name, ".");
+is = $gender_utils:get_conj("jest/sa", result);
+player:tell(result.name, " ", is, " juz dozwolonym rezydentem ", this.name, ".");
 else
 this.residents = {@this.residents, result};
-player:tell(result.name, " added to the residents list of ", this.name, ".");
+player:tell(result.name, " dodany do listy rezydentow ", this.name, ".");
 endif
 endif
 endif
@@ -56216,7 +56217,7 @@ return $string_utils:match(args[1], target, "name", target, "aliases");
 #3:31
 set_task_perms(player);
 if (!dobjstr)
-player:tell("Usage:  @remove-exit <exit>");
+player:tell("Uzycie:  @remove-exit <wyjscie>");
 return;
 endif
 exit = this:match_object(dobjstr);
@@ -56224,19 +56225,19 @@ if (!(exit in this.exits))
 if ($command_utils:object_match_failed(exit, dobjstr))
 return;
 endif
-player:tell("Couldn't find \"", dobjstr, "\" in the exits list of ", this.name, ".");
+player:tell("Nie znaleziono \"", dobjstr, "\" na liscie wyjsc ", this.name, ".");
 return;
 elseif (!this:remove_exit(exit))
-player:tell("Sorry, but you do not have permission to remove exits from this room.");
+player:tell("Niestety, nie masz uprawnien, by usuwac wyjscia z tego pokoju.");
 else
-name = valid(exit) ? exit.name | "<recycled>";
-player:tell("Exit ", exit, " (", name, ") removed from exit list of ", this.name, " (", this, ").");
+name = valid(exit) ? exit.name | "<zutylizowany>";
+player:tell("Wyjscie ", exit, " (", name, ") usuniete z listy wyjsc ", this.name, " (", this, ").");
 endif
 .
 #3:32
 set_task_perms(player);
 if (!dobjstr)
-player:tell("Usage:  @remove-entrance <entrance>");
+player:tell("Uzycie:  @remove-entrance <wejscie>");
 return;
 endif
 entrance = $string_utils:match(dobjstr, this.entrances, "name", this.entrances, "aliases");
@@ -56245,13 +56246,13 @@ if (!valid(entrance))
 entrance = this:match_object(dobjstr);
 endif
 if (!(entrance in this.entrances))
-player:tell("Couldn't find \"", dobjstr, "\" in the entrances list of ", this.name, ".");
+player:tell("Nie znaleziono \"", dobjstr, "\" na liscie wejsc ", this.name, ".");
 return;
 elseif (!this:remove_entrance(entrance))
-player:tell("Sorry, but you do not have permission to remove entrances from this room.");
+player:tell("Niestety, nie masz uprawnien, by usuwac wejscia z tego pokoju.");
 else
-name = valid(entrance) ? entrance.name | "<recycled>";
-player:tell("Entrance ", entrance, " (", name, ") removed from entrance list of ", this.name, " (", this, ").");
+name = valid(entrance) ? entrance.name | "<zutylizowany>";
+player:tell("Wejscie ", entrance, " (", name, ") usuniete z listy wejsc ", this.name, " (", this, ").");
 endif
 .
 #3:33
@@ -56303,11 +56304,11 @@ return this == args[1].location;
 .
 #3:40
 "examine_key(examiner)";
-"return a list of strings to be told to the player, indicating what the key on this type of object means, and what this object's key is set to.";
-"the default will only tell the key to a wizard or this object's owner.";
+"zwraca liste stringow do wyswietlenia graczowi, wskazujaca co oznacza klucz na tym typie obiektu i na co ustawiony jest klucz tego obiektu.";
+"domyslnie klucz zostanie ujawniony tylko wizardowi lub wlascicielowi tego obiektu.";
 who = args[1];
 if (((caller == this) && $perm_utils:controls(who, this)) && (this.key != 0))
-return {tostr(this:title(), " will accept only objects matching the following key:"), tostr("  ", $lock_utils:unparse_key(this.key))};
+return {tostr(this:title(), " zaakceptuje tylko obiekty pasujace do nastepujacego klucza:"), tostr("  ", $lock_utils:unparse_key(this.key))};
 endif
 .
 #3:41
