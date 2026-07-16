@@ -665,7 +665,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784134150
+1784176033
 2
 name
 2
@@ -1235,7 +1235,7 @@ source
 2
 time
 0
-1784175003
+1784177022
 4
 0
 1
@@ -1329,25 +1329,43 @@ time
 5
 2
 5
-5
+4
+0
+36
+1
+4
+1
+1
+-1
+36
+1
+4
+1
+4
+1
+0
+0
 36
 1
 5
 36
 1
-5
+0
+1
 36
 1
-5
+4
+1
+4
+1
+2
+whisper
 36
 1
-5
-36
+4
 1
-5
-36
-1
-5
+0
+1784177238
 36
 1
 0
@@ -1363,7 +1381,8 @@ time
 5
 2
 5
-5
+4
+0
 36
 1
 5
@@ -1469,16 +1488,16 @@ expire
 4
 2
 0
-1784174981
+1784177012
 2
-127.0.0.1
+localhost
 2
 0
 5
 2
 0
 0
-1784174982
+1784177013
 2
 1
 0
@@ -1615,13 +1634,13 @@ expire
 4
 2
 2
-127.0.0.1
-2
 localhost
+2
+127.0.0.1
 2
 0
 2
-127.0.0.1
+localhost
 2
 0
 5
@@ -1644,7 +1663,7 @@ localhost
 2
 5
 0
-1784175003
+1784177022
 2
 1
 0
@@ -4224,9 +4243,9 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--343
+-30
 0
-1
+2
 2
 5
 0
@@ -4238,7 +4257,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-22
+23
+4
+2
+0
+1784176033
+0
+0
 4
 2
 0
@@ -27420,25 +27445,23 @@ feature_task
 4
 9
 0
-858894194
+598362054
 2
-@temp-newt
+whisper
 4
-4
+3
 2
-TestSweep_Guest
+hejka
 2
-for
+to
 2
+Wizard
 2
-2
-minutes
-2
-TestSweep_Guest for 2 minutes
+hejka to Wizard
 1
 -3
 2
-TestSweep_Guest for 2 minutes
+hejka to Wizard
 2
 
 1
@@ -86644,7 +86667,7 @@ this.minimum_password_length = this.check_against_name = this.check_against_emai
 endif
 .
 #88:0
-"'@rooms' - List the rooms which are known by name.";
+"'@rooms' - Wyswietla liste pokoi znanych z nazwy.";
 line = "";
 for item in (this.rooms)
 line = (((line + item[1]) + "(") + tostr(item[2])) + ")   ";
@@ -86652,16 +86675,16 @@ endfor
 player:tell(line);
 .
 #88:1
-"'@go <place>' - Teleport yourself somewhere. Example: '@go liv' to go to the living room.";
+"'@go <miejsce>' - Teleportuje cie gdzies. Przyklad: '@go salon' aby przejsc do salonu.";
 dest = this:lookup_room(dobjstr);
 if (dest == $failed_match)
-player:tell("There's no such place known.");
+player:tell("Nie znam takiego miejsca.");
 else
 this:teleport(player, dest);
 endif
 .
 #88:2
-"Look up a room in your personal database of room names, returning its object number. If it's not in your database, it checks to see if it's a number or a nearby object.";
+"Sprawdza pokoj w osobistej bazie nazw pokoi, zwracajac jego numer obiektu. Jesli nie ma go w bazie, sprawdza, czy to numer albo pobliski obiekt.";
 room = args[1];
 if (room == "home")
 return player.home;
@@ -86686,7 +86709,7 @@ return source:match_object(room);
 endif
 .
 #88:3
-"Teleport a player or object. For printing messages, there are three cases: (1) teleport self (2) teleport other player (3) teleport object. There's a spot of complexity for handling the invalid location #-1.";
+"Teleportuje gracza lub obiekt. Przy wyswietlaniu komunikatow sa trzy przypadki: (1) teleportacja wlasna (2) teleportacja innego gracza (3) teleportacja obiektu. Jest odrobina zlozonosci przy obsludze nieprawidlowej lokacji #-1.";
 set_task_perms((caller == this) ? this | $no_one);
 {thing, dest} = args;
 source = thing.location;
@@ -86696,7 +86719,7 @@ else
 dest_name = tostr(dest);
 endif
 if (source == dest)
-player:tell(thing.name, " is already at ", dest_name, ".");
+player:tell(thing.name, " juz jest w ", dest_name, ".");
 return;
 endif
 thing:moveto(dest);
@@ -86711,25 +86734,25 @@ this:teleport_messages(@tsd, this:thing_port_msg(@tsd), this:othing_port_msg(@ts
 endif
 elseif (thing.location == source)
 if ($object_utils:contains(thing, dest))
-player:tell("Ooh, it's all twisty. ", dest_name, " is inside ", thing.name, ".");
+player:tell("Och, ale zakrecone. ", dest_name, " jest wewnatrz ", thing.name, ".");
 else
 if ($object_utils:has_property(thing, "po"))
 pronoun = thing.po;
 else
-pronoun = "it";
+pronoun = "to";
 endif
-player:tell("Either ", thing.name, " doesn't want to go, or ", dest_name, " didn't accept ", pronoun, ".");
+player:tell("Albo ", thing.name, " nie chce isc, albo ", dest_name, " nie zaakceptowal(a) ", pronoun, ".");
 endif
 else
-thing_name = (thing == player) ? "you" | thing.name;
-player:tell("A strange force deflects ", thing_name, " from the destination.");
+thing_name = (thing == player) ? "cie" | thing.name;
+player:tell("Dziwna sila odpycha ", thing_name, " od celu.");
 endif
 .
 #88:4
-"Send teleport messages. There's a slight complication in that the source and dest need not be valid objects.";
+"Wysyla komunikaty teleportacji. Jest drobna komplikacja - zrodlo i cel nie musza byc prawidlowymi obiektami.";
 {thing, source, dest, pmsg, smsg, dmsg, tmsg} = args;
 if (pmsg)
-"The player's own message.";
+"Wlasna wiadomosc gracza.";
 player:tell(pmsg);
 endif
 if (smsg)
@@ -86739,15 +86762,15 @@ if (dmsg)
 `dest:room_announce_all_but({thing, player}, dmsg) ! E_VERBNF, E_INVIND';
 endif
 if (tmsg)
-"A message to the victim being teleported.";
+"Wiadomosc dla ofiary teleportacji.";
 thing:tell(tmsg);
 endif
 .
 #88:5
-"'@move <object> to <place>' - Teleport an object. Example: '@move trash to #11' to move trash to the closet.";
+"'@move <obiekt> do <miejsce>' - Teleportuje obiekt. Przyklad: '@move smieci do #11' aby przeniesc smieci do schowka.";
 here = player.location;
-if ((prepstr != "to") || (!iobjstr))
-player:tell("Usage: @move <object> to <location>");
+if ((prepstr != "do") || (!iobjstr))
+player:tell("Uzycie: @move <obiekt> do <lokalizacja>");
 return;
 endif
 if ((!dobjstr) || (dobjstr == "me"))
@@ -86762,7 +86785,7 @@ if ($command_utils:object_match_failed(thing, dobjstr))
 return;
 endif
 if ((!player.programmer) && ((thing.owner != player) && (thing != player)))
-player:tell("You can only move your own objects.");
+player:tell("Mozesz przenosic tylko wlasne obiekty.");
 return;
 endif
 dest = this:lookup_room(iobjstr);
@@ -86771,7 +86794,7 @@ this:teleport(thing, dest);
 endif
 .
 #88:6
-"'index_room (<room name>)' - Look up a room in your personal database of room names, returning its index in the list. Return 0 if it is not in the list. If the room name is the empty string, then only exact matches are considered; otherwise, a leading match is good enough.";
+"'index_room (<nazwa pokoju>)' - Sprawdza pokoj w osobistej bazie nazw pokoi, zwracajac jego indeks na liscie. Zwraca 0, jesli go tam nie ma. Jesli nazwa pokoju jest pustym stringiem, brane sa pod uwage tylko dokladne dopasowania; w przeciwnym razie wystarczy dopasowanie poczatku.";
 room = tostr(args[1]);
 size = length(room);
 index = 1;
@@ -86788,7 +86811,7 @@ endfor
 return match;
 .
 #88:7
-"'@addroom <name> <object>', '@addroom <object> <name>', '@addroom <name>', '@addroom <object>', '@addroom' - Add a room to your personal database of teleport destinations. Example: '@addroom Kitchen #24'. Reasonable <object>s are numbers (#17) and 'here'. If you leave out <object>, the object is the current room. If you leave out <name>, the name is the specified room's name. If you leave out both, you get the current room and its name.";
+"'@addroom <nazwa> <obiekt>', '@addroom <obiekt> <nazwa>', '@addroom <nazwa>', '@addroom <obiekt>', '@addroom' - Dodaje pokoj do osobistej bazy celow teleportacji. Przyklad: '@addroom Kuchnia #24'. Rozsadne <obiekt>y to numery (#17) i 'here'. Jesli pominiesz <obiekt>, obiektem jest biezacy pokoj. Jesli pominiesz <nazwa>, nazwa to nazwa danego pokoju. Jesli pominiesz oba, dostajesz biezacy pokoj i jego nazwe.";
 if (((!caller) && (player != this)) || (caller && (callers()[1][3] != this)))
 if (!caller)
 player:tell(E_PERM);
@@ -86797,7 +86820,7 @@ return E_PERM;
 endif
 if (!dobjstr)
 object = this.location;
-name = valid(object) ? object.name | "Nowhere";
+name = valid(object) ? object.name | "Nigdzie";
 elseif (command = this:parse_out_object(dobjstr))
 name = command[1];
 object = command[2];
@@ -86806,14 +86829,14 @@ name = dobjstr;
 object = this.location;
 endif
 if (!valid(object))
-player:tell("This is not a valid location.");
+player:tell("To nie jest prawidlowa lokalizacja.");
 return E_INVARG;
 endif
-player:tell("Adding ", name, "(", tostr(object), ") to your database of rooms.");
+player:tell("Dodawanie ", name, "(", tostr(object), ") do twojej bazy pokoi.");
 this.rooms = {@this.rooms, {name, object}};
 .
 #88:8
-"'@rmroom <roomname>' - Remove a room from your personal database of teleport destinations. Example: '@rmroom library'.";
+"'@rmroom <nazwa pokoju>' - Usuwa pokoj z osobistej bazy celow teleportacji. Przyklad: '@rmroom biblioteka'.";
 if (((!caller) && (player != this)) || (caller && (callers()[1][3] != this)))
 if (!caller)
 player:tell(E_PERM);
@@ -86822,16 +86845,16 @@ return E_PERM;
 endif
 index = this:index_room(dobjstr);
 if (index)
-player:tell("Removing ", this.rooms[index][1], "(", this.rooms[index][2], ").");
+player:tell("Usuwanie ", this.rooms[index][1], "(", this.rooms[index][2], ").");
 this.rooms = listdelete(this.rooms, index);
 else
-player:tell("That room is not in your database of rooms. Check '@rooms'.");
+player:tell("Tego pokoju nie ma w twojej bazie pokoi. Sprawdz '@rooms'.");
 endif
 .
 #88:9
-"'@join <player>' - Teleport yourself to the location of any player, whether connected or not.";
+"'@join <gracz>' - Teleportuje cie do lokalizacji dowolnego gracza, polaczonego czy nie.";
 if (dobjstr == "")
-player:tell("Usage: @join <player>. For example, '@join frand'.");
+player:tell("Uzycie: @join <gracz>. Na przyklad, '@join frand'.");
 return;
 endif
 target = $string_utils:match_player(dobjstr);
@@ -86839,9 +86862,9 @@ $command_utils:player_match_result(target, dobjstr);
 if (valid(target))
 if (target == this)
 if (player == this)
-player:tell("There is little need to join yourself, unless you are split up.");
+player:tell("Nie ma wiekszego sensu dolaczac do samego siebie - chyba ze wystepujesz w dwoch miejscach naraz.");
 else
-player:tell("No thank you. Please get your own join verb.");
+player:tell("Nie, dziekuje. Zdobadz sobie wlasny czasownik join.");
 endif
 return;
 endif
@@ -86850,7 +86873,7 @@ msg = this:enlist(this:join_msg());
 editing = $object_utils:isa(dest, $generic_editor);
 if (editing)
 dest = dest.original[target in dest.active];
-editing_msg = "%N is editing at the moment. You can wait here until %s is done.";
+editing_msg = "%N wlasnie edytuje. Mozesz poczekac tutaj, az %s skonczy.";
 if (player.location == dest)
 msg = {editing_msg};
 else
@@ -86860,16 +86883,16 @@ endif
 if (msg && ((player.location != dest) || editing))
 player:tell_lines($string_utils:pronoun_sub(msg, target));
 elseif (player.location == dest)
-player:tell("OK, you're there. You didn't need to actually move, though.");
+player:tell("OK, juz tam jestes. W ogole nie trzeba bylo sie ruszac.");
 return;
 endif
 this:teleport(player, dest);
 endif
 .
 #88:10
-"'@find #<object>', '@find <player>', '@find :<verb>' '@find .<property>' - Attempt to locate things. Verbs and properties are found on any object in the player's vicinity, and some other places.  '@find ?<help>' looks for a help topic on any available help database.";
+"'@find #<obiekt>', '@find <gracz>', '@find :<czasownik>' '@find .<wlasciwosc>' - Probuje zlokalizowac rzeczy. Czasowniki i wlasciwosci sa szukane na kazdym obiekcie w poblizu gracza i w kilku innych miejscach.  '@find ?<pomoc>' szuka tematu pomocy w kazdej dostepnej bazie pomocy.";
 if (!dobjstr)
-player:tell("Usage: '@find #<object>' or '@find <player>' or '@find :<verb>' or '@find .<property>' or '@find ?<help topic>'.");
+player:tell("Uzycie: '@find #<obiekt>' albo '@find <gracz>' albo '@find :<czasownik>' albo '@find .<wlasciwosc>' albo '@find ?<temat pomocy>'.");
 return;
 endif
 if (dobjstr[1] == ":")
@@ -86883,7 +86906,7 @@ return;
 elseif (dobjstr[1] == "#")
 target = toobj(dobjstr);
 if (!valid(target))
-player:tell(target, " does not exist.");
+player:tell(target, " nie istnieje.");
 endif
 elseif (dobjstr[1] == "?")
 name = dobjstr[2..$];
@@ -86894,11 +86917,11 @@ target = $string_utils:match_player(dobjstr);
 $command_utils:player_match_result(target, dobjstr);
 endif
 if (valid(target))
-player:tell(target.name, " (", target, ") is at ", valid(target.location) ? target.location.name | "Nowhere", " (", target.location, ").");
+player:tell(target.name, " (", target, ") jest w ", valid(target.location) ? target.location.name | "Nigdzie", " (", target.location, ").");
 endif
 .
 #88:11
-"'find_verb (<name>)' - Search for a verb with the given name. The objects searched are those returned by this:find_verbs_on(). The printing order relies on $list_utils:remove_duplicates to leave the *first* copy of each duplicated element in a list; for example, {1, 2, 1} -> {1, 2}, not to {2, 1}.";
+"'find_verb (<nazwa>)' - Szuka czasownika o podanej nazwie. Przeszukiwane obiekty to te zwracane przez this:find_verbs_on(). Kolejnosc wyswietlania polega na tym, ze $list_utils:remove_duplicates zostawia *pierwsza* kopie kazdego powtorzonego elementu na liscie; np. {1, 2, 1} -> {1, 2}, a nie {2, 1}.";
 name = args[1];
 results = "";
 objects = $list_utils:remove_duplicates(this:find_verbs_on());
@@ -86912,20 +86935,20 @@ endif
 endif
 endfor
 if (results)
-this:tell("The verb :", name, " is on", results);
+this:tell("Czasownik :", name, " jest na", results);
 else
-this:tell("The verb :", name, " is nowhere to be found.");
+this:tell("Czasownik :", name, " nie zostal nigdzie znaleziony.");
 endif
 .
 #88:12
-"'@ways', '@ways <room>' - List any obvious exits from the given room (or this room, if none is given).";
+"'@ways', '@ways <pokoj>' - Wyswietla oczywiste wyjscia z podanego pokoju (lub tego pokoju, jesli nie podano zadnego).";
 if (dobjstr)
 room = dobj;
 else
 room = this.location;
 endif
 if ((!valid(room)) || (!($room in $object_utils:ancestors(room))))
-player:tell("You can only pry into the exits of a room.");
+player:tell("Mozesz wyszukiwac wyjscia tylko w pokojach.");
 return;
 endif
 exits = {};
@@ -86937,7 +86960,7 @@ exits = this:findexits(room, exits);
 this:tell_ways(exits, room);
 .
 #88:13
-"Add to the 'exits' list any exits in the room which have a single-letter alias.";
+"Dodaje do listy 'exits' kazde wyjscie w pokoju, ktore ma jednoliterowy alias.";
 {room, exits} = args;
 alphabet = "abcdefghijklmnopqrstuvwxyz0123456789";
 for i in [1..length(alphabet)]
@@ -86949,7 +86972,7 @@ endfor
 return exits;
 .
 #88:14
-"Check a list of exits to see if any of them are in the given room.";
+"Sprawdza liste wyjsc, czy ktores z nich jest w podanym pokoju.";
 {to_check, room, exits} = args;
 for word in (to_check)
 found = room:match_exit(word);
@@ -86989,25 +87012,25 @@ msg = $string_utils:pronoun_sub(msg, thing);
 return msg;
 .
 #88:18
-"'obvious_exits()' - Return a list of common exit names which are obviously worth looking for in a room.";
+"'obvious_exits()' - Zwraca liste popularnych nazw wyjsc, ktorych warto szukac w pokoju.";
 return {"n", "ne", "e", "se", "s", "sw", "w", "nw", "north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "u", "d", "up", "down", "out", "exit", "leave", "enter"};
 .
 #88:19
-":tell_ways (<list of exits>)' - Tell yourself a list of exits, for @ways. You can override it to print the exits in any format.";
+":tell_ways (<lista wyjsc>)' - Mowi graczowi liste wyjsc, dla @ways. Mozna to przeciazyc, by wyswietlac wyjscia w innym formacie.";
 exits = args[1];
 answer = {};
 for e in (exits)
 answer = {@answer, ((e.name + " (") + $string_utils:english_list(e.aliases)) + ")"};
 endfor
-player:tell("Obvious exits: ", $string_utils:english_list(answer), ".");
+player:tell("Oczywiste wyjscia: ", $string_utils:english_list(answer), ".");
 .
 #88:20
-"Return the name and number of an object, e.g. 'Root Class (#1)'.";
+"Zwraca nazwe i numer obiektu, np. 'Root Class (#1)'.";
 o = args[1];
-return (((valid(o) ? o.name | "Nothing") + " (") + tostr(o)) + ")";
+return (((valid(o) ? o.name | "Nic") + " (") + tostr(o)) + ")";
 .
 #88:21
-"'parse_out_object (<string>)' -> {<name>, <object>}, or 0. Given a string, attempt to find an object at its beginning or its end. An object can be either an object number, or 'here'. If this succeeds, return a list of the object and the unmatched part of the string, called the name. If it fails, return 0.";
+"'parse_out_object (<string>)' -> {<nazwa>, <obiekt>}, lub 0. Probuje znalezc obiekt na poczatku lub koncu stringu. Obiekt moze byc numerem obiektu albo 'here'. Jesli sie uda, zwraca liste obiektu i niedopasowanej czesci stringu, zwanej nazwa. Jesli sie nie uda, zwraca 0.";
 words = $string_utils:words(args[1]);
 if (!length(words))
 return 0;
@@ -87039,12 +87062,12 @@ what = $nothing;
 endif
 name = $string_utils:from_list(words[start..finish], " ");
 if (!name)
-name = valid(what) ? what.name | "Nowhere";
+name = valid(what) ? what.name | "Nigdzie";
 endif
 return {name, what};
 .
 #88:22
-"'enlist (<x>)' - If x is a list, just return it; otherwise, return {x}. The purpose here is to turn message strings into lists, so that lines can be added. It is not guaranteed to work for non-string non-lists.";
+"'enlist (<x>)' - Jesli x jest lista, po prostu ja zwraca; w przeciwnym razie zwraca {x}. Sluzy to do zamiany stringow wiadomosci na listy, zeby mozna bylo dodawac linie. Nie jest to gwarantowane dla nie-stringow i nie-list.";
 x = args[1];
 if (!x)
 return {};
@@ -87055,17 +87078,17 @@ return {x};
 endif
 .
 #88:23
-"@spellproperties <object>";
-"@spellmessages <object>";
-"Spell checks the string properties of an object, or the subset of said properties which are suffixed _msg, respectively.";
+"@spellproperties <obiekt>";
+"@spellmessages <obiekt>";
+"Sprawdza pisownie wlasciwosci-stringow obiektu, albo tego podzbioru ktory ma sufiks _msg, odpowiednio.";
 set_task_perms(player);
 if (!dobjstr)
-player:notify(tostr("Usage: ", verb, " <object>"));
+player:notify(tostr("Uzycie: ", verb, " <obiekt>"));
 return;
 elseif ($command_utils:object_match_failed(dobj = player:my_match_object(dobjstr), dobjstr))
 return;
 elseif (typeof(props = $object_utils:all_properties(dobj)) == ERR)
-player:notify("Permission denied to read properties on that object.");
+player:notify("Odmowa dostepu do odczytu wlasciwosci tego obiektu.");
 return;
 endif
 props = setremove(props, "messages");
@@ -87079,7 +87102,7 @@ endfor
 props = spell;
 endif
 if (props == {})
-player:notify(tostr("No ", (verb[1..7] == "@spellm") ? "messages" | "properties", " found to spellcheck on ", dobj, "."));
+player:notify(tostr("Nie znaleziono ", (verb[1..7] == "@spellm") ? "wiadomosci" | "wlasciwosci", " do sprawdzenia pisowni na ", dobj, "."));
 return;
 endif
 for data in (props)
@@ -87108,16 +87131,16 @@ for ii in [1..length(i)]
 $command_utils:suspend_if_needed(0);
 if (!$spell:valid(i[ii]))
 if ((rindex(i[ii], "s") == length(i[ii])) && $spell:valid(i[ii][1..$ - 1]))
-msg = "Possible match: " + i[ii];
+msg = "Mozliwe dopasowanie: " + i[ii];
 elseif ((rindex(i[ii], "'s") == (length(i[ii]) - 1)) && $spell:valid(i[ii][1..$ - 2]))
-msg = "Possible match: " + i[ii];
+msg = "Mozliwe dopasowanie: " + i[ii];
 else
-msg = "Unknown word: " + i[ii];
+msg = "Nieznane slowo: " + i[ii];
 endif
 if (length(text) == 1)
 foo = ": ";
 else
-foo = (" (line " + tostr(linenumber)) + "): ";
+foo = (" (linia " + tostr(linenumber)) + "): ";
 endif
 player:notify(tostr(dobj, ".", data, foo, msg));
 endif
@@ -87126,18 +87149,18 @@ endif
 endif
 endfor
 endfor
-player:notify(tostr("Done spellchecking ", dobj, "."));
+player:notify(tostr("Zakonczono sprawdzanie pisowni ", dobj, "."));
 .
 #88:24
-"'@at' - Find out where everyone is. '@at <player>' - Find out where <player> is, and who else is there. '@at <obj>' - Find out who else is at the same place as <obj>. '@at <place>' - Find out who is at the place. The place can be given by number, or it can be a name from your @rooms list. '@at #-1' - Find out who is at #-1. '@at me' - Find out who is in the room with you. '@at home' - Find out who is at your home.";
+"'@at' - Sprawdza, gdzie kazdy jest. '@at <gracz>' - Sprawdza, gdzie jest <gracz> i kto tam jeszcze jest. '@at <obiekt>' - Sprawdza, kto jeszcze jest w tym samym miejscu co <obiekt>. '@at <miejsce>' - Sprawdza, kto jest w danym miejscu. Miejsce moze byc podane numerem albo nazwa z listy @rooms. '@at #-1' - Sprawdza, kto jest w #-1. '@at me' - Sprawdza, kto jest w pokoju z toba. '@at home' - Sprawdza, kto jest w twoim domu.";
 this:internal_at(argstr);
 .
 #88:25
-"'at_players ()' - Return a list of players to be displayed by @at.";
+"'at_players ()' - Zwraca liste graczy do wyswietlenia przez @at.";
 return connected_players();
 .
 #88:26
-"'do_at_all ()' - List where everyone is, sorted by popularity of location. This is called when you type '@at'.";
+"'do_at_all ()' - Wyswietla, gdzie kazdy jest, posortowane wedlug popularnosci lokacji. Wywolywane, gdy wpiszesz '@at'.";
 locations = {};
 parties = {};
 counts = {};
@@ -87157,7 +87180,7 @@ parties = $list_utils:sort(parties, counts);
 this:print_at_items(locations, parties);
 .
 #88:27
-"'do_at (<location>)' - List the players at a given location.";
+"'do_at (<lokalizacja>)' - Wyswietla graczy w danej lokalizacji.";
 loc = args[1];
 party = {};
 for who in (this:at_players())
@@ -87168,7 +87191,7 @@ endfor
 this:print_at_items({loc}, {party});
 .
 #88:28
-"'print_at_items (<locations>, <parties>)' - Print a list of locations and people, for @at. Override this if you want to make a change to @at's output that you can't make in :at_item.";
+"'print_at_items (<lokalizacje>, <grupy>)' - Wyswietla liste lokalizacji i ludzi, dla @at. Przeciaz to, jesli chcesz zmienic wyjscie @at w sposob, ktorego nie da sie zrobic w :at_item.";
 {locations, parties} = args;
 for i in [1..length(locations)]
 $command_utils:suspend_if_needed(0);
@@ -87176,7 +87199,7 @@ player:tell_lines(this:at_item(locations[i], parties[i]));
 endfor
 .
 #88:29
-"'at_item (<location>, <party>)' - Given a location and a list of the people there, return a string displaying the information. Override this if you want to change the format of each line of @at's output.";
+"'at_item (<lokalizacja>, <grupa>)' - Dla danej lokalizacji i listy osob tam obecnych, zwraca string z informacja. Przeciaz to, jesli chcesz zmienic format kazdej linii wyjscia @at.";
 {loc, party} = args;
 su = $string_utils;
 if (this.at_number)
@@ -87184,7 +87207,7 @@ number = su:right(tostr(loc), 7) + " ";
 else
 number = "";
 endif
-room = su:left(valid(loc) ? loc.name | "[Nowhere]", this.at_room_width);
+room = su:left(valid(loc) ? loc.name | "[Nigdzie]", this.at_room_width);
 if (length(room) > this.at_room_width)
 room = room[1..this.at_room_width];
 endif
@@ -87194,7 +87217,7 @@ filler = su:space(length(text) - 2);
 line = text;
 text = {};
 for who in (party)
-name = " " + (valid(who) ? who.name | "[Nobody]");
+name = " " + (valid(who) ? who.name | "[Nikt]");
 if ((length(line) + length(name)) > this:linelen())
 text = {@text, line};
 line = filler + name;
@@ -87204,18 +87227,18 @@ endif
 endfor
 text = {@text, line};
 else
-text = text + " [deserted]";
+text = text + " [opuszczony]";
 endif
 return text;
 .
 #88:30
-"'internal_at (<argument string>)' - Perform the function of @at. The argument string is whatever the user typed after @at. This is factored out so that other verbs can call it.";
+"'internal_at (<lancuch argumentow>)' - Wykonuje funkcje @at. Lancuch argumentow to to, co uzytkownik wpisal po @at. Wydzielone, zeby inne czasowniki mogly to wywolac.";
 where = $string_utils:trim(args[1]);
 if (where)
 if (where[1] == "#")
 result = toobj(where);
 if ((!valid(result)) && (result != #-1))
-player:tell("That object does not exist.");
+player:tell("Ten obiekt nie istnieje.");
 return;
 endif
 else
@@ -87223,7 +87246,7 @@ result = this:lookup_room(where);
 if (!valid(result))
 result = $string_utils:match_player(where);
 if (!valid(result))
-player:tell("That is neither a player nor a room name.");
+player:tell("To nie jest ani gracz, ani nazwa pokoju.");
 return;
 endif
 endif
@@ -87237,7 +87260,7 @@ this:do_at_all();
 endif
 .
 #88:31
-"'confunc ()' - Besides the inherited behavior, notify the player's feature objects that the player has connected.";
+"'confunc ()' - Poza odziedziczonym zachowaniem, powiadamia obiekty-cechy gracza, ze gracz sie polaczyl.";
 if ((valid(cp = caller_perms()) && (caller != this)) && (!$perm_utils:controls(cp, this)))
 return E_PERM;
 endif
@@ -87249,13 +87272,13 @@ feature:player_connected(player, @args);
 except (E_VERBNF)
 continue feature;
 except id (ANY)
-player:tell("Feature initialization failure for ", feature, ": ", id[2], ".");
+player:tell("Blad inicjalizacji cechy dla ", feature, ": ", id[2], ".");
 endtry
 $command_utils:suspend_if_needed(0);
 endfor
 .
 #88:32
-"'disfunc ()' - Besides the inherited behavior, notify the player's feature objects that the player has disconnected.";
+"'disfunc ()' - Poza odziedziczonym zachowaniem, powiadamia obiekty-cechy gracza, ze gracz sie rozlaczyl.";
 if ((valid(cp = caller_perms()) && (caller != this)) && (!$perm_utils:controls(cp, this)))
 return E_PERM;
 endif
@@ -87275,11 +87298,11 @@ endfork
 #88:33
 set_task_perms(player);
 if (!argstr)
-player:notify(tostr("Usage: ", verb, " one or more words"));
-player:notify(tostr("       ", verb, " object:verb"));
-player:notify(tostr("       ", verb, " object.prop"));
+player:notify(tostr("Uzycie: ", verb, " jedno lub wiecej slow"));
+player:notify(tostr("       ", verb, " obiekt:czasownik"));
+player:notify(tostr("       ", verb, " obiekt.wlasciwosc"));
 elseif (!$perm_utils:controls(player, player))
-player:notify("Cannot modify dictionary on players who do not own themselves.");
+player:notify("Nie mozna modyfikowac slownika u graczy, ktorzy nie naleza sami do siebie.");
 elseif (data = $spell:get_input(argstr))
 num_learned = 0;
 for i in [1..length(data)]
@@ -87290,29 +87313,29 @@ suspend(0);
 endif
 if (!$spell:valid(line[ii]))
 player.dict = listappend(player.dict, line[ii]);
-player:notify(tostr("Word added:  ", line[ii]));
+player:notify(tostr("Dodano slowo:  ", line[ii]));
 num_learned = num_learned + 1;
 endif
 endfor
 endfor
-player:notify(tostr(num_learned ? num_learned | "No", " word", (num_learned != 1) ? "s " | " ", "added to personal dictionary."));
+player:notify(tostr(num_learned, " ", $polish_utils:count(num_learned, "slowo dodane", "slowa dodane", "slow dodanych"), " do osobistego slownika."));
 endif
 .
 #88:34
-"@spell a word or phrase  -- Spell check a word or phrase.";
-"@spell thing.prop  -- Spell check a property. The value must be a string or a list of strings.";
-"@spell thing:verb  -- Spell check a verb. Only the quoted strings in the verb are checked.";
-"@cspell word  -- Spell check a word, and if it is not in the dictionary, offset suggestions about what the right spelling might be. This actually works with thing.prop and thing:verb too, but it is too slow to be useful--it takes maybe 30 seconds per unknown word.";
+"@spell slowo lub fraza -- Sprawdza pisownie slowa lub frazy.";
+"@spell rzecz.wlasciwosc  -- Sprawdza pisownie wlasciwosci. Wartosc musi byc stringiem lub lista stringow.";
+"@spell rzecz:czasownik  -- Sprawdza pisownie czasownika. Sprawdzane sa tylko stringi w cudzyslowach w kodzie czasownika.";
+"@cspell slowo  -- Sprawdza pisownie slowa i, jesli nie ma go w slowniku, proponuje sugestie poprawnej pisowni. To dziala tez z rzecz.wlasciwosc i rzecz:czasownik, ale jest zbyt wolne, by bylo uzyteczne -- zajmuje moze 30 sekund na nieznane slowo.";
 "";
-"Mr. Spell was written by waffle (waffle@euclid.humboldt.edu), for use by";
-"MOOers all over this big green earth. (....and other places....)";
-"This monstrosity programmed Sept-Oct 1991, when I should have been studying.";
-"Mr. Spell was then gutted by lisdude on 2-17-19 to use ToastStunt builtins.";
+"Mr. Spell zostal napisany przez waffle (waffle@euclid.humboldt.edu), do uzytku przez";
+"MOOowcow na calym tym wielkim zielonym globie. (....i innych miejscach....)";
+"To monstrum zaprogramowano wrzesien-pazdziernik 1991, kiedy powinienem byl sie uczyc.";
+"Mr. Spell zostal potem wypatroszony przez lisdude 2-17-19, by uzywac wbudowanych funkcji ToastStunt.";
 set_task_perms(player);
 if (!argstr)
-player:notify(tostr("Usage: ", verb, " object.property"));
-player:notify(tostr("       ", verb, " object:verb"));
-player:notify(tostr("       ", verb, " one or more words"));
+player:notify(tostr("Uzycie: ", verb, " obiekt.wlasciwosc"));
+player:notify(tostr("       ", verb, " obiekt:czasownik"));
+player:notify(tostr("       ", verb, " jedno lub wiecej slow"));
 else
 "@spell or @cspell.";
 corrected_words = {};
@@ -87325,22 +87348,21 @@ for ii in [1..length(line)]
 $command_utils:suspend_if_needed(0);
 if (!$spell:valid(line[ii]))
 if ((rindex(line[ii], "s") == length(line[ii])) && $spell:valid(line[ii][1..$ - 1]))
-msg = "Possible match: " + line[ii];
-msg = (msg + " ") + ((length(data) != 1) ? ("(line " + tostr(i)) + ")  " | "  ");
+msg = "Mozliwe dopasowanie: " + line[ii];
+msg = (msg + " ") + ((length(data) != 1) ? ("(linia " + tostr(i)) + ")  " | "  ");
 elseif ((rindex(line[ii], "'s") == (length(line[ii]) - 1)) && $spell:valid(line[ii][1..$ - 2]))
-msg = "Possible match: " + line[ii];
-msg = (msg + " ") + ((length(data) != 1) ? ("(line " + tostr(i)) + ")  " | "  ");
+msg = "Mozliwe dopasowanie: " + line[ii];
+msg = (msg + " ") + ((length(data) != 1) ? ("(linia " + tostr(i)) + ")  " | "  ");
 else
 misspelling = misspelling + 1;
-msg = ("Unknown word: " + line[ii]) + ((length(data) != 1) ? (" (line " + tostr(i)) + ")  " | "  ");
+msg = ("Nieznane slowo: " + line[ii]) + ((length(data) != 1) ? (" (linia " + tostr(i)) + ")  " | "  ");
 if ((verb == "@cspell") && (!(line[ii] in corrected_words)))
 corrected_words = listappend(corrected_words, line[ii]);
 guesses = $string_utils:from_list($spell:guess_words(line[ii]), " ");
 if (guesses == "")
-msg = msg + "-No guesses";
+msg = msg + "-Brak podpowiedzi";
 else
-msg = msg + "-Possible correct spelling";
-msg = msg + (index(guesses, " ") ? "s: " | ": ");
+msg = msg + (index(guesses, " ") ? "-Mozliwe poprawne pisownie: " | "-Mozliwa poprawna pisownia: ");
 msg = msg + guesses;
 endif
 endif
@@ -87349,9 +87371,9 @@ player:notify(tostr(msg));
 endif
 endfor
 endfor
-player:notify(tostr("Found ", misspelling ? misspelling | "no", " misspelled word", (misspelling == 1) ? "." | "s."));
+player:notify(tostr("Znaleziono ", misspelling, " ", $polish_utils:count(misspelling, "blad w pisowni", "bledy w pisowni", "bledow w pisowni"), "."));
 elseif (data != $failed_match)
-player:notify(tostr("Nothing found to spellcheck!"));
+player:notify(tostr("Nie znaleziono niczego do sprawdzenia pisowni!"));
 endif
 endif
 .
@@ -87359,13 +87381,13 @@ endif
 set_task_perms(player);
 if (argstr in player.dict)
 player.dict = setremove(player.dict, argstr);
-player:notify(tostr("`", argstr, "' removed from personal dictionary."));
+player:notify(tostr("`", argstr, "' usuniete z osobistego slownika."));
 else
-player:notify(tostr("`", argstr, "' not found in personal dictionary."));
+player:notify(tostr("`", argstr, "' nie znalezione w osobistym slowniku."));
 endif
 .
 #88:36
-"'find_property (<name>)' - Search for a property with the given name. The objects searched are those returned by this:find_properties_on(). The printing order relies on $list_utils:remove_duplicates to leave the *first* copy of each duplicated element in a list; for example, {1, 2, 1} -> {1, 2}, not to {2, 1}.";
+"'find_property (<nazwa>)' - Szuka wlasciwosci o podanej nazwie. Przeszukiwane obiekty to te zwracane przez this:find_properties_on(). Kolejnosc wyswietlania polega na tym, ze $list_utils:remove_duplicates zostawia *pierwsza* kopie kazdego powtorzonego elementu na liscie; np. {1, 2, 1} -> {1, 2}, a nie {2, 1}.";
 name = args[1];
 results = "";
 objects = $list_utils:remove_duplicates(this:find_properties_on());
@@ -87377,27 +87399,27 @@ if (thing != mom)
 if (valid(mom))
 results = ((((results + "--") + mom.name) + "(") + tostr(mom)) + ")";
 else
-results = results + "--built-in";
+results = results + "--wbudowana";
 endif
 endif
 endif
 endfor
 if (results)
-this:tell("The property .", name, " is on", results);
+this:tell("Wlasciwosc .", name, " jest na", results);
 else
-this:tell("The property .", name, " is nowhere to be found.");
+this:tell("Wlasciwosc .", name, " nie zostala nigdzie znaleziona.");
 endif
 .
 #88:37
-"'find_verbs_on ()' -> list of objects - Return the objects that @find searches when looking for a verb. The objects are searched (and the results printed) in the order returned. Feature objects are included in the search. Duplicate entries are removed by the caller.";
+"'find_verbs_on ()' -> lista obiektow - Zwraca obiekty, ktore @find przeszukuje w poszukiwaniu czasownika. Obiekty sa przeszukiwane (i wyniki wyswietlane) w zwroconej kolejnosci. Obiekty-cechy sa uwzgledniane w przeszukiwaniu. Zduplikowane wpisy sa usuwane przez wywolujacego.";
 return {this, this.location, @valid(this.location) ? this.location:contents() | {}, @this:contents(), @this.features};
 .
 #88:38
-"'find_properties_on ()' -> list of objects - Return the objects that @find searches when looking for a property. The objects are searched (and the results printed) in the order returned. Feature objects are *not* included in the search. Duplicate entries are removed by the caller.";
+"'find_properties_on ()' -> lista obiektow - Zwraca obiekty, ktore @find przeszukuje w poszukiwaniu wlasciwosci. Obiekty sa przeszukiwane (i wyniki wyswietlane) w zwroconej kolejnosci. Obiekty-cechy *nie* sa uwzgledniane w przeszukiwaniu. Zduplikowane wpisy sa usuwane przez wywolujacego.";
 return {this, this.location, @valid(this.location) ? this.location:contents() | {}, @this:contents()};
 .
 #88:39
-"'property_inherited_from (<object>, <property name>)' -> object - Return the ancestor of <object> on which <object>.<property> is originally defined. If <object>.<property> is not actually defined, return 0. The property is taken as originally defined on the earliest ancestor of <object> which has it. If the property is built-in, return $nothing.";
+"'property_inherited_from (<obiekt>, <nazwa wlasciwosci>)' -> obiekt - Zwraca przodka <obiektu>, na ktorym <obiekt>.<wlasciwosc> jest pierwotnie zdefiniowana. Jesli <obiekt>.<wlasciwosc> nie jest w ogole zdefiniowana, zwraca 0. Wlasciwosc jest traktowana jako pierwotnie zdefiniowana na najwczesniejszym przodku <obiektu>, ktory ja ma. Jesli wlasciwosc jest wbudowana, zwraca $nothing.";
 {what, prop} = args;
 if (!$object_utils:has_property(what, prop))
 return 0;
@@ -87411,34 +87433,34 @@ endwhile
 return ancestor;
 .
 #88:40
-"'@refuse <action(s)> [ from <player> ] [ for <time> ]' - Refuse all of a list of one or more actions. If a player is given, refuse actions from the player; otherwise, refuse all actions. If a time is specified, refuse the actions for the given amount of time; otherwise, refuse them for a week. If the actions are already refused, then the only their times are adjusted.";
+"'@refuse <akcja(e)> [ od <gracz> ] [ na <czas> ]' - Odmawia wszystkich z listy jednej lub wiecej akcji. Jesli podano gracza, odmawia akcji od tego gracza; w przeciwnym razie odmawia wszystkich akcji. Jesli podano czas, odmawia akcji na dany czas; w przeciwnym razie odmawia ich na tydzien. Jesli akcje sa juz odmowione, zmieniany jest tylko ich czas.";
 if (!argstr)
-player:tell("@refuse <action(s)> [ from <player> ] [ for <time> ]");
+player:tell("@refuse <akcja(e)> [ od <gracz> ] [ na <czas> ]");
 return;
 endif
 stuff = this:parse_refuse_arguments(argstr);
 if (stuff)
 if (((typeof(who = stuff[1]) == OBJ) && (who != $nothing)) && (!is_player(who)))
-player:tell("You must give the name of some player.");
+player:tell("Musisz podac nazwe jakiegos gracza.");
 else
 "'stuff' is now in the form {<origin>, <actions>, <duration>}.";
 if ((stuff[3] < 0) || (stuff[3] > (($maxint - time()) - 2)))
 stuff[3] = ($maxint - time()) - 2;
-player:tell("That amount of time is too large.  It has been capped at ", $time_utils:english_time(stuff[3]), ".");
+player:tell("Ta ilosc czasu jest zbyt duza.  Ograniczono do ", $time_utils:english_time(stuff[3]), ".");
 endif
 this:add_refusal(@stuff);
-player:tell("Refusal of ", this:refusal_origin_to_name(stuff[1]), " for ", $time_utils:english_time(stuff[3]), " added.");
+player:tell("Dodano odmowe dla ", this:refusal_origin_to_name(stuff[1]), " na ", $time_utils:english_time(stuff[3]), ".");
 endif
 endif
 .
 #88:41
-"'@unrefuse <action(s)> [ from <player> ]' - Stop refusing all of a list of actions. If a player is given, stop refusing actions by the player; otherwise, stop refusing all actions of the given kinds. '@unrefuse everything' - Remove all refusals.";
+"'@unrefuse <akcja(e)> [ od <gracz> ]' - Przestaje odmawiac wszystkich z listy akcji. Jesli podano gracza, przestaje odmawiac akcji od tego gracza; w przeciwnym razie przestaje odmawiac wszystkich akcji danego rodzaju. '@unrefuse everything' - Usuwa wszystkie odmowy.";
 if (argstr == "everything")
-if ($command_utils:yes_or_no("Do you really want to erase all your refusals?"))
+if ($command_utils:yes_or_no("Czy na pewno chcesz usunac wszystkie swoje odmowy?"))
 this:clear_refusals();
-player:tell("OK, they are gone.");
+player:tell("OK, zniknely.");
 else
-player:tell("OK, no harm done.");
+player:tell("OK, nic sie nie stalo.");
 endif
 return;
 endif
@@ -87456,22 +87478,21 @@ n = 0;
 for origin in (origins)
 n = n + this:remove_refusal(origin, actions);
 endfor
-plural = ((n == 1) && (length(origins) == 1)) ? "" | "s";
 if (n)
-player:tell("Refusal", plural, " removed.");
+player:tell((n == 1) ? "Odmowa usunieta." | "Odmowy usuniete.");
 else
-player:tell("You have no such refusal", plural, ".");
+player:tell("Nie masz takiej odmowy.");
 endif
 .
 #88:42
-"'@refusals' - List your refusals. '@refusals for <player>' - List the given player's refusals.";
+"'@refusals' - Wyswietla twoje odmowy. '@refusals dla <gracz>' - Wyswietla odmowy podanego gracza.";
 if (iobjstr)
 who = $string_utils:match_player(iobjstr);
 if ($command_utils:player_match_failed(who, iobjstr))
 return;
 endif
 if (!$object_utils:has_verb(who, "refusals_text"))
-player:tell("That player does not have the refusal facility.");
+player:tell("Ten gracz nie ma mechanizmu odmawiania.");
 return;
 endif
 else
@@ -87481,23 +87502,23 @@ who:remove_expired_refusals();
 player:tell_lines(this:refusals_text(who));
 .
 #88:43
-"'@refusal-reporting' - See if refusal reporting is on. '@refusal-reporting on', '@refusal-reporting off' - Turn it on or off..";
+"'@refusal-reporting' - Sprawdza, czy zglaszanie odmow jest wlaczone. '@refusal-reporting on', '@refusal-reporting off' - Wlacza lub wylacza je.";
 if (!argstr)
-player:tell("Refusal reporting is ", this.report_refusal ? "on" | "off", ".");
-elseif (argstr in {"on", "yes", "y", "1"})
+player:tell("Zglaszanie odmow jest ", this.report_refusal ? "wlaczone" | "wylaczone", ".");
+elseif (argstr in {"on", "yes", "y", "1", "wl", "tak", "t"})
 this.report_refusal = 1;
-player:tell("Refusals will be reported to you as they happen.");
-elseif (argstr in {"off", "no", "n", "0"})
+player:tell("Odmowy beda ci zglaszane, gdy sie zdarza.");
+elseif (argstr in {"off", "no", "n", "0", "wyl", "nie"})
 this.report_refusal = 0;
-player:tell("Refusals will happen silently.");
+player:tell("Odmowy beda sie dziac po cichu.");
 else
-player:tell("@refusal-reporting on     - turn on refusal reporting");
-player:tell("@refusal-reporting off    - turn it off");
-player:tell("@refusal-reporting        - see if it's on or off");
+player:tell("@refusal-reporting on     - wlacza zglaszanie odmow");
+player:tell("@refusal-reporting off    - wylacza je");
+player:tell("@refusal-reporting        - sprawdza, czy jest wlaczone czy wylaczone");
 endif
 .
 #88:44
-"'parse_refuse_arguments (<string>)' -> {<who>, <actions>, <duration>} - Parse the arguments of a @refuse or @unrefuse command. <who> is the player requested, or $nothing if none was. <actions> is a list of the actions asked for. <duration> is how long the refusal should last, or 0 if no expiration is given. <errors> is a list of actions (or other words) which are wrong. If there are any errors, this prints an error message and returns 0.";
+"'parse_refuse_arguments (<string>)' -> {<kto>, <akcje>, <czas>} - Parsuje argumenty polecenia @refuse lub @unrefuse. <kto> to zadany gracz, lub $nothing jesli nie podano. <akcje> to lista zadanych akcji. <czas> to jak dlugo ma trwac odmowa, albo 0 jesli nie podano wygasniecia. <bledy> to lista akcji (lub innych slow), ktore sa bledne. Jesli sa jakies bledy, wypisuje komunikat bledu i zwraca 0.";
 words = $string_utils:explode(args[1]);
 possible_actions = this:refusable_actions();
 who = $nothing;
@@ -87515,10 +87536,10 @@ elseif ((word[$] == "s") && (which = $string_utils:find_prefix(word[1..$ - 1], p
 actions = setadd(actions, possible_actions[which]);
 elseif (results = this:translate_refusal_synonym(word))
 actions = $set_utils:union(actions, results);
-elseif ((word == "from") && (i < length(words)))
+elseif (((word == "from") || (word == "od")) && (i < length(words)))
 "Modified to allow refusals from all guests at once. 5-27-94, Gelfin";
-if (words[i + 1] == "guests")
-who = "all guests";
+if ((words[i + 1] == "guests") || (words[i + 1] == "gosci"))
+who = "wszyscy goscie";
 elseif (!(typeof(who = $code_utils:toobj(words[i + 1])) == OBJ))
 who = $string_utils:match_player(words[i + 1]);
 if ($command_utils:player_match_failed(who, words[i + 1]))
@@ -87526,7 +87547,7 @@ return 0;
 endif
 endif
 skip_to = i + 1;
-elseif ((word == "for") && (i < length(words)))
+elseif (((word == "for") || (word == "na")) && (i < length(words)))
 n_words = this:parse_time_length(words[i + 1..$]);
 until = this:parse_time(words[i + 1..i + n_words]);
 if (!until)
@@ -87538,17 +87559,17 @@ errors = {@errors, word};
 endif
 endfor
 if (errors)
-player:tell((length(errors) > 1) ? "These parts of the command were not understood: " | "This part of the command was not understood: ", $string_utils:english_list(errors, 0, " ", " ", " "));
+player:tell((length(errors) > 1) ? "Tych czesci polecenia nie zrozumiano: " | "Tej czesci polecenia nie zrozumiano: ", $string_utils:english_list(errors, 0, " ", " ", " "));
 return 0;
 endif
 return {this:player_to_refusal_origin(who), actions, until};
 .
 #88:45
-"'time_word_to_seconds (<string>)' - The <string> is expected to be a time word, 'second', 'minute', 'hour', 'day', 'week', or 'month'. Return the number of seconds in that amount of time (a month is taken to be 30 days). If <string> is not a time word, return 0. This is used both as a test of whether a word is a time word and as a converter.";
+"'time_word_to_seconds (<string>)' - Oczekuje sie, ze <string> to slowo czasu: 'second', 'minute', 'hour', 'day', 'week' lub 'month'. Zwraca liczbe sekund odpowiadajaca temu czasowi (miesiac przyjmuje sie jako 30 dni). Jesli <string> nie jest slowem czasu, zwraca 0. Uzywane zarowno jako test, czy slowo jest slowem czasu, jak i jako konwerter.";
 return $time_utils:parse_english_time_interval("1", args[1]);
 .
 #88:46
-"'parse_time_length (<words>)' -> n - Given a list of words which is expected to begin with a time expression, return how many of them belong to the time expression. A time expression can be a positive integer, a time word, or a positive integer followed by a time word. A time word is anything that this:time_word_to_seconds this is one. The return value is 0, 1, or 2.";
+"'parse_time_length (<slowa>)' -> n - Dla listy slow, ktora ma zaczynac sie wyrazeniem czasu, zwraca ile z nich nalezy do tego wyrazenia. Wyrazenie czasu moze byc dodatnia liczba calkowita, slowem czasu, albo dodatnia liczba calkowita nastepowana slowem czasu. Slowo czasu to cokolwiek, dla czego this:time_word_to_seconds zwraca wartosc niezerowa. Wartosc zwracana to 0, 1 lub 2.";
 words = {@args[1], "dummy"};
 n = 0;
 if (toint(words[1]) || this:time_word_to_seconds(words[1]))
@@ -87560,23 +87581,23 @@ endif
 return n;
 .
 #88:47
-"'parse_time (<words>)' -> <seconds> - Given a list of zero or more words, either empty or a valid time expression, return the number of seconds that the time expression refers to. This is a duration, not an absolute time.";
+"'parse_time (<slowa>)' -> <sekundy> - Dla listy zero lub wiecej slow, pustej albo prawidlowego wyrazenia czasu, zwraca liczbe sekund, do ktorej odnosi sie wyrazenie czasu. To jest czas trwania, nie czas bezwzgledny.";
 words = args[1];
-"If the list is empty, return the default refusal time.";
+"Jesli lista jest pusta, zwroc domyslny czas odmowy.";
 if (!words)
 return this.default_refusal_time;
 endif
-"If the list has one word, either <units> or <n>.";
-"If it is a unit, like 'hour', return the time for 1 <unit>.";
-"If it is a number, return the time for <n> days.";
+"Jesli lista ma jedno slowo, to albo <jednostka> albo <n>.";
+"Jesli to jednostka, jak 'hour', zwroc czas dla 1 <jednostki>.";
+"Jesli to liczba, zwroc czas dla <n> dni.";
 if (length(words) == 1)
 return this:time_word_to_seconds(words[1]) || (toint(words[1]) * this:time_word_to_seconds("days"));
 endif
-"The list must contain two words, <n> <units>.";
+"Lista musi zawierac dwa slowa, <n> <jednostki>.";
 return toint(words[1]) * this:time_word_to_seconds(words[2]);
 .
 #88:48
-"'clear_refusals ()' - Erase all of this player's refusals.";
+"'clear_refusals ()' - Usuwa wszystkie odmowy tego gracza.";
 if ((caller != this) && (!$perm_utils:controls(caller_perms(), this)))
 return E_PERM;
 endif
@@ -87586,18 +87607,18 @@ this.refused_until = {};
 this.refused_extra = {};
 .
 #88:49
-"'set_default_refusal_time (<seconds>)' - Set the length of time that a refusal lasts if its duration isn't specified.";
+"'set_default_refusal_time (<sekundy>)' - Ustawia dlugosc czasu, na jaki trwa odmowa, jesli jej czas trwania nie jest podany.";
 if ((caller != this) && (!$perm_utils:controls(caller_perms(), this)))
 return E_PERM;
 endif
 this.default_refusal_time = toint(args[1]);
 .
 #88:50
-"'refusable_actions ()' -> {'page', 'whisper', ...} - Return a list of the actions that can be refused. This is a verb, rather than a property, so that it can be inherited properly. If you override this verb to add new refusable actions, write something like 'return {@pass (), 'action1', 'action2', ...}'. That way people can add new refusable actions at any level of the player class hierarchy, without clobbering any that were added higher up.";
+"'refusable_actions ()' -> {'page', 'whisper', ...} - Zwraca liste akcji, ktore moga byc odmowione. To czasownik, nie wlasciwosc, zeby mogl byc poprawnie dziedziczony. Jesli przeciazasz ten czasownik, by dodac nowe akcje, napisz cos w stylu 'return {@pass (), 'akcja1', 'akcja2', ...}'. Dzieki temu ludzie moga dodawac nowe odmawialne akcje na dowolnym poziomie hierarchii klasy gracza, bez nadpisywania tych dodanych wyzej.";
 return {"page", "whisper", "move", "join", "accept", "mail"};
 .
 #88:51
-"'translate_refusal_synonym (<word>)' -> list - If the <word> is a synonym for some set of refusals, return the list of those refusals. Otherwise return the empty list, {}. Programmers can override this verb to provide more synonyms.";
+"'translate_refusal_synonym (<slowo>)' -> lista - Jesli <slowo> jest synonimem jakiegos zbioru odmow, zwraca liste tych odmow. W przeciwnym razie zwraca pusta liste, {}. Programisci moga przeciazyc ten czasownik, by dodac wiecej synonimow.";
 word = args[1];
 if (word == "all")
 return this:refusable_actions();
@@ -87605,11 +87626,11 @@ endif
 return {};
 .
 #88:52
-"'default_refusals_text_filter (<origin>, <actions>)' - Return any actions by this <origin> which should be included in the text returned by :refusals_text. This is the default filter, which includes all actions.";
+"'default_refusals_text_filter (<origin>, <akcje>)' - Zwraca akcje tego <origin>, ktore powinny byc uwzglednione w tekscie zwracanym przez :refusals_text. To domyslny filtr, ktory uwzglednia wszystkie akcje.";
 return args[2];
 .
 #88:53
-"'refusals_text (<player>, [<filter verb name>])' - Return text describing the given player's refusals. The filter verb name is optional; if it is given, this verb takes an origin and a list of actions and returns any actions which should be included in the refusals text. This verb works only if <player> is a player who has the refusals facility; it does not check for this itself.";
+"'refusals_text (<gracz>, [<nazwa czasownika filtra>])' -> Zwraca tekst opisujacy odmowy podanego gracza. Nazwa czasownika filtra jest opcjonalna; jesli podana, ten czasownik przyjmuje origin i liste akcji i zwraca te akcje, ktore powinny byc uwzglednione w tekscie odmow. Ten czasownik dziala tylko, jesli <gracz> ma mechanizm odmawiania; nie sprawdza tego sam.";
 who = args[1];
 "Used to allow you to supply the filter verb name, but that introduced a security hole. --Nosredna";
 filter_verb = "default_refusals_text_filter";
@@ -87628,12 +87649,12 @@ text = {@text, line};
 endif
 endfor
 if (!text)
-text = {"No refusals."};
+text = {"Brak odmow."};
 endif
 return text;
 .
 #88:54
-"'player_to_refusal_origin (<player>)' -> <origin> - Convert a player to a unique identifier called the player's 'refusal origin'. For most players, it's just their object number. For guests, it is a hash of the site they are connecting from. Converting an origin to an origin is a safe no-op--the code relies on this.";
+"'player_to_refusal_origin (<gracz>)' -> <origin> - Zamienia gracza na unikalny identyfikator zwany 'origin odmowy' gracza. Dla wiekszosci graczy to po prostu ich numer obiektu. Dla gosci to hash witryny, z ktorej sie laczyli. Zamiana origin na origin jest bezpiecznym no-opem -- kod na tym polega.";
 set_task_perms(caller_perms());
 {who} = args;
 if (((typeof(who) == OBJ) && valid(who)) && (parent(who) == `$local.guest ! E_PROPNF, E_INVIND => $guest'))
@@ -87643,22 +87664,22 @@ return who;
 endif
 .
 #88:55
-"'refusal_origin_to_name (<origin>)' -> string - Convert a refusal origin to a name.";
+"'refusal_origin_to_name (<origin>)' -> string - Zamienia origin odmowy na nazwe.";
 origin = args[1];
-if (origin in {"all guests", "everybody"})
+if (origin in {"wszyscy goscie", "wszyscy"})
 return origin;
 elseif ((typeof(origin) == STR) && (origin == "Permission denied"))
-return "an errorful origin";
+return "bledne origin";
 elseif (typeof(origin) != OBJ)
-return "a certain guest";
+return "pewien gosc";
 elseif (origin == #-1)
-return "Everybody";
+return "Wszyscy";
 else
 return $string_utils:name_and_number(origin);
 endif
 .
 #88:56
-"'check_refusal_actions (<actions>)' - Check a list of refusal actions, and return whether they are all legal.";
+"'check_refusal_actions (<akcje>)' - Sprawdza liste akcji odmowy i zwraca, czy wszystkie sa dozwolone.";
 actions = args[1];
 legal_actions = this:refusable_actions();
 for action in (actions)
@@ -87669,7 +87690,7 @@ endfor
 return 1;
 .
 #88:57
-"'add_refusal (<origin>, <actions> [, <duration> [, <extra>]])' - Add refusal(s) to this player's list. <Actions> is a list of the actions to be refused. The list should contain only actions, no synonyms. <Origin> is the actor whose actions are to be refused. <Until> is the time that the actions are being refused until, in the form returned by time(). It is optional; if it's not given, it defaults to .default_refusal_time. <Extra> is any extra information; it can be used for comments, or to make finer distinctions about the actions being refused, or whatever. If it is not given, it defaults to 0. The extra information is per-action; that is, it is stored separately for each action that it applies to.";
+"'add_refusal (<origin>, <akcje> [, <czas trwania> [, <extra>]])' - Dodaje odmowe/y do listy tego gracza. <akcje> to lista akcji do odmowienia. Lista powinna zawierac tylko akcje, bez synonimow. <origin> to podmiot, ktorego akcje maja byc odmowione. <until> to czas, do ktorego akcje sa odmowione, w formie zwracanej przez time(). Jest opcjonalny; jesli nie podano, domyslnie to .default_refusal_time. <extra> to dowolne dodatkowe informacje; moze byc uzywane do komentarzy albo do dokladniejszego rozroznienia odmawianych akcji, albo czegokolwiek. Jesli nie podano, domyslnie 0. Dodatkowa informacja jest per-akcja; czyli przechowywana osobno dla kazdej akcji, ktorej dotyczy.";
 if (caller != this)
 return E_PERM;
 endif
@@ -87705,7 +87726,7 @@ endif
 endfor
 .
 #88:58
-"'remove_refusal (<origin>, <actions>)' - Remove any refused <actions> by <origin>. The <actions> list should contain only actions, no synonyms. Return the number of such refusals found (0 if none).";
+"'remove_refusal (<origin>, <akcje>)' - Usuwa odmowione <akcje> przez <origin>. Lista <akcje> powinna zawierac tylko akcje, bez synonimow. Zwraca liczbe znalezionych takich odmow (0 jesli brak).";
 if (caller != this)
 return E_PERM;
 endif
@@ -87733,7 +87754,7 @@ endif
 return count;
 .
 #88:59
-"'remove_expired_refusals ()' - Remove refusal entries which are past their time limits.";
+"'remove_expired_refusals ()' - Usuwa wpisy odmow, ktore przekroczyly swoj limit czasu.";
 origins = {};
 "Before removing any refusals, figure out which ones to remove. Removing one changes the indices and invalidates the loop invariant.";
 for i in [1..length(this.refused_origins)]
@@ -87746,7 +87767,7 @@ this:remove_refusal(origin, this:refusable_actions());
 endfor
 .
 #88:60
-"'refuses_action (<origin>, <action>, ...)' - Return whether this object refuses the given <action> by <origin>. <Origin> is typically a player. Extra arguments after <origin>, if any, are used to further describe the action.";
+"'refuses_action (<origin>, <akcja>, ...)' - Zwraca, czy ten obiekt odmawia danej <akcji> od <origin>. <origin> to zwykle gracz. Dodatkowe argumenty po <origin>, jesli sa, sluza do dokladniejszego opisania akcji.";
 "Modified by Diopter (#98842) at LambdaMOO";
 {origin, action, @extra_args} = args;
 extra_args = {origin, @extra_args};
@@ -87757,13 +87778,13 @@ elseif (((((typeof(rorigin) == OBJ) && valid(rorigin)) && (which = rorigin.owner
 return 1;
 elseif ((((which = $nothing in this.refused_origins) && (rorigin != this)) && (action in this.refused_actions[which])) && this:("refuses_action_" + action)(which, @extra_args))
 return 1;
-elseif ((((which = "all guests" in this.refused_origins) && $object_utils:isa(origin, $guest)) && (action in this.refused_actions[which])) && this:("refuses_action_" + action)(which, @extra_args))
+elseif ((((which = "wszyscy goscie" in this.refused_origins) && $object_utils:isa(origin, $guest)) && (action in this.refused_actions[which])) && this:("refuses_action_" + action)(which, @extra_args))
 return 1;
 endif
 return 0;
 .
 #88:61
-"'refuses_action_* (<which>, <origin>, ...)' - The action (such as 'whisper' for the verb :refuses_action_whisper) is being considered for refusal. Return whether the action should really be refused. <Which> is an index into this.refused_origins. By default, always refuse non-outdated actions that get this far.";
+"'refuses_action_* (<which>, <origin>, ...)' - Akcja (taka jak 'whisper' dla czasownika :refuses_action_whisper) jest rozwazana do odmowienia. Zwraca, czy akcja powinna byc naprawde odmowiona. <which> to indeks do this.refused_origins. Domyslnie, zawsze odmawia nieprzeterminowanym akcjom, ktore tu docieraja.";
 {which, @junk} = args;
 if (time() >= this.refused_until[which])
 fork (0)
@@ -87776,22 +87797,22 @@ return 1;
 endif
 .
 #88:62
-"'report_refusal (<player>, <message>, ...)' - If refusal reporting is turned on, print the given <message> to report the refusal of some action by <player>. The message may take more than one argument. You can override this verb to do more selective reporting.";
+"'report_refusal (<gracz>, <wiadomosc>, ...)' - Jesli zglaszanie odmow jest wlaczone, wyswietla podana <wiadomosc>, by zglosic odmowe pewnej akcji przez <gracza>. Wiadomosc moze przyjmowac wiecej niz jeden argument. Mozesz przeciazyc ten czasownik, by robic bardziej selektywne zglaszanie.";
 if (this.report_refusal)
 this:tell(@listdelete(args, 1));
 endif
 .
 #88:63
-"'whisper <message> to <this player>' - Whisper a message to this player which nobody else can see.";
+"'whisper <wiadomosc> do <ten gracz>' - Szepcze wiadomosc do tego gracza, ktorej nikt inny nie widzi.";
 if (this:refuses_action(player, "whisper"))
 player:tell(this:whisper_refused_msg());
-this:report_refusal(player, "You just refused a whisper from ", player.name, ".");
+this:report_refusal(player, "Odrzucono szept od ", player.name, ".");
 else
 pass(@args);
 endif
 .
 #88:64
-"'receive_page (<message>)' - Receive a page. If the page is accepted, pass(@args) shows it to the player.";
+"'receive_page (<wiadomosc>)' - Odbiera pagera. Jesli pager jest zaakceptowany, pass(@args) pokazuje go graczowi.";
 if (this:refuses_action(player, "page"))
 this.page_refused = task_id();
 return 0;
@@ -87800,16 +87821,16 @@ this.page_refused = 0;
 return pass(@args);
 .
 #88:65
-"'page_echo_msg ()' - Return a message to inform the pager what happened to their page.";
+"'page_echo_msg ()' - Zwraca wiadomosc informujaca nadawce pagera, co sie stalo z jego pagerem.";
 if (task_id() == this.page_refused)
-this:report_refusal(player, "You just refused a page from ", player.name, ".");
+this:report_refusal(player, "Odrzucono pager od ", player.name, ".");
 return this:page_refused_msg();
 else
 return pass(@args);
 endif
 .
 #88:66
-"'moveto (<destination>)', 'accept (<object>)' - Check whether this :moveto or :accept is allowed or refused. If it is allowed, do it. This code is slightly modified from an original verb by Grump.  Upgraded by Bits to account for forthcoming 1.8.0 behavior of callers().";
+"'moveto (<cel>)', 'accept (<obiekt>)' - Sprawdza, czy to :moveto lub :accept jest dozwolone czy odmowione. Jesli jest dozwolone, wykonuje je. Ten kod jest lekko zmodyfikowany z oryginalnego czasownika Grumpa.  Zaktualizowany przez Bits, by uwzglednic nadchodzace zachowanie callers() w 1.8.0.";
 by = callers();
 "Ignore all the verbs on this.";
 while (((y = by[1])[1] == this) && (y[2] == verb))
@@ -87845,7 +87866,7 @@ endif
 return pass(@args);
 .
 #88:67
-"'receive_message (<message>, <sender>)' - Receive the given mail message from the given sender. This version handles refusal of the message.";
+"'receive_message (<wiadomosc>, <nadawca>)' - Odbiera podana wiadomosc mailowa od podanego nadawcy. Ta wersja obsluguje odmowe wiadomosci.";
 if ((!$perm_utils:controls(caller_perms(), this)) && (caller != this))
 return E_PERM;
 elseif (this:refuses_action(args[2], "mail"))
@@ -87885,9 +87906,9 @@ endfor
 return this.features = features;
 .
 #88:71
-":set_owned_objects( LIST owned-objects list )";
-"  -- set your .owned_objects, ordered as you please";
-"  -- no, it will NOT let you set to to anything you want";
+":set_owned_objects( LISTA lista-wlasnych-obiektow )";
+"  -- ustawia twoja .owned_objects, w wybranej przez ciebie kolejnosci";
+"  -- nie, to NIE pozwoli ustawic czegokolwiek";
 if ((caller == this) || $perm_utils:controls(caller_perms(), this))
 new = args[1];
 old = this.owned_objects;
@@ -87919,28 +87940,28 @@ this.features = {$pasting_feature, $stage_talk};
 endif
 .
 #88:73
-"'find_help (<name>[, databases])'";
-"Search for a help topic with the given name. [<databases>] defaults to the ones returned by $code_utils:help_db_list().";
+"'find_help (<nazwa>[, bazy])'";
+"Szuka tematu pomocy o podanej nazwie. [<bazy>] domyslnie to te zwracane przez $code_utils:help_db_list().";
 {name, ?databases = $code_utils:help_db_list()} = args;
 if (!name)
-this:tell("What topic do you want to search for?");
+this:tell("Jakiego tematu chcesz szukac?");
 elseif (result = $code_utils:help_db_search(name, databases))
 {object, realname} = result;
 if (object == $ambiguous_match)
-this:tell("The help topic \"", name, "\" could refer to any of the following:  ", $string_utils:english_list(realname));
+this:tell("Temat pomocy \"", name, "\" moze odnosic sie do ktoregokolwiek z nastepujacych:  ", $string_utils:english_list(realname));
 elseif (((object == $help) && (!$object_utils:has_property(object, realname))) && valid(o = $string_utils:match_object(name, player.location)))
 if ($object_utils:has_callable_verb(o, "help_msg"))
-this:tell("That help topic was returned by ", $string_utils:nn(o), ":help_msg().");
+this:tell("Ten temat pomocy zostal zwrocony przez ", $string_utils:nn(o), ":help_msg().");
 elseif ($object_utils:has_property(o, "help_msg"))
-this:tell("That help topic is located in ", $string_utils:nn(o), ".help_msg.");
+this:tell("Ten temat pomocy znajduje sie w ", $string_utils:nn(o), ".help_msg.");
 else
-this:tell("That help topic was matched by $help but there doesn't seem to be any help available for it.");
+this:tell("Ten temat pomocy zostal dopasowany przez $help, ale nie ma dla niego zadnej dostepnej pomocy.");
 endif
 elseif (object == $help_db["verb"])
 if (((what = $code_utils:parse_verbref(realname)) && valid(what[1] = $string_utils:match_object(what[1], player.location))) && $object_utils:has_verb(@what))
-this:tell("That help topic is located at the beginning of the verb ", $string_utils:nn(what[1]), ":", what[2], ".");
+this:tell("Ten temat pomocy znajduje sie na poczatku czasownika ", $string_utils:nn(what[1]), ":", what[2], ".");
 else
-this:tell("That help topic was matched by $help_db[\"verb_help\"] but there doesn't seem to be any help available for it.");
+this:tell("Ten temat pomocy zostal dopasowany przez $help_db[\"verb_help\"], ale nie ma dla niego zadnej dostepnej pomocy.");
 endif
 else
 where = {};
@@ -87949,62 +87970,62 @@ if ({realname} == x:find_topics(realname))
 where = setadd(where, x);
 endif
 endfor
-asname = (name == realname) ? "" | ((" as \"" + realname) + "\"");
+asname = (name == realname) ? "" | ((" jako \"" + realname) + "\"");
 if (where)
-this:tell("That help topic is located on ", $string_utils:nn(where), asname, ".");
+this:tell("Ten temat pomocy znajduje sie na ", $string_utils:nn(where), asname, ".");
 else
 "...this shouldn't happen unless $code_utils:help_db_search finds a match we weren't expecting";
-this:tell("That help topic appears to be located on ", $string_utils:nn(object), asname, ", although this command could not find it.");
+this:tell("Ten temat pomocy wydaje sie znajdowac na ", $string_utils:nn(object), asname, ", chociaz to polecenie nie moglo go znalezc.");
 endif
 endif
 else
-this:tell("The help topic \"", name, "\" could not be found.");
+this:tell("Temat pomocy \"", name, "\" nie zostal znaleziony.");
 endif
 .
 #88:74
-"Prevent an object or any of its descendents from going into your inventory, regardless of whose player perms sent it there.";
-"Syntax:  @spurn <object>";
-"         @spurn !<object>";
-"The second form removes an object from your list of spurned objects.";
+"Zapobiega, by obiekt lub ktorykolwiek z jego potomkow trafil do twojego ekwipunku, bez wzgledu na to, czyje uprawnienia gracza go tam wyslaly.";
+"Skladnia:  @spurn <obiekt>";
+"         @spurn !<obiekt>";
+"Druga forma usuwa obiekt z twojej listy odrzucanych obiektow.";
 "Verb created by TheCat, 11/8/98";
 if (caller != this)
 return E_PERM;
 endif
 if (!argstr)
-this:tell("Spurn what?");
+this:tell("Odrzucic co?");
 elseif (argstr[1] == "!")
-"Stop spurning something.";
+"Przestan odrzucac cos.";
 item = this:my_match_object(argstr[2..$]);
 if (item in this.spurned_objects)
 this.spurned_objects = $list_utils:setremove_all(this.spurned_objects, item);
-this:tell(("You are no longer spurning " + $string_utils:nn(item)) + " or any kids of it.");
+this:tell(("Nie odrzucasz juz " + $string_utils:nn(item)) + " ani zadnych jego dzieci.");
 else
-this:tell(("You are not spurning " + $string_utils:nn(item)) + ".");
+this:tell(("Nie odrzucasz " + $string_utils:nn(item)) + ".");
 endif
 else
-"Spurn something.";
+"Odrzuc cos.";
 item = this:my_match_object(argstr);
 if (!$command_utils:object_match_failed(item, argstr))
 if (item in this.spurned_objects)
-this:tell(("You are already spurning " + $string_utils:nn(item)) + " plus any and all kids of it.");
+this:tell(("Juz odrzucasz " + $string_utils:nn(item)) + " oraz wszystkie jego dzieci.");
 else
 this.spurned_objects = setadd(this.spurned_objects, item);
-this:tell(("You are now spurning " + $string_utils:nn(item)) + " plus any and all kids of it.");
+this:tell(("Teraz odrzucasz " + $string_utils:nn(item)) + " oraz wszystkie jego dzieci.");
 endif
 endif
 endif
 .
 #88:75
-"Displays a list of spurned objects.";
+"Wyswietla liste odrzucanych obiektow.";
 "Verb created by TheCat, 11/8/98";
 if (this.spurned_objects)
-this:tell("You are spurning the following objects, including any and all descendents:  " + $string_utils:nn(this.spurned_objects));
+this:tell("Odrzucasz nastepujace obiekty, wraz ze wszystkimi ich potomkami:  " + $string_utils:nn(this.spurned_objects));
 else
-this:tell("You are not spurning any objects.");
+this:tell("Nie odrzucasz zadnych obiektow.");
 endif
 .
 #88:76
-"Permits programmatic setting of .spurned_objects, which is -c.";
+"Pozwala programowo ustawic .spurned_objects, ktora jest -c.";
 {spurned_objects} = args;
 if ($perm_utils:controls(caller_perms(), this))
 "Note, the final result must be a list of objects, otherwise there's no point.";
