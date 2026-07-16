@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784195890 567763848 0
+1784196230 567763848 0
 0
 10
 0
@@ -1368,7 +1368,7 @@ source
 2
 time
 0
-1784195885
+1784196223
 4
 0
 1
@@ -1624,7 +1624,7 @@ expire
 4
 2
 0
-1784195867
+1784196203
 2
 localhost
 2
@@ -1633,7 +1633,7 @@ localhost
 2
 0
 0
-1784195872
+1784196206
 2
 1
 0
@@ -1803,7 +1803,7 @@ localhost
 2
 5
 0
-1784195885
+1784196223
 2
 1
 0
@@ -4384,7 +4384,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--32
+-39
 0
 2
 2
@@ -72234,16 +72234,16 @@ return player:tell(E_PERM);
 elseif (!this:is_writable_by(player))
 return player:tell(E_PERM);
 elseif (!iobjstr)
-return player:tell(this.expire_period ? tostr("Messages will automatically expire from ", this:mail_name(), " after ", $time_utils:english_time(this.expire_period), ".") | tostr("Messages will not expire from ", this:mail_name()));
+return player:tell(this.expire_period ? tostr("Wiadomosci beda automatycznie wygasac z ", this:mail_name(), " po ", $time_utils:english_time(this.expire_period), ".") | tostr("Wiadomosci nie beda wygasac z ", this:mail_name()));
 elseif (typeof(time = $time_utils:parse_english_time_interval(iobjstr)) == ERR)
 return player:tell(time);
 elseif ((time == 0) && (!player.wizard))
-return player:tell("Only wizards may set a mailing list to not expire.");
+return player:tell("Tylko wizardzi moga ustawic liste mailingowa jako niewygasajaca.");
 elseif ((time > (180 * 86400)) && (!player.wizard))
-return player:tell("Only a wizard may set the expiration period on a mailing list to greater than 180 days.");
+return player:tell("Tylko wizard moze ustawic okres wygasania listy mailingowej na wiecej niz 180 dni.");
 endif
 this.expire_period = time;
-player:tell("Messages will ", (time != 0) ? tostr("automatically expire from ", this:mail_name(), " after ", $time_utils:english_time(time)) | tostr("not expire from ", this:mail_name()), ".");
+player:tell("Wiadomosci ", (time != 0) ? tostr("beda automatycznie wygasac z ", this:mail_name(), " po ", $time_utils:english_time(time)) | tostr("nie beda wygasac z ", this:mail_name()), ".");
 .
 #45:35
 "Skladnia:   @register <odbiorca> to <adres-email>";
@@ -72390,7 +72390,7 @@ fwd = listdelete(fwd, r);
 endif
 result = this:resolve_addr(fwd, recip, setadd(seen, recip), @sofar);
 if (bogus = result[1])
-player:tell(recip.name, "(", recip, ")'s .mail_forward list includes the following bogus entr", (length(bogus) > 1) ? "ies:  " | "y:  ", $string_utils:english_list(bogus));
+player:tell("Lista .mail_forward gracza ", recip.name, " (", recip, ") zawiera nieprawidlowe wpisy:  ", $string_utils:english_list(bogus));
 endif
 sofar = result[2..3];
 else
@@ -72574,7 +72574,7 @@ aliases = args;
 endif
 ok = 0;
 if (length(aliases) > this.max_list_aliases)
-player:tell("Mailing lists may not have more than ", this.max_list_aliases, " aliases.");
+player:tell("Listy mailingowe nie moga miec wiecej niz ", this.max_list_aliases, " aliasow.");
 return 0;
 endif
 for a in (aliases)
@@ -72587,16 +72587,16 @@ check = 1;
 endif
 if (index(a, " "))
 elseif (rp = $mail_agent:reserved_pattern(a))
-player:tell("Mailing list name \"", a, "\" uses a reserved pattern: ", rp[1]);
+player:tell("Nazwa listy mailingowej \"", a, "\" uzywa zarezerwowanego wzorca: ", rp[1]);
 return 0;
 elseif (valid(p = $mail_agent:match(a, #-1)) && ((p != object) && (a in p.aliases)))
-player:tell("Mailing list name \"", a, "\" in use on ", p.name, "(", p, ")");
+player:tell("Nazwa listy mailingowej \"", a, "\" jest juz uzywana przez ", p.name, " (", p, ")");
 return 0;
 elseif (check && (valid(p = $mail_agent:match(sub1, #-1)) && ((p != object) && (sub1 in p.aliases))))
-player:tell("Mailing list name \"", sub1, "\" in use on ", p.name, "(", p, ")");
+player:tell("Nazwa listy mailingowej \"", sub1, "\" jest juz uzywana przez ", p.name, " (", p, ")");
 return 0;
 elseif (check && (valid(p = $mail_agent:match(sub2, #-1)) && ((p != object) && (sub2 in p.aliases))))
-player:tell("Mailing list name \"", sub2, "\" in use on ", p.name, "(", p, ")");
+player:tell("Nazwa listy mailingowej \"", sub2, "\" jest juz uzywana przez ", p.name, " (", p, ")");
 return 0;
 else
 ok = 1;
@@ -72666,17 +72666,17 @@ endif
 {match_result, string, ?cmd_id = ""} = args;
 cmd_id = cmd_id || "";
 if (match_result == $nothing)
-player:tell(cmd_id, "You must specify a valid mail recipient.");
+player:tell(cmd_id, "Musisz podac prawidlowego odbiorce poczty.");
 elseif (match_result == $failed_match)
-player:tell(cmd_id, "There is no mail recipient called \"", string, "\".");
+player:tell(cmd_id, "Nie ma odbiorcy poczty o nazwie \"", string, "\".");
 elseif (match_result == $ambiguous_match)
 if ((nostar = index(string, "*") != 1) && (lst = $player_db:find_all(string)))
-player:tell(cmd_id, "\"", string, "\" could refer to ", (length(lst) > 20) ? tostr("any of ", length(lst), " players") | $string_utils:english_list($list_utils:map_arg(2, $string_utils, "pronoun_sub", "%n (%#)", lst), "no one", " or "), ".");
+player:tell(cmd_id, "\"", string, "\" moze odnosic sie do ", (length(lst) > 20) ? tostr("ktoregokolwiek z ", length(lst), " graczy") | $string_utils:english_list($list_utils:map_arg(2, $string_utils, "pronoun_sub", "%n (%#)", lst), "nikogo", " lub "), ".");
 else
-player:tell(cmd_id, "I don't know which \"", nostar ? "*" | "", string, "\" you mean.");
+player:tell(cmd_id, "Nie wiem, o ktore \"", nostar ? "*" | "", string, "\" ci chodzi.");
 endif
 elseif (!valid(match_result))
-player:tell(cmd_id, match_result, " does not exist.");
+player:tell(cmd_id, match_result, " nie istnieje.");
 else
 return 0;
 endif
@@ -72941,10 +72941,10 @@ endfor
 endwhile
 caller.messages = {@msgs[1..l], @chunk, @msgs[r..len]};
 if (chunk)
-player:tell("...(renumbering ", l + 1, " -- ", r - 1, ")");
+player:tell("...(numerowanie od nowa ", l + 1, " -- ", r - 1, ")");
 suspend(0);
 else
-player:tell("You lose.  This message collection is just too big.");
+player:tell("Przegrales.  Ten zbior wiadomosci jest po prostu zbyt duzy.");
 return;
 endif
 "... have to be careful since new mail may be received at this point...";
