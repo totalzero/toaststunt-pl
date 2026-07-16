@@ -1235,7 +1235,7 @@ source
 2
 time
 0
-1784139200
+1784175003
 4
 0
 1
@@ -1469,16 +1469,16 @@ expire
 4
 2
 0
-1784139184
+1784174981
 2
-localhost
+127.0.0.1
 2
 0
 5
 2
 0
 0
-1784139186
+1784174982
 2
 1
 0
@@ -1615,13 +1615,13 @@ localhost
 4
 2
 2
-localhost
-2
 127.0.0.1
+2
+localhost
 2
 0
 2
-localhost
+127.0.0.1
 2
 0
 5
@@ -1644,7 +1644,7 @@ localhost
 2
 5
 0
-1784139200
+1784175003
 2
 1
 0
@@ -4224,9 +4224,9 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--277
+-343
 0
-2
+1
 2
 5
 0
@@ -14253,7 +14253,9 @@ gripe_recipients
 2
 5
 4
-0
+1
+1
+134
 2
 5
 0
@@ -14265,7 +14267,15 @@ gripe_recipients
 2
 5
 4
+1
+4
+3
+1
+134
 0
+1784174161
+0
+120
 2
 5
 2
@@ -19765,7 +19775,7 @@ init_for_core
 2
 5
 0
-0
+1784174161
 36
 1
 4
@@ -19803,11 +19813,29 @@ init_for_core
 36
 1
 0
-0
+1784174161
 36
 1
 4
+1
+4
+2
 0
+1
+4
+6
+0
+1784174161
+2
+Wizard (#2)
+2
+*Quota-Log (#34)
+2
+@quota TestSweep_Guest (#134) 5000 (z 0)
+2
+
+2
+Powod zwiekszenia quoty: test quoty.
 36
 0
 5
@@ -20287,7 +20315,7 @@ init_for_core
 2
 1
 0
-37331
+-10000
 36
 0
 1
@@ -27392,17 +27420,25 @@ feature_task
 4
 9
 0
-1444304919
+858894194
 2
-@recreate
+@temp-newt
 4
-0
+4
 2
-
+TestSweep_Guest
+2
+for
+2
+2
+2
+minutes
+2
+TestSweep_Guest for 2 minutes
 1
--1
+-3
 2
-
+TestSweep_Guest for 2 minutes
 2
 
 1
@@ -32755,7 +32791,11 @@ lost_souls
 36
 0
 4
-0
+2
+1
+134
+1
+135
 36
 5
 5
@@ -33927,7 +33967,7 @@ init_for_core
 2
 5
 0
-0
+1784174234
 36
 1
 4
@@ -33965,11 +34005,107 @@ init_for_core
 36
 1
 0
-0
+1784174234
 36
 1
 4
+5
+4
+2
 0
+1
+4
+7
+0
+1784174161
+2
+Wizard (#2)
+2
+*Site-Locks (#70)
+2
+@newt TestSweep_Guest (#134)
+2
+
+2
+
+2
+testowy komentarz
+4
+2
+0
+2
+4
+6
+0
+1784174161
+2
+Wizard (#2)
+2
+*Site-Locks (#70)
+2
+@denewt TestSweep_Guest (#134)
+2
+
+2
+juz dobrze
+4
+2
+0
+3
+4
+7
+0
+1784174161
+2
+Wizard (#2)
+2
+*Site-Locks (#70)
+2
+@deprogrammer TestSweep_Guest (#134)
+2
+
+2
+na 2 minuty
+2
+powod testowy
+4
+2
+0
+4
+4
+7
+0
+1784174234
+2
+Wizard (#2)
+2
+*Site-Locks (#70)
+2
+@newt TestSweep_Guest (#134)
+2
+
+2
+
+2
+testowy komentarz
+4
+2
+0
+5
+4
+6
+0
+1784174234
+2
+Wizard (#2)
+2
+*Site-Locks (#70)
+2
+@denewt TestSweep_Guest (#134)
+2
+
+2
+juz dobrze
 36
 0
 5
@@ -65205,7 +65341,7 @@ su = $string_utils;
 au = $ansi_utils;
 alist = {};
 footnotes = {};
-nwidth = length("Player name");
+nwidth = length("Nazwa gracza");
 for u in (unsorted)
 $command_utils:suspend_if_needed(0);
 if (u.programmer)
@@ -65234,7 +65370,7 @@ alist = {@alist, {@u3, where}};
 endfor
 alist = $list_utils:sort_alist_suspended(0, alist, 3);
 $command_utils:suspend_if_needed(0);
-headers = {"Player name", "Last Login", "From Where"};
+headers = {"Nazwa gracza", "Logowanie", "Skad"};
 before = {0, nwidth + 3, (nwidth + length(ctime(0))) - 11};
 tell1 = "  " + headers[1];
 tell2 = "  " + su:space(headers[1], "-");
@@ -65255,19 +65391,19 @@ endfor
 if (footnotes)
 who:notify("");
 if ("prog" in footnotes)
-who:notify(" %  == programmer.");
+who:notify(" %  == programista.");
 endif
 if ("black" in footnotes)
-who:notify("(*) == blacklisted site.");
+who:notify("(*) == adres na czarnej liscie.");
 endif
 if ("gray" in footnotes)
-who:notify("(+) == graylisted site.");
+who:notify("(+) == adres na szarej liscie.");
 endif
 endif
 .
 #24:19
 ":show_netwho_from_listing(tell,site)";
-"@net-who from hoststring prints all players who have connected from that host or host substring.  Substring can include *'s, e.g. @net-who from *.foo.edu.";
+"@net-who z lancuchhosta wyswietla wszystkich graczy, ktorzy laczyli sie z tego hosta lub jego fragmentu.  Fragment moze zawierac *, np. @net-who z *.foo.edu.";
 if (!caller_perms().wizard)
 return E_PERM;
 endif
@@ -65289,19 +65425,19 @@ if (typeof(b) == STR)
 sites = setadd(sites, (b + ".") + domain);
 else
 bozos = setadd(bozos, b);
-nl = max(length(tostr(b, (valid(b) && is_player(b)) ? b.name | "*** recreated ***")), nl);
+nl = max(length(tostr(b, (valid(b) && is_player(b)) ? b.name | "*** odtworzony ***")), nl);
 endif
 endfor
 endfor
 endwhile
 if (bozos)
-tellwho:notify(tostr(su:left("  Player", nl + 7), "From"));
-tellwho:notify(tostr(su:left("  ------", nl + 7), "----"));
+tellwho:notify(tostr(su:left("  Gracz", nl + 7), "Skad"));
+tellwho:notify(tostr(su:left("  -----", nl + 7), "----"));
 for who in (bozos)
 st = su:left(tostr((valid(who) && is_player(who)) ? (who.programmer ? "% " | "  ") + who.name | "", " (", who, ")"), nl + 7);
 comma = 0;
 if ($object_utils:isa(who, $player) && is_player(who))
-for p in ({$wiz_utils:get_email_address(who) || "*Unregistered*", @who.all_connect_places})
+for p in ({$wiz_utils:get_email_address(who) || "*Niezarejestrowany*", @who.all_connect_places})
 if (comma && (length(p) >= (78 - length(st))))
 tellwho:notify(tostr(st, ","));
 st = su:space(nl + 7) + p;
@@ -65312,14 +65448,14 @@ comma = 1;
 $command_utils:suspend_if_needed(0);
 endfor
 else
-st = st + (valid(who) ? "*** recreated ***" | "*** recycled ***");
+st = st + (valid(who) ? "*** odtworzony ***" | "*** zutylizowany ***");
 endif
 tellwho:notify(st);
 endfor
 tellwho:notify("");
-tellwho:notify(tostr(length(bozos), " player", (length(bozos) == 1) ? "" | "s", " found."));
+tellwho:notify(tostr(length(bozos), " ", $polish_utils:count(length(bozos), "gracz znaleziony", "gracze znalezieni", "graczy znalezionych"), "."));
 else
-tellwho:notify(tostr("No sites matching `", where, "'"));
+tellwho:notify(tostr("Brak witryn pasujacych do `", where, "'"));
 endif
 else
 "User typed 'from'.  Go search for users from this site.  (SLOW!)";
@@ -65337,7 +65473,7 @@ howmany = howmany + 1;
 tellwho:notify(tostr(who.name, " (", who, "): ", su:english_list(matches)));
 endif
 endfor
-tellwho:notify(tostr(howmany || "No", " matches found."));
+tellwho:notify(tostr(howmany, " ", $polish_utils:count(howmany, "dopasowanie znalezione", "dopasowania znalezione", "dopasowan znalezionych"), "."));
 endif
 .
 #24:20
@@ -65525,29 +65661,29 @@ if (!password)
 password = $wiz_utils:random_password(6);
 endif
 whostr = $string_utils:nn(who);
-player:notify(tostr("About to change password for ", whostr, ". Old encrypted password is \"", who.password, "\""));
+player:notify(tostr("Zmiana hasla dla ", whostr, ". Stare zaszyfrowane haslo to \"", who.password, "\""));
 who.password = $login:encrypt_password(password);
 who.last_password_time = time();
-player:notify(tostr(whostr, " new password is `", password, "'."));
+player:notify(tostr(whostr, " ma teraz nowe haslo: `", password, "'."));
 if (!$wiz_utils:get_email_address(who))
-player:notify(tostr(whostr, " doesn't have a registered email_address, cannot mail password; tell them some some other way."));
-elseif ((who.last_connect_time == $maxint) && $command_utils:yes_or_no(tostr(who.name, " has never logged in.  Send mail with the password as though this were a new player request?")))
-if ((result = $wiz_utils:send_new_player_mail(tostr("From ", player.name, "@", $network.moo_name, ":"), who.name, $wiz_utils:get_email_address(who), who, password)) == 0)
-player:tell("Mail sent.");
+player:notify(tostr(whostr, " nie ma zarejestrowanego adresu email, nie mozna wyslac hasla; powiadom go w inny sposob."));
+elseif ((who.last_connect_time == $maxint) && $command_utils:yes_or_no(tostr(who.name, " nigdy sie nie zalogowal.  Wyslac mail z haslem tak, jakby to byla prosba o nowego gracza?")))
+if ((result = $wiz_utils:send_new_player_mail(tostr("Od ", player.name, "@", $network.moo_name, ":"), who.name, $wiz_utils:get_email_address(who), who, password)) == 0)
+player:tell("Mail wyslany.");
 else
-player:tell("Trouble sending mail: ", result);
+player:tell("Problem z wyslaniem maila: ", result);
 endif
-elseif ($command_utils:yes_or_no(tostr("Email new password to ", whostr, "?")))
-player:notify("Sending the password via email.");
+elseif ($command_utils:yes_or_no(tostr("Wyslac nowe haslo mailem do ", whostr, "?")))
+player:notify("Wysylanie hasla mailem.");
 $network:adjust_postmaster_for_password("enter");
-if ((result = $network:sendmail($wiz_utils:get_email_address(who), ("Your " + $network.moo_name) + " password", ("The password for your " + $network.moo_name) + " character:", " " + whostr, "has been changed. The new password is:", " " + password, "", "Please note that passwords are case sensitive.")) == 0)
-player:tell("Mail sent.");
+if ((result = $network:sendmail($wiz_utils:get_email_address(who), "Twoje haslo do " + $network.moo_name, ("Haslo do twojej postaci na " + $network.moo_name) + ":", " " + whostr, "zostalo zmienione. Nowe haslo to:", " " + password, "", "Pamietaj, ze wielkosc liter w hasle ma znaczenie.")) == 0)
+player:tell("Mail wyslany.");
 else
-player:tell("Trouble sending mail: ", result);
+player:tell("Problem z wyslaniem maila: ", result);
 endif
 $network:adjust_postmaster_for_password("exit");
 else
-player:tell("No mail sent.");
+player:tell("Nie wyslano maila.");
 endif
 .
 #24:26
@@ -65696,7 +65832,7 @@ elseif ((typeof(who = args[1]) != OBJ) || (!is_player(who)))
 $error:raise(E_INVARG);
 else
 if (!comment)
-player:notify("So why has this player been newted?");
+player:notify("Dlaczego ten gracz zostal zniewolony (newt)?");
 comment = $command_utils:read();
 endif
 if (temporary)
@@ -65708,12 +65844,12 @@ notify(who, msg);
 endif
 notify(who, $login:newt_registration_string());
 boot_player(who);
-player:notify(tostr(who.name, " (", who, ") has been turned into a newt."));
+player:notify(tostr(who.name, " (", who, ") zostal zamieniony w zniewolonego."));
 $mail_agent:send_message(player, $newt_log, tostr("@newt ", who.name, " (", who, ")"), {$string_utils:from_list(who.all_connect_places, " "), @comment ? {comment} | {}});
 if ($object_utils:isa(who.location, $room) && (msg = player:newt_msg()))
 who.location:announce_all_but({who}, msg);
 endif
-player:notify(tostr("Mail sent to ", $mail_agent:name($newt_log), "."));
+player:notify(tostr("Mail wyslany do ", $mail_agent:name($newt_log), "."));
 endif
 .
 #24:31
@@ -77347,13 +77483,14 @@ return `who.reading_input ! ANY => 0';
 .
 #57:0
 if ((!player.wizard) || (player != this))
-player:notify("Sorry.");
+player:notify("Przykro mi.");
 return;
 endif
 set_task_perms(player);
 args = setremove(args, "to");
+args = setremove(args, "do");
 if ((length(args) != 2) || (!args[2]))
-player:notify(tostr("Usage:  ", verb, " <object-or-property-or-verb> <owner>"));
+player:notify(tostr("Uzycie:  ", verb, " <obiekt-lub-wlasciwosc-lub-czasownik> <wlasciciel>"));
 return;
 endif
 what = args[1];
@@ -77367,42 +77504,42 @@ vname = spec[2];
 if (bynumber)
 vname = $code_utils:toint(vname);
 if (vname == E_TYPE)
-return player:notify("Verb number expected.");
+return player:notify("Oczekiwano numeru czasownika.");
 elseif ((vname < 1) || (vname > length(verbs(object))))
-return player:notify("Verb number out of range.");
+return player:notify("Numer czasownika spoza zakresu.");
 endif
 endif
 info = `verb_info(object, vname) ! ANY';
 if (info == E_VERBNF)
-player:notify("That object does not define that verb.");
+player:notify("Ten obiekt nie definiuje takiego czasownika.");
 elseif (typeof(info) == ERR)
 player:notify(tostr(info));
 else
 try
 result = set_verb_info(object, vname, listset(info, owner, 1));
-player:notify("Verb owner set.");
+player:notify("Wlasciciel czasownika ustawiony.");
 except e (ANY)
 player:notify(e[2]);
 endtry
 endif
 endif
 elseif (bynumber)
-player:notify("@chown# can only be used with verbs.");
+player:notify("@chown# moze byc uzywane tylko z czasownikami.");
 elseif (index(what, ".") && (spec = $code_utils:parse_propref(what)))
 object = this:my_match_object(spec[1]);
 if (!$command_utils:object_match_failed(object, spec[1]))
 pname = spec[2];
 e = $wiz_utils:set_property_owner(object, pname, owner);
 if (e == E_NONE)
-player:notify("+c Property owner set.  Did you really want to do that?");
+player:notify("+c Ustawiono wlasciciela wlasciwosci.  Czy na pewno o to chodzilo?");
 else
-player:notify(tostr(e && "Property owner set."));
+player:notify(tostr(e && "Wlasciciel wlasciwosci ustawiony."));
 endif
 endif
 else
 object = this:my_match_object(what);
 if (!$command_utils:object_match_failed(object, what))
-player:notify(tostr($wiz_utils:set_owner(object, owner) && "Object ownership changed."));
+player:notify(tostr($wiz_utils:set_owner(object, owner) && "Wlasciciel obiektu zmieniony."));
 endif
 endif
 .
@@ -77423,45 +77560,45 @@ endfor
 player:notify(tostr("Krzyczysz: \"", argstr, "\""));
 .
 #57:2
-"@grant <object> to <player>";
-"@grants <object> to <player>   --- same as @grant but may suspend.";
-"@transfer <expression> to <player> -- like 'grant', but evalutes a possible list of objects to transfer, and modifies quota.";
-"Ownership of the object changes as in @chown and :set_owner (i.e., .owner and all c properties change).  In addition all verbs and !c properties owned by the original owner change ownership as well.  Finally, for !c properties, instances on descendant objects change ownership (as in :set_property_owner).";
+"@grant <obiekt> do <gracz>";
+"@grants <obiekt> do <gracz>   --- to samo co @grant, ale moze zawieszac zadanie (suspend).";
+"@transfer <wyrazenie> do <gracz> -- jak 'grant', ale oblicza mozliwa liste obiektow do przekazania i modyfikuje quote.";
+"Wlasnosc obiektu zmienia sie jak w @chown i :set_owner (tzn. .owner i wszystkie wlasciwosci c ulegaja zmianie).  Dodatkowo wszystkie czasowniki i wlasciwosci !c nalezace do poprzedniego wlasciciela tez zmieniaja wlasciciela.  Wreszcie, dla wlasciwosci !c, wystapienia na obiektach-potomkach rowniez zmieniaja wlasciciela (jak w :set_property_owner).";
 if ((!player.wizard) || (player != this))
-player:notify("Sorry.");
+player:notify("Przykro mi.");
 return;
 endif
 set_task_perms(player);
 if ((!iobjstr) || (!dobjstr))
-return player:notify(tostr("Usage:  ", verb, " <object> to <player>"));
+return player:notify(tostr("Uzycie:  ", verb, " <obiekt> do <gracz>"));
 endif
 if ($command_utils:player_match_failed(newowner = $string_utils:match_player(iobjstr), iobjstr))
-"...newowner is bogus...";
+"...newowner jest nieprawidlowy...";
 return;
 endif
 if (verb == "@transfer")
 objlist = player:eval_cmd_string(dobjstr, 0);
 if (!objlist[1])
-player:notify(tostr("Had trouble reading `", dobjstr, "': "));
+player:notify(tostr("Problem z odczytaniem `", dobjstr, "': "));
 player:notify_lines(@objlist[2]);
 return;
 elseif (typeof(objlist[2]) == OBJ)
 objlist = objlist[2..2];
 elseif (typeof(objlist[2]) != LIST)
-player:notify(tostr("Value of `", dobjstr, "' is not an object or list:  ", toliteral(objlist[2])));
+player:notify(tostr("Wartosc `", dobjstr, "' nie jest obiektem ani lista:  ", toliteral(objlist[2])));
 return;
 else
 objlist = objlist[2];
 endif
 elseif ($command_utils:object_match_failed(object = this:my_match_object(dobjstr), dobjstr))
-"...object is bogus...";
+"...obiekt jest nieprawidlowy...";
 return;
 else
 objlist = {object};
 endif
-"Used to check for quota of newowner, but doesn't anymore, cuz the quota check doesn't work";
+"Kiedys sprawdzalo to quote nowego wlasciciela, ale juz nie, bo to sprawdzanie nie dziala";
 suspendok = verb != "@grant";
-player:tell("Transferring ", toliteral(objlist), " to ", $string_utils:nn(newowner));
+player:tell("Przekazywanie ", toliteral(objlist), " do ", $string_utils:nn(newowner));
 for object in (objlist)
 $command_utils:suspend_if_needed(0);
 same = object.owner == newowner;
@@ -77487,12 +77624,12 @@ suspend(0);
 endif
 $wiz_utils:set_owner(object, newowner, suspendok);
 if (same)
-player:notify(tostr(newowner.name, " already owns everything ", newowner.ps, " is entitled to on ", object.name, "."));
+player:notify(tostr(newowner.name, " juz posiada wszystko, co ", newowner.ps, " sie nalezy na ", object.name, "."));
 else
-player:notify(tostr("Ownership changed on ", $string_utils:nn(object), ", verb, properties and descendants' properties."));
+player:notify(tostr("Wlasciciel zmieniony na ", $string_utils:nn(object), ", czasownikow, wlasciwosci i wlasciwosci potomkow."));
 endif
 endfor
-player:notify(tostr(verb, " complete."));
+player:notify(tostr(verb, " zakonczone."));
 .
 #57:3
 set_task_perms(player);
@@ -77733,14 +77870,14 @@ shutdown(argstr);
 #57:6
 set_task_perms(player);
 dump_database();
-player:notify("Dumping...");
+player:notify("Zrzucanie bazy danych...");
 .
 #57:7
 set_task_perms(player);
 if (argstr[1] != ":")
 argstr = ":" + argstr;
 endif
-player:notify(tostr("Searching for verbs that appear to call ", argstr, " ..."));
+player:notify(tostr("Szukam czasownikow, ktore wywoluja ", argstr, " ..."));
 player:notify("");
 $code_utils:find_verbs_containing(argstr + "(");
 .
@@ -77756,15 +77893,15 @@ return;
 endif
 end = this.__mcd__pos;
 {core_variant, saved, saved_props, skipped_parents, namespaces} = args;
-player:notify(tostr("*** Recycling from #", end, " ..."));
+player:notify(tostr("*** Zwalnianie od #", end, " ..."));
 suspend(0);
 fork (0)
 try
 this:mcd_2(core_variant, saved, saved_props, skipped_parents, namespaces);
 finally
 if ((!queued_tasks()) && `this.__mcd__save ! E_PROPNF => 0')
-"...use raw notify since we have no idea what will be b0rken";
-notify(player, "Core database extraction failed.");
+"...uzyj surowego notify, bo nie wiadomo co bedzie zepsute";
+notify(player, "Ekstrakcja bazy rdzenia nie powiodla sie.");
 endif
 endtry
 endfork
@@ -77798,23 +77935,23 @@ endfor
 load_server_options();
 "----------------------------------------";
 suspend(0);
-player:notify("Killing queued tasks ...");
+player:notify("Zabijanie zakolejkowanych zadan ...");
 for t in (queued_tasks())
 kill_task(t[1]);
 endfor
 "----------------------------------------";
-player:notify("Compacting object numbers ...");
+player:notify("Kompaktowanie numerow obiektow ...");
 old_oids = new_oids = {player};
 for o_ps in (saved_props)
 $command_utils:suspend_if_needed(0);
 {o, o_props} = o_ps;
-"Oh geeze. 'o' could have already been renumbered!";
+"Uwaga. 'o' moglo juz zostac przenumerowane!";
 if (ind = o in old_oids)
 o = new_oids[ind];
 endif
 for p in (o_props)
 if ((p == "owner") || (p == "location"))
-"...renumber() takes care of these";
+"...tym zajmuje sie renumber()";
 elseif (i = (old = o.(p)) in old_oids)
 o.(p) = new_oids[i];
 elseif (valid(old))
@@ -77828,7 +77965,7 @@ if (valid(o) && (o != player))
 renumber(o);
 endif
 endfor
-player:notify("Compacting namespaces ...");
+player:notify("Kompaktowanie namespace'ow ...");
 for ns in (namespaces)
 {o, o_prop, o_map} = ns;
 for value, key in (o_map)
@@ -77841,7 +77978,7 @@ endif
 endfor
 endfor
 reset_max_object();
-"...rebuild saved list so that parents come before children...";
+"...odbuduj liste saved tak, by rodzice byli przed dziecmi...";
 saved = {};
 for o in [#0..max_object()]
 os = {};
@@ -77852,14 +77989,14 @@ endwhile
 saved = {@saved, @os};
 endfor
 "----------------------------------------";
-player:notify("Performing miscellaneous cleanups ...");
+player:notify("Wykonywanie roznych porzadkow ...");
 succeeded = 1;
 for o in [#0..max_object()]
 $command_utils:suspend_if_needed(0);
 try
 move(o, #-1);
 except e (ANY)
-player:notify(tostr("Couldn't move ", o, " => ", e[2]));
+player:notify(tostr("Nie udalo sie przeniesc ", o, " => ", e[2]));
 player:notify(toliteral(e[4]));
 succeeded = 0;
 endtry
@@ -77870,13 +78007,13 @@ if ($object_utils:has_callable_verb(o, "init_for_core"))
 try
 o:init_for_core(core_variant);
 except e (ANY)
-player:notify(tostr("Error from ", o, ":init_for_core => ", e[2]));
+player:notify(tostr("Blad z ", o, ":init_for_core => ", e[2]));
 player:notify(toliteral(e[4]));
 succeeded = 0;
 endtry
 endif
 endfor
-player:notify("Re-measuring everything ...");
+player:notify("Ponowny pomiar wszystkiego ...");
 for o in [#0..max_object()]
 $command_utils:suspend_if_needed(0);
 if (valid(o))
@@ -77886,7 +78023,7 @@ endfor
 $wiz_utils:initialize_owned();
 $byte_quota_utils:summarize_one_user(player);
 delete_property(this, "__mcd__save");
-player:notify("Core database extraction " + (succeeded ? "is complete." | "failed."));
+player:notify("Ekstrakcja bazy rdzenia " + (succeeded ? "zakonczona pomyslnie." | "nie powiodla sie."));
 if (succeeded)
 boot_player(player);
 shutdown();
@@ -77950,43 +78087,43 @@ player:notify(tostr("Mail wyslany do ", $mail_agent:name($toad_log), "."));
 `$local.waitlist:note_reapee(who, tostr("@toaded by ", player.name)) ! ANY';
 .
 #57:10
-"@untoad <object> [as namespec]";
-"Turns object into a player.  Anything that isn't a guest is chowned to itself.";
+"@untoad <obiekt> [jako namespec]";
+"Zamienia obiekt w gracza.  Wszystko, co nie jest gosciem, zostaje przypisane na wlasnosc samo sobie.";
 if (!player.wizard)
-player:notify("Yeah, right... you wish.");
-elseif (prepstr && (prepstr != "as"))
-player:notify(tostr("Usage:  ", verb, " <object> [as name,alias,alias...]"));
+player:notify("Akurat... moze w twoich snach.");
+elseif (prepstr && (prepstr != "jako"))
+player:notify(tostr("Uzycie:  ", verb, " <obiekt> [jako nazwa,alias,alias...]"));
 elseif ($command_utils:object_match_failed(dobj, dobjstr))
 elseif (prepstr && (!(e = $building_utils:set_names(dobj, iobjstr))))
-player:notify(tostr("Initial rename failed:  ", e));
+player:notify(tostr("Wstepna zmiana nazwy nie powiodla sie:  ", e));
 elseif (e = $wiz_utils:set_player(dobj, g = $object_utils:isa(dobj, $guest)))
-player:notify(tostr(dobj.name, "(", dobj, ") is now a ", g ? "usable guest." | "player."));
+player:notify(tostr(dobj.name, "(", dobj, ") jest teraz ", g ? "goscem do uzycia." | "graczem."));
 elseif (e == E_INVARG)
-player:notify(tostr(dobj.name, "(", dobj, ") is not of an appropriate player class."));
-player:notify("@chparent it to $player or some descendant.");
+player:notify(tostr(dobj.name, "(", dobj, ") nie jest odpowiedniej klasy gracza."));
+player:notify("Zmien mu rodzica (@chparent) na $player lub jego potomka.");
 elseif (e == E_NONE)
-player:notify(tostr(dobj.name, "(", dobj, ") is already a player."));
+player:notify(tostr(dobj.name, "(", dobj, ") jest juz graczem."));
 elseif (e == E_NACC)
-player:notify("Wait until $player_db is finished updating...");
+player:notify("Czekaj, az $player_db skonczy aktualizacje...");
 elseif (e == E_RECMOVE)
-player:notify(tostr("The name `", dobj.name, "' is currently unavailable."));
-player:notify(tostr("Try again with   ", verb, " ", dobj, " as <newname>"));
+player:notify(tostr("Nazwa `", dobj.name, "' jest obecnie niedostepna."));
+player:notify(tostr("Sprobuj ponownie:   ", verb, " ", dobj, " jako <nowa-nazwa>"));
 else
 player:notify(tostr(e));
 endif
 .
 #57:11
-"@quota <player> is [public] <number> [<reason>]";
-"  changes a player's quota.  sends mail to the wizards.";
+"@quota <gracz> jest [public] <liczba> [<powod>]";
+"  zmienia quote gracza.  wysyla mail do wizardow.";
 if (player != this)
-return player:notify("Permission denied.");
+return player:notify("Odmowa dostepu.");
 endif
 set_task_perms(player);
 dobj = $string_utils:match_player(dobjstr);
 if ($command_utils:player_match_result(dobj, dobjstr)[1])
 return;
 elseif (!valid(dobj))
-player:notify("Set whose quota?");
+player:notify("Czyje quote ustawic?");
 return;
 endif
 if (iobjstr[1..min(7, $)] == "public ")
@@ -77994,7 +78131,7 @@ iobjstr[1..7] = "";
 if ($object_utils:has_property($local, "public_quota_log"))
 recipients = {$quota_log, $local.public_quota_log};
 else
-player:tell("No public quota log.");
+player:tell("Brak publicznego loga quoty.");
 return E_INVARG;
 endif
 else
@@ -78003,9 +78140,9 @@ endif
 old = $quota_utils:get_quota(dobj);
 qstr = iobjstr[1..(n = index(iobjstr + " ", " ")) - 1];
 new = $code_utils:toint((qstr[1] == "+") ? qstr[2..$] | qstr);
-reason = iobjstr[n + 1..$] || "(none)";
+reason = iobjstr[n + 1..$] || "(brak)";
 if (typeof(new) != INT)
-player:notify(tostr("Set ", dobj.name, "'s quota to what?"));
+player:notify(tostr("Na ile ustawic quote ", dobj.name, "?"));
 return;
 elseif (qstr[1] == "+")
 new = old + new;
@@ -78014,9 +78151,9 @@ result = $quota_utils:set_quota(dobj, new);
 if (typeof(result) == ERR)
 player:notify(tostr(result));
 else
-player:notify(tostr(dobj.name, "'s quota set to ", new, "."));
+player:notify(tostr("Quota ", dobj.name, " ustawiona na ", new, "."));
 endif
-$mail_agent:send_message(player, recipients, tostr("@quota ", dobj.name, " (", dobj, ") ", new, " (from ", old, ")"), tostr("Reason for quota ", ((new - old) < 0) ? "decrease: " | "increase: ", reason, index("?.!", reason[$]) ? "" | "."));
+$mail_agent:send_message(player, recipients, tostr("@quota ", dobj.name, " (", dobj, ") ", new, " (z ", old, ")"), tostr("Powod ", ((new - old) < 0) ? "zmniejszenia quoty: " | "zwiekszenia quoty: ", reason, index("?.!", reason[$]) ? "" | "."));
 .
 #57:12
 set_task_perms(player);
@@ -78034,10 +78171,10 @@ always_objects = always_players = 0;
 never_objects = never_players = 0;
 numo = 0;
 if (argstr)
-if (((!dobjstr) && (prepstr == "with")) && (index("objects", iobjstr) == 1))
+if (((!dobjstr) && (prepstr == "uzywajac")) && (index("obiektow", iobjstr) == 1))
 with_objects = 1;
 else
-player:notify(tostr("Usage:  ", verb, " [with objects]"));
+player:notify(tostr("Uzycie:  ", verb, " uzywajac obiektow"));
 return;
 endif
 else
@@ -78102,9 +78239,9 @@ endif
 endif
 endfor
 player:notify("");
-player:notify(tostr("Last connected"));
-player:notify(tostr("at least this     Num.     Cumul.   Cumul. %", with_objects ? "     Num.     Cumul.   Cumul. %" | ""));
-player:notify(tostr("long ago        players   players   players ", with_objects ? "   objects   objects   objects" | ""));
+player:notify(tostr("Ostatnio polaczeni"));
+player:notify(tostr("co najmniej      Liczba   Suma       Suma %", with_objects ? "     Liczba   Suma       Suma %" | ""));
+player:notify(tostr("tak dawno temu   graczy   graczy    graczy  ", with_objects ? "   obiekt.   obiekt.   obiekt." | ""));
 player:notify(tostr("---------------------------------------------", with_objects ? "--------------------------------" | ""));
 su = $string_utils;
 col1 = 14;
@@ -78116,7 +78253,7 @@ col6 = 11;
 col7 = 10;
 nump = length(players());
 totalp = totalo = 0;
-for x in ({{days_players, days_objects, "day", 1}, {weeks_players, weeks_objects, "week", 0}, {months_players, months_objects, "month", 0}})
+for x in ({{days_players, days_objects, {"dzien", "dni", "dni"}, 1}, {weeks_players, weeks_objects, {"tydzien", "tygodnie", "tygodni"}, 0}, {months_players, months_objects, {"miesiac", "miesiace", "miesiecy"}, 0}})
 pcounts = x[1];
 ocounts = x[2];
 unit = x[3];
@@ -78124,14 +78261,15 @@ offset = x[4];
 for i in [1..length(pcounts)]
 $command_utils:suspend_if_needed(0);
 j = i - offset;
-player:notify(tostr(su:left(tostr(j, " ", unit, (j == 1) ? ":" | "s:"), col1), su:right(pcounts[i], col2), su:right(totalp = totalp + pcounts[i], col3), su:right((totalp * 100) / nump, col4), "%", with_objects ? tostr(su:right(ocounts[i], col5), su:right(totalo = totalo + ocounts[i], col6), su:right((totalo * 100) / numo, col7), "%") | ""));
+word = $polish_utils:count(j, unit[1], unit[2], unit[3]);
+player:notify(tostr(su:left(tostr(j, " ", word, ":"), col1), su:right(pcounts[i], col2), su:right(totalp = totalp + pcounts[i], col3), su:right((totalp * 100) / nump, col4), "%", with_objects ? tostr(su:right(ocounts[i], col5), su:right(totalo = totalo + ocounts[i], col6), su:right((totalo * 100) / numo, col7), "%") | ""));
 endfor
 player:notify("");
 endfor
-player:notify(tostr(su:left("Never:", col1), su:right(never_players, col2), su:right(totalp = totalp + never_players, col3), su:right((totalp * 100) / nump, col4), "%", with_objects ? tostr(su:right(never_objects, col5), su:right(totalo = totalo + never_objects, col6), su:right((totalo * 100) / numo, col7), "%") | ""));
-player:notify(tostr(su:left("Always:", col1), su:right(always_players, col2), su:right(totalp = totalp + always_players, col3), su:right((totalp * 100) / nump, col4), "%", with_objects ? tostr(su:right(always_objects, col5), su:right(totalo = totalo + always_objects, col6), su:right((totalo * 100) / numo, col7), "%") | ""));
-with_objects && player:notify(tostr(su:left("Non-player owner:", (((col1 + col2) + col3) + col4) + 1), su:right(nonplayer_objects, col5), su:right(totalo = totalo + nonplayer_objects, col6), su:right((totalo * 100) / numo, col7), "%"));
-with_objects && player:notify(tostr(su:left("Invalid owner:", (((col1 + col2) + col3) + col4) + 1), su:right(invalid_objects, col5), su:right(totalo = totalo + invalid_objects, col6), su:right((totalo * 100) / numo, col7), "%"));
+player:notify(tostr(su:left("Nigdy:", col1), su:right(never_players, col2), su:right(totalp = totalp + never_players, col3), su:right((totalp * 100) / nump, col4), "%", with_objects ? tostr(su:right(never_objects, col5), su:right(totalo = totalo + never_objects, col6), su:right((totalo * 100) / numo, col7), "%") | ""));
+player:notify(tostr(su:left("Zawsze:", col1), su:right(always_players, col2), su:right(totalp = totalp + always_players, col3), su:right((totalp * 100) / nump, col4), "%", with_objects ? tostr(su:right(always_objects, col5), su:right(totalo = totalo + always_objects, col6), su:right((totalo * 100) / numo, col7), "%") | ""));
+with_objects && player:notify(tostr(su:left("Wlasciciel-nie-gracz:", (((col1 + col2) + col3) + col4) + 1), su:right(nonplayer_objects, col5), su:right(totalo = totalo + nonplayer_objects, col6), su:right((totalo * 100) / numo, col7), "%"));
+with_objects && player:notify(tostr(su:left("Nieprawidlowy wlasciciel:", (((col1 + col2) + col3) + col4) + 1), su:right(invalid_objects, col5), su:right(totalo = totalo + invalid_objects, col6), su:right((totalo * 100) / numo, col7), "%"));
 player:notify("");
 .
 #57:13
@@ -78149,12 +78287,12 @@ everyone = args[1];
 else
 everyone = 0;
 endif
-if (everyone == "everyone")
+if ((everyone == "everyone") || (everyone == "wszyscy"))
 everyone = 1;
 elseif (typeof(everyone) == STR)
 result = $string_utils:match_player(everyone);
 if ($command_utils:player_match_failed(result, everyone))
-player:notify(tostr("Usage:  ", callers()[1][2], " soon [number of seconds] [\"everyone\" | player name]"));
+player:notify(tostr("Uzycie:  ", callers()[1][2], " soon [liczba sekund] [\"wszyscy\" | nazwa gracza]"));
 return {-1, -1};
 else
 return {soon ? soon | 60, result};
@@ -78165,24 +78303,24 @@ return {soon ? soon | 60, everyone ? everyone | player};
 #57:14
 set_task_perms(player);
 if (!args)
-player:notify(tostr("Usage:  ", verb, " <pattern>"));
+player:notify(tostr("Uzycie:  ", verb, " <wzorzec>"));
 return;
 endif
 pattern = argstr;
 regexp = verb == "@egrepcore";
-player:notify(tostr("Searching for core verbs ", regexp ? "matching the regular expression " | "containing the string ", toliteral(pattern), " ..."));
+player:notify(tostr("Szukam czasownikow w rdzeniu ", regexp ? "pasujacych do wyrazenia regularnego " | "zawierajacych string ", toliteral(pattern), " ..."));
 player:notify("");
 $code_utils:(regexp ? "find_verbs_matching" | "find_verbs_containing")(pattern, $core_objects());
 .
 #57:15
-"@net-who prints all connected users and hosts.";
-"@net-who player player player prints specified users and current or most recent connected host.";
-"@net-who from hoststring prints all players who have connected from that host or host substring.  Substring can include *'s, e.g. @net-who from *.foo.edu.";
+"@net-who wyswietla wszystkich polaczonych uzytkownikow i hosty.";
+"@net-who gracz gracz gracz wyswietla podanych uzytkownikow oraz obecny lub ostatni polaczony host.";
+"@net-who z lancuchhosta wyswietla wszystkich graczy, ktorzy laczyli sie z tego hosta lub jego fragmentu.  Fragment moze zawierac *, np. @net-who z *.foo.edu.";
 set_task_perms(player);
 su = $string_utils;
-if ((prepstr == "from") && dobjstr)
-player:notify(tostr("Usage:  ", verb, " from <host string>"));
-elseif (((prepstr != "from") || dobjstr) || (!iobjstr))
+if ((prepstr == "z") && dobjstr)
+player:notify(tostr("Uzycie:  ", verb, " z <lancuch hosta>"));
+elseif (((prepstr != "z") || dobjstr) || (!iobjstr))
 "Not parsing 'from' here...  Instead printing connected/recent users.";
 if (!(pstrs = args))
 unsorted = connected_players();
@@ -78198,16 +78336,16 @@ $wiz_utils:show_netwho_from_listing(player, iobjstr);
 endif
 .
 #57:16
-"Creates a player.";
-"Syntax:  @make-player name email-address comments....";
-"Generates a random password for the player.";
+"Tworzy gracza.";
+"Skladnia:  @make-player nazwa adres-email komentarze....";
+"Generuje losowe haslo dla gracza.";
 if ((!player.wizard) || callers())
 return E_PERM;
 elseif (length(args) < 2)
-player:tell("Syntax:  @make-player name email-address comments....");
+player:tell("Skladnia:  @make-player nazwa adres-email komentarze....");
 return;
-elseif (args[2] == "for")
-"common mistake: @make-player <name> for <email-address> ...";
+elseif ((args[2] == "for") || (args[2] == "dla"))
+"typowa pomylka: @make-player <nazwa> for <adres-email> ...";
 args = listdelete(args, 2);
 endif
 return $wiz_utils:do_make_player(@args);
@@ -78247,49 +78385,49 @@ set_task_perms((caller in {this, $generic_editor, $verb_editor, $mail_editor, $n
 return `move(this, args[1]) ! ANY';
 .
 #57:20
-"@newt <player> [commentary]";
-"turns a player into a newt.  It can get better...";
-"adds player to $login.newted, they will not be allowed to log in.";
-"Sends mail to $newt_log giving .all_connect_places and commentary.";
+"@newt <gracz> [komentarz]";
+"zamienia gracza w zniewolonego (newt). Da sie to odwrocic...";
+"dodaje gracza do $login.newted, nie bedzie mogl sie zalogowac.";
+"Wysyla mail do $newt_log z .all_connect_places i komentarzem.";
 whostr = args[1];
 comment = $string_utils:first_word(argstr)[2];
 if (!player.wizard)
-player:notify("Yeah, right.");
+player:notify("Akurat.");
 elseif ($command_utils:player_match_failed(who = $string_utils:match_player(whostr), whostr))
 return;
 elseif (((whostr != who.name) && (!(whostr in who.aliases))) && (whostr != tostr(who)))
-player:notify(tostr("Must be a full name or an object number:  ", who.name, "(", who, ")"));
+player:notify(tostr("Musisz podac pelne imie lub numer obiektu:  ", who.name, "(", who, ")"));
 return;
 elseif (who == player)
-player:notify("If you want to newt yourself, you have to do it by hand.");
+player:notify("Jesli chcesz zniewolic samego siebie, zrob to recznie.");
 return;
 elseif (who in $login.newted)
-player:notify(tostr(who.name, " appears to already be a newt."));
+player:notify(tostr(who.name, " zdaje sie juz byc zniewolony."));
 return;
 else
 $wiz_utils:newt_player(who, comment);
 endif
 .
 #57:21
-"@denewt <player> [commentary]";
-"Remove the player from $Login.newted";
-"Sends mail to $newt_log with commentary.";
+"@denewt <gracz> [komentarz]";
+"Usuwa gracza z $Login.newted";
+"Wysyla mail do $newt_log z komentarzem.";
 whostr = args[1];
 comment = $string_utils:first_word(argstr)[2];
 if (!player.wizard)
-player:notify("Yeah, right.");
+player:notify("Akurat.");
 elseif ($command_utils:player_match_failed(who = $string_utils:match_player(whostr), whostr))
 return;
 else
-"Should parse email address and register user in some clever way.  Ick.";
+"Nalezaloby sparsowac adres email i sprytnie zarejestrowac uzytkownika.  Meczace.";
 if (!(who in $login.newted))
-player:notify(tostr(who.name, " does not appear to be a newt."));
+player:notify(tostr(who.name, " zdaje sie nie byc zniewolony."));
 else
 $login.newted = setremove($login.newted, who);
 if (entry = $list_utils:assoc(who, $login.temporary_newts))
 $login.temporary_newts = setremove($login.temporary_newts, entry);
 endif
-player:notify(tostr(who.name, " (", who, ") got better."));
+player:notify(tostr(who.name, " (", who, ") wyzdrowial."));
 $mail_agent:send_message(player, $newt_log, tostr("@denewt ", who.name, " (", who, ")"), comment ? {comment} | {});
 endif
 endif
@@ -78304,50 +78442,50 @@ endif
 $wiz_utils:do_register(@args);
 .
 #57:23
-"@newpassword player is [string]";
-"Set's a player's password; omit string to have one randomly generated.";
-"Offer to email the password.";
+"@newpassword gracz is [string]";
+"Ustawia haslo gracza; pomin string, by wygenerowac je losowo.";
+"Zaproponuj wyslanie hasla mailem.";
 if (!player.wizard)
 return E_PERM;
 elseif ($command_utils:player_match_failed(dobj = $string_utils:match_player(dobjstr), dobjstr))
 return;
 elseif (!(dobjstr in {@dobj.aliases, tostr(dobj)}))
-player:notify(tostr("Must be a full name or an object number: ", dobj.name, " (", dobj, ")"));
+player:notify(tostr("Musisz podac pelne imie lub numer obiektu: ", dobj.name, " (", dobj, ")"));
 else
 $wiz_utils:do_new_password(dobj, iobjstr);
 endif
 .
 #57:24
-"@log [<string>]    enters a comment in the server log.";
-"If no string is given, you are prompted to enter one or more lines for an extended comment.";
+"@log [<string>]    zapisuje komentarz w logu serwera.";
+"Jesli nie podano stringu, zostaniesz poproszony o wpisanie jednej lub wiecej linii rozszerzonego komentarza.";
 set_task_perms(player);
-whostr = tostr("from ", player.name, " (", player, ")");
+whostr = tostr("od ", player.name, " (", player, ")");
 if ((!player.wizard) || (player != caller))
-player:notify("Yeah, right.");
+player:notify("Akurat.");
 elseif (argstr)
 server_log(tostr("COMMENT: [", whostr, "]  ", argstr));
-player:notify("One-line comment logged.");
+player:notify("Zapisano jednolinijkowy komentarz.");
 elseif (lines = $command_utils:read_lines())
 server_log(tostr("COMMENT: [", whostr, "]"));
 for l in (lines)
 server_log(l);
 endfor
 server_log(tostr("END_COMMENT."));
-player:notify(tostr(length(lines), " lines logged as extended comment."));
+player:notify(tostr(length(lines), " linii zapisanych jako rozszerzony komentarz."));
 endif
 .
 #57:25
 set_task_perms(player);
 n = (dobjstr == "all") ? 0 | $code_utils:toint(dobjstr || "20");
 if (caller != this)
-player:notify("You lose.");
-elseif ((n == E_TYPE) && (index("now", dobjstr) != 1))
-player:notify(tostr("Usage:  ", verb, " <number>  (where <number> indicates how many entries to look at in the guest log)"));
-player:notify(tostr("Usage:  ", verb, " now (to see information about currently connected guests only)"));
-elseif ((!dobjstr) || (index("now", dobjstr) != 1))
+player:notify("Nici z tego.");
+elseif ((n == E_TYPE) && (index("teraz", dobjstr) != 1))
+player:notify(tostr("Uzycie:  ", verb, " <liczba>  (gdzie <liczba> okresla ile wpisow z loga gosci obejrzec)"));
+player:notify(tostr("Uzycie:  ", verb, " teraz (by zobaczyc informacje tylko o aktualnie polaczonych gosciach)"));
+elseif ((!dobjstr) || (index("teraz", dobjstr) != 1))
 $guest_log:last(n);
 else
-"*way* too much copied code in here from @who...  Sorry.  --yduJ";
+"*ogromna* ilosc skopiowanego kodu z @who...  Wybaczcie.  --yduJ";
 su = $string_utils;
 conn = connected_players();
 unsorted = {};
@@ -78357,12 +78495,12 @@ unsorted = {@unsorted, g};
 endif
 endfor
 if (!unsorted)
-player:tell("No guests found.");
+player:tell("Nie znaleziono gosci.");
 return;
 endif
 footnotes = {};
 alist = {};
-nwidth = length("Player name");
+nwidth = length("Nazwa gracza");
 for u in (unsorted)
 pref = u.programmer ? "% " | "  ";
 u.programmer && (footnotes = setadd(footnotes, "prog"));
@@ -78380,8 +78518,8 @@ $command_utils:suspend_if_needed(0);
 endfor
 alist = $list_utils:sort_alist_suspended(0, alist, 3);
 $command_utils:suspend_if_needed(0);
-headers = {"Player name", "Connected", "Idle Time", "From Where"};
-time_width = length("59 minutes") + 2;
+headers = {"Nazwa gracza", "Polaczony", "Bezczynny", "Skad"};
+time_width = length("59 minut") + 2;
 before = {0, w1 = nwidth + 3, w2 = w1 + time_width, w3 = w2 + time_width};
 tell1 = "  " + headers[1];
 tell2 = "  " + su:space(headers[1], "-");
@@ -78403,16 +78541,16 @@ endfor
 if (footnotes)
 player:notify("");
 if ("prog" in footnotes)
-player:notify(" %  == programmer.");
+player:notify(" %  == programista.");
 endif
 if ("black" in footnotes)
-player:notify("(*) == blacklisted site.");
+player:notify("(*) == adres na czarnej liscie.");
 endif
 if ("gray" in footnotes)
-player:notify("(+) == graylisted site.");
+player:notify("(+) == adres na szarej liscie.");
 endif
 endif
-player:tell("@guests display complete.");
+player:tell("Wyswietlanie @guests zakonczone.");
 endif
 .
 #57:26
@@ -78489,7 +78627,7 @@ downgraded = {};
 if (rm)
 ntries = (length(rm) == 1) ? "ntry" | "ntries";
 if ($command_utils:yes_or_no(tostr((length(rm) == 1) ? "Usunac wpis" | "Usunac wpisy", " dla ", namelist, "?")))
-dg = undo && (downgrade && $command_utils:yes_or_no(downgrade + " them?"));
+dg = undo && (downgrade && $command_utils:yes_or_no(downgrade + " ich?"));
 for s in (rm)
 $login:(which + "_remove")(s);
 dg && ($login:(downgrade + "_add")(s) && (downgraded = {@downgraded, s}));
@@ -78520,7 +78658,7 @@ tempdowngraded = {};
 if (rmtemp)
 ntries = (length(rmtemp) == 1) ? "ntry" | "ntries";
 if ($command_utils:yes_or_no(tostr((length(rmtemp) == 1) ? "Usunac wpis" | "Usunac wpisy", " dla ", tempnamelist, "?")))
-dg = undo && (downgrade && $command_utils:yes_or_no(downgrade + " them?"));
+dg = undo && (downgrade && $command_utils:yes_or_no(downgrade + " ich?"));
 for s in (rmtemp)
 old = $list_utils:assoc(s, tempentrylist);
 $login:(which + "_remove_temp")(s);
@@ -78544,15 +78682,15 @@ $login:(which + "_add")(target);
 player:notify(tostr(fullname, " ", which, "ed."));
 endif
 if (rm)
-comment[1..0] = {tostr("Subsumes ", which, "ing for ", namelist, ".")};
+comment[1..0] = {tostr("Obejmuje takze ", which, "owanie dla ", namelist, ".")};
 endif
 if (rmtemp)
-comment[1..0] = {tostr("Subsumes temporary ", which, "ing for ", tempnamelist, ".")};
+comment[1..0] = {tostr("Obejmuje takze tymczasowe ", which, "owanie dla ", tempnamelist, ".")};
 endif
 elseif ($login:(which + "_remove")(target))
 player:notify(tostr(fullname, " un", which, "ed."));
 if (!downgrade)
-elseif ($command_utils:yes_or_no(downgrade + " it?"))
+elseif ($command_utils:yes_or_no(downgrade + " to?"))
 $login:(downgrade + "_add")(target) && (downgraded = {target, @downgraded});
 player:notify(tostr(fullname, " ", downgrade, "ed."));
 else
@@ -78563,26 +78701,26 @@ player:tell("Komentarz obecnie: ", toliteral(comment), " ; downgrade = ", tolite
 comment[1..0] = {tostr(downgrade, "ed ", $string_utils:english_list(downgraded), ".")};
 endif
 if (rm)
-comment[1..0] = {tostr("Also removed ", namelist, ".")};
+comment[1..0] = {tostr("Usunieto takze ", namelist, ".")};
 endif
 elseif ((old = $list_utils:assoc(target, $login.("temporary_" + which)[1 + (!is_literal)])) && $login:(which + "_remove_temp")(target))
 player:notify(tostr(fullname, " un", which, "ed."));
 if (!downgrade)
-elseif ($command_utils:yes_or_no(downgrade + " it?"))
+elseif ($command_utils:yes_or_no(downgrade + " to?"))
 $login:(downgrade + "_add_temp")(target, old[2], old[3]) && (tempdowngraded = {target, @tempdowngraded});
-player:notify(tostr(fullname, " ", downgrade, "ed, currently for ", $time_utils:english_time(old[3]), " from ", $time_utils:time_sub("$1/$3", old[2])));
+player:notify(tostr(fullname, " ", downgrade, "ed, obecnie na ", $time_utils:english_time(old[3]), " od ", $time_utils:time_sub("$1/$3", old[2])));
 else
 player:notify(tostr(fullname, " nie zostal ", downgrade, "ed."));
 endif
 if (tempdowngraded)
-comment[1..0] = {tostr(downgrade, "ed ", $string_utils:english_list(tempdowngraded), "with durations transferred.")};
+comment[1..0] = {tostr(downgrade, "owane ", $string_utils:english_list(tempdowngraded), ", z przeniesionymi czasami trwania.")};
 endif
 if (rmtemp)
-comment[1..0] = {tostr("Also removed ", tempnamelist, ".")};
+comment[1..0] = {tostr("Usunieto takze ", tempnamelist, ".")};
 endif
 elseif (rm || rmtemp)
 player:notify(tostr(fullname, " sam w sobie nigdy faktycznie nie byl ", which, "ed."));
-comment[1..0] = {tostr("Removed ", namelist, " from regular and ", tempnamelist, " from temporary.")};
+comment[1..0] = {tostr("Usunieto ", namelist, " z listy stalej i ", tempnamelist, " z listy tymczasowej.")};
 else
 player:notify(tostr(fullname, " nie byl wczesniej ", which, "ed."));
 return;
@@ -78602,11 +78740,11 @@ player:notify(tostr("UWAGA:  ", $string_utils:english_list(uhoh), " sa teraz ", 
 endif
 .
 #57:28
-"Usage:  @corify <object> as <propname>";
-"Adds <object> to the core, as $<propname>";
-"Reminds the wizard to write an :init_for_core verb, if there isn't one already.";
+"Uzycie:  @corify <obiekt> jako <nazwawlasciwosci>";
+"Dodaje <obiekt> do rdzenia, jako $<nazwawlasciwosci>";
+"Przypomina wizardowi o napisaniu czasownika :init_for_core, jesli jeszcze go nie ma.";
 if (!player.wizard)
-player:tell("Sorry, the core is wizardly territory.");
+player:tell("Przykro mi, rdzen jest terytorium wizardow.");
 return;
 endif
 if (dobj == $failed_match)
@@ -78616,7 +78754,7 @@ if ($command_utils:object_match_failed(dobj, dobjstr))
 return;
 endif
 if (!iobjstr)
-player:tell("Usage:  @corify <object> as <propname>");
+player:tell("Uzycie:  @corify <obiekt> jako <nazwawlasciwosci>");
 return;
 elseif (iobjstr[1] == "$")
 iobjstr = iobjstr[2..$];
@@ -78627,20 +78765,20 @@ except e (ANY)
 return player:tell(e[1], ":", e[2]);
 endtry
 if (!("init_for_core" in verbs(dobj)))
-player:tell(dobj:titlec(), " has no :init_for_core verb.  Strongly consider adding one before doing anything else.");
+player:tell(dobj:titlec(), " nie ma czasownika :init_for_core.  Zdecydowanie rozwaz dodanie go, zanim zrobisz cokolwiek innego.");
 else
-player:tell("Corified ", $string_utils:nn(dobj), " as $", iobjstr, ".");
+player:tell("Skorowany ", $string_utils:nn(dobj), " jako $", iobjstr, ".");
 endif
 .
 #57:29
-"Usage:  @make-guest <guestname>";
-"Creates a player called <guestname>_Guest owned by $hacker and a child of $guest. Or, if $local.guest exists, make a child of that, assuming that all other guests are children of it too.";
+"Uzycie:  @make-guest <nazwa-goscia>";
+"Tworzy gracza o nazwie <nazwa-goscia>_Guest, wlasciciela $hacker i dziecko $guest. Albo, jesli istnieje $local.guest, tworzy dziecko tamtego, zakladajac, ze wszyscy inni goscie tez sa jego dziecmi.";
 if (!player.wizard)
-player:tell("If you think this MOO needs more guests, you should contact a wizard.");
+player:tell("Jesli uwazasz, ze to MOO potrzebuje wiecej gosci, skontaktuj sie z wizardem.");
 return E_PERM;
 endif
 if (length(args) != 1)
-player:tell("Usage: ", verb, " <guest name>");
+player:tell("Uzycie: ", verb, " <nazwa goscia>");
 return;
 endif
 guest_parent = (($object_utils:has_property($local, "guest") && valid($local.guest)) && $object_utils:isa($local.guest, $guest)) ? $local.guest | $guest;
@@ -78652,24 +78790,24 @@ guestaliases = {guestname, adj = args[1], guestnum};
 if (!player.wizard)
 return;
 elseif ($player_db.frozen)
-player:tell("Sorry, the player db is frozen, so no players can be made right now.  Please try again in a few minutes.");
+player:tell("Przykro mi, baza graczy jest zamrozona, wiec nie mozna teraz tworzyc graczy.  Sprobuj ponownie za kilka minut.");
 return;
 elseif (!$player_db:available(guestname))
-player:tell("\"", guestname, "\" is not an available name.");
+player:tell("\"", guestname, "\" nie jest dostepna nazwa.");
 return;
 elseif (!$player_db:available(adj))
-player:Tell("\"", adj, "\" is not an available name.");
+player:Tell("\"", adj, "\" nie jest dostepna nazwa.");
 return;
 else
 new = $quota_utils:bi_create(guest_parent, $hacker);
 new:set_name(guestname);
 new:set_aliases(guestaliases);
 if (!(e = $wiz_utils:set_player(new, 1)))
-player:Tell("Unable to make ", new.name, " (", new, ") a player.");
+player:Tell("Nie udalo sie uczynic ", new.name, " (", new, ") graczem.");
 player:Tell(tostr(e));
 else
-player:Tell("Guest: ", new.name, " (", new, ") made.");
-new.default_description = {"By definition, guests appear nondescript."};
+player:Tell("Gosc: ", new.name, " (", new, ") utworzony.");
+new.default_description = {"Z definicji, goscie wygladaja nieopisanie."};
 new.description = new.default_description;
 new.last_connect_time = $maxint;
 new.last_disconnect_time = time();
@@ -78677,27 +78815,27 @@ new.password = 0;
 new.size_quota = new.size_quota;
 new:set_gender(new.default_gender);
 move(new, $player_start);
-player:tell("Now don't forget to @describe ", new, " as something.");
+player:tell("I nie zapomnij @describe ", new, " jako czegos.");
 endif
 endif
 .
 #57:30
 if (!player.wizard)
-return player:tell("Permission denied.");
+return player:tell("Odmowa dostepu.");
 elseif (!valid(who = $string_utils:match_player(dobjstr)))
 return $command_utils:player_match_failed(who, dobjstr);
 elseif (((dobjstr != who.name) && (!(dobjstr in who.aliases))) && (dobjstr != tostr(who)))
-return player:tell(tostr("Must be a full name or an object number:  ", who.name, "(", who, ")"));
+return player:tell(tostr("Musisz podac pelne imie lub numer obiektu:  ", who.name, "(", who, ")"));
 elseif (who == player)
-player:notify("If you want to newt yourself, you have to do it by hand.");
+player:notify("Jesli chcesz zniewalic samego siebie, zrob to recznie.");
 return;
 elseif (!(howlong = $time_utils:parse_english_time_interval(iobjstr)))
-return player:tell("Can't parse time: ", howlong);
+return player:tell("Nie mozna rozpoznac czasu: ", howlong);
 else
 if (who in $login.newted)
-player:notify(tostr(who.name, " appears to already be a newt."));
+player:notify(tostr(who.name, " zdaje sie juz byc zniewolony."));
 else
-$wiz_utils:newt_player(who, "", ("For " + iobjstr) + ".  ");
+$wiz_utils:newt_player(who, "", ("Na " + iobjstr) + ".  ");
 endif
 if (index = $list_utils:iassoc(who, $login.temporary_newts))
 $login.temporary_newts[index][2] = time();
@@ -78705,25 +78843,25 @@ $login.temporary_newts[index][3] = howlong;
 else
 $login.temporary_newts = {@$login.temporary_newts, {who, time(), howlong}};
 endif
-player:tell(who.name, " (", who, ") will be a newt until ", ctime(time() + howlong));
+player:tell(who.name, " (", who, ") bedzie zniewolony do ", ctime(time() + howlong));
 endif
 .
 #57:31
-"@deprogrammer victim [for <duration>] [reason]";
+"@deprogrammer ofiara [for <czas-trwania>] [powod]";
 "";
-"Removes the prog-bit from victim.  If a duration is specified (see help $time_utils:parse_english_time_interval), then the victim is put into the temporary list. He will be automatically removed the first time he asks for a progbit after the duration expires.  Either with or without the duration you can specify a reason, or you will be prompted for one. However, if you don't have a duration, don't start the reason with the word `For'.";
+"Usuwa flage programisty ofierze.  Jesli podano czas trwania (patrz help $time_utils:parse_english_time_interval), ofiara trafia na liste tymczasowych.  Zostanie automatycznie usunieta przy pierwszej probie o flage programisty po uplywie czasu.  Zarowno z czasem trwania jak i bez niego mozesz podac powod, albo zostaniesz o niego poproszony. Jednak jesli nie podajesz czasu trwania, nie zaczynaj powodu od slowa `For'.";
 set_task_perms(player);
 if ((player != this) || (!player.wizard))
-player:notify("No go.");
+player:notify("Nici z tego.");
 return;
 endif
 if (!args)
-player:notify(tostr("Usage:  ", verb, " <playername> [for <duration>] [reason]"));
+player:notify(tostr("Uzycie:  ", verb, " <nazwagracza> [for <czas-trwania>] [powod]"));
 endif
 fw = $string_utils:first_word(argstr);
 if (fw[2] && (parse = this:parse_templist_duration(fw[2]))[1])
 if ((typeof(parse[3]) == ERR) || (!parse[3]))
-player:notify(tostr("Could not parse the duration for restricting programming for ", fw[1], "."));
+player:notify(tostr("Nie udalo sie rozpoznac czasu trwania ograniczenia programowania dla ", fw[1], "."));
 return;
 endif
 start = parse[2];
@@ -78734,17 +78872,17 @@ start = duration = 0;
 reason = fw[2] ? {fw[2]} | {};
 endif
 if (!reason)
-reason = {$command_utils:read("reason for resetting programmer flag")};
+reason = {$command_utils:read("powod zdjecia flagi programisty")};
 endif
 if (duration)
-reason = {tostr("for ", $time_utils:english_time(duration)), @reason};
+reason = {tostr("na ", $time_utils:english_time(duration)), @reason};
 endif
 if ($command_utils:player_match_failed(victim = $string_utils:match_player(fw[1]), fw[1]))
-"...done...";
+"...gotowe...";
 elseif (result = $wiz_utils:unset_programmer(victim, reason, @start ? {start, duration} | {}))
-player:notify(tostr(victim.name, " (", victim, ") is no longer a programmer.", duration ? tostr("  This restriction will be lifted in ", $string_utils:from_seconds(duration), ".") | ""));
+player:notify(tostr(victim.name, " (", victim, ") nie jest juz programista.", duration ? tostr("  To ograniczenie zostanie zniesione za ", $string_utils:from_seconds(duration), ".") | ""));
 elseif (result == E_NONE)
-player:notify(tostr(victim.name, " (", victim, ") was already a nonprogrammer..."));
+player:notify(tostr(victim.name, " (", victim, ") juz nie byl programista..."));
 else
 player:notify(tostr(result));
 endif
@@ -78782,8 +78920,8 @@ player:notify(tostr("The ", which, " is empty."));
 endif
 .
 #57:33
-"parses out the time interval at the beginning of the args[1], assumes rest is commentary.";
-if ((fw = $string_utils:first_word(args[1]))[1] == "for")
+"parsuje interwal czasu na poczatku args[1], zaklada, ze reszta to komentarz.";
+if (((fw = $string_utils:first_word(args[1]))[1] == "for") || (fw[1] == "dla"))
 words = $string_utils:words(fw[2]);
 try_ = {};
 ind = cont = 1;
@@ -78829,12 +78967,12 @@ rm = {@rm, s};
 elseif (index(target + ".", s + ".") != 1)
 "... s is not a prefix of target...";
 elseif (undo)
-player:notify(tostr("You will need to un", which, " subnet ", s, " as well."));
+player:notify(tostr("Bedziesz musial(a) tez un", which, " podsiec ", s, "."));
 elseif (confirm)
-player:notify(tostr("...Subnet ", s, " already ", which, "ed..."));
+player:notify(tostr("...Podsiec ", s, " juz jest ", which, "ed..."));
 else
-player:notify(tostr("Subnet ", s, " already ", which, "ed."));
-if (!(confirm = $command_utils:yes_or_no(tostr(which, " ", target, " anyway?"))))
+player:notify(tostr("Podsiec ", s, " juz jest ", which, "ed."));
+if (!(confirm = $command_utils:yes_or_no(tostr(which, " ", target, " mimo to?"))))
 return {0, {}};
 endif
 endif
@@ -78847,12 +78985,12 @@ rm = {@rm, s};
 elseif ((!(i = rindex("." + target, "." + s))) || (i < ((length(target) - length(s)) + 1)))
 "... s is not a suffix of target...";
 elseif (undo)
-player:notify(tostr("You will need to un", which, " domain `", s, "' as well."));
+player:notify(tostr("Bedziesz musial(a) tez un", which, " domene `", s, "' rowniez."));
 elseif (confirm)
-player:notify(tostr("...Domain `", s, "' already ", which, "ed..."));
+player:notify(tostr("...Domena `", s, "' juz jest ", which, "ed..."));
 else
-player:notify(tostr("Domain `", s, "' already ", which, "ed."));
-if (!(confirm = $command_utils:yes_or_no(tostr(which, " ", target, " anyway?"))))
+player:notify(tostr("Domena `", s, "' juz jest ", which, "ed."));
+if (!(confirm = $command_utils:yes_or_no(tostr(which, " ", target, " mimo to?"))))
 return {0, {}};
 endif
 endif
@@ -78861,21 +78999,21 @@ endif
 return {1, rm};
 .
 #57:35
-"Syntax:  @lock-login <message>";
-"         @lock-login! <message>";
+"Skladnia:  @lock-login <wiadomosc>";
+"         @lock-login! <wiadomosc>";
 "         @unlock-login";
 "";
-"The @lock-login calls prevent all non-wizard users from logging in, displaying <message> to them when they try.  (The second syntax, with @lock-login!, additionally boots any nonwizards who are already connected.)  @unlock-login turns this off.";
+"Polecenie @lock-login blokuje logowanie wszystkim niewizardom, wyswietlajac im <wiadomosc> przy probie polaczenia.  (Druga forma, @lock-login!, dodatkowo wyrzuca wszystkich niewizardow juz polaczonych.)  @unlock-login wylacza te blokade.";
 if (caller != this)
 raise(E_PERM);
 elseif (verb[2] == "u")
 $login.no_connect_message = 0;
-player:notify("Login restrictions removed.");
+player:notify("Ograniczenia logowania zniesione.");
 elseif (!argstr)
-player:notify("You must provide some message to display to users who attempt to login:  @lock-login <message>");
+player:notify("Musisz podac jakas wiadomosc do wyswietlenia uzytkownikom probujacym sie zalogowac:  @lock-login <wiadomosc>");
 else
 $login.no_connect_message = argstr;
-player:notify(tostr("Logins are now blocked for non-wizard players.  Message displayed when attempted:  ", $login.no_connect_message));
+player:notify(tostr("Logowanie jest teraz zablokowane dla graczy niebedacych wizardami.  Wyswietlana wiadomosc:  ", $login.no_connect_message));
 if (verb == "@lock-login!")
 wizards = $wiz_utils:all_wizards_unadvertised();
 for x in (connected_players())
@@ -78883,7 +79021,7 @@ if (!(x in wizards))
 boot_player(x);
 endif
 endfor
-player:notify("All nonwizards have been booted.");
+player:notify("Wszyscy niewizardzi zostali wyrzuceni.");
 endif
 endif
 .
