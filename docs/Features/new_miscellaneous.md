@@ -1,20 +1,20 @@
-- Miscellaneous changes:
-    - .last_move (a map of an object's last location and the time() it moved)
-    - Sub-second fork and suspend
-    - Call 'do_blank_command' on listening objects when a blank command is issued
-    - Allow `"string" in "some other string"` as a shortcut for index()
-    - Allow exec to set environment variables with a new argument
-    - Change the server log message when calling switch_player()
-    - Deprecation of `tonum()` in favor of `toint()`
-    - Move #0.dump_interval to $server_options.dump_interval
-    - New argument to `notify()` to suppress the newline
-    - Support object lists in `isa()` as well as an optional third argument to return the matching parent rather than simply true or false
-    - New argument to `move()` to effectively `listinsert()` the object into the destination's .contents
-    - New argument to `is_member()` for controlling case sensitivity of equality comparisons. No third argument or a true value results in standard functionality; a false value as the third argument results in case not mattering at all
-    - Update `random()` to accept a second optional argument for setting the maximum value returned. Including the second argument will treat the first argument as the minimum.
-    - Update `shutdown()` to accept a second optional argument for triggering an unclean shutdown (panic). This effectively replaces the `panic()` builtin, previously available in versions 2.7.3 and earlier.
-    - SIGUSR1 will close and reopen the logfile, allowing it to be rotated without restarting the server.
-    - '-m' command line option to clear all last_move properties in your database (and not set them again for the lifetime of the process).
-    - Build system is now CMake
-    - Boolean (BOOL) type
-    - Allow handling of SIGUSR signals in the database with `#0:handle_signal()`
+- Rozne inne zmiany:
+    - .last_move (mapa ostatniej lokalizacji obiektu oraz czasu (time()), kiedy sie tam przeniosl)
+    - fork i suspend z dokladnoscia ponizej sekundy
+    - Wywolanie 'do_blank_command' na nasluchujacych obiektach, gdy wpisana zostanie pusta komenda
+    - Umozliwienie `"string" in "some other string"` jako skrotu dla index()
+    - Umozliwienie exec ustawiania zmiennych srodowiskowych poprzez nowy argument
+    - Zmiana komunikatu w logu serwera przy wywolaniu switch_player()
+    - Wycofanie `tonum()` na rzecz `toint()`
+    - Przeniesienie #0.dump_interval do $server_options.dump_interval
+    - Nowy argument dla `notify()` pozwalajacy pominac znak nowej linii
+    - Obsluga list obiektow w `isa()` oraz opcjonalny trzeci argument zwracajacy pasujacego rodzica zamiast zwyklego true/false
+    - Nowy argument dla `move()`, efektywnie wykonujacy `listinsert()` obiektu do wlasciwosci .contents celu
+    - Nowy argument dla `is_member()` kontrolujacy wrazliwosc na wielkosc liter w porownaniach rownosci. Brak trzeciego argumentu lub wartosc true daje standardowe dzialanie; wartosc false jako trzeci argument sprawia, ze wielkosc liter przestaje miec znaczenie
+    - Aktualizacja `random()`, ktora przyjmuje teraz opcjonalny drugi argument okreslajacy maksymalna zwracana wartosc. Podanie drugiego argumentu sprawia, ze pierwszy argument jest traktowany jako minimum.
+    - Aktualizacja `shutdown()`, ktora przyjmuje teraz opcjonalny drugi argument wywolujacy nieczyste zamkniecie serwera (panic). Zastepuje to funkcje wbudowana `panic()`, dostepna wczesniej w wersjach 2.7.3 i starszych.
+    - SIGUSR1 zamyka i otwiera na nowo plik logu, umozliwiajac jego rotacje bez restartu serwera.
+    - Opcja linii polecen '-m' czyszczaca wszystkie wlasciwosci last_move w bazie danych (i nieustawiajaca ich ponownie przez cala zywotnosc procesu).
+    - System budowania to teraz CMake
+    - Typ logiczny (BOOL)
+    - Umozliwienie obslugi sygnalow SIGUSR w bazie danych poprzez `#0:handle_signal()`
