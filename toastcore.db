@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784202424 567763848 0
+1784202914 567763848 0
 0
 10
 0
@@ -1368,7 +1368,7 @@ source
 2
 time
 0
-1784202419
+1784202907
 4
 0
 1
@@ -1624,7 +1624,7 @@ expire
 4
 2
 0
-1784202400
+1784202854
 2
 localhost
 2
@@ -1633,7 +1633,7 @@ localhost
 2
 0
 0
-1784202408
+1784202879
 2
 1
 0
@@ -1803,7 +1803,7 @@ localhost
 2
 5
 0
-1784202419
+1784202907
 2
 1
 0
@@ -4384,7 +4384,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--84
+-117
 0
 2
 2
@@ -5880,49 +5880,49 @@ help_msg
 4
 23
 2
-This is not a help database in the same way that children of $generic_help are. This object does the work when someone calls help in this way:
+To nie jest baza pomocy w taki sam sposob jak dzieci $generic_help. Ten obiekt wykonuje prace, gdy ktos wywoluje pomoc w ten sposob:
 2
 
 2
-    help <object>:<verb>
+    help <obiekt>:<czasownik>
 2
 
 2
-It parses out the object and verb reference, pulls out the comments at the beginning of the verb, and returns them to the help system for nice display.
+Wyodrebnia odniesienie do obiektu i czasownika, wyciaga komentarze na poczatku czasownika i zwraca je do systemu pomocy w celu ladnego wyswietlenia.
 2
 
 2
     :find_topics(string)
 2
-       tries to pull out an object:verb reference from string
+       probuje wyodrebnic odniesienie obiekt:czasownik ze stringa
 2
-       returns {string} if successful
+       zwraca {string} jesli sie uda
 2
-       returns {} if not
+       zwraca {} jesli nie
 2
 
 2
     :get_topic(string)
 2
-       tries to pull out an object:verb reference from string (returns 0 if
+       probuje wyodrebnic odniesienie obiekt:czasownik ze stringa (zwraca 0, jesli
 2
-          it fails to do so)
+          sie to nie uda)
 2
-       tries to match the object
+       probuje dopasowac obiekt
 2
-       checks the object to see if the verb exists
+       sprawdza obiekt, czy czasownik istnieje
 2
-       pulls out the initial comments from the verb if they exist
+       wyciaga poczatkowe komentarze z czasownika, jesli istnieja
 2
-       returns a meaningful list of strings to be displayed to the player
+       zwraca sensowna liste stringow do wyswietlenia graczowi
 2
 
 2
     :dump_topic(string)
 2
-       does the same as :get_topic above, but returns the verb documentation
+       robi to samo co :get_topic powyzej, ale zwraca dokumentacje czasownika
 2
-          in dump form.
+          w formie dump.
 2
 ----
 36
@@ -39580,11 +39580,11 @@ Skladnia:  @read-all-new-mail
 2
 
 2
-Wyswietla wszystkie nieprzeczytane wiadomosci na wszystkich twoich folderach (tj. twoim osobistym folderze i wszystkich folderach @subscribed).  To polecenie konczy sie pytaniem, "Did you get all of that? [Enter `yes' or `no']."  Odpowiedz "yes" powoduje aktualizacje wszystkich twoich czasow ostatniego odczytu.  Prawdopodobnie warto sprawdzic wskazania <<<n lines flushed>>> przed odpowiedzia na to pytanie.
+Wyswietla wszystkie nieprzeczytane wiadomosci na wszystkich twoich folderach (tj. twoim osobistym folderze i wszystkich folderach @subscribed).  To polecenie konczy sie pytaniem "Czy wszystko zostalo juz przeczytane?" (mozna odpowiedziec "yes"/"tak" lub "no"/"nie").  Odpowiedz twierdzaca powoduje aktualizacje wszystkich twoich czasow ostatniego odczytu.  Prawdopodobnie warto sprawdzic wskazania <<<n lines flushed>>> przed odpowiedzia na to pytanie.
 2
 
 2
-@read-all-new-mail (z odpowiedzia "yes" na koncu) jest rownowazne wykonaniu wielu @nn pod rzad.
+@read-all-new-mail (z odpowiedzia twierdzaca na koncu) jest rownowazne wykonaniu wielu @nn pod rzad.
 36
 5
 4
