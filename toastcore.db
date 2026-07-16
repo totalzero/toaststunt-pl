@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784185050 567763848 0
+1784186550 567763848 0
 0
 10
 0
@@ -798,7 +798,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784184575
+1784185964
 2
 name
 2
@@ -1368,7 +1368,7 @@ source
 2
 time
 0
-1784185049
+1784186544
 4
 0
 1
@@ -1624,7 +1624,7 @@ expire
 4
 2
 0
-1784185026
+1784186531
 2
 localhost
 2
@@ -1633,7 +1633,7 @@ localhost
 2
 0
 0
-1784185028
+1784186532
 2
 1
 0
@@ -1799,7 +1799,7 @@ localhost
 2
 5
 0
-1784185049
+1784186544
 2
 1
 0
@@ -1837,7 +1837,7 @@ localhost
 0
 1721212110
 0
-1001
+999
 36
 0
 0
@@ -4389,7 +4389,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-26
+27
+4
+2
+0
+1784185964
+0
+0
 4
 2
 0
@@ -27020,24 +27026,24 @@ input_length
 input_string
 index_incremented
 10
-0
-0
+1
+2
 2
 5
 0
-0
+9
 2
 5
 0
-0
+8
 2
 5
 2
-
+player:2
 2
 5
 0
-0
+8
 2
 5
 4
@@ -32962,15 +32968,29 @@ lost_souls
 36
 0
 4
-0
+2
+4
+2
+1
+2
+1
+127
+4
+2
+1
+2
+1
+127
 36
 0
 4
-2
+3
 1
 134
 1
 135
+1
+127
 36
 5
 5
@@ -56350,26 +56370,32 @@ set_task_perms(player);
 nargs = length(args);
 pos = "named" in args;
 if ((pos <= 1) || (pos == nargs))
+pos = "nazwany" in args;
+endif
+if ((pos <= 1) || (pos == nargs))
 pos = "called" in args;
 endif
 if ((pos <= 1) || (pos == nargs))
-player:notify("Usage:  @create <parent-class> named [name:]alias,...,alias");
-player:notify("   or:  @create <parent-class> named name-and-alias,alias,...,alias");
+pos = "zwany" in args;
+endif
+if ((pos <= 1) || (pos == nargs))
+player:notify("Uzycie: @create <klasa-rodzica> nazwany [nazwa:]alias,...,alias");
+player:notify("   lub:  @create <klasa-rodzica> nazwany nazwa-i-alias,alias,...,alias");
 player:notify("");
-player:notify("where <parent-class> is one of the standard classes ($note, $letter, $thing, or $container) or an object number (e.g., #999), or the name of some object in the current room.");
-player:notify("You can use \"called\" instead of \"named\", if you wish.");
+player:notify("gdzie <klasa-rodzica> to jedna ze standardowych klas ($note, $letter, $thing lub $container) albo numer obiektu (np. #999), albo nazwa jakiegos obiektu w biezacym pokoju.");
+player:notify("Mozesz uzyc \"called\" albo \"zwany\" zamiast \"named\"/\"nazwany\", jesli chcesz.");
 return;
 endif
 parentstr = $string_utils:from_list(args[1..pos - 1], " ");
 namestr = $string_utils:from_list(args[pos + 1..$], " ");
 if (!namestr)
-player:notify("You must provide a name.");
+player:notify("Musisz podac nazwe.");
 return;
 endif
 if (parentstr[1] == "$")
 parent = $string_utils:literal_object(parentstr);
 if ((parent == $failed_match) || (typeof(parent) != OBJ))
-player:notify(tostr("\"", parentstr, "\" does not name an object."));
+player:notify(tostr("\"", parentstr, "\" nie oznacza zadnego obiektu."));
 return;
 endif
 else
@@ -56390,17 +56416,17 @@ endfor
 `move(object, player) ! ANY';
 $building_utils:set_names(object, namestr);
 if ((other_names = setremove(object.aliases, object.name)) != {})
-aka = (" (aka " + $string_utils:english_list(other_names)) + ")";
+aka = (" (czyli " + $string_utils:english_list(other_names)) + ")";
 else
 aka = "";
 endif
-player:notify(tostr("You now have ", object.name, aka, " with object number ", object, " and parent ", parent.name, " (", parent, ")."));
+player:notify(tostr("Masz teraz ", object.name, aka, " o numerze obiektu ", object, " i rodzicu ", parent.name, " (", parent, ")."));
 .
 #4:2
 set_task_perms(player);
 dobj = player:my_match_object(dobjstr);
 if (dobj == $nothing)
-player:notify(tostr("Usage:  ", verb, " <object>"));
+player:notify(tostr("Uzycie:  ", verb, " <obiekt>"));
 elseif ($command_utils:object_match_failed(dobj, dobjstr))
 "...bogus object...";
 elseif (player == dobj)
@@ -56413,7 +56439,7 @@ result = player:_recycle(dobj);
 if (typeof(result) == ERR)
 player:notify(tostr(result));
 else
-player:notify(tostr(name, " (", dobj, ") recycled."));
+player:notify(tostr(name, " (", dobj, ") zutylizowany."));
 endif
 endif
 .
@@ -56530,7 +56556,7 @@ endif
 endif
 .
 #4:5
-"Usage:  @audit [player] [from <start>] [to <end>] [for <matching string>]";
+"Uzycie:  @audit [gracz] [z <poczatek>] [do <koniec>] [dla <pasujacy-string>]";
 set_task_perms(player);
 dobj = $string_utils:match_player(dobjstr);
 if (!dobjstr)
@@ -56543,7 +56569,7 @@ if (args[1..length(dobjwords)] == dobjwords)
 args = args[length(dobjwords) + 1..$];
 endif
 if (!(parse_result = $code_utils:_parse_audit_args(@args)))
-player:notify(tostr("Usage:  ", verb, " [player] [from <start>] [to <end>] [for <match>]"));
+player:notify(tostr("Uzycie:  ", verb, " [gracz] [z <poczatek>] [do <koniec>] [dla <dopasowanie>]"));
 return;
 endif
 return $building_utils:do_audit(dobj, @parse_result);
@@ -56557,12 +56583,12 @@ endif
 set_task_perms(player);
 if (typeof(dobj.owned_objects) == LIST)
 count = length(dobj.owned_objects);
-player:notify(tostr(dobj.name, " currently owns ", count, " object", (count == 1) ? "." | "s."));
+player:notify(tostr(dobj.name, " obecnie posiada ", count, " ", $polish_utils:count(count, "obiekt", "obiekty", "obiektow"), "."));
 if ($quota_utils.byte_based)
-player:notify(tostr("Total bytes consumed:  ", $string_utils:group_number($quota_utils:get_size_quota(dobj)[2]), "."));
+player:notify(tostr("Calkowita liczba zuzytych bajtow:  ", $string_utils:group_number($quota_utils:get_size_quota(dobj)[2]), "."));
 endif
 else
-player:notify(tostr(dobj.name, " is not enrolled in the object ownership system.  Use @countDB instead."));
+player:notify(tostr(dobj.name, " nie jest zapisany w systemie wlasnosci obiektow.  Uzyj @countDB."));
 endif
 .
 #4:7
@@ -56629,14 +56655,14 @@ for x in (player.owned_objects)
 if ((!valid(x)) || (x.owner != player))
 player.owned_objects = setremove(player.owned_objects, x);
 if (valid(x))
-player:tell("Removing ", x.name, "(", x, "), owned by ", valid(x.owner) ? x.owner.name | "<recycled player>", " from your .owned_objects property.");
+player:tell("Usuwanie ", x.name, "(", x, "), na wlasnosc ", valid(x.owner) ? x.owner.name | "<zutylizowany gracz>", ", z twojej wlasciwosci .owned_objects.");
 else
-player:tell("Removing invalid object ", x, " from your .owned_objects property.");
+player:tell("Usuwanie nieprawidlowego obiektu ", x, " z twojej wlasciwosci .owned_objects.");
 endif
 endif
-$command_utils:suspend_if_needed(2, tostr("Suspending @verify-owned ... ", x));
+$command_utils:suspend_if_needed(2, tostr("Zawieszanie @verify-owned ... ", x));
 endfor
-player:tell(".owned_objects property verified.");
+player:tell("Wlasciwosc .owned_objects zweryfikowana.");
 .
 #4:11
 set_task_perms(player);
@@ -56646,7 +56672,7 @@ return;
 endif
 try
 dobj.key = 0;
-player:notify(tostr("Unlocked ", dobj.name, "."));
+player:notify(tostr("Odblokowano ", dobj.name, "."));
 except error (ANY)
 player:notify(error[2]);
 endtry
@@ -56659,12 +56685,12 @@ return;
 endif
 key = $lock_utils:parse_keyexp(iobjstr, player);
 if (typeof(key) == STR)
-player:notify("That key expression is malformed:");
+player:notify("To wyrazenie klucza jest bledne:");
 player:notify(tostr("  ", key));
 else
 try
 dobj.key = key;
-player:notify(tostr("Locked ", dobj.name, " to this key:"));
+player:notify(tostr("Zablokowano ", dobj.name, " tym kluczem:"));
 player:notify(tostr("  ", $lock_utils:unparse_key(key)));
 except error (ANY)
 player:notify(error[2]);
@@ -56672,15 +56698,15 @@ endtry
 endif
 .
 #4:13
-"Usage:  @newmessage <message-name> [<message>] [on <object>]";
-"Add a message property to an object (default is player), and optionally";
-"set its value.  For use by non-programmers, who aren't allowed to add";
-"properties generally.";
-"To undo the effects of this, use @unmessage.";
+"Uzycie:  @newmessage <nazwa-wiadomosci> [<wiadomosc>] [na <obiekt>]";
+"Dodaje wlasciwosc wiadomosci do obiektu (domyslnie gracza) i opcjonalnie";
+"ustawia jej wartosc.  Do uzytku przez nie-programistow, ktorym nie wolno dodawac";
+"wlasciwosci ogolnie.";
+"By cofnac efekty tego, uzyj @unmessage.";
 set_task_perms(player);
 dobjwords = $string_utils:words(dobjstr);
 if (!dobjwords)
-player:notify(tostr("Usage:  ", verb, " <message-name> [<message>] [on <object>]"));
+player:notify(tostr("Uzycie:  ", verb, " <nazwa-wiadomosci> [<wiadomosc>] [na <obiekt>]"));
 return;
 endif
 object = valid(iobj) ? iobj | player;
@@ -56689,22 +56715,22 @@ value = dobjstr[length(dobjwords[1]) + 2..$];
 nickname = "@" + name[1..$ - 4];
 e = `add_property(object, name, value, {player, "rc"}) ! ANY';
 if (typeof(e) != ERR)
-player:notify(tostr(nickname, " on ", object.name, " is now \"", object.(name), "\"."));
+player:notify(tostr(nickname, " na ", object.name, " to teraz \"", object.(name), "\"."));
 elseif (e != E_INVARG)
 player:notify(tostr(e));
 elseif ($object_utils:has_property(object, name))
 "object already has property";
-player:notify(tostr(object.name, " already has a ", nickname, " message."));
+player:notify(tostr(object.name, " juz ma wiadomosc ", nickname, "."));
 else
-player:notify(tostr("Unable to add ", nickname, " message to ", object.name, ": ", e));
+player:notify(tostr("Nie mozna dodac wiadomosci ", nickname, " do ", object.name, ": ", e));
 endif
 .
 #4:14
-"Usage:  @unmessage <message-name> [from <object>]";
-"Remove a message property from an object (default is player).";
+"Uzycie:  @unmessage <nazwa-wiadomosci> [z <obiekt>]";
+"Usuwa wlasciwosc wiadomosci z obiektu (domyslnie gracza).";
 set_task_perms(player);
 if ((!dobjstr) || (length($string_utils:words(dobjstr)) > 1))
-player:notify(tostr("Usage:  ", verb, " <message-name> [from <object>]"));
+player:notify(tostr("Uzycie:  ", verb, " <nazwa-wiadomosci> [z <obiekt>]"));
 return;
 endif
 object = valid(iobj) ? iobj | player;
@@ -56712,16 +56738,16 @@ name = this:_messagify(dobjstr);
 nickname = "@" + name[1..$ - 4];
 try
 delete_property(object, name);
-player:notify(tostr(nickname, " message removed from ", object.name, "."));
+player:notify(tostr("Wiadomosc ", nickname, " usunieta z ", object.name, "."));
 except (E_PROPNF)
-player:notify(tostr("No ", nickname, " message found on ", object.name, "."));
+player:notify(tostr("Nie znaleziono wiadomosci ", nickname, " na ", object.name, "."));
 except error (ANY)
 player:notify(error[2]);
 endtry
 .
 #4:15
-"Given any of several formats people are likely to use for a @message";
-"property, return the canonical form (\"foobar_msg\").";
+"Dla ktoregos z kilku formatow, jakich ludzie prawdopodobnie uzyja dla wlasciwosci @message,";
+"zwraca kanoniczna forme (\"foobar_msg\").";
 name = args[1];
 if (name[1] == "@")
 name = name[2..$];
@@ -56732,20 +56758,20 @@ endif
 return name;
 .
 #4:16
-"'@kids <obj>' - List the children of an object. This is handy for seeing whether anybody's actually using your carefully-wrought public objects.";
+"'@kids <obiekt>' - Wyswietla dzieci obiektu. Przydatne, by sprawdzic, czy ktos faktycznie uzywa twoich starannie wykonanych publicznych obiektow.";
 thing = player:my_match_object(dobjstr);
 if (!$command_utils:object_match_failed(thing, dobjstr))
 kids = children(thing);
 if (kids)
-player:notify(tostr(thing:title(), "(", thing, ") has ", length(kids), " kid", (length(kids) == 1) ? "" | "s", "."));
+player:notify(tostr(thing:title(), "(", thing, ") ma ", length(kids), " ", $polish_utils:count(length(kids), "dziecko", "dzieci", "dzieci"), "."));
 player:notify(tostr($string_utils:names_of(kids)));
 else
-player:notify(tostr(thing:title(), "(", thing, ") has no kids."));
+player:notify(tostr(thing:title(), "(", thing, ") nie ma dzieci."));
 endif
 endif
 .
 #4:17
-"'@contents <obj> - list the contents of an object, with object numbers.";
+"'@contents <obiekt> - wyswietla zawartosc obiektu, z numerami obiektow.";
 set_task_perms(player);
 if (!dobjstr)
 dobj = player.location;
@@ -56756,19 +56782,19 @@ if ($command_utils:object_match_failed(dobj, dobjstr))
 else
 contents = dobj.contents;
 if (contents)
-player:notify(tostr(dobj:title(), "(", dobj, ") contains:"));
+player:notify(tostr(dobj:title(), "(", dobj, ") zawiera:"));
 player:notify(tostr($string_utils:names_of(contents)));
 else
-player:notify(tostr(dobj:title(), "(", dobj, ") contains nothing."));
+player:notify(tostr(dobj:title(), "(", dobj, ") nic nie zawiera."));
 endif
 endif
 .
 #4:18
-"'@parents <thing>' - List <thing> and its ancestors, all the way back to the Root Class (#1).";
+"'@parents <rzecz>' - Wyswietla <rzecz> i jej przodkow, az do Root Class (#1).";
 if (player != this)
-return player:notify("Permission denied: not a builder.");
+return player:notify("Odmowa dostepu: nie jestes budowniczym.");
 elseif (!dobjstr)
-player:notify(tostr("Usage:  ", verb, " <object>"));
+player:notify(tostr("Uzycie:  ", verb, " <obiekt>"));
 return;
 endif
 set_task_perms(player);
@@ -56778,7 +56804,7 @@ player:notify($string_utils:names_of({o, @$object_utils:ancestors(o)}));
 endif
 .
 #4:19
-"@locations <thing> - List <thing> and its containers, all the way back to the outermost one.";
+"@locations <rzecz> - Wyswietla <rzecz> i jej pojemniki, az do najbardziej zewnetrznego.";
 set_task_perms(player);
 if (!dobjstr)
 what = player;
@@ -56845,30 +56871,30 @@ elseif ($command_utils:object_match_failed(parent = player:my_match_object(iobjs
 "...bogus new parent...";
 elseif ((this != player) && (!$object_utils:isa(player, $player)))
 "...They chparented to #1 and want to chparent back to $prog.  Probably for some nefarious purpose...";
-player:notify("You don't seem to already be a valid player class.  Perhaps chparenting away from the $player hierarchy was not such a good idea.  Permission denied.");
+player:notify("Nie wygladasz juz na prawidlowa klase gracza.  Byc moze zmiana rodzica poza hierarchie $player nie byla dobrym pomyslem.  Odmowa dostepu.");
 elseif (is_player(object) && (!$object_utils:isa(parent, $player)))
-player:notify(tostr(object, " is a player and ", parent, " is not a player class."));
-player:notify("You really *don't* want to do this.  Trust me.");
+player:notify(tostr(object, " jest graczem, a ", parent, " nie jest klasa gracza."));
+player:notify("Naprawde *nie* chcesz tego robic.  Zaufaj mi.");
 else
 if ($object_utils:isa(object, $mail_recipient))
-if (!$command_utils:yes_or_no("Chparenting a mailing list is usually a really bad idea.  Do you really want to do it?  (If you don't know why we're asking this question, please say 'no'.)"))
-return player:tell("Aborted.");
+if (!$command_utils:yes_or_no("Zmiana rodzica listy mailingowej to zwykle bardzo zly pomysl.  Czy naprawde chcesz to zrobic?  (Jesli nie wiesz, dlaczego o to pytamy, powiedz 'no'.)"))
+return player:tell("Przerwano.");
 endif
 endif
 try
 result = player:_chparent(object, parent);
-player:notify("Parent changed.");
+player:notify("Rodzic zmieniony.");
 except (E_INVARG)
 if (valid(object) && valid(parent))
-player:notify(tostr("Some property existing on ", parent, " is defined on ", object, " or one of its descendants."));
-player:notify(tostr("Try @check-chparent ", dobjstr, " to ", iobjstr));
+player:notify(tostr("Jakas wlasciwosc istniejaca na ", parent, " jest zdefiniowana na ", object, " lub jednym z jego potomkow."));
+player:notify(tostr("Sprobuj @check-chparent ", dobjstr, " do ", iobjstr));
 else
-player:notify("Either that is not a valid object or not a valid parent");
+player:notify("Albo to nie jest prawidlowy obiekt, albo nie jest prawidlowym rodzicem");
 endif
 except (E_PERM)
-player:notify("Either you don't own the object, don't own the parent, or the parent is not fertile.");
+player:notify("Albo nie jestes wlascicielem obiektu, nie jestes wlascicielem rodzica, albo rodzic nie jest plodny (fertile).");
 except (E_RECMOVE)
-player:notify("That parent object is a descendant of the object!");
+player:notify("Ten obiekt-rodzic jest potomkiem obiektu!");
 endtry
 endif
 .
@@ -56901,10 +56927,10 @@ player:notify("Nie znaleziono konfliktow wlasciwosci.");
 endif
 .
 #4:25
-"Syntax:  @set <object>.<prop-name> to <value>";
+"Skladnia:  @set <obiekt>.<nazwa-wlasciwosci> do <wartosc>";
 "";
-"Changes the value of the specified object's property to the given value.";
-"You must have permission to modify the property, either because you own the property or if it is writable.";
+"Zmienia wartosc wlasciwosci danego obiektu na podana wartosc.";
+"Musisz miec uprawnienia do modyfikacji wlasciwosci, albo dlatego, ze jestes jej wlascicielem, albo jest zapisywalna.";
 set_task_perms(player);
 if (this != player)
 return player:tell(E_PERM);
@@ -56916,8 +56942,8 @@ if ($command_utils:object_match_failed(dobj, l[1]))
 return;
 endif
 prop = l[2];
-to_i = "to" in args;
-at_i = "at" in args;
+to_i = "do" in args;
+at_i = "u" in args;
 i = (to_i && at_i) ? min(to_i, at_i) | (to_i || at_i);
 iobjstr = argstr[$string_utils:word_start(argstr)[i][2] + 1..$];
 iobjstr = $string_utils:trim(iobjstr);
@@ -56925,37 +56951,34 @@ if (!iobjstr)
 try
 val = dobj.(prop) = "";
 except e (ANY)
-player:tell("Unable to set ", dobj, ".", prop, ": ", e[2]);
+player:tell("Nie mozna ustawic ", dobj, ".", prop, ": ", e[2]);
 return;
 endtry
 iobjstr = "\"\"";
-"elseif (iobjstr[1] == \"\\\"\")";
-"val = dobj.(prop) = iobjstr;";
-"iobjstr = \"\\\"\" + iobjstr + \"\\\"\";";
 else
 val = $string_utils:to_value(iobjstr);
 if (!val[1])
-player:tell("Could not parse: ", iobjstr);
+player:tell("Nie mozna sparsowac: ", iobjstr);
 return;
 elseif (!$object_utils:has_property(dobj, prop))
-player:tell("That object does not define that property.");
+player:tell("Ten obiekt nie definiuje tej wlasciwosci.");
 return;
 endif
 try
 val = dobj.(prop) = val[2];
 except e (ANY)
-player:tell("Unable to set ", dobj, ".", prop, ": ", e[2]);
+player:tell("Nie mozna ustawic ", dobj, ".", prop, ": ", e[2]);
 return;
 endtry
 endif
-player:tell("Property ", dobj, ".", prop, " set to ", $string_utils:print(val), ".");
+player:tell("Wlasciwosc ", dobj, ".", prop, " ustawiona na ", $string_utils:print(val), ".");
 else
-player:tell("Property ", dobjstr, " not found.");
+player:tell("Wlasciwosc ", dobjstr, " nie znaleziona.");
 endif
 .
 #4:26
 ":build_option(name)";
-"Returns the value of the specified builder option";
+"Zwraca wartosc podanej opcji budowniczego";
 if ((caller == this) || $perm_utils:controls(caller_perms(), this))
 return $options["build"]:get(this.build_options, args[1]);
 else
@@ -56964,8 +56987,8 @@ endif
 .
 #4:27
 ":set_build_option(oname,value)";
-"Changes the value of the named option.";
-"Returns a string error if something goes wrong.";
+"Zmienia wartosc podanej opcji.";
+"Zwraca string bledu, jesli cos poszlo nie tak.";
 if (!((caller == this) || $perm_utils:controls(caller_perms(), this)))
 return tostr(E_PERM);
 endif
@@ -57016,12 +57039,12 @@ player:notify_lines(option_pkg:show(this.(options), presult[1]));
 endif
 .
 #4:29
-"Syntax:";
-"  @measure object <object name>";
-"  @measure summary [player]";
-"  @measure new [player]";
-"  @measure breakdown <object name>";
-"  @measure recent [number of days] [player]";
+"Skladnia:";
+"  @measure object <nazwa-obiektu>";
+"  @measure summary [gracz]";
+"  @measure new [gracz]";
+"  @measure breakdown <nazwa-obiektu>";
+"  @measure recent [liczba dni] [gracz]";
 if (length(args) < 1)
 player:tell_lines($code_utils:verb_documentation());
 return;
@@ -57031,14 +57054,14 @@ if (index("object", args[1]) == 1)
 what = player.location:match_object(name = $string_utils:from_list(args[2..$], " "));
 lag = $login:current_lag();
 if (!valid(what))
-player:tell("Sorry, I didn't understand `", name, "'");
+player:tell("Przykro mi, nie zrozumialem `", name, "'");
 elseif (((((($object_utils:has_property(what, "object_size") && (what.object_size[1] > $byte_quota_utils.too_large)) && (!player.wizard)) && (player != $byte_quota_utils.owner)) && (player != $hacker)) && (player != what.owner)) && (lag > 0))
-player:tell($string_utils:nn(what), " when last measured was ", $string_utils:group_number(what.object_size[1]), " bytes.  To reduce lag induced by multiple players re-measuring large objects multiple times, you may not measure that object.");
-elseif (((lag > 0) && (`what.object_size[2] ! ANY => 0' > (time() - 86400))) && (!$command_utils:yes_or_no(tostr("That object was measured only ", $string_utils:from_seconds(time() - what.object_size[2]), " ago.  Please don't lag the MOO by remeasuring things frequently.  Are you sure you want to remeasure it?"))))
-return player:tell("Not measuring.  It was ", $string_utils:group_number(what.object_size[1]), " bytes when last measured.");
+player:tell($string_utils:nn(what), " przy ostatnim pomiarze mial ", $string_utils:group_number(what.object_size[1]), " bajtow.  By zmniejszyc lag powodowany przez wielokrotne ponowne mierzenie duzych obiektow przez wielu graczy, nie mozesz zmierzyc tego obiektu.");
+elseif (((lag > 0) && (`what.object_size[2] ! ANY => 0' > (time() - 86400))) && (!$command_utils:yes_or_no(tostr("Ten obiekt byl mierzony zaledwie ", $string_utils:from_seconds(time() - what.object_size[2]), " temu.  Prosze nie obciazaj MOO ponownym mierzeniem rzeczy zbyt czesto.  Jestes pewien, ze chcesz go zmierzyc ponownie?"))))
+return player:tell("Nie mierze.  Mial ", $string_utils:group_number(what.object_size[1]), " bajtow przy ostatnim pomiarze.");
 else
-player:tell("Checking size of ", what.name, " (", what, ")...");
-player:tell("Size of ", what.name, " (", what, ") is ", $string_utils:group_number($byte_quota_utils:object_bytes(what)), " bytes.");
+player:tell("Sprawdzanie rozmiaru ", what.name, " (", what, ")...");
+player:tell("Rozmiar ", what.name, " (", what, ") to ", $string_utils:group_number($byte_quota_utils:object_bytes(what)), " bajtow.");
 endif
 elseif (index("summary", args[1]) == 1)
 "Summarize player.";
@@ -57048,7 +57071,7 @@ else
 what = $string_utils:match_player(name = $string_utils:from_list(args[2..$], " "));
 endif
 if (!valid(what))
-player:tell("Sorry, I don't know who you mean by `", name, "'");
+player:tell("Przykro mi, nie wiem, o kogo chodzi mowiac `", name, "'");
 else
 $byte_quota_utils:do_summary(what);
 endif
@@ -57058,7 +57081,7 @@ what = player;
 elseif (!valid(what = $string_utils:match_player(name = $string_utils:from_list(args[2..$], " "))))
 return $command_utils:player_match_failed(what, name);
 endif
-player:tell("Measuring the sizes of ", what.name, "'s recently created objects...");
+player:tell("Mierzenie rozmiarow niedawno stworzonych obiektow ", what.name, "...");
 total = 0;
 unmeasured_index = 4;
 unmeasured_multiplier = 100;
@@ -57068,7 +57091,7 @@ for x in (what.owned_objects)
 if (!$object_utils:has_property(x, "object_size"))
 nunmeasured = nunmeasured + 1;
 elseif (!x.object_size[1])
-player:tell("Measured ", $string_utils:nn(x), ":  ", size = $byte_quota_utils:object_bytes(x), " bytes.");
+player:tell("Zmierzono ", $string_utils:nn(x), ":  ", size = $byte_quota_utils:object_bytes(x), " bajtow.");
 total = total + size;
 endif
 $command_utils:suspend_if_needed(5);
@@ -57076,9 +57099,9 @@ endfor
 if (nunmeasured && (what.size_quota[unmeasured_index] < (unmeasured_multiplier * nunmeasured)))
 what.size_quota[unmeasured_index] = (what.size_quota[unmeasured_index] % unmeasured_multiplier) + (nunmeasured * unmeasured_multiplier);
 endif
-player:tell("Total bytes used in new creations: ", total, ".", nunmeasured ? tostr(" There were a total of ", nunmeasured, " object(s) found with no .object_size property. This will prevent additional building.") | "");
+player:tell("Laczna liczba bajtow uzytych w nowych tworach: ", total, ".", nunmeasured ? tostr(" Znaleziono lacznie ", nunmeasured, " ", $polish_utils:count(nunmeasured, "obiekt", "obiekty", "obiektow"), " bez wlasciwosci .object_size. To uniemozliwi dalsze budowanie.") | "");
 else
-player:tell("Sorry, ", what.name, " is not enrolled in the object measurement scheme.");
+player:tell("Przykro mi, ", what.name, " nie jest zapisany w systemie pomiaru obiektow.");
 endif
 elseif (index("recent", args[1]) == 1)
 "@measure recent days player";
@@ -57088,7 +57111,7 @@ else
 days = $byte_quota_utils.cycle_days;
 endif
 if (!days)
-return player:tell("Couldn't understand `", args[2], "' as a positive integer.");
+return player:tell("Nie zrozumialem `", args[2], "' jako dodatniej liczby calkowitej.");
 endif
 if (length(args) > 2)
 if (!valid(who = $string_utils:match_player(name = $string_utils:from_list(args[3..$], " "))))
@@ -57098,7 +57121,7 @@ else
 who = player;
 endif
 if (typeof(who.owned_objects) == LIST)
-player:tell("Re-measuring objects of ", $string_utils:nn(who), " which have not been measured in the past ", days, " days.");
+player:tell("Ponowne mierzenie obiektow ", $string_utils:nn(who), ", ktore nie byly mierzone przez ostatnie ", days, " dni.");
 when = time() - (days * 86400);
 which = {};
 for x in (who.owned_objects)
@@ -57108,32 +57131,32 @@ which = setadd(which, x);
 $command_utils:suspend_if_needed(3, "...measuring");
 endif
 endfor
-player:tell("Done, re-measured ", length(which), " objects.", (length(which) > 0) ? "  Recommend you use @measure summary to update the display of @quota." | "");
+player:tell("Gotowe, ponownie zmierzono ", length(which), " obiektow.", (length(which) > 0) ? "  Polecam uzycie @measure summary, by zaktualizowac wyswietlanie @quota." | "");
 else
-player:tell("Sorry, ", who.name, " is not enrolled in the object measurement scheme.");
+player:tell("Przykro mi, ", who.name, " nie jest zapisany w systemie pomiaru obiektow.");
 endif
 elseif (index("breakdown", args[1]) == 1)
 what = player.location:match_object(name = $string_utils:from_list(args[2..$], " "));
 if (!valid(what))
-player:tell("Sorry, I didn't understand `", name, "'");
+player:tell("Przykro mi, nie zrozumialem `", name, "'");
 elseif (!$byte_quota_utils:can_peek(player, what.owner))
-return player:tell("Sorry, you don't control ", what.name, " (", what, ")");
+return player:tell("Przykro mi, nie kontrolujesz ", what.name, " (", what, ")");
 else
-if (mail = $command_utils:yes_or_no("This might be kinda long.  Want me to mail you the result?"))
-player:tell("Result will be mailed.");
+if (mail = $command_utils:yes_or_no("To moze byc dosc dlugie.  Chcesz, zebym wyslal ci wynik mailem?"))
+player:tell("Wynik zostanie wyslany mailem.");
 endif
 info = $byte_quota_utils:do_breakdown(what);
 if (typeof(info) == ERR)
 player:tell(info);
 endif
 if (mail)
-$mail_agent:send_message($byte_quota_utils.owner, {player}, tostr("Object breakdown of ", what.name, " (", what, ")"), info);
+$mail_agent:send_message($byte_quota_utils.owner, {player}, tostr("Podzial obiektu ", what.name, " (", what, ")"), info);
 else
 player:tell_lines_suspended(info);
 endif
 endif
 else
-player:tell("Not a sub-command of @measure: ", args[1]);
+player:tell("Nie ma takiego podpolecenia @measure: ", args[1]);
 player:tell_lines($code_utils:verb_documentation());
 endif
 .
@@ -57148,14 +57171,14 @@ return pass(@args);
 endif
 .
 #4:31
-"@listedit|@pedit object.prop -- invokes the list editor.";
-"   if you are editing a list of strings, you're better off using @notedit.";
+"@listedit|@pedit obiekt.wlasciwosc -- wywoluje edytor list.";
+"   jesli edytujesz liste stringow, lepiej uzyj @notedit.";
 $list_editor:invoke(dobjstr, verb);
 .
 #4:32
-"$class_registry is in the following format:";
+"$class_registry ma nastepujacy format:";
 "        { {name, description, members, parent}, ... }";
-"where `name' is the name of a particular class of objects, `description' is a one-sentence description of the membership of the class, `members' is a list of object numbers, the members of the class, and parent is a parent object in the player's hierarchy that may find the particular class interesting.";
+"gdzie `name' to nazwa danej klasy obiektow, `description' to jednozdaniowy opis czlonkostwa w klasie, `members' to lista numerow obiektow, czlonkow klasy, a parent to obiekt-rodzic w hierarchii gracza, ktory moze uznac dana klase za interesujaca.";
 "";
 if (args)
 members = members_noroot = {};
@@ -57170,12 +57193,12 @@ members = setadd(members, o);
 endif
 endfor
 else
-player:tell("There is no defined class of objects named `", name, "'; type `@classes' to see a complete list of defined classes.");
+player:tell("Nie ma zdefiniowanej klasy obiektow o nazwie `", name, "'; wpisz `@classes', by zobaczyc pelna liste zdefiniowanych klas.");
 return;
 endif
 endfor
-if (((length(members) >= 30) || (length(members_noroot) >= 30)) && (!$command_utils:yes_or_no("This command can be very spammy.  Are you certain you need this information?")))
-return player:tell("OK, aborting.  The lag thanks you.");
+if (((length(members) >= 30) || (length(members_noroot) >= 30)) && (!$command_utils:yes_or_no("To polecenie moze byc bardzo obszerne w wynikach.  Na pewno potrzebujesz tej informacji?")))
+return player:tell("OK, przerywam.  Lag ci dziekuje.");
 endif
 printed = printed_noroot = {};
 for o in (members_noroot)
@@ -57192,7 +57215,7 @@ printed = setadd(printed, what);
 what = parent(what);
 endwhile
 endfor
-player:tell("Members of the class", (length(args) > 1) ? "es" | "", " named ", $string_utils:english_list(args), ":");
+player:tell("Czlonkowie ", (length(args) > 1) ? "klas" | "klasy", " o nazwie ", $string_utils:english_list(args), ":");
 player:tell();
 set_task_perms(player);
 if (printed)
@@ -57204,7 +57227,7 @@ endif
 player:tell();
 else
 "List all class names and descriptions";
-player:tell("The following classes of objects have been defined:");
+player:tell("Nastepujace klasy obiektow zostaly zdefiniowane:");
 for class in ($class_registry)
 if (isa(player, class[4]))
 name = class[1];
@@ -57214,7 +57237,7 @@ player:tell("-- ", name, ": ", description);
 endif
 endfor
 player:tell();
-player:tell("Type `@classes <name>' to see the members of the class with the given <name>.");
+player:tell("Wpisz `@classes <nazwa>', by zobaczyc czlonkow klasy o podanej <nazwie>.");
 endif
 .
 #5:0
@@ -81775,28 +81798,28 @@ endtry
 return 0;
 .
 #59:28
-"Parse [from <start>] [to <end>] [for <name>].";
-"Takes a series of strings, most likely @args with dobjstr removed.";
-"Returns a list {INT start, INT end, STR name}, or {} if there is an error.";
+"Parse [z <poczatek>] [do <koniec>] [dla <nazwa>].";
+"Bierze seria stringow, najprawdopodobniej @args z usunietym dobjstr.";
+"Zwraca liste {INT start, INT end, STR name}, albo {} jesli jest blad.";
 fail = length(args) % 2;
 start = 0;
 end = toint(max_object());
 match = "";
 while (args && (!fail))
 prep = args[1];
-if (prep == "from")
+if ((prep == "from") || (prep == "z"))
 if ((start = player.location:match_object(args[2])) >= #0)
 start = toint(start);
 else
 start = toint(args[2]);
 endif
-elseif (prep == "to")
+elseif ((prep == "to") || (prep == "do"))
 if ((end = player.location:match_object(args[2])) >= #0)
 end = toint(end);
 else
 end = toint(args[2]);
 endif
-elseif (prep == "for")
+elseif ((prep == "for") || (prep == "dla"))
 match = args[2];
 else
 fail = 1;
