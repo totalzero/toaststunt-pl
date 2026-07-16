@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784197101 567763848 0
+1784197521 567763848 0
 0
 10
 0
@@ -1368,7 +1368,7 @@ source
 2
 time
 0
-1784197093
+1784197513
 4
 0
 1
@@ -1624,7 +1624,7 @@ expire
 4
 2
 0
-1784197068
+1784197490
 2
 localhost
 2
@@ -1633,7 +1633,7 @@ localhost
 2
 0
 0
-1784197071
+1784197494
 2
 1
 0
@@ -1803,7 +1803,7 @@ localhost
 2
 5
 0
-1784197093
+1784197513
 2
 1
 0
@@ -4384,7 +4384,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--61
+-68
 0
 2
 2
@@ -66525,7 +66525,7 @@ dialup = index(sitename, "dialup");
 "Don't keep around dialups.";
 for y in (items)
 if ((typeof(y) == OBJ) && (((!valid(y)) || (!is_player(y))) || (dialup && (!(sitename in y.all_connect_places)))))
-verbose && player:tell("removing ", $string_utils:nn(y), " from ", sitename);
+verbose && player:tell("usuwanie ", $string_utils:nn(y), " z ", sitename);
 items = setremove(items, y);
 endif
 $command_utils:suspend_if_needed(0);
@@ -66541,7 +66541,7 @@ endif
 $command_utils:suspend_if_needed(0);
 endfor
 if (useless)
-verbose && player:tell(sitename, " declared useless and nuked");
+verbose && player:tell(sitename, " uznano za bezuzyteczne i usunieto");
 items = {};
 endif
 if (!items)
@@ -66554,7 +66554,7 @@ this.total_pruned_people = (this.total_pruned_people + length(orig)) - length(it
 endif
 $command_utils:suspend_if_needed(0);
 if (probe >= this.prune_stop)
-return player:tell("Prune stopped at ", toliteral(this.prune_progress));
+return player:tell("Czyszczenie zatrzymane na ", toliteral(this.prune_progress));
 endif
 endfor
 probe = $string_utils:incr_alpha(probe, this.alphabet);
@@ -66564,10 +66564,10 @@ set_task_perms($wiz_utils:random_wizard());
 suspend(0);
 endif
 endwhile
-player:tell("Prune stopped at ", toliteral(this.prune_progress));
+player:tell("Czyszczenie zatrzymane na ", toliteral(this.prune_progress));
 .
 #25:6
-player:tell("Prune is up to ", toliteral(this.prune_progress), ".");
+player:tell("Czyszczenie doszlo do ", toliteral(this.prune_progress), ".");
 mine = 0;
 if (typeof(this.prune_progress) == STR)
 alphalen = length(this.alphabet);
@@ -66580,56 +66580,63 @@ total = 256 * 256;
 mine = (this.prune_progress[1] * 256) + this.prune_progress[2];
 endif
 percent = (100.0 * tofloat(mine)) / tofloat(total);
-player:tell("We have processed ", mine, " entries out of ", total, ", or ", toint(percent), ".", toint(10.0 * percent) % 10, "%.");
-player:tell("There were ", this.total_pruned_people, " individual list entries removed, and ", this.total_pruned_sites, " whole sites removed.");
+player:tell("Przetworzono ", mine, " wpisow z ", total, ", czyli ", toint(percent), ".", toint(10.0 * percent) % 10, "%.");
+player:tell("Usunieto ", this.total_pruned_people, " pojedynczych wpisow z list oraz ", this.total_pruned_sites, " calych witryn.");
 if ($code_utils:task_valid(this.prune_task))
-player:tell("Prune task is ", this.prune_task, ".  Stacktrace:");
+player:tell("Zadanie czyszczenia to ", this.prune_task, ".  Stos wywolan:");
 for x in (task_stack(this.prune_task, 1))
 if (valid(x[4]))
 player:tell(x[4], ":", x[2], " [", x[1], "]  ", x[3].name, "  (", x[6], ")");
 endif
 endfor
 else
-player:tell("The recorded task_id is no longer valid.");
+player:tell("Zapisany task_id nie jest juz prawidlowy.");
 endif
 .
 #25:7
+"Carefully loop through the db and delete items associated with !valid and !is_player objects.  If that results in no objects remaining for a site, delete that site.";
+"Attempt to keep memory usage down by only asking for a small number of items at a time.  Should probably have some arguments to control this.";
+"Another thing it should do is be clever about string typed items.";
+"Rewriting this to do numerics now.";
 if (!caller_perms().wizard)
 raise(E_PERM);
 endif
-if (!args)
-for x in ({"com", "edu", "us", "au", "net", "za", "uk", "at", "ca", "org", "il", "mil", "no", "gov", "se", "fi", "it", "be", "jp", "de", "pt", "sg", "ie", "br", "nl", "gr", "ch", "pl", "nz", "<none>", "<bad>", "ee", "dk", "fr", "si", "cz", "th", "tw", "hk", "su", "es", "kr", "hr", "is", "mx", "my", "ro", "kw", "cl", "ph", "cr", "tr", "in", "eg", "ec", "lv", "ve", "sk", "ar", "co", "pe", "hu", "jm", "ni", "ru", "id", "bm", "mt", "cn", "bg", "pk", "uy", "yu", "ae", "zw", "gi", "sm", "nu"})
-this:prune_fixup(x);
-endfor
-return;
-endif
-root = args[1];
-items = this:find_exact(root);
+this.prune_task = task_id();
+probe = this.prune_progress;
+while (probe[1] <= this.prune_stop)
+probestring = tostr(probe[1], ".", probe[2], ".");
+for sitename in (z = this:find_all_keys(probestring))
+items = this:find_exact(sitename);
 orig = items;
-if (items == #-3)
-return 1;
+for y in (items)
+if ((typeof(y) == OBJ) && ((!valid(y)) || (!is_player(y))))
+items = setremove(items, y);
 endif
-$site_db.prune_progress = root;
-$site_db.prune_task = task_id();
-for item in (items)
-if (typeof(item) == STR)
-if (this:prune_fixup((item + ".") + root))
-items = setremove(items, item);
+$command_utils:suspend_if_needed(0);
+endfor
+if (!items)
+this:delete(sitename);
+this.total_pruned_sites = this.total_pruned_sites + 1;
+elseif (items == orig)
+else
+this:insert(sitename, items);
+this.total_pruned_people = (this.total_pruned_people + length(orig)) - length(items);
 endif
+$command_utils:suspend_if_needed(0);
+endfor
+if (probe[2] == 255)
+probe[1] = probe[1] + 1;
+probe[2] = 0;
+else
+probe[2] = probe[2] + 1;
 endif
+this.prune_progress = probe;
 if ($command_utils:running_out_of_time())
 set_task_perms($wiz_utils:random_wizard());
 suspend(0);
 endif
-endfor
-if (!items)
-this:delete(root);
-this.total_pruned_sites = this.total_pruned_sites + 1;
-return 1;
-elseif (orig == items)
-else
-this:insert(root, items);
-endif
+endwhile
+player:tell("Czyszczenie zatrzymane na ", toliteral(this.prune_progress));
 .
 #25:8
 "Carefully loop through the db and delete items associated with !valid and !is_player objects.  If that results in no objects remaining for a site, delete that site.";
@@ -66706,7 +66713,7 @@ if (!caller_perms().wizard)
 raise(E_PERM);
 endif
 this:report_prune_progress();
-player:tell("Resetting...");
+player:tell("Resetowanie...");
 this.total_pruned_sites = 0;
 this.total_pruned_people = 0;
 this.prune_progress = "aaa";
@@ -68112,58 +68119,83 @@ endfor
 return data;
 .
 #32:2
-{nastyword} = args;
-guesses = call_function("spellcheck", nastyword);
-"Transpose adjacent characters";
-nastyword = nastyword + " ";
-for i in [1..length(nastyword) - 1]
-foo = ((nastyword[1..i - 1] + nastyword[i + 1]) + nastyword[i]) + nastyword[i + 2..$];
-foo = $string_utils:trim(foo);
-if (this:valid(foo))
-guesses = setadd(guesses, foo);
+set_task_perms(caller_perms());
+source = args[1];
+data = {};
+ref = $code_utils:parse_propref(source);
+if (ref)
+"User entered a prop. Deal with it.";
+{thing, prop} = ref;
+thing = $string_utils:match_object(thing, player.location);
+if (!valid(thing))
+player:tell("Nie ma takiego obiektu: ", ref[1]);
+data = $failed_match;
+elseif ((!prop) || (`thing.(tostr(prop)) ! ANY' == E_PROPNF))
+player:tell("Nie ma takiej wlasciwosci `", prop, "' na obiekcie ", thing, ".");
+data = $failed_match;
+else
+data = `thing.(tostr(prop)) ! ANY';
+if (typeof(data) == STR)
+data = {data};
 endif
-if ((ticks_left() < 500) || (seconds_left() < 2))
-suspend(0);
+$command_utils:suspend_if_needed(3);
+if (typeof(data) == ERR)
+player:tell("Blad: ", tostr(data));
+data = $failed_match;
+elseif (typeof(data) != LIST)
+player:tell("Sprawdzanie pisowni wymaga stringa lub listy jako danych wejsciowych.");
+data = $failed_match;
+endif
+endif
+else
+ref = $code_utils:parse_verbref(source);
+if (ref)
+"User entered a verb. Deal with it.";
+{thing, verb} = ref;
+thing = $string_utils:match_object(thing, player.location);
+if (!valid(thing))
+player:tell("Nie ma takiego obiektu: ", ref[1]);
+data = $failed_match;
+elseif (`verb_info(thing, verb) ! ANY' == E_VERBNF)
+player:tell("Nie ma takiego czasownika `", verb, "' na obiekcie ", thing, ".");
+data = $failed_match;
+else
+data = `verb_code(thing, verb) ! ANY => {}';
+for i in [1..length(data)]
+if (!index(data[i], "\""))
+data[i] = "";
+else
+data[i] = data[i][index(data[i], "\"") + 1..$];
+data[i] = data[i][1..rindex(data[i], "\"") - 1];
+foo = "";
+while (index(data[i], "\""))
+foo = foo + data[i][1..index(data[i], "\"") - 1];
+foo = foo + " ";
+data[i] = data[i][index(data[i], "\"") + 1..$];
+data[i] = data[i][index(data[i], "\"") + 1..$];
+endwhile
+if (foo == "")
+foo = data[i];
+else
+foo = foo + data[i];
+endif
+data[i] = $string_utils:trim(foo);
 endif
 endfor
-nastyword = $string_utils:trim(nastyword);
-"Erase each character - check for an extra typoed character";
-for i in [1..length(nastyword)]
-foo = nastyword[1..i - 1] + nastyword[i + 1..$];
-if (this:valid(foo))
-guesses = setadd(guesses, foo);
 endif
-if ((ticks_left() < 500) || (seconds_left() < 2))
-suspend(0);
+else
+"User entered word/phrase on command line.";
+data = {argstr};
 endif
+endif
+for i in [1..length(data)]
+$command_utils:suspend_if_needed(1);
+if (typeof(data[i]) != STR)
+data[i] = "";
+endif
+data[i] = $string_utils:strip_chars(data[i], "!@#$%^&*()_+1234567890={}[]`<>?:;,./|\"~'");
 endfor
-"Alter one character";
-for i in [1..length(nastyword)]
-for ii in ({"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "'", "-"})
-foo = (nastyword[1..i - 1] + ii) + nastyword[i + 1..$];
-if (this:valid(foo))
-guesses = setadd(guesses, foo);
-endif
-endfor
-if ((ticks_left() < 500) || (seconds_left() < 2))
-suspend(0);
-endif
-endfor
-"insert one character";
-for i in [1..length(nastyword)]
-for ii in ({"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "'", "-"})
-foo = (nastyword[1..i - 1] + ii) + nastyword[i..$];
-if (this:valid(foo))
-guesses = setadd(guesses, foo);
-endif
-endfor
-if ((ticks_left() < 500) || (seconds_left() < 2))
-suspend(0);
-endif
-endfor
-"Clean up and go home";
-guesses = $list_utils:sort(guesses);
-return guesses;
+return data;
 .
 #32:3
 return this.description;
@@ -86848,22 +86880,22 @@ pass(@args);
 #83:0
 "Copied from Features Feature Object (#24300):list by Joe (#2612) Mon Oct 10 21:07:35 1994 PDT";
 if (this.contents)
-player:tell(".features objects:");
+player:tell("Obiekty .features:");
 player:tell("----------------------");
 first = 1;
 for thing in (this.contents)
-$command_utils:kill_if_laggy(10, "Sorry, the MOO is very laggy, and there are too many feature objects in here to list!");
+$command_utils:kill_if_laggy(10, "Przykro mi, MOO jest bardzo obciazone, a w tym miejscu jest zbyt wiele obiektow features do wypisania!");
 $command_utils:suspend_if_needed(0);
 if (!first)
 player:tell();
 endif
 player:tell($string_utils:nn(thing), ":");
-`thing:look_self() ! ANY => player:tell("<<Error printing description>>")';
+`thing:look_self() ! ANY => player:tell("<<Blad podczas wyswietlania opisu>>")';
 first = 0;
 endfor
 player:tell("----------------------");
 else
-player:tell("No objects in ", this.name, ".");
+player:tell("Brak obiektow w ", this.name, ".");
 endif
 .
 #84:0
@@ -89710,10 +89742,10 @@ endif
 elseif ($object_utils:has_readable_property(objid, "html"))
 html = objid.html;
 else
-html = {"HTTP/1.1 404 NOT FOUND", "Content-Type: text/plain", "", "", "HTML not found."};
+html = {"HTTP/1.1 404 NOT FOUND", "Content-Type: text/plain", "", "", "HTML nie znaleziony."};
 endif
 else
-html = {"HTTP/1.1 404 NOT FOUND", "Content-Type: text/plain", "", "", "Object not found."};
+html = {"HTTP/1.1 404 NOT FOUND", "Content-Type: text/plain", "", "", "Nie znaleziono obiektu."};
 endif
 "Default header is HTML";
 html_header = {"HTTP/1.1 200 OK", "Content-Type: text/html", "", ""};
@@ -89751,7 +89783,7 @@ elseif (args && (args[1] == "GET"))
 "First visit. Register them as a guest and ask them to refresh.";
 guestinfo = {guest, time(), 0};
 this.guests = {@this.guests, guestinfo};
-html = {"HTTP/1.1 200 OK", "Content-Type: text/html", "", "", "<meta http-equiv=\"refresh\" content=\"0\"><br><b>", "", "", "", "Web service initialized. Please reload this page.", "</b>"};
+html = {"HTTP/1.1 200 OK", "Content-Type: text/html", "", "", "<meta http-equiv=\"refresh\" content=\"0\"><br><b>", "", "", "", "Usluga WWW zainicjowana. Prosze odswiezyc te strone.", "</b>"};
 for h in (html)
 notify(player, h);
 endfor
@@ -89767,7 +89799,7 @@ return;
 "This makes a URL key for a specific object and player.";
 "With the keyed URL, the PLAYER will be set correctly when :HTML() is called";
 key = this:gen_key(player, caller);
-notify(player, ("This is the private key for you, " + player.name) + ". Do not share it.");
+notify(player, ("To jest twoj prywatny klucz, " + player.name) + ". Nie udostepniaj go nikomu.");
 notify(player, ((((((((("http://" + $network.site) + ":") + $network.port) + "/") + tostr(caller)[2..$]) + "/") + tostr(player)[2..$]) + "/") + key) + "/");
 .
 #97:2
@@ -91366,13 +91398,13 @@ endif
 {msg, @rest} = args;
 a = $list_utils:assoc(msg, this.messages_out);
 if (!a)
-raise(E_INVARG, "Invalid message");
+raise(E_INVARG, "Nieprawidlowa wiadomosc");
 endif
 keywords = a[2];
 lkeywords = length(keywords);
 lrest = length(rest);
 if (lrest < lkeywords)
-raise(E_ARGS, "Incorrect number of message arguments");
+raise(E_ARGS, "Nieprawidlowa liczba argumentow wiadomosci");
 endif
 return {@$list_utils:make_alist({keywords, rest[1..lkeywords]}), @rest[lkeywords + 1..$]};
 .
@@ -91391,14 +91423,14 @@ return {@$list_utils:make_alist({keywords, rest[1..lkeywords]}), @rest[lkeywords
 a = $list_utils:assoc(msg, this.messages_in);
 if (!a)
 "this should be caught upstream.";
-raise(E_INVARG, "Invalid cord message");
+raise(E_INVARG, "Nieprawidlowa wiadomosc cord");
 endif
 ret = {};
 for keyword in (a[2])
 i = $list_utils:iassoc(keyword, alist);
 if (!i)
 "this too should be caught.";
-raise(E_INVARG, "Missing argument in cord message");
+raise(E_INVARG, "Brakujacy argument w wiadomosci cord");
 endif
 ret = {@ret, alist[i][2]};
 alist = listdelete(alist, i);
