@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784198832 567763848 0
+1784202424 567763848 0
 0
 10
 0
@@ -798,7 +798,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784194874
+1784199337
 2
 name
 2
@@ -1368,7 +1368,7 @@ source
 2
 time
 0
-1784198824
+1784202419
 4
 0
 1
@@ -1624,7 +1624,7 @@ expire
 4
 2
 0
-1784198801
+1784202400
 2
 localhost
 2
@@ -1633,7 +1633,7 @@ localhost
 2
 0
 0
-1784198804
+1784202408
 2
 1
 0
@@ -1803,7 +1803,7 @@ localhost
 2
 5
 0
-1784198824
+1784202419
 2
 1
 0
@@ -1863,7 +1863,7 @@ localhost
 2
 5
 2
-nijaki
+spivak
 2
 5
 2
@@ -4384,7 +4384,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--95
+-84
 0
 2
 2
@@ -4398,7 +4398,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-28
+29
+4
+2
+0
+1784199337
+0
+0
 4
 2
 0
@@ -29758,13 +29764,13 @@ checkpoint
 4
 4
 2
-Syntax:  @uptime
+Skladnia:  @uptime
 2
 
 2
-   The @uptime command displays the amount of time since the last restart of the server.
+   Polecenie @uptime wyswietla czas, jaki uplynal od ostatniego restartu serwera.
 2
-   Note to programmers:  The last restart time of the server is stored in $last_restart_time.
+   Notatka dla programistow:  Czas ostatniego restartu serwera jest przechowywany w $last_restart_time.
 36
 5
 4
@@ -29808,65 +29814,71 @@ General Help Topics
 36
 5
 4
-21
+22
 2
-Syntax:  @pagelength <number>
+Skladnia:  @pagelength <liczba>
 2
-         @pagelength
-2
-
-2
-If the lines you see scroll off the top of your screen too quickly for you to
-2
-read and your client program is such that any lines scrolling off the top are
-2
-gone forever, you can use the @pagelength command to invoke page buffering to
-2
-limit the number of lines sent at a time.  E.g., if your terminal has a 24 line
-2
-screen, you can do @pagelength 24 and output will stop every 24 lines if you
-2
-don't type any other commands.
+           @pagelength
 2
 
 2
-You will need to use the @more command to continue reading output once it 
+Jesli linie, ktore widzisz, znikaja z gory ekranu zbyt szybko, bys mogl je
 2
-has been stopped.  Make sure you read `help @more' before setting @pagelength.
+przeczytac, a twoj program kliencki dziala tak, ze znikniete linie sa
+2
+stracone na zawsze, mozesz uzyc polecenia @pagelength, by wlaczyc buforowanie
+2
+stron i ograniczyc liczbe linii wysylanych naraz.  Np. jesli twoj terminal ma
+2
+ekran 24-liniowy, mozesz wykonac @pagelength 24, a wyjscie bedzie zatrzymywane
+2
+co 24 linie, jesli nie wpiszesz zadnego innego polecenia.
 2
 
 2
-@pagelength 0 means no page buffering will be done by the MOO.
+Bedziesz musial uzyc polecenia @more, by kontynuowac czytanie wyjscia po tym,
+2
+jak zostalo zatrzymane.  Koniecznie przeczytaj `help @more' przed ustawieniem
+2
+@pagelength.
 2
 
 2
-By default the MOO will assume you have an infinitely wide terminal screen, so
+@pagelength 0 oznacza, ze MOO nie bedzie buforowac stron.
 2
-you may wish to set @linelength as well, and ensure wrapping is on with @wrap
+
 2
-on.  (See help @linelength and help @wrap.)  As with word wrapping, you are
+Domyslnie MOO zaklada, ze masz nieskonczenie szeroki ekran terminala, wiec
 2
-best off running a client that can do its own page buffering; the MOO server's
+moze zechcesz tez ustawic @linelength i upewnic sie, ze zawijanie jest
 2
-page buffering is inherently slower and many MUD's do not have page buffering
+wlaczone poprzez @wrap on.  (Zobacz help @linelength i help @wrap.)  Podobnie
 2
-at all.
+jak przy zawijaniu wierszy, najlepiej korzystac z klienta, ktory potrafi sam
+2
+buforowac strony; buforowanie stron po stronie serwera MOO jest z natury
+2
+wolniejsze, a wiele MUD-ow w ogole nie ma buforowania stron.
 2
 1
 4
-19
+23
 2
 *subst*
 2
-Syntax:  @more
+Skladnia:  @more
 2
-         @more rest
+           @more rest
 2
-         @more flush
+           @more flush
 2
 
 2
-If you have @pagelength set (see `help @pagelength') and some combination of events or commands produces sufficiently many lines of output, you will see a message of the form
+Jesli masz ustawione @pagelength (zobacz `help @pagelength'), a jakas
+2
+kombinacja zdarzen lub polecen wygeneruje wystarczajaco duzo linii wyjscia,
+2
+zobaczysz komunikat postaci
 2
 
 2
@@ -29874,83 +29886,89 @@ If you have @pagelength set (see `help @pagelength') and some combination of eve
 2
 
 2
-indicating (in this case) 37 more lines of text waiting to be read.  
+wskazujacy (w tym przypadku) 37 kolejnych linii tekstu czekajacych na
 2
-At this point, you should give one of the @more commands above.  
+przeczytanie.  W tym momencie powinienes uzyc jednego z powyzszych polecen
 2
-
-2
-@more without arguments prints sufficiently many lines to fill your screen,
-2
-assuming you've set @pagelength correctly, unless there are not that many
-2
-lines left to print.
+@more.
 2
 
 2
-@more rest will print all of the remaining lines, regardless of your @pagelength setting.  
+@more bez argumentow wypisuje wystarczajaco wiele linii, by wypelnic twoj
+2
+ekran, zakladajac, ze prawidlowo ustawiles @pagelength, chyba ze nie zostalo
+2
+az tyle linii do wypisania.
 2
 
 2
-@more flush discards all remaining lines
+@more rest wypisze wszystkie pozostale linie, niezaleznie od ustawienia
+2
+@pagelength.
+2
+
+2
+@more flush odrzuca wszystkie pozostale linie
 2
 1
 4
 3
 2
-MOO contains a rich programming language for the creation of interesting rooms, exits, and other objects.
+MOO zawiera bogaty jezyk programowania do tworzenia ciekawych pokoi, wyjsc i innych obiektow.
 2
 
 2
-Not every player is allowed to program in MOO, including (at the moment, anyway) you.  If you would like to be, find a wizard and convince them that you've got good ideas that the MOO needs.  Good luck!
+Nie kazdy gracz moze programowac w MOO, w tym (przynajmniej na razie) ty.  Jesli chcesz nim zostac, znajdz wizarda i przekonaj go, ze masz dobre pomysly, ktorych MOO potrzebuje.  Powodzenia!
 36
 5
 4
-22
+23
 2
-Syntax:  @wrap <on|off>
+Skladnia:  @wrap <on|off>
 2
-         @wrap
-2
-
-2
-         @linelength <number>
-2
-         @linelength
+           @wrap
 2
 
 2
-If the lines you see get cut off at the edge of your screen (you don't have
+           @linelength <liczba>
 2
-word-wrap), you can get the MOO to split lines for you.  The @linelength
-2
-command tells the MOO how many columns you have on your screen--you probably
-2
-want @linelength 79--and "@wrap on" tells the MOO you want it to do word-
-2
-wrap.
+           @linelength
 2
 
 2
-It's better if you can fix this problem without the MOO's help, though,
+Jesli linie, ktore widzisz, sa ucinane na krawedzi ekranu (nie masz
 2
-because the MOO's solution will be slower than a local solution, and
+zawijania wierszy), mozesz sprawic, by MOO dzielilo linie za ciebie.
 2
-because not all MUDs are willing to do word-wrap.
+Polecenie @linelength mowi MOO, ile kolumn ma twoj ekran--prawdopodobnie
+2
+chcesz @linelength 79--a "@wrap on" mowi MOO, ze chcesz, by zawijalo
+2
+wiersze.
 2
 
 2
-If you don't want the MOO to split lines for you, there might still be some
+Lepiej jednak, jesli mozesz naprawic ten problem bez pomocy MOO, poniewaz
 2
-use for the @linelength command.  Certain commands, like @who and @check,
+rozwiazanie MOO bedzie wolniejsze niz rozwiazanie lokalne, a nie wszystkie
 2
-print truncated lines so they can print in neat columns.  The default for
+MUD-y chca zawijac wiersze.
 2
-these is generally about 79 columns, which looks fine if you have an
+
 2
-eighty-column screen.  If your screen is a different width, though, you
+Jesli nie chcesz, by MOO dzielilo linie za ciebie, polecenie @linelength
 2
-can set @linelength and some of these commands will react accordingly.
+nadal moze sie przydac.  Niektore polecenia, jak @who i @check, wypisuja
+2
+skrocone linie, by mogly wypisywac je w rownych kolumnach.  Domyslna
+2
+szerokosc dla nich to zazwyczaj okolo 79 kolumn, co wyglada dobrze na
+2
+ekranie osiemdziesieciokolumnowym.  Jesli jednak twoj ekran ma inna
+2
+szerokosc, mozesz ustawic @linelength, a niektore z tych polecen
+2
+odpowiednio zareaguja.
 36
 5
 4
@@ -29986,7 +30004,7 @@ summary
 2
 
 2
-Type 'help <topic>' for information on a particular topic.
+Wpisz 'help <temat>' po informacje na konkretny temat.
 2
 
 36
@@ -30002,207 +30020,209 @@ security
 4
 15
 2
-Some things you should be aware of:
+Kilka rzeczy, o ktorych powinienes wiedziec:
 2
 
 2
- -*-*- OMNISCIENT WIZARDS AND SYSADMINS: -*-*-
+ -*-*- WSZECHWIEDZACY WIZARDZI I ADMINISTRATORZY: -*-*-
 2
-Wizards can look at absolutely *anything* in the MOO database.  
+Wizardzi moga zobaczyc absolutnie *wszystko* w bazie danych MOO.  
 2
-The arch-wizard and the sysadmin for the MOO-server host have complete access not only to the MOO database itself but to many other possibly-relevant things.
+Arcy-wizard i administrator systemu hosta serwera MOO maja pelny dostep nie tylko do samej bazy danych MOO, ale i do wielu innych, potencjalnie istotnych rzeczy.
 2
-The above mentioned parties (wizards et al), while they will endeavor to be discreet about anything incidental that turns up, nevertheless reserve the right to look at anything they want, if only for the sake of being able to resolve technical problems.
-2
-
-2
- -*-*- LOGGING: -*-*- 
-2
-Some client programs (the "client" is the program you use to connect to the MOO, e.g., telnet, tinytalk, tinyfugue, emacs with mud.el...) are capable of logging everything that happens to the corresponding player.  In fact, with some clients this happens by default.  If a given player's client has logging enabled and said player is either in the room with you or is monitoring an object that is in the room with you, then *everything* you say and emote gets recorded.  Also, if you are in a room owned by someone else, all bets are off.  There is *no way* that the MOO server can know about what client a given player is using; thus, anyone who can hear you is a potential logger.
+Wyzej wymienione strony (wizardzi i inni), choc beda staraly sie zachowac dyskrecje wobec wszystkiego, co przypadkowo zauwaza, zastrzegaja sobie jednak prawo do przejrzenia wszystkiego, czego zechca, chocby po to, by moc rozwiazywac problemy techniczne.
 2
 
 2
-In and of itself this would not be a problem --- indeed, logs are often useful for reference purposes.  However, there is no guarantee that the log will not end up someplace where you'd rather it didn't, e.g., posted on the rec.games.mud Usenet newsgroup.  While it is considered bad form (i.e., rude) to circulate or post a log without having the permission of at least the major participants in the activities logged, there is not a whole lot we can do on the technical side to prevent it from happening.
+ -*-*- LOGOWANIE: -*-*- 
+2
+Niektore programy klienckie ("klient" to program, ktorego uzywasz do laczenia sie z MOO, np. telnet, tinytalk, tinyfugue, emacs z mud.el...) potrafia logowac wszystko, co dzieje sie z danym graczem.  W rzeczywistosci, w niektorych klientach dzieje sie to domyslnie.  Jesli klient danego gracza ma wlaczone logowanie, a ten gracz jest z toba w tym samym pokoju albo monitoruje obiekt znajdujacy sie w twoim pokoju, to *wszystko*, co mowisz i wykonujesz jako emote, zostaje zapisane.  Ponadto, jesli jestes w pokoju nalezacym do kogos innego, wszystko jest mozliwe.  Serwer MOO *w zaden sposob* nie moze wiedziec, jakiego klienta uzywa dany gracz; dlatego kazdy, kto moze cie slyszec, jest potencjalnym loggerem.
 2
 
 2
-Be aware of the problem.  The @sweep command (see `help @sweep') attempts to determine what players can be listening at any given moment.  If anything, it errs on the side of paranoia.  Even so, it doesn't cover *all* possible avenues of eavesdropping, and there's no hope for it covering the situations like the one where someone manages to convince one of the participants in your discussion who kept a log that it really doesn't need to be kept private after all.
+Samo w sobie nie byloby to problemem --- logi sa czesto przydatne do celow referencyjnych.  Nie ma jednak gwarancji, ze log nie trafi tam, gdzie bys tego nie chcial, np. na grupe dyskusyjna Usenet rec.games.mud.  Choc uwaza sie za zla forme (tzn. nieuprzejme) rozpowszechnianie lub publikowanie logu bez zgody przynajmniej glownych uczestnikow zalogowanych wydarzen, od strony technicznej niewiele mozemy zrobic, by temu zapobiec.
 2
 
 2
-If you've got something really sensitive to discuss, you are best off doing it by encrypted email or in person.
+Badz swiadomy tego problemu.  Polecenie @sweep (zobacz `help @sweep') probuje ustalic, ktorzy gracze moga sluchac w danej chwili.  Jesli juz, to raczej przesadza w strone paranoi.  Mimo to nie obejmuje *wszystkich* mozliwych sposobow podsluchu i nie ma szans objac sytuacji, w ktorej ktos przekonuje jednego z uczestnikow twojej rozmowy, kto trzymal log, ze wcale nie musi go trzymac w tajemnicy.
+2
+
+2
+Jesli masz do omowienia cos naprawde wrazliwego, najlepiej zrobic to przez szyfrowany email lub osobiscie.
 36
 5
 4
 12
 2
-Syntax:  @examine <object>
+Skladnia:  @examine <obiekt>
 2
-         @exam <object>
-2
-
-2
-Prints several useful pieces of information about the named object, including the following:
-2
-        + its full name, aliases, and object number
-2
-        + its owner's name and object number
-2
-        + its description
-2
-        + its key expression (if it is locked and if you own it)
-2
-        + its contents and their object numbers
-2
-        + the 'obvious' verbs defined on it
+           @exam <obiekt>
 2
 
 2
-[Note to programmers: the 'obvious' verbs are those that are readable and that can be invoked as commands.  To keep a verb off this list, either make it unreadable (see 'help @chmod') or, if it shouldn't be used as a command, give it 'args' of 'this none this' (see 'help @args').]
+Wypisuje kilka przydatnych informacji o wskazanym obiekcie, w tym:
+2
+        + jego pelna nazwe, aliasy i numer obiektu
+2
+        + nazwe i numer obiektu jego wlasciciela
+2
+        + jego opis
+2
+        + jego wyrazenie kluczowe (jesli jest zablokowany i jesli jestes jego wlascicielem)
+2
+        + jego zawartosc i numery obiektow tej zawartosci
+2
+        + 'oczywiste' czasowniki na nim zdefiniowane
+2
+
+2
+[Uwaga dla programistow: 'oczywiste' czasowniki to te, ktore sa czytelne i moga byc wywolywane jako polecenia.  Aby usunac czasownik z tej listy, uczyn go nieczytelnym (zobacz 'help @chmod') albo, jesli nie powinien byc uzywany jako polecenie, nadaj mu 'args' rowne 'this none this' (zobacz 'help @args').]
 36
 5
 4
 5
 2
-There are several commands available to determine the origins of messages and to check that your communications with other players are secure. Help is available on the following topics:
+Dostepnych jest kilka polecen do ustalania pochodzenia wiadomosci i sprawdzania, czy twoja komunikacja z innymi graczami jest bezpieczna. Pomoc dostepna jest na nastepujace tematy:
 2
 
 2
-@paranoid -- keeping a record of messages your character hears.
+@paranoid -- prowadzenie zapisu wiadomosci, ktore slyszy twoja postac.
 2
-@check    -- looking at that record to determine responsibility for messages.
+@check    -- przegladanie tego zapisu w celu ustalenia odpowiedzialnosci za wiadomosci.
 2
-@sweep    -- checking who is listening in on your conversation.
+@sweep    -- sprawdzanie, kto podsluchuje twoja rozmowe.
 36
 5
 4
 3
 2
-Syntax: @sweep
+Skladnia: @sweep
 2
 
 2
-Used when you wish to have a private conversation, and are concerned someone may be listening in. @sweep tries to list the avenues by which information may be leaving the room. In a manner analogous to @check, it assumes that you don't want to hear about your own verbs, or those belonging to wizards, who presumably wouldn't stoop to bugging.
+Uzywane, gdy chcesz przeprowadzic prywatna rozmowe i obawiasz sie, ze ktos moze podsluchiwac. @sweep probuje wypisac drogi, ktorymi informacje moga wydostawac sie z pokoju. Podobnie jak @check, zaklada, ze nie chcesz slyszec o wlasnych czasownikach ani o tych nalezacych do wizardow, ktorzy przypuszczalnie nie znizyliby sie do zakladania podsluchow.
 36
 5
 4
-9
+10
 2
-Syntax:  @paranoid
+Skladnia:  @paranoid
 2
-         @paranoid off
+           @paranoid off/wyl
 2
-         @paranoid immediate
+           @paranoid immediate/natychmiast
 2
-         @paranoid <number>
+           @paranoid <liczba>
 2
 
 2
-In immediate mode, the monitor prepends everything you hear with the name of 
+W trybie natychmiastowym (immediate/natychmiast) monitor poprzedza kazda
 2
-the character it considers responsible for the message. Otherwise, it keeps 
+uslyszana wiadomosc nazwa postaci, ktora uwaza za odpowiedzialna za
 2
-records of the last <number> (defaults to 10) lines you have heard. These 
+wiadomosc.  W przeciwnym razie przechowuje zapis ostatnich <liczba>
 2
-records can be accessed by the @check command.
+(domyslnie 10) linii, ktore uslyszales.  Do tych zapisow mozna uzyskac
+2
+dostep poleceniem @check.
 36
 5
 4
 23
 2
-Syntax:   @check <options>
+Skladnia:   @check <opcje>
 2
 
 2
-where <options> is one or more of:
+gdzie <opcje> to jedna lub wiecej z:
 2
--- the number of lines to be displayed
+-- liczba linii do wyswietlenia
 2
--- a player's name, someone to be "trusted" during the assignment of responsibility for the message.
+-- nazwa gracza, ktoremu ma byc "zaufane" przy przypisywaniu odpowiedzialnosci za wiadomosc.
 2
--- a player's named prefixed by !, someone not to be "trusted".
-2
-
-2
-          @check-full <options>
-2
-where <options is either 
-2
--- the number of lines to be displayed
-2
--- a search string: only lines containing that string will be displayed.
+-- nazwa gracza poprzedzona !, ktoremu NIE ma byc "zaufane".
 2
 
 2
-Used when you are suspicious about the origin of some of the messages your character has just heard.
+          @check-full <opcje>
+2
+gdzie <opcje> to jedno z:
+2
+-- liczba linii do wyswietlenia
+2
+-- lancuch wyszukiwania: wyswietlone zostana tylko linie zawierajace ten lancuch.
 2
 
 2
-Output from @check is in columns that contain, in order, the monitor's best guess as to:
-2
-    what object the message came from,
-2
-    what verb on that object that was responsible,
-2
-    whose permissions that verb was running with, and
-2
-    the beginning of the actual message.
+Uzywane, gdy podejrzewasz pochodzenie niektorych wiadomosci, ktore wlasnie uslyszala twoja postac.
 2
 
 2
-Output from @check-full is in columns that contains a description of all the verbs that were responsible for the noise heard, not just the best guess as to who was responsible.
+Wyjscie @check jest w kolumnach zawierajacych, w kolejnosci, najlepsze przypuszczenie monitora co do:
+2
+    z jakiego obiektu pochodzila wiadomosc,
+2
+    ktory czasownik na tym obiekcie byl odpowiedzialny,
+2
+    z czyimi uprawnieniami dzialal ten czasownik, oraz
+2
+    poczatek rzeczywistej wiadomosci.
 2
 
 2
-@check operates by examining the list of verbs that were involved in delivering the message, and assigning responsibility to the first owner it sees who is not "trusted".  By default, it trusts you and all the wizards.  It uses the records maintained by @paranoid, so you must have used that command before you received the message.
+Wyjscie @check-full jest w kolumnach zawierajacych opis wszystkich czasownikow odpowiedzialnych za uslyszany halas, a nie tylko najlepsze przypuszczenie co do odpowiedzialnosci.
+2
+
+2
+@check dziala poprzez sprawdzenie listy czasownikow, ktore uczestniczyly w dostarczeniu wiadomosci, i przypisanie odpowiedzialnosci pierwszemu napotkanemu wlascicielowi, ktoremu nie jest "zaufane".  Domyslnie ufa tobie i wszystkim wizardom.  Korzysta z zapisow prowadzonych przez @paranoid, wiec musisz uzyc tego polecenia, zanim otrzymales wiadomosc.
 36
 5
 4
 11
 2
-Syntax: @eject[!] <object> [from <place>]
+Skladnia: @eject[!] <obiekt> [z <miejsce>]
 2
 
 2
-This command is used to remove unwanted objects from places you own.  Players thus removed are unceremoniously dumped in their homes (unless that's this room, in which case they are dumped in the default player starting place).  Other kinds of objects are checked for a .home property and sent there if possible, otherwise they get thrown into #-1.  Unlike @move, @eject does *not* check to see if the object wants to be moved, and with the destination being what it is, there is no question of the destination refusing the move, either.  Generally, you should only resort to @eject if @move doesn't work.
+To polecenie sluzy do usuwania niechcianych obiektow z miejsc, ktore posiadasz.  Gracze usunieci w ten sposob sa bez ceremonii zrzucani do swoich domow (chyba ze to jest ten pokoj, w takim przypadku sa zrzucani do domyslnego miejsca startowego graczy).  Inne rodzaje obiektow sa sprawdzane pod katem wlasciwosci .home i wysylane tam, jesli to mozliwe, w przeciwnym razie sa wyrzucane do #-1.  W przeciwienstwie do @move, @eject *nie* sprawdza, czy obiekt chce byc przeniesiony, a poniewaz cel jest jaki jest, nie ma tez mowy o odmowie przeniesienia przez cel.  Ogolnie, powinienes uzywac @eject tylko wtedy, gdy @move nie dziala.
 2
 
 2
-`@eject <object>' removes <object> from the current room, whereas `@eject <object> from <place>' removes the object from the specified location (in most cases, <place> will need to be specified as an object number).  In either case, this command only works if you own the room/entity from which the object is being ejected.
+`@eject <obiekt>' usuwa <obiekt> z biezacego pokoju, natomiast `@eject <obiekt> z <miejsce>' usuwa obiekt ze wskazanej lokalizacji (w wiekszosci przypadkow <miejsce> trzeba bedzie podac jako numer obiektu).  W obu przypadkach to polecenie dziala tylko, jesli posiadasz pokoj/byt, z ktorego obiekt jest usuwany.
 2
 
 2
-`@eject ... from me' suffices to get rid of some unwanted object in your inventory.
+`@eject ... z mnie' wystarczy, by pozbyc sie niechcianego obiektu z twojego ekwipunku.
 2
 
 2
-The verbs @eject! and @eject!! are provided for those rare situations in which @eject does not work.  @eject! does not check for .home properties, sending the offending object to #-1 immediately, but with a notification.  @eject!! is just like @eject! but provides no notification to the object.
+Czasowniki @eject! i @eject!! sa dostarczone dla tych rzadkich sytuacji, w ktorych @eject nie dziala.  @eject! nie sprawdza wlasciwosci .home, wysylajac ten obiekt bezposrednio do #-1, ale z powiadomieniem.  @eject!! dziala tak samo jak @eject!, ale nie wysyla powiadomienia do obiektu.
 2
 
 2
-See 'help room-messages' for a list of messages one can set regarding the @eject command.
+Zobacz 'help room-messages' po liste wiadomosci, ktore mozna ustawic dla polecenia @eject.
 36
 5
 4
 3
 2
-Syntax:  @quit
+Skladnia:  @quit
 2
 
 2
-Disconnect from the MOO.  This breaks your network connection and leaves your player sleeping.  Disconnecting in most parts of the MOO automatically returns your player to its designated home (see 'help home').
+Rozlacza cie z MOO.  Zrywa twoje polaczenie sieciowe i pozostawia twojego gracza spiacego.  Rozlaczenie sie w wiekszosci miejsc w MOO automatycznie przenosi twojego gracza do wyznaczonego domu (zobacz 'help home').
 36
 1
 4
 4
 2
-Syntax:  whereis [<player> [<player>...]]
+Skladnia:  whereis [<gracz> [<gracz>...]]
 2
-        @whereis [<player> [<player>...]]
+           @whereis [<gracz> [<gracz>...]]
 2
 
 2
-Returns the current location of each of the specified players, or of all players if not arguments given.
+Zwraca biezaca lokalizacje kazdego z podanych graczy, lub wszystkich graczy, jesli nie podano argumentow.
 36
 5
 4
@@ -30232,75 +30252,75 @@ Returns the current location of each of the specified players, or of all players
 4
 12
 2
-Syntax:  @typo    [<text>]
+Skladnia:  @typo    [<tekst>]
 2
-         @bug     [<text>]
+           @bug     [<tekst>]
 2
-         @suggest [<text>]
+           @suggest [<tekst>]
 2
-         @idea    [<text>]
+           @idea    [<tekst>]
 2
-         @comment [<text>]
-2
-
-2
-If <text> is given, a one-line message is sent to the owner of the room, presumably about something that you've noticed.  If <text> is not given, we assume you have more to say than can fit comfortably on a single line; the usual mail editor is invoked.  The convention is that @typo is for typographical errors on the room or objects found therein, @bug is for anomalous or nonintuitive behaviour of some sort, @idea/@suggest for any particular brainstorms or criticisms you might happen to have, and @comment for anything else.
+           @comment [<tekst>]
 2
 
 2
-If you're sending a bug report to someone because you got an error traceback when you used some object of theirs, please give them enough information to work on the problem.  In particular, please tell them *exactly* what you typed and *all* of the error messages that were printed to you, including the entire traceback, up to the line `(End of traceback.)'.  Without this information, it is nearly impossible for the programmer to discover, let alone fix, the problem.
+Jesli podano <tekst>, jednoliniowa wiadomosc jest wysylana do wlasciciela pokoju, prawdopodobnie o czyms, co zauwazyles.  Jesli <tekst> nie podano, zakladamy, ze masz do powiedzenia wiecej, niz zmiesci sie wygodnie w jednej linii; wywolywany jest zwykly edytor poczty.  Konwencja jest taka, ze @typo sluzy do zglaszania bledow typograficznych w pokoju lub obiektach w nim znajdujacych sie, @bug do zglaszania anomalnego lub nieintuicyjnego zachowania, @idea/@suggest do wszelkich pomyslow lub uwag krytycznych, jakie moglibys miec, a @comment do wszystkiego innego.
 2
 
 2
-The usual mail editor is only invoked for this command when in rooms that allow free entry, i.e., rooms that are likely to allow you back after you are done editing your message.  Otherwise these commands will require <text> and only let you do one-line messages.  
+Jesli wysylasz komus zgloszenie bledu, poniewaz otrzymales traceback bledu podczas uzywania jego obiektu, prosze podaj mu wystarczajaco informacji, by mogl pracowac nad problemem.  W szczegolnosci powiedz mu *dokladnie*, co wpisales, i *wszystkie* komunikaty bledow, ktore ci wypisano, wraz z calym tracebackiem, az do linii `(End of traceback.)'.  Bez tej informacji jest niemal niemozliwe, by programista odkryl, a tym bardziej naprawil, problem.
 2
-Most adventuring scenario rooms fall into this latter category.
+
+2
+Zwykly edytor poczty jest wywolywany dla tego polecenia tylko w pokojach zezwalajacych na swobodne wejscie, tj. pokojach, ktore prawdopodobnie pozwola ci wrocic po zakonczeniu edycji wiadomosci.  W przeciwnym razie te polecenia beda wymagac <tekst> i pozwola jedynie na jednoliniowe wiadomosci.  
+2
+Wiekszosc pokoi ze scenariuszami przygodowymi nalezy do tej drugiej kategorii.
 36
 5
 4
 8
 2
-Syntax:  @notedit <note-object>
+Skladnia:  @notedit <obiekt-notatka>
 2
-         @notedit <object>.<property>
-2
-
-2
-Enters the MOO Note Editor to edit the text on the named object
-2
-For the first form, <note-object> must be a descendant of $note.  
-2
-For the second form, <object>.<property> can be any string-valued or text-valued (i.e., list of strings) property on any object.
+           @notedit <obiekt>.<wlasciwosc>
 2
 
 2
-See 'help editors' for more detail.
+Wchodzi do Edytora Notatek MOO, by edytowac tekst na wskazanym obiekcie
+2
+Dla pierwszej formy, <obiekt-notatka> musi byc potomkiem $note.  
+2
+Dla drugiej formy, <obiekt>.<wlasciwosc> moze byc dowolna wlasciwoscia typu string lub typu tekstowego (tj. lista stringow) na dowolnym obiekcie.
+2
+
+2
+Zobacz 'help editors' po wiecej szczegolow.
 36
 5
 4
 40
 2
-One can always enter an editor by teleporting to it, or you can use one of the commands provided
+Zawsze mozna wejsc do edytora poprzez teleportacje do niego, albo mozna uzyc jednego z dostarczonych polecen
 2
 
 2
-    @edit     <object>:<verb>    invokes the Verb Editor (edits verb code)
+    @edit     <obiekt>:<czasownik>    wywoluje Edytor Czasownikow (edytuje kod czasownika)
 2
-    @notedit  <note_object>      invokes the Note Editor (edits note text)
+    @notedit  <obiekt-notatka>        wywoluje Edytor Notatek (edytuje tekst notatki)
 2
-    @notedit  <object>.<prop>    invokes the Note Editor (edits text property)
+    @notedit  <obiekt>.<wlasciwosc>   wywoluje Edytor Notatek (edytuje wlasciwosc tekstowa)
 2
-    @send     <list of recipients>        invokes the Mailer (edits a mail msg)
+    @send     <lista odbiorcow>              wywoluje Edytor Poczty (edytuje wiadomosc mailowa)
 2
-    @answer   [<msg_number>] [<flags>...] invokes the Mailer (edits a reply)
-2
-
-2
-This will transport you to one of several special rooms that have editing commands available.  These editors are admittedly not as good as EMACS, but for those with no other editing capability on their host systems, they are better than nothing.
+    @answer   [<numer-wiadomosci>] [<flagi>...] wywoluje Edytor Poczty (edytuje odpowiedz)
 2
 
 2
-There is a generic editor that provides basic editing commands that are applicable to all editors.  Documentation for these commands can be obtained by typing `help <topic>' within the editor:
+To przeniesie cie do jednego z kilku specjalnych pokoi z dostepnymi poleceniami edycji.  Te edytory, przyznajemy, nie sa tak dobre jak EMACS, ale dla tych bez innych mozliwosci edycji na swoich systemach, sa lepsze niz nic.
+2
+
+2
+Istnieje ogolny edytor, ktory dostarcza podstawowe polecenia edycji stosowane we wszystkich edytorach.  Dokumentacje tych polecen mozna uzyskac wpisujac `help <temat>' wewnatrz edytora:
 2
 
 2
@@ -30320,55 +30340,55 @@ There is a generic editor that provides basic editing commands that are applicab
 2
 
 2
-In addition, individual editors provide their own additional commands for loading text from places, saving text to places, and various other specialized functions which are denoted in the above list with (M),(N),(V) according as they apply to the mail editor, the note editor, or the verb editor, respectively.
+Ponadto poszczegolne edytory dostarczaja wlasne dodatkowe polecenia do wczytywania tekstu z roznych miejsc, zapisywania tekstu w roznych miejscach i innych wyspecjalizowanych funkcji, oznaczonych powyzej jako (M),(N),(V) w zaleznosci od tego, czy dotycza edytora poczty, edytora notatek, czy edytora czasownikow.
 2
 
 2
-Note that a given editor only allows you one session at a time (ie. one verb, one note, or one mail message).  If you leave an editor without either aborting or compiling/saving/sending the item you're working on, that editor remembers what you are doing next time you enter it, whether you enter it by teleporting or by using the appropriate command.  Note that editors are periodically flushed so anything left there for sufficiently long will eventually go away.
+Zauwaz, ze dany edytor pozwala na tylko jedna sesje naraz (tj. jeden czasownik, jedna notatke lub jedna wiadomosc mailowa).  Jesli opuscisz edytor bez przerwania (abort) lub skompilowania/zapisania/wyslania elementu, nad ktorym pracowales, ten edytor zapamieta, co robiles, przy nastepnym wejsciu, niezaleznie od tego, czy wejdziesz przez teleportacje, czy przez odpowiednie polecenie.  Zauwaz, ze edytory sa okresowo czyszczone, wiec cokolwiek zostawione tam wystarczajaco dlugo, w koncu zniknie.
 2
 
 2
-A player may have his own .edit_options property which is a list containing one or more (string) flags from the following list
+Gracz moze miec wlasna wlasciwosc .edit_options, ktora jest lista zawierajaca jedna lub wiecej (tekstowych) flag z ponizszej listy
 2
 
 2
   quiet_insert
 2
-      suppresses those annoying "Line n added." or "Appended..." messages
+      wylacza te irytujace komunikaty "Line n added." lub "Appended...",
 2
-      that one gets in response to 'say' or 'emote'.  This is useful if you're
+      ktore pojawiaja sie w odpowiedzi na 'say' lub 'emote'.  Jest to przydatne,
 2
-      entering a long list of lines, perhaps via some macro on your client,
+      jesli wprowadzasz dlugi ciag linii, np. poprzez jakis makro na twoim
 2
-      and you don't want to see an equally long list of "Line n added..."
+      kliencie, i nie chcesz widziec rownie dlugiej listy komunikatow
 2
-      messages.  What you do want, however is some indication that this all
+      "Line n added...".  Chcesz jednak jakiegos wskazania, ze wszystko
 2
-      got through, which is why the "." command is an abbreviation for insert.
+      przeszlo, dlatego polecenie "." jest skrotem dla insert.
 2
 
 2
   eval_subs
 2
-      Enables the verb editor to process your eval_subs property when
+      Wlacza edytorowi czasownikow przetwarzanie twojej wlasciwosci eval_subs
 2
-      compiling your verb.  See `help eval' for more information about
+      podczas kompilowania twojego czasownika.  Zobacz `help eval' po wiecej
 2
-      the eval_subs property.
+      informacji o wlasciwosci eval_subs.
 2
 
 2
-There will be more options, some day.
+Kiedys bedzie wiecej opcji.
 36
 5
 4
 3
 2
-Syntax:  @memory
+Skladnia:  @memory
 2
 
 2
-Prints out all information available on the current memory-usage behavior of the MOO server.  Probably only a wizard, if anyone, cares about this.
+Wypisuje wszystkie dostepne informacje o biezacym zachowaniu zuzycia pamieci serwera MOO.  Prawdopodobnie tylko wizarda, jesli kogokolwiek, to interesuje.
 36
 1
 4
@@ -30390,39 +30410,39 @@ emote
 4
 6
 2
-Syntax:  @lastlog
+Skladnia:  @lastlog
 2
-         @lastlog <player>
-2
-
-2
-The first form prints out a list of all players, roughly sorted by how long it's been since that player last connected to the MOO.  For each player, the precise time of their last connection is printed.
+           @lastlog <gracz>
 2
 
 2
-The second form only shows the last-connection time for the named player.
+Pierwsza forma wypisuje liste wszystkich graczy, w przyblizeniu posortowana wedlug tego, jak dawno dany gracz ostatnio laczyl sie z MOO.  Dla kazdego gracza wypisywany jest dokladny czas jego ostatniego polaczenia.
+2
+
+2
+Druga forma pokazuje tylko czas ostatniego polaczenia dla wskazanego gracza.
 36
 1
 4
 3
 2
-Syntax:  @version
+Skladnia:  @version
 2
 
 2
-Prints out the version number for the currently-executing MOO server.
+Wypisuje numer wersji aktualnie dzialajacego serwera MOO.
 36
 1
 4
 4
 2
-Here are a few commands of occasional utility that didn't fit into any of the neat categories for the rest of the help system:
+Oto kilka polecen o sporadycznej przydatnosci, ktore nie pasowaly do zadnej z zgrabnych kategorii reszty systemu pomocy:
 2
 
 2
-@version -- printing the MOO server version number
+@version -- wypisywanie numeru wersji serwera MOO
 2
-@lastlog -- finding out when some player last connected to the MOO
+@lastlog -- sprawdzanie, kiedy dany gracz ostatnio laczyl sie z MOO
 36
 1
 4
@@ -30452,7 +30472,7 @@ help
 4
 5
 2
-Syntax:  put <obiekt> w <kontener>
+Skladnia:  put <obiekt> w <kontener>
 2
          insert <obiekt> w <kontener>
 2
@@ -30474,73 +30494,73 @@ take
 4
 3
 2
-Syntax:  burn <letter>
+Skladnia:  burn <list>
 2
 
 2
-Destroy the named letter irretrievably.  Only players who can read the letter can do this.
+Bezpowrotnie niszczy wskazany list.  Moga to zrobic tylko gracze, ktorzy moga przeczytac list.
 36
 1
 4
 1
 2
-A letter is a special kind of note (see 'help notes') with the added feature that it can be recycled by anyone who can read it.  This is often useful for notes from one player to another.  You create the letter as a child of the generic letter, $letter (see 'help @create' and 'help write'), encrypt it so that only you and the other player can read it (see 'help encrypt') and then either give it to the player in question or leave it where they will find it.  Once they've read it, they can use the 'burn' command to recycle the letter; see 'help burn' for details.
+List to specjalny rodzaj notatki (zobacz 'help notes') z dodatkowa cecha, ze moze zostac zutylizowany przez kazdego, kto moze go przeczytac.  Jest to czesto przydatne dla notatek od jednego gracza do drugiego.  Tworzysz list jako dziecko ogolnego listu, $letter (zobacz 'help @create' i 'help write'), szyfrujesz go, by tylko ty i drugi gracz mogli go przeczytac (zobacz 'help encrypt'), a nastepnie dajesz go danemu graczowi lub zostawiasz tam, gdzie go znajdzie.  Gdy go przeczyta, moze uzyc polecenia 'burn', by zutylizowac list; zobacz 'help burn' po szczegoly.
 36
 1
 4
 3
 2
-Syntax:  decrypt <note>
+Skladnia:  decrypt <notatka>
 2
 
 2
-Removes any restriction on who may read the named note or letter.  Only the owner of a note may do this.
+Usuwa wszelkie ograniczenia dotyczace tego, kto moze przeczytac wskazana notatke lub list.  Moze to zrobic tylko wlasciciel notatki.
 36
 1
 4
 3
 2
-Syntax:  encrypt <note> with <key-expression>
+Skladnia:  encrypt <notatka> uzywajac <wyrazenie-kluczowe>
 2
 
 2
-Restricts the set of players who can read the named note or letter to those for whom the given key expression is true.  See 'help keys' for information on the syntax and semantics of key expressions.  Only the owner of a note may do this.
+Ogranicza zbior graczy, ktorzy moga przeczytac wskazana notatke lub list, do tych, dla ktorych podane wyrazenie kluczowe jest prawdziwe.  Zobacz 'help keys' po informacje o skladni i semantyce wyrazen kluczowych.  Moze to zrobic tylko wlasciciel notatki.
 36
 1
 4
 3
 2
-Syntax:  delete <line-number> from <note>
+Skladnia:  delete <numer-linii> z <notatka>
 2
 
 2
-Removes a single line of text from a note.  The first line of text is numbered 1, the second is 2, and so on.  Only the owner of a note may do this.
+Usuwa pojedyncza linie tekstu z notatki.  Pierwsza linia tekstu ma numer 1, druga 2, i tak dalej.  Moze to zrobic tylko wlasciciel notatki.
 36
 1
 4
 3
 2
-Syntax:  erase <note>
+Skladnia:  erase <notatka>
 2
 
 2
-Deletes all of the text written on a note or letter.  Only the owner of a note may do this.
+Usuwa caly tekst zapisany na notatce lub liscie.  Moze to zrobic tylko wlasciciel notatki.
 36
 1
 4
 3
 2
-Syntax:  write "<any text>" on <note>
+Skladnia:  write "<dowolny tekst>" na <notatka>
 2
 
 2
-Adds a line of text to the named note or letter.  Only the owner of a note may do this.
+Dodaje linie tekstu do wskazanej notatki lub listu.  Moze to zrobic tylko wlasciciel notatki.
 36
 1
 4
 4
 2
-Syntax:  read <notatka>
+Skladnia:  read <notatka>
 2
          czytaj <notatka>
 2
@@ -30552,7 +30572,7 @@ Wypisuje tekst zapisany na wskazanym obiekcie, zazwyczaj notatce lub liscie. Nie
 4
 11
 2
-Syntax:  examine <obiekt>
+Skladnia:  examine <obiekt>
 2
          exam <obiekt>
 2
@@ -30594,7 +30614,7 @@ drop
 4
 11
 2
-Syntax:  take <obiekt>
+Skladnia:  take <obiekt>
 2
          get <obiekt>
 2
@@ -30620,11 +30640,11 @@ Pozostale formy przenosza wskazany obiekt z wnetrza wskazanego kontenera (patrz 
 4
 3
 2
-Syntax:  @messages <object>
+Skladnia:  @messages <obiekt>
 2
 
 2
-List all of the messages that can be set on the named object and their current values.  See 'help messages' for more details.
+Wypisuje wszystkie komunikaty, ktore mozna ustawic na wskazanym obiekcie, wraz z ich biezacymi wartosciami.  Zobacz 'help messages' po wiecej szczegolow.
 36
 1
 4
@@ -30810,55 +30830,55 @@ thing-messages -- komunikaty na obiektach, ktore mozna wziac i upuscic
 4
 5
 2
-Most objects have one or more descriptive pieces of text associated with them; these texts are printed under various circumstances depending on the kind of text.  For example, every object has a 'description' text that is printed whenever a player looks at the object.  The following help topics discuss the commands for manipulating these descriptive texts on your objects:
+Wiekszosc obiektow ma jeden lub wiecej fragmentow tekstu opisowego z nimi zwiazanych; te teksty sa wypisywane w roznych okolicznosciach, w zaleznosci od rodzaju tekstu.  Na przyklad, kazdy obiekt ma tekst 'description', ktory jest wypisywany za kazdym razem, gdy gracz patrzy na obiekt.  Nastepujace tematy pomocy omawiaja polecenia do manipulowania tymi tekstami opisowymi na twoich obiektach:
 2
 
 2
-@rename -- setting the name and aliases of your objects
+@rename -- ustawianie nazwy i aliasow twoich obiektow
 2
-@describe -- setting what others see when they look at your objects
+@describe -- ustawianie tego, co inni widza, gdy patrza na twoje obiekty
 2
-messages -- listing and setting the other descriptive texts on an object
+messages -- wypisywanie i ustawianie innych tekstow opisowych na obiekcie
 36
 1
 4
 13
 2
-Syntax:  @describe <object> as <description>
+Skladnia:  @describe <obiekt> jako <opis>
 2
 
 2
-Sets the description string of <object> to <description>.  This is the string that is printed out whenever someone uses the 'look' command on <object>.  To describe yourself, use 'me' as the <object>.
+Ustawia string opisu <obiekt> na <opis>.  Jest to string wypisywany za kazdym razem, gdy ktos uzywa polecenia 'look' na <obiekt>.  By opisac siebie, uzyj 'me' jako <obiekt>.
 2
 
 2
-Example:
+Przyklad:
 2
-Munchkin types this:
+Munchkin wpisuje to:
 2
-  @describe me as "A very fine fellow, if a bit on the short side."
+  @describe me jako "Bardzo porzadny facet, choc troche niskiego wzrostu."
 2
-People who type 'look Munchkin' now see this:
+Ludzie, ktorzy wpisza 'look Munchkin', teraz zobacza to:
 2
-  A very fine fellow, if a bit on the short side.
+  Bardzo porzadny facet, choc troche niskiego wzrostu.
 2
 
 2
-Note for programmers:
+Notatka dla programistow:
 2
-The description of an object is kept in its .description property.  
+Opis obiektu jest przechowywany w jego wlasciwosci .description.  
 2
-For descriptions of more than one paragraph, .description can be a list of strings.
+Dla opisow dluzszych niz jeden akapit, .description moze byc lista stringow.
 36
 1
 4
 45
 2
-This is yduJ's table of tinymud commands and their equivalents in LambdaMOO.  A longer document, with discussions of the different verbs and how they have changed, is available via FTP from ftp.lambda.moo.mud.org as pub/MOO/contrib/docs/TinyMUD-LambdaMOO-equivs.  All the commands mentioned here have help nodes on LambdaMOO.
+To jest tabela polecen tinymud i ich odpowiednikow w LambdaMOO autorstwa yduJ.  Dluzszy dokument, z omowieniem roznych czasownikow i tego, jak sie zmienily, jest dostepny przez FTP z ftp.lambda.moo.mud.org jako pub/MOO/contrib/docs/TinyMUD-LambdaMOO-equivs.  Wszystkie wymienione tu polecenia maja wezly pomocy w LambdaMOO.
 2
 
 2
-The following commands are basically the same in MOO and MUD.
+Nastepujace polecenia sa zasadniczo takie same w MOO i MUD.
 2
 
 2
@@ -30868,7 +30888,7 @@ The following commands are basically the same in MOO and MUD.
 2
 
 2
-The following commands have no equivalent:
+Nastepujace polecenia nie maja odpowiednika:
 2
 
 2
@@ -30878,7 +30898,7 @@ The following commands have no equivalent:
 2
 
 2
-The following commands have the same names and do similar things, but are changed in some way (both syntactic and semantic differences, sometimes quite substantial differences):
+Nastepujace polecenia maja te same nazwy i robia podobne rzeczy, ale sa zmienione w jakis sposob (zarowno roznice skladniowe, jak i semantyczne, czasem dosc znaczace):
 2
 
 2
@@ -30890,11 +30910,11 @@ The following commands have the same names and do similar things, but are change
 2
 
 2
-The following commands have rough equivalents in LambdaMOO but the name is different:
+Nastepujace polecenia maja przyblizone odpowiedniki w LambdaMOO, ale pod inna nazwa:
 2
 
 2
-    TinyMUD name            LambdaMOO name
+    Nazwa w TinyMUD          Nazwa w LambdaMOO
 2
     ------------            --------------
 2
@@ -30932,7 +30952,7 @@ The following commands have rough equivalents in LambdaMOO but the name is diffe
 2
 
 2
-Here are some commands for which no equivalent exists, or for which the equivalent is a complicated set of actions.
+Oto kilka polecen, dla ktorych nie ma odpowiednika, albo dla ktorych odpowiednikiem jest skomplikowany zestaw dzialan.
 2
 
 2
@@ -30942,151 +30962,151 @@ Here are some commands for which no equivalent exists, or for which the equivale
 2
 
 2
-Documentation on most of the LambdaMOO commands mentioned above can be acquired using 'help <command-name>'.  A notable exception is the commands like @oarrive and @take_failed that set textual messages on objects.  These are described under 'help messages'.
+Dokumentacje wiekszosci wymienionych powyzej polecen LambdaMOO mozna uzyskac poleceniem 'help <nazwa-polecenia>'.  Godnym uwagi wyjatkiem sa polecenia takie jak @oarrive i @take_failed, ktore ustawiaja teksty komunikatow na obiektach.  Sa one opisane pod 'help messages'.
 36
 1
 4
 13
 2
-Syntax:  @gripe <anything> ...
+Skladnia:  @gripe <cokolwiek> ...
 2
 
 2
-Puts you into the MOO mail system to register a complaint (or, conceivably, a compliment) with the wizards.  The rest of the command line (the <anything> ... part) is used as the subject line for the message.  More information on using the MOO mail system is given once you're in it.
+Przenosi cie do systemu poczty MOO, by zglosic skarge (lub, byc moze, pochwale) wizardom.  Reszta linii polecenia (czesc <cokolwiek> ...) jest uzywana jako temat wiadomosci.  Wiecej informacji o uzywaniu systemu poczty MOO otrzymasz, gdy juz w nim bedziesz.
 2
 
 2
-You may hear back from the wizards eventually; see 'help @mail' for how to read their reply.
+Byc moze uslyszysz odpowiedz od wizardow; zobacz 'help @mail', jak przeczytac ich odpowiedz.
 2
 
 2
-Example:
+Przyklad:
 2
-Munchkin types:
+Munchkin wpisuje:
 2
-  @gripe The little bird
+  @gripe Maly ptaszek
 2
-  "How come I can't ever see the little bird in the cuckoo clock?
+  "Jak to mozliwe, ze nigdy nie widze malego ptaszka w zegarze z kukulka?
 2
-  "        -- A frustrated player
+  "        -- Sfrustrowany gracz
 2
   send
 2
-and, somewhat later, the wizards reply with a note about being sure to look while the clock is chiming.
+a nieco pozniej wizardzi odpowiadaja notatka o tym, by koniecznie patrzec, gdy zegar bije.
 36
 5
 4
 4
 2
-Syntax:  @listgag [all]
+Skladnia:  @listgag [all]
 2
-         @gaglist [all]
+           @gaglist [all]
 2
 
 2
-Shows you a list of the players and objects currently on your 'gag list'.  You don't see any messages that result from actions initiated by the players or objects on this list.  In particular, you will not hear them if they try to speak, emote, or whisper to you.  See 'help gagging' for an explanation of gagging in general.  With the optional "all" parameter it will also scan the database for players who are gagging you.  This may induce lag, so caution is advised with this option.
+Pokazuje liste graczy i obiektow obecnie na twojej 'liscie wyciszonych'.  Nie widzisz zadnych wiadomosci wynikajacych z dzialan zainicjowanych przez graczy lub obiekty z tej listy.  W szczegolnosci nie uslyszysz ich, jesli beda probowac mowic, wykonywac emote lub szeptac do ciebie.  Zobacz 'help gagging' po wyjasnienie wyciszania ogolnie.  Z opcjonalnym parametrem "all" przeszuka takze baze danych w poszukiwaniu graczy, ktorzy wyciszaja ciebie.  Moze to spowodowac lag, wiec zalecana jest ostroznosc z ta opcja.
 36
 1
 4
 9
 2
-Syntax:  @ungag <player or object>
+Skladnia:  @ungag <gracz lub obiekt>
 2
-         @ungag everyone
-2
-
-2
-Remove the given player or object (or, in the second form, everyone) from your 'gag list'.  You will once again see any messages that result from actions initiated by the ungagged player(s) or objects.  In particular, you will once again be able to hear them if they speak, emote, or whisper to you.  See 'help gagging' for an explanation of gagging in general.
+           @ungag everyone
 2
 
 2
-Example:
+Usuwa podanego gracza lub obiekt (lub, w drugiej formie, wszystkich) z twojej 'listy wyciszonych'.  Ponownie zobaczysz wszelkie wiadomosci wynikajace z dzialan zainicjowanych przez odciszonego gracza/graczy lub obiekty.  W szczegolnosci ponownie bedziesz mogl ich uslyszec, jesli beda mowic, wykonywac emote lub szeptac do ciebie.  Zobacz 'help gagging' po wyjasnienie wyciszania ogolnie.
 2
-Munchkin types:
+
+2
+Przyklad:
+2
+Munchkin wpisuje:
 2
   @ungag Grover
 2
-and is once again able to hear Grover's witty remarks.  Sigh...
+i ponownie moze slyszec dowcipne uwagi Grovera.  Ech...
 36
 1
 4
 12
 2
-Syntax:  @gag <player or object> [<player or object>...]
+Skladnia:  @gag <gracz lub obiekt> [<gracz lub obiekt>...]
 2
 
 2
-Add the given players to your 'gag list'.  You will no longer see any messages that result from actions initiated by these players.  In particular, you will not hear them if they try to speak, emote, or whisper to you.  See 'help gagging' for an explanation of gagging in general.
+Dodaje podanych graczy do twojej 'listy wyciszonych'.  Nie bedziesz juz widziec zadnych wiadomosci wynikajacych z dzialan zainicjowanych przez tych graczy.  W szczegolnosci nie uslyszysz ich, jesli beda probowac mowic, wykonywac emote lub szeptac do ciebie.  Zobacz 'help gagging' po wyjasnienie wyciszania ogolnie.
 2
 
 2
-Example:
+Przyklad:
 2
-Munchkin types:
+Munchkin wpisuje:
 2
   @gag Grover
 2
-and no longer hears anything that Grover says.  What a relief!
+i juz nie slyszy niczego, co mowi Grover.  Co za ulga!
 2
 
 2
-If you specify an object, then any text originating from that object will not be printed.  Example:  Noisy Robot prints "Hi there" every 15 seconds.   In order to avoid seeing that, Munchkin types:
+Jesli wskazesz obiekt, to zaden tekst pochodzacy od tego obiektu nie bedzie wypisywany.  Przyklad:  Halasliwy Robot wypisuje "Czesc" co 15 sekund.   Aby uniknac widzenia tego, Munchkin wpisuje:
 2
-  @gag Noisy
+  @gag Halasliwy
 2
-and no longer hears that robot!  (Munchkin must be in the same room as Noisy Robot for this to work, or know its object number.)
+i juz nie slyszy tego robota!  (Munchkin musi byc w tym samym pokoju co Halasliwy Robot, aby to zadzialalo, albo znac jego numer obiektu.)
 36
 1
 4
 8
 2
-Syntax: go <direction> ...
+Skladnia: go <kierunek> ...
 2
 
 2
-Invokes the named exits in the named order, moving through many rooms in a single command.
+Wywoluje wskazane wyjscia w podanej kolejnosci, przemieszczajac sie przez wiele pokoi w jednym poleceniu.
 2
 
 2
-Example:
+Przyklad:
 2
-Munchkin types:
+Munchkin wpisuje:
 2
   go n e e u e e s e
 2
-and moves quite rapidly from the Living Room all the way to the Bovine Illuminati Atrium, all in one command.
+i przemieszcza sie dosc szybko z Salonu az do Atrium Bydlecej Iluminacji, wszystko w jednym poleceniu.
 36
 1
 4
 9
 2
-Syntax: @password <old-password> <new-password>
+Skladnia: @password <stare-haslo> <nowe-haslo>
 2
 
 2
-Changes your player's password (as typed in the 'connect' command when you log in to the MOO) to <new-password>.  For security reasons, you are required to type your current (soon to be old) password as the first argument.
+Zmienia haslo twojego gracza (takie, jakie wpisujesz w poleceniu 'connect' przy logowaniu do MOO) na <nowe-haslo>.  Ze wzgledow bezpieczenstwa musisz wpisac swoje obecne (wkrotce stare) haslo jako pierwszy argument.
 2
 
 2
-Your password is stored in an encrypted form in the MOO database; in principle, not even the wizards can tell what it is, though they can change it, of course.  It is recommended that your password not be your name or a common word; MOO passwords have been stolen or cracked in the past and characters have been made unhappy by such theft.  Your password is your security; choose a safe one.
+Twoje haslo jest przechowywane w zaszyfrowanej formie w bazie danych MOO; w zasadzie nawet wizardzi nie moga poznac, jakie ono jest, choc oczywiscie moga je zmienic.  Zaleca sie, by twoje haslo nie bylo twoim imieniem ani powszechnym slowem; hasla MOO byly w przeszlosci kradzione lub lamane, a postacie stawaly sie nieszczesliwe przez taka kradziez.  Twoje haslo to twoje bezpieczenstwo; wybierz bezpieczne.
 2
 
 2
-If your character does get stolen, a wizard can change it for you and tell you the new password in secret.  You may have to provide your email address for verification.
+Jesli twoja postac zostanie skradziona, wizard moze zmienic je za ciebie i przekazac ci nowe haslo w tajemnicy.  Moze byc konieczne podanie adresu email do weryfikacji.
 2
 
 2
-Only the first 8 characters of a password are significant.
+Znaczenie ma tylko pierwszych 8 znakow hasla.
 36
 1
 4
 3
 2
-Syntax: @sethome
+Skladnia: @sethome
 2
 
 2
-Sets your designated home (see `help home') to be the room you're in now.  If the current room wouldn't allow you to teleport in, then the `@sethome' command nicely refuses to set your home there.  This avoids later, perhaps unpleasant, surprises.  Additionally, your home must be a room that will allow you to stay there.  Rooms which you own will do this, as will rooms to which you have been added as a resident.  See the @resident command for help on adding someone as a resident to a room you own.
+Ustawia twoj wyznaczony dom (zobacz `help home') na pokoj, w ktorym obecnie jestes.  Jesli biezacy pokoj nie pozwolilby ci sie teleportowac do niego, polecenie `@sethome' grzecznie odmawia ustawienia tam twojego domu.  To zapobiega pozniejszym, byc moze nieprzyjemnym, niespodziankom.  Dodatkowo, twoj dom musi byc pokojem, ktory pozwoli ci w nim pozostac.  Pokoje, ktore posiadasz, na to pozwola, podobnie jak pokoje, do ktorych zostales dodany jako rezydent.  Zobacz polecenie @resident po pomoc w dodawaniu kogos jako rezydenta do posiadanego przez ciebie pokoju.
 36
 1
 4
@@ -31094,69 +31114,69 @@ Sets your designated home (see `help home') to be the room you're in now.  If th
 2
 *subst*
 2
-Syntax: @who
+Skladnia: @who
 2
-        @who <player> [<player> ... ]
-2
-
-2
-The first form lists all of the currently-connected players, along with the amount of time they've been connected, the amount of time they've been idle, and their present location in the MOO.
+          @who <gracz> [<gracz> ... ]
 2
 
 2
-The second form, in which a list of player names is given, shows information for just those players.  For any listed players that are not connected, we show the last login time instead of the connect/idle times.
+Pierwsza forma wypisuje wszystkich obecnie polaczonych graczy, wraz z czasem, przez jaki sa polaczeni, czasem bezczynnosci oraz ich obecna lokalizacja w MOO.
 2
 
 2
-@who refers to the @who_location message (see 'help messages') on each player's location in order to determine what should be printed in the location column.  Pronoun substitutions are done on this string in the usual manner (see 'help pronouns').  The default value is "%[$room.who_location_msg]" (i.e., the room name).
+Druga forma, w ktorej podano liste nazw graczy, pokazuje informacje tylko dla tych graczy.  Dla kazdego wymienionego gracza, ktory nie jest polaczony, pokazujemy czas ostatniego logowania zamiast czasow polaczenia/bezczynnosci.
 2
 
 2
-If the list of players to display is longer than 100, this command will not show its normal output, since it can be quite expensive to compute.  In such cases, you might want to use the @users command instead; see `help @users' for more information.
+@who odwoluje sie do wiadomosci @who_location (zobacz 'help messages') na lokalizacji kazdego gracza, by ustalic, co powinno zostac wypisane w kolumnie lokalizacji.  Podstawienia zaimkow sa wykonywane na tym stringu w zwykly sposob (zobacz 'help pronouns').  Wartosc domyslna to "%[$room.who_location_msg]" (tzn. nazwa pokoju).
+2
+
+2
+Jesli lista graczy do wyswietlenia jest dluzsza niz 100, to polecenie nie pokaze normalnego wyjscia, poniewaz obliczenie tego moze byc dosc kosztowne.  W takich przypadkach, mozesz zamiast tego uzyc polecenia @users; zobacz `help @users' po wiecej informacji.
 36
 1
 4
 17
 2
-LambdaMOO is a kind of virtual reality, in which players move about from place to place manipulating their environment in what we hope are amusing, entertaining, or enlightening ways.
+LambdaMOO to rodzaj wirtualnej rzeczywistosci, w ktorej gracze poruszaja sie z miejsca na miejsce, manipulujac swoim otoczeniem w sposob, ktory mamy nadzieje jest zabawny, wciagajacy lub pouczajacy.
 2
 
 2
-LambdaMOO is more of a pastime than a game in the usual sense; there is no `score' kept, there are no specific goals to attain in general, and there's no competition involved.  LambdaMOO participants explore the virtual world, talk to the other participants, try out the weird gadgets that others have built, and create new places and things for others to encounter and enjoy.
+LambdaMOO jest bardziej rozrywka niz gra w zwyklym sensie; nie prowadzi sie tu 'wyniku', nie ma ogolnie konkretnych celow do osiagniecia i nie ma zadnej rywalizacji.  Uczestnicy LambdaMOO odkrywaja wirtualny swiat, rozmawiaja z innymi uczestnikami, wyprobowuja dziwne gadzety zbudowane przez innych i tworza nowe miejsca oraz rzeczy, na ktore inni moga natrafic i cieszyc sie nimi.
 2
 
 2
-Most commands have the form of simple English sentences:
+Wiekszosc polecen ma forme prostych zdan:
 2
-    <verb>
+    <czasownik>
 2
-    <verb>  <direct object>
+    <czasownik>  <dopelnienie blizsze>
 2
-    <verb>  <direct object>  <preposition>  <indirect object>
+    <czasownik>  <dopelnienie blizsze>  <przyimek>  <dopelnienie dalsze>
 2
-Don't use English articles (e.g. 'a', 'an', or 'the') in your commands; the MOO won't understand them.  You can refer to yourself as 'me' and the room you're in as 'here'.
-2
-
-2
-The first five kinds of commands you'll want to know are listed below.  Type 'help <topic-name>' for details on any of them:
+Nie uzywaj zbednych slow w swoich poleceniach; MOO ich nie zrozumie.  Mozesz odnosic sie do siebie jako 'me' (ja) i do pokoju, w ktorym jestes, jako 'here' (tutaj).
 2
 
 2
-look -- getting a description of the current room or any other object
+Pierwszych pieciu rodzajow polecen, ktore warto poznac, jest wymienionych ponizej.  Wpisz 'help <nazwa-tematu>' po szczegoly na temat kazdego z nich:
 2
-say -- speaking to the other players in the same room as you
+
 2
-@who -- showing which players are currently connected to the MOO
+look -- otrzymanie opisu biezacego pokoju lub dowolnego innego obiektu
 2
-movement -- how to move around in the MOO, from room to room
+say -- mowienie do innych graczy w tym samym pokoju co ty
 2
-@quit -- disconnecting from the MOO
+@who -- pokazanie, ktorzy gracze sa obecnie polaczeni z MOO
+2
+movement -- jak poruszac sie po MOO, z pokoju do pokoju
+2
+@quit -- rozlaczenie sie z MOO
 36
 1
 4
 5
 2
-Syntax:  give <obiekt> do <gracz>
+Skladnia:  give <obiekt> do <gracz>
 2
          hand <obiekt> do <gracz>
 2
@@ -31172,57 +31192,57 @@ Przenosi obiekt z twojego ekwipunku do ekwipunku innego gracza. Nie zmienia to w
 2
 *subst*
 2
-Syntax: news
+Skladnia: news
 2
-        news all
+          news all
 2
-        news new
+          news new
 2
-        news contents
+          news contents
 2
-        news archive
-2
-
-2
-Read the latest edition of the %[$network.MOO_name] Newspaper, which carries articles concerning recent changes to the MOO server or to the main public classes, or other articles of interest to the MOO at large.
+          news archive
 2
 
 2
-The default behavior for the `news' command is to act like `news new' but this may be changed by setting the @mail-option news to one of `all' or `new' or `contents'.  `news all' displays all current news articles.  `news new' only displays articles you have not yet read.  `news contents' displays the authors and subjects of all current news.  `news archive' displays back issues of the newspaper which are deemed worth reading by every citizen at any time.
+Przeczytaj najnowsze wydanie Gazety %[$network.MOO_name], ktora zawiera artykuly dotyczace ostatnich zmian w serwerze MOO lub w glownych klasach publicznych, oraz inne artykuly interesujace dla calego MOO.
+2
+
+2
+Domyslnym zachowaniem polecenia `news' jest dzialanie jak `news new', ale mozna to zmienic, ustawiajac opcje @mail-option news na jedna z `all', `new' lub `contents'.  `news all' wyswietla wszystkie biezace artykuly.  `news new' wyswietla tylko artykuly, ktorych jeszcze nie przeczytales.  `news contents' wyswietla autorow i tematy wszystkich biezacych artykulow.  `news archive' wyswietla stare wydania gazety, ktore kazdy obywatel moze uznac za warte przeczytania w dowolnym momencie.
 36
 5
 4
 5
 2
-Occasionally, you may run into a situation in which you'd rather not hear from certain other players.  It might be that they're being annoying, or just that whatever they're doing makes a lot of noise.  Gagging a player will stop you from hearing the results of any task initiated by that player.  You can also gag a specific object, if you want to hear what the owner of that object says, but not the output from their noisy robot.  The commands to use gagging are listed below; detailed help is available on each of them:
+Czasami mozesz natrafic na sytuacje, w ktorej wolalbys nie slyszec pewnych innych graczy.  Moze byc tak, ze sa irytujacy, albo po prostu to, co robia, generuje duzo halasu.  Wyciszenie gracza sprawi, ze nie bedziesz slyszec wynikow zadnego zadania zainicjowanego przez tego gracza.  Mozesz tez wyciszyc konkretny obiekt, jesli chcesz slyszec, co mowi wlasciciel tego obiektu, ale nie wyjscie z jego halasliwego robota.  Polecenia do wyciszania sa wymienione ponizej; szczegolowa pomoc jest dostepna dla kazdego z nich:
 2
 
 2
-@gag -- add one or more players to your gag list
+@gag -- dodanie jednego lub wiecej graczy do twojej listy wyciszonych
 2
-@ungag -- remove a player from your gag list
+@ungag -- usuniecie gracza z twojej listy wyciszonych
 2
-@listgag -- list the players you currently have gagged
+@listgag -- wypisanie graczy, ktorych obecnie masz wyciszonych
 36
 5
 4
 5
 2
-Syntax:  @move <thing> to <place>
+Skladnia:  @move <cos> do <miejsce>
 2
 
 2
-Move the specified object to the specified location.  This is not guaranteed to work; in particular, the object must agree to be moved and the destination must agree to allow the object in.  This is usually the case, however.  The special case where <thing> is 'me' is useful for teleporting yourself around.
+Przenosi wskazany obiekt do wskazanej lokalizacji.  Nie jest to gwarantowane, ze zadziala; w szczegolnosci obiekt musi zgodzic sie na przeniesienie, a cel musi zgodzic sie wpuscic obiekt.  Zazwyczaj tak jednak jest.  Szczegolny przypadek, gdy <cos> to 'me', jest przydatny do teleportowania siebie.
 2
 
 2
-If @move doesn't work and you own the room where the object is located, try using @eject instead.
+Jesli @move nie dziala, a posiadasz pokoj, w ktorym znajduje sie obiekt, sprobuj zamiast tego uzyc @eject.
 36
 5
 4
 6
 2
-Syntax:  inventory
+Skladnia:  inventory
 2
          i
 2
@@ -31238,119 +31258,119 @@ Wypisuje liste wszystkich obiektow, ktore niesiesz.
 4
 8
 2
-Syntax: @gender <gender>
+Skladnia: @gender <plec>
 2
-        @gender
-2
-
-2
-The first form, with an argument, defines your player to have the gender <gender>.  If <gender> is one of the standard genders (e.g., 'male', 'female', 'neuter',...), your various pronouns will also be set appropriately, making exits and certain other objects behave more pleasantly for you.
+          @gender
 2
 
 2
-The second form tells you the current definition of your player's gender, your current pronouns, and the complete list of standard genders.
+Pierwsza forma, z argumentem, definiuje plec twojego gracza jako <plec>.  Jesli <plec> jest jedna ze standardowych plci (np. 'meski', 'zenski', 'nijaki',...), twoje rozne zaimki zostana rowniez odpowiednio ustawione, dzieki czemu wyjscia i niektore inne obiekty beda zachowywac sie dla ciebie przyjemniej.
 2
 
 2
-It should be noted that some of the "genders" on the standard gender list need verb conjugation in order to work properly and much of the MOO isn't set up for this (...yet).  For example, you should expect to see `they is' a fair amount if you @gender yourself `plural'.
+Druga forma podaje ci biezaca definicje plci twojego gracza, twoje biezace zaimki oraz pelna liste standardowych plci.
+2
+
+2
+Warto zauwazyc, ze niektore z 'plci' na standardowej liscie plci wymagaja odmiany czasownikow, by dzialaly poprawnie, a wiekszosc MOO nie jest jeszcze do tego przystosowana.  Na przyklad, jesli ustawisz sobie @gender 'mnogi', mozesz spodziewac sie zobaczyc gdzieniegdzie niepoprawnie odmienione formy.
 36
 5
 4
 27
 2
-Syntax: @rename <object>        to [name-and-alias],<alias>,...,<alias>
+Skladnia: @rename <obiekt>        do [nazwa-i-alias],<alias>,...,<alias>
 2
-        @rename <object>        to [name]:<alias>,...,<alias>
+          @rename <obiekt>        do [nazwa]:<alias>,...,<alias>
 2
-        @rename <object>.<property> to <new-property-name>
+          @rename <obiekt>.<wlasciwosc> do <nowa-nazwa-wlasciwosci>
 2
-        @rename <object>:<verb-name> to <new-verb-name>
+          @rename <obiekt>:<nazwa-czasownika> do <nowa-nazwa-czasownika>
 2
-        @rename# <object>:<verb-number> to <new-verb-name>
-2
-
-2
-The first two forms are used to change the name and aliases of an object. The name is what will be used in most printed descriptions of the object. The aliases are the names by which players can refer to the object in commands. Typically you want to include the name in the aliases, as the MOO parser only checks .aliases when matching, so the first syntax is generally preferred.
+          @rename# <obiekt>:<numer-czasownika> do <nowa-nazwa-czasownika>
 2
 
 2
-If you leave out the "name" part of the list, @rename will leave the object's name as it is, and only change the aliases.
+Pierwsze dwie formy sluza do zmiany nazwy i aliasow obiektu. Nazwa jest tym, co bedzie uzywane w wiekszosci wypisywanych opisow obiektu. Aliasy to nazwy, ktorymi gracze moga odnosic sie do obiektu w poleceniach. Zazwyczaj chcesz uwzglednic nazwe wsrod aliasow, poniewaz parser MOO sprawdza przy dopasowywaniu tylko .aliases, wiec pierwsza skladnia jest generalnie preferowana.
 2
 
 2
-Note that for renaming players, more stringent rules apply.  See `help player-names'.  Certain other kinds of objects (e.g., mail recipients) also enforce their own rules w.r.t what they can be named.
+Jesli pominiesz czesc "nazwa" listy, @rename pozostawi nazwe obiektu bez zmian i zmieni tylko aliasy.
 2
 
 2
-Examples:
-2
-Munchkin names his dog:
-2
-  @rename #4237 to "Rover the Wonder Dog":Rover,dog
-2
-Now we'll see 'Rover the Wonder Dog' if we're in the same room as him and we can refer to him as either 'Rover' or just 'dog' in our commands, like 'pet dog'.  Note, however, that it will be impossible to use "Rover the Wonder Dog" to rever to the dog: if you don't include the name in the aliases, confusion can result.  It might have been better to start off with
-2
-  @rename #4237 to "Rover the Wonder Dog",Rover,dog
+Zauwaz, ze przy zmianie nazwy graczy obowiazuja bardziej rygorystyczne zasady.  Zobacz `help player-names'.  Niektore inne rodzaje obiektow (np. odbiorcy poczty) rowniez egzekwuja wlasne zasady dotyczace tego, jak moga byc nazwane.
 2
 
 2
-Since he didn't, Munchkin now changes his dog's aliases:
+Przyklady:
 2
-  @rename #4237 to ,Rover,dog,Rover the Wonder Dog
+Munchkin nadaje imie swojemu psu:
 2
-The name remains the same--we still see 'Rover the Wonder Dog'--but now any of 'Rover', 'dog', or 'Rover the Wonder Dog' can be used to refer to him.  This can help reduce confusion.
+  @rename #4237 do "Rover Cudowny Pies":Rover,pies
 2
-
+Teraz zobaczymy 'Rover Cudowny Pies', jesli bedziemy z nim w tym samym pokoju, i mozemy odnosic sie do niego jako 'Rover' lub po prostu 'pies' w naszych poleceniach, jak 'poglaskaj pies'.  Zauwaz jednak, ze nie bedzie mozna uzyc "Rover Cudowny Pies", by odnosic sie do psa: jesli nie uwzglednisz nazwy w aliasach, moze dojsc do zamieszania.  Lepiej byloby zaczac od
 2
-The third form of the @rename command is also for use by programmers, to change the name of a property they own to <new-property-name>.
-2
-
-2
-The fourth form of the @rename command is for use by programmers, to change the name of a verb they own. If the <new-verb-name> contains spaces, the verb will have multiple names, one for each space-separated word.
+  @rename #4237 do "Rover Cudowny Pies",Rover,pies
 2
 
 2
-The fifth form, @rename#, is for unambiguously referring to a verb on an object in case there is more than one with the same name. The verb number is the 1-based index of the verb as it appears in the verbs() (or @verbs) output list.
+Poniewaz tego nie zrobil, Munchkin teraz zmienia aliasy swojego psa:
+2
+  @rename #4237 do ,Rover,pies,Rover Cudowny Pies
+2
+Nazwa pozostaje taka sama--nadal widzimy 'Rover Cudowny Pies'--ale teraz kazdego z 'Rover', 'pies' lub 'Rover Cudowny Pies' mozna uzyc, by sie do niego odniesc.  Moze to pomoc zmniejszyc zamieszanie.
+2
+
+2
+Trzecia forma polecenia @rename sluzy takze programistom do zmiany nazwy posiadanej przez nich wlasciwosci na <nowa-nazwa-wlasciwosci>.
+2
+
+2
+Czwarta forma polecenia @rename sluzy programistom do zmiany nazwy posiadanego przez nich czasownika. Jesli <nowa-nazwa-czasownika> zawiera spacje, czasownik bedzie mial wiele nazw, po jednej dla kazdego slowa oddzielonego spacja.
+2
+
+2
+Piata forma, @rename#, sluzy do jednoznacznego odnoszenia sie do czasownika na obiekcie, jesli jest wiecej niz jeden o tej samej nazwie. Numer czasownika to indeks (liczac od 1) czasownika, tak jak pojawia sie na liscie wynikowej verbs() (lub @verbs).
 36
 5
 4
 15
 2
-Notes are objects that can have text written on them to be read later.  They are useful for leaving messages to people, or for documenting your creations.
+Notatki to obiekty, na ktorych mozna zapisac tekst do przeczytania pozniej.  Sa przydatne do zostawiania wiadomosci innym lub do dokumentowania twoich tworow.
 2
 
 2
-The following help topics cover verbs that can be used with notes:
+Nastepujace tematy pomocy omawiaja czasowniki, ktorych mozna uzywac z notatkami:
 2
 
 2
-read -- reading the text on the note
+read -- czytanie tekstu na notatce
 2
-write -- adding text to a note
+write -- dodawanie tekstu do notatki
 2
-erase -- removing all the text from a note
+erase -- usuwanie calego tekstu z notatki
 2
-delete -- deleting one line of text from a note
-2
-
-2
-@notedit -- general editing on the text of a note
+delete -- usuwanie jednej linii tekstu z notatki
 2
 
 2
-encrypt -- restricting who can read a note
-2
-decrypt -- undoing a previous encryption
+@notedit -- ogolna edycja tekstu notatki
 2
 
 2
-You can make a note by creating a child of the standard note, $note (see 'help @create').  Note that, like most objects, only the owner of a note can recycle it.  If you'd like to make it possible for a reader of your note to destroy it (this is a common desire for notes to other individual players), then you might want to look at 'help letters'.
+encrypt -- ograniczanie, kto moze czytac notatke
+2
+decrypt -- cofniecie wczesniejszego szyfrowania
+2
+
+2
+Mozesz stworzyc notatke, tworzac dziecko standardowej notatki, $note (zobacz 'help @create').  Zauwaz, ze podobnie jak wiekszosc obiektow, tylko wlasciciel notatki moze ja zutylizowac.  Jesli chcesz umozliwic czytelnikowi twojej notatki jej zniszczenie (to czesty cel notatek do innych indywidualnych graczy), zajrzyj do 'help letters'.
 36
 5
 4
 13
 2
-Syntax: look
+Skladnia: look
 2
         patrz
 2
@@ -31380,7 +31400,7 @@ Trzecia forma pokazuje opis obiektu znajdujacego sie wewnatrz innego obiektu, w 
 4
 6
 2
-Syntax:  drop <obiekt>
+Skladnia:  drop <obiekt>
 2
          throw <obiekt>
 2
@@ -31404,93 +31424,93 @@ take
 4
 17
 2
-Objects usually have verbs defined on them that allow players to manipulate and use them in various ways. Standard ones are:
+Obiekty zazwyczaj maja zdefiniowane czasowniki, ktore pozwalaja graczom manipulowac nimi i uzywac ich na rozne sposoby. Standardowe to:
 2
 
 2
-get  -- pick an object up and place it in your inventory
+get  -- podnosi obiekt i umieszcza go w twoim ekwipunku
 2
-drop -- remove an object from your inventory and place it in the room
+drop -- usuwa obiekt z twojego ekwipunku i umieszcza go w pokoju
 2
-put  -- take an object from your inventory and place it in a container
+put  -- bierze obiekt z twojego ekwipunku i umieszcza go w kontenerze
 2
-give -- hand an object to some other player
+give -- wrecza obiekt innemu graczowi
 2
-look -- see what an object looks like
-2
-
-2
-You can see what objects you're carrying with the 'inventory' command; see 'help inventory' for details.
+look -- pokazuje, jak wyglada obiekt
 2
 
 2
-Some specialized objects will have other commands. The programmer of the object will usually provide some way for you to find out what the commands are.  One way that works for most objects is the 'examine' command; see 'help examine' for details.
+Mozesz zobaczyc, jakie obiekty niesiesz, poleceniem 'inventory'; zobacz 'help inventory' po szczegoly.
 2
 
 2
-The following specialized objects have help entries you should consult:
+Niektore wyspecjalizowane obiekty beda mialy inne polecenia. Programista obiektu zazwyczaj dostarczy jakis sposob, bys mogl dowiedziec sie, jakie to polecenia.  Jednym ze sposobow, ktory dziala dla wiekszosci obiektow, jest polecenie 'examine'; zobacz 'help examine' po szczegoly.
 2
 
 2
-notes -- objects that allow text to be written on them and read later
+Nastepujace wyspecjalizowane obiekty maja wpisy pomocy, ktore warto sprawdzic:
 2
-letters -- notes that a recipient can burn after reading
+
 2
-containers -- objects that may contain other objects
+notes -- obiekty pozwalajace na zapisanie na nich tekstu do przeczytania pozniej
+2
+letters -- notatki, ktore odbiorca moze spalic po przeczytaniu
+2
+containers -- obiekty, ktore moga zawierac inne obiekty
 36
 5
 4
 18
 2
-Syntax:  help
+Skladnia:  help
 2
-         help <topic>
+           help <temat>
 2
-         help index
-2
-
-2
-Print out entries from the online documentation system.  The commands `?' and `information' (usually abbreviated `info') are synonyms for `help'.
+           help index
 2
 
 2
-The first form prints out a summary table of contents for the entire help system.  
+Wypisuje wpisy z systemu dokumentacji online.  Polecenia `?' i `information' (zwykle skracane do `info') sa synonimami `help'.
 2
 
 2
-The second form prints out the documentation available on the given topic.  Many help system entries contain references to other entries accessible in this way.  The topic name may be abbreviated; if there is no topic exactly matching the name you give, the help system checks for topics for which the name is a prefix, perhaps with the addition or omission of an initial `@', or perhaps with some confusion beween dashes (-) and underscores (_), e.g., 
-2
-      `bui' instead of `building', 
-2
-      `who' instead of `@who', 
-2
-     `@wri' instead of `write',
-2
-  `add_ent' instead of `@add-entrance',
-2
- `unlock-'  instead of `@unlock_for_open'
+Pierwsza forma wypisuje podsumowujacy spis tresci calego systemu pomocy.  
 2
 
 2
-If the abbreviation you give is ambiguous, you will be presented with a list of the matching complete topic names.
+Druga forma wypisuje dokumentacje dostepna na dany temat.  Wiele wpisow w systemie pomocy zawiera odniesienia do innych wpisow dostepnych w ten sposob.  Nazwa tematu moze byc skrocona; jesli nie ma tematu dokladnie pasujacego do podanej nazwy, system pomocy sprawdza tematy, dla ktorych nazwa jest prefiksem, byc moze z dodaniem lub pominieciem poczatkowego `@', albo z pewnym pomieszaniem myslnikow (-) i podkreslen (_), np. 
+2
+      `bui' zamiast `building', 
+2
+      `who' zamiast `@who', 
+2
+     `@wri' zamiast `write',
+2
+  `add_ent' zamiast `@add-entrance',
+2
+ `unlock-'  zamiast `@unlock_for_open'
 2
 
 2
-The `help index' commands prints out a list of indices for the various help databases.  Each index gives a list of topics available on that database.  It is sometimes easier to find the topics you're interested in this way, rather than tracing through the chain of cross references.
+Jesli podany przez ciebie skrot jest niejednoznaczny, zostanie ci przedstawiona lista pasujacych pelnych nazw tematow.
+2
+
+2
+Polecenie `help index' wypisuje liste indeksow dla roznych baz pomocy.  Kazdy indeks podaje liste tematow dostepnych w tej bazie.  Czasem latwiej jest znalezc interesujace cie tematy w ten sposob, niz sledzic lancuch odniesien krzyzowych.
 36
 1
 4
 5
 2
-The descriptions of most rooms outline the directions in which exits exist.  Typical directions include the eight compass points ('north', 'south', 'east', 'west', 'northeast', 'southeast', 'northwest', and 'southwest'), 'up', 'down', and 'out'.
+Opisy wiekszosci pokoi zarysowuja kierunki, w ktorych istnieja wyjscia.  Typowe kierunki obejmuja osiem punktow kompasu ('north'/polnoc, 'south'/poludnie, 'east'/wschod, 'west'/zachod, 'northeast'/polnocny-wschod, 'southeast'/poludniowy-wschod, 'northwest'/polnocny-zachod i 'southwest'/poludniowy-zachod), 'up'/gora, 'down'/dol i 'out'/na zewnatrz.
 2
 
 2
-To go in a particular direction, simply type the name of that direction (e.g, 'north', 'up').  The name of the direction can usually be abbreviated to one or two characters (e.g., 'n', 'sw').  You can also type 'go <direction>' to move; this is particularly useful if you know you're going to type several movement commands in a row (see 'help go').
+Aby isc w danym kierunku, po prostu wpisz nazwe tego kierunku (np. 'north', 'up').  Nazwe kierunku mozna zazwyczaj skrocic do jednego lub dwoch znakow (np. 'n', 'sw').  Mozesz tez wpisac 'go <kierunek>', by sie poruszyc; jest to szczegolnie przydatne, jesli wiesz, ze zamierzasz wpisac kilka polecen ruchu pod rzad (zobacz 'help go').
 2
 
 2
-In addition to such vanilla movement, some areas may contain objects allowing teleportation and almost all areas permit the use of the 'home' command to teleport you to your designated home (see 'help home' for more details).
+Oprocz takiego zwyklego ruchu, niektore obszary moga zawierac obiekty pozwalajace na teleportacje, a niemal wszystkie obszary pozwalaja na uzycie polecenia 'home', by teleportowac sie do wyznaczonego domu (zobacz 'help home' po wiecej szczegolow).
 36
 1
 4
@@ -31498,7 +31518,7 @@ In addition to such vanilla movement, some areas may contain objects allowing te
 2
 *subst*
 2
-Syntax: home
+Skladnia: home
 2
         dom
 2
@@ -31514,29 +31534,29 @@ Mozesz zmienic swoj wyznaczony dom; zobacz 'help @sethome', aby uzyskac szczegol
 4
 12
 2
-Syntax:  say <anything> ...
+Skladnia:  say <cokolwiek> ...
 2
-         "<anything> ...
-2
-
-2
-Says <anything> out loud, so that everyone in the same room hears it.  This is so commonly used that there's a special abbreviation for it: any command-line beginning with a double-quote ('"') is treated as a 'say' command.
+           "<cokolwiek> ...
 2
 
 2
-Example:
+Mowi <cokolwiek> na glos, tak ze slyszy to kazdy w tym samym pokoju.  Jest to tak czesto uzywane, ze istnieje dla tego specjalny skrot: kazda linia polecenia zaczynajaca sie od cudzyslowu ('"') jest traktowana jako polecenie 'say'.
 2
-Munchkin types this:
+
 2
-  "This is a great MOO!
+Przyklad:
 2
-Munchkin sees this:
+Munchkin wpisuje to:
 2
-  You say, "This is a great MOO!"
+  "To jest swietne MOO!
 2
-Others in the same room see this:
+Munchkin widzi to:
 2
-  Munchkin says, "This is a great MOO!"
+  Mowisz: "To jest swietne MOO!"
+2
+Inni w tym samym pokoju widza to:
+2
+  Munchkin mowi: "To jest swietne MOO!"
 36
 1
 4
@@ -31554,7 +31574,7 @@ Wysyla wiadomosc "<twoje imie> szepcze: "<tekst>"" do <gracz>, jesli jest w tym 
 2
 *subst*
 2
-Syntax:  page <gracz> [[with] <tekst>]
+Skladnia:  page <gracz> [[with] <tekst>]
 2
          przywolaj <gracz> [<tekst>]
 2
@@ -31612,157 +31632,157 @@ Wszystkie one podlegaja standardowym podstawieniom zaimkow (patrz 'help pronouns
 4
 18
 2
-Syntax:  emote <anything> ...
+Skladnia:  emote <cokolwiek> ...
 2
-         :<anything> ...
+           :<cokolwiek> ...
 2
-         ::<anything> ...
-2
-
-2
-Announces <anything> to everyone in the same room, prepending your name.  This is commonly used to express various non-verbal forms of communication.  In fact, it is so commonly used that there's a special abbreviation for it: any command-line beginning with ':' is treated as an 'emote' command.
+           ::<cokolwiek> ...
 2
 
 2
-The alternate form, '::' (less commonly 'emote :'), does not insert the space between the player name and the text.
+Obwieszcza <cokolwiek> wszystkim w tym samym pokoju, poprzedzajac to twoim imieniem.  Jest to powszechnie uzywane do wyrazania roznych niewerbalnych form komunikacji.  W rzeczywistosci jest to tak czesto uzywane, ze istnieje dla tego specjalny skrot: kazda linia polecenia zaczynajaca sie od ':' jest traktowana jako polecenie 'emote'.
 2
 
 2
-Examples:
-2
-Munchkin types this:
-2
-  :wishes he were much taller...
-2
-Everyone in the same room sees this:
-2
-  Munchkin wishes he were much taller...
+Alternatywna forma, '::' (rzadziej 'emote :'), nie wstawia spacji miedzy imieniem gracza a tekstem.
 2
 
 2
-Munchkin types this:
+Przyklady:
 2
-  ::'s eyes are green.
+Munchkin wpisuje to:
 2
-Everyone in the same room sees this:
+  :zyczy sobie, by byl duzo wyzszy...
 2
-  Munchkin's eyes are green.
+Kazdy w tym samym pokoju widzi to:
+2
+  Munchkin zyczy sobie, by byl duzo wyzszy...
+2
+
+2
+Munchkin wpisuje to:
+2
+  ::ma zielone oczy.
+2
+Kazdy w tym samym pokoju widzi to:
+2
+  Munchkin ma zielone oczy.
 36
 1
 4
 8
 2
-There are a number of commands for modifying various characteristics of the object representing you in the MOO, your 'player'.  Help on them is available in the following topics:
+Istnieje szereg polecen do modyfikowania roznych cech obiektu reprezentujacego cie w MOO, twojego 'gracza'.  Pomoc na ich temat dostepna jest w nastepujacych tematach:
 2
 
 2
-@describe -- setting what others see when they look at you
+@describe -- ustawianie tego, co inni widza, gdy na ciebie patrza
 2
-@gender -- changing your player's gender
+@gender -- zmiana plci twojego gracza
 2
-@password -- changing your player's password
+@password -- zmiana hasla twojego gracza
 2
-@sethome -- changing your designated home room
+@sethome -- zmiana wyznaczonego pokoju domowego
 2
-@rename -- changing your name and/or aliases
+@rename -- zmiana twojej nazwy i/lub aliasow
 2
-@linelength -- adding word-wrap to the lines you see
+@linelength -- dodanie zawijania wierszy do linii, ktore widzisz
 36
 1
 4
 18
 2
-Help is available on the following general topics:
+Pomoc dostepna jest na nastepujace ogolne tematy:
 2
 
 2
-introduction -- what's going on here and some basic commands
+introduction -- co sie tu dzieje i kilka podstawowych polecen
 2
-index -- index into the help system
-2
-
-2
-players -- setting characteristics of yourself
-2
-movement -- moving yourself between rooms
-2
-communication -- communicating with other players
-2
-manipulation -- moving or using other objects
-2
-miscellaneous -- commands that don't fit anywhere else
+index -- indeks systemu pomocy
 2
 
 2
-building -- extending the MOO
+players -- ustawianie cech siebie
 2
-programming -- writing code in the MOO programming language
+movement -- poruszanie sie miedzy pokojami
 2
-editors -- editing text and code in the MOO
+communication -- komunikacja z innymi graczami
+2
+manipulation -- przenoszenie lub uzywanie innych obiektow
+2
+miscellaneous -- polecenia, ktore nigdzie indziej nie pasuja
 2
 
 2
-@pagelength -- what to do if lines scroll off your screen too fast
+building -- rozbudowywanie MOO
 2
-@linelength -- what to do if lines are truncated
+programming -- pisanie kodu w jezyku programowania MOO
 2
-tinymud -- a list of equivalences between MOO and TinyMUD concepts/commands
+editors -- edycja tekstu i kodu w MOO
+2
+
+2
+@pagelength -- co zrobic, jesli linie znikaja z ekranu zbyt szybko
+2
+@linelength -- co zrobic, jesli linie sa ucinane
+2
+tinymud -- lista odpowiednikow miedzy pojeciami/poleceniami MOO i TinyMUD
 36
 5
 4
 26
 2
-Syntax:  @edit-option
+Skladnia:  @edit-option
 2
-         @edit-option <option>
-2
-
-2
-Synonym:  @editoption
+           @edit-option <opcja>
 2
 
 2
-The edit options customize the behavior of the various editors (mail editor, verb editor, etc...) to your particular taste.  The first form of this command displays all of your edit options.  The second form displays just that one option, one of the flags listed below.
+Synonim:  @editoption
 2
 
 2
-The remaining forms of this command are for setting your edit options:
+Opcje edycji dostosowuja zachowanie roznych edytorow (edytor poczty, edytor czasownikow, itd...) do twojego gustu.  Pierwsza forma tego polecenia wyswietla wszystkie twoje opcje edycji.  Druga forma wyswietla tylko te jedna opcje, jedna z flag wymienionych ponizej.
 2
 
 2
-         @edit-option +<flag>
-2
-         @edit-option -<flag>
-2
-         @edit-option !<flag>           (equivalent to -<flag>)
+Pozostale formy tego polecenia sluza do ustawiania twoich opcji edycji:
 2
 
 2
-These respectively set and reset the specified flag
+         @edit-option +<flaga>
+2
+         @edit-option -<flaga>
+2
+         @edit-option !<flaga>           (rownowazne -<flaga>)
 2
 
 2
--quiet_insert    insert (") and append (:) echo back the line numbers
-2
-+quiet_insert    insert (") and append (:) produce no output
-2
--eval_subs       (VERB EDITOR) ignore .eval_subs when compiling verbs
-2
-+eval_subs       (VERB EDITOR) apply .eval_subs to verbs being compiled
-2
--local           Use in-MOO text editors.
-2
-+local           Ship text to client for local editing.
-2
--no_parens       include all parentheses in verb code.
-2
-+no_parens       include only necessary parentheses in verb code.
+Odpowiednio ustawiaja i resetuja wskazana flage
 2
 
 2
-+parens        is a synonym for -no_parens
+-quiet_insert    insert (") i append (:) odsylaja z powrotem numery linii
 2
-+noisy_insert  is a synonym for -quiet_insert
++quiet_insert    insert (") i append (:) nie daja zadnego wyjscia
+2
+-eval_subs       (EDYTOR CZASOWNIKOW) ignoruje .eval_subs przy kompilowaniu czasownikow
+2
++eval_subs       (EDYTOR CZASOWNIKOW) stosuje .eval_subs do kompilowanych czasownikow
+2
+-local           Uzywaj edytorow tekstu wewnatrz MOO.
+2
++local           Wysylaj tekst do klienta do lokalnej edycji.
+2
+-no_parens       dolacz wszystkie nawiasy w kodzie czasownika.
+2
++no_parens       dolacz tylko niezbedne nawiasy w kodzie czasownika.
+2
+
+2
++parens        jest synonimem -no_parens
+2
++noisy_insert  jest synonimem -quiet_insert
 36
 5
 4
@@ -31776,13 +31796,13 @@ These respectively set and reset the specified flag
 4
 4
 2
-Usage:  @add-feature  <object>
+Uzycie:  @add-feature  <obiekt>
 2
- @remove-feature <object>
+ @remove-feature <obiekt>
 2
 
 2
-Add or remove a feature from your list.  A feature is an object which provides additional commands you can use.  For more information, see `help features'.
+Dodaje lub usuwa feature z twojej listy.  Feature to obiekt, ktory dostarcza dodatkowe polecenia, ktorych mozesz uzywac.  Po wiecej informacji zobacz `help features'.
 36
 5
 4
@@ -31796,99 +31816,99 @@ Add or remove a feature from your list.  A feature is an object which provides a
 4
 3
 2
-Usage:  @features [<name>] [for <player>]
+Uzycie:  @features [<nazwa>] [dla <gracz>]
 2
 
 2
-List all of <player>'s features matching <name>, or all of <player>'s features if <name> is not supplied.  <player> defaults to you.  See `help features' for more information.
+Wypisuje wszystkie features gracza <gracz> pasujace do <nazwa>, lub wszystkie features gracza <gracz>, jesli <nazwa> nie podano.  <gracz> domyslnie to ty.  Zobacz `help features' po wiecej informacji.
 36
 5
 4
 3
 2
-Features are objects that provide you with commands not covered by the ordinary player objects.  The advantage of using features is that you can mix and match the things you like; whereas if you like a command that's defined on a player class, you have to also get all the commands it defines, and all the commands its ancestors define.
+Features to obiekty, ktore dostarczaja ci polecen nieobjetych zwyklymi obiektami gracza.  Zaleta uzywania features jest to, ze mozesz mieszac i dobierac rzeczy, ktore ci sie podobaja; podczas gdy jesli podoba ci sie polecenie zdefiniowane na klasie gracza, musisz takze otrzymac wszystkie inne polecenia, ktore ona definiuje, oraz wszystkie polecenia definiowane przez jej przodkow.
 2
 
 2
-You can list your features with the @features command, and add or remove features from your list with the @add-feature and @remove-feature commands.
+Mozesz wypisac swoje features poleceniem @features, a dodac lub usunac features z twojej listy poleceniami @add-feature i @remove-feature.
 36
 5
 4
 10
 2
-Syntax: @rmalias <alias>[,...,<alias>] from <object>
+Skladnia: @rmalias <alias>[,...,<alias>] from <obiekt>
 2
-        @rmalias <alias>[,...,<alias>] from <object>:<verb-name>
+          @rmalias <alias>[,...,<alias>] from <obiekt>:<nazwa-czasownika>
 2
-        @rmalias# <alias>[,...,<alias>] from <object>:<verb-number>
-2
-
-2
-The first form is used to remove aliases from an object.  If the object is a valid player, space and commas will be assumed to be separations between unwanted aliases.  Otherwise, only commas will be assumed to be separations.
-2
-Note that @rmalias will not affect the object's name, only its aliases.
+          @rmalias# <alias>[,...,<alias>] from <obiekt>:<numer-czasownika>
 2
 
 2
-The second form is for use by programmers, to remove aliases from a verb they own.  All spaces and commas are assumed to be separations between unwanted aliases.
+Pierwsza forma sluzy do usuwania aliasow z obiektu.  Jesli obiekt jest prawidlowym graczem, spacje i przecinki beda traktowane jako separatory miedzy niechcianymi aliasami.  W przeciwnym razie tylko przecinki beda traktowane jako separatory.
+2
+Zauwaz, ze @rmalias nie wplynie na nazwe obiektu, tylko na jego aliasy.
 2
 
 2
-The third form, @rmalias#, is for unambiguously referring to a verb on an object that might have more than one verb with the same name. The verb-number is the 1-based index of the verb as it appears in the verb() (or @verbs) output list.
+Druga forma sluzy programistom do usuwania aliasow z posiadanego przez nich czasownika.  Wszystkie spacje i przecinki sa traktowane jako separatory miedzy niechcianymi aliasami.
+2
+
+2
+Trzecia forma, @rmalias#, sluzy do jednoznacznego odnoszenia sie do czasownika na obiekcie, ktory moze miec wiecej niz jeden czasownik o tej samej nazwie. Numer-czasownika to indeks (liczac od 1) czasownika, tak jak pojawia sie na liscie wynikowej verbs() (lub @verbs).
 36
 5
 4
 25
 2
-Syntax: @addalias <alias>[,...,<alias>] to <object>
+Skladnia: @addalias <alias>[,...,<alias>] to <obiekt>
 2
-        @addalias <alias>[,...,<alias>] to <object>:<verb-name>
+          @addalias <alias>[,...,<alias>] to <obiekt>:<nazwa-czasownika>
 2
-        @addalias# <alias>[,...,<alias>] to <object>:<verb-number>
-2
-
-2
-The first form is used to add aliases to an object's list of aliases.  You can separate multiple aliases with commas.  The aliases will be checked against the object's current aliases and all aliases not already in the object's list of aliases will be added.
+          @addalias# <alias>[,...,<alias>] to <obiekt>:<numer-czasownika>
 2
 
 2
-Example:
-2
-Muchkin wants to add new aliases to Rover the Wonder Dog:
-2
-  @addalias Dog,Wonder Dog to Rover
-2
-Since Rover the Wonder Dog already has the alias "Dog" but does not have the alias "Wonder Dog", Munchkin sees:
-2
-  Rover the Wonder Dog(#4237) already has the alias Dog.
-2
-  Alias Wonder Dog added to Rover the Wonder Dog(#4237).
+Pierwsza forma sluzy do dodawania aliasow do listy aliasow obiektu.  Mozesz oddzielic wiele aliasow przecinkami.  Aliasy zostana sprawdzone wzgledem obecnych aliasow obiektu i wszystkie aliasy, ktorych jeszcze nie ma na liscie aliasow obiektu, zostana dodane.
 2
 
 2
-If the object is a player, spaces will also be assumed to be separations between aliases and each alias will be checked against the Player Name Database to make sure no one else is using it. Any already used aliases will be identified.  Certain other classes of objects (e.g., mail-recipients) also enforce rules about what aliases may be given them.
+Przyklad:
+2
+Munchkin chce dodac nowe aliasy do Rovera Cudownego Psa:
+2
+  @addalias Pies,Cudowny Pies to Rover
+2
+Poniewaz Rover Cudowny Pies ma juz alias "Pies", ale nie ma aliasu "Cudowny Pies", Munchkin widzi:
+2
+  Rover Cudowny Pies(#4237) ma juz alias Pies.
+2
+  Alias Cudowny Pies dodany do Rover Cudowny Pies(#4237).
 2
 
 2
-Example:
+Jesli obiekt jest graczem, spacje takze beda traktowane jako separatory miedzy aliasami, a kazdy alias zostanie sprawdzony wzgledem Bazy Nazw Graczy, by upewnic sie, ze nikt inny go nie uzywa.  Wszelkie juz uzywane aliasy zostana zidentyfikowane.  Niektore inne klasy obiektow (np. odbiorcy poczty) rowniez egzekwuja zasady dotyczace tego, jakie aliasy moga im byc nadane.
 2
-Munchkin wants to add his nicknames to his own list of aliases:
+
+2
+Przyklad:
+2
+Munchkin chce dodac swoje przezwiska do wlasnej listy aliasow:
 2
   @addalias Foobar Davey to me
 2
-@Addalias recognizes that Munchkin is trying to add an alias to a valid player and checks the aliases against the Player Name Database.  Unfortunately, DaveTheMan is already using the alias "Davey" so Munchkin sees:
+@Addalias rozpoznaje, ze Munchkin probuje dodac alias do prawidlowego gracza i sprawdza aliasy wzgledem Bazy Nazw Graczy.  Niestety, DaveTheMan juz uzywa aliasu "Davey", wiec Munchkin widzi:
 2
-  DaveTheMan(#5432) is already using the alias Davey
+  DaveTheMan(#5432) juz uzywa aliasu Davey
 2
-  Alias Foobar added to Munchkin(#1523).
-2
-
-2
-The second form of the @addalias command is for use by programmers, to add aliases to a verb they own.  All commas and spaces are assumed to be separations between aliases.
+  Alias Foobar dodany do Munchkin(#1523).
 2
 
 2
-The third form, @addalias#, is for unambiguously referring to a verb on an object in case there are more than one with the same name. The verb number is the 1-based index of the verb as it appears in the verbs() (or @verbs) output list.
+Druga forma polecenia @addalias sluzy programistom do dodawania aliasow do posiadanego przez nich czasownika.  Wszystkie przecinki i spacje sa traktowane jako separatory miedzy aliasami.
+2
+
+2
+Trzecia forma, @addalias#, sluzy do jednoznacznego odnoszenia sie do czasownika na obiekcie, jesli jest wiecej niz jeden o tej samej nazwie. Numer czasownika to indeks (liczac od 1) czasownika, tak jak pojawia sie na liscie wynikowej verbs() (lub @verbs).
 36
 5
 4
@@ -31900,7 +31920,7 @@ summary
 2
 
 2
-Type 'help <topic>' for information on a particular topic.
+Wpisz 'help <temat>' po informacje na konkretny temat.
 2
 
 36
@@ -31908,31 +31928,31 @@ Type 'help <topic>' for information on a particular topic.
 4
 4
 2
-Every object (including players, rooms, exits) has a name and a set of aliases. The object name is commonly used to display an object in various contexts. The object aliases are used to refer to an object when players type commands.
+Kazdy obiekt (wliczajac graczy, pokoje, wyjscia) ma nazwe i zestaw aliasow. Nazwa obiektu jest powszechnie uzywana do wyswietlania obiektu w roznych kontekstach. Aliasy obiektu sa uzywane do odnoszenia sie do obiektu, gdy gracze wpisuja polecenia.
 2
-Help is available on the following commands:
+Pomoc dostepna jest na nastepujace polecenia:
 2
-@rename -- change the names or aliases of an object or yourself.
+@rename -- zmiana nazw lub aliasow obiektu lub siebie.
 2
-@addalias, @rmalias -- add and remove aliases.
+@addalias, @rmalias -- dodawanie i usuwanie aliasow.
 36
 5
 4
 7
 2
-Usage:    @request <player-name> for <email-address>
+Uzycie:    @request <nazwa-gracza> dla <adres-email>
 2
 
 2
-Example:  @request Munchkin for msneed@baum.edu
+Przyklad:  @request Munchkin dla msneed@baum.edu
 2
 
 2
-This command is available to Guest characters only.
+To polecenie dostepne jest tylko dla postaci-Gosci.
 2
 
 2
-The @request command requests a new character, registered for your email address. Please use your primary address for this, as your password will be sent to the address provided.
+Polecenie @request prosi o nowa postac, zarejestrowana na twoj adres email. Uzyj do tego swojego glownego adresu, poniewaz twoje haslo zostanie wyslane na podany adres.
 36
 5
 4
@@ -31940,7 +31960,7 @@ The @request command requests a new character, registered for your email address
 2
 *subst*
 2
-A player name must be a single word, must not contain any spaces, backslashes, or quotes, nor can it begin with the characters #, *, (, or ).  Finally it cannot be one that is in use by any other player nor any of the words on the following list:
+Nazwa gracza musi byc pojedynczym slowem, nie moze zawierac spacji, ukosnikow wstecznych ani cudzyslowow, ani nie moze zaczynac sie od znakow #, *, ( lub ).  Wreszcie nie moze byc jedna z juz uzywanych przez innego gracza ani zadnym ze slow na nastepujacej liscie:
 2
 
 2
@@ -31948,23 +31968,23 @@ A player name must be a single word, must not contain any spaces, backslashes, o
 2
 
 2
-Note that these rules apply as well to your single-word aliases, since those can equally well be used to refer to you in commands that match on player names (@who, whereis, ...).  There are no restrictions on your multi-word aliases, however the commands that expect player names will not recognize them.
+Zauwaz, ze te zasady dotycza rowniez twoich jednoslownych aliasow, poniewaz moga byc one rownie dobrze uzywane do odnoszenia sie do ciebie w poleceniach dopasowujacych po nazwach graczy (@who, whereis, ...).  Nie ma ograniczen dla twoich wieloslownych aliasow, jednak polecenia oczekujace nazw graczy ich nie rozpoznaja.
 36
 5
 4
 6
 2
-  @registerme as <email-address>
+  @registerme jako <adres-email>
 2
-This verb changes your registered email_address property. It will modify the registration, and then, to validate the email address, it will assign a new password and mail the password to the given email_address.
+Ten czasownik zmienia twoja zarejestrowana wlasciwosc email_address. Zmodyfikuje rejestracje, a nastepnie, by zweryfikowac adres email, przypisze nowe haslo i wysle je na podany adres email.
 2
-If, for some reason, this is a problem for you, contact a wizard or registrar to get your email address changed.
+Jesli z jakiegos powodu jest to dla ciebie problemem, skontaktuj sie z wizardem lub rejestratorem, by zmienic swoj adres email.
 2
 
 2
   @registerme
 2
-Prints your registered email address.
+Wypisuje twoj zarejestrowany adres email.
 36
 5
 4
@@ -31978,49 +31998,49 @@ Prints your registered email address.
 4
 5
 2
-Options allow you to customize the behavior of various commands.  Options are grouped into separate option packages that each affects a given class of related commands.  Each has its own help topic:
+Opcje pozwalaja dostosowac zachowanie roznych polecen.  Opcje sa pogrupowane w oddzielne pakiety opcji, z ktorych kazdy wplywa na dana klase powiazanych polecen.  Kazdy ma wlasny temat pomocy:
 2
 
 2
-  @mail-options    --- mail commands (@mail, @read, @next, @prev, @send...)
+  @mail-options    --- polecenia poczty (@mail, @read, @next, @prev, @send...)
 2
-  @edit-options    --- editing commands (@edit and commands within the editor)
+  @edit-options    --- polecenia edycji (@edit i polecenia wewnatrz edytora)
 2
-  @build-options   --- building commands (@create, @dig, @recycle)
+  @build-options   --- polecenia budowania (@create, @dig, @recycle)
 36
 5
 4
 4
 2
-Syntax:  @age [player]
+Skladnia:  @age [gracz]
 2
 
 2
-Displays the MOO age of the player if the player specified first connected after initial connections were recorded.
+Wyswietla wiek MOO gracza, jesli wskazany gracz polaczyl sie po raz pierwszy po rozpoczeciu rejestrowania polaczen.
 2
-MOO age is computed from the moment the player first connected until the current time.
+Wiek MOO jest liczony od momentu pierwszego polaczenia gracza do biezacej chwili.
 36
 5
 4
 9
 2
-Syntax:  @edit <object>.<property>
+Skladnia:  @edit <obiekt>.<wlasciwosc>
 2
-         @edit <object>:<verb-name> [<dobj> [<prep> [<iobj>]]]
+           @edit <obiekt>:<nazwa-czasownika> [<dobj> [<prep> [<iobj>]]]
 2
-         @edit <object>
-2
-
-2
-Enters a MOO editor, as appropriate.
+           @edit <obiekt>
 2
 
 2
-Chooses the MOO Note editor for the named property, or the MOO verb editor for the named verb.  If no property or verb name is given, assumes property .text for a note object, or .description for any other object.
+Wchodzi do odpowiedniego edytora MOO.
 2
 
 2
-See 'help editors' for more detail.
+Wybiera Edytor Notatek MOO dla wskazanej wlasciwosci, lub Edytor Czasownikow MOO dla wskazanego czasownika.  Jesli nie podano nazwy wlasciwosci ani czasownika, zaklada wlasciwosc .text dla obiektu-notatki, lub .description dla dowolnego innego obiektu.
+2
+
+2
+Zobacz 'help editors' po wiecej szczegolow.
 36
 5
 4
@@ -32034,67 +32054,67 @@ See 'help editors' for more detail.
 4
 15
 2
-There are several commands available to allow you to communicate with your fellow MOOers.  Help is available on the following communication-related topics:
+Dostepnych jest kilka polecen pozwalajacych komunikowac sie z innymi MOOowiczami.  Pomoc dostepna jest na nastepujace tematy zwiazane z komunikacja:
 2
 
 2
-say      -- talking to the other connected players in the room
+say      -- rozmawianie z innymi polaczonymi graczami w pokoju
 2
-whisper  -- talking privately to someone in the same room
+whisper  -- rozmawianie prywatnie z kims w tym samym pokoju
 2
-page     -- yelling to someone anywhere in the MOO
+page     -- wolanie kogos gdziekolwiek w MOO
 2
-emote    -- non-verbal communication with others in the same room
+emote    -- niewerbalna komunikacja z innymi w tym samym pokoju
 2
-gagging  -- screening out noise generated by certain other players
+gagging  -- odsiewanie halasu generowanego przez pewnych innych graczy
 2
-news     -- reading the wizards' most recent set of general announcements
+news     -- czytanie najnowszego zestawu ogolnych ogloszen wizardow
 2
-@gripe   -- sending complaints to the wizards
+@gripe   -- wysylanie skarg do wizardow
 2
 @typo @bug @idea @suggest
 2
-         -- sending complaints/ideas to the owner of the current room
+         -- wysylanie skarg/pomyslow do wlasciciela biezacego pokoju
 2
-whereis  -- locating other players
+whereis  -- lokalizowanie innych graczy
 2
-@who     -- finding out who is currently logged in
+@who     -- sprawdzanie, kto jest obecnie zalogowany
 2
-mail     -- the MOO email system
+mail     -- system poczty MOO
 2
-security -- the facilities for detecting forged messages and eavesdropping.
+security -- narzedzia do wykrywania sfalszowanych wiadomosci i podsluchu.
 36
 5
 4
 7
 2
-Objects are the fundamental building blocks of the MOO.  Every object has a unique number, a name, an owner, a location, and various other properties.  An object can always be referred to by its number, and sometimes by its name or one of its aliases -- if you are in the same location as the object, for example, and also in some other special cases.
+Obiekty sa podstawowymi elementami skladowymi MOO.  Kazdy obiekt ma unikalny numer, nazwe, wlasciciela, lokalizacje i rozne inne wlasciwosci.  Do obiektu zawsze mozna odniesc sie przez jego numer, a czasami przez jego nazwe lub jeden z jego aliasow -- jesli na przyklad jestes w tej samej lokalizacji co obiekt, a takze w niektorych innych szczegolnych przypadkach.
 2
 
 2
-For help on creating an object, see 'help @create'.
+Po pomoc w tworzeniu obiektu, zobacz 'help @create'.
 2
 
 2
-For help on recycling an object, see 'help @recycle'.
+Po pomoc w utylizacji obiektu, zobacz 'help @recycle'.
 2
 
 2
-For help on finding information about specific objects, see 'help @display', 'help @show', and 'help $object_utils'.
+Po pomoc w znajdowaniu informacji o konkretnych obiektach, zobacz 'help @display', 'help @show' i 'help $object_utils'.
 36
 1
 4
 5
 2
-Every object on the MOO (players included) has a list of aliases, or names by which it can be referred.  This is useful when an object has a nice long descriptive name that you don't want to have to type every time you refer to it.
+Kazdy obiekt w MOO (wliczajac graczy) ma liste aliasow, czyli nazw, przez ktore mozna sie do niego odnosic.  Jest to przydatne, gdy obiekt ma ladna, dluga opisowa nazwe, ktorej nie chcesz wpisywac za kazdym razem, gdy sie do niego odnosisz.
 2
 
 2
-Typing `exam object' will show you its aliases.  If you are a programmer, you can type `#<object>.aliases', using an object's number, or `#Munchkin.aliases p'.  (The `p' indicates that the prefix is a player's name.)
+Wpisanie `exam obiekt' pokaze ci jego aliasy.  Jesli jestes programista, mozesz wpisac `#<obiekt>.aliases', uzywajac numeru obiektu, lub `#Munchkin.aliases p'.  (Litera `p' wskazuje, ze prefiks jest nazwa gracza.)
 2
 
 2
-See also `help #', `help @addalias', and `help @rmalias'.
+Zobacz takze `help #', `help @addalias' i `help @rmalias'.
 36
 1
 4
@@ -32108,11 +32128,11 @@ See also `help #', `help @addalias', and `help @rmalias'.
 4
 3
 2
-Syntax:  @users
+Skladnia:  @users
 2
 
 2
-Prints out the number of users currently connected and a list of their names, in alphabetical order.
+Wypisuje liczbe uzytkownikow obecnie polaczonych oraz liste ich nazw, w porzadku alfabetycznym.
 36
 5
 4
@@ -32134,11 +32154,11 @@ Prints out the number of users currently connected and a list of their names, in
 4
 3
 2
-Syntax:  @mode <brief | verbose>
+Skladnia:  @mode <brief | verbose>
 2
 
 2
-Sets your current mode to either brief or verbose.  In brief mode, when you enter into a room, you will not see the room's description unless you explicitly type `look'.  Verbose is the default mode.
+Ustawia twoj biezacy tryb na brief (skrocony) lub verbose (pelny).  W trybie brief, gdy wchodzisz do pokoju, nie zobaczysz opisu pokoju, chyba ze jawnie wpiszesz `look'.  Verbose jest trybem domyslnym.
 36
 1
 4
@@ -32152,69 +32172,59 @@ wizard-list
 4
 10
 2
-Players sometimes have difficulty getting their backspace key to work.  This is an outside-MOO problem:  Whatever access software you have determines how the line you type is edited before the MOO ever sees it.  If your backspace key won't work here, you will probably need to consult with some documentation or a guru at your end.
+Gracze czasami maja trudnosci ze sprawieniem, by dzialal ich klawisz backspace.  Jest to problem spoza MOO:  To, jakiego oprogramowania dostepowego uzywasz, decyduje o tym, jak edytowana jest linia, ktora wpisujesz, zanim MOO w ogole ja zobaczy.  Jesli twoj klawisz backspace tu nie dziala, prawdopodobnie musisz skonsultowac sie z jakas dokumentacja lub guru po twojej stronie.
 2
 
 2
-The above notwithstanding, here are a few things to try instead of backspace:
+Pomimo powyzszego, oto kilka rzeczy do wyprobowania zamiast backspace:
 2
 
 2
-   ctrl-h            (another way of typing backspace)
+   ctrl-h            (inny sposob wpisania backspace)
 2
-   del               (delete character)
+   del               (usun znak)
 2
-   ctrl-backspace    (another way of typing delete character)
+   ctrl-backspace    (inny sposob wpisania usun znak)
 2
-   ctrl-w            (delete word left)
+   ctrl-w            (usun slowo w lewo)
 2
-   ctrl-u            (delete entire line)
+   ctrl-u            (usun cala linie)
 2
-   ctrl-r            (redraw line)
-36
-5
-4
-8
-2
-The spivak pronouns were developed by mathematician Michael Spivak for use in his books.  They are the most simplistic of the gender neutral pronouns (others being "neuter" and "splat") and can be easily integrated into writing.  They should be used in a generic setting where the gender of the person referred to is unknown, such as "the reader."  They can also be used to describe a specific individual who has chosen not to identify emself with the traditional masculine (male) or feminine (female) gender.
-2
-
-2
-The spivak pronouns are
-2
-E      - subjective
-2
-Em     - objective
-2
-Eir    - possessive (adjective)
-2
-Eirs   - possessive (noun)
-2
-Emself - reflexive
+   ctrl-r            (odswiez linie)
 36
 5
 4
 3
 2
-Usage: @owner object
+Zaimki spivak zostaly opracowane przez matematyka Michaela Spivaka do uzytku w jego ksiazkach.  Sa najprostsze sposrod zaimkow neutralnych plciowo (inne to "nijaki" i "gwiazdka") i moga byc latwo wlaczone do tekstu.  Powinny byc uzywane w ogolnym kontekscie, gdy plec osoby, do ktorej sie odnosimy, jest nieznana, np. "czytelnik".  Moga byc tez uzywane do opisania konkretnej osoby, ktora zdecydowala sie nie utozsamiac z tradycyjna plcia meska lub zenska.
 2
 
 2
-Displays the specified object, its object number, and its owner (and its owner's object number).
+W tej wersji MOO plec 'spivak' korzysta obecnie z tych samych zaimkow co plec 'nijaki' (oryginalne angielskie zaimki spivak - E/Em/Eir/Eirs/Emself - nie maja bezposredniego odpowiednika w jezyku polskim).
+36
+5
+4
+3
+2
+Uzycie: @owner obiekt
+2
+
+2
+Wyswietla wskazany obiekt, jego numer obiektu oraz jego wlasciciela (i numer obiektu wlasciciela).
 36
 1
 4
 5
 2
-Checkpointing refers to process by which the MOO makes a backup copy of itself.  Because the computer that's running the MOO has to simultaneously handle two copies of itself, this results in a period of high lag for the MOO users.  So, why do we put up with this?
+Checkpointing odnosi sie do procesu, w ktorym MOO tworzy kopie zapasowa samego siebie.  Poniewaz komputer, na ktorym dziala MOO, musi jednoczesnie obslugiwac dwie swoje kopie, powoduje to okres wysokiego laga dla uzytkownikow MOO.  Wiec dlaczego to znosimy?
 2
 
 2
-Every successful checkpoint results in a database of what the MOO was like at that point in time.  All the MOOmail, mailing lists, objects, descriptions, properties, and verbs on all of the MOO are frozen in time and stored.  In the event that the MOO crashes (due to a power failure or the like), this checkpoint database can be used to restart the MOO with much of our recent work intact.  This is a very good thing.
+Kazdy udany checkpoint skutkuje baza danych tego, jak wygladalo MOO w danym momencie.  Cala poczta MOO, listy mailingowe, obiekty, opisy, wlasciwosci i czasowniki calego MOO zostaja zamrozone w czasie i zapisane.  W przypadku awarii MOO (z powodu przerwy w zasilaniu lub podobnego zdarzenia), ta baza danych checkpointu moze zostac uzyta do ponownego uruchomienia MOO z wiekszoscia naszej ostatniej pracy nienaruszona.  To bardzo dobra rzecz.
 2
 
 2
-Checkpointing is a global backup.  Do not rely on the checkpoint database to back up your own work!  Archive your code, properties, and objects offline to ensure their safety.  Each successful checkpoint overwrites the previous day's checkpoint, so it is an unreliable means of recovering lost data.  Some of these checkpoints do get backed up quarterly, but these are not available without inconveniencing the MOO populace as a whole.
+Checkpointing to globalna kopia zapasowa.  Nie polegaj na bazie danych checkpointu, by zabezpieczyc wlasna prace!  Archiwizuj swoj kod, wlasciwosci i obiekty offline, by zapewnic ich bezpieczenstwo.  Kazdy udany checkpoint nadpisuje checkpoint z poprzedniego dnia, wiec jest to niepewny sposob odzyskiwania utraconych danych.  Niektore z tych checkpointow sa archiwizowane kwartalnie, ale nie sa dostepne bez sprawiania niedogodnosci calej populacji MOO.
 36
 1
 5
