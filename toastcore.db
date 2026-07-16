@@ -1368,7 +1368,7 @@ source
 2
 time
 0
-1784179374
+1784180481
 4
 0
 1
@@ -1518,7 +1518,8 @@ whisper
 0
 36
 1
-5
+0
+1128148146
 2
 5
 4
@@ -1547,23 +1548,16 @@ expire
 5
 2
 5
-5
+4
+0
 2
 5
 4
-7
+6
 0
 0
 0
-0
-4
-3
-1
-61
-0
-1
-0
-1721212110
+1784180445
 4
 3
 1
@@ -1598,7 +1592,8 @@ expire
 0
 2
 4
-5
+4
+0
 2
 4
 5
@@ -1621,7 +1616,7 @@ expire
 4
 2
 0
-1784179363
+1784180468
 2
 localhost
 2
@@ -1630,7 +1625,7 @@ localhost
 2
 0
 0
-1784179364
+1784180469
 2
 1
 0
@@ -1796,7 +1791,7 @@ localhost
 2
 5
 0
-1784179374
+1784180481
 2
 1
 0
@@ -69279,7 +69274,7 @@ this.messages = {@this.messages, {new, args[1]}};
 return new;
 .
 #40:2
-":display_message(preamble,msg) --- prints msg to player.";
+":display_message(preamble,msg) --- wyswietla msg graczowi.";
 vb = ((this._mail_task == task_id()) || (caller == $mail_editor)) ? "notify_lines_suspended" | "tell_lines_suspended";
 preamble = args[1];
 player:(vb)({@(typeof(preamble) == LIST) ? preamble | {preamble}, @args[2], "--------------------------"});
@@ -69306,16 +69301,16 @@ endif
 return $mail_agent:msg_summary_line(@args);
 .
 #40:5
-":msg_text(@msg) => list of strings.";
-"msg is a mail message (in the usual transmission format) being read BY this player.";
-"The default version of recipient:msg_full_text calls this to obtain the actual list of strings to display.  (this is a badly named verb).";
-"returns the actual list of strings to display.";
+":msg_text(@msg) => lista stringow.";
+"msg to wiadomosc mailowa (w zwyklym formacie transmisji) czytana PRZEZ tego gracza.";
+"Domyslna wersja recipient:msg_full_text wywoluje to, by uzyskac faktyczna liste stringow do wyswietlenia.  (to zle nazwany czasownik).";
+"zwraca faktyczna liste stringow do wyswietlenia.";
 return $mail_agent:to_text(@args);
 .
 #40:6
 ":notify_mail(from,recipients[,msgnums])";
-" used by $mail_agent:raw_send to notify this player about mail being sent";
-" from <from> to <recipients>.  <msgnums> if given gives the message number(s) assigned (in the event that the corresponding recipient actually kept the mail)";
+" uzywane przez $mail_agent:raw_send, by powiadomic tego gracza o wyslanej poczcie";
+" od <from> do <recipients>.  <msgnums>, jesli podane, zawiera numer(y) przypisanych wiadomosci (w razie gdy dany odbiorca faktycznie zachowal poczte)";
 if (!$object_utils:connected(this))
 return;
 elseif (!((caller in {this, $mail_agent}) || $perm_utils:controls(caller_perms(), this)))
@@ -69328,23 +69323,23 @@ from_name = $mail_agent:name(from);
 if ((t = this in recipients) && ((length(msgnums) >= t) && msgnums[t]))
 "... you are getting the mail and moreover your :receive_message kept it.";
 namelist = $string_utils:english_list($list_utils:map_arg($mail_agent, "name", setremove(recipients, this)), "");
-this:notify(tostr("You have new mail (", msgnums[t], ") from ", from_name, namelist ? " which was also sent to " + namelist | "", "."));
+this:notify(tostr("Masz nowa poczte (", msgnums[t], ") od ", from_name, namelist ? " ktora zostala rowniez wyslana do " + namelist | "", "."));
 if (!this:mail_option("expert"))
-this:notify(tostr("Type `help mail' for info on reading it."));
+this:notify(tostr("Wpisz `help mail' by dowiedziec sie, jak ja przeczytac."));
 endif
 else
 "... vanilla notification; somebody got sent mail and you're finding out.";
-namelist = $string_utils:english_list({@t ? {"You"} | {}, @$list_utils:map_arg($mail_agent, "name", setremove(recipients, this))}, "");
-this:tell(tostr(namelist, (length(recipients) == 1) ? " has" | " have", " just been sent new mail by ", from_name, "."));
+namelist = $string_utils:english_list({@t ? {"Ty"} | {}, @$list_utils:map_arg($mail_agent, "name", setremove(recipients, this))}, "");
+this:tell(tostr(namelist, ": wlasnie otrzymano nowa poczte od ", from_name, "."));
 endif
 endif
 .
 #40:7
 ":current_message([recipient])";
-" => current message number for the given recipient (defaults to this).";
-" => 0 if we have no record of that recipient";
-"      or current message happens to be 0.";
-"This verb is mostly obsolete; consider using :get_current_message()";
+" => numer biezacej wiadomosci dla danego odbiorcy (domyslnie this).";
+" => 0 jesli nie mamy danych o tym odbiorcy";
+"      albo biezaca wiadomosc to 0.";
+"Ten czasownik jest w wiekszosci przestarzaly; rozwaz uzycie :get_current_message()";
 if ((caller != this) && (!$perm_utils:controls(caller_perms(), this)))
 raise(E_PERM);
 elseif ((!args) || (args[1] == this))
@@ -69357,8 +69352,8 @@ endif
 .
 #40:8
 ":get_current_message([recipient])";
-" => {msg_num, last_read_date} for the given recipient.";
-" => 0 if we have no record of that recipient.";
+" => {msg_num, last_read_date} dla danego odbiorcy.";
+" => 0 jesli nie mamy danych o tym odbiorcy.";
 if ((caller != this) && (!$perm_utils:controls(caller_perms(), this)))
 raise(E_PERM);
 elseif ((!args) || (args[1] == this))
@@ -69375,7 +69370,7 @@ endif
 .
 #40:9
 ":set_current_message(recipient[,number[,date]])";
-"Returns the new {number,last-read-date} pair for recipient.";
+"Zwraca nowa pare {number,last-read-date} dla odbiorcy.";
 if ((caller != this) && (!$perm_utils:controls(caller_perms(), this)))
 raise(E_PERM);
 endif
@@ -69402,9 +69397,9 @@ endif
 .
 #40:10
 ":make_current_message(recipient[,index])";
-"starts a new current_message record for recipient.";
-"index, if given, indicates where recipient is to be";
-"  placed (n = at or after nth entry in .current_message).";
+"rozpoczyna nowy rekord current_message dla odbiorcy.";
+"index, jesli podany, wskazuje, gdzie odbiorca ma";
+"  byc umieszczony (n = na lub po n-tym wpisie w .current_message).";
 recip = args[1];
 cm = this.current_message;
 if (length(args) > 1)
@@ -69431,8 +69426,8 @@ endif
 .
 #40:11
 ":kill_current_message(recipient)";
-"entirely forgets current message for this recipient...";
-"Returns true iff successful.";
+"calkowicie zapomina biezaca wiadomosc dla tego odbiorcy...";
+"Zwraca prawde, jesli sie udalo.";
 if ((caller != this) && (!$perm_utils:controls(caller_perms(), this)))
 raise(E_PERM);
 else
@@ -69440,7 +69435,7 @@ return ((recip = args[1]) != this) && ((i = $list_utils:iassoc(recip, cm = this.
 endif
 .
 #40:12
-":current_folder() => default folder to use, always an object, usually `this'";
+":current_folder() => domyslny folder do uzycia, zawsze obiekt, zwykle `this'";
 set_task_perms(caller_perms());
 return ((!this:mail_option("sticky")) || this.current_folder) && this;
 .
@@ -69463,11 +69458,11 @@ if (prepstr != prep)
 if (extra && (!index(prepstr, " ")))
 return {folder, args[1..p - 1], args[p..$]};
 else
-player:tell("Usage:  ", verb, " [<message numbers>] [", prep, " <folder/list-name>]");
+player:tell("Uzycie:  ", verb, " [<numery wiadomosci>] [", prep, " <folder/nazwa-listy>]");
 endif
 elseif (!((p < length(args)) && (fname = args[p + 1])))
 "...preposition but no iobj...";
-player:tell(verb, " ", $string_utils:from_list(args, " "), " WHAT?");
+player:tell(verb, " ", $string_utils:from_list(args, " "), " CO?");
 elseif ($mail_agent:match_failed(folder = $mail_agent:match_recipient(fname, this), fname))
 "...bogus mail folder...";
 else
@@ -69477,11 +69472,11 @@ return 0;
 .
 #40:15
 ":parse_mailread_cmd(verb,args,default,prep[,trailer])";
-"  handles anything of the form  `VERB message_seq [PREP folder ...]'";
-"    default is the default msg-seq to use if none given";
-"    prep is the expected prepstr (assumes prepstr is set), usually `on'";
-"    trailer, if present and true, indicates trailing args are permitted.";
-"  returns {recipient object, message_seq, current_msg,\"...\"} or 0";
+"  obsluguje wszystko w formie  `VERB message_seq [PREP folder ...]'";
+"    default to domyslny msg-seq do uzycia, jesli nie podano zadnego";
+"    prep to oczekiwany prepstr (zaklada, ze prepstr jest ustawiony), zwykle `on'";
+"    trailer, jesli podany i prawdziwy, wskazuje, ze koncowe argumenty sa dozwolone.";
+"  zwraca {recipient object, message_seq, current_msg,\"...\"} lub 0";
 set_task_perms(caller_perms());
 if (!(pfs = this:parse_folder_spec(@listdelete(args, 3))))
 return 0;
@@ -69523,37 +69518,37 @@ player:tell($string_utils:substitute(pms, {@subst, {"%%", "%"}}));
 return 0;
 .
 #40:16
-"@mail <msg-sequence>                --- as in help @mail";
-"@mail <msg-sequence> on <recipient> --- shows mail on mailing list or player.";
+"@mail <sekwencja-wiadomosci>                --- jak w help @mail";
+"@mail <sekwencja-wiadomosci> na <odbiorca> --- pokazuje poczte na liscie mailingowej lub u gracza.";
 set_task_perms(valid(cp = caller_perms()) ? cp | player);
-if (p = this:parse_mailread_cmd("@mail", args, this:mail_option("@mail") || $mail_agent.("player_default_@mail"), "on"))
+if (p = this:parse_mailread_cmd("@mail", args, this:mail_option("@mail") || $mail_agent.("player_default_@mail"), "na"))
 this:set_current_folder(folder = p[1]);
 msg_seq = p[2];
 seq_size = $seq_utils:size(msg_seq);
-if ((lim = player:mail_option("manymsgs")) && ((lim <= seq_size) && (!$command_utils:yes_or_no(tostr("You are about to see ", seq_size, " message headers.  Continue?")))))
-player:notify(tostr("Aborted.  @mailoption manymsgs=", lim));
+if ((lim = player:mail_option("manymsgs")) && ((lim <= seq_size) && (!$command_utils:yes_or_no(tostr("Zaraz zobaczysz ", seq_size, " naglowkow wiadomosci.  Kontynuowac?")))))
+player:notify(tostr("Przerwano.  @mailoption manymsgs=", lim));
 return;
 endif
 if (1 != seq_size)
-player:notify(tostr(seq_size, " messages", (folder == this) ? "" | (" on " + $mail_agent:name(folder)), ":"));
+player:notify(tostr(seq_size, " ", $polish_utils:count(seq_size, "wiadomosc", "wiadomosci", "wiadomosci"), (folder == this) ? "" | (" w " + $mail_agent:name(folder)), ":"));
 endif
 folder:display_seq_headers(msg_seq, @p[3]);
 endif
 .
 #40:17
-"@read <msg>...                  -- as in help @read";
-"@read <msg>... on *<recipient>  -- reads messages on recipient.";
-"@peek ...                       -- like @read, but don't set current message";
+"@read <wiad>...                  -- jak w help @read";
+"@read <wiad>... na *<odbiorca>  -- czyta wiadomosci u odbiorcy.";
+"@peek ...                       -- jak @read, ale nie ustawia biezacej wiadomosci";
 set_task_perms(valid(cp = caller_perms()) ? cp | player);
-if (p = this:parse_mailread_cmd("@read", args, "", "on"))
+if (p = this:parse_mailread_cmd("@read", args, "", "na"))
 this:set_current_folder(folder = p[1]);
 msg_seq = p[2];
-if ((lim = player:mail_option("manymsgs")) && ((lim <= (seq_size = $seq_utils:size(msg_seq))) && (!$command_utils:yes_or_no(tostr("You are about to see ", seq_size, " messages.  Continue?")))))
-player:notify(tostr("Aborted.  @mailoption manymsgs=", lim));
+if ((lim = player:mail_option("manymsgs")) && ((lim <= (seq_size = $seq_utils:size(msg_seq))) && (!$command_utils:yes_or_no(tostr("Zaraz zobaczysz ", seq_size, " wiadomosci.  Kontynuowac?")))))
+player:notify(tostr("Przerwano.  @mailoption manymsgs=", lim));
 return;
 endif
 this._mail_task = task_id();
-if (cur = folder:display_seq_full(msg_seq, tostr("Message %d", (folder == this) ? "" | (" on " + $mail_agent:name(folder)), ":")))
+if (cur = folder:display_seq_full(msg_seq, tostr("Wiadomosc %d", (folder == this) ? "" | (" w " + $mail_agent:name(folder)), ":")))
 if (verb != "@peek")
 this:set_current_message(folder, @cur);
 endif
@@ -69563,7 +69558,7 @@ endif
 #40:18
 set_task_perms(player.owner);
 if (dobjstr && (!(n = toint(dobjstr))))
-player:notify(tostr("Usage:  ", verb, " [<number>] [on <recipient>]"));
+player:notify(tostr("Uzycie:  ", verb, " [<numer>] [na <odbiorca>]"));
 elseif (dobjstr)
 this:("@read")(tostr(verb[2..5], n), @listdelete(args, 1));
 else
@@ -69571,23 +69566,23 @@ this:("@read")(verb[2..5], @args);
 endif
 .
 #40:19
-"@rmm <message-sequence> [from <recipient>].   Use @unrmm if you screw up.";
-" Beware, though.  @unrmm can only undo the most recent @rmm.";
+"@rmm <sekwencja-wiadomosci> [z <odbiorca>].   Uzyj @unrmm, jesli sie pomylisz.";
+" Uwazaj jednak.  @unrmm moze cofnac tylko najnowsze @rmm.";
 set_task_perms(player);
-if (!(p = this:parse_mailread_cmd("@rmm", args, "cur", "from")))
+if (!(p = this:parse_mailread_cmd("@rmm", args, "cur", "z")))
 "...parse failed, we've already complained...";
-elseif ((!prepstr) && ((p[1] != this) && (!$command_utils:yes_or_no(("@rmmail from " + $mail_agent:name(p[1])) + ".  Continue?"))))
+elseif ((!prepstr) && ((p[1] != this) && (!$command_utils:yes_or_no(("@rmmail z " + $mail_agent:name(p[1])) + ".  Kontynuowac?"))))
 "...wasn't the folder player was expecting...";
-player:notify("@rmmail aborted.");
+player:notify("@rmmail przerwane.");
 else
 this:set_current_folder(folder = p[1]);
 e = folder:rm_message_seq(p[2]);
 if (typeof(e) == ERR)
 player:notify(tostr($mail_agent:name(folder), ":  ", e));
 else
-count = ((n = $seq_utils:size(p[2])) == 1) ? "." | tostr(" (", n, " messages).");
-fname = (folder == this) ? "" | (" from " + $mail_agent:name(folder));
-player:notify(tostr("Deleted ", e, fname, count));
+count = ((n = $seq_utils:size(p[2])) == 1) ? "." | tostr(" (", n, " ", $polish_utils:count(n, "wiadomosc", "wiadomosci", "wiadomosci"), ").");
+fname = (folder == this) ? "" | (" z " + $mail_agent:name(folder));
+player:notify(tostr("Usunieto ", e, fname, count));
 endif
 endif
 .
@@ -69604,55 +69599,55 @@ if (typeof(h = folder:renumber(cur)) == ERR)
 player:notify(tostr(h));
 else
 if (!h[1])
-player:notify(tostr("No messages on ", fname, "."));
+player:notify(tostr("Brak wiadomosci w ", fname, "."));
 else
-player:notify(tostr("Messages on ", fname, " renumbered 1-", h[1], "."));
+player:notify(tostr("Wiadomosci w ", fname, " przenumerowane 1-", h[1], "."));
 this:set_current_folder(folder);
 if (h[2] && this:set_current_message(folder, h[2]))
-player:notify(tostr("Current message is now ", h[2], "."));
+player:notify(tostr("Biezaca wiadomosc to teraz ", h[2], "."));
 endif
 endif
 endif
 .
 #40:21
-"@unrmm [on <recipient>]  -- undoes the previous @rmm on that recipient.";
+"@unrmm [na <odbiorca>]  -- cofa poprzednie @rmm dla tego odbiorcy.";
 set_task_perms(player);
-if (!(p = this:parse_folder_spec("@unrmm", args, "on")))
+if (!(p = this:parse_folder_spec("@unrmm", args, "na")))
 return;
 endif
 dobjstr = $string_utils:from_list(p[2], " ");
 keep = 0;
-if ((!dobjstr) || (keep = index("keep", dobjstr) == 1))
+if ((!dobjstr) || (keep = (index("keep", dobjstr) == 1) || (index("zachowaj", dobjstr) == 1)))
 do = "undo_rmm";
-elseif (index("expunge", dobjstr) == 1)
+elseif ((index("expunge", dobjstr) == 1) || (index("wyczysc", dobjstr) == 1))
 do = "expunge_rmm";
-elseif (index("list", dobjstr) == 1)
+elseif ((index("list", dobjstr) == 1) || (index("lista", dobjstr) == 1))
 do = "list_rmm";
 else
-player:notify(tostr("Usage:  ", verb, " [expunge|list] [on <recipient>]"));
+player:notify(tostr("Uzycie:  ", verb, " [expunge|wyczysc|list|lista] [na <odbiorca>]"));
 return;
 endif
 this:set_current_folder(folder = p[1]);
 if (msg_seq = folder:(do)(@keep ? {keep} | {}))
 if (do == "undo_rmm")
-player:notify(tostr($seq_utils:size(msg_seq), " messages restored to ", $mail_agent:name(folder), "."));
+player:notify(tostr("Przywrocono ", $seq_utils:size(msg_seq), " ", $polish_utils:count($seq_utils:size(msg_seq), "wiadomosc", "wiadomosci", "wiadomosci"), " do ", $mail_agent:name(folder), "."));
 folder:display_seq_headers(msg_seq, 0);
 else
-player:notify(tostr(msg_seq, " zombie message", (msg_seq == 1) ? " " | "s ", (do == "expunge_rmm") ? "expunged from " | "on ", $mail_agent:name(folder), "."));
+player:notify(tostr(msg_seq, " ", $polish_utils:count(msg_seq, "wiadomosc-zombie", "wiadomosci-zombie", "wiadomosci-zombie"), " ", (do == "expunge_rmm") ? "trwale usunietych z " | "na ", $mail_agent:name(folder), "."));
 endif
 elseif (typeof(msg_seq) == ERR)
 player:notify(tostr($mail_agent:name(folder), ":  ", msg_seq));
 else
-player:notify(tostr("No messages to ", (do == "expunge_rmm") ? "expunge from " | "restore to ", $mail_agent:name(folder)));
+player:notify(tostr("Brak wiadomosci do ", (do == "expunge_rmm") ? "trwalego usuniecia z " | "przywrocenia do ", $mail_agent:name(folder)));
 endif
 .
 #40:22
-if (args && (args[1] == "to"))
+if (args && ((args[1] == "to") || (args[1] == "do")))
 args = listdelete(args, 1);
 endif
 subject = {};
 for a in (args)
-if (((i = index(a, "=")) > 3) && (index("subject", a[1..i - 1]) == 1))
+if (((i = index(a, "=")) > 3) && ((index("subject", a[1..i - 1]) == 1) || (index("temat", a[1..i - 1]) == 1)))
 args = setremove(args, a);
 a[1..i] = "";
 subject = {a};
@@ -69661,13 +69656,13 @@ endfor
 $mail_editor:invoke(args, verb, @subject);
 .
 #40:23
-"@answer <msg> [on *<recipient>] [<flags>...]";
+"@answer <wiad> [na *<odbiorca>] [<flagi>...]";
 set_task_perms(who = valid(caller_perms()) ? caller_perms() | player);
-if (p = this:parse_mailread_cmd(verb, args, "cur", "on", 1))
+if (p = this:parse_mailread_cmd(verb, args, "cur", "na", 1))
 if ($seq_utils:size(p[2]) != 1)
-player:notify("You can only answer *one* message at a time.");
+player:notify("Mozesz odpowiedziec tylko na *jedna* wiadomosc naraz.");
 elseif (LIST != typeof(flags_replytos = $mail_editor:check_answer_flags(@p[4])))
-player:notify_lines({tostr("Usage:  ", verb, " [message-# [on <recipient>]] [flags...]"), "where flags include any of:", "  all        reply to everyone", "  sender     reply to sender only", "  include    include the original message in your reply", "  noinclude  don't include the original in your reply"});
+player:notify_lines({tostr("Uzycie:  ", verb, " [numer-wiadomosci [na <odbiorca>]] [flagi...]"), "gdzie flagi to dowolne z:", "  all        odpowiedz wszystkim", "  sender     odpowiedz tylko nadawcy", "  include    dolacz oryginalna wiadomosc do odpowiedzi", "  noinclude  nie dolaczaj oryginalu do odpowiedzi"});
 else
 this:set_current_folder(p[1]);
 $mail_editor:invoke(2, verb, p[1]:messages_in_seq(p[2])[1][2], @flags_replytos);
@@ -69675,16 +69670,16 @@ endif
 endif
 .
 #40:24
-"@forward <msg> [on *<recipient>] to <recipient> [<recipient>...]";
+"@forward <wiad> [na *<odbiorca>] do <odbiorca> [<odbiorca>...]";
 set_task_perms(valid(cp = caller_perms()) ? cp | player);
-if (!(p = this:parse_mailread_cmd(verb, args, "", "on", 1)))
+if (!(p = this:parse_mailread_cmd(verb, args, "", "na", 1)))
 "...lose...";
 return;
 elseif ($seq_utils:size(sequence = p[2]) != 1)
-player:notify("You can only forward *one* message at a time.");
+player:notify("Mozesz przekazac dalej tylko *jedna* wiadomosc naraz.");
 return;
-elseif ((length(p[4]) < 2) || (p[4][1] != "to"))
-player:notify(tostr("Usage:  ", verb, " [<message>] [on <folder>] to <recip>..."));
+elseif ((length(p[4]) < 2) || ((p[4][1] != "to") && (p[4][1] != "do")))
+player:notify(tostr("Uzycie:  ", verb, " [<wiadomosc>] [na <folder>] do <odbiorca>..."));
 return;
 endif
 recips = {};
@@ -69710,9 +69705,9 @@ result = $mail_agent:send_message(player, recips, subject, $mail_agent:to_text(@
 if (!result)
 player:notify(tostr(result));
 elseif (result[1])
-player:notify(tostr("Message ", msgnum, @(folder == this) ? {} | {" on ", $mail_agent:name(folder)}, " @forwarded to ", $mail_agent:name_list(@listdelete(result, 1)), "."));
+player:notify(tostr("Wiadomosc ", msgnum, @(folder == this) ? {} | {" w ", $mail_agent:name(folder)}, " przekazana do ", $mail_agent:name_list(@listdelete(result, 1)), "."));
 else
-player:notify("Message not sent.");
+player:notify("Wiadomosc nie zostala wyslana.");
 endif
 .
 #40:25
@@ -69725,39 +69720,39 @@ return E_PERM;
 elseif (argstr)
 result = $mail_agent:send_message(this, {loc.owner}, subject, argstr);
 if (result && result[1])
-player:notify(tostr("Your ", verb, " sent to ", $mail_agent:name_list(@listdelete(result, 1)), ".  Input is appreciated, as always."));
+player:notify(tostr("Twoje ", verb, " zostalo wyslane do ", $mail_agent:name_list(@listdelete(result, 1)), ".  Twoja opinia jest zawsze mile widziana."));
 else
-player:notify(tostr("Huh?  This room's owner (", loc.owner, ") is invalid?  Tell a wizard..."));
+player:notify(tostr("Co?  Wlasciciel tego pokoju (", loc.owner, ") jest nieprawidlowy?  Powiedz wizardowi..."));
 endif
 return;
 elseif (!($object_utils:isa(loc, $room) && loc.free_entry))
-player:notify_lines({tostr("You need to make it a one-liner, i.e., `", verb, " something or other'."), "This room may not let you back in if you go to the Mail Room."});
+player:notify_lines({tostr("Musisz to zmiescic w jednej linii, np. `", verb, " cos tam'."), "Ten pokoj moze cie nie wpuscic z powrotem, jesli pojdziesz do Pokoju Poczty."});
 elseif ($object_utils:isa(loc, $generic_editor))
-player:notify_lines({tostr("You need to make it a one-liner, i.e., `", verb, " something or other'."), "Sending you to the Mail Room from an editor is usually a bad idea."});
+player:notify_lines({tostr("Musisz to zmiescic w jednej linii, np. `", verb, " cos tam'."), "Wyslanie cie do Pokoju Poczty z edytora to zwykle zly pomysl."});
 else
 $mail_editor:invoke({tostr(loc.owner)}, verb, subject);
 endif
 if (verb == "@bug")
-player:notify("For a @bug report, be sure to mention exactly what it was you typed to trigger the error...");
+player:notify("Przy zgloszeniu @bug koniecznie podaj dokladna komende, ktora wywolala ten blad...");
 endif
 .
 #40:27
-"@skip [*<folder/mailing_list>...]";
-"  sets your last-read time for the given lists to now, indicating your";
-"  disinterest in any new messages that might have appeared recently.";
+"@skip [*<folder/lista-mailingowa>...]";
+"  ustawia twoj czas ostatniego odczytu dla podanych list na teraz, oznaczajac";
+"  twoj brak zainteresowania nowymi wiadomosciami, ktore mogly sie ostatnio pojawic.";
 set_task_perms(player);
 current_folder = this:current_folder();
 for a in (args || {0})
 if (a ? $mail_agent:match_failed(folder = $mail_agent:match_recipient(a), a) | (folder = this:current_folder()))
 "...bogus folder name, done...  No, try anyway.";
 if (this:kill_current_message(this:my_match_object(a)))
-player:notify("Invalid folder, but found it subscribed anyway.  Removed.");
+player:notify("Nieprawidlowy folder, ale znaleziono subskrypcje.  Usunieto.");
 endif
 else
 lseq = folder:length_all_msgs();
 unread = (n = this:get_current_message(folder)) ? folder:length_date_gt(n[2]) | lseq;
 this:set_current_message(folder, lseq && folder:messages_in_seq({lseq, lseq + 1})[1][1], time());
-player:notify(tostr(unread ? tostr("Ignoring ", unread) | "No", " unread message", (unread != 1) ? "s" | "", " on ", $mail_agent:name(folder)));
+player:notify(tostr(unread ? tostr("Ignorowanie ", unread, " ", $polish_utils:count(unread, "nieprzeczytanej wiadomosci", "nieprzeczytanych wiadomosci", "nieprzeczytanych wiadomosci")) | "Brak nieprzeczytanych wiadomosci", " w ", $mail_agent:name(folder)));
 if (current_folder == folder)
 this:set_current_folder(this);
 endif
@@ -69765,14 +69760,14 @@ endif
 endfor
 .
 #40:28
-"@subscribe *<folder/mailing_list> [with notification] [before|after *<folder>]";
-"  causes you to be notified when new mail arrives on this list";
+"@subscribe *<folder/lista-mailingowa> [with notification] [before|after *<folder>]";
+"  powoduje, ze jestes powiadamiany, gdy nowa poczta pojawi sie na tej liscie";
 "@subscribe";
-"  just lists available mailing lists.";
+"  po prostu wyswietla dostepne listy mailingowe.";
 "@unsubscribed";
-"  prints out available mailing lists you aren't already subscribed to.";
-"@subscribe-quick and @unsubscribed-quick";
-"  prints out same as above except without mail list descriptions, just names.";
+"  wyswietla dostepne listy mailingowe, ktorych jeszcze nie subskrybujesz.";
+"@subscribe-quick i @unsubscribed-quick";
+"  wyswietlaja to samo co powyzej, ale bez opisow list, tylko nazwy.";
 set_task_perms(player);
 quick = 0;
 if (qi = index(verb, "-q"))
@@ -69783,8 +69778,8 @@ fname = {@args, 0}[1];
 if (!fname)
 ml = $list_utils:slice(this.current_message[3..$]);
 all_mlists = {@$mail_agent.contents, @this.mail_lists};
-if ((length(all_mlists) > 50) && (!$command_utils:yes_or_no(tostr("There are ", length(all_mlists), " mailing lists.  Are you sure you want the whole list?"))))
-return player:tell("OK, aborting.");
+if ((length(all_mlists) > 50) && (!$command_utils:yes_or_no(tostr("Jest ", length(all_mlists), " list mailingowych.  Na pewno chcesz zobaczyc cala liste?"))))
+return player:tell("OK, przerywam.");
 endif
 for c in (all_mlists)
 $command_utils:suspend_if_needed(0);
@@ -69792,18 +69787,18 @@ if ((c:is_usable_by(this) || c:is_readable_by(this)) && ((verb != "@unsubscribed
 c:look_self(quick);
 endif
 endfor
-player:notify(tostr("-------- end of ", verb, " -------"));
+player:notify(tostr("-------- koniec ", verb, " -------"));
 return;
 elseif (verb == "@unsubscribed")
-player:notify("@unsubscribed does not take arguments.");
+player:notify("@unsubscribed nie przyjmuje argumentow.");
 return;
 elseif ($mail_agent:match_failed(folder = $mail_agent:match_recipient(fname), fname))
 return;
 elseif (folder == this)
-player:notify("You don't need to @subscribe to yourself");
+player:notify("Nie musisz subskrybowac samego siebie przez @subscribe");
 return;
 elseif ($object_utils:isa(folder, $mail_recipient) ? !folder:is_readable_by(this) | (!$perm_utils:controls(this, folder)))
-player:notify("That mailing list is not readable by you.");
+player:notify("Ta lista mailingowa nie jest dla ciebie czytelna.");
 return;
 endif
 notification = this in folder.mail_notify;
@@ -69811,50 +69806,50 @@ i = 0;
 beforeafter = 0;
 while (length(args) >= 2)
 if (length(args) < 3)
-player:notify(args[2] + " what?");
+player:notify(args[2] + " co?");
 return;
-elseif (args[2] in {"with", "without"})
-with = args[2] == "with";
-if (index("notification", args[3]) != 1)
-player:notify(tostr("with ", args[3], "?"));
+elseif (args[2] in {"with", "without", "z", "bez"})
+with = (args[2] == "with") || (args[2] == "z");
+if ((index("notification", args[3]) != 1) && (index("powiadomienie", args[3]) != 1))
+player:notify(tostr(args[2], " ", args[3], "?"));
 return;
 elseif (!$object_utils:isa(folder, $mail_recipient))
-player:notify(tostr("You cannot use ", verb, " to change mail notification from a non-$mail_recipient."));
+player:notify(tostr("Nie mozesz uzyc ", verb, " by zmienic powiadomienia mailowe dla obiektu niebedacego $mail_recipient."));
 elseif ((!with) == (!notification))
 "... nothing to do...";
 elseif (with)
 if (this in folder:add_notify(this))
 notification = 1;
 else
-player:notify("This mail recipient does not allow immediate notification.");
+player:notify("Ten odbiorca poczty nie pozwala na natychmiastowe powiadomienia.");
 endif
 else
 folder:delete_notify(this);
 notification = 0;
 endif
-elseif (args[2] in {"before", "after"})
+elseif (args[2] in {"before", "after", "przed", "po"})
 if (beforeafter)
-player:notify((args[2] == beforeafter) ? tostr("two `", beforeafter, "'s?") | "Only use one of `before' or `after'");
+player:notify((args[2] == beforeafter) ? tostr("dwa `", beforeafter, "'?") | "Uzyj tylko jednego z `before'/`przed' lub `after'/`po'");
 return;
 elseif ($mail_agent:match_failed(other = $mail_agent:match_recipient(args[3]), args[3]))
 return;
 elseif (other == this)
 i = 2;
 elseif (!(i = $list_utils:iassoc(other, this.current_message)))
-player:notify(tostr("You aren't subscribed to ", $mail_agent:name(other), "."));
+player:notify(tostr("Nie subskrybujesz ", $mail_agent:name(other), "."));
 return;
 endif
 beforeafter = args[2];
-i = i - (beforeafter == "before");
+i = i - ((beforeafter == "before") || (beforeafter == "przed"));
 if (this:mail_option("rn_order") != "fixed")
-player:notify("Warning:  Do `@mail-option rn_order=fixed' if you do not want your @rn listing reordered when you next login.");
+player:notify("Uwaga:  Zrob `@mail-option rn_order=fixed', jesli nie chcesz, by twoja lista @rn zostala przesortowana przy nastepnym logowaniu.");
 endif
 endif
 args[2..3] = {};
 endwhile
 this:make_current_message(folder, @i ? {i} | {});
 len = folder:length_all_msgs();
-player:notify(tostr($mail_agent:name(folder), " has ", len, " message", (len == 1) ? "" | "s", ".", notification ? "  You will be notified immediately when new messages are posted." | "  Notification of new messages will be printed when you connect."));
+player:notify(tostr($mail_agent:name(folder), " ma ", len, " ", $polish_utils:count(len, "wiadomosc", "wiadomosci", "wiadomosci"), ".", notification ? "  Otrzymasz natychmiastowe powiadomienie o nowych wiadomosciach." | "  Powiadomienie o nowych wiadomosciach zostanie wyswietlone przy nastepnym polaczeniu."));
 this:set_current_folder(folder);
 .
 #40:29
@@ -69904,7 +69899,7 @@ else
 try
 nmsgs = (n[1].last_msg_date > n[3]) ? $maxint | 0;
 except (E_PERM, E_PROPNF)
-player:notify(tostr("Bogus recipient ", rcpt, " removed from .current_message."));
+player:notify(tostr("Nieprawidlowy odbiorca ", rcpt, " usuniety z .current_message."));
 this.current_message = setremove(this.current_message, n);
 nmsgs = 0;
 endtry
@@ -69916,31 +69911,31 @@ if (nmsgs || all)
 which = {@which, {n[1], nmsgs}};
 endif
 else
-player:notify(tostr("Bogus recipient ", rcpt, " removed from .current_message."));
+player:notify(tostr("Nieprawidlowy odbiorca ", rcpt, " usuniety z .current_message."));
 this.current_message = setremove(this.current_message, n);
 endif
 $command_utils:suspend_if_needed(0);
 endfor
 if (which)
-player:notify(tostr((verb == "@subscribed") ? "You are subscribed to the following" | "There is new activity on the following", (length(which) > 1) ? " lists:" | " list:"));
+player:notify((verb == "@subscribed") ? "Subskrybujesz nastepujace listy:" | "Jest nowa aktywnosc na nastepujacych listach:");
 for w in (which)
-name = (w[1] == this) ? " me" | $mail_agent:name(w[1]);
-player:notify(tostr($string_utils:left("    " + name, 40), " ", (w[2] == $maxint) ? "has" | w[2], " new message", (w[2] == 1) ? "" | "s"));
+name = (w[1] == this) ? " ja" | $mail_agent:name(w[1]);
+player:notify(tostr($string_utils:left("    " + name, 40), " ", (w[2] == $maxint) ? "ma nowe wiadomosci" | tostr(w[2], " ", $polish_utils:count(w[2], "nowa wiadomosc", "nowe wiadomosci", "nowych wiadomosci"))));
 $command_utils:suspend_if_needed(0);
 endfor
 if (verb != "check_mail_lists")
-player:notify("-- End of listing");
+player:notify("-- Koniec listy");
 endif
 elseif ((verb == "@rn") || (verb == "@rn-full"))
-player:notify("No new activity on any of your lists.");
+player:notify("Brak nowej aktywnosci na ktorejkolwiek z twoich list.");
 elseif (verb == "@subscribed")
-player:notify("You aren't subscribed to any mailing lists.");
+player:notify("Nie subskrybujesz zadnych list mailingowych.");
 endif
 return which;
 .
 #40:31
 ":mail_option(name)";
-"Returns the value of the specified mail option";
+"Zwraca wartosc podanej opcji poczty";
 if ((caller in {this, $mail_editor, $mail_agent}) || $perm_utils:controls(caller_perms(), this))
 return $options["mail"]:get(this.mail_options, args[1]);
 else
@@ -69948,9 +69943,9 @@ return E_PERM;
 endif
 .
 #40:32
-"@unsubscribe [*<folder/mailing_list> ...]";
-"entirely removes the record of your current message for the named folders,";
-"indicating your disinterest in anything that might appear there in the future.";
+"@unsubscribe [*<folder/lista-mailingowa> ...]";
+"calkowicie usuwa zapis twojej biezacej wiadomosci dla podanych folderow,";
+"wskazujac na brak zainteresowania czymkolwiek, co moze sie tam pojawic w przyszlosci.";
 set_task_perms(player);
 unsubscribed = {};
 current_folder = this:current_folder();
@@ -69966,19 +69961,19 @@ endif
 if (!valid(folder))
 "...bogus folder name...  try removing it anyway.";
 if (this:kill_current_message(folder))
-player:notify("Invalid folder, but found it subscribed anyway.  Removed.");
+player:notify("Nieprawidlowy folder, ale znaleziono subskrypcje.  Usunieto.");
 else
 $mail_agent:match_failed(folder, a);
 endif
 elseif (folder == this)
-player:notify(tostr("You can't ", verb, " yourself."));
+player:notify(tostr("Nie mozesz ", verb, " samego siebie."));
 else
 if (!this:kill_current_message(folder))
-player:notify(tostr("You weren't subscribed to ", $mail_agent:name(folder)));
+player:notify(tostr("Nie subskrybowano ", $mail_agent:name(folder), "."));
 if ($object_utils:isa(folder, $mail_recipient))
 result = folder:delete_notify(this);
 if ((typeof(result) == LIST) && (result[1] == this))
-player:notify("Removed you from the mail notifications list.");
+player:notify("Usunieto cie z listy powiadomien mailowych.");
 endif
 endif
 else
@@ -69990,7 +69985,7 @@ endif
 endif
 endfor
 if (unsubscribed)
-player:notify(tostr("Forgetting about ", $string_utils:english_list($list_utils:map_arg($mail_agent, "name", unsubscribed))));
+player:notify(tostr("Zapominam o ", $string_utils:english_list($list_utils:map_arg($mail_agent, "name", unsubscribed))));
 if (current_folder in unsubscribed)
 this:set_current_folder(this);
 endif
@@ -69998,76 +69993,76 @@ endif
 .
 #40:33
 ":send_self_netmail(msg [ ,from ])";
-"return 0 if successful, otherwise error.";
+"zwraca 0, jesli sie udalo, w przeciwnym razie blad.";
 if (!$perm_utils:controls(caller_perms(), this))
 return E_PERM;
 elseif (error = $network:invalid_email_address($wiz_utils:get_email_address(this)))
-return "Invalid email address: " + error;
+return "Nieprawidlowy adres email: " + error;
 else
 msg = args[1];
 if (length(args) > 1)
 from = args[2];
-this:notify(tostr("Receiving mail from ", from:title(), " (", from, ") and forwarding it to your .email_address."));
+this:notify(tostr("Odbieranie poczty od ", from:title(), " (", from, ") i przekazywanie jej na twoj .email_address."));
 endif
 oplayer = player;
 player = this;
 error = $network:sendmail($wiz_utils:get_email_address(this), @msg);
 if (error && (length(args) > 1))
-this:notify(tostr("Mail sending failed: ", error));
+this:notify(tostr("Wysylanie poczty nie powiodlo sie: ", error));
 endif
 player = oplayer;
 return error;
 endif
 .
 #40:34
-"@netforward <msg>...                  -- as in help on @netforward";
-"@netforward <msg>... on *<recipient>  -- netforwards messages on recipient.";
-"This command forwards mail-messages to your registered email-address.";
+"@netforward <wiad>...                  -- jak w help @netforward";
+"@netforward <wiad>... na *<odbiorca>  -- netforwarduje wiadomosci u odbiorcy.";
+"To polecenie przekazuje wiadomosci mailowe na twoj zarejestrowany adres email.";
 if (player != this)
 return player:tell(E_PERM);
 endif
 if (reason = $network:email_will_fail(email = $wiz_utils:get_email_address(player)))
-return player:notify(tostr("Cannot forward mail to your email address: ", reason));
+return player:notify(tostr("Nie mozna przekazac poczty na twoj adres email: ", reason));
 endif
 set_task_perms(valid(cp = caller_perms()) ? cp | player);
-if (p = player:parse_mailread_cmd(verb, args, "", "on"))
+if (p = player:parse_mailread_cmd(verb, args, "", "na"))
 player:set_current_folder(folder = p[1]);
 msg_seq = p[2];
-folderstr = (folder == player) ? "" | tostr(" from ", $mail_agent:name(folder));
-if ((!this:mail_option("expert_netfwd")) && (!$command_utils:yes_or_no(tostr("You are about to forward ", seq_size = $seq_utils:size(msg_seq), " message(s)", folderstr, " to your registered email-address, ", email, ".  Continue?"))))
-player:notify(tostr("@Netforward cancelled."));
+folderstr = (folder == player) ? "" | tostr(" z ", $mail_agent:name(folder));
+if ((!this:mail_option("expert_netfwd")) && (!$command_utils:yes_or_no(tostr("Zaraz przekazesz ", seq_size = $seq_utils:size(msg_seq), " ", $polish_utils:count(seq_size, "wiadomosc", "wiadomosci", "wiadomosci"), folderstr, " na zarejestrowany adres email, ", email, ".  Kontynuowac?"))))
+player:notify(tostr("@Netforward anulowane."));
 return;
 endif
-player:notify("Attempting to send network mail...");
+player:notify("Probuje wyslac poczte sieciowa...");
 player._mail_task = task_id();
 multiple_vals = this:format_for_netforward(folder:messages_in_seq(msg_seq), folderstr);
 netmail = multiple_vals[1];
 header = multiple_vals[2];
 reason = player:send_self_netmail({header, @netmail});
-player:notify((reason == 0) ? tostr("@netforward of ", header, " completed.") | tostr("@netforward failed: ", reason, "."));
+player:notify((reason == 0) ? tostr("@netforward ", header, " zakonczone.") | tostr("@netforward nie powiodlo sie: ", reason, "."));
 endif
 .
 #40:35
-"Syntax: @@sendmail";
-"This is intended for use with client editors.  You probably don't want to try using this command manually.";
-"Reads a formatted mail message, extracts recipients, subject line and/or reply-to header and sends message without going to the mailroom.  Example:";
+"Skladnia: @@sendmail";
+"To jest przeznaczone do uzycia z edytorami klienckimi.  Prawdopodobnie nie chcesz uzywac tego polecenia recznie.";
+"Czyta sformatowana wiadomosc mailowa, wyciaga odbiorcow, temat i/lub naglowek reply-to i wysyla wiadomosc bez wchodzenia do pokoju poczty.  Przyklad:";
 "";
 "@@send";
 "To: Rog (#4292)";
 "Subject: random";
 "";
-"first line";
-"second line";
+"pierwsza linia";
+"druga linia";
 ".";
 "";
-"Currently, header lines must have the same format as in an actual message.";
+"Obecnie, linie naglowka musza miec taki sam format, jak w prawdziwej wiadomosci.";
 set_task_perms(player);
 if (args)
-player:notify(tostr("The ", verb, " command takes no arguments."));
+player:notify(tostr("Polecenie ", verb, " nie przyjmuje argumentow."));
 $command_utils:read_lines();
 return;
 elseif (this != player)
-player:notify(tostr("You can't use ", this.pp, " ", verb, " verb."));
+player:notify(tostr("Nie mozesz uzyc cudzego czasownika ", verb, "."));
 $command_utils:read_lines();
 return;
 endif
@@ -70084,90 +70079,90 @@ if (index(line, "Subject:") == 1)
 subject = $string_utils:trim(line[9..$]);
 elseif (index(line, "To:") == 1)
 if (!(rcpts = $mail_agent:parse_address_field(line)))
-player:notify("No recipients found in To: line");
+player:notify("Nie znaleziono odbiorcow w linii To:");
 return;
 endif
 elseif (index(line, "Reply-to:") == 1)
 if ((!(replyto = $mail_agent:parse_address_field(line))) && $string_utils:trim(line[10..$]))
-player:notify("No address found in Reply-to: line");
+player:notify("Nie znaleziono adresu w linii Reply-to:");
 return;
 endif
 elseif (index(line, "From:") == 1)
 "... :send_message() bombs if designated sender != player ...";
 if (!(from = $mail_agent:parse_address_field(line)))
-player:notify("No sender found in From: line");
+player:notify("Nie znaleziono nadawcy w linii From:");
 return;
 elseif (length(from) > 1)
-player:notify("Multiple senders?");
+player:notify("Wielu nadawcow?");
 return;
 endif
 from = from[1];
 elseif (i = index(line, ":"))
-player:notify(tostr("Unknown header \"", line[1..i], "\""));
+player:notify(tostr("Nieznany naglowek \"", line[1..i], "\""));
 return;
 else
-player:notify("Blank line must separate headers from body.");
+player:notify("Pusta linia musi oddzielac naglowki od tresci.");
 return;
 endif
 endfor
 if (!rcpts)
-player:notify("No To: line found.");
+player:notify("Nie znaleziono linii To:.");
 elseif (!(subject || body))
-player:notify("Blank message not sent.");
+player:notify("Pusta wiadomosc nie zostala wyslana.");
 else
-player:notify("Sending...");
+player:notify("Wysylanie...");
 result = $mail_agent:send_message(from, rcpts, replyto ? {subject, replyto} | subject, body);
 if (e = result && result[1])
 if (length(result) == 1)
-player:notify("Mail actually went to no one.");
+player:notify("Poczta w rzeczywistosci nie dotarla do nikogo.");
 else
-player:notify(tostr("Mail actually went to ", $mail_agent:name_list(@listdelete(result, 1)), "."));
+player:notify(tostr("Poczta w rzeczywistosci dotarla do ", $mail_agent:name_list(@listdelete(result, 1)), "."));
 endif
 else
-player:notify(tostr((typeof(e) == ERR) ? e | ("Bogus recipients:  " + $string_utils:from_list(result[2]))));
-player:notify("Mail not sent.");
+player:notify(tostr((typeof(e) == ERR) ? e | ("Nieprawidlowi odbiorcy:  " + $string_utils:from_list(result[2]))));
+player:notify("Poczta nie zostala wyslana.");
 endif
 endif
 .
 #40:36
-"@keep-mail [<msg-sequence>|none] [on <recipient>]";
-"marks the indicated messages as `kept'.";
+"@keep-mail [<sekwencja-wiadomosci>|none] [na <odbiorca>]";
+"oznacza wskazane wiadomosci jako `zachowane'.";
 set_task_perms(valid(cp = caller_perms()) ? cp | player);
 if (!args)
-return player:notify("Usage:  @keep-mail [<msg-sequence>|none] [on <recipient>]");
-elseif (args[1] == "none")
+return player:notify("Uzycie:  @keep-mail [<sekwencja-wiadomosci>|none] [na <odbiorca>]");
+elseif ((args[1] == "none") || (args[1] == "brak"))
 args[1..1] = {};
-if (!(pfs = this:parse_folder_spec(verb, args, "on", 0)))
+if (!(pfs = this:parse_folder_spec(verb, args, "na", 0)))
 return;
 elseif (pfs[2])
-player:notify(tostr(verb, " <message-sequence> or `none', but not both."));
+player:notify(tostr(verb, " <sekwencja-wiadomosci> lub `none', ale nie oba naraz."));
 return;
 endif
 this:set_current_folder(folder = pfs[1]);
 if (e = folder:keep_message_seq({}))
-player:notify(tostr("Messages on ", $mail_agent:name(folder), " are no longer marked as kept."));
+player:notify(tostr("Wiadomosci w ", $mail_agent:name(folder), " nie sa juz oznaczone jako zachowane."));
 else
 player:notify(tostr(e));
 endif
 return;
-elseif (p = this:parse_mailread_cmd(verb, args, "", "on"))
+elseif (p = this:parse_mailread_cmd(verb, args, "", "na"))
 if ((folder = p[1]) != this)
 "... maybe I'll take this clause out some day...";
-player:notify(tostr(verb, " can only be used on your own mail collection."));
+player:notify(tostr(verb, " moze byc uzyte tylko na twojej wlasnej kolekcji poczty."));
 return;
 endif
 this:set_current_folder(folder);
 if (e = folder:keep_message_seq(msg_seq = p[2]))
-player:notify(tostr("Message", match(e, "[.,]") ? "s " | " ", e, " now marked as kept."));
+player:notify(tostr(match(e, "[.,]") ? "Wiadomosci " | "Wiadomosc ", e, " oznaczone teraz jako zachowane."));
 elseif (typeof(e) == ERR)
 player:notify(tostr(e));
 else
-player:notify(tostr(((seq_size = $seq_utils:size(msg_seq)) == 1) ? "That message is" | "Those messages are", " already marked as kept."));
+player:notify(tostr(((seq_size = $seq_utils:size(msg_seq)) == 1) ? "Ta wiadomosc jest" | "Te wiadomosci sa", " juz oznaczone jako zachowane."));
 endif
 endif
 .
 #40:37
-":my_match_recipient(string) => matches string against player's private mailing lists.";
+":my_match_recipient(string) => dopasowuje string do prywatnych list mailingowych gracza.";
 if (!(string = args[1]))
 return $nothing;
 elseif (string[1] == "*")
@@ -70190,26 +70185,26 @@ endif
 endif
 .
 #40:39
-":msg_full_text(@msg) => list of strings.";
-"msg is a mail message (in the usual transmission format).";
-"display_seq_full calls this to obtain the actual list of strings to display.";
+":msg_full_text(@msg) => lista stringow.";
+"msg to wiadomosc mailowa (w zwyklym formacie transmisji).";
+"display_seq_full wywoluje to, by uzyskac faktyczna liste stringow do wyswietlenia.";
 return player:msg_text(@args);
 "default is to leave it up to the player how s/he wants it to be displayed.";
 .
 #40:40
-"@resend <msg> [on *<recipient>] to <recipient> [<recipient>...]";
+"@resend <wiad> [na *<odbiorca>] do <odbiorca> [<odbiorca>...]";
 set_task_perms(valid(caller_perms()) ? caller_perms() | player);
 "...";
 "... parse command...";
 "...";
-if (!(p = this:parse_mailread_cmd(verb, args, "", "on", 1)))
+if (!(p = this:parse_mailread_cmd(verb, args, "", "na", 1)))
 "...lose...";
 return;
 elseif ($seq_utils:size(sequence = p[2]) != 1)
-player:notify("You can only resend *one* message at a time.");
+player:notify("Mozesz wyslac ponownie tylko *jedna* wiadomosc naraz.");
 return;
-elseif ((length(p[4]) < 2) || (p[4][1] != "to"))
-player:notify(tostr("Usage:  ", verb, " [<message>] [on <folder>] to <recip>..."));
+elseif ((length(p[4]) < 2) || ((p[4][1] != "to") && (p[4][1] != "do")))
+player:notify(tostr("Uzycie:  ", verb, " [<wiadomosc>] [na <folder>] do <odbiorca>..."));
 return;
 endif
 recips = {};
@@ -70239,12 +70234,12 @@ endif
 "... report bogus headers...";
 "...";
 if (bogus = pmh[2])
-player:notify("Bogus headers stripped from original message:");
+player:notify("Nieprawidlowe naglowki usuniete z oryginalnej wiadomosci:");
 for b in (bogus)
 player:notify("  " + b);
 endfor
-if (!$command_utils:yes_or_no("Continue?"))
-player:notify("Message not resent.");
+if (!$command_utils:yes_or_no("Kontynuowac?"))
+player:notify("Wiadomosc nie zostala wyslana ponownie.");
 return;
 endif
 endif
@@ -70267,13 +70262,13 @@ endif
 if (!result)
 player:notify(tostr(result));
 elseif (result[1])
-player:notify(tostr("Message ", msgnum, @(folder == this) ? {} | {" on ", $mail_agent:name(folder)}, " @resent to ", $mail_agent:name_list(@listdelete(result, 1)), "."));
+player:notify(tostr("Wiadomosc ", msgnum, @(folder == this) ? {} | {" w ", $mail_agent:name(folder)}, " wyslana ponownie do ", $mail_agent:name_list(@listdelete(result, 1)), "."));
 else
-player:notify("Message not resent.");
+player:notify("Wiadomosc nie zostala wyslana ponownie.");
 endif
 .
 #40:41
-"Return a sequence indicating the expirable messages for this player.";
+"Zwraca sekwencje wskazujaca wiadomosci wygasajace dla tego gracza.";
 set_task_perms(caller_perms());
 if (!$perm_utils:controls(caller_perms(), this))
 return E_PERM;
@@ -70289,7 +70284,7 @@ return $seq_utils:remove(this:unkept_msg_seq(), 1 + this:length_date_le(min(time
 endif
 .
 #40:42
-"Takes a message sequence (the actual messages, not just the sequence describing it) and grovels over it filling text etc.  Returns a two valued list: {formatted message, header for same}";
+"Bierze sekwencje wiadomosci (faktyczne wiadomosci, nie tylko sekwencje ja opisujaca) i przeszukuje ja, wypelniajac tekst itp.  Zwraca liste dwoch wartosci: {sformatowana wiadomosc, naglowek dla niej}";
 set_task_perms(caller_perms());
 {message_seq, folderstr} = args;
 netmail = {};
@@ -70313,7 +70308,7 @@ header = tostr($network.MOO_name, " Message(s) ", minmsg, @(minmsg != maxmsg) ? 
 return {netmail, header};
 .
 #40:43
-"Takes a message sequence (the actual messages, not just the sequence describing it) and grovels over it filling text etc.  Returns a two valued list: {formatted message, header for same}";
+"Bierze sekwencje wiadomosci (faktyczne wiadomosci, nie tylko sekwencje ja opisujaca) i przeszukuje ja, wypelniajac tekst itp.  Zwraca liste dwoch wartosci: {sformatowana wiadomosc, naglowek dla niej}";
 set_task_perms(caller_perms());
 {message_seq, folderstr} = args;
 netmail = {};
@@ -70337,7 +70332,7 @@ header = tostr($network.MOO_name, " Message(s) ", minmsg, @(minmsg != maxmsg) ? 
 return {netmail, header};
 .
 #40:44
-"@nn  -- reads the first new message on the first mail_recipient (in .current_message) where new mail exists.";
+"@nn  -- czyta pierwsza nowa wiadomosc na pierwszym mail_recipient (w .current_message), gdzie istnieje nowa poczta.";
 set_task_perms(valid(cp = caller_perms()) ? cp | player);
 cm = this.current_message;
 cm[1..2] = {{this, @cm[1..2]}};
@@ -70352,26 +70347,26 @@ if (old < leng_all)
 next = old + 1;
 this:set_current_folder(folder = n[1]);
 this._mail_task = task_id();
-cur = folder:display_seq_full({next, next + 1}, tostr("Message %d", " on ", $mail_agent:name(folder), ":"));
+cur = folder:display_seq_full({next, next + 1}, tostr("Wiadomosc %d", " w ", $mail_agent:name(folder), ":"));
 this:set_current_message(folder, @cur);
 return;
 endif
 else
-player:notify(tostr("Bogus recipient ", n[1], " removed from .current_message."));
+player:notify(tostr("Nieprawidlowy odbiorca ", n[1], " usuniety z .current_message."));
 this.current_message = setremove(this.current_message, n);
 endif
 endfor
-player:tell("No News (is good news)");
+player:tell("Brak Nowosci (i to dobra nowina)");
 .
 #40:45
-"@unread <msg> [on *<recipient>]  -- resets last-read-date for recipient to just before the first of the indicated messages.";
+"@unread <wiad> [na *<odbiorca>]  -- resetuje czas ostatniego odczytu dla odbiorcy na tuz przed pierwsza z podanych wiadomosci.";
 set_task_perms(player);
-if (p = this:parse_mailread_cmd("@unread", args, "cur", "on"))
+if (p = this:parse_mailread_cmd("@unread", args, "cur", "na"))
 this:set_current_folder(folder = p[1]);
 msg_ord = $seq_utils:first(msg_seq = p[2]);
 msgdate = folder:messages_in_seq(msg_ord)[2][1] - 1;
 if ((!(cm = this:get_current_message(folder))) || (cm[2] < msgdate))
-player:notify("Already unread.");
+player:notify("Juz nieprzeczytane.");
 else
 if (folder == this)
 this.current_message[2] = msgdate - 1;
@@ -70384,14 +70379,14 @@ endif
 endif
 .
 #40:46
-"@refile/@copym*ail <msg-sequence> [on <recipient>] to <recipient>";
-"@refile will delete the messages from the source folder.  @copym does not.";
+"@refile/@copym*ail <sekwencja-wiadomosci> [na <odbiorca>] do <odbiorca>";
+"@refile usunie wiadomosci z folderu zrodlowego. @copym tego nie robi.";
 "I'm not happy with this one, yet...";
 set_task_perms(player);
-if (!(p = this:parse_mailread_cmd("@refile", args, "cur", "on", 1)))
+if (!(p = this:parse_mailread_cmd("@refile", args, "cur", "na", 1)))
 "...lose...";
-elseif ((length(p[4]) != 2) || (p[4][1] != "to"))
-player:notify(tostr("Usage:  ", verb, " [<message numbers>] [on <folder>] to <folder>"));
+elseif ((length(p[4]) != 2) || ((p[4][1] != "to") && (p[4][1] != "do")))
+player:notify(tostr("Uzycie:  ", verb, " [<numery wiadomosci>] [na <folder>] do <folder>"));
 elseif ($mail_agent:match_failed(dest = $mail_agent:match_recipient(p[4][2]), p[4][2]))
 "...bogus destination folder...";
 else
@@ -70399,35 +70394,35 @@ source = p[1];
 msg_seq = p[2];
 for m in (source:messages_in_seq(msg_seq))
 if (!(e = dest:receive_message(m[2], source)))
-player:notify(tostr("Copying msg. ", m[1], ":  ", e));
+player:notify(tostr("Kopiowanie wiad. ", m[1], ":  ", e));
 return;
 endif
 $command_utils:suspend_if_needed(0);
 endfor
 if (refile = verb == "@refile")
 if (typeof(e = source:rm_message_seq(msg_seq)) == ERR)
-player:notify(tostr("Deleting from ", source, ":  ", e));
+player:notify(tostr("Usuwanie z ", source, ":  ", e));
 endif
 endif
-count = tostr(n = $seq_utils:size(msg_seq), " message", (n == 1) ? "" | "s");
-fname = (source == this) ? "" | tostr(is_player(source) ? " from " | " from *", source.name, "(", source, ")");
-suffix = tostr(is_player(dest) ? " to " | " to *", dest.name, "(", dest, ").");
-player:notify(tostr(refile ? "Refiled " | "Copied ", count, fname, suffix));
+count = tostr(n = $seq_utils:size(msg_seq), " ", $polish_utils:count(n, "wiadomosc", "wiadomosci", "wiadomosci"));
+fname = (source == this) ? "" | tostr(is_player(source) ? " z " | " z *", source.name, "(", source, ")");
+suffix = tostr(is_player(dest) ? " do " | " do *", dest.name, "(", dest, ").");
+player:notify(tostr(refile ? "Przeniesiono " | "Skopiowano ", count, fname, suffix));
 endif
 .
 #40:47
-"@qreply <msg> [on *<recipient>] [<flags>...]";
-"like @reply only, as in @qsend, we prompt for the message text using ";
-"$command_utils:read_lines() rather than invoking the $mail_editor.";
+"@qreply <wiad> [na *<odbiorca>] [<flagi>...]";
+"jak @reply, tylko ze, jak w @qsend, pytamy o tekst wiadomosci uzywajac ";
+"$command_utils:read_lines() zamiast wywolywac $mail_editor.";
 set_task_perms(who = valid(cp = caller_perms()) ? cp | player);
-if (!(p = this:parse_mailread_cmd(verb, args, "cur", "on", 1)))
+if (!(p = this:parse_mailread_cmd(verb, args, "cur", "na", 1)))
 "...garbled...";
 elseif ($seq_utils:size(p[2]) != 1)
-player:notify("You can only answer *one* message at a time.");
+player:notify("Mozesz odpowiedziec tylko na *jedna* wiadomosc naraz.");
 elseif (LIST != typeof(flags_replytos = $mail_editor:check_answer_flags("noinclude", @p[4])))
-player:notify_lines({tostr("Usage:  ", verb, " [message-# [on <recipient>]] [flags...]"), "where flags include any of:", "  all        reply to everyone", "  sender     reply to sender only", tostr("  include    include the original message in reply (can't do this for ", verb, ")"), "  noinclude  don't include the original in your reply"});
+player:notify_lines({tostr("Uzycie:  ", verb, " [numer-wiadomosci [na <odbiorca>]] [flagi...]"), "gdzie flagi to dowolne z:", "  all        odpowiedz wszystkim", "  sender     odpowiedz tylko nadawcy", tostr("  include    dolacz oryginalna wiadomosc do odpowiedzi (nie da sie tego zrobic dla ", verb, ")"), "  noinclude  nie dolaczaj oryginalu do odpowiedzi"});
 elseif ("include" in flags_replytos[1])
-player:notify(tostr("Can't include message on a ", verb));
+player:notify(tostr("Nie mozna dolaczyc wiadomosci w ", verb));
 else
 this:set_current_folder(p[1]);
 if (to_subj = $mail_editor:parse_msg_headers(p[1]:messages_in_seq(p[2])[1][2], flags_replytos[1]))
@@ -70439,20 +70434,20 @@ if (replytos = flags_replytos[2])
 player:notify(tostr("Reply-to: ", $mail_agent:name_list(@replytos)));
 endif
 hdrs = {to_subj[2], replytos || {}};
-player:notify("Enter lines of message:");
-message = $command_utils:read_lines_escape((active = player in $mail_editor.active) ? {} | {"@edit"}, {tostr("You are composing mail to ", $mail_agent:name_list(@to_subj[1]), "."), @active ? {} | {"Type `@edit' to take this into the mail editor."}});
+player:notify("Wpisz linie wiadomosci:");
+message = $command_utils:read_lines_escape((active = player in $mail_editor.active) ? {} | {"@edit"}, {tostr("Piszesz wiadomosc do ", $mail_agent:name_list(@to_subj[1]), "."), @active ? {} | {"Wpisz `@edit', by przejsc do edytora poczty."}});
 if (typeof(message) == ERR)
 player:notify(tostr(message));
 elseif (message[1] == "@edit")
 $mail_editor:invoke(1, verb, to_subj[1], @hdrs, message[2]);
 elseif (!message[2])
-player:notify("Blank message not sent.");
+player:notify("Pusta wiadomosc nie zostala wyslana.");
 else
 result = $mail_agent:send_message(this, to_subj[1], hdrs, message[2]);
 if (result && result[1])
-player:notify(tostr("Message sent to ", $mail_agent:name_list(@listdelete(result, 1)), "."));
+player:notify(tostr("Wiadomosc wyslana do ", $mail_agent:name_list(@listdelete(result, 1)), "."));
 else
-player:notify("Message not sent.");
+player:notify("Wiadomosc nie zostala wyslana.");
 endif
 endif
 endif
@@ -70460,7 +70455,7 @@ endif
 .
 #40:48
 "@mail-all-new-mail";
-" Prints headers for all new mail on every mail-recipient mentioned in .current_message.";
+" Wyswietla naglowki calej nowej poczty na kazdym mail-recipient wymienionym w .current_message.";
 set_task_perms(valid(cp = caller_perms()) ? cp | player);
 cm = this.current_message;
 cm[1..2] = {{this, @cm[1..2]}};
@@ -70469,34 +70464,34 @@ nomail = 1;
 new_cms = {};
 for f in (cm)
 if (!($object_utils:isa(folder = f[1], $player) || $object_utils:isa(folder, $mail_recipient)))
-player:notify(tostr(folder, " is neither a $player nor a $mail_recipient"));
+player:notify(tostr(folder, " nie jest ani $player, ani $mail_recipient"));
 elseif (typeof(flen = folder:length_all_msgs()) == ERR)
 player:notify(tostr($mail_agent:name(folder), " ", flen));
 elseif (msg_seq = $seq_utils:range(folder:length_date_le(f[3]) + 1, flen))
 nomail = 0;
-player:notify("===== " + $string_utils:left(tostr($mail_agent:name(folder), " (", s = $seq_utils:size(msg_seq), " message", (s == 1) ? ") " | "s) "), 40, "="));
+player:notify("===== " + $string_utils:left(tostr($mail_agent:name(folder), " (", s = $seq_utils:size(msg_seq), " ", $polish_utils:count(s, "wiadomosc", "wiadomosci", "wiadomosci"), ") "), 40, "="));
 folder:display_seq_headers(msg_seq, @f[2..3]);
 player:notify("");
 $command_utils:suspend_if_needed(2);
 endif
 endfor
 if (nomail)
-player:notify("You don't have any new mail anywhere.");
+player:notify("Nie masz nigdzie nowej poczty.");
 else
-player:notify("===== " + $string_utils:left("End of new mail ", 40, "="));
+player:notify("===== " + $string_utils:left("Koniec nowej poczty ", 40, "="));
 endif
 .
 #40:49
 "@read-all-new-mail [yes]";
-" Prints all new mail on every mail-recipient mentioned in .current_message";
-" Generally this will spam you into next Tuesday.";
-" You will be queried for whether you want your last-read dates updated";
-"   but you can specify \"yes\" on the command line to suppress this.";
-"   If you do so, last-read dates will be updated after each folder read.";
+" Wyswietla cala nowa poczte na kazdym mail-recipient wymienionym w .current_message";
+" Zwykle to cie zasypie do przyszlego wtorku.";
+" Zostaniesz zapytany, czy chcesz zaktualizowac swoje daty ostatniego odczytu";
+"   ale mozesz podac \"yes\" w linii polecenia, by to pominac.";
+"   Jesli tak zrobisz, daty ostatniego odczytu beda aktualizowane po kazdym odczytanym folderze.";
 set_task_perms(valid(cp = caller_perms()) ? cp | player);
 noconfirm = args && args[1];
-if ((noconfirm && (noconfirm != "yes")) && (noconfirm != "no"))
-player:notify("Unexpected argument(s): " + argstr);
+if ((((noconfirm && (noconfirm != "yes")) && (noconfirm != "no")) && (noconfirm != "tak")) && (noconfirm != "nie"))
+player:notify("Nieoczekiwany argument(y): " + argstr);
 return;
 endif
 cm = this.current_message;
@@ -70506,15 +70501,15 @@ nomail = 1;
 new_cms = {};
 for f in (cm)
 if (!($object_utils:isa(folder = f[1], $player) || $object_utils:isa(folder, $mail_recipient)))
-player:notify(tostr(folder, " is neither a $player nor a $mail_recipient"));
+player:notify(tostr(folder, " nie jest ani $player, ani $mail_recipient"));
 elseif (typeof(flen = folder:length_all_msgs()) == ERR)
 player:notify(tostr($mail_agent:name(folder), " ", flen));
 elseif (msg_seq = $seq_utils:range(folder:length_date_le(f[3]) + 1, flen))
 nomail = 0;
-player:notify("===== " + $string_utils:left(tostr($mail_agent:name(folder), " (", s = $seq_utils:size(msg_seq), " message", (s == 1) ? ") " | "s) "), 40, "="));
+player:notify("===== " + $string_utils:left(tostr($mail_agent:name(folder), " (", s = $seq_utils:size(msg_seq), " ", $polish_utils:count(s, "wiadomosc", "wiadomosci", "wiadomosci"), ") "), 40, "="));
 player:notify("");
-if (cur = folder:display_seq_full(msg_seq, tostr("Message %d", (folder == this) ? "" | (" on " + $mail_agent:name(folder)), ":")))
-if (noconfirm == "yes")
+if (cur = folder:display_seq_full(msg_seq, tostr("Wiadomosc %d", (folder == this) ? "" | (" w " + $mail_agent:name(folder)), ":")))
+if ((noconfirm == "yes") || (noconfirm == "tak"))
 this:set_current_message(folder, @cur);
 this:set_current_folder(folder);
 else
@@ -70527,36 +70522,36 @@ $command_utils:suspend_if_needed(1);
 this._mail_task = task_id();
 endfor
 if (nomail)
-player:notify("You don't have any new mail anywhere.");
-elseif (player:notify("===== " + $string_utils:left("End of new mail ", 40, "=")) || (noconfirm ? noconfirm == "yes" | $command_utils:yes_or_no("Did you get all of that?")))
+player:notify("Nie masz nigdzie nowej poczty.");
+elseif (player:notify("===== " + $string_utils:left("Koniec nowej poczty ", 40, "=")) || (noconfirm ? (noconfirm == "yes") || (noconfirm == "tak") | $command_utils:yes_or_no("Czy wszystko zostalo juz przeczytane?")))
 for n in (new_cms)
 this:set_current_message(@n);
 this:set_current_folder(n[1]);
 endfor
-player:notify("Last-read-dates updated");
+player:notify("Daty ostatniego odczytu zaktualizowane.");
 else
-player:notify("Last-read-dates not updated");
+player:notify("Daty ostatniego odczytu nie zostaly zaktualizowane.");
 endif
 .
 #40:50
-"Syntax: @quicksend <recipients(s)> [subj=<text>] [<message>]";
-"Sends the recipients(s) a quick message, wit{out having to go to the mailroom. If there is more than one recipients, place them all in quotes. If the subj contains spaces, place it in quotes.";
-"To put line breaks in the message, use a caret (^).";
-"If no message is given, prompt for lines of message.";
-"Examples:";
+"Skladnia: @quicksend <odbiorca(y)> [subj=<tekst>] [<wiadomosc>]";
+"Wysyla odbiorcy(om) szybka wiadomosc, bez konicznosci wchodzenia do pokoju poczty. Jesli jest wiecej niz jeden odbiorca, umiesc ich wszystkich w cudzyslowach. Jesli temat zawiera spacje, umiesc go w cudzyslowach.";
+"By umiescic zlamania linii w wiadomosci, uzyj daszka (^).";
+"Jesli nie podano wiadomosci, poprosi o linie wiadomosci.";
+"Przyklady:";
 "@quicksend Alice subj=\"Wonderland is neat!\" Have you checked out the Wonderland scenario yet? I think you'd like it!";
 "@quicksend \"Ethel Fred\" Have you seen Lucy around?^--Ricky";
 set_task_perms($object_utils:isa(player, $guest) ? player.owner | player);
 if (!args)
-player:notify(tostr("Usage: ", verb, " <recipients(s)> [subj=<text>] [<message>]"));
+player:notify(tostr("Uzycie: ", verb, " <odbiorca(y)> [subj=<tekst>] [<wiadomosc>]"));
 return E_INVARG;
 elseif (this != player)
-player:notify(tostr("You can't use ", this.pp, " @quicksend verb."));
+player:notify(tostr("Nie mozesz uzyc cudzego czasownika @quicksend."));
 return E_PERM;
 elseif (!(recipients = $mail_editor:parse_recipients({}, $string_utils:explode(args[1]))))
 return;
 else
-if ((length(args) > 1) && ((eq = index(args[2], "=")) && (index("subject", args[2][1..eq - 1]) == 1)))
+if ((length(args) > 1) && ((eq = index(args[2], "=")) && ((index("subject", args[2][1..eq - 1]) == 1) || (index("temat", args[2][1..eq - 1]) == 1))))
 subject = $string_utils:trim(args[2][eq + 1..$]);
 ws = $string_utils:word_start(argstr);
 argstr = argstr[1..ws[1][2]] + argstr[ws[2][2] + 1..$];
@@ -70575,11 +70570,11 @@ unbroken = unbroken[i + 1..$];
 endwhile
 else
 if (!(subject || player:mail_option("nosubject")))
-player:notify("Subject:");
+player:notify("Temat:");
 subject = $command_utils:read();
 endif
-player:notify("Enter lines of message:");
-message = $command_utils:read_lines_escape((active = player in $mail_editor.active) ? {} | {"@edit"}, {tostr("You are composing mail to ", $mail_agent:name_list(@recipients), "."), @active ? {} | {"Type `@edit' to take this into the mail editor."}});
+player:notify("Wpisz linie wiadomosci:");
+message = $command_utils:read_lines_escape((active = player in $mail_editor.active) ? {} | {"@edit"}, {tostr("Piszesz wiadomosc do ", $mail_agent:name_list(@recipients), "."), @active ? {} | {"Wpisz `@edit', by przejsc do edytora poczty."}});
 if (typeof(message) == ERR)
 player:notify(tostr(message));
 return;
@@ -70587,16 +70582,16 @@ elseif (message[1] == "@edit")
 $mail_editor:invoke(1, verb, recipients, subject, {}, message[2]);
 return;
 elseif (!(message[2] || subject))
-player:notify("Blank message not sent.");
+player:notify("Pusta wiadomosc nie zostala wyslana.");
 return;
 endif
 message = message[2];
 endif
 result = $mail_agent:send_message(this, recipients, subject, message);
 if (result && result[1])
-player:notify(tostr("Message sent to ", $mail_agent:name_list(@listdelete(result, 1)), "."));
+player:notify(tostr("Wiadomosc wyslana do ", $mail_agent:name_list(@listdelete(result, 1)), "."));
 else
-player:notify("Message not sent.");
+player:notify("Wiadomosc nie zostala wyslana.");
 endif
 endif
 .
@@ -70617,21 +70612,21 @@ pass(@args);
 .
 #40:53
 "Ideally, in order for one person to be notified that another person has new mail, both the mail recipient and the notification recipient should agree that this is an OK transfer of information.";
-"Usage:  @add-notify me to player";
-"    Sends mail to player saying that I want to be added to their mail notification property.";
-"Usage:  @add-notify player to me";
-"    Makes sure that player wants to be notified, if so, adds them to my .mail_notify property.  (Deletes from temporary record.)";
+"Uzycie:  @add-notify me do player";
+"    Wysyla mail do player mowiacy, ze chce byc dodany do ich wlasciwosci powiadomien mailowych.";
+"Uzycie:  @add-notify player do me";
+"    Upewnia sie, ze player chce byc powiadamiany, jesli tak, dodaje go do mojej wlasciwosci .mail_notify.  (Usuwa z tymczasowego rekordu.)";
 if (this == dobj)
 target = $string_utils:match_player(iobjstr);
 if ($command_utils:player_match_failed(target, iobjstr))
 return;
 elseif (this in target.mail_notify[1])
-player:tell("You already receive notifications when ", target.name, " receives mail.");
+player:tell("Juz otrzymujesz powiadomienia, gdy ", target.name, " dostaje poczte.");
 elseif (this in target.mail_notify[2])
-player:tell("You already asked to be notified when ", target.name, " receives mail.");
+player:tell("Masz juz zgloszona prosbe o powiadomienia, gdy ", target.name, " dostaje poczte.");
 else
-$mail_agent:send_message(player, {target}, "mail notification request", {tostr($string_utils:nn(this), " would like to receive mail notifications when you get mail."), "Please type:", tostr("  @add-notify ", this.name, " to me"), "if you wish to allow this action."});
-player:tell("Notifying ", $string_utils:nn(target), " that you would like to be notified when ", target.ps, " receives mail.");
+$mail_agent:send_message(player, {target}, "mail notification request", {tostr($string_utils:nn(this), " chce otrzymywac powiadomienia mailowe, gdy dostajesz poczte."), "Prosze wpisz:", tostr("  @add-notify ", this.name, " do me"), "jesli chcesz zezwolic na te akcje."});
+player:tell("Powiadamiam ", $string_utils:nn(target), ", ze chcesz otrzymywac powiadomienia, gdy ", target.ps, " dostaje poczte.");
 target.mail_notify[2] = setadd(target.mail_notify[2], this);
 endif
 elseif (this == iobj)
@@ -70641,13 +70636,13 @@ return;
 elseif (target in this.mail_notify[2])
 this.mail_notify[1] = setadd(this.mail_notify[1], target);
 this.mail_notify[2] = setremove(this.mail_notify[2], target);
-player:tell(target.name, " will be notified when you receive mail.");
+player:tell(target.name, " bedzie otrzymywac powiadomienia, gdy dostajesz poczte.");
 else
-player:tell("It doesn't look like ", target.name, " wants to be notified when you receive mail.");
+player:tell("Nie wyglada na to, ze ", target.name, " chce otrzymywac powiadomienia, gdy dostajesz poczte.");
 endif
 else
-player:tell("Usage:  @add-notify me to player");
-player:tell("        @add-notify player to me");
+player:tell("Uzycie:  @add-notify me do player");
+player:tell("        @add-notify player do me");
 endif
 .
 #40:54
@@ -70658,20 +70653,20 @@ return this.mail_notify;
 endif
 .
 #40:55
-"USAGE: @unsend [message-sequence] from <player>";
-"Attempts to unsend messages you sent to <player>. Per *B:Unsend, messages may not be unsent if they have been read, have been netforwarded to the player (@mail-option +netmail), or if the player has set emself so that mail may not be unsent from em (@mail-option +no_unsend). In addition, mail sent to multiple players may not be unsent unless it can be unsent from each recipient.";
+"SKLADNIA: @unsend [sekwencja-wiadomosci] z <gracz>";
+"Probuje cofnac wiadomosci, ktore wyslales(as) do <gracza>. Zgodnie z *B:Unsend, wiadomosci nie mozna cofnac, jesli zostaly przeczytane, zostaly netforwardowane do gracza (@mail-option +netmail), albo jesli gracz ustawil sobie, ze poczta nie moze byc od niego cofana (@mail-option +no_unsend). Dodatkowo, poczta wyslana do wielu graczy nie moze byc cofnieta, chyba ze da sie ja cofnac u kazdego odbiorcy.";
 "";
-"The following message sequences are the only ones allowed:";
+"Nastepujace sekwencje wiadomosci sa jedynymi dozwolonymi:";
 "";
-"  before:<date>    - Strictly before the given date.";
-"  after:<date>     - Strictly after the given date.";
-"  since:<date>     - On or after the given date.";
-"  until:<date>     - On or before the given date.";
-"  subject:<string> - The subject contains the given string.";
-"  body:<string>    - The message body contains the given string.";
-"  last:<number>    - The last <number> messages you sent.";
+"  before:<data>    - Scisle przed podana data.";
+"  after:<data>     - Scisle po podanej dacie.";
+"  since:<data>     - W dniu lub po podanej dacie.";
+"  until:<data>     - W dniu lub przed podana data.";
+"  subject:<string> - Temat zawiera podany string.";
+"  body:<string>    - Tresc wiadomosci zawiera podany string.";
+"  last:<liczba>    - Ostatnie <liczba> wyslanych przez ciebie wiadomosci.";
 "";
-"If you do not specify a sequence, the default sequence stored in @mail-option @unsend will be used.";
+"Jesli nie podasz sekwencji, uzyta zostanie domyslna sekwencja zapisana w @mail-option @unsend.";
 base = (dobjstr || this:mail_option(verb)) || $mail_agent.("player_default_@unsend");
 if (player != this)
 return player:tell(E_PERM);
@@ -70681,7 +70676,7 @@ else
 seq = base;
 endif
 who = $string_utils:match_player(iobjstr);
-fail_msg = "Message(s) were not removed as expected. As per *B:Unsend, I cannot elaborate on why.";
+fail_msg = "Wiadomosci nie zostaly usuniete zgodnie z oczekiwaniami. Zgodnie z *B:Unsend, nie moge wyjasnic dlaczego.";
 if ($command_utils:player_match_failed(who, iobjstr))
 return;
 elseif (typeof(res = $options["mail"]:parse({verb, @seq})) == STR)
@@ -70716,9 +70711,9 @@ ok = (position == allmsgs) ? ok | who:parse_message_seq(seq, who:current_message
 if ((typeof(ok) == STR) || (!ok[1]))
 break;
 elseif (time() > time)
-player:notify("Due to a mysterious time delay (probably incredible lag), your @unsend command has been aborted. Try again later.");
-count && player:notify(tostr(count, "message", (count == 1) ? "" | "s", " were unsent before the command was aborted."));
-return otherpeople && player:notify(tostr("Message(s) were also removed from ", $string_utils:nn(otherpeople), "."));
+player:notify("Z powodu tajemniczego opoznienia czasowego (prawdopodobnie niesamowity lag), twoje polecenie @unsend zostalo przerwane. Sprobuj ponownie pozniej.");
+count && player:notify(tostr("Cofnieto ", count, " ", $polish_utils:count(count, "wiadomosc", "wiadomosci", "wiadomosci"), " przed przerwaniem polecenia."));
+return otherpeople && player:notify(tostr("Wiadomosci zostaly rowniez usuniete od ", $string_utils:nn(otherpeople), "."));
 endif
 x = $seq_utils:tolist(@ok)[$ - missed];
 ok = {x, x + 1};
@@ -70743,9 +70738,9 @@ time = time() + 60;
 if (((((!is_player(y)) || y:mail_option("no_unsend")) || ($object_utils:has_callable_verb(y, "do_unsend") != {$mail_recipient_class})) || (typeof(z = y:parse_message_seq({"new", "unkept:"}, y:current_message())) == STR)) || (!z))
 bad = 1;
 elseif (time() > time)
-player:notify("Due to a mysterious time delay (probably incredible lag), your @unsend command has been aborted. Try again later.");
-count && player:notify(tostr(count, "message", (count == 1) ? "" | "s", " were unsent before the command was aborted."));
-return otherpeople && player:notify(tostr("Message(s) were also removed from ", $string_utils:nn(otherpeople), "."));
+player:notify("Z powodu tajemniczego opoznienia czasowego (prawdopodobnie niesamowity lag), twoje polecenie @unsend zostalo przerwane. Sprobuj ponownie pozniej.");
+count && player:notify(tostr("Cofnieto ", count, " ", $polish_utils:count(count, "wiadomosc", "wiadomosci", "wiadomosci"), " przed przerwaniem polecenia."));
+return otherpeople && player:notify(tostr("Wiadomosci zostaly rowniez usuniete od ", $string_utils:nn(otherpeople), "."));
 else
 ymail = y.messages;
 numnum = 0;
@@ -70785,46 +70780,46 @@ endfor
 if ((!count) || (count != allmsgs))
 player:notify(fail_msg);
 endif
-count && player:notify(tostr(count, " message", (count == 1) ? "" | "s", " unsent."));
-otherpeople && player:notify(tostr("Message(s) were also removed from ", $string_utils:nn(otherpeople), "."));
+count && player:notify(tostr("Cofnieto ", count, " ", $polish_utils:count(count, "wiadomosc", "wiadomosci", "wiadomosci"), "."));
+otherpeople && player:notify(tostr("Wiadomosci zostaly rowniez usuniete od ", $string_utils:nn(otherpeople), "."));
 .
 #40:56
-":do_unsend(seq) -> Remove the specified messages. Used by @unsend. Cannot be overridden by players or player classes; @unsend won't bother to call the verb.";
+":do_unsend(seq) -> Usuwa podane wiadomosci. Uzywane przez @unsend. Nie moze byc przeciazone przez graczy lub klasy graczy; @unsend nie bedzie probowal wywolac tego czasownika.";
 if (!caller_perms().wizard)
 return E_PERM;
 endif
 return $mail_agent:rm_message_seq(@args);
 .
 #40:57
-"@annotate <msg-sequence> [on <recipient>] with \"annotation\"";
-"prefix the specified messages with the given annotation.";
+"@annotate <sekwencja-wiadomosci> [na <odbiorca>] uzywajac \"adnotacja\"";
+"poprzedza podane wiadomosci dana adnotacja.";
 set_task_perms(player);
-if (!(p = this:parse_mailread_cmd("@annotate", args, "cur", "on", 1)))
+if (!(p = this:parse_mailread_cmd("@annotate", args, "cur", "na", 1)))
 "...lose...";
-elseif ((length(p[4]) != 2) || (p[4][1] != "with"))
-player:notify(tostr("Usage:  ", verb, " [<message numbers>] [on <folder>] with <annotation>"));
+elseif ((length(p[4]) != 2) || ((p[4][1] != "with") && (p[4][1] != "uzywajac")))
+player:notify(tostr("Uzycie:  ", verb, " [<numery wiadomosci>] [na <folder>] uzywajac <adnotacja>"));
 else
 {target, message_sequence, _, trailing_args} = p;
 annotation = trailing_args[2..$];
 annotation[1] = tostr("[", player.name, " (", player, "):  ", annotation[1], "]");
 if (typeof(e = target:annotate_message_seq(annotation, "prepend", message_sequence)) in {ERR, STR})
-player:notify(tostr("Annotation Failed:  ", e));
+player:notify(tostr("Adnotacja nie powiodla sie:  ", e));
 else
 count = $seq_utils:size(message_sequence);
-player:notify(tostr("Annotating ", count, " message", (count == 1) ? "" | "s", " on ", $mail_agent:name(target), " with:"));
+player:notify(tostr("Dodawanie adnotacji do ", count, " ", $polish_utils:count(count, "wiadomosci", "wiadomosci", "wiadomosci"), " w ", $mail_agent:name(target), ":"));
 player:notify_lines(annotation);
 endif
 endif
 "Copied from annotatetest (#87053):@annotate [verb author Puff (#1449)] at Mon Feb 14 14:45:41 2005 PST";
 .
 #40:58
-return "Cannot annotate player messages.";
+return "Nie mozna dodawac adnotacji do wiadomosci gracza.";
 .
 #40:59
 if ((caller == this) || $perm_utils:controls(caller_perms(), this))
 nm = this:length_all_msgs() - this:length_date_le(this:get_current_message()[2]);
 if (nm)
-this:notify(tostr("You have new mail (", nm, " message", (nm == 1) ? "" | "s", ").", this:mail_option("expert") ? "" | "  Type 'help mail' for info on reading it."));
+this:notify(tostr("Masz nowa poczte (", nm, " ", $polish_utils:count(nm, "wiadomosc", "wiadomosci", "wiadomosci"), ").", this:mail_option("expert") ? "" | "  Wpisz 'help mail' by dowiedziec sie, jak ja przeczytac."));
 endif
 endif
 .
