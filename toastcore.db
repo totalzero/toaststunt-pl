@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784187505 567763848 0
+1784187841 567763848 0
 0
 10
 0
@@ -1368,7 +1368,7 @@ source
 2
 time
 0
-1784187502
+1784187839
 4
 0
 1
@@ -1624,7 +1624,7 @@ expire
 4
 2
 0
-1784187490
+1784187826
 2
 localhost
 2
@@ -1633,7 +1633,7 @@ localhost
 2
 0
 0
-1784187491
+1784187827
 2
 1
 0
@@ -1799,7 +1799,7 @@ localhost
 2
 5
 0
-1784187502
+1784187839
 2
 1
 0
@@ -4378,11 +4378,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 0
 10
-1
-1
--46
 0
-2
 2
 5
 0
@@ -73487,14 +73483,14 @@ bstart = "" in msg;
 return msg[bstart ? bstart + 1 | ($ + 1)..$];
 .
 #47:0
-return this:ok(who = args[1]) && tostr("a letter ", this:sending(who) ? "(in transit) " | "", "to ", this:recipient_names(who), (subject = `this.subjects[who] ! ANY') && tostr(" entitled \"", subject, "\""));
+return this:ok(who = args[1]) && tostr("list ", this:sending(who) ? "(w drodze) " | "", "do ", this:recipient_names(who), (subject = `this.subjects[who] ! ANY') && tostr(" zatytulowany \"", subject, "\""));
 .
 #47:1
 "invoke(rcptstrings,verb[,subject]) for a @send";
 "invoke(1,verb,rcpts,subject,replyto,body) if no parsing is needed";
 "invoke(2,verb,msg,flags,replytos) for an @answer";
 if (!(which = args[1]))
-player:tell_lines({tostr("Usage:  ", args[2], " <list-of-recipients>"), tostr("        ", args[2], "                      to continue with a previous draft")});
+player:tell_lines({tostr("Uzycie:  ", args[2], " <lista-odbiorcow>"), tostr("        ", args[2], "                      by kontynuowac poprzedni szkic")});
 elseif (typeof(which) == LIST)
 "...@send...";
 if (rcpts = this:parse_recipients({}, which))
@@ -73505,7 +73501,7 @@ if (0 == (subject = {@args, 0}[3]))
 if (player:mail_option("nosubject"))
 subject = "";
 else
-player:tell("Subject:");
+player:tell("Temat:");
 subject = $command_utils:read();
 endif
 endif
@@ -73539,7 +73535,7 @@ this.recipients[who] = recip;
 this.subjects[who] = subj;
 this.replytos[who] = replyto || {};
 this:load(who, msg);
-this.active[who]:tell("Composing ", this:working_on(who));
+this.active[who]:tell("Piszesz ", this:working_on(who));
 p = this.active[who];
 "if (p:mail_option(\"enter\") && !args[5])";
 "Changed from above so that @reply can take advantage of @mailoption +enter. Ho_Yan 11/9/94";
@@ -73559,11 +73555,11 @@ elseif ($command_utils:player_match_result(plyr = $string_utils:match_player(dob
 return;
 endif
 if ((plyr != player) && (!this:readable(plyr in this.active)))
-player:tell(plyr.name, "(", plyr, ") has not published anything here.");
+player:tell(plyr.name, "(", plyr, ") nic tu jeszcze nie opublikowano.");
 elseif (typeof(msg = this:message_with_headers(plyr in this.active)) != LIST)
 player:tell(msg);
 else
-player:display_message({((plyr == player) ? "Your" | tostr(plyr.name, "(", plyr, ")'s")) + " message so far:", ""}, player:msg_text(@msg));
+player:display_message({((plyr == player) ? "Twoja wiadomosc" | tostr("Wiadomosc ", plyr.name, "(", plyr, ")")) + " do tej pory:", ""}, player:msg_text(@msg));
 endif
 .
 #47:4
@@ -73577,7 +73573,7 @@ player:tell(this.subjects[who]);
 elseif (ERR == typeof(subj = this:set_subject(who, argstr)))
 player:tell(subj);
 else
-player:tell(subj ? ("Setting the subject line for your message to \"" + subj) + "\"." | "Deleting the subject line for your message.");
+player:tell(subj ? ("Ustawianie tematu twojej wiadomosci na \"" + subj) + "\"." | "Usuwanie tematu twojej wiadomosci.");
 endif
 .
 #47:6
@@ -73604,11 +73600,11 @@ endif
 if (!(who = this:loaded(player)))
 player:tell(this:nothing_loaded_msg());
 elseif (!args)
-player:tell("Your message is currently to ", this:recipient_names(who), ".");
+player:tell("Twoja wiadomosc jest obecnie do ", this:recipient_names(who), ".");
 else
 this.recipients[who] = this:parse_recipients({}, args);
 this:set_changed(who, 1);
-player:tell("Your message is now to ", this:recipient_names(who), ".");
+player:tell("Twoja wiadomosc jest teraz do ", this:recipient_names(who), ".");
 endif
 .
 #47:9
@@ -73617,7 +73613,7 @@ player:tell(this:nothing_loaded_msg());
 else
 this.recipients[who] = this:parse_recipients(this.recipients[who], args);
 this:set_changed(who, 1);
-player:tell("Your message is now to ", this:recipient_names(who), ".");
+player:tell("Twoja wiadomosc jest teraz do ", this:recipient_names(who), ".");
 endif
 .
 #47:10
@@ -73641,25 +73637,25 @@ return;
 elseif (valid(aobj = $mail_agent:match_recipient(a)) && (aobj in recips))
 elseif ($failed_match != (aobj = $string_utils:literal_object(a)))
 if (!(aobj in recips))
-player:tell(aobj, " was not a recipient.");
+player:tell(aobj, " nie bylo odbiorca.");
 return;
 endif
 elseif ((a[1] == "*") && valid(aobj = $string_utils:match(a[2..$], mrs, "aliases")))
 elseif ((a[1] != "*") && valid(aobj = $string_utils:match(a, nonmrs, "aliases")))
 elseif (valid(aobj = $string_utils:match(a, recips, "aliases")))
 else
-player:tell("couldn't find \"", a, "\" in To: list.");
+player:tell("nie znaleziono \"", a, "\" na liscie To:.");
 return;
 endif
 recips = setremove(recips, aobj);
 endfor
 this.recipients[who] = recips;
 this:set_changed(who, 1);
-player:tell("Your message is now to ", this:recipient_names(who), ".");
+player:tell("Twoja wiadomosc jest teraz do ", this:recipient_names(who), ".");
 endif
 .
 #47:11
-"parse_recipients(prev_list,list_of_strings) -- parses list of strings and adds any resulting player objects to prev_list.  Optional 3rd arg is prefixed to any mismatch error messages";
+"parse_recipients(prev_list,list_of_strings) -- parsuje liste stringow i dodaje wynikowe obiekty graczy do prev_list.  Opcjonalny 3ci argument jest doklejany do wszelkich komunikatow o bledzie niedopasowania";
 {recips, l, ?cmd_id = ""} = args;
 cmd_id = cmd_id || "";
 for s in ((typeof(l) == LIST) ? l | {l})
@@ -73667,7 +73663,7 @@ if (typeof(s) != STR)
 if ($mail_agent:is_recipient(s))
 recips = setadd(recips, s);
 else
-player:tell(cmd_id, s, " is not a valid mail recipient.");
+player:tell(cmd_id, s, " nie jest prawidlowym odbiorca poczty.");
 endif
 elseif (!$mail_agent:match_failed(md = $mail_agent:match_recipient(s), s, cmd_id))
 recips = setadd(recips, md);
@@ -73687,9 +73683,9 @@ return $mail_agent:(verb)(@args[1]);
 .
 #47:15
 "parse_msg_headers(msg,flags)";
-"  parses msg to extract reply recipients and construct a subject line";
-"  if the \"all\" flag is present, reply goes to all of the original recipients";
-"  returns a list {recipients, subjectline} or 0 in case of error.";
+"  parsuje msg, by wyciagnac odbiorcow odpowiedzi i skonstruowac linie tematu";
+"  jesli obecna jest flaga \"all\", odpowiedz idzie do wszystkich oryginalnych odbiorcow";
+"  zwraca liste {recipients, subjectline} albo 0 w razie bledu.";
 {msg, flags} = args;
 replyall = "all" in flags;
 objects = {};
@@ -73712,10 +73708,10 @@ endfor
 recips = {};
 for o in (objects)
 if (o == #0)
-player:tell("Sorry, but I can't parse the header of that message.");
+player:tell("Niestety, nie moge sparsowac naglowka tej wiadomosci.");
 return 0;
 elseif ((!valid(o)) || (!(is_player(o) || ($mail_recipient in $object_utils:ancestors(o)))))
-player:tell(o, " is no longer a valid player or maildrop; ignoring that recipient.");
+player:tell(o, " nie jest juz prawidlowym graczem ani skrzynka mailowa; pomijam tego odbiorce.");
 elseif (o != player)
 recips = setadd(recips, o);
 endif
@@ -73745,14 +73741,14 @@ else
 value = "";
 endif
 if ((typeof(a) != STR) || ((i = index(flaglist, "#" + a)) < 3))
-player:tell("Unrecognized answer/reply option:  ", a);
+player:tell("Nierozpoznana opcja odpowiedzi:  ", a);
 return 0;
 elseif (i != rindex(flaglist, "#" + a))
-player:tell("Ambiguous answer/reply option:  ", a);
+player:tell("Niejednoznaczna opcja odpowiedzi:  ", a);
 return 0;
 elseif (j = index("0123456789", flaglist[i - 1]) - 1)
 if (value)
-player:tell("Flag does not take a value:  ", a);
+player:tell("Ta flaga nie przyjmuje wartosci:  ", a);
 return 0;
 endif
 f = {"include", "all", "followup"}[j];
@@ -73776,7 +73772,7 @@ this:set_changed(who, 1);
 else
 rt = this.replytos[who];
 endif
-player:tell(rt ? ("Replies will go to " + $mail_agent:name_list(@this.replytos[who])) + "." | "Reply-to field is empty.");
+player:tell(rt ? ("Odpowiedzi pojda do " + $mail_agent:name_list(@this.replytos[who])) + "." | "Pole reply-to jest puste.");
 endif
 .
 #47:18
@@ -73784,14 +73780,14 @@ endif
 if (!(who = this:loaded(player)))
 player:notify(this:nothing_loaded_msg());
 elseif (!(recips = this.recipients[who]))
-player:notify("Umm... your message isn't addressed to anyone.");
+player:notify("Hmm... twoja wiadomosc nie jest do nikogo zaadresowana.");
 elseif (this:sending(who))
-player:notify("Again? ... relax... it'll get there eventually.");
+player:notify("Znowu? ... spokojnie... i tak w koncu dotrze.");
 else
 msg = this:message_with_headers(who);
 this.sending[who] = old_sending = task_id();
 this:set_changed(who, 0);
-player:notify("Sending...");
+player:notify("Wysylanie...");
 "... this sucker can suspend BIG TIME...";
 result = $mail_agent:raw_send(msg, recips, player);
 "... the world changes...";
@@ -73806,14 +73802,14 @@ else
 previous = "(prior send) ";
 endif
 if (!(e = result[1]))
-player:notify(tostr(previous, (typeof(e) == ERR) ? e | ("Bogus recipients:  " + $string_utils:from_list(result[2]))));
-player:notify(tostr(previous, "Mail not sent."));
+player:notify(tostr(previous, (typeof(e) == ERR) ? e | ("Nieprawidlowi odbiorcy:  " + $string_utils:from_list(result[2]))));
+player:notify(tostr(previous, "Poczta nie zostala wyslana."));
 previous || this:set_changed(who, 1);
 elseif (length(result) == 1)
-player:notify(tostr(previous, "Mail not actually sent to anyone."));
+player:notify(tostr(previous, "Poczta w rzeczywistosci nie dotarla do nikogo."));
 previous || this:set_changed(who, 1);
 else
-player:notify(tostr(previous, "Mail actually sent to ", $mail_agent:name_list(@listdelete(result, 1))));
+player:notify(tostr(previous, "Poczta w rzeczywistosci wyslana do ", $mail_agent:name_list(@listdelete(result, 1))));
 if (previous)
 "...don't even think about it...";
 elseif (player.location == this)
@@ -73844,13 +73840,13 @@ recips = this.recipients[who];
 endif
 resolve = $mail_agent:resolve_addr(recips, player);
 if (resolve[1])
-player:tell("Bogus addresses:  ", $string_utils:english_list(resolve[1]));
+player:tell("Nieprawidlowe adresy:  ", $string_utils:english_list(resolve[1]));
 else
-player:tell(dobjstr ? ("Mail to " + $mail_agent:name_list(@recips)) + " actually goes to " | "Your mail will actually go to ", $mail_agent:name_list(@resolve[2]));
+player:tell(dobjstr ? ("Poczta do " + $mail_agent:name_list(@recips)) + " w rzeczywistosci trafia do " | "Twoja poczta w rzeczywistosci trafi do ", $mail_agent:name_list(@resolve[2]));
 endif
 .
 #47:20
-player:tell_lines({"Available aliases:", ""});
+player:tell_lines({"Dostepne aliasy:", ""});
 for c in ((dobjstr == "all") ? $object_utils:descendants($mail_recipient) | $mail_agent.contents)
 if (c:is_usable_by(player) || c:is_readable_by(player))
 c:look_self();
@@ -73859,7 +73855,7 @@ endfor
 .
 #47:21
 if (!iobjstr)
-player:tell("Usage:  ", verb, " [<list-of-people/lists>] from <list>");
+player:tell("Uzycie:  ", verb, " [<lista-osob/list>] z <lista>");
 return;
 elseif ($mail_agent:match_failed(iobj = $mail_agent:match(iobjstr), iobjstr))
 return;
@@ -73874,13 +73870,13 @@ endif
 removed = {};
 for r in [1..length(recips)]
 if (typeof(e = outcomes[r]) == ERR)
-player:tell(verb, " ", recips[r].name, " from ", iobj.name, ":  ", (e == E_INVARG) ? "Not on list." | e);
+player:tell(verb, " ", recips[r].name, " z ", iobj.name, ":  ", (e == E_INVARG) ? "Nie na liscie." | e);
 else
 removed = setadd(removed, recips[r]);
 endif
 endfor
 if (removed)
-player:tell($string_utils:english_list($list_utils:map_arg(2, $string_utils, "pronoun_sub", "%(name) (%#)", removed)), " removed from ", iobj.name, " (", iobj, ")");
+player:tell($string_utils:english_list($list_utils:map_arg(2, $string_utils, "pronoun_sub", "%(name) (%#)", removed)), " usuniety z ", iobj.name, " (", iobj, ")");
 endif
 .
 #47:22
@@ -73888,7 +73884,7 @@ return this:ok(who = args[1]) && (this:sending(who) || pass(@args));
 .
 #47:23
 "recall that this only gets called if :retain_session_on_exit returns true";
-return (this:ok(who = player in this.active) && (!this:changed(who))) ? {"Your message is in transit."} | this.(verb);
+return (this:ok(who = player in this.active) && (!this:changed(who))) ? {"Twoja wiadomosc jest w drodze."} | this.(verb);
 .
 #47:24
 lines = {"To:       " + (toline = $mail_agent:name_list(@args[1])), "Subject:  " + $string_utils:trim(subject = args[2])};
