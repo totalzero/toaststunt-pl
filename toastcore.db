@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784186790 567763848 0
+1784187170 567763848 0
 0
 10
 0
@@ -1368,7 +1368,7 @@ source
 2
 time
 0
-1784186786
+1784187168
 4
 0
 1
@@ -1624,7 +1624,7 @@ expire
 4
 2
 0
-1784186778
+1784187148
 2
 localhost
 2
@@ -1633,7 +1633,7 @@ localhost
 2
 0
 0
-1784186779
+1784187150
 2
 1
 0
@@ -1799,7 +1799,7 @@ localhost
 2
 5
 0
-1784186786
+1784187168
 2
 1
 0
@@ -1818,7 +1818,8 @@ localhost
 0
 2
 5
-5
+0
+0
 2
 5
 5
@@ -36546,13 +36547,18 @@ is_paranoid
 2
 173
 -1
-1
+2
 max_lines
-5
+#2lines
+6
 0
 30
 2
 1
+0
+0
+36
+0
 0
 0
 36
@@ -57829,20 +57835,20 @@ if (length(msg) > msg_width)
 msg = msg[1..msg_width];
 endif
 s = this:whodunnit(q[1], trust, mistrust);
-text = valid(s[1]) ? s[1].name | "** NONE **";
+text = valid(s[1]) ? s[1].name | "** BRAK **";
 this:notify(tostr($string_utils:left(tostr((length(text) > 13) ? text[1..13] | text, " (", s[1], ")"), 20), $string_utils:left(s[2], 15), $string_utils:left(tostr((length(s[3].name) > 13) ? s[3].name[1..13] | s[3].name, " (", s[3], ")"), 20), msg));
 endfor
-this:notify("*** finished ***");
+this:notify("*** zakonczono ***");
 else
 "@check-full, from @traceback by APHiD";
 "s_i_n's by Ho_Yan 10/18/94";
 matches = {};
 if (length(match = argstr) == 0)
-player:notify(tostr("Usage: ", verb, " <string> --or-- ", verb, " <number>"));
+player:notify(tostr("Uzycie: ", verb, " <string> --lub-- ", verb, " <liczba>"));
 return;
 endif
 if (!responsible)
-player:notify("No text has been saved by the monitor.  (See `help @paranoid').");
+player:notify("Monitor nie zapisal zadnego tekstu.  (Zobacz `help @paranoid').");
 else
 if (typeof(x = $code_utils:toint(argstr)) == ERR)
 for line in (responsible)
@@ -57857,14 +57863,14 @@ if (matches)
 for match in (matches)
 $command_utils:suspend_if_needed(3);
 text = tostr(@match[$]);
-player:notify("Traceback for:");
+player:notify("Traceback dla:");
 player:notify(text);
 "Moved cool display code to $code_utils, 3/29/95, Ho_Yan";
 $code_utils:display_callers(listdelete(mm = match[1], length(mm)));
 endfor
-player:notify("**** finished ****");
+player:notify("**** zakonczono ****");
 else
-player:notify(tostr("No matches for \"", argstr, "\" found."));
+player:notify(tostr("Nie znaleziono dopasowan dla \"", argstr, "\"."));
 endif
 endif
 endif
@@ -57873,23 +57879,23 @@ endif
 if ((args == {}) || ((typ = args[1]) == ""))
 $paranoid_db:set_kept_lines(this, 10);
 this.paranoid = 1;
-this:notify("Anti-spoofer on and keeping 10 lines.");
-elseif (index("immediate", typ))
+this:notify("Anty-spoofer wlaczony, przechowuje 10 linii.");
+elseif (index("immediate", typ) || index("natychmiast", typ))
 $paranoid_db:set_kept_lines(this, 0);
 this.paranoid = 2;
-this:notify("Anti-spoofer now in immediate mode.");
-elseif (index("off", typ) || (typ == "0"))
+this:notify("Anty-spoofer teraz w trybie natychmiastowym.");
+elseif ((index("off", typ) || index("wyl", typ)) || (typ == "0"))
 this.paranoid = 0;
 $paranoid_db:set_kept_lines(this, 0);
-this:notify("Anti-spoofer off.");
+this:notify("Anty-spoofer wylaczony.");
 elseif ((tostr(y = toint(typ)) != typ) || (y < 0))
-this:notify(tostr("Usage: ", verb, " <lines to be kept>     to turn on your anti-spoofer."));
-this:notify(tostr("       ", verb, " off                    to turn it off."));
-this:notify(tostr("       ", verb, " immediate              to use immediate mode."));
+this:notify(tostr("Uzycie: ", verb, " <liczba linii do zachowania>     by wlaczyc anty-spoofer."));
+this:notify(tostr("       ", verb, " off/wyl                 by go wylaczyc."));
+this:notify(tostr("       ", verb, " immediate/natychmiast   by uzyc trybu natychmiastowego."));
 else
 this.paranoid = 1;
 kept = $paranoid_db:set_kept_lines(this, y);
-this:notify(tostr("Anti-spoofer on and keeping ", kept, " lines."));
+this:notify(tostr("Anty-spoofer wlaczony, przechowuje ", kept, " linii."));
 endif
 .
 #6:27
@@ -57900,16 +57906,16 @@ for thing in (setremove(here.contents, this))
 tellwhere = $object_utils:has_verb(thing, "tell");
 notifywhere = $object_utils:has_verb(thing, "notify");
 if (thing in connected_players())
-this:notify(tostr(thing.name, " (", thing, ") is listening."));
+this:notify(tostr(thing.name, " (", thing, ") nasluchuje."));
 found_listener = 1;
 elseif ($object_utils:has_callable_verb(thing, "sweep_msg") && (typeof(msg = thing:sweep_msg()) == STR))
 this:notify(tostr(thing.name, " (", thing, ") ", msg, "."));
 found_listener = 1;
 elseif (tellwhere && (((owner = verb_info(tellwhere[1], "tell")[1]) != this) && (!owner.wizard)))
-this:notify(tostr(thing.name, " (", thing, ") has been taught to listen by ", owner.name, " (", owner, ")"));
+this:notify(tostr(thing.name, " (", thing, ") zostalo nauczone sluchac przez ", owner.name, " (", owner, ")"));
 found_listener = 1;
 elseif (notifywhere && (((owner = verb_info(notifywhere[1], "notify")[1]) != this) && (!owner.wizard)))
-this:notify(tostr(thing.name, " (", thing, ") has been taught to listen by ", owner.name, " (", owner, ")"));
+this:notify(tostr(thing.name, " (", thing, ") zostalo nauczone sluchac przez ", owner.name, " (", owner, ")"));
 found_listener = 1;
 endif
 endfor
@@ -57924,10 +57930,10 @@ if (buggers != {})
 if ($object_utils:has_verb(here, "sweep_msg") && (typeof(msg = here:sweep_msg()) == STR))
 this:notify(tostr(here.name, " (", here, ") ", msg, "."));
 else
-this:notify(tostr(here.name, " (", here, ") may have been bugged by ", $string_utils:english_list($list_utils:map_prop(buggers, "name")), "."));
+this:notify(tostr(here.name, " (", here, ") moglo zostac podsluchane przez ", $string_utils:english_list($list_utils:map_prop(buggers, "name")), "."));
 endif
 elseif (!found_listener)
-this:notify("Communications look secure.");
+this:notify("Komunikacja wyglada na bezpieczna.");
 endif
 .
 #6:28
@@ -58117,7 +58123,7 @@ elseif ($command_utils:object_match_failed(iobj, iobjstr))
 return;
 endif
 if (!$perm_utils:controls(player, iobj))
-player:notify(tostr("You are not the owner of ", iobj.name, "."));
+player:notify(tostr("Nie jestes wlascicielem ", iobj.name, "."));
 return;
 endif
 if (dobjstr == "me")
@@ -58132,12 +58138,12 @@ return;
 endif
 endif
 if (dobj.location != iobj)
-player:notify(tostr(dobj.name, "(", dobj, ") is not in ", iobj.name, "(", iobj, ")."));
+player:notify(tostr(dobj.name, "(", dobj, ") nie jest w ", iobj.name, "(", iobj, ")."));
 return;
 endif
 if (dobj.wizard)
-player:notify(tostr("Sorry, you can't ", verb, " a wizard."));
-dobj:tell(player.name, " tried to ", verb, " you.");
+player:notify(tostr("Niestety, nie mozesz ", verb, " wizarda."));
+dobj:tell(player.name, " probuje cie ", verb, ".");
 return;
 endif
 iobj:((verb == "@eject") ? "eject" | "eject_basic")(dobj);
@@ -58181,14 +58187,14 @@ endif
 $code_utils:show_who_listing(plyrs);
 .
 #6:41
-"@wizards [all]";
+"@wizards [wszyscy]";
 if (caller != player)
 return E_PERM;
 endif
 if (args)
 $code_utils:show_who_listing($wiz_utils:all_wizards());
 else
-$code_utils:show_who_listing($wiz_utils:connected_wizards()) || player:notify("No wizards currently logged in.");
+$code_utils:show_who_listing($wiz_utils:connected_wizards()) || player:notify("Obecnie zaden wizard nie jest zalogowany.");
 endif
 .
 #6:42
@@ -58208,17 +58214,17 @@ if (!result)
 "... note: all of the last-resort stuff...";
 "... is now located on $help:find_topics/get_topic...";
 $wiz_utils:missed_help(what, result);
-player:notify(tostr("Sorry, but no help is available on `", what, "'."));
+player:notify(tostr("Niestety, nie ma pomocy dostepnej dla `", what, "'."));
 elseif (result[1] == $ambiguous_match)
 $wiz_utils:missed_help(what, result);
-player:notify_lines(tostr("Sorry, but the topic-name `", what, "' is ambiguous.  I don't know which of the following topics you mean:"));
+player:notify_lines(tostr("Niestety, nazwa tematu `", what, "' jest niejednoznaczna.  Nie wiem, o ktory z nastepujacych tematow chodzi:"));
 for x in ($help:columnize(@$help:sort_topics(result[2])))
 player:notify(tostr("   ", x));
 endfor
 else
 {help, topic} = result;
 if (topic != what)
-player:notify(tostr("Showing help on `", topic, "':"));
+player:notify(tostr("Wyswietlanie pomocy dla `", topic, "':"));
 player:notify("----");
 endif
 dblist = dblist[1 + (help in dblist)..$];
@@ -58228,15 +58234,15 @@ elseif (text)
 "...these can get long...";
 for line in ((typeof(text) == LIST) ? text | {text})
 if (typeof(line) != STR)
-player:notify("Odd results from help -- complain to a wizard.");
+player:notify("Dziwne wyniki z pomocy -- poskarz sie wizardowi.");
 else
 player:notify(line);
 endif
 $command_utils:suspend_if_needed(0);
 endfor
 else
-player:notify(tostr("Help DB ", help, " thinks it knows about `", what, "' but something's messed up."));
-player:notify(tostr("Tell ", help.owner.wizard ? "" | tostr(help.owner.name, " (", help.owner, ") or "), "a wizard."));
+player:notify(tostr("Baza pomocy ", help, " twierdzi, ze zna `", what, "', ale cos jest nie tak."));
+player:notify(tostr("Powiedz ", help.owner.wizard ? "" | tostr(help.owner.name, " (", help.owner, ") lub "), "wizardowi."));
 endif
 endif
 .
@@ -58957,10 +58963,10 @@ player:tell("Uzycie:  @remove-feature <obiekt>");
 endif
 .
 #6:63
-"Usage:  @features [<name>] for <player>";
-"List the feature objects matching <name> used by <player>.";
+"Uzycie:  @features [<nazwa>] dla <gracz>";
+"Wyswietla obiekty-cechy pasujace do <nazwy> uzywane przez <gracza>.";
 if (!iobjstr)
-player:tell("Usage: @features [<name>] for <player>");
+player:tell("Uzycie: @features [<nazwa>] dla <gracz>");
 return;
 elseif ($command_utils:player_match_failed(whose = $string_utils:match_player(iobjstr), iobjstr))
 return;
@@ -58974,26 +58980,26 @@ features = listappend(features, feature);
 endif
 endfor
 if (features)
-len = max(length("Feature"), length(tostr(max_object()))) + 1;
-player:tell($string_utils:left("Feature", len), "Name");
-player:tell($string_utils:left("-------", len), "----");
+len = max(length("Cecha"), length(tostr(max_object()))) + 1;
+player:tell($string_utils:left("Cecha", len), "Nazwa");
+player:tell($string_utils:left("-----", len), "-----");
 for feature in (features)
 player:tell($string_utils:left(tostr(feature), len), feature.name);
 endfor
-player:tell($string_utils:left("-------", len), "----");
-cstr = ((tostr(length(features)) + " feature") + ((length(features) > 1) ? "s" | "")) + " found";
+player:tell($string_utils:left("-----", len), "-----");
+cstr = (tostr(length(features)) + " ") + $polish_utils:count(length(features), "cecha znaleziona", "cechy znalezione", "cech znalezionych");
 if (whose != this)
-cstr = ((((cstr + " on ") + whose.name) + " (") + tostr(whose)) + ")";
+cstr = ((((cstr + " u ") + whose.name) + " (") + tostr(whose)) + ")";
 endif
 if (dobjstr)
-cstr = ((cstr + " matching \"") + dobjstr) + "\"";
+cstr = ((cstr + " pasujacych do \"") + dobjstr) + "\"";
 endif
 cstr = cstr + ".";
 player:tell(cstr);
 elseif (dobjstr)
-player:tell("No features found on ", whose.name, " (", whose, ") matching \"", dobjstr, "\".");
+player:tell("Nie znaleziono cech u ", whose.name, " (", whose, ") pasujacych do \"", dobjstr, "\".");
 else
-player:tell("No features found on ", whose.name, " (", whose, ").");
+player:tell("Nie znaleziono cech u ", whose.name, " (", whose, ").");
 endif
 .
 #6:64
@@ -59039,7 +59045,7 @@ player:notify("Brak informacji o wersji bazy danych.");
 endtry
 .
 #6:67
-player:notify(tostr($network.MOO_name, " has been up for ", $time_utils:english_time(time() - $server["last_restart_time"], $server["last_restart_time"]), "."));
+player:notify(tostr($network.MOO_name, " dziala od ", $time_utils:english_time(time() - $server["last_restart_time"], $server["last_restart_time"]), "."));
 .
 #6:68
 boot_player(player);
@@ -59078,12 +59084,12 @@ this:tell("(from within you) ", @args);
 return this.linelen > 0;
 .
 #6:74
-"Usage:  @set-note-{string | text} {#xx | #xx.pname}";
-"        ...lines of text...";
+"Uzycie:  @set-note-{string | text} {#xx | #xx.pname}";
+"        ...linie tekstu...";
 "        .";
 "";
-"For use by clients' local editors, to save new text for a note or object property.  See $note_editor:local_editing_info() for details.";
-text = $command_utils:read_lines_escape((active = player in $note_editor.active) ? {} | {"@edit"}, {tostr("Changing ", argstr, "."), @active ? {} | {"Type `@edit' to take this into the note editor."}});
+"Do uzytku przez lokalne edytory klientow, by zapisac nowy tekst notatki lub wlasciwosci obiektu. Zobacz $note_editor:local_editing_info() po szczegoly.";
+text = $command_utils:read_lines_escape((active = player in $note_editor.active) ? {} | {"@edit"}, {tostr("Zmiana ", argstr, "."), @active ? {} | {"Wpisz `@edit', by przejsc do edytora notatek."}});
 if (text && (text[1] == "@edit"))
 $note_editor:invoke(argstr, verb);
 who = $note_editor:loaded(player);
@@ -59101,15 +59107,15 @@ if (spec = $code_utils:parse_propref(argstr))
 o = player:my_match_object(spec[1]);
 p = spec[2];
 if ($object_utils:has_verb(o, vb = "set_" + p) && (typeof(e = o:(vb)(text)) != ERR))
-player:tell("Set ", p, " property of ", o.name, " (", o, ") via :", vb, ".");
+player:tell("Ustawiono wlasciwosc ", p, " obiektu ", o.name, " (", o, ") przez :", vb, ".");
 else
 original = text;
 for x in [1..length(text)]
 $sin(0);
 value = $string_utils:to_value(text[x]);
 if (value[1] != 1)
-player:tell("Error:  ", value[2]);
-player:tell("... assuming data is all text.");
+player:tell("Blad:  ", value[2]);
+player:tell("... zakladam, ze dane to caly tekst.");
 text = original;
 break;
 else
@@ -59117,20 +59123,20 @@ text[x] = value[2];
 endif
 endfor
 if (text != (e = `o.(p) = text ! ANY'))
-player:tell("Error:  ", e);
+player:tell("Blad:  ", e);
 else
-player:tell("Set ", p, " property of ", o.name, " (", o, ").");
+player:tell("Ustawiono wlasciwosc ", p, " obiektu ", o.name, " (", o, ").");
 endif
 endif
 elseif (typeof(note = $code_utils:toobj(argstr)) == OBJ)
 e = note:set_text(text);
 if (typeof(e) == ERR)
-player:tell("Error:  ", e);
+player:tell("Blad:  ", e);
 else
-player:tell("Set text of ", note.name, " (", note, ").");
+player:tell("Ustawiono tekst ", note.name, " (", note, ").");
 endif
 else
-player:tell("Error:  Malformed argument to ", verb, ": ", argstr);
+player:tell("Blad:  Zle sformulowany argument dla ", verb, ": ", argstr);
 endif
 .
 #6:75
@@ -59265,7 +59271,7 @@ return E_PERM;
 endif
 .
 #6:81
-"@registerme as <adres-email> -- podaje nowy adres email dla gracza";
+"@registerme jako <adres-email> -- podaje nowy adres email dla gracza";
 "   zmieni wpis w bazie danych, przydzieli nowe haslo i wysle je do gracza na podany adres email.";
 if (player != this)
 return player:notify(tostr(E_PERM));
@@ -59282,10 +59288,10 @@ player:tell("Twoj biezacy adres rejestracji to:  ", $wiz_utils:get_email_address
 else
 player:tell("Nie masz obecnie zarejestrowanego adresu email.");
 endif
-player:tell("Uzyj @registerme as <adres>, by to zmienic.");
+player:tell("Uzyj @registerme jako <adres>, by to zmienic.");
 return;
-elseif (((prepstr != "as") || (!iobjstr)) || dobjstr)
-player:tell("Uzycie: @registerme as <adres>");
+elseif (((prepstr != "jako") || (!iobjstr)) || dobjstr)
+player:tell("Uzycie: @registerme jako <adres>");
 return;
 endif
 email = iobjstr;
@@ -59439,10 +59445,10 @@ $paranoid_db:erase_data(this);
 endif
 .
 #6:87
-"'@move <object> to <place>' - Teleport an object. Example: '@move trash to #11' to move trash to the closet.";
+"'@move <obiekt> do <miejsce>' - teleportuje obiekt. Przyklad: '@move smieci do #11', by przeniesc smieci do schowka.";
 set_task_perms((caller == this) ? this | $no_one);
-if ((prepstr != "to") || (!iobjstr))
-player:tell("Usage: @move <object> to <location>");
+if ((prepstr != "do") || (!iobjstr))
+player:tell("Uzycie: @move <obiekt> do <lokalizacja>");
 return;
 endif
 if ((!dobjstr) || (dobjstr == "me"))
@@ -59461,7 +59467,7 @@ if ((iobj != $nothing) && $command_utils:object_match_failed(iobj, iobjstr))
 return;
 endif
 if (((!player.programmer) && (!$perm_utils:controls(this, dobj))) && (this != dobj))
-player:tell("You may only @move your own things.");
+player:tell("Mozesz przenosic tylko wlasne rzeczy.");
 return;
 endif
 this:teleport(dobj, iobj);
@@ -59482,10 +59488,10 @@ set_task_perms(caller_perms());
 return chparent(@args);
 .
 #6:90
-"Prints a count and compact list of the currently-connected players, sorted into columns.";
+"Wyswietla liczbe i zwiezla liste aktualnie polaczonych graczy, posortowana w kolumny.";
 cp = connected_players();
 linelen = player:linelen() || 79;
-player:tell(("There are " + tostr(length(cp))) + " players connected:");
+player:tell(((("Polaczonych jest " + tostr(length(cp))) + " ") + $polish_utils:count(length(cp), "gracz", "graczy", "graczy")) + ":");
 dudes = $list_utils:map_prop(cp, "name");
 dudes = $list_utils:sort_suspended($login.current_lag, dudes);
 player:tell_lines($string_utils:columnize(dudes, 4, linelen));
@@ -59568,7 +59574,7 @@ return this:confunc(@args);
 if ($command_utils:object_match_failed(dobj = player:my_match_object(dobjstr), dobjstr))
 return;
 endif
-player:tell($string_utils:nn(dobj), " is owned by ", $string_utils:nn(dobj.owner), ".");
+player:tell($string_utils:nn(dobj), " nalezy do ", $string_utils:nn(dobj.owner), ".");
 .
 #6:98
 return $edit_utils:options(@args);
@@ -59576,19 +59582,19 @@ return $edit_utils:options(@args);
 #6:99
 set_task_perms(valid(caller_perms()) ? caller_perms() | player);
 if (!args)
-player:notify(tostr("Your gender is currently ", this.gender, "."));
-player:notify($string_utils:pronoun_sub("Your pronouns:  %s,%o,%p,%q,%r,%S,%O,%P,%Q,%R"));
-player:notify(tostr("Available genders:  ", $string_utils:english_list($gender_utils.genders, "", " or ")));
+player:notify(tostr("Twoja plec to obecnie ", this.gender, "."));
+player:notify($string_utils:pronoun_sub("Twoje zaimki:  %s,%o,%p,%q,%r,%S,%O,%P,%Q,%R"));
+player:notify(tostr("Dostepne plcie:  ", $string_utils:english_list($gender_utils.genders, "", " albo ")));
 else
 result = this:set_gender(args[1]);
 quote = (result == E_NONE) ? "\"" | "";
-player:notify(tostr("Gender set to ", quote, this.gender, quote, "."));
+player:notify(tostr("Plec ustawiona na ", quote, this.gender, quote, "."));
 if (typeof(result) != ERR)
-player:notify($string_utils:pronoun_sub("Your pronouns:  %s,%o,%p,%q,%r,%S,%O,%P,%Q,%R"));
+player:notify($string_utils:pronoun_sub("Twoje zaimki:  %s,%o,%p,%q,%r,%S,%O,%P,%Q,%R"));
 elseif (result != E_NONE)
-player:notify(tostr("Couldn't set pronouns:  ", result));
+player:notify(tostr("Nie udalo sie ustawic zaimkow:  ", result));
 else
-player:notify("Pronouns unchanged.");
+player:notify("Zaimki niezmienione.");
 endif
 endif
 .
