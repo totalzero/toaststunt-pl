@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784196230 567763848 0
+1784196746 567763848 0
 0
 10
 0
@@ -1368,7 +1368,7 @@ source
 2
 time
 0
-1784196223
+1784196738
 4
 0
 1
@@ -1624,7 +1624,7 @@ expire
 4
 2
 0
-1784196203
+1784196722
 2
 localhost
 2
@@ -1633,7 +1633,7 @@ localhost
 2
 0
 0
-1784196206
+1784196724
 2
 1
 0
@@ -1764,7 +1764,7 @@ localhost
 2
 1
 0
--10
+0
 36
 1
 1
@@ -1803,7 +1803,7 @@ localhost
 2
 5
 0
-1784196223
+1784196738
 2
 1
 0
@@ -4384,7 +4384,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--39
+-52
 0
 2
 2
@@ -60690,7 +60690,7 @@ return {"???", "blacklist", "graylist", "redlist", "spooflist"}[1 + index("bgrs"
 if (caller != #0)
 return E_PERM;
 elseif (!args)
-$code_utils:show_who_listing(connected_players()) || this:notify("No one logged in.");
+$code_utils:show_who_listing(connected_players()) || this:notify("Nikt nie jest zalogowany.");
 else
 plyrs = listdelete($command_utils:player_match_result($string_utils:match_player(args), args), 1);
 $code_utils:show_who_listing(plyrs);
@@ -80084,8 +80084,8 @@ return;
 endif
 if (tasks)
 su = $string_utils;
-player:notify("Queue ID    Start Time            Owner         {Size} Verb (Line) [This]");
-player:notify("--------    ----------            -----         -----------------");
+player:notify("ID kolejki  Czas startu           Wlasciciel    {Rozmiar} Czasownik (Linia) [To]");
+player:notify("----------  -----------           ----------    ------------------------------");
 now = time();
 for task in (tasks)
 $command_utils:suspend_if_needed(0);
@@ -80093,22 +80093,22 @@ $command_utils:suspend_if_needed(0);
 if (typeof(start) == STR)
 time = start;
 else
-time = (start >= now) ? ctime(start)[5..24] | su:left((start == -1) ? "Reading input ..." | tostr(now - start, " seconds ago..."), 20);
+time = (start >= now) ? ctime(start)[5..24] | su:left((start == -1) ? "Odczytywanie danych ..." | tostr(now - start, " sekund temu..."), 20);
 endif
-owner_name = valid(owner) ? owner.name | tostr("Dead ", owner);
+owner_name = valid(owner) ? owner.name | tostr("Martwy ", owner);
 player:notify(tostr(su:left(tostr(q_id), 10), "  ", time, "  ", su:left(owner_name, 12), "  {", $building_utils:size_string(size), "} ", vloc, ":", vname, " (", lineno, ")", (this != vloc) ? tostr(" [", this, "]") | ""));
 if (verbose || (index(vname, "suspend") && (vloc == $command_utils)))
 "Display the first (or, if verbose, every) line of the callers() list, which is gotten by taking the second through last elements of task_stack().";
 stack = `task_stack(q_id, 1) ! E_INVARG => {}';
 for frame in (stack[2..verbose ? $ | 2])
 {sthis, svname, sprogger, svloc, splayer, slineno} = frame;
-player:notify(tostr("                    Called By...  ", su:left(valid(sprogger) ? sprogger.name | tostr("Dead ", sprogger), 19), "  ", svloc, ":", svname, (sthis != svloc) ? tostr(" [", sthis, "]") | "", " (", slineno, ")"));
+player:notify(tostr("                    Wywolane przez...  ", su:left(valid(sprogger) ? sprogger.name | tostr("Martwy ", sprogger), 19), "  ", svloc, ":", svname, (sthis != svloc) ? tostr(" [", sthis, "]") | "", " (", slineno, ")"));
 endfor
 endif
 endfor
 player:notify("-----------------------------------------------------------------");
 else
-player:notify("No tasks.");
+player:notify("Brak zadan.");
 endif
 .
 #58:8
@@ -80485,7 +80485,7 @@ if (args[1..length(dobjwords)] == dobjwords)
 args = args[length(dobjwords) + 1..$];
 endif
 if (!(parse_result = $code_utils:_parse_audit_args(@args)))
-player:notify(tostr("Usage:  ", verb, " player [from <start>] [to <end>]"));
+player:notify(tostr("Uzycie:  ", verb, " gracz [z <poczatek>] [do <koniec>]"));
 return;
 endif
 return $building_utils:do_prospectus(dobj, @parse_result);
@@ -80843,19 +80843,19 @@ endif
 "Set the value of <obj>.<prop> to `clear', making it appear to be the same as the property on its parent.";
 set_task_perms(player);
 if (!(l = $code_utils:parse_propref(dobjstr)))
-player:notify(tostr("Usage:  ", verb, " <object>.<property>"));
+player:notify(tostr("Uzycie:  ", verb, " <obiekt>.<wlasciwosc>"));
 elseif ($command_utils:object_match_failed(dobj = player:my_match_object(l[1]), l[1]))
 "... bogus object...";
 endif
 try
 if (is_clear_property(dobj, prop = l[2]))
-player:notify(tostr("Property ", dobj, ".", prop, " is already clear!"));
+player:notify(tostr("Wlasciwosc ", dobj, ".", prop, " jest juz czysta!"));
 return;
 endif
 clear_property(dobj, prop);
-player:notify(tostr("Property ", dobj, ".", prop, " cleared; value is now ", toliteral(dobj.(prop)), "."));
+player:notify(tostr("Wlasciwosc ", dobj, ".", prop, " wyczyszczona; wartosc to teraz ", toliteral(dobj.(prop)), "."));
 except (E_INVARG)
-player:notify(tostr("You can't clear ", dobj, ".", prop, "; none of the ancestors define that property."));
+player:notify(tostr("Nie mozna wyczyscic ", dobj, ".", prop, "; zaden z przodkow nie definiuje tej wlasciwosci."));
 except error (ANY)
 player:notify(error[2]);
 endtry
@@ -81276,13 +81276,13 @@ set_task_perms(player);
 if (!dobjstr)
 try
 if ((verb[7] != "(") && (verb[$] != ")"))
-player:tell("Usage:  @verbs <object>");
+player:tell("Uzycie:  @verbs <obiekt>");
 return;
 else
 dobjstr = verb[8..$ - 1];
 endif
 except (E_RANGE)
-return player:tell("Usage:  @verbs <object>");
+return player:tell("Uzycie:  @verbs <obiekt>");
 endtry
 endif
 thing = player:my_match_object(dobjstr);
@@ -81316,25 +81316,25 @@ return;
 endif
 if (tasks)
 su = $string_utils;
-player:notify("Queue ID    Start Time            Owner         Verb (Line) [This]");
-player:notify("--------    ----------            -----         -----------------");
+player:notify("ID kolejki  Czas startu           Wlasciciel    Czasownik (Linia) [To]");
+player:notify("----------  -----------           ----------    -----------------------");
 now = time();
 for task in (tasks)
 $command_utils:suspend_if_needed(0);
 {q_id, start, nu, nu2, owner, vloc, vname, lineno, this, ?size = 0} = task;
-time = (start >= now) ? ctime(start)[5..24] | su:left((start == -1) ? "Reading input ..." | tostr(now - start, " seconds ago..."), 20);
-owner_name = valid(owner) ? owner.name | tostr("Dead ", owner);
+time = (start >= now) ? ctime(start)[5..24] | su:left((start == -1) ? "Odczytywanie danych ..." | tostr(now - start, " sekund temu..."), 20);
+owner_name = valid(owner) ? owner.name | tostr("Martwy ", owner);
 player:notify(tostr(su:left(tostr(q_id), 10), "  ", time, "  ", su:left(owner_name, 12), "  ", vloc, ":", vname, " (", lineno, ")", (this != vloc) ? tostr(" [", this, "]") | ""));
 if (stack = `task_stack(q_id, 1) ! E_INVARG => 0')
 for frame in (listdelete(stack, 1))
 {sthis, svname, sprogger, svloc, splayer, slineno} = frame;
-player:notify(tostr("                    Called By...  ", su:left(valid(sprogger) ? sprogger.name | tostr("Dead ", sprogger), 12), "  ", svloc, ":", svname, (sthis != svloc) ? tostr(" [", sthis, "]") | "", " (", slineno, ")"));
+player:notify(tostr("                    Wywolane przez...  ", su:left(valid(sprogger) ? sprogger.name | tostr("Martwy ", sprogger), 12), "  ", svloc, ":", svname, (sthis != svloc) ? tostr(" [", sthis, "]") | "", " (", slineno, ")"));
 endfor
 endif
 endfor
 player:notify("-----------------------------------------------------------------");
 else
-player:notify("No tasks.");
+player:notify("Brak zadan.");
 endif
 .
 #58:34
@@ -81481,21 +81481,21 @@ return this.error_names[toint(args[1]) + 1];
 #59:5
 set_task_perms(caller_perms());
 {object, ?what = {"props", "verbs"}} = args;
-player:notify(tostr("Object ID:  ", object));
-player:notify(tostr("Name:       ", object.name));
-names = {"Parent", "Location", "Owner"};
+player:notify(tostr("ID obiektu: ", object));
+player:notify(tostr("Nazwa:      ", object.name));
+names = {"Rodzic", "Polozenie", "Wlasciciel"};
 vals = {parent(object), object.location, object.owner};
 for i in [1..length(vals)]
 if (!valid(vals[i]))
-val = "*** NONE ***";
+val = "*** BRAK ***";
 else
 val = ((vals[i].name + " (") + tostr(vals[i])) + ")";
 endif
 player:notify(tostr(names[i], ":      "[1..12 - length(names[i])], val));
 endfor
-line = "Flags:     ";
+line = "Flagi:     ";
 if (is_player(object))
-line = line + " player";
+line = line + " gracz";
 endif
 for flag in ({"programmer", "wizard", "r", "w", "f"})
 if (object.(flag))
@@ -81505,7 +81505,7 @@ endfor
 player:notify(line);
 if (player.programmer && ((player.wizard || (player == object.owner)) || object.r))
 if (("verbs" in what) && (vs = verbs(object)))
-player:notify("Verb definitions:");
+player:notify("Definicje czasownikow:");
 for v in (vs)
 $command_utils:suspend_if_needed(0);
 player:notify(tostr("    ", v));
@@ -81513,7 +81513,7 @@ endfor
 endif
 if ("props" in what)
 if (ps = properties(object))
-player:notify("Property definitions:");
+player:notify("Definicje wlasciwosci:");
 for p in (ps)
 $command_utils:suspend_if_needed(0);
 player:notify(tostr("    ", p));
@@ -81521,19 +81521,19 @@ endfor
 endif
 all_props = $object_utils:all_properties(object);
 if (all_props != {})
-player:notify("Properties:");
+player:notify("Wlasciwosci:");
 for p in (all_props)
 $command_utils:suspend_if_needed(0);
-strng = `toliteral(object.(p)) ! E_PERM => "(Permission denied.)"';
+strng = `toliteral(object.(p)) ! E_PERM => "(Brak uprawnien.)"';
 player:notify(tostr("    ", p, ": ", strng));
 endfor
 endif
 endif
 elseif (player.programmer)
-player:notify("** Can't list properties or verbs: permission denied.");
+player:notify("** Nie mozna wyswietlic wlasciwosci ani czasownikow: brak uprawnien.");
 endif
 if (object.contents)
-player:notify("Contents:");
+player:notify("Zawartosc:");
 for o in (object.contents)
 $command_utils:suspend_if_needed(0);
 player:notify(tostr("    ", o.name, " (", o, ")"));
@@ -81563,10 +81563,10 @@ player:notify(tostr("Value:        ", $string_utils:print(object.(pname))));
 set_task_perms(caller_perms());
 {object, vname} = args;
 if (!(hv = $object_utils:has_verb(object, vname)))
-player:notify("That object does not define that verb.");
+player:notify("Ten obiekt nie definiuje tego czasownika.");
 return;
 elseif (hv[1] != object)
-player:notify(tostr("Object ", object, " does not define that verb, but its ancestor ", hv[1], " does."));
+player:notify(tostr("Obiekt ", object, " nie definiuje tego czasownika, ale definiuje go jego przodek ", hv[1], "."));
 object = hv[1];
 endif
 try
@@ -81577,11 +81577,11 @@ return;
 endtry
 arg_specs = verb_args(object, vname);
 player:notify(tostr(object, ":", names));
-player:notify(tostr("Owner:            ", valid(owner) ? tostr(owner.name, " (", owner, ")") | "*** NONE ***"));
-player:notify(tostr("Permissions:      ", perms));
-player:notify(tostr("Direct Object:    ", arg_specs[1]));
-player:notify(tostr("Preposition:      ", arg_specs[2]));
-player:notify(tostr("Indirect Object:  ", arg_specs[3]));
+player:notify(tostr("Wlasciciel:           ", valid(owner) ? tostr(owner.name, " (", owner, ")") | "*** BRAK ***"));
+player:notify(tostr("Uprawnienia:          ", perms));
+player:notify(tostr("Dopelnienie blizsze:  ", arg_specs[1]));
+player:notify(tostr("Przyimek:             ", arg_specs[2]));
+player:notify(tostr("Dopelnienie dalsze:   ", arg_specs[3]));
 .
 #59:8
 if (args[4..5] == {"none", "this"})
@@ -81922,7 +81922,7 @@ else
 count = this:(_find_verbs)(pattern, where, casematters);
 endif
 player:notify("");
-player:notify(tostr("Total: ", count, " verb", (count != 1) ? "s." | "."));
+player:notify(tostr("Razem: ", count, " ", $polish_utils:count(count, "czasownik", "czasowniki", "czasownikow"), "."));
 .
 #59:25
 ":_find_verbs_containing(pattern,object[,casematters])";
@@ -82225,22 +82225,22 @@ idles = itimes = offs = otimes = {};
 argstr = dobjstr = iobjstr = prepstr = "";
 for p in (more_plist)
 if (!valid(p))
-caller:notify(tostr(p, " <invalid>"));
+caller:notify(tostr(p, " <nieprawidlowy>"));
 elseif (typeof(t = `p.last_disconnect_time ! E_PROPNF') == INT)
 if (!(p in offs))
 offs = {@offs, p};
 otimes = {@otimes, {-t, -t, p}};
 endif
 elseif (is_player(p))
-caller:notify(tostr(p.name, " (", p, ") ", (t == E_PROPNF) ? "is not a $player." | "has a garbled .last_disconnect_time."));
+caller:notify(tostr(p.name, " (", p, ") ", (t == E_PROPNF) ? "nie jest $player." | "ma uszkodzona wartosc .last_disconnect_time."));
 else
-caller:notify(tostr(p.name, " (", p, ") is not a player."));
+caller:notify(tostr(p.name, " (", p, ") nie jest graczem."));
 endif
 endfor
 for p in (plist)
 if (p in offs)
 elseif (!valid(p))
-caller:notify(tostr(p, " <invalid>"));
+caller:notify(tostr(p, " <nieprawidlowy>"));
 elseif (typeof(i = `idle_seconds(p) ! ANY') != ERR)
 if (!(p in idles))
 idles = {@idles, p};
@@ -82250,9 +82250,9 @@ elseif (typeof(t = `p.last_disconnect_time ! E_PROPNF') == INT)
 offs = {@offs, p};
 otimes = {@otimes, {-t, -t, p}};
 elseif (is_player(p))
-caller:notify(tostr(p.name, " (", p, ") not logged in.", (t == E_PROPNF) ? "  Not a $player." | "  Garbled .last_disconnect_time."));
+caller:notify(tostr(p.name, " (", p, ") niezalogowany.", (t == E_PROPNF) ? "  Nie $player." | "  Uszkodzona wartosc .last_disconnect_time."));
 else
-caller:notify(tostr(p.name, " (", p, ") is not a player."));
+caller:notify(tostr(p.name, " (", p, ") nie jest graczem."));
 endif
 endfor
 if (!(idles || offs))
@@ -82263,7 +82263,7 @@ offs = $list_utils:sort_alist(otimes);
 "...";
 "... calculate widths...";
 "...";
-headers = {"Player name", @idles ? {"Connected", "Idle time"} | {"Last disconnect time", ""}, "Location"};
+headers = {"Nazwa gracza", @idles ? {"Polaczony", "Bezczynny"} | {"Ostatnie rozlaczenie", ""}, "Lokalizacja"};
 total_width = `caller:linelen() ! ANY => 0' || 79;
 max_name = total_width / 4;
 name_width = length(headers[1]);
@@ -82275,11 +82275,11 @@ namestr = tostr(p.name[1..min(max_name, $)], " (", p, ")");
 name_width = max(length(namestr), name_width);
 names = {@names, namestr};
 if (typeof(wlm = `p.location:who_location_msg(p) ! ANY') != STR)
-wlm = valid(p.location) ? p.location.name | tostr("** Nowhere ** (", p.location, ")");
+wlm = valid(p.location) ? p.location.name | tostr("** Nigdzie ** (", p.location, ")");
 endif
 locations = {@locations, wlm};
 endfor
-time_width = 3 + (offs ? 12 | length("59 minutes"));
+time_width = 3 + (offs ? 12 | length("59 minut"));
 before = {0, w1 = 3 + name_width, w2 = w1 + time_width, w2 + time_width};
 "...";
 "...print headers...";
@@ -82308,9 +82308,9 @@ else
 lct = offs[i - ilen][3].last_connect_time;
 ldt = offs[i - ilen][3].last_disconnect_time;
 ctime = `caller:ctime(ldt) ! ANY => 0' || ctime(ldt);
-l = {names[i], (lct <= time()) ? ctime | "Never", "", locations[i]};
+l = {names[i], (lct <= time()) ? ctime | "Nigdy", "", locations[i]};
 if ((i == (ilen + 1)) && idles)
-caller:notify(su:space(before[2]) + "------- Disconnected -------");
+caller:notify(su:space(before[2]) + "------- Rozlaczeni -------");
 endif
 endif
 tell1 = l[1];
@@ -82321,13 +82321,13 @@ caller:notify(tell1[1..min($, total_width)]);
 if ($command_utils:running_out_of_time())
 if ($login:is_lagging())
 "Check lag two ways---global lag, but we might still fail due to individual lag of the queue this runs in, so check again later.";
-caller:notify(tostr("Plus ", total - i, " other players (", total, " total; out of time and lag is high)."));
+caller:notify(tostr("Plus ", total - i, " ", $polish_utils:count(total - i, "inny gracz", "innych graczy", "innych graczy"), " (", total, " w sumie; brak czasu i lag jest wysoki)."));
 return;
 endif
 now = time();
 suspend(0);
 if ((time() - now) > 10)
-caller:notify(tostr("Plus ", total - i, " other players (", total, " total; out of time and lag is high)."));
+caller:notify(tostr("Plus ", total - i, " ", $polish_utils:count(total - i, "inny gracz", "innych graczy", "innych graczy"), " (", total, " w sumie; brak czasu i lag jest wysoki)."));
 return;
 endif
 endif
@@ -82336,19 +82336,7 @@ endfor
 "...epilogue...";
 "...";
 caller:notify("");
-if (total == 1)
-active_str = ", who has" + ((active == 1) ? "" | " not");
-else
-if (active == total)
-active_str = (active == 2) ? "s, both" | "s, all";
-elseif (active == 0)
-active_str = "s, none";
-else
-active_str = tostr("s, ", active);
-endif
-active_str = tostr(active_str, " of whom ha", (active == 1) ? "s" | "ve");
-endif
-caller:notify(tostr("Total: ", total, " player", active_str, " been active recently."));
+caller:notify(tostr("Razem: ", total, " ", $polish_utils:count(total, "gracz", "graczy", "graczy"), " (aktywnych ostatnio: ", active, ")."));
 return total;
 .
 #59:40
