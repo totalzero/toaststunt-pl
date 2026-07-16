@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784204779 567763848 0
+1784207991 567763848 0
 0
 10
 0
@@ -146,7 +146,7 @@ continuous
 0 interrupted tasks
 1 active connections with listeners
 2 0
-136
+144
 #0
 The System Object
 24
@@ -798,7 +798,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784204053
+1784206420
 2
 name
 2
@@ -1368,7 +1368,7 @@ source
 2
 time
 0
-1784204775
+1784207984
 4
 0
 1
@@ -1624,7 +1624,7 @@ expire
 4
 2
 0
-1784204753
+1784207950
 2
 localhost
 2
@@ -1633,7 +1633,7 @@ localhost
 2
 0
 0
-1784204754
+1784207967
 2
 1
 0
@@ -1803,7 +1803,7 @@ localhost
 2
 5
 0
-1784204775
+1784207984
 2
 1
 0
@@ -1842,7 +1842,7 @@ localhost
 0
 1721212110
 0
-999
+1009
 36
 0
 0
@@ -1853,7 +1853,7 @@ localhost
 2
 0
 12
-136
+144
 2
 1
 5
@@ -4382,7 +4382,11 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 0
 10
+1
+1
+-37
 0
+2
 2
 5
 0
@@ -4394,7 +4398,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-30
+31
+4
+2
+0
+1784206420
+0
+0
 4
 2
 0
@@ -15069,11 +15079,15 @@ localhost.localdomain
 2
 localhost
 4
-2
+4
 1
 2
 1
 134
+1
+136
+1
+144
 36
 0
 2
@@ -27638,19 +27652,17 @@ feature_task
 4
 9
 0
-1220697346
+1842259135
 2
-@lock-for-open
+quit
 4
+0
+2
+
 1
+-1
 2
-TestRzecz
-2
-TestRzecz
-1
-137
-2
-TestRzecz
+
 2
 
 1
@@ -32873,13 +32885,17 @@ keep_clean
 2
 5
 4
-0
+1
+1
+130
 2
 4
-5
+1
+-1
 2
 5
-5
+0
+1981079353
 2
 5
 4
@@ -33022,7 +33038,7 @@ lost_souls
 36
 0
 4
-5
+16
 1
 134
 1
@@ -33033,6 +33049,28 @@ lost_souls
 136
 1
 137
+1
+129
+1
+130
+1
+131
+1
+132
+1
+144
+1
+138
+1
+139
+1
+140
+1
+141
+1
+142
+1
+143
 36
 5
 5
@@ -54991,8 +55029,16 @@ diag
 0
 36
 1
+# 136 recycled
+# 137 recycled
+# 138 recycled
+# 139 recycled
+# 140 recycled
+# 141 recycled
+# 142 recycled
+# 143 recycled
 1
-#136
+#144
 
 0
 98
@@ -56708,7 +56754,7 @@ nargs = length(args);
 if (nargs == 1)
 room = args[1];
 exit_spec = "";
-elseif ((nargs >= 3) && (args[2] == "do"))
+elseif ((nargs >= 3) && ((args[2] == "to") || (args[2] == "do")))
 exit_spec = args[1];
 room = $string_utils:from_list(args[3..$], " ");
 elseif (argstr && (!prepstr))
@@ -62740,7 +62786,7 @@ move(who, home);
 except (ANY)
 move(who, $player_start);
 endtry
-who.location:announce_all_but({who}, who.name, " has connected.");
+who.location:announce_all_but({who}, who.name, " wchodzi do gry.");
 .
 #15:2
 return $player_start:who_location_msg(@args);
@@ -67838,7 +67884,7 @@ this:log_disconnect();
 this:erase_paranoid_data();
 try
 if (this.location != this.home)
-this:room_announce(player.name, " has disconnected.");
+this:room_announce(player.name, " wychodzi z gry.");
 this:room_announce($string_utils:pronoun_sub($housekeeper.take_away_msg, this, $housekeeper));
 move(this, this.home);
 this:room_announce($string_utils:pronoun_sub($housekeeper.drop_off_msg, this, $housekeeper));
@@ -83185,7 +83231,7 @@ if ((((cp = caller_perms()) == (who = args[1])) || $perm_utils:controls(cp, who)
 "need the first check since guests don't control themselves";
 if (who.home == this)
 move(who, $limbo);
-this:announce("You hear a quiet popping sound; ", who.name, " has disconnected.");
+this:announce("Slyszysz cichy trzask; ", who.name, " wychodzi z gry.");
 else
 pass(who);
 endif
