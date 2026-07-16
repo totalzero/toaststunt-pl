@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784187841 567763848 0
+1784189767 567763848 0
 0
 10
 0
@@ -146,7 +146,7 @@ continuous
 0 interrupted tasks
 1 active connections with listeners
 2 0
-134
+136
 #0
 The System Object
 24
@@ -1368,7 +1368,7 @@ source
 2
 time
 0
-1784187839
+1784189765
 4
 0
 1
@@ -1624,7 +1624,7 @@ expire
 4
 2
 0
-1784187826
+1784189752
 2
 localhost
 2
@@ -1633,7 +1633,7 @@ localhost
 2
 0
 0
-1784187827
+1784189753
 2
 1
 0
@@ -1656,7 +1656,7 @@ localhost
 36
 1
 4
-50
+51
 1
 0
 1
@@ -1757,6 +1757,8 @@ localhost
 126
 1
 133
+1
+135
 2
 1
 0
@@ -1799,7 +1801,7 @@ localhost
 2
 5
 0
-1784187839
+1784189765
 2
 1
 0
@@ -1849,7 +1851,7 @@ localhost
 2
 0
 12
-134
+136
 2
 1
 5
@@ -25318,14 +25320,20 @@ strmode
 objects
 40
 4
+1
+0
 0
 96
 1
 4
+1
+0
 0
 96
 5
 4
+1
+0
 0
 96
 1
@@ -25471,11 +25479,11 @@ A small swarm of 3x5 index cards blows in and disperses, revealing %n.
 4
 3
 2
-Partially edited text will be here when you get back.
+Czesciowo edytowany tekst bedzie tu czekal, gdy wrocisz.
 2
-To return, give the `@notedit' command with no arguments.
+By wrocic, wpisz polecenie `@notedit' bez argumentow.
 2
-Please come back and SAVE or ABORT if you don't intend to be working on this text in the immediate future.  Keep Our MOO Clean!  No Littering!
+Prosze, wroc i uzyj SAVE albo ABORT, jesli nie zamierzasz pracowac nad tym tekstem w najblizszej przyszlosci.  Dbajmy o czystosc naszego MOO!  Nie smiec!
 96
 5
 2
@@ -25491,6 +25499,8 @@ Use the EDIT command to select a note.
 96
 5
 4
+1
+0
 0
 96
 0
@@ -25499,11 +25509,15 @@ Use the EDIT command to select a note.
 96
 1
 4
+1
+0
 0
 96
 0
 4
+1
 0
+1
 96
 0
 4
@@ -25796,11 +25810,11 @@ There are the light bips of keyclick and the sliding of mice as %n fades into vi
 4
 3
 2
-Keeping your verb for later work.  
+Zachowywanie twojego czasownika do pozniejszej pracy.  
 2
-To return, give the `@edit' command with no arguments.
+By wrocic, wpisz polecenie `@edit' bez argumentow.
 2
-Please come back and COMPILE or ABORT if you don't intend to be working on this verb in the immediate future.  Keep Our MOO Clean!  No Littering!
+Prosze, wroc i uzyj COMPILE albo ABORT, jesli nie zamierzasz pracowac nad tym czasownikiem w najblizszej przyszlosci.  Dbajmy o czystosc naszego MOO!  Nie smiec!
 96
 5
 2
@@ -25921,7 +25935,7 @@ Generic Editor
 1
 3
 4
-4
+5
 1
 49
 1
@@ -25930,6 +25944,8 @@ Generic Editor
 47
 1
 95
+1
+135
 71
 say
 96
@@ -27602,29 +27618,23 @@ feature_task
 4
 9
 0
-766376402
+1677899001
 2
-give
+done
 4
-3
+0
 2
-#3
-2
-do
-2
-Wizard
-2
-#3 do Wizard
+
 1
-3
+-1
 2
-#3
+
 2
-do
+
 1
+-1
 2
-2
-Wizard
+
 36
 0
 4
@@ -32986,13 +32996,17 @@ lost_souls
 36
 0
 4
-3
+5
 1
 134
 1
 135
 1
 127
+1
+136
+1
+137
 36
 5
 5
@@ -34534,11 +34548,11 @@ Ktos przychodzi i odklada %n. %n twardo spi.
 71
 5
 0
-1491010538
+2054340649
 71
 1
 0
-1173641889
+1693542649
 71
 5
 0
@@ -47976,14 +47990,20 @@ objects
 properties
 40
 4
-0
+1
+1
+-1
 96
 1
 4
-0
+1
+2
+
 96
 1
 4
+1
+0
 0
 96
 1
@@ -48114,11 +48134,11 @@ readable
 4
 3
 2
-Partially edited list value will be here when you get back.
+Czesciowo edytowana wartosc listy bedzie tu czekala, gdy wrocisz.
 2
-To return, give the `@pedit' command with no arguments.
+By wrocic, wpisz polecenie `@pedit' bez argumentow.
 2
-Please come back and SAVE or ABORT if you don't intend to be working on this list value in the immediate future.  Keep Our MOO Clean!  No Littering!
+Prosze, wroc i uzyj SAVE albo ABORT, jesli nie zamierzasz pracowac nad ta wartoscia listy w najblizszej przyszlosci.  Dbajmy o czystosc naszego MOO!  Nie smiec!
 96
 5
 5
@@ -48131,6 +48151,8 @@ Please come back and SAVE or ABORT if you don't intend to be working on this lis
 96
 5
 4
+1
+0
 0
 96
 0
@@ -48139,11 +48161,15 @@ Please come back and SAVE or ABORT if you don't intend to be working on this lis
 96
 1
 4
+1
+0
 0
 96
 0
 4
+1
 0
+1
 96
 0
 4
@@ -54788,8 +54814,157 @@ Pakiet narzedzi jezykowych dla polskiej lokalizacji: zaimki (:pronoun), odmiana 
 0
 36
 1
+# 134 recycled
+#135
+
+128
+2
 1
-#134
+-1
+10
+0
+4
+0
+1
+50
+4
+0
+1
+diag
+96
+172
+-1
+0
+38
+4
+0
+96
+1
+4
+0
+96
+1
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+96
+1
+5
+2
+5
+5
+2
+5
+5
+96
+1
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+4
+0
+96
+0
+4
+0
+96
+1
+4
+0
+96
+0
+4
+0
+96
+0
+4
+0
+96
+1
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+5
+5
+2
+4
+5
+2
+5
+5
+2
+5
+5
+2
+4
+5
+2
+5
+5
+2
+5
+0
+0
+2
+4
+5
+2
+5
+5
+2
+5
+4
+2
+0
+0
+0
+0
+36
+1
+1
+#136
 
 0
 98
@@ -54829,7 +55004,7 @@ Pakiet narzedzi jezykowych dla polskiej lokalizacji: zaimki (:pronoun), odmiana 
 98
 1
 0
-1953
+1954
 #0:0
 "...This code should only be run as a server task...";
 if (callers())
@@ -73896,7 +74071,7 @@ return {tostr("MOOMail", subject ? ("(" + subject) + ")" | (("-to(" + toline) + 
 .
 #48:0
 if (this:changed(who = player in this.active))
-player:tell("You are still editing ", this:working_on(who), ".  Please type ABORT or SAVE first.");
+player:tell("Nadal edytujesz ", this:working_on(who), ".  Wpisz najpierw ABORT albo SAVE.");
 elseif (spec = this:parse_invoke(dobjstr, verb))
 this:init_session(who, @spec);
 endif
@@ -73919,14 +74094,14 @@ if (strmode)
 text = text ? text[1] | "";
 endif
 if (ERR == typeof(result = this:set_note_text(note, text)))
-player:tell("Text not saved to ", this:working_on(who), ":  ", result);
+player:tell("Tekst nie zostal zapisany do ", this:working_on(who), ":  ", result);
 if ((result == E_TYPE) && (typeof(note) == OBJ))
-player:tell("Do `mode list' and try saving again.");
+player:tell("Wpisz `mode list' i sprobuj zapisac ponownie.");
 elseif (!dobjstr)
-player:tell("Use `save' with an argument to save the text elsewhere.");
+player:tell("Uzyj `save' z argumentem, by zapisac tekst gdzie indziej.");
 endif
 else
-player:tell("Text written to ", this:working_on(who), strmode ? " as a single string." | ".");
+player:tell("Tekst zapisany do ", this:working_on(who), strmode ? " jako pojedynczy string." | ".");
 this:set_changed(who, 0);
 endif
 .
@@ -73935,7 +74110,7 @@ if (this:ok(who = args[1]))
 this.strmode[who] = strmode = typeof(text = args[3]) == STR;
 this:load(who, strmode ? text ? {text} | {} | text);
 this.objects[who] = args[2];
-player:tell("Now editing ", this:working_on(who), ".", strmode ? "  [string mode]" | "");
+player:tell("Teraz edytujesz ", this:working_on(who), ".", strmode ? "  [tryb string]" | "");
 endif
 .
 #48:3
@@ -73950,27 +74125,27 @@ else
 object = spec;
 prop = 0;
 endif
-return valid(object) ? tostr("\"", object.name, "\"(", object, ")", prop ? "." + prop | "") | tostr(prop ? ("." + prop) + " on " | "", "invalid object (", object, ")");
+return valid(object) ? tostr("\"", object.name, "\"(", object, ")", prop ? "." + prop | "") | tostr(prop ? ("." + prop) + " " | "", "nieprawidlowy obiekt (", object, ")");
 .
 #48:4
 ":parse_invoke(string,verb)";
-" string is the actual commandline string indicating what we are to edit";
-" verb is the command verb that is attempting to invoke the editor";
+" string to faktyczny string polecenia wskazujacy co mamy edytowac";
+" verb to czasownik polecenia, ktory probuje wywolac edytor";
 if (caller != this)
 raise(E_PERM);
 elseif (!(string = args[1]))
-player:tell_lines({("Usage:  " + args[2]) + " <note>   (where <note> is some note object)", ("        " + args[2]) + "          (continues editing an unsaved note)"});
+player:tell_lines({("Uzycie:  " + args[2]) + " <notatka>   (gdzie <notatka> to jakis obiekt notatki)", ("        " + args[2]) + "          (kontynuuje edycje niezapisanej notatki)"});
 elseif (1 == (note = this:note_match_failed(string)))
 elseif (ERR == typeof(text = this:note_text(note)))
-player:tell("Couldn't retrieve text:  ", text);
+player:tell("Nie udalo sie pobrac tekstu:  ", text);
 elseif ((player:edit_option("local") == 0) && $edit_utils:get_option("default_editor", player))
 fork (0)
 text = $edit_utils:editor((!text) ? {} | text);
 result = $note_editor:set_note_text(note, text);
 if (typeof(result) == ERR)
-player:tell("Unable to set text: ", e[2]);
+player:tell("Nie mozna ustawic tekstu: ", e[2]);
 else
-player:tell("Edited ", note[2], " of ", $string_utils:nn(note[1]), ".");
+player:tell("Zedytowano ", note[2], " obiektu ", $string_utils:nn(note[1]), ".");
 endif
 endfork
 kill_task(task_id());
@@ -74025,14 +74200,14 @@ endif
 if ($command_utils:object_match_failed(note = player:my_match_object(object, this:get_room(player)), object))
 elseif (prop)
 if (!$object_utils:has_property(note, prop))
-player:tell(object, " has no \".", prop, "\" property.");
+player:tell(object, " nie ma wlasciwosci \".", prop, "\".");
 else
 return {note, prop};
 endif
 elseif ((!$object_utils:has_callable_verb(note, "text")) || (!$object_utils:has_callable_verb(note, "set_text")))
 return {note, "description"};
 "... what we used to do.  but why barf?   that's no fun...";
-player:tell(object, "(", note, ") doesn't look like a note.");
+player:tell(object, "(", note, ") nie wyglada na notatke.");
 else
 return note;
 endif
@@ -74041,7 +74216,7 @@ return 1;
 #48:8
 pass(@args);
 if ((who = this:loaded(player)) && this.strmode[who])
-player:tell("Text will be stored as a single string instead of a list when possible.");
+player:tell("Tekst bedzie przechowywany jako pojedynczy string zamiast listy, kiedy to mozliwe.");
 endif
 .
 #48:9
@@ -74050,23 +74225,23 @@ if (!(who = this:loaded(player)))
 player:tell(this:nothing_loaded_msg());
 return;
 endif
-if (dobjstr && (index("string", dobjstr) == 1))
+if (dobjstr && ((index("string", dobjstr) == 1) || (index("tekst", dobjstr) == 1)))
 this.strmode[who] = mode = 1;
-player:tell("Now in string mode:");
-elseif (dobjstr && (index("list", dobjstr) == 1))
+player:tell("Teraz w trybie tekstowym:");
+elseif (dobjstr && ((index("list", dobjstr) == 1) || (index("lista", dobjstr) == 1)))
 this.strmode[who] = mode = 0;
-player:tell("Now in list mode:");
+player:tell("Teraz w trybie listy:");
 elseif (dobjstr)
-player:tell("Unrecognized mode:  ", dobjstr);
-player:tell("Should be one of `string' or `list'");
+player:tell("Nierozpoznany tryb:  ", dobjstr);
+player:tell("Powinien byc jednym z `string' albo `list'");
 return;
 else
-player:tell("Currently in ", (mode = this.strmode[who]) ? "string " | "list ", "mode:");
+player:tell("Obecny tryb: ", (mode = this.strmode[who]) ? "tekstowy" | "lista", ":");
 endif
 if (mode)
-player:tell("  store text as a single string instead of a list when possible.");
+player:tell("  przechowuj tekst jako pojedynczy string zamiast listy, kiedy to mozliwe.");
 else
-player:tell("  always store text as a list of strings.");
+player:tell("  zawsze przechowuj tekst jako liste stringow.");
 endif
 .
 #48:10
@@ -74094,7 +74269,7 @@ endif
 .
 #49:0
 if (!args)
-player:tell("edit what?");
+player:tell("edytowac co?");
 else
 this:invoke(argstr, verb);
 endif
@@ -74114,13 +74289,13 @@ else
 vargs = {};
 endif
 changeverb = 0;
-elseif ((args[1] != "as") || ((length(args) < 2) || ((!(spec = $code_utils:parse_verbref(args[2]))) || ((typeof(pas = $code_utils:parse_argspec(@args[3..$])) != LIST) || pas[2]))))
+elseif (((args[1] != "as") && (args[1] != "jako")) || ((length(args) < 2) || ((!(spec = $code_utils:parse_verbref(args[2]))) || ((typeof(pas = $code_utils:parse_argspec(@args[3..$])) != LIST) || pas[2]))))
 if (typeof(pas) != LIST)
 player:tell(pas);
 elseif (pas[2])
-player:tell("I don't understand \"", $string_utils:from_list(pas[2], " "), "\"");
+player:tell("Nie rozumiem \"", $string_utils:from_list(pas[2], " "), "\"");
 endif
-player:tell("Usage: ", verb, " [as <object>:<verb>]");
+player:tell("Uzycie: ", verb, " [as <obiekt>:<czasownik>]");
 return;
 elseif ($command_utils:object_match_failed(object = player:my_match_object(spec[1], this:get_room(player)), spec[1]))
 return;
@@ -74138,9 +74313,9 @@ while (vnum && (this:fetch_verb_args(object, vnum) != vargs))
 vnum = $code_utils:find_verb_named(object, vname, vnum + 1);
 endwhile
 if (!vnum)
-player:tell("There is no ", object, ":", vname, " verb with args (", $string_utils:from_list(vargs, " "), ").");
+player:tell("Nie ma czasownika ", object, ":", vname, " z argumentami (", $string_utils:from_list(vargs, " "), ").");
 if (!changeverb)
-player:tell("Use 'compile as ...' to write your code to another verb.");
+player:tell("Uzyj 'compile as ...' by zapisac swoj kod do innego czasownika.");
 endif
 return;
 endif
@@ -74164,18 +74339,18 @@ endif
 "...write it out...";
 "...";
 if (result = this:set_verb_code(object, vnum ? vnum | vname, verbcode))
-player:tell(objverbname, " not compiled because:");
+player:tell(objverbname, " nie zostal skompilowany, poniewaz:");
 for x in (result)
 player:tell("  ", x);
 endfor
 elseif (typeof(result) == ERR)
-player:tell({result, ("You do not have write permission on " + objverbname) + ".", ("The verb " + objverbname) + " does not exist (!?!)", ("The object " + tostr(object)) + " does not exist (!?!)"}[1 + (result in {E_PERM, E_VERBNF, E_INVARG})]);
+player:tell({result, ("Nie masz uprawnien do zapisu na " + objverbname) + ".", ("Czasownik " + objverbname) + " nie istnieje (!?!)", ("Obiekt " + tostr(object)) + " nie istnieje (!?!)"}[1 + (result in {E_PERM, E_VERBNF, E_INVARG})]);
 if (!changeverb)
-player:tell("Do 'compile as <object>:<verb>' to write your code to another verb.");
+player:tell("Wpisz 'compile as <obiekt>:<czasownik>' by zapisac swoj kod do innego czasownika.");
 endif
 changeverb = 0;
 else
-player:tell(objverbname, verbcode ? " successfully compiled." | " verbcode removed.");
+player:tell(objverbname, verbcode ? " skompilowany pomyslnie." | " kod czasownika usuniety.");
 this:set_changed(who, 0);
 endif
 if (changeverb)
@@ -74203,27 +74378,27 @@ if (this:ok(who))
 this:load(who, vcode);
 this.verbnames[who] = vname;
 this.objects[who] = object;
-this.active[who]:tell("Now editing ", this:working_on(who), ".");
+this.active[who]:tell("Teraz edytujesz ", this:working_on(who), ".");
 "this.active[who]:tell(\"Now editing \", object, \":\", vname, \".\");";
 endif
 .
 #49:4
 ":parse_invoke(string,v,?code)";
-"  string is the commandline string to parse to obtain the obj:verb to edit";
-"  v is the actual command verb used to invoke the editor";
-" => {object, verbname, verb_code} or error";
+"  string to string linii polecenia do sparsowania, by uzyskac obj:verb do edycji";
+"  v to faktyczny czasownik polecenia uzyty do wywolania edytora";
+" => {object, verbname, verb_code} lub blad";
 if (caller != this)
 raise(E_PERM);
 endif
 vref = $string_utils:words(args[1]);
 if ((!vref) || (!(spec = $code_utils:parse_verbref(vref[1]))))
-player:tell("Usage: ", args[2], " object:verb");
+player:tell("Uzycie: ", args[2], " obiekt:czasownik");
 return;
 endif
 if (argspec = listdelete(vref, 1))
 if (typeof(pas = $code_utils:parse_argspec(@argspec)) == LIST)
 if (pas[2])
-player:tell("I don't understand \"", $string_utils:from_list(pas[2], " "), "\"");
+player:tell("Nie rozumiem \"", $string_utils:from_list(pas[2], " "), "\"");
 return;
 endif
 argspec = {@pas[1], "none", "none"}[1..3];
@@ -74252,11 +74427,11 @@ code = E_VERBNF;
 endif
 if (typeof(code) != ERR)
 if ((object in ancestors) != 1)
-player:tell("Object ", ancestors[1], " does not define that verb, but its ancestor ", object, " does.");
+player:tell("Obiekt ", ancestors[1], " nie definiuje tego czasownika, ale jego przodek ", object, " tak.");
 endif
 if ((!player:edit_option("local")) && $edit_utils:get_option("default_editor", player))
 fork (0)
-$edit_utils:editor(code, tostr("[Edit your code; use ", $edit_utils:get_option("cmd_char", player), "compile' to compile.]"), $edit_utils:get_option("cmd_char", player), 1, {{object, vname}});
+$edit_utils:editor(code, tostr("[Edytuj swoj kod; uzyj ", $edit_utils:get_option("cmd_char", player), "compile' by skompilowac.]"), $edit_utils:get_option("cmd_char", player), 1, {{object, vname}});
 endfork
 kill_task(task_id());
 else
@@ -74265,7 +74440,7 @@ endif
 endif
 endfor
 endif
-player:tell((code != E_VERBNF) ? code | "That object does not define that verb", argspec ? " with those args." | ".");
+player:tell((code != E_VERBNF) ? code | "Ten obiekt nie definiuje tego czasownika", argspec ? " z tymi argumentami." | ".");
 return 0;
 .
 #49:5
@@ -74315,8 +74490,8 @@ return {name, code, tostr("@program ", object, ":", vname, vargs), ref, "moo-cod
 .
 #49:8
 "verb_name(object, vname)";
-"Find vname on object and return its full name (quoted).";
-"This is useful for when we're working with verb numbers.";
+"Znajduje vname na obiekcie i zwraca jego pelna nazwe (w cudzyslowach).";
+"Przydatne, gdy pracujemy z numerami czasownikow.";
 if ((caller != $verb_editor) || (caller_perms() != $verb_editor.owner))
 return E_PERM;
 else
@@ -74333,8 +74508,8 @@ endif
 .
 #49:9
 "verb_name(object, vname)";
-"Find vname on object and return its full name (quoted).";
-"This is useful for when we're working with verb numbers.";
+"Znajduje vname na obiekcie i zwraca jego pelna nazwe (w cudzyslowach).";
+"Przydatne, gdy pracujemy z numerami czasownikow.";
 if ((caller != $verb_editor) || (caller_perms() != $verb_editor.owner))
 return E_PERM;
 else
@@ -74343,9 +74518,9 @@ return $string_utils:from_list(`verb_args(args[1], args[2]) ! ANY', " ");
 endif
 .
 #49:10
-"Syntax: comment [<range>]";
+"Skladnia: comment [<zakres>]";
 "";
-"Turns the specified range of lines, into comments.";
+"Zamienia podany zakres linii w komentarze.";
 if ((caller != player) && (caller_perms() != player))
 return E_PERM;
 elseif (!(who = this:loaded(player)))
@@ -74365,15 +74540,15 @@ for line in [from..to]
 text[line] = toliteral(text[line][cut..$]) + ";";
 endfor
 this.texts[who] = text;
-player:tell((to == from) ? "Line" | "Lines", " changed.");
+player:tell((to == from) ? "Linia zmieniona." | "Linie zmienione.");
 this.changes[who] = 1;
 this.times[who] = time();
 endif
 .
 #49:11
-"Syntax: uncomment [<range>]";
+"Skladnia: uncomment [<zakres>]";
 "";
-"Turns the specified range of lines from comments to, uh, not comments.";
+"Zamienia podany zakres linii z komentarzy z powrotem w kod.";
 if ((caller != player) && (caller_perms() != player))
 return E_PERM;
 elseif (!(who = this:loaded(player)))
@@ -74397,12 +74572,12 @@ bogus = setadd(bogus, line);
 endif
 endfor
 if (bogus)
-player:tell((length(bogus) == 1) ? "Line" | "Lines", " ", $string_utils:english_list(bogus), " ", (length(bogus) == 1) ? "is" | "are", " not comments.");
-player:tell("No changes.");
+player:tell((length(bogus) == 1) ? "Linia " | "Linie ", $string_utils:english_list(bogus), (length(bogus) == 1) ? " nie jest komentarzem." | " nie sa komentarzami.");
+player:tell("Brak zmian.");
 return;
 endif
 this.texts[who] = text;
-player:tell((to == from) ? "Line" | "Lines", " changed.");
+player:tell((to == from) ? "Linia zmieniona." | "Linie zmienione.");
 this.changes[who] = 1;
 this.times[who] = time();
 endif
@@ -89200,7 +89375,7 @@ endif
 .
 #95:0
 if (this:changed(who = player in this.active))
-player:tell("You are still editing ", this:working_on(who), ".  Please type ABORT or SAVE first.");
+player:tell("Nadal edytujesz ", this:working_on(who), ".  Wpisz najpierw ABORT albo SAVE.");
 elseif (spec = this:parse_invoke(dobjstr, verb))
 this:init_session(who, @spec);
 endif
@@ -89222,18 +89397,18 @@ objprop = {this.objects[who], this.properties[who]};
 endif
 value_list = this:to_value(@this:text(who));
 if (value_list[1])
-player:tell("Error on line ", value_list[1], ":  ", value_list[2]);
-player:tell("Value not saved to ", this:working_on(who));
+player:tell("Blad w linii ", value_list[1], ":  ", value_list[2]);
+player:tell("Wartosc nie zostala zapisana do ", this:working_on(who));
 elseif (result = this:set_property(@objprop, value_list[2]))
-player:tell("Value written to ", this:working_on(who), ".");
+player:tell("Wartosc zapisana do ", this:working_on(who), ".");
 this:set_changed(who, 0);
 else
 player:tell(result);
-player:tell("Value not saved to ", this:working_on(who));
+player:tell("Wartosc nie zostala zapisana do ", this:working_on(who));
 endif
 .
 #95:2
-player:tell("I don't understand that.");
+player:tell("Nie rozumiem tego.");
 .
 #95:3
 if (!(who = this:loaded(player)))
@@ -89241,13 +89416,13 @@ player:tell(this:nothing_loaded_msg());
 elseif (typeof(range = this:parse_range(who, {"_", "1"}, @args)) != LIST)
 player:tell(range);
 elseif (range[3])
-player:tell("Junk at end of cmd:  ", range[3]);
+player:tell("Smieci na koncu polecenia:  ", range[3]);
 else
 text = this.texts[who];
 newins = ins = this.inserting[who];
 start = range[1];
 if (typeof(debris = this:explode_line("", text[start])) == STR)
-player:tell("Line ", start, ":  ", debris);
+player:tell("Linia ", start, ":  ", debris);
 return;
 endif
 if (!debris[1])
@@ -89261,7 +89436,7 @@ if (ins == i)
 newins = (start + length(newlines)) + 1;
 endif
 if (typeof(debris = this:explode_line(debris[dlen], line)) == STR)
-player:tell("Line ", i, ":  ", debris);
+player:tell("Linia ", i, ":  ", debris);
 return;
 endif
 i = i + 1;
@@ -89281,7 +89456,7 @@ return e;
 endif
 vlist = this:to_value(@this:text(who));
 if (vlist[1])
-player:tell("Error on line ", vlist[1], ":  ", vlist[2]);
+player:tell("Blad w linii ", vlist[1], ":  ", vlist[2]);
 return E_INVARG;
 else
 return vlist[2];
@@ -89293,26 +89468,26 @@ return "????";
 endif
 object = this.objects[who];
 prop = this.properties[who] || "(???)";
-return valid(object) ? tostr("\"", object.name, "\"(", object, ")", "." + prop) | tostr(".", prop, " on an invalid object (", object, ")");
+return valid(object) ? tostr("\"", object.name, "\"(", object, ")", "." + prop) | tostr(".", prop, " na nieprawidlowym obiekcie (", object, ")");
 .
 #95:6
 if (this:ok(who = args[1]))
 this:load(who, args[4]);
 this.objects[who] = args[2];
 this.properties[who] = args[3];
-player:tell("Now editing ", this:working_on(who), ".");
+player:tell("Teraz edytujesz ", this:working_on(who), ".");
 endif
 .
 #95:7
 if (!(pp = $code_utils:parse_propref(string = args[1])))
-player:tell("Property specification expected.");
+player:tell("Oczekiwano specyfikacji wlasciwosci.");
 return 0;
 endif
 objstr = pp[1];
 prop = pp[2];
 if ($command_utils:object_match_failed(object = player:my_match_object(objstr, this:get_room(player)), objstr))
 elseif (!$object_utils:has_property(object, prop))
-player:tell(object.name, "(", object, ") has no \".", prop, "\" property.");
+player:tell(object.name, "(", object, ") nie ma wlasciwosci \".", prop, "\".");
 else
 return {object, prop};
 endif
@@ -89349,7 +89524,7 @@ line = su:triml(args[2]);
 indent = length(args[2]) - length(line);
 if (line[1] == "@")
 if (!(splicee = $no_one:eval(("{" + line[2..length(line)]) + "}"))[1])
-return "Can't eval what's after the @.";
+return "Nie mozna obliczyc tego, co jest po @.";
 endif
 newlines = this:explode_list(indent + 1, splicee[2]);
 return {prev, @newlines};
@@ -89368,7 +89543,7 @@ else
 return args;
 endif
 elseif (!(v = $no_one:eval(line))[1])
-return "Can't eval this line.";
+return "Nie mozna obliczyc tej linii.";
 else
 newlines = {@this:explode_list(indent + 2, v[2]), su:space(indent) + "}"};
 if (this:is_delimiter(prev))
@@ -89379,7 +89554,7 @@ endif
 endif
 .
 #95:11
-":explode_list(indent,list) => corresponding list of strings to use.";
+":explode_list(indent,list) => odpowiadajaca liste stringow do uzycia.";
 lines = {};
 indent = $string_utils:space(args[1]);
 for element in (args[2])
@@ -89396,8 +89571,8 @@ line = $string_utils:triml(args[1]);
 return line && ((line[1] == "}") || ((line[1] == "{") && (!rindex(line, "}"))));
 .
 #95:13
-":to_value(@list_of_strings) => {line#, error_message} or {0,value}";
-"converts the given list of strings back into a value if possible";
+":to_value(@list_of_strings) => {line#, error_message} lub {0,value}";
+"konwertuje podana liste stringow z powrotem na wartosc, jesli to mozliwe";
 stack = {};
 curlist = {};
 curstr = 0;
@@ -89408,7 +89583,7 @@ if (!(line = $string_utils:triml(line)))
 "skip blank lines";
 elseif ((char = line[1]) == "+")
 if (curstr == 0)
-return {i, "previous line is not a string"};
+return {i, "poprzednia linia nie jest stringiem"};
 endif
 curstr = curstr + line[2..length(line)];
 else
@@ -89422,9 +89597,9 @@ for c in [1..length(line)]
 char = line[c];
 if (char == "}")
 if (comma)
-return {i, "unexpected `}'"};
+return {i, "nieoczekiwany `}'"};
 elseif (!stack)
-return {i, "too many }'s"};
+return {i, "zbyt wiele }"};
 endif
 curlist = {@stack[1], curlist};
 stack = listdelete(stack, 1);
@@ -89436,26 +89611,26 @@ elseif (char == " ")
 elseif ((!comma) && (char == ","))
 comma = 1;
 else
-return {i, tostr("unexpected `", char, "'")};
+return {i, tostr("nieoczekiwany `", char, "'")};
 endif
 endfor
 elseif (char == "\"")
 curstr = line[2..length(line)];
 elseif (char == "@")
 if (!(v = $no_one:eval(("{" + line[2..length(line)]) + "}"))[1])
-return {i, "Can't eval what's after the @"};
+return {i, "Nie mozna obliczyc tego, co jest po @"};
 endif
 curlist = {@curlist, @v[2]};
 else
 if (!(v = $no_one:eval(line))[1])
-return {i, "Can't eval this line"};
+return {i, "Nie mozna obliczyc tej linii"};
 endif
 curlist = {@curlist, v[2]};
 endif
 endif
 endfor
 if (stack)
-return {i, "missing }"};
+return {i, "brakuje }"};
 endif
 if (curstr != 0)
 return {0, {@curlist, curstr}};
@@ -89467,16 +89642,16 @@ endif
 if (caller != this)
 raise(E_PERM);
 elseif (!(string = args[1]))
-player:tell_lines({("Usage:  " + args[2]) + " <object>.<property>", ("        " + args[2]) + "          (continues editing an unsaved property)"});
+player:tell_lines({("Uzycie:  " + args[2]) + " <obiekt>.<wlasciwosc>", ("        " + args[2]) + "          (kontynuuje edycje niezapisanej wlasciwosci)"});
 elseif (!(objprop = this:property_match_result(string)))
 elseif (ERR == typeof(value = this:property(@objprop)))
-player:tell("Couldn't get property value:  ", value);
+player:tell("Nie udalo sie pobrac wartosci wlasciwosci:  ", value);
 elseif (typeof(value) != LIST)
-player:tell("Sorry... expecting a list-valued property.");
+player:tell("Niestety... oczekiwano wlasciwosci typu lista.");
 if (typeof(value) == STR)
-player:tell("Use @notedit to edit string-valued properties");
+player:tell("Uzyj @notedit, by edytowac wlasciwosci typu string");
 else
-player:tell("Anyway, you don't need an editor to edit `", value, "'.");
+player:tell("Zreszta, nie potrzebujesz edytora, by edytowac `", value, "'.");
 endif
 else
 return {@objprop, this:explode_list(0, value)};
@@ -93667,4 +93842,8 @@ if (((last1 >= 2) && (last1 <= 4)) && (!((last2 >= 12) && (last2 <= 14))))
 return form2_4;
 endif
 return form5plus;
+.
+#135:0
+result = player:moveto(this);
+return {result, player.location};
 .
