@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784276940 567763848 0
+1784279718 567763848 0
 0
 10
 0
@@ -146,7 +146,7 @@ continuous
 0 interrupted tasks
 1 active connections with listeners
 2 0
-148
+147
 #0
 The System Object
 24
@@ -798,7 +798,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784276820
+1784279402
 2
 name
 2
@@ -1390,7 +1390,7 @@ source
 2
 time
 0
-1784276935
+1784279712
 4
 0
 1
@@ -1646,7 +1646,7 @@ expire
 4
 2
 0
-1784276919
+1784279688
 2
 localhost
 2
@@ -1655,7 +1655,7 @@ localhost
 2
 0
 0
-1784276924
+1784279691
 2
 1
 0
@@ -1847,7 +1847,7 @@ localhost
 2
 5
 0
-1784276935
+1784279712
 2
 1
 0
@@ -1897,7 +1897,7 @@ localhost
 2
 0
 12
-148
+147
 2
 1
 5
@@ -4428,7 +4428,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--6
+-8
 0
 2
 2
@@ -4442,7 +4442,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-38
+39
+4
+2
+0
+1784279402
+0
+0
 4
 2
 0
@@ -55518,9 +55524,8 @@ diag
 0
 36
 1
-# 147 recycled
 1
-#148
+#147
 
 0
 98
@@ -63357,8 +63362,8 @@ for x in (others)
 allzapped = 1;
 for y in (this:find_exact(x))
 if ((((length(y) == 2) && ((y[2] == "zapped due to inactivity") || (y[2] == "toaded due to inactivity"))) || (y[1] == allowed)) || (($object_utils:has_property($local, "second_char_registry") && (typeof(them = $local.second_char_registry:other_chars(y[1])) == LIST)) && (allowed in them)))
-"let them change to the address if it is them, or if it is a registered char of theirs.";
-"Hrm. Need typeof==LIST check because returns E_INVARG for shared characters. bleah Ho_Yan 5/8/95";
+"pozwol im zmienic na ten adres, jesli to oni, albo jesli to zarejestrowana postac nalezaca do nich.";
+"Hrm. Potrzebne sprawdzenie typeof==LIST, bo zwraca E_INVARG dla wspolnych postaci. bleah Ho_Yan 5/8/95";
 else
 allzapped = 0;
 endif
@@ -63378,7 +63383,7 @@ else
 extra = {};
 endif
 return ((((args[1] in {@$network.suspicious_userids, @extra}) || match(args[1], "^guest")) || match(args[1], "^help")) || index(args[1], "-owner")) || index(args[1], "owner-");
-"Thinking about ruling out hyphenated names, on the grounds that they're probably mailing lists.";
+"Rozwazam wykluczenie nazw z lacznikiem, bo prawdopodobnie to listy mailingowe.";
 .
 #16:5
 "Zwraca liste stringow opisujacych dane rejestracyjne adresu email.  Args[1] powinno byc wynikiem this:find.";
@@ -63465,7 +63470,7 @@ endif
 .
 #16:8
 this:report_prune_progress();
-player:tell("Resetting...");
+player:tell("Resetowanie...");
 this.prune_progress = "aaa";
 this.prune_stop = "zzz";
 this.total_pruned_people = 0;
@@ -63494,7 +63499,7 @@ player:tell("Wyszukiwanie zakonczone.  Znaleziono ", total, " ", $polish_utils:c
 if (!this:ok(caller, caller_perms()))
 return E_PERM;
 endif
-player:tell("       WHEN    BY        WHO                 EMAIL-ADDRESS");
+player:tell("       KIEDY   PRZEZ       KTO                 ADRES-EMAIL");
 pass(@args);
 .
 #17:1
@@ -63529,7 +63534,7 @@ endif
 return (!this.moderated) || ((this:is_writable_by(who = args[1]) || (who in this.moderated)) || who.wizard);
 .
 #17:4
-"Stop breaking the expire task completely with out of seconds/ticks.";
+"Nie dopuszczaj, by zadanie wygasania calkowicie sie wywalilo z braku sekund/tickow.";
 if (this:ok_write(caller, caller_perms()))
 fork (0)
 pass(@args);
@@ -63547,14 +63552,14 @@ return {};
 endif
 .
 #18:1
-"Help facility for verbs that people have bothered to document.  If the argument is a verb specification, this retrieves the code and prints any documentation lines that might be at the beginning.  Returns true if the arg can actually be interpreted as a verb specification, whether or not it is a correct one.";
+"Funkcja pomocy dla czasownikow, ktore ktos zadal sobie trud udokumentowac.  Jesli argument jest specyfikacja czasownika, pobiera kod i wypisuje wszelkie linie dokumentacji, ktore moga znajdowac sie na jego poczatku.  Zwraca prawde, jesli argument moze zostac zinterpretowany jako specyfikacja czasownika, niezaleznie od tego, czy jest poprawna.";
 set_task_perms(caller_perms());
 if (!(spec = $code_utils:parse_verbref(args[1])))
 return 0;
 elseif ($command_utils:object_match_failed(object = $string_utils:match_object(spec[1], player.location), spec[1]))
 return 1;
 elseif (!(hv = $object_utils:has_verb(object, spec[2])))
-return "That object does not define that verb.";
+return "Ten obiekt nie definiuje tego czasownika.";
 elseif (typeof(verbdoc = $code_utils:verb_documentation(object = hv[1], spec[2])) == ERR)
 return tostr(verbdoc);
 elseif (typeof(info = `verb_info(object, spec[2]) ! ANY') == ERR)
@@ -63562,9 +63567,9 @@ return tostr(info);
 else
 objverb = tostr(object.name, "(", object, "):", strsub(info[3], " ", "/"));
 if (verbdoc)
-return {tostr("Information about ", objverb), "----", @verbdoc};
+return {tostr("Informacje o ", objverb), "----", @verbdoc};
 else
-return tostr("No information about ", objverb);
+return tostr("Brak informacji o ", objverb);
 endif
 endif
 .
