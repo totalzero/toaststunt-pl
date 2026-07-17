@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784280527 567763848 0
+1784281197 567763848 0
 0
 10
 0
@@ -798,7 +798,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784280071
+1784281002
 2
 name
 2
@@ -1390,7 +1390,7 @@ source
 2
 time
 0
-1784280523
+1784281192
 4
 0
 1
@@ -1646,7 +1646,7 @@ expire
 4
 2
 0
-1784280488
+1784281177
 2
 localhost
 2
@@ -1655,7 +1655,7 @@ localhost
 2
 0
 0
-1784280496
+1784281181
 2
 1
 0
@@ -1808,7 +1808,7 @@ localhost
 2
 1
 0
-0
+200
 36
 1
 1
@@ -1847,7 +1847,7 @@ localhost
 2
 5
 0
-1784280523
+1784281192
 2
 1
 0
@@ -4428,7 +4428,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--17
+-9
 0
 2
 2
@@ -4442,7 +4442,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-40
+41
+4
+2
+0
+1784281002
+0
+0
 4
 2
 0
@@ -12086,7 +12092,7 @@ Przyklad:
 2
   @kill %655
 2
-  Killed:   task 1359083655, verb #5803:heartbeat, line 10, this==#68
+  Zabito: zadanie 1359083655, czasownik #5803:heartbeat, linia 10, to==#68
 36
 1
 4
@@ -14326,7 +14332,7 @@ Wizard Help
 4
 1
 2
-This describes the various commands available on $wiz.
+Ta baza pomocy opisuje rozne polecenia dostepne na $wiz.
 36
 5
 4
