@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784283919 567763848 0
+1784285867 567763848 0
 0
 10
 0
@@ -798,7 +798,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784283219
+1784284386
 2
 name
 2
@@ -1390,7 +1390,7 @@ source
 2
 time
 0
-1784283916
+1784285847
 4
 0
 1
@@ -1646,7 +1646,7 @@ expire
 4
 2
 0
-1784283885
+1784285776
 2
 localhost
 2
@@ -1655,7 +1655,7 @@ localhost
 2
 0
 0
-1784283889
+1784285808
 2
 1
 0
@@ -1849,7 +1849,7 @@ localhost
 2
 5
 0
-1784283916
+1784285847
 2
 1
 0
@@ -4428,11 +4428,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 0
 10
-1
-1
--18
 0
-2
 2
 5
 0
@@ -4444,7 +4440,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-43
+44
+4
+2
+0
+1784284386
+0
+0
 4
 2
 0
@@ -21292,7 +21294,7 @@ reserved
  Ev
 14
 4
-28
+55
 2
 with
 2
@@ -21349,6 +21351,60 @@ me
 you
 2
 here
+2
+za
+2
+pomoca
+2
+przy
+2
+uzyciu
+2
+uzywajac
+2
+u
+2
+do
+2
+przed
+2
+w
+2
+wewnatrz
+2
+srodka
+2
+na
+2
+wierzchu
+2
+z
+2
+spod
+2
+wnetrza
+2
+nad
+2
+przez
+2
+pod
+2
+ponizej
+2
+obok
+2
+dla
+2
+o
+2
+jest
+2
+jako
+2
+ze
+2
+powierzchni
 36
 5
 0
@@ -27780,23 +27836,25 @@ feature_task
 4
 9
 0
-1826304044
+821553054
 2
-give
+@rename
 4
-3
+4
 2
-xyzabcnonexist
+me
 2
 to
 2
-wizard
+test
 2
-xyzabcnonexist to wizard
+name
+2
+me to test name
 1
 -3
 2
-xyzabcnonexist to wizard
+me to test name
 2
 
 1
@@ -68711,7 +68769,7 @@ source = args[1];
 data = {};
 ref = $code_utils:parse_propref(source);
 if (ref)
-"User entered a prop. Deal with it.";
+"Uzytkownik podal wlasciwosc. Obsluz to.";
 {thing, prop} = ref;
 thing = $string_utils:match_object(thing, player.location);
 if (!valid(thing))
@@ -68737,7 +68795,7 @@ endif
 else
 ref = $code_utils:parse_verbref(source);
 if (ref)
-"User entered a verb. Deal with it.";
+"Uzytkownik podal czasownik. Obsluz to.";
 {thing, verb} = ref;
 thing = $string_utils:match_object(thing, player.location);
 if (!valid(thing))
@@ -68771,7 +68829,7 @@ endif
 endfor
 endif
 else
-"User entered word/phrase on command line.";
+"Uzytkownik podal slowo/fraze w linii polecenia.";
 data = {argstr};
 endif
 endif
@@ -68790,7 +68848,7 @@ source = args[1];
 data = {};
 ref = $code_utils:parse_propref(source);
 if (ref)
-"User entered a prop. Deal with it.";
+"Uzytkownik podal wlasciwosc. Obsluz to.";
 {thing, prop} = ref;
 thing = $string_utils:match_object(thing, player.location);
 if (!valid(thing))
@@ -68816,7 +68874,7 @@ endif
 else
 ref = $code_utils:parse_verbref(source);
 if (ref)
-"User entered a verb. Deal with it.";
+"Uzytkownik podal czasownik. Obsluz to.";
 {thing, verb} = ref;
 thing = $string_utils:match_object(thing, player.location);
 if (!valid(thing))
@@ -68850,7 +68908,7 @@ endif
 endfor
 endif
 else
-"User entered word/phrase on command line.";
+"Uzytkownik podal slowo/fraze w linii polecenia.";
 data = {argstr};
 endif
 endif
@@ -68870,9 +68928,9 @@ return this.description;
 return this;
 .
 #33:0
-"   add(seq,start[,end]) => seq with range added.";
-"remove(seq,start[,end]) => seq with range removed.";
-"  both assume start<=end.";
+"   add(seq,start[,end]) => sekwencja z dodanym zakresem.";
+"remove(seq,start[,end]) => sekwencja z usunietym zakresem.";
+"  oba zakladaja start<=end.";
 remove = verb == "remove";
 seq = args[1];
 start = args[2];
@@ -68885,13 +68943,13 @@ return {@seq[1..s - 1], @((s + remove) % 2) ? {start} | {}, @((e + remove) % 2) 
 endif
 .
 #33:1
-":contains(seq,elt) => true iff elt is in seq.";
+":contains(seq,elt) => prawda, jesli elt jest w seq.";
 return ($list_utils:find_insert(@args) + 1) % 2;
 .
 #33:2
-":complement(seq[,lower[,upper]]) => the sequence containing all integers *not* in seq.";
-"If lower/upper are given, the resulting sequence is restricted to the specified range.";
-"Bad things happen if seq is not a subset of [lower..upper]";
+":complement(seq[,lower[,upper]]) => sekwencja zawierajaca wszystkie liczby *nie* nalezace do seq.";
+"Jesli podano lower/upper, wynikowa sekwencja jest ograniczona do podanego zakresu.";
+"Zle rzeczy sie dzieja, jesli seq nie jest podzbiorem [lower..upper]";
 {seq, ?lower = $minint, ?upper = $nothing} = args;
 if (upper != $nothing)
 if (seq[$] >= (upper = upper + 1))
@@ -68907,7 +68965,7 @@ return {lower, @seq};
 endif
 .
 #33:3
-":union(seq1,seq2,...)        => union of all sequences...";
+":union(seq1,seq2,...)        => suma wszystkich sekwencji...";
 if ({} in args)
 args = $list_utils:setremove_all(args, {});
 endif
@@ -68917,7 +68975,7 @@ endif
 return this:_union(@args);
 .
 #33:4
-"tostr(seq [,delimiter]) -- turns a sequence into a string, delimiting ranges with delimiter, defaulting to .. (e.g. 5..7)";
+"tostr(seq [,delimiter]) -- zamienia sekwencje na string, oddzielajac zakresy delimiterem, domyslnie .. (np. 5..7)";
 {seq, ?separator = ".."} = args;
 if (!seq)
 return "empty";
@@ -68959,7 +69017,7 @@ endwhile
 endif
 .
 #33:6
-"extract(seq,array) => list of elements of array with indices in seq.";
+"extract(seq,array) => lista elementow array o indeksach z seq.";
 {seq, array} = args;
 if (alen = length(array))
 e = $list_utils:find_insert(seq, 1);
@@ -68993,11 +69051,11 @@ return l;
 endif
 .
 #33:8
-":fromlist(list) => corresponding sequence.";
+":fromlist(list) => odpowiadajaca sekwencja.";
 return this:from_sorted_list($list_utils:sort(args[1]));
 .
 #33:9
-":from_sorted_list(sorted_list) => corresponding sequence.";
+":from_sorted_list(sorted_list) => odpowiadajaca sekwencja.";
 if (!(lst = args[1]))
 return {};
 else
@@ -69019,8 +69077,8 @@ return (seq = args[1]) ? seq[1] | E_NONE;
 return (seq = args[1]) ? (length(seq) % 2) ? $minint - 1 | (seq[$] - 1) | E_NONE;
 .
 #33:12
-":size(seq) => number of elements in seq";
-"  for sequences consisting of more than half of the 4294967298 available integers, this returns a negative number, which can either be interpreted as (cardinality - 4294967298) or -(size of complement sequence)";
+":size(seq) => liczba elementow w seq";
+"  dla sekwencji skladajacych sie z ponad polowy z 4294967298 dostepnych liczb, zwraca liczbe ujemna, ktora mozna zinterpretowac jako (moc - 4294967298) lub -(rozmiar dopelnienia sekwencji)";
 n = 0;
 for i in (seq = args[1])
 n = i - n;
@@ -69028,9 +69086,9 @@ endfor
 return (length(seq) % 2) ? $minint - n | n;
 .
 #33:13
-":from_string(string) => corresponding sequence or E_INVARG";
-"  string should be a comma separated list of numbers and";
-"  number..number ranges";
+":from_string(string) => odpowiadajaca sekwencja lub E_INVARG";
+"  string powinien byc lista liczb oddzielonych przecinkami oraz";
+"  zakresow liczba..liczba";
 su = $string_utils;
 if (!(words = su:explode(su:strip_chars(args[1], " "), ",")))
 return {};
@@ -69066,7 +69124,7 @@ endfor
 return this:union(@parts);
 .
 #33:14
-":firstn(seq,n) => first n elements of seq as a sequence.";
+":firstn(seq,n) => pierwsze n elementow seq jako sekwencja.";
 if ((n = args[2]) <= 0)
 return {};
 endif
@@ -69083,7 +69141,7 @@ endwhile
 return seq;
 .
 #33:15
-":lastn(seq,n) => last n elements of seq as a sequence.";
+":lastn(seq,n) => ostatnie n elementow seq jako sekwencja.";
 n = args[2];
 if ((l = length(seq = args[1])) % 2)
 return {$minint - n};
@@ -69101,7 +69159,7 @@ return seq;
 endif
 .
 #33:16
-":range(start,end) => sequence corresponding to [start..end] range";
+":range(start,end) => sekwencja odpowiadajaca zakresowi [start..end]";
 return ((start = args[1]) <= (end = args[2])) ? {start, end + 1} | {};
 .
 #33:17
@@ -69312,7 +69370,7 @@ endif
 endwhile
 .
 #33:20
-":intersection(seq1,seq2,...) => intersection of all sequences...";
+":intersection(seq1,seq2,...) => przeciecie wszystkich sekwencji...";
 if ((U = {$minint}) in args)
 args = $list_utils:setremove_all(args, U);
 endif
@@ -69332,7 +69390,7 @@ raise(E_PERM);
 endif
 .
 #35:0
-"$you:verb_sub(STR verbspec) -> returns verbspec conjugated for singular use as if `you' were saying it.";
+"$you:verb_sub(STR verbspec) -> zwraca verbspec odmienione do formy pojedynczej, jakby mowil to obiekt `you'.";
 return $gender_utils:get_conj(args[1], this);
 x = args[1];
 len = length(x);
@@ -69353,14 +69411,14 @@ return x;
 .
 #35:1
 "$you:say_action(message [,who [,thing, [,where [, excluding-whom]]]])";
-"announce 'message' with pronoun substitution as if it were just ";
+"rozglos 'message' z podstawieniem zaimkow, tak jakby to bylo po prostu ";
 "  where:announce_all_but(excluding-whom, ";
 "    $string_utils:pronoun_sub(message, who, thing, where));";
-"except that who (player), dobj, and iobj get modified messages, with the appropriate use of 'you' instead of their name, and except that `excluding-whom' isn't really a valid variable name.";
-"who       default player";
-"thing     default object that called this verb";
-"where     default who.location";
-"excluding default {}";
+"z tym, ze who (player), dobj i iobj otrzymuja zmodyfikowane wiadomosci, z odpowiednim uzyciem 'you' zamiast ich imienia, oraz z tym, ze `excluding-whom' tak naprawde nie jest poprawna nazwa zmiennej.";
+"who       domyslnie player";
+"thing     domyslnie obiekt, ktory wywolal ten czasownik";
+"where     domyslnie who.location";
+"excluding domyslnie {}";
 {msg, ?who = player, ?thing = caller, ?where = who.location, ?excluding = {}} = args;
 you = this;
 if (typeof(msg) == LIST)
@@ -69391,7 +69449,7 @@ iobj = x;
 endif
 .
 #35:2
-"This is horribly dwimmy.  E.g. %x's gets turned into your, %X's gets turned into Your, and %X'S gets turned into YOUR. --Nosredna";
+"To jest okropnie 'dwimmy'.  Np. %x's zamienia sie w your, %X's zamienia sie w Your, a %X'S zamienia sie w YOUR. --Nosredna";
 upper = $string_utils:uppercase(args[2]);
 allupper = upper + "'S";
 upper = upper + "'s";
@@ -69401,7 +69459,7 @@ return strsub(strsub(strsub(args[1], lower, "your", 1), upper, "Your", 1), allup
 #35:3
 "Copied from you (#67923):reflexive [verb author Blob (#21528)] at Wed Jul 13 05:09:32 2005 PDT";
 ":reflexive(msg, %[di])";
-"Make a message reflexive by replacing %d or %i with %r.";
+"Czyni wiadomosc zwrotna, zamieniajac %d lub %i na %r.";
 {msg, pos} = args;
 upper = $string_utils:uppercase(pos) + "'s";
 lower = $string_utils:lowercase(pos) + "'s";
@@ -69413,14 +69471,14 @@ return msg;
 .
 #35:4
 "$you:say_action(message [,who [,thing, [,where [, excluding-whom]]]])";
-"announce 'message' with pronoun substitution as if it were just ";
+"rozglos 'message' z podstawieniem zaimkow, tak jakby to bylo po prostu ";
 "  where:announce_all_but(excluding-whom, ";
 "    $string_utils:pronoun_sub(message, who, thing, where));";
-"except that who (player), dobj, and iobj get modified messages, with the appropriate use of 'you' instead of their name, and except that `excluding-whom' isn't really a valid variable name.";
-"who       default player";
-"thing     default object that called this verb";
-"where     default who.location";
-"excluding default {}";
+"z tym, ze who (player), dobj i iobj otrzymuja zmodyfikowane wiadomosci, z odpowiednim uzyciem 'you' zamiast ich imienia, oraz z tym, ze `excluding-whom' tak naprawde nie jest poprawna nazwa zmiennej.";
+"who       domyslnie player";
+"thing     domyslnie obiekt, ktory wywolal ten czasownik";
+"where     domyslnie who.location";
+"excluding domyslnie {}";
 {msg, ?who = player, ?thing = caller, ?where = who.location, ?excluding = {}} = args;
 you = this;
 if (typeof(msg) == LIST)
@@ -69952,9 +70010,9 @@ return proxy;
 .
 #38:0
 "eval(code)";
-"Evaluate code with $no_one's permissions (so you won't damage anything).";
-"If code does not begin with a semicolon, set this = caller (in the code to be evaluated) and return the value of the first `line' of code.  This means that subsequent lines will not be evaluated at all.";
-"If code begins with a semicolon, set this = caller and let the code decide for itself when to return a value.  This is how to do multi-line evals.";
+"Wykonuje kod z uprawnieniami $no_one (wiec nie zrobisz sobie krzywdy).";
+"Jesli kod nie zaczyna sie od srednika, ustaw this = caller (w wykonywanym kodzie) i zwroc wartosc pierwszej `linii' kodu.  Oznacza to, ze kolejne linie nie zostana w ogole wykonane.";
+"Jesli kod zaczyna sie od srednika, ustaw this = caller i pozwol kodowi samemu zdecydowac, kiedy zwrocic wartosc.  Tak wykonuje sie evale wieloliniowe.";
 exp = args[1];
 if (this:bad_eval(exp))
 return E_PERM;
@@ -69971,10 +70029,10 @@ return 0;
 .
 #38:2
 ":eval_d(code)";
-"exactly like :eval except that the d flag is unset";
-"Evaluate code with $no_one's permissions (so you won't damage anything).";
-"If code does not begin with a semicolon, set this = caller (in the code to be evaluated) and return the value of the first `line' of code.  This means that subsequent lines will not be evaluated at all.";
-"If code begins with a semicolon, set this = caller and let the code decide for itself when to return a value.  This is how to do multi-line evals.";
+"dokladnie jak :eval, tylko flaga d jest wylaczona";
+"Wykonuje kod z uprawnieniami $no_one (wiec nie zrobisz sobie krzywdy).";
+"Jesli kod nie zaczyna sie od srednika, ustaw this = caller (w wykonywanym kodzie) i zwroc wartosc pierwszej `linii' kodu.  Oznacza to, ze kolejne linie nie zostana w ogole wykonane.";
+"Jesli kod zaczyna sie od srednika, ustaw this = caller i pozwol kodowi samemu zdecydowac, kiedy zwrocic wartosc.  Tak wykonuje sie evale wieloliniowe.";
 exp = args[1];
 if (this:bad_eval(exp))
 return E_PERM;
@@ -69988,25 +70046,25 @@ endif
 .
 #38:3
 "call_verb(object, verb name, args)";
-"Call verb with $no_one's permissions (so you won't damage anything).";
-"One could do this with $no_one:eval, but ick.";
+"Wywoluje czasownik z uprawnieniami $no_one (wiec nie zrobisz sobie krzywdy).";
+"Mozna by to zrobic przez $no_one:eval, ale fuj.";
 set_task_perms(this);
 return args[1]:(args[2])(@args[3]);
 .
 #38:4
 ":bad_eval(exp)";
-"  Returns 1 if the `exp' is inappropriate for use by $no_one.  In particular, if `exp' contains calls to `eval', `fork', `suspend', or `call_function' it is bad.  Similarly, if `player' is a nonvalid object the expression is considered `bad' because it is likely an attempt to anonymously spoof.";
-"  At present, the checks for bad builtins are overzealous.  It should check for delimited uses of the above calls, in case someone has a variable called `prevalent'.";
+"  Zwraca 1, jesli `exp' jest nieodpowiednie do uzycia przez $no_one.  W szczegolnosci, jesli `exp' zawiera wywolania `eval', `fork', `suspend' lub `call_function', jest zle.  Podobnie, jesli `player' jest nieprawidlowym obiektem, wyrazenie uznaje sie za `zle', bo to prawdopodobnie proba anonimowego spoofowania.";
+"  Obecnie sprawdzanie zlych funkcji wbudowanych jest przesadnie gorliwe.  Powinno sprawdzac wyodrebnione uzycia powyzszych wywolan, na wypadek gdyby ktos mial zmienna o nazwie `prevalent'.";
 {exp} = args;
 if (((index(exp, "eval") || index(exp, "fork")) || index(exp, "suspend")) || index(exp, "call_function"))
-"Well, they had one of the evil words in here.  See if it was in a quoted string or not -- we want to permit player:tell(\"Gentlemen use forks.\")";
+"Trafiono na jedno ze zlych slow tutaj.  Sprawdz, czy bylo w cudzyslowie, czy nie -- chcemy zezwolic na player:tell(\"Gentlemen use forks.\")";
 for bad in ({"eval", "fork", "suspend", "call_function"})
 tempindex = 1;
 while (l = index(exp[tempindex..$], bad, 0))
 if ($code_utils:inside_quotes(exp[1..(tempindex + l) - 1]))
 tempindex = tempindex + l;
 else
-"it's there, bad unquoted string";
+"jest tu, zle - poza cudzyslowem";
 return 1;
 endif
 endwhile
@@ -70083,7 +70141,7 @@ endif
 endfor
 endif
 endfor
-player:tell("done.");
+player:tell("Gotowe.");
 .
 #39:2
 if (caller_perms().wizard)
@@ -70124,7 +70182,7 @@ player:tell("...", args[1]);
 set_task_perms($byte_quota_utils:task_perms());
 suspend(0);
 if (this.frozen != 1)
-player:tell("...argh... restarting $player_db:load...");
+player:tell("...ojej... restartowanie $player_db:load...");
 fork (0)
 this:load();
 endfork
@@ -70133,7 +70191,7 @@ endif
 endif
 .
 #39:5
-":why_bad_name(player, namespec) => Returns a message explaining why a player name change is invalid.  Stolen from APHiD's #15411:name_okay.";
+":why_bad_name(player, namespec) => Zwraca komunikat wyjasniajacy, dlaczego zmiana nazwy gracza jest niedozwolona.  Stolen from APHiD's #15411:name_okay.";
 who = args[1];
 name = $building_utils:parse_names(args[2])[1];
 si = index(name, " ");
@@ -70141,27 +70199,27 @@ qi = index(name, "\"");
 bi = index(name, "\\");
 ti = index(name, "	");
 if (((si || qi) || bi) || ti)
-return tostr("You may not use a name containing ", $string_utils:english_list({@si ? {"spaces"} | {}, @qi ? {"quotation marks"} | {}, @bi ? {"backslashes"} | {}, @ti ? {"tabs"} | {}}, "ERROR", " or "), ".  Try \"", strsub(strsub(strsub(strsub(name, " ", "_"), "\"", "'"), "\\", "/"), "	", "___"), "\" instead.");
+return tostr("Nie mozesz uzyc nazwy zawierajacej ", $string_utils:english_list({@si ? {"spacje"} | {}, @qi ? {"cudzyslowy"} | {}, @bi ? {"ukosniki wsteczne"} | {}, @ti ? {"tabulatory"} | {}}, "BLAD", " lub "), ".  Sprobuj \"", strsub(strsub(strsub(strsub(name, " ", "_"), "\"", "'"), "\\", "/"), "	", "___"), "\" zamiast tego.");
 elseif (name == "")
-return tostr("You may not use a blank name.");
+return tostr("Nie mozesz uzyc pustej nazwy.");
 elseif (i = index("*#()", name[1]))
-return tostr("You may not begin a name with the \"", "*#()"[i], "\" character.");
+return tostr("Nie mozesz rozpoczac nazwy znakiem \"", "*#()"[i], "\".");
 elseif (match(name, "(#[0-9]+)"))
-return tostr("A name can't contain a parenthesized object number.");
+return tostr("Nazwa nie moze zawierac numeru obiektu w nawiasach.");
 elseif (name in $player_db.stupid_names)
-return tostr("The name \"", name, "\" would probably cause problems in command parsing or similar usage.");
+return tostr("Nazwa \"", name, "\" prawdopodobnie spowodowalaby problemy w parsowaniu polecen lub podobnym uzyciu.");
 elseif (name in $player_db.reserved)
-return tostr("The name \"", name, "\" is reserved.");
+return tostr("Nazwa \"", name, "\" jest zarezerwowana.");
 elseif (length(name) > $login.max_player_name)
-return tostr("The name \"", name, "\" is too long.  Maximum name length is ", $login.max_player_name, " characters.");
+return tostr("Nazwa \"", name, "\" jest za dluga.  Maksymalna dlugosc nazwy to ", $login.max_player_name, " znakow.");
 elseif ((valid(match = $player_db:find_exact(name)) && is_player(match)) && (who != match))
-return tostr("The name \"", name, "\" is already being used by ", match.name, "(", match, ").");
+return tostr("Nazwy \"", name, "\" uzywa juz ", match.name, "(", match, ").");
 elseif ($player_db.frozen)
-return tostr("$player_db is not accepting new changes at the moment.");
+return tostr("$player_db nie przyjmuje teraz nowych zmian.");
 elseif ($object_utils:has_callable_verb($local, "legal_name") && (!$local:legal_name(name, who)))
-return "That name is reserved.";
+return "Ta nazwa jest zarezerwowana.";
 elseif (who in $wiz_utils.rename_restricted)
-return "This player is not allowed to change names.";
+return "Ten gracz nie moze zmieniac nazw.";
 endif
 .
 #39:6
