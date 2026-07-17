@@ -9,8 +9,8 @@
 0 values pending finalization
 0 clocks
 0 queued tasks
-2 suspended tasks
-1784299636 567763848 0
+1 suspended tasks
+1784300811 567763848 0
 0
 10
 0
@@ -143,150 +143,10 @@ continuous
 continuous
 6
 67 0 65
-1784299649 1922919944 0
-0
-10
-0
-0 0 0 50
-language version 17
-if (!$perm_utils:controls(caller_perms(), this))
-"perms don't control the $housekeeper; probably not called by $room:disfunc then. Used to let args[1] call this. No longer.";
-return E_PERM;
-endif
-this.player_queue = {@this.player_queue, {args[1], time() + 300}};
-if ($code_utils:task_valid(this.move_player_task))
-"the move-players-home task is already running";
-return;
-endif
-fork tid (10)
-while (this.player_queue)
-if ((mtime = this.player_queue[1][2]) < (time() + 10))
-who = this.player_queue[1][1];
-"Remove from queue first so that if they do something malicious, like put a kill_task in a custom :accept_for_abode, they won't be in the queue when the task restarts with the next player disconnect. Ho_Yan 12/3/98";
-this.player_queue = listdelete(this.player_queue, 1);
-if (is_player(who) && (!$object_utils:connected(who)))
-dest = `who.home:accept_for_abode(who) ! ANY => 0' ? who.home | $player_start;
-if (who.location != dest)
-player = who;
-this:move_em(who, dest);
-endif
-endif
-else
-suspend(mtime - time());
-endif
-$command_utils:suspend_if_needed(1);
-endwhile
-endfork
-this.move_player_task = tid;
-.
-28 variables
-NUM
-0
-0
-OBJ
-0
-1
-STR
-0
-2
-LIST
-0
-4
-ERR
-0
-3
-player
-1
-2
-this
-1
-71
-caller
-1
-48
-verb
-2
-move_players_home
-args
-4
-1
-1
-2
-argstr
-2
-
-dobj
-1
--1
-dobjstr
-2
-
-prepstr
-2
-
-iobj
-1
--1
-iobjstr
-2
-
-INT
-0
-0
-FLOAT
-0
-9
-MAP
-0
-10
-ANON
-0
-12
-WAIF
-0
-13
-BOOL
-0
-14
-true
-14
-1
-false
-14
-0
-mtime
-0
-1784299648
-who
-1
-2
-dest
-1
-62
-tid
-0
-1922919944
-0 rt_stack slots in use
-0
--111
-1
-71
-1
-71
-1
-71 -7 -8 2 -9 2 71 -10 1
-No
-More
-Parse
-Infos
-move_players_home
-move_players_home
-6
-138 0 136
 0 interrupted tasks
 1 active connections with listeners
 2 0
-148
+149
 #0
 The System Object
 24
@@ -938,7 +798,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784298315
+1784300140
 2
 name
 2
@@ -1530,7 +1390,7 @@ source
 2
 time
 0
-1784299630
+1784300807
 4
 0
 1
@@ -1786,7 +1646,7 @@ expire
 4
 2
 0
-1784299610
+1784300794
 2
 localhost
 2
@@ -1795,7 +1655,7 @@ localhost
 2
 0
 0
-1784299615
+1784300797
 2
 1
 0
@@ -1960,13 +1820,13 @@ localhost
 4
 2
 2
-127.0.0.1
-2
 localhost
+2
+127.0.0.1
 2
 0
 2
-127.0.0.1
+localhost
 2
 0
 5
@@ -1990,7 +1850,7 @@ localhost
 2
 5
 0
-1784299630
+1784300807
 2
 1
 0
@@ -2040,7 +1900,7 @@ localhost
 2
 0
 12
-148
+149
 2
 1
 5
@@ -4038,7 +3898,8 @@ Jest puste.
 5
 2
 5
-5
+0
+0
 2
 4
 4
@@ -4571,9 +4432,9 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--17
+-14
 0
-1
+2
 2
 5
 0
@@ -4585,7 +4446,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-47
+48
+4
+2
+0
+1784300140
+0
+0
 4
 2
 0
@@ -27347,7 +27214,7 @@ Object Utilities
 4
 1
 2
-This is the object utilities utility package.  See `help $object_utils' for more details.
+To pakiet narzedzi obiektowych do badania wlasciwosci, czasownikow i hierarchii dziedziczenia. Zobacz `help $object_utils', by uzyskac wiecej szczegolow.
 2
 5
 4
@@ -27429,19 +27296,19 @@ index_incremented
 2
 5
 0
-9
+7
 2
 5
 0
-8
+6
 2
 5
 2
-haslo123
+wizard
 2
 5
 0
-8
+0
 2
 5
 4
@@ -27894,7 +27761,7 @@ List Utilities
 4
 1
 2
-This is the list utilities utility package.  See `help $list_utils' for more details.
+To pakiet narzedzi listowych. Zobacz `help $list_utils', by uzyskac wiecej szczegolow.
 36
 5
 4
@@ -27999,17 +27866,23 @@ feature_task
 4
 9
 0
-492518729
+1934974713
 2
-done
+@lock
 4
-0
+3
 2
-
+testcontainer
+2
+with
+2
+?xyzzy123nonexist
+2
+testcontainer with ?xyzzy123nonexist
 1
--1
+-3
 2
-
+testcontainer with ?xyzzy123nonexist
 2
 
 1
@@ -28110,7 +27983,7 @@ Command Utilities
 4
 1
 2
-This is the command utilities utility package.  See `help $command_utils' for more details.
+To pakiet narzedzi dla autorow polecen. Zobacz `help $command_utils', by uzyskac wiecej szczegolow.
 2
 5
 4
@@ -34951,19 +34824,7 @@ cleaning_index
 71
 5
 4
-2
-4
-2
-1
-2
 0
-1784299648
-4
-2
-1
-2
-0
-1784299732
 71
 1
 2
@@ -34979,7 +34840,7 @@ Ktos przychodzi i odklada %n. %n twardo spi.
 71
 1
 0
-329666697
+1833960180
 71
 5
 0
@@ -55856,8 +55717,9 @@ diag
 0
 36
 1
+# 148 recycled
 1
-#148
+#149
 
 0
 98
@@ -76989,28 +76851,28 @@ tell = (0 && $perm_utils:controls(caller_perms(), player)) ? "notify" | "tell";
 if ((index(string, "#") == 1) && ($code_utils:toobj(string) != E_TYPE))
 "...avoid the `I don't know which `#-2' you mean' message...";
 if (!valid(match_result))
-player:(tell)(tostr("There is no \"", string, "\" that you can see."));
+player:(tell)(tostr("Nie widze tu \"", string, "\"."));
 endif
 return !valid(match_result);
 elseif (match_result == $nothing)
-player:(tell)("You must give the name of some object.");
+player:(tell)("Musisz podac nazwe jakiegos obiektu.");
 elseif (match_result == $failed_match)
-player:(tell)(tostr("There is no \"", string, "\" that you can see."));
+player:(tell)(tostr("Nie widze tu \"", string, "\"."));
 elseif (match_result == $ambiguous_match)
 if (typeof(ambigs) != LIST)
-player:(tell)(tostr("I don't know which \"", string, "\" you mean."));
+player:(tell)(tostr("Nie wiem, o ktorym \"", string, "\" mowisz."));
 return 1;
 endif
 ambigs = $match_utils:match_list(string, ambigs);
 ambigs = $list_utils:map_property(ambigs, "name");
 if ((length($list_utils:remove_duplicates(ambigs)) == 1) && $object_utils:isa(player.location, this.matching_room))
-player:(tell)(tostr("I don't know which \"", string, "\" you mean.  Try using \"first ", string, "\", \"second ", string, "\", etc."));
+player:(tell)(tostr("Nie wiem, o ktorym \"", string, "\" mowisz.  Sprobuj uzyc \"first ", string, "\", \"second ", string, "\" itd."));
 else
-player:(tell)(tostr("I don't know which \"", string, "\" you mean: ", $string_utils:english_list(ambigs, "nothing", " or "), "."));
+player:(tell)(tostr("Nie wiem, o ktorym \"", string, "\" mowisz: ", $string_utils:english_list(ambigs, "nic", " lub "), "."));
 endif
 return 1;
 elseif (!valid(match_result))
-player:(tell)(tostr("The object you specified does not exist.  Seeing ghosts?"));
+player:(tell)(tostr("Podany obiekt nie istnieje.  Widzisz duchy?"));
 else
 return 0;
 endif
@@ -77522,7 +77384,7 @@ token = this:scan_token();
 if (token == "(")
 exp = this:parse_E();
 if ((typeof(exp) != STR) && (this:scan_token() != ")"))
-return "Missing ')'";
+return "Brakuje ')'";
 else
 return exp;
 endif
@@ -77536,9 +77398,9 @@ endif
 elseif (token == "?")
 next = this:scan_token();
 if (next in {"(", ")", "!", "&&", "||", "?"})
-return ("Missing object-name before '" + token) + "'";
+return ("Brakuje nazwy obiektu przed '" + token) + "'";
 elseif (next == "")
-return "Missing object-name at end of key expression";
+return "Brakuje nazwy obiektu na koncu wyrazenia klucza";
 else
 what = this:match_object(next);
 if (typeof(what) == OBJ)
@@ -77548,9 +77410,9 @@ return what;
 endif
 endif
 elseif (token in {"&&", "||"})
-return ("Missing expression before '" + token) + "'";
+return ("Brakuje wyrazenia przed '" + token) + "'";
 elseif (token == "")
-return "Missing expression at end of key expression";
+return "Brakuje wyrazenia na koncu wyrazenia klucza";
 else
 return this:match_object(token);
 endif
@@ -77586,14 +77448,14 @@ elseif (token == "here")
 if (valid(this.player.location))
 return this.player.location;
 else
-return ("'here' has no meaning where " + this.player.name) + " is";
+return "'tutaj' nie ma znaczenia tam, gdzie jest " + this.player.name;
 endif
 else
 what = this.player.location:match_object(token);
 if (what == $failed_match)
-return ("Can't find an object named '" + token) + "'";
+return ("Nie mozna znalezc obiektu o nazwie '" + token) + "'";
 elseif (what == $ambiguous_match)
-return ("Multiple objects named '" + token) + "'";
+return ("Wiele obiektow o nazwie '" + token) + "'";
 else
 return what;
 endif
@@ -77606,7 +77468,7 @@ endif
 key = args[1];
 type = typeof(key);
 if (!(type in {LIST, OBJ}))
-return "(None.)";
+return "(Brak.)";
 elseif (type == OBJ)
 if (valid(key))
 return tostr(key, "[", key.name, "]");
@@ -77694,7 +77556,7 @@ token = this:scan_token();
 if (token == "(")
 exp = this:parse_E();
 if ((typeof(exp) != STR) && (this:scan_token() != ")"))
-return "Missing ')'";
+return "Brakuje ')'";
 else
 return exp;
 endif
@@ -77708,9 +77570,9 @@ endif
 elseif (token == "?")
 next = this:scan_token();
 if (next in {":", ".", "(", ")", "!", "&&", "||", "?"})
-return ("Missing object-name before '" + token) + "'";
+return ("Brakuje nazwy obiektu przed '" + token) + "'";
 elseif (next == "")
-return "Missing object-name at end of key expression";
+return "Brakuje nazwy obiektu na koncu wyrazenia klucza";
 else
 what = this:match_object(next);
 if (typeof(what) == OBJ)
@@ -77722,18 +77584,18 @@ endif
 elseif (token in {":", "."})
 next = this:scan_token();
 if (next in {":", ".", "(", ")", "!", "&&", "||", "?"})
-return ("Missing verb-or-property-name before '" + token) + "'";
+return ("Brakuje nazwy czasownika lub wlasciwosci przed '" + token) + "'";
 elseif (next == "")
-return "Missing verb-or-property-name at end of key expression";
+return "Brakuje nazwy czasownika lub wlasciwosci na koncu wyrazenia klucza";
 elseif (typeof(next) != STR)
-return "Non-string verb-or-property-name at end of key expression";
+return "Nazwa czasownika lub wlasciwosci na koncu wyrazenia klucza nie jest stringiem";
 else
 return {token, next};
 endif
 elseif (token in {"&&", "||"})
-return ("Missing expression before '" + token) + "'";
+return ("Brakuje wyrazenia przed '" + token) + "'";
 elseif (token == "")
-return "Missing expression at end of key expression";
+return "Brakuje wyrazenia na koncu wyrazenia klucza";
 else
 return this:match_object(token);
 endif
@@ -78545,20 +78407,20 @@ endtry
 endwhile
 .
 #56:4
-":yes-or-no([prompt]) -- prompts the player for a yes or no answer and returns a true value iff the player enters a line of input that is some prefix of \"yes\"";
+"$command_utils:yes_or_no([podpowiedz]) -- pyta gracza o odpowiedz tak/nie i zwraca wartosc prawdziwa, jesli gracz wpisze linie bedaca prefiksem \"tak\" (lub \"yes\")";
 "";
-"Returns E_NONE if the player enters a blank line, E_INVARG, if the player enters something that isn't a prefix of \"yes\" or \"no\", and E_PERM if the current task is not a command task that has never called suspend().";
+"Zwraca E_NONE, jesli gracz wpisze puste linie, E_INVARG, jesli gracz wpisze cos, co nie jest prefiksem \"tak\"/\"yes\" ani \"nie\"/\"no\", oraz E_PERM, jesli biezace zadanie nie jest zadaniem polecenia, ktore nigdy nie wywolalo suspend().";
 c = callers();
 p = c[$][5];
-p:notify(tostr(args ? args[1] + " " | "", "[Enter `yes' or `no']"));
+p:notify(tostr(args ? args[1] + " " | "", "[Wpisz `tak' lub `nie']"));
 try
 ans = read(@((caller == p) || $perm_utils:controls(caller_perms(), p)) ? {p} | {});
 if (ans = $string_utils:trim(ans))
 if (ans == "@abort")
-p:notify(">> Command Aborted <<");
+p:notify(">> Polecenie przerwane <<");
 kill_task(task_id());
 endif
-return (index("yes", ans) == 1) || ((index("no", ans) != 1) && E_INVARG);
+return ((index("yes", ans) == 1) || (index("tak", ans) == 1)) || (((index("no", ans) != 1) && (index("nie", ans) != 1)) && E_INVARG);
 else
 return E_NONE;
 endif
