@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784302666 567763848 0
+1784304017 567763848 0
 0
 10
 0
@@ -144,8 +144,7 @@ continuous
 6
 67 0 65
 0 interrupted tasks
-1 active connections with listeners
-2 0
+0 active connections with listeners
 148
 #0
 The System Object
@@ -798,7 +797,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784301425
+1784303581
 2
 name
 2
@@ -1380,17 +1379,17 @@ Wizard
 7
 2
 1
-62
+15
 10
 2
 2
 source
 1
-15
+62
 2
 time
 0
-1784302645
+1784303999
 4
 0
 1
@@ -1646,7 +1645,7 @@ expire
 4
 2
 0
-1784302603
+1784303980
 2
 localhost
 2
@@ -1655,7 +1654,7 @@ localhost
 2
 0
 0
-1784302620
+1784303999
 2
 1
 0
@@ -1850,7 +1849,7 @@ localhost
 2
 5
 0
-1784302645
+1784303997
 2
 1
 0
@@ -1899,8 +1898,8 @@ localhost
 5
 2
 0
-12
-148
+1
+-1
 2
 1
 5
@@ -4432,7 +4431,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--16
+-12
 0
 2
 2
@@ -4446,7 +4445,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-49
+50
+4
+2
+0
+1784303581
+0
+0
 4
 2
 0
@@ -4792,7 +4797,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 36
 0
 0
-1
+0
 2
 5
 0
@@ -5680,7 +5685,9 @@ Limbo
 0
 0
 4
-0
+1
+1
+2
 1
 1
 4
@@ -27872,23 +27879,23 @@ feature_task
 4
 9
 0
-1934974713
+1581783900
 2
-@lock
+PST,
 4
 3
 2
-testcontainer
+by
 2
-with
+Roebare
 2
-?xyzzy123nonexist
+(#109000).";});
 2
-testcontainer with ?xyzzy123nonexist
+by Roebare (#109000).\";"});
 1
 -3
 2
-testcontainer with ?xyzzy123nonexist
+by Roebare (#109000).";});
 2
 
 1
@@ -33054,9 +33061,7 @@ Pierwszy Pokoj
 0
 0
 4
-1
-1
-2
+0
 1
 3
 4
@@ -55722,46 +55727,6 @@ diag
 0
 0
 36
-1
-1
-#148
-
-0
-98
-1
--1
-0
-0
-4
-0
-1
-108
-4
-0
-0
-0
-7
-1
-2
-98
-1
-5
-98
-0
-5
-98
-1
-5
-98
-0
-5
-98
-1
-5
-98
-0
-5
-98
 1
 0
 1954
@@ -80848,11 +80813,11 @@ endtry
 endif
 .
 #58:7
-"Syntax:  @forked [player]";
+"Skladnia:  @forked [gracz]";
 "         @forked all wizards";
 "";
-"For a normal player, shows all the tasks you have waiting in your queue, especially those forked or suspended. A wizard will see all the tasks of all the players unless the optional argument is provided. @forked-v*erbose will show the full callers() stack for each task that has suspended (not a fresh fork).";
-"The second form is only usable by wizards and provides an output of all tasks owned by characters who are .wizard=1. Useful to find a task that may get put in a random queue due to $wiz_utils:random_wizard. Or even finding verbs that run with wizard permissions that shouldn't be.";
+"Dla zwyklego gracza pokazuje wszystkie zadania czekajace w twojej kolejce, zwlaszcza sforkowane lub zawieszone. Wizard zobaczy zadania wszystkich graczy, chyba ze podano opcjonalny argument. @forked-v*erbose pokaze pelny stos callers() dla kazdego zadania, ktore zostalo zawieszone (a nie jest swiezym forkiem).";
+"Druga forma jest uzywana tylko przez wizardow i podaje wszystkie zadania nalezace do postaci majacych .wizard=1. Przydatne do znalezienia zadania, ktore moze trafic do przypadkowej kolejki przez $wiz_utils:random_wizard. Albo do znalezienia czasownikow, ktore dzialaja z uprawnieniami wizarda, a nie powinny.";
 set_task_perms(player);
 verbose = $code_utils:verbname_match("@forked-v*erbose", verb);
 if (!dobjstr)
@@ -81263,7 +81228,7 @@ endif
 player:notify(tostr(".eval_env ustawione na \"", player.eval_env, "\" (", $polish_utils:count(player.eval_ticks, "1 tick", tostr(player.eval_ticks, " ticki"), tostr(player.eval_ticks, " tickow")), ")."));
 .
 #58:13
-"Usage: @prospectus <player> [from <start>] [to <end>]";
+"Uzycie: @prospectus <gracz> [z <poczatek>] [do <koniec>]";
 set_task_perms((caller_perms() == $nothing) ? player | caller_perms());
 dobj = dobjstr ? $string_utils:match_player(dobjstr) | player;
 if ($command_utils:player_match_result(dobj, dobjstr)[1])
@@ -81280,7 +81245,7 @@ endif
 return $building_utils:do_prospectus(dobj, @parse_result);
 .
 #58:14
-"@display <object>[.[property]]*[,[inherited_property]]*[:[verb]]*[;[inherited_verb]]*";
+"@display <obiekt>[.[wlasciwosc]]*[,[dziedziczona-wlasciwosc]]*[:[czasownik]]*[;[dziedziczony-czasownik]]*";
 if (player != this)
 player:notify(tostr("Przepraszam, nie mozesz uzywac polecenia `", verb, "' obiektu ", this:title(), "."));
 return E_PERM;
@@ -81609,7 +81574,7 @@ endif
 .
 #58:20
 "set_eval_env(string);";
-"Run <string> through eval.  If it doesn't compile, return E_INVARG.  If it crashes, well, it crashes.  If it works okay, set .eval_env to it and set .eval_ticks to the amount of time it took.";
+"Przepuszcza <string> przez eval.  Jesli sie nie skompiluje, zwraca E_INVARG.  Jesli sie wywali, to sie wywali.  Jesli wszystko pojdzie dobrze, ustawia .eval_env na te wartosc i .eval_ticks na czas, jaki to zajelo.";
 if (is_player(this) && $perm_utils:controls(caller_perms(), this))
 program = args[1];
 value = $no_one:eval_d((";ticks = ticks_left();" + program) + ";return ticks - ticks_left() - 2;");
@@ -81628,8 +81593,8 @@ endtry
 endif
 .
 #58:21
-"@clearproperty <obj>.<prop>";
-"Set the value of <obj>.<prop> to `clear', making it appear to be the same as the property on its parent.";
+"@clearproperty <obiekt>.<wlasciwosc>";
+"Ustawia wartosc <obiekt>.<wlasciwosc> na `clear', dzieki czemu wyglada tak samo, jak wlasciwosc na jego rodzicu.";
 set_task_perms(player);
 if (!(l = $code_utils:parse_propref(dobjstr)))
 player:notify(tostr("Uzycie:  ", verb, " <obiekt>.<wlasciwosc>"));
@@ -81687,13 +81652,13 @@ endtry
 .
 #58:23
 ":eval_cmd_string(string[,debug])";
-"Evaluates the string the way this player would normally expect to see it evaluated if it were typed on the command line.  debug (defaults to 1) indicates how the debug flag should be set during the evaluation.";
+"Ewaluuje string w sposob, w jaki ten gracz normalnie oczekiwalby jego ewaluacji, gdyby zostal wpisany w linii polecen.  debug (domyslnie 1) okresla, jak flaga debug ma byc ustawiona podczas ewaluacji.";
 " => {@eval_result, ticks, seconds}";
-"where eval_result is the result of the actual eval() call.";
+"gdzie eval_result to wynik faktycznego wywolania eval().";
 "";
-"For the case where string is an expression, we need to prefix `return ' and append `;' to string before passing it to eval().  However this is not appropriate for statements, where it is assumed an explicit return will be provided somewhere or that the return value is irrelevant.  The code below assumes that string is an expression unless it either begins with a semicolon `;' or one of the MOO language statement keywords.";
-"Next, the substitutions described by this.eval_subs, which should be a list of pairs {string, sub}, are performed on string";
-"Finally, this.eval_env is prefixed to the beginning while this.eval_ticks is subtracted from the eventual tick count.  This allows string to refer to predefined variables like `here' and `me'.";
+"Gdy string jest wyrazeniem, trzeba dodac przedrostek `return ' i dopisac `;' do string, przed przekazaniem go do eval().  Nie jest to jednak wlasciwe dla instrukcji, gdzie zaklada sie, ze gdzies zostanie podany jawny return albo ze wartosc zwracana jest nieistotna.  Kod nizej zaklada, ze string jest wyrazeniem, o ile nie zaczyna sie od `;' lub jednego ze slow kluczowych instrukcji jezyka MOO.";
+"Nastepnie na string wykonywane sa substytucje opisane przez this.eval_subs, ktora powinna byc lista par {string, sub}";
+"Na koniec this.eval_env jest dodawane na poczatku, a this.eval_ticks jest odejmowane od koncowej liczby tickow.  To pozwala, by string odwolywal sie do predefiniowanych zmiennych, takich jak `here' i `me'.";
 set_task_perms(caller_perms());
 {program, ?debug = 1} = args;
 program = program + ";";
@@ -82081,11 +82046,11 @@ player:tell(";verbs(", thing, ") => ", toliteral(verbs));
 endif
 .
 #58:33
-"Syntax:  @forked-v*erbose [player]";
+"Skladnia:  @forked-v*erbose [gracz]";
 "         @forked-v*erbose all wizards";
 "";
-"For a normal player, shows all the tasks you have waiting in your queue, especially those forked or suspended. A wizard will see all the tasks of all the players unless the optional argument is provided. For a task which has suspended, and not a fresh fork, shows the full callers() stack.";
-"The second form is only usable by wizards and provides an output of all tasks owned by characters who are .wizard=1. Useful to find a task that may get put in a random queue due to $wiz_utils:random_wizard. Or even finding verbs that run with wizard permissions that shouldn't be.";
+"Dla zwyklego gracza pokazuje wszystkie zadania czekajace w twojej kolejce, zwlaszcza sforkowane lub zawieszone. Wizard zobaczy zadania wszystkich graczy, chyba ze podano opcjonalny argument. Dla zadania, ktore zostalo zawieszone, a nie jest swiezym forkiem, pokazuje pelny stos callers().";
+"Druga forma jest uzywana tylko przez wizardow i podaje wszystkie zadania nalezace do postaci majacych .wizard=1. Przydatne do znalezienia zadania, ktore moze trafic do przypadkowej kolejki przez $wiz_utils:random_wizard. Albo do znalezienia czasownikow, ktore dzialaja z uprawnieniami wizarda, a nie powinny.";
 set_task_perms(player);
 if (!dobjstr)
 tasks = queued_tasks();
@@ -82127,9 +82092,9 @@ player:notify("Brak zadan.");
 endif
 .
 #58:34
-"Usage: @properties <object>";
+"Uzycie: @properties <obiekt>";
 "Alias: @props";
-"Displays all properties defined on <object>. Properties unreadable by you display as `E_PERM'.";
+"Wyswietla wszystkie wlasciwosci zdefiniowane na <obiekt>. Wlasciwosci nieczytelne dla ciebie wyswietlaja sie jako `E_PERM'.";
 if (player != this)
 return player:tell(E_PERM);
 endif
