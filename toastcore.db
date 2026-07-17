@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 2 suspended tasks
-1784260483 567763848 0
+1784264145 567763848 0
 0
 10
 0
@@ -143,7 +143,7 @@ continuous
 continuous
 6
 67 0 65
-1784260563 1039338924 0
+1784264147 886242777 0
 0
 10
 0
@@ -256,14 +256,16 @@ false
 0
 mtime
 0
-1784260562
+1784264146
 who
-6
+1
+2
 dest
-6
+1
+62
 tid
 0
-1039338924
+886242777
 0 rt_stack slots in use
 0
 -111
@@ -936,7 +938,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784259152
+1784261559
 2
 name
 2
@@ -1094,7 +1096,7 @@ prog
 2
 generics
 2
-Generic objects intended for use as the parents of new objects
+Generyczne obiekty przeznaczone jako rodzice nowych obiektow
 4
 13
 1
@@ -1130,7 +1132,7 @@ Generic objects intended for use as the parents of new objects
 2
 utilities
 2
-Objects holding useful general-purpose verbs
+Obiekty zawierajace przydatne czasowniki ogolnego przeznaczenia
 4
 24
 1
@@ -1188,7 +1190,7 @@ Objects holding useful general-purpose verbs
 2
 server
 2
-Objects containing functionality that affects the server.
+Obiekty zawierajace funkcjonalnosc wplywajaca na serwer.
 4
 3
 1
@@ -1204,7 +1206,7 @@ Objects containing functionality that affects the server.
 2
 prototypes
 2
-Objects containing verbs that can be called on their corresponding types.
+Obiekty zawierajace czasowniki, ktore moga byc wywolywane na odpowiadajacych im typach.
 4
 5
 1
@@ -1496,17 +1498,17 @@ Wizard
 7
 2
 1
-47
+62
 10
 2
 2
 source
 1
-62
+15
 2
 time
 0
-1784260250
+1784264140
 4
 0
 1
@@ -1762,7 +1764,7 @@ expire
 4
 2
 0
-1784260460
+1784264120
 2
 localhost
 2
@@ -1771,7 +1773,7 @@ localhost
 2
 0
 0
-1784260471
+1784264127
 2
 1
 0
@@ -1941,7 +1943,7 @@ localhost
 2
 5
 0
-1784260479
+1784264140
 2
 1
 0
@@ -4522,7 +4524,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--57
+-232
 0
 2
 2
@@ -4536,7 +4538,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-33
+34
+4
+2
+0
+1784261559
+0
+0
 4
 2
 0
@@ -5516,7 +5524,8 @@ _genprop
 5
 36
 5
-5
+2
+%n (%#) nie moze wysylac bezposrednio na moderowana liste %t (%[#t]).
 36
 5
 5
@@ -5529,7 +5538,8 @@ _genprop
 0
 36
 1
-5
+2
+%t (%[#t]) to generyczny odbiorca.
 36
 1
 5
@@ -5933,7 +5943,7 @@ expire_old_messages
 2
 5
 2
-%n (%#) can't send to moderated list %t (%[#t]) directly.
+%n (%#) nie moze wysylac bezposrednio na moderowana liste %t (%[#t]).
 2
 5
 4
@@ -19184,7 +19194,7 @@ PROGRAMMER
 2
 5
 2
-%n (%#) can't send to moderated list %t (%[#t]) directly.
+%n (%#) nie moze wysylac bezposrednio na moderowana liste %t (%[#t]).
 2
 5
 4
@@ -19495,10 +19505,8 @@ free_to_use
 neuter
 36
 1
-4
-1
 2
-By definition, guests appear nondescript.
+Z definicji goscie wygladaja niepozornie i nijako.
 36
 1
 0
@@ -19604,7 +19612,7 @@ By definition, guests appear nondescript.
 36
 5
 2
-%t (%[#t]) is a guest character.
+%t (%[#t]) to postac goscia.
 36
 5
 4
@@ -19831,10 +19839,8 @@ ono
 Generic Guest
 2
 1
-4
-1
 2
-By definition, guests appear nondescript.
+Z definicji goscie wygladaja niepozornie i nijako.
 36
 5
 4
@@ -20155,7 +20161,7 @@ init_for_core
 2
 5
 2
-%n (%#) can't send to moderated list %t (%[#t]) directly.
+%n (%#) nie moze wysylac bezposrednio na moderowana liste %t (%[#t]).
 2
 5
 4
@@ -21026,7 +21032,7 @@ queued_task_limit
 2
 1
 2
-Everyman ($no_one) can not receive mail.
+Everyman ($no_one) nie moze odbierac poczty.
 36
 5
 4
@@ -21119,7 +21125,7 @@ Everyman ($no_one) can not receive mail.
 36
 5
 2
-... no one out there to see it.
+... nie ma tam nikogo, kto by to zobaczyl.
 36
 5
 5
@@ -24563,7 +24569,7 @@ validation_password
 36
 5
 2
-%n (%#) can't send to moderated list %t (%[#t]) directly.
+%n (%#) nie moze wysylac bezposrednio na moderowana liste %t (%[#t]).
 36
 5
 4
@@ -24579,7 +24585,7 @@ validation_password
 36
 1
 2
-%t (%[#t]) is a generic recipient.
+%t (%[#t]) to generyczny odbiorca.
 36
 1
 0
@@ -24975,13 +24981,13 @@ Postmaster
 4
 5
 2
-This is the database of mailing-list/mail-folder objects.
+To jest baza danych obiektow list mailingowych/folderow pocztowych.
 2
-The basic procedure for creating a new list/folder is to create a child of $mail_recipient (Generic Mail Recipient) assign it a suitable name&aliases, set a suitable .mail_forward/.mail_notify (or create suitable :mail_forward() and :mail_notify() verbs) and then teleport it here.
+Podstawowa procedura tworzenia nowej listy/folderu to stworzenie potomka $mail_recipient (Generic Mail Recipient), nadanie mu odpowiedniej nazwy i aliasow, ustawienie odpowiednich .mail_forward/.mail_notify (lub stworzenie odpowiednich czasownikow :mail_forward() i :mail_notify()), a nastepnie teleportowanie go tutaj.
 2
 
 2
-Avaliable aliases:
+Dostepne aliasy:
 2
 
 36
@@ -25003,9 +25009,7 @@ Mail Room
 0
 0
 4
-1
-1
-2
+0
 1
 50
 4
@@ -25118,41 +25122,37 @@ subjects
 sending
 42
 4
-1
+0
+36
+0
 4
 0
 36
 0
 4
-1
-4
-1
-1
-2
-36
-0
-4
-1
-2
-@gripe: test
-36
-0
-4
-1
-0
 0
 36
 0
 4
-1
 0
+36
+0
+4
 0
 96
 1
 4
-1
+5
 0
-1784260250
+1784263675
+0
+1784263710
+0
+1784263748
+0
+1784263840
+0
+1784264090
 96
 1
 4
@@ -25216,7 +25216,7 @@ q*uit,done,pause
 36
 5
 2
-Message body is empty.
+Tresc wiadomosci jest pusta.
 36
 5
 4
@@ -25280,7 +25280,7 @@ showlists,unsubscribe
 36
 5
 2
-You need to either SEND it or ABORT it before you can start another message.
+Musisz ja albo WYSLAC (@send), albo ANULOWAC (@abort), zanim zaczniesz kolejna wiadomosc.
 36
 5
 4
@@ -25336,67 +25336,57 @@ readable
 96
 1
 2
-%N flattens out into a largish postage stamp and floats away.
+%N splaszcza sie w spory znaczek pocztowy i odlatuje.
 36
 5
 2
-A largish postage stamp floats into the room and fattens up into %n.
-36
-5
-4
-4
-2
-Saving your message so that you can finish it later.
-2
-To come back, give the `@send' command with no arguments.
-2
-Please come back and SEND or ABORT if you don't intend to be working on this
-2
-message in the immediate future.  Keep Our MOO Clean!  No Littering!
-36
-5
-5
-36
-5
-5
-36
-5
-2
-You're not editing anything!
+Spory znaczek pocztowy wlatuje do pokoju i pogrubia sie w %n.
 36
 5
 4
+4
+2
+Zapisuje twoja wiadomosc, zebys mogl(a) dokonczyc ja pozniej.
+2
+By wrocic, wydaj polecenie `@send' bez argumentow.
+2
+Wroc i WYSLIJ (@send) lub ANULUJ (@abort), jesli nie zamierzasz pracowac nad ta
+2
+wiadomoscia w najblizszym czasie.  Dbajmy o Czystosc Naszego MOO!  Nie Smiec!
+36
+5
+5
+36
+5
+5
+36
+5
+2
+Niczego teraz nie edytujesz!
+36
+5
+4
+0
+96
+0
+4
+0
+96
 1
 4
 0
 96
 0
 4
-1
-1
-2
-96
-1
-4
-1
-0
 0
 96
 0
 4
-1
 0
-1
-96
-0
-4
-1
-1
-62
 96
 1
 2
-%L [mailing]
+%L [pisze]
 36
 5
 5
@@ -25635,7 +25625,7 @@ mode
 96
 5
 2
-You need to ABORT or SAVE this note before editing any other.
+Musisz ANULOWAC (ABORT) lub ZAPISAC (SAVE) ta notatke, zanim zaczniesz edytowac inna.
 96
 5
 4
@@ -25679,11 +25669,11 @@ readable
 96
 1
 2
-A small swarm of 3x5 index cards arrives, engulfs %n, and carries %o away.
+Male stadko karteczek 3x5 nadlatuje, ogarnia %n i unosi %o w dal.
 96
 5
 2
-A small swarm of 3x5 index cards blows in and disperses, revealing %n.
+Male stadko karteczek 3x5 wlatuje i rozprasza sie, ukazujac %n.
 96
 5
 4
@@ -25697,15 +25687,15 @@ Prosze, wroc i uzyj SAVE albo ABORT, jesli nie zamierzasz pracowac nad tym tekst
 96
 5
 2
-Note has not been modified since the last save.
+Notatka nie byla zmieniana od ostatniego zapisu.
 96
 5
 2
-There are changes.
+Sa zmiany.
 96
 5
 2
-Use the EDIT command to select a note.
+Uzyj polecenia EDIT, by wybrac notatke.
 96
 5
 4
@@ -25735,7 +25725,7 @@ Use the EDIT command to select a note.
 96
 1
 2
-%L [editing notes]
+%L [edytuje notatki]
 96
 5
 5
@@ -25939,7 +25929,7 @@ q*uit,done,pause
 96
 5
 2
-Verb body is empty.
+Tresc czasownika jest pusta.
 96
 5
 4
@@ -25966,7 +25956,7 @@ com*pile
 96
 5
 2
-You need to either COMPILE or ABORT this verb before you can start on another.
+Musisz albo SKOMPILOWAC (COMPILE), albo ANULOWAC (ABORT) ten czasownik, zanim zaczniesz nastepny.
 96
 5
 4
@@ -26010,11 +26000,11 @@ readable
 96
 1
 2
-You hear the bips of keyclick, the sliding of mice and the hum of computers in the distance as %n fades slowly out of view, heading towards them.
+Slyszysz piski klawiszy, przesuwanie sie myszek i pomruk komputerow w oddali, gdy %n powoli znika ci z oczu, kierujac sie ku nim.
 96
 5
 2
-There are the light bips of keyclick and the sliding of mice as %n fades into view, shoving %r away from the console, which promptly fades away.
+Slychac lekkie piski klawiszy i przesuwanie sie myszek, gdy %n pojawia sie w polu widzenia, odpychajac %r od konsoli, ktora natychmiast znika.
 96
 5
 4
@@ -26028,15 +26018,15 @@ Prosze, wroc i uzyj COMPILE albo ABORT, jesli nie zamierzasz pracowac nad tym cz
 96
 5
 2
-The verb has no pending changes.
+Ten czasownik nie ma oczekujacych zmian.
 96
 5
 2
-You have changed the verb since last successful compile.
+Zmieniles czasownik od ostatniej udanej kompilacji.
 96
 5
 2
-First, you have to select a verb to edit with the EDIT command.
+Najpierw musisz wybrac czasownik do edycji poleceniem EDIT.
 96
 5
 4
@@ -26060,7 +26050,7 @@ First, you have to select a verb to edit with the EDIT command.
 96
 1
 2
-%L [editing verbs]
+%L [edytuje czasowniki]
 96
 5
 5
@@ -27404,7 +27394,7 @@ spoglada na %t; %t plonie i znika, nie zostawiajac popiolu.
 36
 5
 2
-This is a private letter.
+To prywatny list.
 36
 5
 5
@@ -27828,29 +27818,23 @@ feature_task
 4
 9
 0
-371104163
+1621275507
 2
-request
+@abort
 4
-3
+0
 2
-TestGracz2
-2
-dla
-2
-test@example.com
-2
-TestGracz2 dla test@example.com
+
 1
--3
+-1
 2
-TestGracz2
+
 2
-dla
+
 1
--3
+-1
 2
-test@example.com
+
 36
 0
 4
@@ -29424,63 +29408,59 @@ ze
 36
 5
 4
-28
+26
 2
-with
+za pomoca
 2
-using
+przy uzyciu
 2
-at
+uzywajac
 2
-to
+u
 2
-in front of
+do
 2
-in
+przed
 2
-inside
+w
 2
-into
+wewnatrz
 2
-on top of
+do srodka
 2
-on
+na
 2
-onto
+na wierzchu
 2
-upon
+z
 2
-out of
+spod
 2
-from inside
+z wnetrza
 2
-from
+nad
 2
-over
+przez
 2
-through
+pod
 2
-under
+ponizej
 2
-underneath
+za
 2
-beneath
+obok
 2
-behind
+dla
 2
-beside
+o
 2
-for
+jest
 2
-about
+jako
 2
-is
+ze
 2
-as
-2
-off
-2
-off of
+z powierzchni
 36
 5
 4
@@ -32619,7 +32599,7 @@ archive_news
 36
 5
 2
-%n (%#) can't send to moderated list %t (%[#t]) directly.
+%n (%#) nie moze wysylac bezposrednio na moderowana liste %t (%[#t]).
 36
 5
 4
@@ -33014,7 +32994,9 @@ Pierwszy Pokoj
 0
 0
 4
-0
+1
+1
+2
 1
 3
 4
@@ -34434,7 +34416,7 @@ init_for_core
 2
 5
 2
-%n (%#) can't send to moderated list %t (%[#t]) directly.
+%n (%#) nie moze wysylac bezposrednio na moderowana liste %t (%[#t]).
 2
 5
 4
@@ -34780,85 +34762,31 @@ cleaning_index
 71
 5
 4
-13
+4
 4
 2
 1
 2
 0
-1784260562
+1784264146
 4
 2
 1
 2
 0
-1784260594
+1784264184
 4
 2
 1
 2
 0
-1784260606
+1784264198
 4
 2
 1
 2
 0
-1784260617
-4
-2
-1
-2
-0
-1784260646
-4
-2
-1
-2
-0
-1784260662
-4
-2
-1
-2
-0
-1784260678
-4
-2
-1
-2
-0
-1784260689
-4
-2
-1
-2
-0
-1784260708
-4
-2
-1
-2
-0
-1784260726
-4
-2
-1
-2
-0
-1784260737
-4
-2
-1
-2
-0
-1784260754
-4
-2
-1
-2
-0
-1784260771
+1784264395
 71
 1
 2
@@ -34870,11 +34798,11 @@ Ktos przychodzi i odklada %n. %n twardo spi.
 71
 5
 0
-1039338924
+886242777
 71
 1
 0
-1693542649
+906642048
 71
 5
 0
@@ -35084,7 +35012,7 @@ here=player.location;me=player
 71
 5
 2
-The housekeeper is too busy putting away all of the junk all over LambdaMoo that there isn't time to listen to pages and stuff like that so your page isn't listened to, too bad.
+Zarzadca jest zbyt zajety odkladaniem wszystkich smieci porozrzucanych po calym LambdaMoo, zeby miec czas na sluchanie pagerow i temu podobnych, wiec twoj pager nie zostal wysluchany, trudno.
 71
 5
 5
@@ -48446,11 +48374,11 @@ readable
 96
 1
 2
-%N heads off to edit some properties.
+%N odchodzi, by poedytowac jakies wlasciwosci.
 96
 5
 2
-%N comes back from editing properties.
+%N wraca z edytowania wlasciwosci.
 96
 5
 4
@@ -49969,87 +49897,87 @@ e[1;30m
 4
 41
 2
-Colors        [red]red[normal]          Bold Colors   [bold][red]red[normal]
+Kolory        [red]czerwony[normal]     Pogrubione kolory [bold][red]czerwony[normal]
 2
-              [green]green[normal]                      [bold][green]green[normal]
+              [green]zielony[normal]                    [bold][green]zielony[normal]
 2
-              [blue]blue[normal]                       [bold][blue]blue[normal]
+              [blue]niebieski[normal]                  [bold][blue]niebieski[normal]
 2
-              [yellow]yellow[normal]                     [bold][yellow]yellow[normal]
+              [yellow]zolty[normal]                     [bold][yellow]zolty[normal]
 2
-              [cyan]cyan[normal]                       [bold][cyan]cyan[normal]
+              [cyan]turkusowy[normal]                  [bold][cyan]turkusowy[normal]
 2
-              [purple]purple[normal]                     [bold][purple]purple[normal]
+              [purple]fioletowy[normal]                 [bold][purple]fioletowy[normal]
 2
-              [gray]gray[normal]                       [bold][gray]gray[normal]
+              [gray]szary[normal]                      [bold][gray]szary[normal]
 2
-              [white]white[normal]                      [bold][white]white[normal]
-2
-
-2
-Backgrounds   [b:red][gray]red[normal]          True Color    [128:0:0]maroon[normal]
-2
-              [b:green][gray]green[normal]                      [153:255:180]light green[normal]
-2
-              [b:blue][gray]blue[normal]                       [153:204:255]light blue[normal]
-2
-              [b:yellow][gray]yellow[normal]                     [255:255:153]funky banana[normal]
-2
-              [b:cyan][gray]cyan[normal]                       [0:102:102]dark cyan[normal]
-2
-              [b:purple][gray]purple[normal]                     [255:204:242]light purple[normal]
-2
-              [b:white][gray]white[normal]                      [170:121:65]brown[normal]
+              [white]bialy[normal]                      [bold][white]bialy[normal]
 2
 
 2
-256 Color     [:130]Orange[normal]
+Tla           [b:red][gray]czerwone[normal]     Pelny kolor   [128:0:0]kasztanowy[normal]
 2
-              [:125]Pink[normal]
+              [b:green][gray]zielone[normal]                   [153:255:180]jasnozielony[normal]
 2
-              [:055]Violet[normal]
+              [b:blue][gray]niebieskie[normal]                 [153:204:255]jasnoniebieski[normal]
 2
-	      [:102]Silver[normal]
+              [b:yellow][gray]zolte[normal]                    [255:255:153]zwariowany banan[normal]
 2
-	      [:178]Bold Tan[normal]
+              [b:cyan][gray]turkusowe[normal]                  [0:102:102]ciemny turkusowy[normal]
 2
-	      [:118]Bold Lime[normal]
+              [b:purple][gray]fioletowe[normal]                [255:204:242]jasnofioletowy[normal]
+2
+              [b:white][gray]biale[normal]                     [170:121:65]brazowy[normal]
+2
+
+2
+256 kolorow   [:130]Pomaranczowy[normal]
+2
+              [:125]Rozowy[normal]
+2
+              [:055]Fioletowy[normal]
+2
+	      [:102]Srebrny[normal]
+2
+	      [:178]Pogrubiony bezowy[normal]
+2
+	      [:118]Pogrubiona limonka[normal]
 2
 	      
 2
-Blinking   - [blink]This text should be blinking.  [unblink]This shouldn't.[normal]
+Miganie    - [blink]Ten tekst powinien migac.  [unblink]Ten nie powinien.[normal]
 2
 
 2
-Bold       - [bold][cyan]This text should be bold.  [unbold][cyan]This shouldn't.[normal]
+Pogrubienie - [bold][cyan]Ten tekst powinien byc pogrubiony.  [unbold][cyan]Ten nie powinien.[normal]
 2
 
 2
-Inverse    - [inverse]This should be inverse, and [red]t[green]h[yellow]i[blue]s[normal][inverse] should be inverse and in color.[normal]
+Inwersja   - [inverse]To powinno byc odwrocone, a [red]t[green]o[yellow]t[blue]o[normal][inverse] powinno byc odwrocone i kolorowe.[normal]
 2
 
 2
-Underline  - [underline]This should be underlined.[normal]
+Podkreslenie - [underline]To powinno byc podkreslone.[normal]
 2
 
 2
-Strike     - [strike]This should have a line through it.[normal]
+Przekreslenie - [strike]To powinno miec linie w poprzek.[normal]
 2
 
 2
-Italic     - [italic]This should be italicized.[normal]
+Kursywa    - [italic]To powinno byc pochylone.[normal]
 2
 
 2
-Random     - [random]All [random]of [random]these [random]words [random]should [random]be [random]written [random]in [random]a [random]different [random]color.[normal]
+Losowo     - [random]Wszystkie [random]te [random]slowa [random]powinny [random]byc [random]napisane [random]w [random]innym [random]kolorze.[normal]
 2
 
 2
-Random 256 - [:random]All [:random]of [:random]these [:random]words [:random]should [:random]be [:random]written [:random]in [:random]a [:random]different [:random]color.[normal]
+Losowo 256 - [:random]Wszystkie [:random]te [:random]slowa [:random]powinny [:random]byc [:random]napisane [:random]w [:random]innym [:random]kolorze.[normal]
 2
 
 2
-Beep       - [beep]You should hear a beep.
+Piszczenie - [beep]Powinienes uslyszec sygnal dzwiekowy.
 98
 1
 4
@@ -51049,9 +50977,9 @@ Kody sa podzielone na 6 glownych grup:
 2
                 zalecane.  UWAGA: [gray] implikuje [bold], wiec jesli masz:
 2
-                [gray]This is gray.  [red]This is red.[normal]
+                [gray]To jest szare.  [red]To jest czerwone.[normal]
 2
-                'This is red.' bedzie jasnoczerwony, musisz umiescic
+                'To jest czerwone.' bedzie jasnoczerwony, musisz umiescic
 2
                 [unbold] przed nim, jesli chcesz ciemnoczerwony.
 2
@@ -54515,9 +54443,9 @@ no_line_notifies
 1
 2
 0
-1902674640
+210050407
 9
-1784137347.508989096
+1784263843.468384981
 2
 4
 4
@@ -55494,7 +55422,7 @@ $wiz_utils.shutdown_message = "";
 $server["shutdown_time"] = 0;
 $server_options.dump_interval = 3600;
 $wiz_utils.gripe_recipients = {player};
-$class_registry = {{"generics", "Generic objects intended for use as the parents of new objects", {$room, $exit, $thing, $note, $letter, $container, $root_class, $player, $prog, $wiz, $generic_editor, $mail_recipient, $mail_agent}, $builder}, {"utilities", "Objects holding useful general-purpose verbs", {@children($generic_utils), $shapes}, $prog}, {"server", "Objects containing functionality that affects the server.", {$telnet, $server_options, $http}, $wiz}, {"prototypes", "Objects containing verbs that can be called on their corresponding types.", children($proto), $prog}};
+$class_registry = {{"generics", "Generyczne obiekty przeznaczone jako rodzice nowych obiektow", {$room, $exit, $thing, $note, $letter, $container, $root_class, $player, $prog, $wiz, $generic_editor, $mail_recipient, $mail_agent}, $builder}, {"utilities", "Obiekty zawierajace przydatne czasowniki ogolnego przeznaczenia", {@children($generic_utils), $shapes}, $prog}, {"server", "Obiekty zawierajace funkcjonalnosc wplywajaca na serwer.", {$telnet, $server_options, $http}, $wiz}, {"prototypes", "Obiekty zawierajace czasowniki, ktore moga byc wywolywane na odpowiadajacych im typach.", children($proto), $prog}};
 for v in ({"do_login_command", "server_started"})
 c = {};
 for i in (verb_code(this, v))
@@ -75945,9 +75873,9 @@ return who:my_match_object(objstr, #-1);
 #50:54
 who = args[1];
 where = {#-1, @this.original}[1 + (who in this.active)];
-wherestr = `where:who_location_msg(who) ! ANY => "An Editor"';
+wherestr = `where:who_location_msg(who) ! ANY => "Edytor"';
 if (typeof(wherestr) != STR)
-wherestr = "broken who_location_msg";
+wherestr = "uszkodzony who_location_msg";
 endif
 return strsub(this.who_location_msg, "%L", wherestr);
 return $string_utils:pronoun_sub(this.who_location_msg, who, this, where);
@@ -77988,25 +77916,25 @@ return error[1];
 endtry
 .
 #56:5
-"$command_utils:read_lines_escape(escapes[,help]) -- read zero or more lines of input";
+"$command_utils:read_lines_escape(escapes[,help]) -- czyta zero lub wiecej linii danych wejsciowych";
 "";
-"Similar to :read_lines() except that help is available and one may specify other escape sequences to terminate the read.";
-"  escapes should be either a string or list of strings; this specifies which inputs other from `.' or `@abort' should terminate the read (... don't use anything beginning with a `.').";
-"  help should be a string or list of strings to be printed in response to the player typing `?'; the first line of the help text should be a general comment about what the input text should be used for.  Successive lines should describe the effects of the alternative escapes.";
-"Returns {end,list-of-strings-input} where end is the particular line that terminated this input or 0 if input terminated normally with `.'.  Returns E_PERM if the current task is not a command task that has never called suspend().  ";
-"@abort and lines beginning with `.' are treated exactly as with :read_lines()";
-{escapes, ?help = "You are currently in a read loop."} = args;
+"Podobne do :read_lines() z ta roznica, ze dostepna jest pomoc i mozna podac inne sekwencje przerywajace czytanie.";
+"  escapes powinno byc stringiem lub lista stringow; okresla to, jakie dane wejsciowe inne niz `.' lub `@abort' koncza czytanie (... nie uzywaj niczego zaczynajacego sie od `.').";
+"  help powinno byc stringiem lub lista stringow wypisywanych w odpowiedzi na wpisanie przez gracza `?'; pierwsza linia tekstu pomocy powinna byc ogolnym komentarzem o tym, do czego ma sluzyc wpisywany tekst. Kolejne linie powinny opisywac dzialanie alternatywnych sekwencji przerywajacych.";
+"Zwraca {end,lista-stringow-wejscia}, gdzie end to konkretna linia, ktora zakonczyla to czytanie, lub 0, jesli czytanie zakonczylo sie normalnie przez `.'. Zwraca E_PERM, jesli biezace zadanie nie jest zadaniem polecenia, ktore nigdy nie wywolalo suspend().";
+"@abort i linie zaczynajace sie od `.' sa traktowane dokladnie tak samo, jak w :read_lines()";
+{escapes, ?help = "Jestes obecnie w petli czytania."} = args;
 c = callers();
 p = c[$][5];
 escapes = {".", "@abort", @(typeof(escapes) == LIST) ? escapes | {escapes}};
-p:notify(tostr("[Type lines of input; `?' for help; end with `", $string_utils:english_list(escapes, "", "' or `", "', `", ""), "'.]"));
+p:notify(tostr("[Wpisz linie danych wejsciowych; `?' po pomoc; zakoncz przez `", $string_utils:english_list(escapes, "", "' lub `", "', `", ""), "'.]"));
 ans = {};
 escapes[1..0] = {"?"};
-"... set up the help text...";
+"... ustawiamy tekst pomocy...";
 if (typeof(help) != LIST)
 help = {help};
 endif
-help[2..1] = {"Type `.' on a line by itself to finish.", "Anything else with a leading period is entered with the period removed.", "Type `@abort' to abort the command completely."};
+help[2..1] = {"Wpisz `.' w osobnej linii, by zakonczyc.", "Wszystko inne z wiodaca kropka jest wprowadzane z usunieta kropka.", "Wpisz `@abort', by calkowicie przerwac polecenie."};
 while (1)
 try
 line = read();
@@ -78014,7 +77942,7 @@ if ((trimline = $string_utils:trimr(line)) in escapes)
 if (trimline == ".")
 return {0, ans};
 elseif (trimline == "@abort")
-p:notify(">> Command Aborted <<");
+p:notify(">> Polecenie przerwane <<");
 kill_task(task_id());
 elseif (trimline == "?")
 p:notify_lines(help);
@@ -80687,7 +80615,7 @@ endif
 #58:10
 set_task_perms(caller_perms());
 task = args[1];
-player:notify(tostr("Killed: ", $string_utils:right(tostr("task ", task[1]), 17), ", verb ", task[6], ":", task[7], ", line ", task[8], (task[9] != task[6]) ? ", this==" + tostr(task[9]) | ""));
+player:notify(tostr("Zabito: ", $string_utils:right(tostr("zadanie ", task[1]), 17), ", czasownik ", task[6], ":", task[7], ", linia ", task[8], (task[9] != task[6]) ? ", to==" + tostr(task[9]) | ""));
 .
 #58:11
 "Ta wersja @program radzi sobie z wieloma czasownikami o tej samej nazwie.";
