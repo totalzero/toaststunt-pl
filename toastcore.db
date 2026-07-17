@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784275843 567763848 0
+1784276940 567763848 0
 0
 10
 0
@@ -146,7 +146,7 @@ continuous
 0 interrupted tasks
 1 active connections with listeners
 2 0
-151
+148
 #0
 The System Object
 24
@@ -798,7 +798,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784275267
+1784276820
 2
 name
 2
@@ -1390,7 +1390,7 @@ source
 2
 time
 0
-1784275840
+1784276935
 4
 0
 1
@@ -1646,7 +1646,7 @@ expire
 4
 2
 0
-1784275818
+1784276919
 2
 localhost
 2
@@ -1655,7 +1655,7 @@ localhost
 2
 0
 0
-1784275820
+1784276924
 2
 1
 0
@@ -1847,7 +1847,7 @@ localhost
 2
 5
 0
-1784275840
+1784276935
 2
 1
 0
@@ -1897,7 +1897,7 @@ localhost
 2
 0
 12
-151
+148
 2
 1
 5
@@ -4428,7 +4428,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--19
+-6
 0
 2
 2
@@ -4442,7 +4442,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-37
+38
+4
+2
+0
+1784276820
+0
+0
 4
 2
 0
@@ -55513,11 +55519,8 @@ diag
 36
 1
 # 147 recycled
-# 148 recycled
-# 149 recycled
-# 150 recycled
 1
-#151
+#148
 
 0
 98
@@ -61135,10 +61138,10 @@ this.bogus_command = "?";
 this.blank_command = "welcome";
 this.create_enabled = 1;
 this.registration_address = "";
-this.registration_string = "Character creation is disabled.";
-this.newt_registration_string = "Your character is temporarily hosed.";
-this.welcome_message = {"Welcome to the ToastCore database.", "", "Type 'connect wizard' to log in.", "", "You will probably want to change this text and the output of the `help' command, which are stored in $login.welcome_message and $login.help_message, respectively."};
-this.help_message = {"Sorry, but there's no help here yet.  Type `?' for a list of commands."};
+this.registration_string = "Tworzenie postaci jest wylaczone.";
+this.newt_registration_string = "Twoja postac jest tymczasowo zablokowana.";
+this.welcome_message = {"Witaj w bazie danych ToastCore.", "", "Wpisz 'connect wizard' aby sie zalogowac.", "", "Prawdopodobnie zechcesz zmienic ten tekst oraz wynik polecenia `help', ktore sa przechowywane odpowiednio w $login.welcome_message i $login.help_message."};
+this.help_message = {"Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen."};
 this.redlist = this.blacklist = this.graylist = this.spooflist = {{}, {}};
 this.temporary_redlist = this.temporary_blacklist = this.temporary_graylist = this.temporary_spooflist = {{}, {}};
 this.who_masks_wizards = 0;
