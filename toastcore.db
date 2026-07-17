@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784285867 567763848 0
+1784297212 567763848 0
 0
 10
 0
@@ -798,7 +798,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784284386
+1784296506
 2
 name
 2
@@ -1390,7 +1390,7 @@ source
 2
 time
 0
-1784285847
+1784297208
 4
 0
 1
@@ -1646,7 +1646,7 @@ expire
 4
 2
 0
-1784285776
+1784297194
 2
 localhost
 2
@@ -1655,7 +1655,7 @@ localhost
 2
 0
 0
-1784285808
+1784297197
 2
 1
 0
@@ -1849,7 +1849,7 @@ localhost
 2
 5
 0
-1784285847
+1784297208
 2
 1
 0
@@ -4428,7 +4428,11 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 0
 10
+1
+1
+-19
 0
+2
 2
 5
 0
@@ -4440,7 +4444,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-44
+45
+4
+2
+0
+1784296506
+0
+0
 4
 2
 0
@@ -22668,41 +22678,41 @@ Tobie
 4
 18
 2
-Defines the list of standard genders, the default pronouns for each, and routines for adding or setting pronoun properties on any gendered object.
+Definiuje liste standardowych rodzajow, domyslne zaimki dla kazdego z nich, oraz procedury do dodawania lub ustawiania wlasciwosci zaimkow na dowolnym obiekcie posiadajacym rodzaj.
 2
 
 2
-Properties:
+Wlasciwosci:
 2
-  .genders  -- list of standard genders
+  .genders  -- lista standardowych rodzajow
 2
-  .pronouns -- list of pronoun properties
+  .pronouns -- lista wlasciwosci zaimkow
 2
   .ps .po .pp .pq .pr .psc .poc .ppc .pqc .prc 
 2
-            -- lists of pronouns for each of the standard genders
+            -- listy zaimkow dla kazdego ze standardowych rodzajow
 2
 
 2
-  If foo is of gender this.gender[n], 
+  Jesli foo ma rodzaj this.gender[n], 
 2
-  then the default pronoun foo.p is this.p[n] 
+  to domyslny zaimek foo.p to this.p[n] 
 2
-  (where p is one of ps/po/pp/pq...)
-2
-
-2
-Verbs:
-2
-  :set(object,newgender) -- changes pronoun properties to match new gender.
-2
-  :add(object[,perms[,owner]]) -- adds pronoun properties to object.
+  (gdzie p to jedno z ps/po/pp/pq...)
 2
 
 2
-  :get_pronoun     (which,object) -- return pronoun for a given object
+Czasowniki:
 2
-  :get_conj*ugation(verbspec,object) -- return appropriately conjugated verb
+  :set(object,newgender) -- zmienia wlasciwosci zaimkow, by pasowaly do nowego rodzaju.
+2
+  :add(object[,perms[,owner]]) -- dodaje wlasciwosci zaimkow do obiektu.
+2
+
+2
+  :get_pronoun     (which,object) -- zwraca zaimek dla danego obiektu
+2
+  :get_conj*ugation(verbspec,object) -- zwraca odpowiednio odmieniony czasownik
 36
 5
 5
@@ -22717,7 +22727,7 @@ Gender Utilities
 4
 1
 2
-This is the gender utilities utility package.  See `help $gender_utils' for more details.
+To jest pakiet narzedziowy Gender Utilities.  Zobacz `help $gender_utils' po wiecej szczegolow.
 36
 5
 4
@@ -22764,37 +22774,37 @@ controls_prop*erty controls_verb
 4
 16
 2
-Miscellaneous routines for permissions checking
+Rozne procedury do sprawdzania uprawnien
 2
 
 2
-For a complete description of a given verb, do `help $perm_utils:verbname'
+Po pelny opis danego czasownika, wpisz `help $perm_utils:nazwaczasownika'
 2
 
 2
-:controls(who,what) -- can who write on object what
+:controls(who,what) -- czy who moze pisac do obiektu what
 2
-:controls_property(who,what,propname) -- can who write on what.propname
+:controls_property(who,what,propname) -- czy who moze pisac do what.propname
 2
-These routines check write flags and also the wizardliness of `who'.
+Te procedury sprawdzaja flagi zapisu, a takze wizardowatosc `who'.
 2
 
 2
-(these last two probably belong on $code_utils)
+(te dwie ostatnie prawdopodobnie powinny byc na $code_utils)
 2
 
 2
 :apply(permstring,mods)
 2
-  -- used by @chmod to apply changes (e.g., +x) 
+  -- uzywane przez @chmod do stosowania zmian (np. +x) 
 2
-     to a given permissions string
+     do danego stringu uprawnien
 2
 
 2
 :caller()
 2
-  -- returns the first caller in the callers() stack distinct from `this'
+  -- zwraca pierwszego callera na stosie callers() rozny od `this'
 2
 5
 5
@@ -22809,7 +22819,7 @@ Permissions Utilities
 4
 1
 2
-This is the permissions utilities utility package.  See `help $perm_utils' for more details.
+To jest pakiet narzedziowy Permissions Utilities.  Zobacz `help $perm_utils' po wiecej szczegolow.
 2
 5
 4
@@ -23408,7 +23418,7 @@ Time Utilities
 4
 1
 2
-This is the time utilities utility package.  See `help $time_utils' for more details.
+To jest pakiet narzedziowy Time Utilities.  Zobacz `help $time_utils' po wiecej szczegolow.
 36
 5
 4
@@ -71606,7 +71616,7 @@ this:check_mail_lists();
 pass(@args);
 .
 #40:53
-"Ideally, in order for one person to be notified that another person has new mail, both the mail recipient and the notification recipient should agree that this is an OK transfer of information.";
+"Idealnie, aby jedna osoba mogla byc powiadamiana o nowej poczcie drugiej osoby, zarowno odbiorca poczty, jak i odbiorca powiadomienia powinni sie zgodzic na taki transfer informacji.";
 "Uzycie:  @add-notify me do player";
 "    Wysyla mail do player mowiacy, ze chce byc dodany do ich wlasciwosci powiadomien mailowych.";
 "Uzycie:  @add-notify player do me";
@@ -71819,8 +71829,8 @@ endif
 endif
 .
 #41:0
-"$gender_utils:set(object,gender) --- sets the pronoun properties of object.";
-"gender is a string: one of the strings in $gender_utils.genders, the list of rcognized genders.  If the gender change is successful, the (full) name of the gender (e.g., \"male\") is returned.  E_NONE is returned if gender does not match any recognized gender.  Any other error encountered (e.g., E_PERM, E_PROPNF) is likewise returned and the object's pronoun properties are left unaltered.";
+"$gender_utils:set(object,gender) --- ustawia wlasciwosci zaimkow obiektu.";
+"gender to string: jeden z ciagow w $gender_utils.genders, liscie rozpoznawanych rodzajow.  Jesli zmiana rodzaju sie powiedzie, zwracana jest (pelna) nazwa rodzaju (np. \"meski\").  E_NONE jest zwracane, jesli rodzaj nie pasuje do zadnego rozpoznawanego rodzaju.  Kazdy inny napotkany blad (np. E_PERM, E_PROPNF) jest zwracany w ten sam sposob, a wlasciwosci zaimkow obiektu pozostaja niezmienione.";
 set_task_perms(caller_perms());
 {object, gender} = args;
 if (this == object)
@@ -71845,8 +71855,8 @@ return gender;
 .
 #41:1
 "$gender_utils:add(object[,perms[,owner]])";
-"--- adds pronoun properties to object if they're not already there.";
-"    perms default to \"rc\", owner defaults to the object owner.";
+"--- dodaje wlasciwosci zaimkow do obiektu, jesli jeszcze ich nie ma.";
+"    perms domyslnie to \"rc\", owner domyslnie to wlasciciel obiektu.";
 set_task_perms(caller_perms());
 {object, ?perms = "rc", ?owner = object.owner} = args;
 prons = this.pronouns;
@@ -71870,9 +71880,9 @@ player:tell("Nie udalo sie zainicjalizowac zaimkow:  ", e);
 endif
 .
 #41:2
-"get_pronoun(key,object) => pronoun corresponding to object.";
-"key can be one of s,o,p,q,r,S,O,P,Q,R to refer to the pronoun properties relatively directly or it can be something of the form \"he/she\" or \"He/She\".";
-"Next the object is checked for the desired pronoun property.  If that doesn't exist, we look at object.gender and infer the pronoun from the corresponding $gender_utils property.  If .gender doesn't exist or the object itself is invalid, we use the corresponding property on $player.";
+"get_pronoun(key,object) => zaimek odpowiadajacy obiektowi.";
+"key moze byc jednym z s,o,p,q,r,S,O,P,Q,R, by odwolac sie do wlasciwosci zaimkow stosunkowo bezposrednio, albo czyms w formie \"he/she\" lub \"He/She\".";
+"Nastepnie sprawdzana jest na obiekcie wlasciwosc zadanego zaimka.  Jesli ona nie istnieje, patrzymy na object.gender i wnioskujemy zaimek z odpowiedniej wlasciwosci $gender_utils.  Jesli .gender nie istnieje albo sam obiekt jest nieprawidlowy, uzywamy odpowiedniej wlasciwosci na $player.";
 {key, ?object = player} = args;
 if (key[1] == ":")
 key = key[2..$];
@@ -71899,9 +71909,9 @@ return $player.(prop);
 endif
 .
 #41:3
-"get_conj(verbspec,object) => verb conjugated according to object.";
-"verbspec can be one of \"singular/plural\", \"singular\", \"singular/\", or \"/plural\", e.g., \"is/are\", \"is\", \"is/\", or \"/are\".";
-"The object is checked to see whether it is singular or plural.  This is inferred from its .gender property.  If .gender doesn't exist or the object itself is invalid, we assume singular.";
+"get_conj(verbspec,object) => czasownik odmieniony zgodnie z obiektem.";
+"verbspec moze byc jednym z \"liczba-pojedyncza/liczba-mnoga\", \"liczba-pojedyncza\", \"liczba-pojedyncza/\", lub \"/liczba-mnoga\", np. \"jest/sa\", \"jest\", \"jest/\", lub \"/sa\".";
+"Obiekt jest sprawdzany, czy jest w liczbie pojedynczej czy mnogiej.  Wnioskuje sie to z jego wlasciwosci .gender.  Jesli .gender nie istnieje albo sam obiekt jest nieprawidlowy, zakladamy liczbe pojedyncza.";
 {spec, ?object = player} = args;
 i = index(spec + "/", "/");
 sing = spec[1..i - 1];
@@ -71997,9 +72007,9 @@ endif
 endif
 .
 #41:7
-"Experimental pronoun substitution. The official version is on $string_utils.";
-"syntax:  :pronoun_sub(text[,who])";
-"experimental version that accomodates Aladdin's style...";
+"Eksperymentalne podstawianie zaimkow. Oficjalna wersja znajduje sie na $string_utils.";
+"skladnia:  :pronoun_sub(text[,who])";
+"eksperymentalna wersja, ktora obsluguje styl Aladdina...";
 set_task_perms($no_one);
 {old, ?who = player} = args;
 if (typeof(old) == LIST)
@@ -72053,13 +72063,13 @@ return new + old;
 .
 #42:0
 "$perm_utils:controls(who, what)";
-"Is WHO allowed to hack on WHAT?";
+"Czy WHO ma prawo ingerowac w WHAT?";
 {who, what} = args;
 return (valid(who) && valid(what)) && (who.wizard || (who == what.owner));
 .
 #42:1
 ":apply(permstring,mods) => new permstring.";
-"permstring is a permissions string, mods is a concatenation of strings of the form +<letters>, !<letters>, or -<letters>, where <letters> is a string of letters as might appear in a permissions string (`+' adds the specified permissions, `-' or `!' removes them; `-' and `!' are entirely equivalent).";
+"permstring to string uprawnien, mods to konkatenacja stringow w formie +<litery>, !<litery>, lub -<litery>, gdzie <litery> to string liter, jakie moga wystapic w stringu uprawnien (znak + dodaje wskazane uprawnienia, - lub ! je usuwa; - i ! sa calkowicie rownowazne).";
 {perms, mods} = args;
 if ((!mods) || (!index("!-+", mods[1])))
 return mods;
@@ -72073,7 +72083,7 @@ perms = perms + mods[i];
 endif
 endwhile
 else
-"mods[i] must be ! or -";
+"mods[i] musi byc ! lub -";
 while (((i = i + 1) <= length(mods)) && (!index("!-+", mods[i])))
 perms = strsub(perms, mods[i], "");
 endwhile
@@ -72082,8 +72092,8 @@ endwhile
 return perms;
 .
 #42:2
-":caller([include line numbers])";
-"  -- returns the first caller in the callers() stack distinct from `this'";
+":caller([uwzglednij numery linii])";
+"  -- zwraca pierwszego callera na stosie callers() rozny od `this'";
 {?lineno = 0} = args;
 c = callers(lineno);
 {stage, lc, nono} = {1, length(c), {c[1][1], $nothing}};
@@ -72092,16 +72102,16 @@ endwhile
 return c[stage];
 .
 #42:3
-"Syntax:  controls_prop(OBJ who, OBJ what, STR propname)   => 0 | 1";
-"         controls_verb(OBJ who, OBJ what, STR verbname)   => 0 | 1";
+"Skladnia:  controls_prop(OBJ who, OBJ what, STR propname)   => 0 | 1";
+"           controls_verb(OBJ who, OBJ what, STR verbname)   => 0 | 1";
 "";
-"Is WHO allowed to hack on WHAT's PROPNAME? Or VERBNAME?";
+"Czy WHO ma prawo ingerowac w PROPNAME lub VERBNAME obiektu WHAT?";
 {who, what, name} = args;
 bi = (verb == "controls_verb") ? "verb_info" | "property_info";
 return who.wizard || (who == call_function(bi, what, name)[1]);
 .
 #43:0
-"Given a time() or ctime()-style date, this returns the full name of the day.";
+"Podajac date w stylu time() lub ctime(), zwraca pelna nazwe dnia.";
 if (typeof(args[1]) == INT)
 time = ctime(args[1]);
 elseif (typeof(args[1]) == STR)
@@ -72113,8 +72123,8 @@ dayabbr = $string_utils:explode(time)[1];
 return this.days[dayabbr in this.dayabbrs];
 .
 #43:1
-"Given a time() or ctime()-style date, this returns the full name";
-"of the month.";
+"Podajac date w stylu time() lub ctime(), zwraca pelna nazwe";
+"miesiaca.";
 if (typeof(args[1]) == INT)
 time = ctime(args[1]);
 elseif (typeof(args[1]) == STR)
@@ -72126,10 +72136,10 @@ monthabbr = $string_utils:explode(time)[2];
 return this.months[monthabbr in this.monthabbrs];
 .
 #43:2
-"Return a time in the form [h]h[:mm[:ss]] {a.m.|p.m.}.  Args are";
-"[1]   either a time()- or a ctime()-style date, and";
-"[2]   (optional) the precision desired--1 for hours, 2 for minutes,";
-"        3 for seconds.  If not given, precision defaults to minutes";
+"Zwraca czas w formie [h]h[:mm[:ss]] {a.m.|p.m.}.  Argumenty to";
+"[1]   albo data w stylu time(), albo ctime(), oraz";
+"[2]   (opcjonalnie) zadana precyzja--1 dla godzin, 2 dla minut,";
+"        3 dla sekund.  Jesli nie podano, precyzja domyslnie to minuty";
 {time, ?precision = 2} = args;
 if (typeof(time) == INT)
 time = ctime(time);
@@ -72150,9 +72160,9 @@ endif
 return time;
 .
 #43:3
-"Given string hh:mm:ss ($string_utils:explode(ctime(time))[4]), this returns";
-"the number of seconds elapsed since 00:00:00.  I can't remember why I";
-"created this verb, but I'm sure it serves some useful purpose.";
+"Podajac string hh:mm:ss ($string_utils:explode(ctime(time))[4]), zwraca";
+"liczbe sekund, jaka uplynela od 00:00:00.  Nie pamietam, po co";
+"stworzylam ten czasownik, ale na pewno sluzy jakiemus pozytecznemu celowi.";
 return (((60 * 60) * toint(args[1][1..2])) + (60 * toint(args[1][4..5]))) + toint(args[1][7..8]);
 .
 #43:4
@@ -72168,10 +72178,10 @@ cpcs = ((($trig_utils:cos(phi) * cs) + h) / r) - r;
 return (((((this.stsd * cs) - (this.ctcd * cpcs)) - (this.ct * spss)) + h) / r) - r;
 .
 #43:5
-"Given a string such as returned by ctime(), return the corresponding time-in-seconds-since-1970 time returned by time(), or E_DIV if the format is wrong in some essential way.";
+"Podajac string taki, jaki zwraca ctime(), zwraca odpowiadajacy mu czas w sekundach-od-1970, taki jak zwraca time(), albo E_DIV, jesli format jest w jakis istotny sposob nieprawidlowy.";
 words = $string_utils:explode(args[1]);
 if (length(words) == 5)
-"Arrgh!  the old ctime() didn't return a time zone, yet it arbitrarily decides whether it's standard or daylight savings time.  URK!!!!!";
+"Arrgh!  stare ctime() nie zwracalo strefy czasowej, a mimo to arbitralnie decydowalo, czy to czas standardowy, czy letni.  URK!!!!!";
 words = listappend(words, "PST");
 endif
 if ((((length(words) != 6) || (length(hms = $string_utils:explode(words[4], ":")) != 3)) || (!(month = words[2] in this.monthabbrs))) || (!(zone = $list_utils:assoc(words[6], this.timezones))))
@@ -72206,10 +72216,10 @@ return tostr(s);
 endif
 .
 #43:7
-"english_time(time [,reference time]): returns the time as a string of";
-"years, months, days, hours, minutes and seconds using the reference time as";
-"the start time and incrementing forwards. it can be given in either ctime()";
-"or time() format. if a reference time is not given, it is set to time().";
+"english_time(time [,reference time]): zwraca czas jako string zlozony z";
+"lat, miesiecy, dni, godzin, minut i sekund, uzywajac czasu odniesienia jako";
+"czasu poczatkowego i liczac w przod. moze byc podany w formacie ctime()";
+"lub time(). jesli czas odniesienia nie zostanie podany, ustawiany jest na time().";
 {_time, ?reftime = time()} = args;
 if (_time < 1)
 return "0 sekund";
@@ -72250,11 +72260,11 @@ return $string_utils:english_list(strs);
 .
 #43:8
 "from_day(day_of_week,which [,reference time])";
-"numeric time (seconds since 1970) corresponding to midnight (PST) of the given weekday.  Use either the name of the day or a 1..7 number (1==Sunday,...)";
-"  which==-1 => use most recent such day.";
-"  which==+1 => use first upcoming such day.";
-"  which==0  => use closest such day.";
-"larger (absolute) values for which specify a certain number of weeks into the future or past.";
+"czas liczbowy (sekundy od 1970) odpowiadajacy polnocy (PST) podanego dnia tygodnia.  Uzyj albo nazwy dnia, albo liczby 1..7 (1==niedziela,...)";
+"  which==-1 => uzyj najblizszego takiego dnia w przeszlosci.";
+"  which==+1 => uzyj pierwszego nadchodzacego takiego dnia.";
+"  which==0  => uzyj najblizszego takiego dnia.";
+"wieksze (bezwzgledne) wartosci which okreslaja pewna liczbe tygodni w przyszlosc lub przeszlosc.";
 {day, ?dir = 0, ?reftime = time()} = args;
 if (!(toint(day) || (day = $string_utils:find_prefix(day, this.days))))
 return E_DIV;
@@ -72270,11 +72280,11 @@ return (time * 604800) + delta;
 .
 #43:9
 "from_month(month,which[,d])";
-"numeric time (seconds since 1970) corresponding to midnight (PST) of the dth (first) day of the given month.  Use either the month name or a 1..12 number (1==January,...)";
-"  which==-1 => use most recent such month.";
-"  which==+1 => use first upcoming such month.";
-"  which==0  => use closest such month.";
-"larger (absolute) values for which specify a certain number of years into the future or past.";
+"czas liczbowy (sekundy od 1970) odpowiadajacy polnocy (PST) d-tego (pierwszego) dnia podanego miesiaca.  Uzyj albo nazwy miesiaca, albo liczby 1..12 (1==styczen,...)";
+"  which==-1 => uzyj najblizszego takiego miesiaca w przeszlosci.";
+"  which==+1 => uzyj pierwszego nadchodzacego takiego miesiaca.";
+"  which==0  => uzyj najblizszego takiego miesiaca.";
+"wieksze (bezwzgledne) wartosci which okreslaja pewna liczbe lat w przyszlosc lub przeszlosc.";
 {month, ?dir = 0, ?dth = 1} = args;
 if (!(toint(month) || (month = $string_utils:find_prefix(month, this.months))))
 return E_DIV;
@@ -72292,35 +72302,35 @@ day = day + ((day + 671) / 1460);
 return (day * 86400) + 28800;
 .
 #43:10
-"Takes a time that is midnight PST and converts it to the nearest PDT midnight time if it's during that part of the year where we use PDT.";
+"Bierze czas, ktory jest polnoca PST i konwertuje go na najblizsza polnoc PDT, jesli przypada to w tej czesci roku, gdy uzywamy PDT.";
 time = args[1];
 return time - (3600 * (((toint(ctime(time)[12..13]) + 12) % 24) - 12));
 .
 #43:11
-"Works like pronoun substitution, but substitutes time stuff.";
-"Call with time_sub(string, time). returns a string.";
-"time is an optional integer in time() format.  If omitted, time() is used.";
-"Macros which are unknown are ignored. $Q -> the empty string.";
-"Terminal $ are ignored.";
-"$H -> hour #. $M -> min #. $S -> second #. 24-hour format, fixed width.";
-"$h, $m, $s same x/c have not-fixed format. 00:03:24 vs. 0:3:24";
-"$O/$o -> numeric hour in 12-hour format.";
-"$D -> long day name. $d -> short day name.";
-"$N -> long month name. $n -> short month name.";
-"$Y -> long year # (e.g. '1991'). $y -> short year # (e.g. '91')";
-"$Z -> the time zone    (added in by r'm later)";
-"$P/$p -> AM/PM, or am/pm.";
-"$T -> date number. $t -> date number with no extra whitespace etc.";
-"$1 -> Month in fixed-width numeric format (01-12)   (added by dpk)";
-"$2 -> Month in nonfixed numeric format (1-12)";
-"$3 -> Date in fixed-width format, 0-fill";
+"Dziala jak podstawianie zaimkow, ale podstawia rzeczy zwiazane z czasem.";
+"Wywolaj jako time_sub(string, time). zwraca string.";
+"time to opcjonalna liczba calkowita w formacie time().  Jesli pominieta, uzywane jest time().";
+"Nieznane makra sa ignorowane. $Q -> pusty string.";
+"Koncowe $ sa ignorowane.";
+"$H -> godzina #. $M -> minuta #. $S -> sekunda #. Format 24-godzinny, stala szerokosc.";
+"$h, $m, $s to samo, ale format niestaly. 00:03:24 vs. 0:3:24";
+"$O/$o -> godzina liczbowa w formacie 12-godzinnym.";
+"$D -> pelna nazwa dnia. $d -> skrocona nazwa dnia.";
+"$N -> pelna nazwa miesiaca. $n -> skrocona nazwa miesiaca.";
+"$Y -> pelny rok # (np. '1991'). $y -> skrocony rok # (np. '91')";
+"$Z -> strefa czasowa    (dodane przez r'm pozniej)";
+"$P/$p -> AM/PM, lub am/pm.";
+"$T -> numer daty. $t -> numer daty bez dodatkowych spacji itp.";
+"$1 -> miesiac w formacie liczbowym o stalej szerokosci (01-12)   (dodane przez dpk)";
+"$2 -> miesiac w formacie liczbowym niestalym (1-12)";
+"$3 -> data w formacie o stalej szerokosci, wypelniana zerami";
 "$$ -> $.";
 "";
 "This verb stolen from Ozymandias's #4835:time_subst.";
 res = "";
 {thestr, ?thetime = time()} = args;
 if ((typeof(thestr) != STR) || (typeof(thetime) != INT))
-player:tell("Bad arguments to time_subst.");
+player:tell("Nieprawidlowe argumenty dla time_subst.");
 return;
 endif
 itslength = length(thestr);
@@ -72388,7 +72398,7 @@ return res + thestr;
 .
 #43:12
 "Copied from Archer (#52775):mmddyy Tue Apr  6 17:04:26 1993 PDT";
-"Given a time() or ctime()-style date and an optional separator, this returns the MM/DD/YY or DD/MM/YY form of the date (depending on the verb called.)  The default seperator is '/'";
+"Podajac date w stylu time() lub ctime() oraz opcjonalny separator, zwraca date w formie MM/DD/YY lub DD/MM/YY (zaleznie od wywolanego czasownika).  Domyslny separator to '/'";
 {time, ?divstr = "/"} = args;
 if (typeof(time) == INT)
 time = ctime(time);
@@ -72410,14 +72420,14 @@ endif
 .
 #43:13
 "$time_utils:parse_english_time_interval(n1,u1,n2,u2,...)";
-"or $time_utils:parse_english_time_interval(\"n1 u1[,] [and] n2[,] u2 [and] ...\")";
-"There must be an even number of arguments, all of which must be strings,";
-" or there must be just one argument which is the entire string to be parsed.";
-"The n's are are numeric strings, and the u's are unit names.";
-"The known units are in $time_utils.time_units,";
-" which must be kept sorted with bigger times at the head.";
-"Returns the time represented by those words.";
-"For example,";
+"lub $time_utils:parse_english_time_interval(\"n1 u1[,] [and] n2[,] u2 [and] ...\")";
+"Musi byc parzysta liczba argumentow, a wszystkie musza byc stringami,";
+" albo musi byc dokladnie jeden argument, ktory jest calym stringiem do sparsowania.";
+"Wartosci n sa stringami liczbowymi, a wartosci u sa nazwami jednostek.";
+"Znane jednostki znajduja sie w $time_utils.time_units,";
+" ktora musi byc posortowana, z wiekszymi czasami na poczatku.";
+"Zwraca czas reprezentowany przez te slowa.";
+"Na przyklad,";
 " $time_utils:parse_english_time_interval(\"30\",\"secs\",\"2\",\"minutes\",\"31\",\"seconds\") => 181";
 if ((length(args) == 1) && index(args[1], " "))
 return $time_utils:parse_english_time_interval(@$string_utils:words(args[1]));
@@ -72462,11 +72472,11 @@ return nsec;
 #43:14
 "Copied from Ballroom Complex (#29992):from_date by Keelah! (#30246) Tue Jul 13 19:42:32 1993 PDT";
 ":seconds_until_date(month,day,time,which)";
-"month is a string or the numeric representation of the month, day is a number, time is a string in the following format, hh:mm:ss.";
-"which==-1 => use most recent such month.";
-"which==+1 => use first upcoming such month.";
-"which==0 => use closest such month.";
-"This will return the number of seconds until the month, day and time given to it.";
+"month to string lub liczbowa reprezentacja miesiaca, day to liczba, time to string w nastepujacym formacie, hh:mm:ss.";
+"which==-1 => uzyj najblizszego takiego miesiaca w przeszlosci.";
+"which==+1 => uzyj pierwszego nadchodzacego takiego miesiaca.";
+"which==0 => uzyj najblizszego takiego miesiaca.";
+"Zwroci to liczbe sekund do podanego miesiaca, dnia i czasu.";
 "Written by Keelah, on July 5, 1993.";
 {month, day, time, which} = args;
 converted = 0;
@@ -72484,20 +72494,20 @@ return converted;
 #43:15
 "Copied from Ballroom Complex (#29992):seconds_until by Keelah! (#30246) Tue Jul 13 19:42:37 1993 PDT";
 ":seconds_until_time(hh:mm:ss)";
-"Given the string hh:mm:ss, this returns the number of seconds until that hh:mm:ss. If the hh:mm:ss is before the current time(), the number returned is a negative, else the number is a positive.";
+"Podajac string hh:mm:ss, zwraca liczbe sekund do tego hh:mm:ss. Jesli hh:mm:ss jest przed biezacym time(), zwracana liczba jest ujemna, w przeciwnym razie jest dodatnia.";
 "Written by Keelah, on July 4, 1993.";
 current = $time_utils:to_seconds(ctime()[12..19]);
 time = $time_utils:to_seconds(args[1]);
 return toint(time) - toint(current);
 .
 #43:16
-"Just like ctime(), but rfc-822 compliant.  I hope.";
+"Dokladnie jak ctime(), ale zgodne z rfc-822.  Mam nadzieje.";
 c = $string_utils:Explode(ctime(@args));
 return tostr(c[1], ", ", c[3], " ", c[2], " ", c[5], " ", c[4], " ", c[6]);
 "Last modified Fri Oct 17 23:17:25 1997 EDT by neuro (#3642) on opal moo.";
 .
 #43:17
-"Given a time() or ctime()-style date and an optional separator, this returns the MM/DD/YYYY or DD/MM/YYYY form of the date (depending on the verb called.)  The default seperator is '/'";
+"Podajac date w stylu time() lub ctime() oraz opcjonalny separator, zwraca date w formie MM/DD/YYYY lub DD/MM/YYYY (zaleznie od wywolanego czasownika).  Domyslny separator to '/'";
 {time, ?divstr = "/"} = args;
 if (typeof(time) == INT)
 time = ctime(time);
