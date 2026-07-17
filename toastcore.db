@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784304017 567763848 0
+1784305009 567763848 0
 0
 10
 0
@@ -144,7 +144,8 @@ continuous
 6
 67 0 65
 0 interrupted tasks
-0 active connections with listeners
+1 active connections with listeners
+2 0
 148
 #0
 The System Object
@@ -797,7 +798,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784303581
+1784304629
 2
 name
 2
@@ -1379,17 +1380,17 @@ Wizard
 7
 2
 1
-15
+62
 10
 2
 2
 source
 1
-62
+15
 2
 time
 0
-1784303999
+1784305005
 4
 0
 1
@@ -1645,7 +1646,7 @@ expire
 4
 2
 0
-1784303980
+1784304993
 2
 localhost
 2
@@ -1654,7 +1655,7 @@ localhost
 2
 0
 0
-1784303999
+1784304995
 2
 1
 0
@@ -1809,7 +1810,7 @@ localhost
 2
 1
 0
-80
+120
 36
 1
 1
@@ -1849,7 +1850,7 @@ localhost
 2
 5
 0
-1784303997
+1784305005
 2
 1
 0
@@ -1898,8 +1899,8 @@ localhost
 5
 2
 0
-1
--1
+12
+148
 2
 1
 5
@@ -4429,11 +4430,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 0
 10
-1
-1
--12
 0
-2
 2
 5
 0
@@ -4445,7 +4442,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-50
+51
+4
+2
+0
+1784304629
+0
+0
 4
 2
 0
@@ -4797,7 +4800,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 36
 0
 0
-0
+1
 2
 5
 0
@@ -5685,9 +5688,7 @@ Limbo
 0
 0
 4
-1
-1
-2
+0
 1
 1
 4
@@ -29677,87 +29678,87 @@ ze/z powierzchni
 4
 65
 2
-parse_propref("foo.bar")  => {"foo","bar"} (or 0 if arg. isn't a property ref.)
+parse_propref("foo.bar")  => {"foo","bar"} (albo 0, jesli argument nie jest odwolaniem do wlasciwosci.)
 2
-parse_verbref("foo:bar")  => {"foo","bar"} (or 0 if arg. isn't a verb ref.)
+parse_verbref("foo:bar")  => {"foo","bar"} (albo 0, jesli argument nie jest odwolaniem do czasownika.)
 2
 parse_argspec("any","in","front","of","this","baz"...)
 2
                           => {{"any", "in front of", "this"},{"baz"...}} 
 2
-                                           (or string if args don't parse)
+                                           (albo string, jesli nie da sie sparsowac argumentow)
 2
 
 2
-toint(string)           => integer (or E_TYPE if string is not a integer)
+toint(string)           => integer (albo E_TYPE, jesli string nie jest liczba)
 2
-toobj(string)           => object (or E_TYPE if string is not an object)
+toobj(string)           => object (albo E_TYPE, jesli string nie jest obiektem)
 2
-toerr(number or string) => error value (or 1 if out of range or unrecognized)
+toerr(number or string) => error value (albo 1, jesli poza zakresem lub nierozpoznane)
 2
-error_name(error value) => name of error (e.g., error_name(E_PERM) => "E_PERM")
-2
-
-2
-verb_perms()      => the current task_perms (as set by set_task_perms()).
-2
-verb_location()   => the object where the current verb is defined.
-2
-verb_frame()      => callers()-style frame for the current verb.
-2
-verb_all_frames() => entire callers() stack including current verb.
-2
-verb_usage([object,verbname]) => returns first line of verb doc, usually usage
-2
-verb_documentation([object,verbname]) => documentation at beginning of
-2
-           verb code, if any -- default is the calling verb
-2
-set_verb_documentation(object,verbname,text) => sets text at beginning of verb
+error_name(error value) => nazwa bledu (np. error_name(E_PERM) => "E_PERM")
 2
 
 2
-   Preposition routines
+verb_perms()      => biezace task_perms (ustawione przez set_task_perms()).
+2
+verb_location()   => obiekt, na ktorym zdefiniowany jest biezacy czasownik.
+2
+verb_frame()      => ramka w stylu callers() dla biezacego czasownika.
+2
+verb_all_frames() => caly stos callers() wraz z biezacym czasownikiem.
+2
+verb_usage([object,verbname]) => zwraca pierwsza linie dokumentacji czasownika, zwykle sposob uzycia
+2
+verb_documentation([object,verbname]) => dokumentacja na poczatku
+2
+           kodu czasownika, jesli istnieje -- domyslnie czasownik wywolujacy
+2
+set_verb_documentation(object,verbname,text) => ustawia tekst na poczatku czasownika
 2
 
 2
-prepositions()     => full list of prepostions
-2
-full_prep ("in")   => "in/inside/into"
-2
-short_prep("into") => "in"
-2
-short_prep("in/inside/into") => "in"
-2
-get_prep  ("off", "of", "the", "table") => {"off of", "the", "table"}
+   Procedury przyimkow
 2
 
 2
-   Verb routines
+prepositions()     => pelna lista przyimkow
+2
+full_prep ("w")    => "w/wewnatrz/do srodka"
+2
+short_prep("do srodka") => "w"
+2
+short_prep("w/wewnatrz/do srodka") => "w"
+2
+get_prep  ("za", "pomoca", "mlotka") => {"za pomoca", "mlotka"}
 2
 
 2
-verbname_match (fullname,name) => can `name' be used to call `fullname'
-2
-find_verb_named          (object,name[,n]) => verb number or 0 if not found
-2
-find_last_verb_named     (object,name[,n]) => verb number of last verb match
-2
-find_callable_verb_named (object,name[,n]) => verb number or 0 if not found
-2
-find_verbs_containing (pattern[,object|objlist]) => does work for @grep
-2
-find_verbs_matching (pattern[,object|objlist]) => does work for @egrep
-2
-move_verb (from obj,name,to obj[,newname]) => move a verb from object to object
+   Procedury czasownikow
 2
 
 2
-move_prop (from obj,name,to obj[,newname]) => move a property to another object
+verbname_match (fullname,name) => czy `name' moze posluzyc do wywolania `fullname'
+2
+find_verb_named          (object,name[,n]) => numer czasownika albo 0, jesli nie znaleziono
+2
+find_last_verb_named     (object,name[,n]) => numer ostatniego pasujacego czasownika
+2
+find_callable_verb_named (object,name[,n]) => numer czasownika albo 0, jesli nie znaleziono
+2
+find_verbs_containing (pattern[,object|objlist]) => wykonuje robote dla @grep
+2
+find_verbs_matching (pattern[,object|objlist]) => wykonuje robote dla @egrep
+2
+move_verb (from obj,name,to obj[,newname]) => przenosi czasownik z obiektu na obiekt
 2
 
 2
-   Verbs that do the actual dirty work for command lines verbs:
+move_prop (from obj,name,to obj[,newname]) => przenosi wlasciwosc na inny obiekt
+2
+
+2
+   Czasowniki wykonujace faktyczna brudna robote dla czasownikow polecen:
 2
 
 2
@@ -29787,25 +29788,25 @@ help            => help_db_list([player])
 2
 
 2
-   Random but useful verbs
+   Rozne przydatne czasowniki
 2
 
 2
-verb_or_property(object,name[,@args]) => result of verb or property call,
+verb_or_property(object,name[,@args]) => wynik wywolania czasownika lub odczytu wlasciwosci,
 2
-                                         or E_PROPNF
+                                         albo E_PROPNF
 2
-corify_object(object)     => if the object is corified, returns $<name>
+corify_object(object)     => jesli obiekt ma odpowiednik w $, zwraca $<name>
 2
-task_valid(INT task_id)   => returns true if task_id is currently running.
+task_valid(INT task_id)   => zwraca prawde, jesli task_id aktualnie dziala.
 2
-task_owner(INT task_id)   => returns owner of task_id, if running
+task_owner(INT task_id)   => zwraca wlasciciela task_id, jesli dziala
 2
-owns_task(NUM task_id,OBJ who) => returns whether who owns task_id (if running)
+owns_task(NUM task_id,OBJ who) => zwraca, czy who jest wlascicielem task_id (jesli dziala)
 2
-argstr(verb,args[,argstr] => returns a corrected argstr (see full verb help)
+argstr(verb,args[,argstr] => zwraca poprawiony argstr (patrz pelna pomoc czasownika)
 2
-substitute(string,subs)   => subs in form {{"target", "sub"}, {...}, ...}
+substitute(string,subs)   => subs w postaci {{"target", "sub"}, {...}, ...}
 36
 5
 5
@@ -29817,10 +29818,8 @@ substitute(string,subs)   => subs in form {{"target", "sub"}, {...}, ...}
 Code Utilities
 36
 5
-4
-1
 2
-This is the code utilities utility package.  See `help $code_utils' for more details.
+To jest pakiet narzedzi kodowych.  Zobacz `help $code_utils' po wiecej szczegolow.
 36
 5
 4
@@ -33061,7 +33060,9 @@ Pierwszy Pokoj
 0
 0
 4
-0
+1
+1
+2
 1
 3
 4
@@ -55727,6 +55728,46 @@ diag
 0
 0
 36
+1
+1
+#148
+
+0
+98
+1
+-1
+0
+0
+4
+0
+1
+108
+4
+0
+0
+0
+7
+1
+2
+98
+1
+5
+98
+0
+5
+98
+1
+5
+98
+0
+5
+98
+1
+5
+98
+0
+5
+98
 1
 0
 1954
@@ -82342,8 +82383,8 @@ if (args[4..5] == {"none", "this"})
 return 0;
 endif
 {thisobj, verb, adobj, aprep, aiobj} = args;
-prep_part = (aprep == "any") ? "to" | this:short_prep(aprep);
-".........`any' => `to' (arbitrary),... `none' => empty string...";
+prep_part = (aprep == "any") ? "do" | this:short_prep(aprep);
+"`any' => `do' (dowolny),... `none' => pusty string...";
 if ((adobj == "this") && (dobj == thisobj))
 dobj_part = dobjstr;
 iobj_part = ((!prep_part) || (aiobj == "none")) ? "" | ((aiobj == "this") ? dobjstr | iobjstr);
@@ -83268,7 +83309,7 @@ numwidth = ((linelen - verbwidth) / 4) - 1;
 widths = {numwidth, verbwidth, numwidth, numwidth, numwidth};
 top = l = between = "";
 for x in [1..5]
-top = (top + between) + su:left({"This", "Verb", "Permissions", "VerbLocation", "Player"}[x], -widths[x]);
+top = (top + between) + su:left({"To", "Czasownik", "Uprawnienia", "Lokalizacja", "Gracz"}[x], -widths[x]);
 l = (l + between) + su:space(widths[x], "-");
 between = " ";
 endfor
