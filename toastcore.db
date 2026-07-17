@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784300811 567763848 0
+1784302666 567763848 0
 0
 10
 0
@@ -146,7 +146,7 @@ continuous
 0 interrupted tasks
 1 active connections with listeners
 2 0
-149
+148
 #0
 The System Object
 24
@@ -798,7 +798,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784300140
+1784301425
 2
 name
 2
@@ -1390,7 +1390,7 @@ source
 2
 time
 0
-1784300807
+1784302645
 4
 0
 1
@@ -1646,7 +1646,7 @@ expire
 4
 2
 0
-1784300794
+1784302603
 2
 localhost
 2
@@ -1655,7 +1655,7 @@ localhost
 2
 0
 0
-1784300797
+1784302620
 2
 1
 0
@@ -1850,7 +1850,7 @@ localhost
 2
 5
 0
-1784300807
+1784302645
 2
 1
 0
@@ -1900,7 +1900,7 @@ localhost
 2
 0
 12
-149
+148
 2
 1
 5
@@ -4432,7 +4432,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--14
+-16
 0
 2
 2
@@ -4446,7 +4446,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-48
+49
+4
+2
+0
+1784301425
+0
+0
 4
 2
 0
@@ -55717,9 +55723,8 @@ diag
 0
 36
 1
-# 148 recycled
 1
-#149
+#148
 
 0
 98
@@ -79251,7 +79256,7 @@ who.location:announce_all_but({who}, msg);
 endif
 if (listname && (!$login:(listname + "ed")(cname = $string_utils:connection_hostname(who.last_connect_place))))
 $login:(listname + "_add")(cname);
-player:notify(tostr("Site ", cname, " ", listname, "ed."));
+player:notify(tostr("Witryna ", cname, " ", listname, "ed."));
 else
 cname = "";
 endif
@@ -79333,8 +79338,7 @@ endif
 $mail_agent:send_message(player, recipients, tostr("@quota ", dobj.name, " (", dobj, ") ", new, " (z ", old, ")"), tostr("Powod ", ((new - old) < 0) ? "zmniejszenia quoty: " | "zwiekszenia quoty: ", reason, index("?.!", reason[$]) ? "" | "."));
 .
 #57:12
-set_task_perms(player);
-"The time below is Oct. 1, 1990, roughly the birthdate of the LambdaMOO server.";
+"Podany czas ponizej to 1 pazdziernika 1990, mniej wiecej data narodzin serwera LambdaMOO.";
 start = 654768000;
 now = time();
 day = (24 * 60) * 60;
@@ -79450,10 +79454,10 @@ with_objects && player:notify(tostr(su:left("Nieprawidlowy wlasciciel:", (((col1
 player:notify("");
 .
 #57:13
-"Auxiliary verb for parsing @kill soon [#-of-seconds] [player | everyone]";
-"Args[1] is either # of seconds or player/everyone.";
-"Args[2], if it exists, is player/everyone, and forces args[1] to have been # of seconds.";
-"Return value: {# of seconds [default 60] , 1 for all, object for player.}";
+"Pomocniczy czasownik do parsowania @kill soon [#-sekund] [gracz | wszyscy]";
+"Args[1] to albo liczba sekund, albo gracz/wszyscy.";
+"Args[2], jesli istnieje, to gracz/wszyscy, i wymusza, by args[1] bylo liczba sekund.";
+"Wartosc zwracana: {liczba sekund [domyslnie 60], 1 dla wszystkich, obiekt dla gracza.}";
 set_task_perms(caller_perms());
 nargs = length(args);
 soon = toint(args[1]);
@@ -79544,10 +79548,10 @@ endfor
 endif
 .
 #57:18
-"This is the canonical doing-something-to-somebody message.";
-"The corresponding property can either be";
-"   string             msg for all occasions";
-"   list of 2 strings  {we-are-there-msg,we-are-elsewhere-msg}";
+"To jest kanoniczna wiadomosc typu 'ktos-cos-robi-komus'.";
+"Odpowiadajaca wlasciwosc moze byc";
+"   string             wiadomosc na wszystkie okazje";
+"   lista 2 stringow  {wiadomosc-gdy-razem, wiadomosc-gdy-osobno}";
 m = this.(verb);
 if (typeof(m) != LIST)
 return $string_utils:pronoun_sub(m);
@@ -80128,8 +80132,8 @@ return {0, argstr};
 endif
 .
 #57:34
-"Called by @[un]<color>list to check existence of the target site.";
-"=> {done okay, LIST of sites to remove}";
+"Wywolywane przez @[un]<kolor>list, by sprawdzic istnienie docelowej witryny.";
+"=> {czy zakonczono pomyslnie, LISTA witryn do usuniecia}";
 if (caller != this)
 return E_PERM;
 endif
@@ -80204,11 +80208,11 @@ endif
 .
 #57:36
 "...was on $player, now archived here for posterity...";
-"Runs the old->new format conversion on every message in this.messages.";
-" => 1 if successful";
-" => 0 if anything toward happened during a suspension";
-"      (e.g., new message received, someone deleted stuff) ";
-"      in which case this.messages is left as if this routine were never run.";
+"Wykonuje konwersje formatu ze starego na nowy dla kazdej wiadomosci w this.messages.";
+" => 1 jesli sie udalo";
+" => 0 jesli cos dziwnego wydarzylo sie podczas zawieszenia (suspend)";
+"      (np. odebrano nowa wiadomosc, ktos cos usunal) ";
+"      w takim przypadku this.messages pozostaje takie, jakby ta procedura nigdy nie zostala uruchomiona.";
 if (!$perm_utils:controls(caller_perms(), this))
 return E_PERM;
 endif
@@ -80232,7 +80236,7 @@ return 1;
 if ((!player.wizard) || (caller != this))
 raise(E_PERM);
 endif
-"Noop. Placeholder verb for MOO-specific cleanups.";
+"Nic nie robi. Czasownik-zaslepka na potrzeby czyszczen specyficznych dla MOO.";
 .
 #57:38
 if (!player.wizard)
@@ -80275,7 +80279,7 @@ code[l] = strsub(code[l], old, new);
 new_line = {@new_line, code[l]};
 replaced = replaced + 1;
 endfor
-"Try to compile the new code if it has any replaced lines.";
+"Sprobuj skompilowac nowy kod, jesli ma jakies zastapione linie.";
 if (replaced)
 result = set_verb_code(o, v, code);
 if (typeof(result) == ERR)
@@ -80306,7 +80310,7 @@ endif
 if (player != this)
 return E_PERM;
 endif
-"Check prerequisites:";
+"Sprawdz wymagania wstepne:";
 if (typeof(`function_info("curl") ! E_INVARG') == ERR)
 return player:tell("Ten czasownik wymaga wbudowanej funkcji curl do pobrania aktualnej dokumentacji. Upewnij sie, ze serwer zostal skompilowany z wlaczona ta funkcja. Moze byc potrzebna dodatkowa biblioteka, np. libcurl. Wiecej informacji znajdziesz tutaj: https://github.com/lisdude/toaststunt/blob/master/docs/README.md#build-instructions");
 endif
@@ -80322,16 +80326,16 @@ if (typeof(`property_info(@x) ! E_PROPNF') == ERR)
 return player:tell("Ten czasownik wymaga obecnosci kilku wlasciwosci LambdaCore. Wyglada na to, ze w twojej bazie brakuje: ", x[1], ".", x[2]);
 endif
 endfor
-"Now do a special test for builtin_function help. Standard LambdaCore stores this in a property on $sysobj. ToastCore stores it in a map on $sysobj.";
+"Teraz wykonaj specjalny test dla pomocy builtin_function. Standardowy LambdaCore przechowuje to we wlasciwosci na $sysobj. ToastCore przechowuje to w mapie na $sysobj.";
 if ($object_utils:has_property($sysobj, "builtin_function_help"))
 builtin_function_help = $builtin_function_help;
 elseif ($object_utils:has_property($sysobj, "help_db") && maphaskey($help_db, "builtin_function"))
 builtin_function_help = $help_db["builtin_function"];
 else
-"Not a fatal error, but we won't be able to check our priority";
+"To nie jest blad krytyczny, ale nie bedziemy w stanie sprawdzic naszego priorytetu";
 builtin_function_help = $failed_match;
 endif
-"In lieu of proper flag parsing, we'll simply look for the only flag(s) we know exist.";
+"Zamiast wlasciwego parsowania flag, po prostu poszukamy jedynej znanej nam flagi (flag).";
 yes_to_all = 0;
 pcre_yes_match = "\\s?-y\\s?";
 pcre_yes_replacement = tostr("s/", pcre_yes_match, "//g");
@@ -80342,7 +80346,7 @@ if (argstr == "")
 args = 0;
 endif
 endif
-"Check if the update verb itself needs updated. (This does its own prerequisite checking because these functions aren't, strictly speaking, required for the main help update to succeed.)";
+"Sprawdz, czy sam czasownik aktualizujacy wymaga aktualizacji. (Wykonuje wlasne sprawdzenie wymagan wstepnych, bo te funkcje nie sa, scisle mowiac, wymagane do powodzenia glownej aktualizacji pomocy.)";
 if ((typeof(`verb_info($list_utils, "setremove_all") ! E_VERBNF') != ERR) && (typeof(`verb_info($object_utils, "has_verb") ! E_VERBNF') != ERR))
 verb_loc = $object_utils:has_verb(this, verb)[1];
 if (player.wizard || (verb_info(verb_loc, verb)[1] == player))
@@ -80361,7 +80365,7 @@ endif
 endif
 endif
 endif
-"Try to identify an existing help database either by name or by input from the wizard.";
+"Sprobuj zidentyfikowac istniejaca baze pomocy, po nazwie albo na podstawie danych od wizarda.";
 db = 0;
 if (!args)
 for x in (children($generic_help))
@@ -80380,7 +80384,7 @@ else
 return player:tell($string_utils:nn(match), " nie wyglada na baze pomocy.");
 endif
 endif
-"If we failed, create a new database and add it to $prog help.";
+"Jesli sie nie udalo, utworz nowa baze i dodaj ja do $prog.help.";
 if (db == 0)
 if ($command_utils:yes_or_no("Nie znaleziono istniejacej bazy pomocy. Chcesz ja utworzyc?") == 1)
 db = $recycler:_create($generic_help);
@@ -80392,14 +80396,14 @@ else
 return player:tell("Nie tworze nowej bazy.");
 endif
 endif
-"Test if our help database has a higher priority than the LambdaCore builtin function help database. If not, offer to make it so.";
+"Sprawdz, czy nasza baza pomocy ma wyzszy priorytet niz baza pomocy builtin function LambdaCore. Jesli nie, zaproponuj to zmienic.";
 if ((builtin_function_help != $failed_match) && ((db in $prog.help) > (builtin_function_help in $prog.help)))
 if ($command_utils:yes_or_no("Chcesz, by pomoc ToastStunt miala pierwszenstwo przed pomoca LambdaCore? Oznacza to, ze zdublowane pliki pomocy (np. move()) beda preferowac wersje ToastStunt zamiast wersji LambdaCore.") == 1)
 $prog.help = setremove($prog.help, db);
 $prog.help = {db, @$prog.help};
 endif
 endif
-"Finally, actually update the help files.";
+"Na koniec, faktycznie zaktualizuj pliki pomocy.";
 if ((!yes_to_all) && ($command_utils:yes_or_no(tostr("Chcesz zaktualizowac baze pomocy ", $string_utils:nn(db), "?")) != 1))
 return player:tell("Nie aktualizuje.");
 endif
@@ -80420,7 +80424,7 @@ if (typeof(x) != STR)
 continue;
 endif
 if (match = pcre_match(x, regex))
-"As there's no guarantee that to_value will suspend (and, in the core, it will not), and since we have no way of knowing how many ticks any given help entry will require to parse, we give ourselves the best possible chance of having enough ticks by staring over for each entry. Fortunately, speed is not a requirement.";
+"Poniewaz nie ma gwarancji, ze to_value zawiesi zadanie (a w rdzeniu tego nie zrobi), i poniewaz nie mamy jak wiedziec, ile tickow bedzie potrzebnych do sparsowania danego wpisu pomocy, dajemy sobie najlepsza mozliwa szanse na wystarczajaca liczbe tickow, zaczynajac od nowa dla kazdego wpisu. Na szczescie szybkosc nie jest tu wymagana.";
 suspend(0);
 {property, value} = {match[1]["property"]["match"], $string_utils:to_value(match[1]["value"]["match"])};
 if (value[1] != 1)
@@ -80432,7 +80436,7 @@ endif
 properties[property] = value;
 endif
 endfor
-"Check for properties that no longer exist in the remote.";
+"Sprawdz wlasciwosci, ktore juz nie istnieja w zdalnym repozytorium.";
 for local_prop in (properties(db))
 yin();
 if (!maphaskey(properties, local_prop))
