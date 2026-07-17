@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784282675 567763848 0
+1784283919 567763848 0
 0
 10
 0
@@ -798,7 +798,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784281629
+1784283219
 2
 name
 2
@@ -1390,7 +1390,7 @@ source
 2
 time
 0
-1784282674
+1784283916
 4
 0
 1
@@ -1646,7 +1646,7 @@ expire
 4
 2
 0
-1784282648
+1784283885
 2
 localhost
 2
@@ -1655,7 +1655,7 @@ localhost
 2
 0
 0
-1784282661
+1784283889
 2
 1
 0
@@ -1849,7 +1849,7 @@ localhost
 2
 5
 0
-1784282674
+1784283916
 2
 1
 0
@@ -4430,7 +4430,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--23
+-18
 0
 2
 2
@@ -4444,7 +4444,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-42
+43
+4
+2
+0
+1784283219
+0
+0
 4
 2
 0
@@ -16546,7 +16552,7 @@ set_utilities
 4
 1
 2
-This is the Set Utilities utility package.  See `help $set_utils' for more details.
+To jest pakiet narzedziowy Set Utilities.  Zobacz `help $set_utils' po wiecej szczegolow.
 36
 5
 4
@@ -19002,69 +19008,69 @@ Builtin Function Help
 4
 32
 2
-A help database (in the sense of anything that is usable by $player:help()) is any object having the following two verbs:
+Baza pomocy (w sensie czegokolwiek uzywanego przez $player:help()) to kazdy obiekt majacy nastepujace dwa czasowniki:
 2
 
 2
   :find_topics(string)
 2
-     returns a list of strings or some boolean false value.
+     zwraca liste stringow albo jakas falszywa wartosc logiczna.
 2
 
 2
   :get_topic(string)
 2
-     given one of the strings returned by :find_topics this either
+     majac jeden ze stringow zwroconych przez :find_topics, ten czasownik albo
 2
-     returns a list of strings (text to be spewed to the player) or
+     zwraca liste stringow (tekst do wyswietlenia graczowi), albo
 2
-     returns 1 to indicate that it has already taken care of printing
+     zwraca 1, co oznacza, ze sam juz zajal sie wypisaniem
 2
-     information to the player.
-2
-
-2
-$player:help() consults any .help properties that exist on the player, its ancestors, player.location and its ancestors (in that order).  These properties are assumed to have values that are objects or lists of objects, each object itself assumed to be a help database in the above sense.  The main help database ($help) is placed at the end of the list of databases to be consulted.
+     informacji graczowi.
 2
 
 2
-The Generic Help Database (this object) is the standard model help database of which the actual help database itself ($help) is an instance.  On help databases of this type, every help topic has a corresponding property, interpreted as follows:
+$player:help() sprawdza wszelkie wlasciwosci .help istniejace na graczu, jego przodkach, player.location i jego przodkach (w tej kolejnosci).  Zaklada sie, ze te wlasciwosci maja wartosci bedace obiektami lub listami obiektow, a kazdy taki obiekt jest z zalozenia baza pomocy w powyzszym sensie.  Glowna baza pomocy ($help) jest umieszczana na koncu listy baz do sprawdzenia.
 2
 
 2
-this.(topic) = string           - one-line help text.
-2
-this.(topic) = {"*verb*",@args} - call this:verb(@args) to get text
-2
-this.(topic) = any other list   - multi-line help text
+Generic Help Database (ten obiekt) to standardowy wzorzec bazy pomocy, ktorego instancja jest wlasciwa baza pomocy ($help).  W bazach pomocy tego typu kazdy temat pomocy ma odpowiadajaca mu wlasciwosc, interpretowana nastepujaco:
 2
 
 2
-For the {"*verb*",...} form, the current verbs available are
+this.(temat) = string              - jednoliniowy tekst pomocy.
+2
+this.(temat) = {"*verb*",@args} - wywoluje this:verb(@args), by uzyskac tekst
+2
+this.(temat) = dowolna inna lista - wieloliniowy tekst pomocy
 2
 
 2
-  {"*forward*", topic2, @rest}   
-2
-     - get topic2 help text and then append rest.  
-2
-       rest may, in turn, begin with a "*verb*"...
+Dla postaci {"*verb*",...} dostepne sa obecnie nastepujace czasowniki:
 2
 
 2
-  {"*subst*", @lines} 
+  {"*forward*", temat2, @reszta}   
 2
-     - all occurences of %[exp] in lines are replaced with value of exp.  
+     - pobiera tekst pomocy dla temat2, a nastepnie dokleja reszte.  
 2
-       exp is assumed to evaluate to a string.  Evaluation is done using 
+       reszta moze z kolei zaczynac sie od "*verb*"...
 2
-       $no_one's permissions so exp can only refer to public information.
+
+2
+  {"*subst*", @linie} 
+2
+     - wszystkie wystapienia %[wyr] w liniach sa zastepowane wartoscia wyr.  
+2
+       zaklada sie, ze wyr oblicza sie do stringa.  Ewaluacja odbywa sie z uzyciem 
+2
+       uprawnien $no_one, wiec wyr moze odwolywac sie tylko do informacji publicznych.
 2
 
 2
   {"*index*"}
 2
-     - returns a list of all topics in this database, arranged in columns.
+     - zwraca liste wszystkich tematow w tej bazie, ulozona w kolumnach.
 36
 5
 4
@@ -67954,7 +67960,7 @@ return trunc((f > 0.0) ? f + 0.5 | (f - 0.5));
 return (tofloat(per1) / tofloat(per2)) * 100.0;
 .
 #27:0
-"Returns the set union of all of the lists provided as arguments.";
+"Zwraca sume mnogosciowa (unie) wszystkich list podanych jako argumenty.";
 if (!args)
 return {};
 endif
@@ -67967,7 +67973,7 @@ endfor
 return set;
 .
 #27:1
-"Returns the set intersection of all the lists provided as arguments.";
+"Zwraca czesc wspolna (przeciecie) wszystkich list podanych jako argumenty.";
 if (!args)
 return {};
 endif
@@ -67991,8 +67997,8 @@ endfor
 return result;
 .
 #27:2
-"Usage:  diff(set 1, set 2, ..., set n)";
-"Returns all elements of set 1 that are not in sets 2..n";
+"Uzycie:  diff(zbior 1, zbior 2, ..., zbior n)";
+"Zwraca wszystkie elementy zbioru 1, ktorych nie ma w zbiorach 2..n";
 {set, @rest} = args;
 for l in (rest)
 for x in (l)
@@ -68002,9 +68008,9 @@ endfor
 return set;
 .
 #27:3
-"True if the first list given is a superset of all subsequent lists.";
-"False otherwise.  {} is a superset of {} and nothing else; anything is";
-"a superset of {}.  If only one list is given, return true.";
+"Prawda, jesli pierwsza podana lista jest nadzbiorem wszystkich kolejnych list.";
+"Falsz w przeciwnym razie.  {} jest nadzbiorem tylko {} i niczego innego; wszystko jest";
+"nadzbiorem {}.  Jesli podano tylko jedna liste, zwracana jest prawda.";
 {?super = {}, @rest} = args;
 for l in (rest)
 for x in (l)
@@ -68016,9 +68022,9 @@ endfor
 return 1;
 .
 #27:4
-"Usage:  exclusive_or(set, set, ...)";
-"Return the set of all elements that are in exactly one of the input sets";
-"For two sets, this is the equivalent of (A u B) - (A n B).";
+"Uzycie:  exclusive_or(zbior, zbior, ...)";
+"Zwraca zbior wszystkich elementow, ktore sa w dokladnie jednym z podanych zbiorow";
+"Dla dwoch zbiorow jest to odpowiednik (A u B) - (A n B).";
 if (!args)
 return {};
 endif
@@ -68037,9 +68043,9 @@ endfor
 return set;
 .
 #27:5
-"Usage:  diff_suspended(set 1, set 2, ..., set n)";
-"Returns all elements of set 1 that are not in sets 2..n";
-"Suspends as needed if the lists are large.";
+"Uzycie:  diff_suspended(zbior 1, zbior 2, ..., zbior n)";
+"Zwraca wszystkie elementy zbioru 1, ktorych nie ma w zbiorach 2..n";
+"Zawiesza sie w razie potrzeby, jesli listy sa duze.";
 {set, @rest} = args;
 for l in (rest)
 for x in (l)
@@ -68050,8 +68056,8 @@ endfor
 return set;
 .
 #27:6
-"True if the two lists given contain the same elements.";
-"False otherwise.";
+"Prawda, jesli obie podane listy zawieraja te same elementy.";
+"Falsz w przeciwnym razie.";
 {set1, set2} = args;
 while (set1)
 {elt, @set1} = set1;
@@ -68075,7 +68081,7 @@ endif
 .
 #27:7
 "Copied from Fox (#54902):intersection Mon Dec 27 17:02:57 1993 PST";
-"a version of $set_utils:intersection that maintains the property that everything in the return value is in the first argument, even considering case";
+"wersja $set_utils:intersection, ktora zachowuje wlasnosc, ze wszystko w zwracanej wartosci jest w pierwszym argumencie, nawet uwzgledniajac wielkosc liter";
 if (!args)
 return {};
 endif
@@ -68130,7 +68136,7 @@ return E_PERM;
 endif
 {msg_seq, ?cur = 0, ?read_date = $maxint} = args;
 last = ldate = 0;
-player:tell("       WHEN           ", $string_utils:left(this.keyword, -30), "BY");
+player:tell("       KIEDY          ", $string_utils:left(this.keyword, -30), "PRZEZ");
 for x in (msgs = this:messages_in_seq(args[1]))
 msgnum = $string_utils:right(last = x[1], 4, (cur == x[1]) ? ">" | " ");
 ldate = x[2][1];
@@ -68232,7 +68238,7 @@ endfor
 return fseq || ("%f %<has> wiadomosci o mianowaniu na programiste: " + $string_utils:english_list(nlist, "nikogo", " lub "));
 .
 #29:6
-return this.name + " doesn't understand %%from:";
+return this.name + " nie rozumie %%from:";
 .
 #30:0
 "WIZARDLY";
@@ -68293,7 +68299,7 @@ endif
 return text;
 .
 #30:2
-":sort_topics(list_of_topics) -- sorts the given list of strings, assuming that they're help-system topic names";
+":sort_topics(lista_tematow) -- sortuje podana liste stringow, zakladajac ze sa to nazwy tematow systemu pomocy";
 buckets = "abcdefghijklmnopqrstuvwxyz";
 keys = names = $list_utils:make(length(buckets) + 1, {});
 for name in (setremove(args[1], ""))
@@ -68308,7 +68314,7 @@ endfor
 return $list_utils:append(@names);
 .
 #30:3
-":columnize(@list_of_strings) -- prints the given list in a number of columns wide enough to accomodate longest entry. But no more than 4 columns.";
+":columnize(@lista_stringow) -- wypisuje podana liste w kolumnach wystarczajaco szerokich, by pomiescic najdluzszy wpis. Ale nie wiecej niz 4 kolumny.";
 longest = $list_utils:longest(args);
 for d in ({4, 3, 2, 1})
 if ((79 / d) >= length(longest))
@@ -68317,10 +68323,10 @@ endif
 endfor
 .
 #30:4
-"{\"*forward*\", topic, @rest}  => text for topic from this help db.";
-"{\"*pass*\",    topic, @rest}  => text for topic from next help db.";
-"In both cases the text of @rest is appended.  ";
-"@rest may in turn begin with a *<verb>*";
+"{\"*forward*\", temat, @reszta}  => tekst dla tematu z tej bazy pomocy.";
+"{\"*pass*\",    temat, @reszta}  => tekst dla tematu z nastepnej bazy pomocy.";
+"W obu przypadkach tekst @reszta jest doklejany.  ";
+"@reszta moze z kolei zaczynac sie od *<czasownik>*";
 {text, ?dblist = {}} = args;
 if (verb == "forward")
 first = this:get_topic(text[1], dblist);
@@ -68340,9 +68346,9 @@ return first;
 endif
 .
 #30:5
-"{\"*subst*\", @text} => text with the following substitutions:";
-"  \"...%[expr]....\" => \"...\"+value of expr (assumed to be a string)+\"....\"";
-"  \"%;expr\"         => @(value of expr (assumed to be a list of strings))";
+"{\"*subst*\", @tekst} => tekst z nastepujacymi podstawieniami:";
+"  \"...%[wyr]....\" => \"...\"+wartosc wyr (zakladana jako string)+\"....\"";
+"  \"%;wyr\"         => @(wartosc wyr (zakladana jako lista stringow))";
 newlines = {};
 for old in (args[1])
 new = "";
@@ -68381,7 +68387,7 @@ old = "";
 endif
 endwhile
 if (bomb)
-newlines = {@newlines, new + old, tostr("@@@ Helpfile alert:  Previous line is messed up; notify ", this.owner.wizard ? "" | tostr(this.owner.name, " (", this.owner, ") or "), "a wizard. @@@")};
+newlines = {@newlines, new + old, tostr("@@@ Alarm pliku pomocy:  Poprzednia linia jest zepsuta; powiadom ", this.owner.wizard ? "" | tostr(this.owner.name, " (", this.owner, ") lub "), "wizarda. @@@")};
 else
 newlines = {@newlines, new + old};
 endif
@@ -68389,8 +68395,8 @@ endfor
 return newlines;
 .
 #30:6
-"{\"*index*\" [, title]}";
-"This produces a columnated list of topics in this help db, headed by title.";
+"{\"*index*\" [, tytul]}";
+"To generuje skolumnowana liste tematow w tej bazie pomocy, zatytulowana tytulem.";
 $command_utils:suspend_if_needed(0);
 title = args[1] ? args[1][1] | tostr(this.name, " (", this, ")");
 su = $string_utils;
@@ -68404,7 +68410,7 @@ this.f = 0;
 endif
 .
 #30:8
-"{\"*verbdoc*\", \"object\", \"verbname\"}  use documentation for this verb";
+"{\"*verbdoc*\", \"obiekt\", \"nazwa_czasownika\"}  uzyj dokumentacji tego czasownika";
 set_task_perms(this.owner);
 if (!valid(object = $string_utils:match_object(args[1][1], player.location)))
 return E_INVARG;
@@ -68423,7 +68429,7 @@ return error[1];
 endtry
 .
 #30:10
-"{\"*objectdoc*\", \"object\"} => text for topic from object:help_msg";
+"{\"*objectdoc*\", \"obiekt\"} => tekst dla tematu z object:help_msg";
 if (!valid(object = $string_utils:literal_object(args[1][1])))
 return E_INVARG;
 elseif (!($object_utils:has_verb(object, "help_msg") || $object_utils:has_property(object, "help_msg")))
@@ -68434,11 +68440,11 @@ endif
 .
 #30:11
 ":find_index_topic([search])";
-"Return the list of index topics of this help DB";
-"(i.e., those which contain an index (list of topics)";
-"this DB, return it, otherwise return false.";
-"If search argument is given and true,";
-"we first remove any cached information concerning index topics.";
+"Zwraca liste tematow-indeksow tej bazy pomocy";
+"(tj. tych, ktore zawieraja indeks (liste tematow)";
+"tej bazy DB, zwroc go, w przeciwnym razie zwroc falsz.";
+"Jesli podano argument search i jest prawdziwy,";
+"najpierw usuwamy wszelkie zapamietane informacje o tematach-indeksach.";
 {?search = 0} = args;
 if (this.index_cache && (!search))
 "...make sure every topic listed in .index_cache really is an index topic";
@@ -68470,13 +68476,13 @@ player = this;
 this:notify(tostr("Przykro mi, ale jestes tutaj juz ", $string_utils:from_seconds(connected_seconds(this)), ", a ktos inny chce teraz byc gosciem.  Mozesz wrocic", @$login:player_creation_enabled(player) ? {" lub nawet stworzyc wlasna postac, jesli chcesz..."} | {" lub wpisac `create', by dowiedziec sie, jak zdobyc wlasna postac."}));
 "boot_player(this)";
 return;
-"See #0:user_reconnected.";
+"Patrz #0:user_reconnected.";
 .
 #31:1
 if ((((valid(cp = caller_perms()) && (caller != this)) && (!$perm_utils:controls(cp, this))) && (cp != this)) && (caller != #0))
 return E_PERM;
 endif
-"Don't let another guest use this one until all this is done. See :defer, Ho_Yan 1/19/94";
+"Nie pozwol innemu gosciowi uzyc tej postaci, dopoki to wszystko sie nie skonczy. Patrz :defer, Ho_Yan 1/19/94";
 this.free_to_use = 0;
 this:log_disconnect();
 this:erase_paranoid_data();
@@ -68493,7 +68499,7 @@ this.free_to_use = 1;
 endtry
 .
 #31:2
-"Called by #0:connect_player when this object is about to be used as the next guest character.  Usually returns `this', but if for some reason some other guest character should be used, that player object is returned instead";
+"Wywolywane przez #0:connect_player, gdy ten obiekt ma zostac uzyty jako nastepna postac goscia.  Zwykle zwraca `this', ale jesli z jakiegos powodu powinna zostac uzyta inna postac goscia, zwracany jest ten inny obiekt gracza";
 if (!caller_perms().wizard)
 "...caller is not :do_login_command; doesn't matter what we return...";
 return this;
@@ -68540,7 +68546,7 @@ endif
 return pass(@args);
 .
 #31:6
-":log(islogin,time,where) adds an entry to the connection log for this guest.";
+":log(islogin,time,where) dodaje wpis do dziennika polaczen tej postaci goscia.";
 if (caller != this)
 return E_PERM;
 elseif (length(this.connect_log) < this.max_connect_log)
@@ -68583,7 +68589,7 @@ return pass(@args);
 .
 #31:12
 return pass(@args);
-"only for setting permission";
+"tylko do ustawiania uprawnien";
 .
 #31:13
 if (caller_perms().wizard)
@@ -68592,7 +68598,7 @@ this.extra_confunc_msg = "";
 endif
 .
 #31:14
-"disallow guests from setting aliases on themselves";
+"nie pozwalaj gosciom ustawiac aliasow na sobie samych";
 if ($perm_utils:controls(caller_perms(), this))
 return pass(@args);
 else
@@ -68635,7 +68641,7 @@ endfor
 endif
 .
 #31:17
-"Usage:  @request <player-name> dla <email-address>";
+"Uzycie:  @request <nazwa-gracza> dla <adres-email>";
 if (player != this)
 return player:tell(E_PERM);
 endif
@@ -68652,8 +68658,8 @@ endif
 "Copied from Generic Guest (#5678):@request by Froxx (#49853) Mon Apr  4 10:49:26 1994 PDT";
 .
 #31:18
-"Compute an encrypted hash of the guest's (last) connection, using 'crypt'. Basically, you can't tell where the guest came from, but it is unlikely that two guests will have the same hash";
-"You can use guest:connection_name_hash(seed) as a string to identify whether two guests are from the same place.";
+"Oblicza zaszyfrowany hasz (ostatniego) polaczenia goscia, uzywajac 'crypt'. Zasadniczo nie da sie stwierdzic, skad gosc pochodzi, ale malo prawdopodobne, by dwaj goscie mieli ten sam hasz";
+"Mozesz uzyc guest:connection_name_hash(seed) jako stringa, by rozpoznac, czy dwaj goscie sa z tego samego miejsca.";
 hash = toint(caller_perms());
 host = $string_utils:connection_hostname(this.last_connect_place);
 for i in [1..length(host)]
