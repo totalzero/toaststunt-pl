@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784281197 567763848 0
+1784282675 567763848 0
 0
 10
 0
@@ -146,7 +146,7 @@ continuous
 0 interrupted tasks
 1 active connections with listeners
 2 0
-147
+148
 #0
 The System Object
 24
@@ -798,7 +798,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784281002
+1784281629
 2
 name
 2
@@ -1390,7 +1390,7 @@ source
 2
 time
 0
-1784281192
+1784282674
 4
 0
 1
@@ -1646,7 +1646,7 @@ expire
 4
 2
 0
-1784281177
+1784282648
 2
 localhost
 2
@@ -1655,7 +1655,7 @@ localhost
 2
 0
 0
-1784281181
+1784282661
 2
 1
 0
@@ -1678,7 +1678,7 @@ localhost
 36
 1
 4
-63
+64
 1
 0
 1
@@ -1805,10 +1805,12 @@ localhost
 145
 1
 146
+1
+147
 2
 1
 0
-200
+80
 36
 1
 1
@@ -1847,7 +1849,7 @@ localhost
 2
 5
 0
-1784281192
+1784282674
 2
 1
 0
@@ -1897,7 +1899,7 @@ localhost
 2
 0
 12
-147
+148
 2
 1
 5
@@ -4428,7 +4430,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--9
+-23
 0
 2
 2
@@ -4442,7 +4444,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-41
+42
+4
+2
+0
+1784281629
+0
+0
 4
 2
 0
@@ -14977,73 +14985,73 @@ Wizard Utilities
 2
 ----------------
 2
-The following functions are substitutes for various server builtins.
+Nastepujace funkcje sa zamiennikami dla roznych wbudowanych funkcji serwera.
 2
-Anytime one feel tempted to use one of the expressions on the right,
+Kiedykolwiek czujesz pokuse, by uzyc jednego z wyrazen po prawej stronie,
 2
-use the corresponding one on the left instead.  This will take care
+uzyj zamiast tego odpowiadajacego mu po lewej.  Zajmie sie to
 2
-of various things that the server (for whatever reason) does not handle.
+roznymi rzeczami, ktorych serwer (z jakiegokolwiek powodu) nie obsluguje.
 2
 
 2
 :set_programmer(object)             object.programmer = 1;
 2
-    chparent object to $prog
+    chparentuj obiekt do $prog
 2
-    send mail to $prog_log
+    wyslij maila do $prog_log
 2
 
 2
 :set_player(object[,nochown])       set_player_flag(object,1);
 2
-    set player flag, 
+    ustaw flage gracza, 
 2
-    add name/aliases to $player_db,
+    dodaj nazwe/aliasy do $player_db,
 2
-    and maybe do a self chown.
+    i byc moze wykonaj self chown.
 2
 
 2
 :unset_player(object[,newowner])    set_player_flag(object,0);
 2
-    unset player flag,
+    usun flage gracza,
 2
-    remove name/aliases from $player_db
+    usun nazwe/aliasy z $player_db
 2
-    chown to newowner if given
+    chown do newowner, jesli podano
 2
 
 2
 :set_owner(object, newowner)        object.owner = newowner;
 2
-    change ownership on object
+    zmien wlasciciela obiektu
 2
-    change ownership on all +c properties
+    zmien wlasciciela wszystkich wlasciwosci +c
 2
-    juggle .ownership_quotas
+    zaktualizuj .ownership_quotas
 2
 
 2
 :set_property_owner(object, property, newowner[, suspend-ok])
 2
-    change owner on a given property
+    zmien wlasciciela danej wlasciwosci
 2
-    if this is a -c property, we change the owner on all descendants
+    jesli jest to wlasciwosc -c, zmieniamy wlasciciela u wszystkich potomkow
 2
-    for which this is also a -c property.
+    dla ktorych to tez jest wlasciwosc -c.
 2
-    Polite protest if property is +c and newowner != object.owner.
+    Grzeczny protest, jesli wlasciwosc jest +c, a newowner != object.owner.
 2
 
 2
 :set_property_flags(object, property, flags[, suspend-ok])
 2
-    change the permissions on a given property and propagate these to 
+    zmien uprawnienia danej wlasciwosci i rozpropaguj je do
 2
-    *all descendants*.  property ownership is changed on descendants 
+    *wszystkich potomkow*.  wlascicielstwo wlasciwosci jest zmieniane u potomkow
 2
-    where necessary.
+    tam, gdzie to konieczne.
 2
 5
 5
@@ -15058,7 +15066,7 @@ Wizard Utilities
 4
 1
 2
-This is the Wizard Utilities utility package.  See `help $wiz_utils' for more details.
+To jest pakiet narzedziowy Wizard Utilities.  Zobacz `help $wiz_utils' po wiecej szczegolow.
 2
 5
 4
@@ -15082,7 +15090,9 @@ Site DB
 1
 37
 4
-0
+1
+1
+147
 11
 find* _only* _every*
 36
@@ -15238,9 +15248,9 @@ db
 4
 2
 2
-This object holds a db of places from which players have connected (see `help $site_db').
+Ten obiekt przechowuje baze miejsc, z ktorych laczyli sie gracze (zobacz `help $site_db').
 2
-The site blacklist and the graylist live as well (see `help blacklist').
+Tutaj tez zyje czarna lista i szara lista witryn (zobacz `help blacklist').
 36
 5
 4
@@ -16414,7 +16424,7 @@ trig_utils
 4
 1
 2
-This is the Math Utilities utility package.  See `help $math_utils' for more details.
+To jest pakiet narzedziowy Math Utilities.  Zobacz `help $math_utils' po wiecej szczegolow.
 36
 5
 4
@@ -55536,8 +55546,87 @@ diag
 0
 36
 1
-1
 #147
+
+0
+2
+1
+-1
+10
+0
+4
+0
+1
+25
+4
+0
+0
+0
+15
+5
+36
+1
+4
+2
+0
+0
+0
+0
+2
+4
+4
+2
+0
+0
+0
+1
+2
+5
+5
+2
+5
+5
+2
+5
+0
+1535389125
+2
+5
+5
+2
+5
+5
+36
+0
+5
+2
+5
+5
+36
+1
+5
+36
+0
+0
+0
+2
+4
+5
+2
+5
+5
+2
+5
+4
+2
+0
+0
+0
+0
+36
+1
+1
+#148
 
 0
 98
@@ -65876,8 +65965,8 @@ endfor
 return text;
 .
 #24:0
-":set_programmer(victim[,mail from])  => 1 or error.";
-"Sets victim.programmer, chparents victim to $prog if necessary, and sends mail to $new_prog_log, mail is from optional second arg or caller_perms().";
+":set_programmer(victim[,mail from])  => 1 lub blad.";
+"Ustawia victim.programmer, chparentuje victim do $prog, jesli to konieczne, i wysyla maila do $new_prog_log; nadawca to opcjonalny drugi argument lub caller_perms().";
 whodunnit = caller_perms();
 {victim, ?mailfrom = whodunnit} = args;
 if (!whodunnit.wizard)
@@ -65908,11 +65997,11 @@ return 1;
 endif
 .
 #24:1
-":set_player(victim[,nochown]) => 1 or error";
-"Set victim's player flag, (maybe) chown to itself, add name and aliases to $player_db.";
-" E_NONE == already a player,";
-" E_NACC == player_db is frozen,";
-" E_RECMOVE == name is unavailable";
+":set_player(victim[,nochown]) => 1 lub blad";
+"Ustawia flage gracza victim, (moze) chownuje na siebie samego, dodaje nazwe i aliasy do $player_db.";
+" E_NONE == juz jest graczem,";
+" E_NACC == player_db jest zamrozona,";
+" E_RECMOVE == nazwa jest niedostepna";
 {victim, ?nochown = 0} = args;
 if (!caller_perms().wizard)
 return E_PERM;
@@ -65949,7 +66038,7 @@ return 1;
 endif
 .
 #24:2
-":set_owner(object,newowner[,suspendok])  does object.owner=newowner, taking care of c properties as well.  This should be used anyplace one is contemplating doing object.owner=newowner, since the latter leaves ownership of c properties unchanged.  (--Rog thinks this is a server bug). If force is specified and the object is already owned by newowner, c property ownership will proceed.";
+":set_owner(object,newowner[,suspendok])  wykonuje object.owner=newowner, dbajac tez o wlasciwosci c.  Nalezy tego uzywac wszedzie tam, gdzie rozwaza sie wykonanie object.owner=newowner, poniewaz to drugie pozostawia wlascicielstwo wlasciwosci c bez zmian.  (--Rog uwaza, ze to blad serwera). Jesli podano force, a obiekt jest juz wlasnoscia newowner, wlascicielstwo wlasciwosci c i tak zostanie zaktualizowane.";
 {object, newowner, ?suspendok = 0, ?force = 0} = args;
 if (!valid(object))
 return E_INVIND;
@@ -65990,7 +66079,7 @@ endif
 return 1;
 .
 #24:3
-":set_property_owner(object,prop,newowner[,suspendok])  changes the ownership of object.prop to newowner.  If the property is !c, changes the ownership on all of the descendents as well.  Otherwise, we just chown the property on the object itself and give a warning if newowner!=object.owner (--Rog thinks this is a server bug that one is able to do this at all...).";
+":set_property_owner(object,prop,newowner[,suspendok])  zmienia wlasciciela object.prop na newowner.  Jesli wlasciwosc jest !c, zmienia wlasciciela takze u wszystkich potomkow.  W przeciwnym razie po prostu chownujemy wlasciwosc na samym obiekcie i wypisujemy ostrzezenie, jesli newowner!=object.owner (--Rog uwaza, ze to blad serwera, ze da sie to w ogole zrobic...).";
 {object, pname, newowner, ?suspendok = 0} = args;
 if (!caller_perms().wizard)
 return E_PERM;
@@ -66021,8 +66110,8 @@ return 1;
 endif
 .
 #24:4
-":unset_player(victim[,newowner])  => 1 or error";
-"Reset victim's player flag, chown victim to newowner (if given), remove all of victim's names and aliases from $player_db.";
+":unset_player(victim[,newowner])  => 1 lub blad";
+"Resetuje flage gracza victim, chownuje victim na newowner (jesli podano), usuwa wszystkie nazwy i aliasy victim z $player_db.";
 {victim, ?newowner = 0} = args;
 if (!caller_perms().wizard)
 return E_PERM;
@@ -66047,14 +66136,14 @@ endif
 $player_db:delete2(victim.name, victim);
 for a in (victim.aliases)
 $player_db:delete2(a, victim);
-"I don't *think* this is bad---we've already toaded the guy.  And folks with lots of aliases screw us. --Nosredna";
+"Chyba nie jest to zle---i tak juz go zutylizowalismy (toad).  A ludzie z mnostwem aliasow i tak nas meczyli. --Nosredna";
 $command_utils:suspend_if_needed(0);
 endfor
 return 1;
 "Paragraph (#122534) - Sat Nov 5, 2005 - Remove any shared character registry listings for `victim'.";
 .
 #24:5
-":set_property_flags(object,prop,flags[,suspendok])  changes the permissions on object.prop to flags.  Unlike a mere set_property_info, this changes the flags on all descendant objects as well.  We also change the ownership on the descendent properties where necessary.";
+":set_property_flags(object,prop,flags[,suspendok])  zmienia uprawnienia object.prop na flags.  W odroznieniu od zwyklego set_property_info, zmienia flagi takze u wszystkich potomkow.  Zmieniamy tez wlasciciela wlasciwosci u potomkow tam, gdzie to konieczne.";
 {object, pname, flags, ?suspendok = 0} = args;
 perms = caller_perms();
 if (!(info = `property_info(object, pname) ! ANY'))
@@ -66086,8 +66175,8 @@ return 1;
 endif
 .
 #24:6
-"_set_property_flags(object, pname, {owner, flags} or something+\"c\", suspendok)";
-"auxiliary to :set_property_flags... don't call this directly.";
+"_set_property_flags(object, pname, {owner, flags} albo cos+\"c\", suspendok)";
+"pomocnicza dla :set_property_flags... nie wywolywac bezposrednio.";
 if (caller != this)
 return E_PERM;
 endif
@@ -66105,8 +66194,8 @@ this:_set_property_flags(@listset(args, kid, 1));
 endfor
 .
 #24:7
-"Generate a random password of length args[1].  Alternates vowels and consonants, for maximum pronounceability.  Uses its own list of consonants which exclude F and C and K to prevent generating obscene sounding passwords.";
-"Capital I and lowercase L are excluded on the basis of looking like each other.";
+"Generuje losowe haslo o dlugosci args[1].  Na przemian uzywa samoglosek i spolglosek, dla maksymalnej wymawialnosci.  Uzywa wlasnej listy spolglosek, ktora wyklucza F, C i K, by uniknac generowania hasel brzmiacych obscenicznie.";
+"Wielkie I i male l sa wykluczone, bo wygladaja podobnie do siebie.";
 vowels = "aeiouyAEUY";
 consonants = "bdghjmnpqrstvwxzBDGHJLMNPQRSTVWXZ";
 len = toint(args[1]);
@@ -66124,8 +66213,8 @@ return E_INVARG;
 endif
 .
 #24:8
-":queued_tasks(player) => list of queued tasks for that player.";
-"shouldn't the server builtin should work this way?  oh well";
+":queued_tasks(player) => lista zadan w kolejce dla tego gracza.";
+"czy wbudowana funkcja serwera nie powinna dzialac wlasnie tak?  no coz";
 set_task_perms(caller_perms());
 if (typeof(e = `set_task_perms(who = args[1]) ! ANY') == ERR)
 return e;
@@ -66142,7 +66231,7 @@ return queued_tasks();
 endif
 .
 #24:9
-"Return 1 if args[1] is a newted player.";
+"Zwraca 1, jesli args[1] jest zniewolonym (newt) graczem.";
 if (!caller_perms().wizard)
 return E_PERM;
 else
@@ -66224,8 +66313,8 @@ return wlist;
 .
 #24:14
 ":rename_all_instances(object,oldname,newname)";
-"Used to rename all instances of an unwanted verb (like recycle or disfunc)";
-"if said verb is actually defined on the object itself";
+"Sluzy do zmiany nazwy wszystkich wystapien niechcianego czasownika (jak recycle czy disfunc)";
+"jesli dany czasownik jest faktycznie zdefiniowany na samym obiekcie";
 if (caller_perms().wizard)
 found = 0;
 {object, oldname, newname} = args;
@@ -66293,7 +66382,7 @@ endif
 .
 #24:18
 ":show_netwho_listing(tell,player_list)";
-" prints a listing of the indicated players showing connect sites.";
+" wypisuje liste wskazanych graczy pokazujac miejsca polaczenia.";
 {who, unsorted} = args;
 if (!caller_perms().wizard)
 return E_PERM;
@@ -66441,12 +66530,12 @@ endif
 .
 #24:20
 ":check_player_request(name [,email [,connection]])";
-" check if the request for player and email address is valid;";
-" return empty string if it valid, or else a string saying why not.";
-" The result starts with - if this is a 'send email, don't try again' situation.";
+" sprawdza, czy prosba o gracza i adres email sa poprawne;";
+" zwraca pusty string, jesli sa poprawne, w przeciwnym razie string mowiacy dlaczego nie.";
+" Wynik zaczyna sie od - jesli jest to sytuacja typu 'wyslij email, nie probuj ponownie'.";
 ":check_reregistration(who, email, connection)";
-"  Since name is ignored, only check the 'email' parts and use the first arg";
-"  for the re-registering player.";
+"  Poniewaz name jest ignorowane, sprawdzamy tylko czesci 'email' i uzywamy pierwszego argumentu";
+"  dla ponownie rejestrujacego sie gracza.";
 if (!caller_perms().wizard)
 return E_PERM;
 "accesses registration information -- wiz only";
@@ -66500,8 +66589,8 @@ endif
 return "";
 .
 #24:21
-"create a player named NAME with email address ADDRESS; return {object, password}.  Optional third arg is comment to be put in registration db.";
-"assumes $wiz_utils:check_player_request() has been called and it passes.";
+"tworzy gracza o nazwie NAME i adresie email ADDRESS; zwraca {obiekt, haslo}.  Opcjonalny trzeci argument to komentarz do umieszczenia w bazie rejestracji.";
+"zaklada, ze $wiz_utils:check_player_request() zostalo juz wywolane i zakonczylo sie powodzeniem.";
 if (!caller_perms().wizard)
 return E_PERM;
 endif
@@ -66512,7 +66601,7 @@ new.aliases = {name};
 new.password = $login:encrypt_password(password = $wiz_utils:random_password(5));
 new.last_password_time = time();
 new.last_connect_time = $maxint;
-"Last disconnect time is creation time, until they login.";
+"Czas ostatniego rozlaczenia to czas utworzenia, dopoki sie nie zaloguje.";
 new.last_disconnect_time = time();
 $quota_utils:initialize_quota(new);
 if (!(error = $wiz_utils:set_player(new)))
@@ -66526,7 +66615,7 @@ return {new, password};
 .
 #24:22
 ":send_new_player_mail(preface, name, address, character#, password)";
-"  used by $wiz:@make-player and $guest:@request";
+"  uzywane przez $wiz:@make-player i $guest:@request";
 if (!caller_perms().wizard)
 return E_PERM;
 endif
@@ -66540,9 +66629,9 @@ return $network:sendmail(address, (("Your " + $network.moo_name) + " character, 
 .
 #24:23
 "do_maker_player(name,email,[comment])";
-"Common code for @make-player";
-"If no password is given, generates a random password for the player.";
-"Email-address is stored in $registration_db and on the player object.";
+"Wspolny kod dla @make-player";
+"Jesli nie podano hasla, generuje losowe haslo dla gracza.";
+"Adres email jest przechowywany w $registration_db oraz na obiekcie gracza.";
 if (!caller_perms().wizard)
 return E_PERM;
 endif
@@ -66650,7 +66739,7 @@ player:tell("Nie wyslano maila.");
 endif
 .
 #24:26
-":set_owner(object,newowner[,suspendok])  does object.owner=newowner, taking care of c properties as well.  This should be used anyplace one is contemplating doing object.owner=newowner, since the latter leaves ownership of c properties unchanged.  (--Rog thinks this is a server bug).";
+":set_owner(object,newowner[,suspendok])  wykonuje object.owner=newowner, dbajac tez o wlasciwosci c.  Nalezy tego uzywac wszedzie tam, gdzie rozwaza sie wykonanie object.owner=newowner, poniewaz to drugie pozostawia wlascicielstwo wlasciwosci c bez zmian.  (--Rog uwaza, ze to blad serwera).";
 {object, newowner, ?suspendok = 0} = args;
 if (!valid(object))
 return E_INVIND;
@@ -66692,18 +66781,18 @@ return 1;
 if (!caller_perms().wizard)
 return E_PERM;
 endif
-"------- constants ---- ";
-"20 minutes idle for regular players";
+"------- stale ---- ";
+"20 minut bezczynnosci dla zwyklych graczy";
 mintime = 60 * 20;
-"10 minutes for guests";
+"10 minut dla gosci";
 minguest = 60 * 10;
-"wait 3 minutes before actually booting";
+"czekaj 3 minuty przed faktycznym wyrzuceniem";
 bootdelay = 3;
-"start booting when there are 20 less than max players";
+"zaczynaj wyrzucac, gdy zostalo 20 mniej niz max graczy";
 threshold = 20;
 " ----------------------";
 if ($code_utils:task_valid(this.boot_task) && (task_id() != this.boot_task))
-"starting a new one: kill the old one";
+"zaczynamy nowe: zabij stare";
 kill_task(this.boot_task);
 this.boot_task = 0;
 endif
@@ -66721,7 +66810,7 @@ plt = {idle, @plt};
 endif
 endfor
 if (pll)
-"Sort by idle time, and choose person who has been idle longest.";
+"Sortuj wedlug czasu bezczynnosci i wybierz osobe najdluzej bezczynna.";
 pll = $list_utils:sort(pll, plt);
 booted = pll[$];
 guest = $object_utils:isa(booted, $guest);
@@ -66742,11 +66831,11 @@ endif
 this:(verb)(@args);
 endfork
 this.boot_task = taskn;
-"This is set up so that it forks the task first, and this.boot_task is the task_id of whatever is running the idle booter";
+"Jest to tak skonstruowane, ze najpierw forkuje zadanie, a this.boot_task to task_id tego, co aktualnie wykonuje wyrzucanie bezczynnych";
 .
 #24:28
 ":grant_object(what, towhom);";
-"Ownership of the object changes as in @chown and :set_owner (i.e., .owner and all c properties change).  In addition all verbs and !c properties owned by the original owner change ownership as well.  Finally, for !c properties, instances on descendant objects change ownership (as in :set_property_owner).";
+"Wlascicielstwo obiektu zmienia sie jak w @chown i :set_owner (tj. .owner i wszystkie wlasciwosci c sie zmieniaja).  Dodatkowo wszystkie czasowniki i wlasciwosci !c nalezace do pierwotnego wlasciciela rowniez zmieniaja wlasciciela.  Wreszcie, dla wlasciwosci !c, wystapienia u potomkow rowniez zmieniaja wlasciciela (jak w :set_property_owner).";
 if (!caller_perms().wizard)
 return E_PERM;
 endif
@@ -66776,7 +66865,7 @@ return same ? "nic sie nie zmienilo" | "przekazanie zmienione";
 .
 #24:29
 "connection_hash(forwhom, host [,seed])";
-"Compute an encrypted hash of the host for 'forwhom', using 'crypt'.";
+"Oblicza zaszyfrowany hash hosta dla 'forwhom', uzywajac 'crypt'.";
 {forwhom, host, @seed} = args;
 hash = toint(forwhom);
 for i in [1..length(host)]
@@ -66816,9 +66905,9 @@ player:notify(tostr("Mail wyslany do ", $mail_agent:name($newt_log), "."));
 endif
 .
 #24:31
-":unset_programmer(victim[,reason[,start time,duration]]) => 1 or error.";
-"Resets victim.programmer, adds victim to .programmer_restricted.";
-"Put into temporary list if 3rd and 4th arguments are given. Which restricts the victim for uptime duration since start time. Must give a reason, though it can be blank, in this case.";
+":unset_programmer(victim[,reason[,start time,duration]]) => 1 lub blad.";
+"Resetuje victim.programmer, dodaje victim do .programmer_restricted.";
+"Umieszcza na liscie tymczasowej, jesli podano 3. i 4. argument. Ogranicza wtedy victim na czas duration od start time. Nalezy podac powod, choc moze byc pusty w tym przypadku.";
 {victim, ?reason = "", ?start = 0, ?duration = 0} = args;
 if (!caller_perms().wizard)
 return E_PERM;
@@ -66839,8 +66928,8 @@ return 1;
 endif
 .
 #24:32
-":is_wizard(who) => whether `who' is a wizard or is the .public_identity of some wizard.";
-"This verb is used for permission checks on commands that should only be accessible to wizards or their ordinary-player counterparts.  It will return true for unadvertised wizards.";
+":is_wizard(who) => czy `who' jest wizardem, lub jest .public_identity jakiegos wizarda.";
+"Ten czasownik sluzy do sprawdzania uprawnien dla polecen, ktore powinny byc dostepne tylko dla wizardow lub ich zwyklych odpowiednikow-graczy.  Zwroci prawde takze dla niereklamowanych (unadvertised) wizardow.";
 who = args[1];
 if (who.wizard)
 return 1;
@@ -66870,20 +66959,20 @@ endfork
 this:expire_mail();
 .
 #24:35
-"Checks to see if args[1] is restricted from programmer either permanently or temporarily. Removes from temporary list if time is up";
+"Sprawdza, czy args[1] jest ograniczony od zostania programista, czy to na stale, czy tymczasowo. Usuwa z listy tymczasowej, jesli czas minal";
 if ((caller != this) && (!$perm_utils:controls(caller_perms(), this)))
 return E_PERM;
 endif
 if ((who = args[1]) in this.programmer_restricted)
-"okay, who is restricted. Now check to see if it is temporary";
+"ok, who jest ograniczony. Teraz sprawdzmy, czy jest to tymczasowe";
 if (entry = $list_utils:assoc(who, this.programmer_restricted_temp))
 if ($login:uptime_since(entry[2]) > entry[3])
-"It's temporary and the time is up, remove and return false";
+"Jest tymczasowe i czas minal, usun i zwroc falsz";
 this.programmer_restricted_temp = setremove(this.programmer_restricted_temp, entry);
 this.programmer_restricted = setremove(this.programmer_restricted, who);
 return 0;
 else
-"time is not up";
+"czas jeszcze nie minal";
 return 1;
 endif
 else
@@ -66908,7 +66997,7 @@ set_task_perms($wiz_utils:random_wizard());
 suspend(0);
 endif
 endfor
-$mail_agent:send_message(player, this.expiration_recipient, verb, tostr(s, " messages have been expired from players."));
+$mail_agent:send_message(player, this.expiration_recipient, verb, tostr(s, " wiadomosci zostalo wygaszonych u graczy."));
 return s;
 .
 #24:37
@@ -66922,11 +67011,11 @@ temp = x:expire_old_messages();
 if (typeof(temp) == INT)
 sum = sum + temp;
 endif
-"just suspend for every fucker, I'm tired of losing.";
+"po prostu zawieszaj dla kazdego skurczybyka, mam dosc przegrywania.";
 set_task_perms($wiz_utils:random_wizard());
 suspend(0);
 endfor
-$mail_agent:send_message(player, this.expiration_recipient, verb, tostr(sum, " messages have been expired from mailing lists."));
+$mail_agent:send_message(player, this.expiration_recipient, verb, tostr(sum, " wiadomosci zostalo wygaszonych z list mailingowych."));
 return sum;
 .
 #24:38
@@ -66936,7 +67025,7 @@ else
 fork (86400 * 7)
 this:(verb)();
 endfork
-player:tell("Flushing ancient editor sessions.");
+player:tell("Czyszczenie starych sesji edytora.");
 for x in ({$verb_editor, $note_editor, $mail_editor})
 x:do_flush(time() - (30 * 86400), 0);
 $command_utils:suspend_if_needed(0);
@@ -66944,7 +67033,7 @@ endfor
 endif
 .
 #24:39
-"Put all your wizards in $wiz_utils.wizards.  Then various long-running tasks will cycle among the permissions, spreading out the scheduler-induced personal lag.";
+"Umiesc wszystkich swoich wizardow w $wiz_utils.wizards.  Wtedy rozne dlugo dzialajace zadania beda cyklicznie zmieniac uprawnienia, rozkladajac osobiste opoznienie (lag) wywolywane przez planiste (scheduler).";
 w = this.wizards;
 i = this.next_perm_index;
 if (i >= length(w))
@@ -67019,9 +67108,9 @@ return;
 endif
 .
 #25:2
-":load([start]) -- reloads site_db with the connection places of all players.";
-"This routine calls suspend() if it runs out of time.";
-"WIZARDLY";
+":load([start]) -- ponownie wczytuje site_db z miejscami polaczen wszystkich graczy.";
+"Ta procedura wywoluje suspend(), jesli zabraknie jej czasu.";
+"WIZARDZKIE";
 "...needs to be able to read .all_connect_places";
 if (!$perm_utils:controls(caller_perms(), this))
 return E_PERM;
@@ -67050,7 +67139,7 @@ endfor
 .
 #25:3
 ":domain_literal(string)";
-" => true iff string is a domain literal (i.e., numeric IP address).";
+" => prawda wtedy i tylko wtedy, gdy string jest literalem domeny (tj. numerycznym adresem IP).";
 if (10 <= (len = length(hnum = strsub(args[1], ".", ""))))
 return toint(hnum[1..9]) && toint(hnum[6..len]);
 else
@@ -67076,12 +67165,12 @@ this:prune_reset();
 endif
 .
 #25:5
-"Carefully loop through the db and delete items associated with !valid and !is_player objects.  If that results in no objects remaining for a site, delete that site.";
-"Attempt to keep memory usage down by only asking for a small number of items at a time.  Should probably have some arguments to control this.";
-"Another thing it should do is be clever about string typed items.  (What did I mean by this?)";
-"New feature: If the site name contains `dialup', then, if none of the users who have connected from there still have it in their .all_connect_places, then consider it trashable.  Maybe this will get some space savings.";
-"To run: call $site_db:prune_reset() then $site_db:prune_alpha().";
-"or $site_db:prune_alpha(1) for verbose output";
+"Ostroznie przechodzi przez baze i usuwa wpisy zwiazane z obiektami !valid i !is_player.  Jesli w rezultacie dla danej witryny nie zostanie zaden obiekt, usuwa te witryne.";
+"Probuje ograniczyc zuzycie pamieci, pobierajac naraz tylko niewielka liczbe wpisow.  Powinno chyba miec jakies argumenty do kontrolowania tego.";
+"Kolejna rzecz, ktora powinno robic, to byc madrzejsze co do wpisow typu string.  (Co mialem na mysli?)";
+"Nowa funkcja: Jesli nazwa witryny zawiera `dialup', to jesli zaden z uzytkownikow, ktorzy sie z niej laczyli, nadal nie ma jej w swoich .all_connect_places, uznajemy ja za mozliwa do wyrzucenia.  Moze to da jakies oszczednosci miejsca.";
+"By uruchomic: wywolaj $site_db:prune_reset(), a nastepnie $site_db:prune_alpha().";
+"lub $site_db:prune_alpha(1) dla szczegolowego (verbose) wyjscia";
 verbose = args && args[1];
 if (!caller_perms().wizard)
 raise(E_PERM);
@@ -67093,7 +67182,7 @@ for sitename in (z = this:find_all_keys(probe))
 items = this:find_exact(sitename);
 orig = items;
 dialup = index(sitename, "dialup");
-"Don't keep around dialups.";
+"Nie trzymaj dialupow.";
 for y in (items)
 if ((typeof(y) == OBJ) && (((!valid(y)) || (!is_player(y))) || (dialup && (!(sitename in y.all_connect_places)))))
 verbose && player:tell("usuwanie ", $string_utils:nn(y), " z ", sitename);
@@ -67102,12 +67191,12 @@ endif
 $command_utils:suspend_if_needed(0);
 endfor
 useless = 1;
-"If no player has this site in eir .all_connect_places, nuke it anyway.";
+"Jesli zaden gracz nie ma tej witryny w swoich .all_connect_places, i tak ja usun.";
 for y in (items)
 if ((typeof(y) != OBJ) || (sitename in y.all_connect_places))
 useless = 0;
 break;
-"unfortunately this can get kinna O(n^2).";
+"niestety to moze byc troche O(n^2).";
 endif
 $command_utils:suspend_if_needed(0);
 endfor
@@ -67165,10 +67254,10 @@ player:tell("Zapisany task_id nie jest juz prawidlowy.");
 endif
 .
 #25:7
-"Carefully loop through the db and delete items associated with !valid and !is_player objects.  If that results in no objects remaining for a site, delete that site.";
-"Attempt to keep memory usage down by only asking for a small number of items at a time.  Should probably have some arguments to control this.";
-"Another thing it should do is be clever about string typed items.";
-"Rewriting this to do numerics now.";
+"Ostroznie przechodzi przez baze i usuwa wpisy zwiazane z obiektami !valid i !is_player.  Jesli w rezultacie dla danej witryny nie zostanie zaden obiekt, usuwa te witryne.";
+"Probuje ograniczyc zuzycie pamieci, pobierajac naraz tylko niewielka liczbe wpisow.  Powinno chyba miec jakies argumenty do kontrolowania tego.";
+"Kolejna rzecz, ktora powinno robic, to byc madrzejsze co do wpisow typu string.";
+"Przepisuje to teraz, zeby dzialalo numerycznie.";
 if (!caller_perms().wizard)
 raise(E_PERM);
 endif
@@ -67210,10 +67299,10 @@ endwhile
 player:tell("Czyszczenie zatrzymane na ", toliteral(this.prune_progress));
 .
 #25:8
-"Carefully loop through the db and delete items associated with !valid and !is_player objects.  If that results in no objects remaining for a site, delete that site.";
-"Attempt to keep memory usage down by only asking for a small number of items at a time.  Should probably have some arguments to control this.";
-"Another thing it should do is be clever about string typed items.";
-"Rewriting this to do numerics now.";
+"Ostroznie przechodzi przez baze i usuwa wpisy zwiazane z obiektami !valid i !is_player.  Jesli w rezultacie dla danej witryny nie zostanie zaden obiekt, usuwa te witryne.";
+"Probuje ograniczyc zuzycie pamieci, pobierajac naraz tylko niewielka liczbe wpisow.  Powinno chyba miec jakies argumenty do kontrolowania tego.";
+"Kolejna rzecz, ktora powinno robic, to byc madrzejsze co do wpisow typu string.";
+"Przepisuje to teraz, zeby dzialalo numerycznie.";
 if (!caller_perms().wizard)
 raise(E_PERM);
 endif
@@ -67252,7 +67341,7 @@ set_task_perms($wiz_utils:random_wizard());
 suspend(0);
 endif
 endwhile
-player:tell("Prune stopped at ", toliteral(this.prune_progress));
+player:tell("Czyszczenie zatrzymane na ", toliteral(this.prune_progress));
 .
 #25:9
 if (!caller_perms().wizard)
@@ -67265,14 +67354,14 @@ if (target > 86400)
 target = target - 86400;
 endif
 fork (target)
-"Stop at 2am before checkpoint.";
+"Zatrzymaj sie o 2 w nocy przed checkpointem.";
 if ($code_utils:task_valid(this.prune_task))
 $site_db.prune_stop = "aaa";
-"Restart after 3am.  Er, 4am.";
+"Wznow po 3 w nocy.  Ee, 4 w nocy.";
 suspend(7500);
 this:schedule_prune();
 $site_db.prune_stop = "zzz";
-"Just in case it didn't actually stop...";
+"Na wypadek, gdyby faktycznie sie nie zatrzymalo...";
 if (!$code_utils:task_valid(this.prune_task))
 $site_db:prune_alpha();
 endif
