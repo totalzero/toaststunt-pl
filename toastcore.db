@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784350453 567763848 0
+1784350685 567763848 0
 0
 10
 0
@@ -797,7 +797,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784350332
+1784350600
 2
 name
 2
@@ -1389,7 +1389,7 @@ source
 2
 time
 0
-1784350446
+1784350677
 4
 0
 1
@@ -1645,7 +1645,7 @@ expire
 4
 2
 0
-1784350437
+1784350666
 2
 localhost
 2
@@ -1654,7 +1654,7 @@ localhost
 2
 0
 0
-1784350446
+1784350677
 2
 1
 0
@@ -1849,7 +1849,7 @@ localhost
 2
 5
 0
-1784350443
+1784350674
 2
 1
 0
@@ -4431,7 +4431,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--8
+-6
 0
 2
 2
@@ -4445,7 +4445,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-59
+60
+4
+2
+0
+1784350600
+0
+0
 4
 2
 0
@@ -52711,27 +52717,27 @@ help_msg
 4
 50
 2
-A waif is a kind of datatype in the MOO programming language, akin to integers, floating point numbers, strings, lists, objects and errors.
+Waif to rodzaj typu danych w jezyku programowania MOO, podobny do liczb calkowitych, liczb zmiennoprzecinkowych, stringow, list, obiektow i bledow.
 2
 
 2
-Waifs are like objects in that they have inherited properties and verbs.  They are unlike objects in that they do not have object numbers, and do not ordinarily have a name, aliases, a location, or a description -- although they could.
+Waify sa podobne do obiektow w tym, ze maja dziedziczone wlasciwosci i czasowniki.  Roznia sie od obiektow tym, ze nie maja numerow obiektow i zwykle nie maja nazwy, aliasow, lokalizacji ani opisu -- chociaz moglyby je miec.
 2
 
 2
-For those who program in C, it may be helpful to think of a waif as being like the 'struct' datatype:  A waif is a collection of named values.  (A list is a collection of ordered values.)
+Dla tych, ktorzy programuja w C, moze byc pomocne myslenie o waifie jak o typie danych 'struct': waif to zbior nazwanych wartosci.  (Lista to zbior uporzadkowanych wartosci.)
 2
 
 2
-Every waif inherits its properties and verbs from its 'class', which is an actual object that is a descendant of $waif.  Only properties and verbs whose names begin with a colon are inherited by the instantiated waif.  To create a waif, you invoke the verb <class>:new(), which returns the newly-minted waif as it's value.
+Kazdy waif dziedziczy swoje wlasciwosci i czasowniki po swojej 'klasie', czyli rzeczywistym obiekcie bedacym potomkiem $waif.  Tylko wlasciwosci i czasowniki, ktorych nazwy zaczynaja sie od dwukropka, sa dziedziczone przez utworzonego waifa.  By stworzyc waifa, wywolujesz czasownik <klasa>:new(), ktory zwraca nowo utworzonego waifa jako swoja wartosc.
 2
 
 2
-A logical time to consider using waifs is in lieu of storing data as a list of lists.  Let's consider an example.  Suppose I want to create a bot that serves drinks and canapes, and for reasons of my own I want to specify what drinks are available rather than let some lout order a glass of diesel fuel at my tea party.  So I am going to create a list of drinks, the kind of container the drink comes in, and the number of sips in each, such that a cup of tea might have more sips (and thus take longer to drink) than a glass of sherry.
+Naturalnym momentem, by rozwazyc uzycie waifow, jest zastapienie przechowywania danych jako listy list.  Rozwazmy przyklad.  Zalozmy, ze chce stworzyc bota, ktory podaje drinki i przekaski, i z wlasnych powodow chce okreslic, jakie drinki sa dostepne, zamiast pozwolic jakiemus gburowi zamowic szklanke oleju napedowego na mojej herbatce.  Stworze wiec liste drinkow, rodzaj naczynia, w jakim jest podawany drink, oraz liczbe lykow w kazdym, tak by filizanka herbaty mogla miec wiecej lykow (a wiec dluzej sie ja pilo) niz kieliszek sherry.
 2
 
 2
-If I were to implement my drink list as a list of lists, I might do
+Gdybym mial zaimplementowac swoja liste drinkow jako liste list, moglbym zrobic tak:
 2
 
 2
@@ -52739,11 +52745,11 @@ If I were to implement my drink list as a list of lists, I might do
 2
 
 2
-You can see that a glass of milk has more in it than a glass of sherry.  BUT, if you were looking at this code for the first time, you might not know that the third number in that list refers to quantity.  For longer sublists, it can get very confusing, indeed.
+Widac, ze szklanka mleka ma w sobie wiecej niz kieliszek sherry.  ALE, gdybys patrzyl(a) na ten kod po raz pierwszy, mogl(a)bys nie wiedziec, ze trzecia liczba na tej liscie odnosi sie do ilosci.  Przy dluzszych podlistach moze to byc naprawde bardzo mylace.
 2
 
 2
-To implement this using waifs, you would first make an object, a kid of $waif, that you would use as a drink specification:
+By to zaimplementowac za pomoca waifow, najpierw stworzylbys obiekt, dziecko $waif, ktorego uzylbys jako specyfikacji drinka:
 2
 
 2
@@ -52751,7 +52757,7 @@ To implement this using waifs, you would first make an object, a kid of $waif, t
 2
 
 2
-You would then own an object with the generic waif as its parent.  Next you would add properties to this object that the waifs are to inherit:
+Bylbys wtedy wlascicielem obiektu, ktorego rodzicem jest generyczny waif.  Nastepnie dodalbys do tego obiektu wlasciwosci, ktore maja dziedziczyc waify:
 2
 
 2
@@ -52763,11 +52769,11 @@ You would then own an object with the generic waif as its parent.  Next you woul
 2
 
 2
-Notice that each property name begins with a colon.  Property names that don't begin with a colon are not inherited by the waifs (.name, for example).
+Zauwaz, ze kazda nazwa wlasciwosci zaczyna sie od dwukropka.  Nazwy wlasciwosci, ktore nie zaczynaja sie od dwukropka, nie sa dziedziczone przez waify (na przyklad .name).
 2
 
 2
-Since your drink specification is a kid of $waif, it inherits the verb :new that can be used to create a waif.  Here is how we would make a few:
+Poniewaz twoja specyfikacja drinka jest dzieckiem $waif, dziedziczy czasownik :new, ktorego mozna uzyc do stworzenia waifa.  Oto jak stworzylibysmy kilka:
 2
 
 2
@@ -52783,9 +52789,9 @@ Since your drink specification is a kid of $waif, it inherits the verb :new that
 2
   @program bot:add_drink
 2
-  "Adds a drink specification to this bot's .drink_options property.";
+  "Dodaje specyfikacje drinka do wlasciwosci .drink_options tego bota.";
 2
-  "Maybe put in some code only to let the owner do this, but that is not germaine to this example.";
+  "Moznaby dodac kod pozwalajacy na to tylko wlascicielowi, ale to nie jest istotne dla tego przykladu.";
 2
   {drink_name, drink_container, sips_per_container} = args;
 2
@@ -52799,17 +52805,17 @@ Since your drink specification is a kid of $waif, it inherits the verb :new that
 2
   this.drink_options = {@this.drink_options, new_spec};
 2
-  "A robust version of this verb would check for proper data types in the args, maybe look for duplicates first, etc.";
+  "Solidniejsza wersja tego czasownika sprawdzalaby poprawne typy danych w argumentach, moze najpierw szukala duplikatow, itd.";
 2
   .
 2
 
 2
-Later on you might want to specify a color for each drink, so that if it comes in a dribble glass, you can say what color the stain on your poor victim's tie is.  You would add the property (.:color -- remember the colon) to the drink spec object, and voila, it would exist on all the waifs.  You would need to set the individual values, of course, but you wouldn't have to do gymnastics on sublists in lists, which can be a delicate operation indeed.
+Pozniej mogloby ci zalezec na okresleniu koloru dla kazdego drinka, zeby, jesli podawany jest w cieknacej szklance, moc powiedziec, jakiego koloru jest plama na krawacie twojej biednej ofiary.  Dodalbys wlasciwosc (.:color -- pamietaj o dwukropku) do obiektu specyfikacji drinka i voila, istnialaby ona na wszystkich waifach.  Musialbys oczywiscie ustawic poszczegolne wartosci, ale nie musialbys wykonywac gimnastyki na podlistach w listach, co potrafi byc naprawde delikatna operacja.
 2
 
 2
-Further information about waifs is available at http://www.ben.com/MOO/waif.html and http://www.ben.com/MOO/waif-progman.html
+Wiecej informacji o waifach znajdziesz na http://www.ben.com/MOO/waif.html oraz http://www.ben.com/MOO/waif-progman.html
 2
 5
 0
