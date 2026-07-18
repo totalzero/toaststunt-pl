@@ -4718,3 +4718,460 @@ Jesli taka zmienna srodowiskowa nie istnieje, zwracane jest 0. Jesli programista
 getenv("HOME")                                          =>   "/home/foobar"
 getenv("XYZZY")                                         =>   0
 ```
+
+##### Operacje na polaczeniach sieciowych
+
+**Funkcja: `connected_players`**
+
+connected_players -- zwraca liste numerow obiektow tych obiektow-graczy, ktore maja aktualnie aktywne polaczenia
+
+list `connected_players` ([include-all])
+
+Jesli podano include-all i jest ono prawdziwe, lista zawiera numery obiektow zwiazane ze _wszystkimi_ biezacymi polaczeniami, wliczajac te wychodzace i/lub jeszcze niezalogowane.
+
+**Funkcja: `connected_seconds`**
+
+connected_seconds -- zwraca liczbe sekund, przez jaka istnieje biezace aktywne polaczenie z graczem player
+
+int `connected_seconds` (obj player)
+
+**Funkcja: `idle_seconds`**
+
+idle_seconds -- zwraca liczbe sekund, przez jaka biezace aktywne polaczenie z graczem player pozostaje bezczynne
+
+int `idle_seconds` (obj player)
+
+Jesli player nie jest numerem obiektu gracza z biezacym aktywnym polaczeniem, zglaszany jest `E_INVARG`.
+
+**Funkcja: `notify`**
+
+notify -- kolejkuje string do wypisania (w osobnej linii) na polaczeniu conn
+
+int `notify` (obj conn, str string [, INT no-flush [, INT suppress-newline]])
+
+Jesli programista nie jest conn ani czarodziejem, zglaszany jest `E_PERM`. Jesli conn nie jest biezacym aktywnym polaczeniem, ta funkcja nic nie robi. Wyjscie jest normalnie zapisywane na polaczenia wylacznie pomiedzy zadaniami, nie w trakcie wykonania.
+
+Serwer nie bedzie kolejkowal dowolnej ilosci wyjscia dla polaczenia; opcja kompilacji `MAX_QUEUED_OUTPUT` (w `options.h`) kontroluje ten limit (`MAX_QUEUED_OUTPUT` mozna nadpisac z poziomu bazy danych, dodajac wlasciwosc `$server_options.max_queued_output` i wywolujac `load_server_options()`). Gdy nastapi proba zakolejkowania wyjscia, ktore przekroczyloby ten limit serwera, serwer najpierw probuje zapisac jak najwiecej wyjscia na polaczenie bez koniecznosci czekania na drugi koniec. Jesli to nie pozwoli nowemu wyjsciu zmiescic sie w kolejce, serwer zaczyna odrzucac najstarsze linie w kolejce, az nowe wyjscie sie zmiesci. Serwer pamieta, ile linii wyjscia w ten sposob "wyczyscil" (flushed) i, gdy nastepnym razem uda mu sie cokolwiek zapisac na polaczenie, najpierw wypisuje linie w rodzaju `>> Network buffer overflow: X lines of output to you have been lost <<`, gdzie X to liczba wyczyszczonych linii.
+
+Jesli podano no-flush i jest ono prawdziwe, `notify()` nigdy nie czysci zadnego wyjscia z kolejki; zamiast tego natychmiast zwraca falsz. W przeciwnym razie `notify()` zawsze zwraca prawde.
+
+Jesli podano suppress-newline i jest ono prawdziwe, `notify()` nie dodaje znaku nowej linii na koncu stringa.
+
+**Funkcja: `buffered_output_length`**
+
+buffered_output_length -- zwraca liczbe bajtow aktualnie zbuforowanych do wyjscia na polaczenie conn
+
+int `buffered_output_length` ([obj conn])
+
+Jesli nie podano conn, zwraca maksymalna liczbe bajtow, jaka bedzie buforowana do wyjscia na dowolnym polaczeniu.
+
+Jesli podano conn, ale nie jest ono biezacym aktywnym polaczeniem, zglaszany jest `E_INVARG`. Jesli programista nie jest conn ani czarodziejem, zglaszany jest `E_PERM`.
+
+**Funkcja: `read`**
+
+read -- odczytuje i zwraca linie wejscia z polaczenia conn (lub, jesli nie podano, od gracza, ktory wpisal polecenie inicjujace biezace zadanie)
+
+str `read` ([obj conn [, non-blocking]])
+
+Jesli non-blocking jest falszywe lub nie podano go, ta funkcja zawiesza biezace zadanie, wznawiajac je, gdy dostepne jest wejscie do odczytu. Jesli podano non-blocking i jest ono prawdziwe, ta funkcja nigdy nie zawiesza wywolujacego zadania; jesli aktualnie nie ma dostepnego wejscia, `read()` po prostu natychmiast zwraca 0.
+
+Jesli podano player, programista musi byc albo czarodziejem, albo wlascicielem `player`; jesli nie podano `player`, `read()` moze byc wywolana wylacznie przez czarodzieja i wylacznie w zadaniu, ktore zostalo ostatnio zapoczatkowane poleceniem z danego polaczenia. W przeciwnym razie zglaszany jest `E_PERM`.
+
+Jesli podany `player` nie jest aktualnie polaczony i nie ma oczekujacych linii wejscia, lub jesli polaczenie zostanie zamkniete, gdy zadanie czeka na wejscie, ale zanim odebrano jakiekolwiek linie wejscia, `read()` zglasza `E_INVARG`.
+
+Ograniczenie uzycia `read()` bez argumentow zachowuje nastepujacy prosty niezmiennik: jesli wejscie jest odczytywane od gracza, to jest ono przeznaczone dla zadania zapoczatkowanego ostatnim poleceniem wpisanym przez tego gracza. Ten niezmiennik naklada jednak dodatkowa odpowiedzialnosc na programiste. Jesli Twoj program wywoluje inny czasownik przed wykonaniem `read()`, to albo ten czasownik nie moze sie zawiesic, albo musisz zadbac, by w miedzyczasie zadne polecenia nie byly odczytywane z polaczenia. Najprostszym sposobem, by to zrobic, jest wywolanie
+
+```
+set_connection_option(player, "hold-input", 1)
+```
+
+zanim moglaby nastapic jakakolwiek zawieszka zadania, nastepnie wykonanie wszystkich wywolan `read()` i innego kodu, ktory moze sie zawiesic, a na koniec wywolanie
+
+```
+set_connection_option(player, "hold-input", 0)
+```
+
+by ponownie pozwolic na normalne odczytywanie i interpretowanie polecen.
+
+**Funkcja: `force_input`**
+
+force_input -- wstawia string line jako zadanie wejsciowe do kolejki dla polaczenia conn, dokladnie tak, jakby przybyl jako wejscie przez siec
+
+none `force_input` (obj conn, str line [, at-front])
+
+Jesli podano at_front i jest ono prawdziwe, nowa linia wejscia jest umieszczana na poczatku kolejki conn, tak by byla nastepna przetwarzana linia wejscia, nawet jesli w tej kolejce jest juz jakies inne wejscie. Zglasza `E_INVARG`, jesli conn nie okresla biezacego polaczenia, oraz `E_PERM`, jesli programista nie jest ani conn, ani czarodziejem.
+
+**Funkcja: `flush_input`**
+
+flush_input -- wykonuje te same akcje, jak gdyby zdefiniowane dla polaczenia conn polecenie flush zostalo odebrane na tym polaczeniu
+
+none `flush_input` (obj conn [show-messages])
+
+Czyli usuwa wszystkie oczekujace linie wejscia z kolejki conn i, jesli podano show-messages i jest ono prawdziwe, wypisuje na conn komunikat wymieniajacy wyczyszczone linie, jesli takie byly. Zobacz rozdzial o zalozeniach serwera wobec bazy danych po wiecej informacji o zdefiniowanym dla polaczenia poleceniu flush.
+
+**Funkcja: `output_delimiters`**
+
+output_delimiters -- zwraca liste dwoch stringow: biezacy _prefiks wyjscia_ i _sufiks wyjscia_ dla gracza player.
+
+list `output_delimiters` (obj player)
+
+Jesli player nie ma aktywnego polaczenia sieciowego, zglaszany jest `E_INVARG`. Jesli ktorys ze stringow jest aktualnie niezdefiniowany, uzywana jest w jego miejsce wartosc `""`. Zobacz omowienie polecen `PREFIX` i `SUFFIX` w nastepnym rozdziale po wiecej informacji o prefiksie i sufiksie wyjscia.
+
+**Funkcja: `boot_player`**
+
+boot_player -- oznacza do rozlaczenia dowolne biezace aktywne polaczenie z podanym graczem
+
+none `boot_player` (obj player)
+
+Polaczenie nie zostanie faktycznie zamkniete, dopoki biezaco wykonywane zadanie nie zwroci wyniku lub sie nie zawiesi, ale wszystkie funkcje MOO (takie jak `notify()`, `connected_players()` i podobne) natychmiast zaczynaja zachowywac sie tak, jakby polaczenie juz nie istnialo. Jesli programista nie jest ani czarodziejem, ani tym samym co player, zglaszany jest `E_PERM`. Jesli nie ma biezacego aktywnego polaczenia z graczem player, ta funkcja nic nie robi.
+
+Jesli istnialo biezace aktywne polaczenie, to gdy polaczenie zostanie faktycznie zamkniete, wykonywane jest nastepujace wywolanie czasownika:
+
+```
+$user_disconnected(player)
+```
+
+To nie jest bledem, jesli ten czasownik nie istnieje; wywolanie jest po prostu pomijane.
+
+**Funkcja: `connection_info`**
+
+connection_info -- Zwraca MAPE informacji o polaczeniu sieciowym dla `connection`. W chwili pisania tego tekstu zwracane sa nastepujace informacje:
+
+map `connection_info` (OBJ `connection`)
+
+| Klucz | Wartosc |
+| --- | --- |
+| destination_address | Nazwa hosta polaczenia. Dla polaczen przychodzacych jest to nazwa hosta polaczonego uzytkownika. Dla polaczen wychodzacych jest to nazwa hosta celu polaczenia wychodzacego. |
+| destination_ip | Nierozwiazany numeryczny adres IP polaczenia. |
+| destination_port | Dla polaczen przychodzacych jest to lokalny port uzyty do nawiazania polaczenia. Dla polaczen wychodzacych jest to port, do ktorego nawiazano polaczenie. |
+| source_address | Nazwa hosta interfejsu, na ktorym nawiazano polaczenie przychodzace. Dla polaczen wychodzacych ta wartosc nie ma znaczenia. |
+| source_ip | Nierozwiazany numeryczny adres IP interfejsu, na ktorym nawiazano polaczenie. Dla polaczen wychodzacych ta wartosc nie ma znaczenia. |
+| source_port | Lokalny port, z ktorym polaczono. Dla polaczen wychodzacych ta wartosc nie ma znaczenia. |
+| protocol | Opisuje protokol uzyty do nawiazania polaczenia. W chwili pisania tego tekstu moze to byc IPv4 lub IPv6. |
+| outbound | Wskazuje, czy polaczenie jest wychodzace, czy nie |
+| tls | Informacje o polaczeniu TLS. Ten klucz jest obecny wylacznie, gdy ToastStunt zbudowano ze wsparciem `USE_TLS`. |
+
+Jesli connection nie jest prawidlowe lub jest w trakcie rozlaczania, zglaszany jest `E_INVARG`. Jesli programista nie jest czarodziejem i nie jest connection, zglaszany jest `E_PERM`.
+
+**Funkcja: `connection_name`**
+
+connection_name -- zwraca string specyficzny dla sieci, identyfikujacy polaczenie uzywane przez danego gracza
+
+str `connection_name` (obj player, [INT method])
+
+Podana tylko z obiektem gracza, ta funkcja zwraca jedynie nazwe hosta obj (np. `1-2-3-6.someplace.com`). Opcjonalny argument pozwala okreslic 1, jesli chcesz numeryczny adres IP, lub 2, jesli chcesz zwrocic string connection_name w starym (legacy) formacie.
+
+> Ostrzezenie: jesli uzywasz rdzenia LambdaMOO, jest to zmiana czesciowo lamiaca kompatybilnosc. Bedziesz chcial zaktualizowac kod na swoim serwerze wywolujacy `connection_name`, by przekazywal argument zwracajacy string connection_name w starym formacie, jesli chcesz, by wszystko dzialalo dokladnie tak samo.
+
+Jesli programista nie jest czarodziejem i nie jest graczem player, zglaszany jest `E_PERM`. Jesli player nie jest aktualnie polaczony, zglaszany jest `E_INVARG`.
+
+Informacje o stringu polaczenia w starym formacie (Legacy Connection String):
+
+Dla konfiguracji sieciowych TCP/IP, dla polaczen przychodzacych, string ma postac:
+
+```
+"port lport from host, port port"
+```
+
+gdzie lport to dziesietny port nasluchujacy TCP, na ktory przybylo polaczenie, host to nazwa lub dziesietny adres TCP hosta, z ktorego polaczony jest gracz, a port to dziesietny port TCP polaczenia na tym hoscie.
+
+Dla wychodzacych polaczen TCP/IP, string ma postac
+
+```
+"port lport to host, port port"
+```
+
+gdzie lport to dziesietny numer lokalnego portu TCP, z ktorego wywodzi sie polaczenie, host to nazwa lub dziesietny adres TCP hosta, do ktorego otwarto polaczenie, a port to dziesietny port TCP polaczenia na tym hoscie.
+
+Dla konfiguracji sieciowej System V 'local', string to nazwa logowania UNIX laczacego sie uzytkownika lub, jesli takiej nazwy nie mozna znalezc, cos w postaci:
+
+```
+"User #number"
+```
+
+gdzie number to numeryczny identyfikator uzytkownika UNIX.
+
+Dla innych konfiguracji sieciowych string jest taki sam dla wszystkich polaczen, a wiec bezuzyteczny.
+
+**Funkcja: `connection_name_lookup`**
+
+connection_name_lookup -- Ta funkcja wykonuje wyszukiwanie nazwy DNS dla adresu IP connection.
+
+str `connection_name_lookup` (OBJ connection [, INT record_result])
+
+Jesli nazwa hosta nie moze zostac rozwiazana, funkcja po prostu zwraca numeryczny adres IP. W przeciwnym razie zwroci rozwiazana nazwe hosta.
+
+Jesli record_result jest prawdziwe, rozwiazana nazwa hosta zostanie zapisana wraz z polaczeniem i nadpisze jego istniejacy wynik 'connection_name()'. Oznacza to, ze mozesz wywolac 'connection_name_lookup()' jednorazowo w momencie tworzenia polaczenia, a potem nadal uzywac 'connection_name()' tak jak zawsze wczesniej.
+
+Ta funkcja jest przeznaczona przede wszystkim do uzytku, gdy ustawiona jest opcja serwera 'NO_NAME_LOOKUP'. Poza tymczasowymi awariami Twojego serwera nazw, niewiele zyskasz, wywolujac ja, gdy serwer sam wykonuje dla Ciebie wyszukiwania DNS.
+
+> Uwaga: ta funkcja dziala w osobnym watku. Choc jest to dobre dla wydajnosci (dlugie wyszukiwania nie zablokuja Twojego MOO tak, jak tradycyjne wyszukiwania nazw sprzed wersji 2.6.0), oznacza to tez, ze stworzenie w pelni wewnatrzbazodanowego rozwiazania wyszukiwania DNS wymaga nieco wiecej pracy. Poniewaz ta funkcja jawnie sie zawiesza, nie bedziesz mogl jej uzyc w 'do_login_command()' bez uzycia rowniez funkcji 'switch_player()'. Przyklad, jak to moze dzialac, znajdziesz w '#0:do_login_command()' w ToastCore.
+
+**Funkcja: `switch_player`**
+
+switch_player -- Cicho przelacza gracza powiazanego z tym polaczeniem z object1 na object2.
+
+none `switch_player`(OBJ object1, OBJ object2 [, INT silent])
+
+object1 musi byc polaczony, a object2 musi byc graczem. Mozna tego uzyc w czasownikach do_login_command(), ktore odczytuja lub sie zawieszaja (co uniemozliwia dzialanie normalnego mechanizmu wyboru gracza).
+
+Jesli silent jest prawdziwe, nie zostana wypisane zadne komunikaty polaczenia.
+
+Programista musi byc czarodziejem, w przeciwnym razie zglaszany jest `E_PERM`. `E_INVARG` jest zglaszany, jesli object1 i object2 sa tym samym obiektem, jesli object1 nie jest polaczony, jesli object2 nie jest graczem, lub jesli object1 nie ma kolejki zadan do przekazania.
+
+> Uwaga: to wywoluje czasowniki user_disconnected i user_connected obiektu nasluchujacego, gdy jest to stosowne.
+
+**Funkcja: `set_connection_option`**
+
+set_connection_option -- kontroluje szereg opcjonalnych zachowan zwiazanych z polaczeniem conn
+
+none `set_connection_option` (obj conn, str option, value)
+
+Zglasza E_INVARG, jesli conn nie okresla biezacego polaczenia, i E_PERM, jesli programista nie jest ani conn, ani czarodziejem. O ile nie zaznaczono inaczej ponizej, opcje moga byc wylacznie wlaczone (value jest prawdziwe) lub wylaczone (w przeciwnym razie). Aktualnie wspierane sa nastepujace wartosci dla option:
+
+`"binary"`
+Gdy ustawione, polaczenie jest w trybie binarnym, w ktorym zarowno wejscie z conn, jak i wyjscie do conn moze zawierac dowolne bajty. Wejscie z polaczenia w trybie binarnym w ogole nie jest dzielone na linie; jest dostarczane albo do funkcji read(), albo do normalnego parsowania polecen jako stringi binarne, w takich fragmentach, w jakich przychodza z systemu operacyjnego. (Zobacz subtelny szczegol o stringach binarnych po opis reprezentacji stringa binarnego.) Dla wyjscia na polaczenie w trybie binarnym, drugi argument `notify()` musi byc stringiem binarnym; jesli jest zle sformowany, zglaszany jest E_INVARG.
+
+> Subtelny szczegol: jesli tryb polaczenia zostanie zmieniony w momencie, gdy na polaczeniu jest oczekujace wejscie, to wejscie zostanie dostarczone zgodnie z poprzednim trybem (tj. przy przelaczaniu z trybu binarnego moga byc oczekujace "linie" zawierajace sekwencje escape z tylda dla wbudowanych znakow konca linii, tabulatorow, tyld i innych znakow; przy przelaczaniu na tryb binarny moga byc oczekujace linie zawierajace surowe tabulatory, z ktorych znaki niedrukowalne zostaly po cichu usuniete zgodnie z trybem normalnym). Wylacznie w trakcie poczatkowego wywolania $do_login_command() na polaczeniu przychodzacym lub bezposrednio po wywolaniu open_network_connection() tworzacym polaczenie wychodzace masz pewnosc, ze nie ma oczekujacego wejscia. W innych momentach prawdopodobnie zechcesz wyczyscic wszelkie oczekujace wejscie bezposrednio po zmianie trybu polaczenia.
+
+`"hold-input"`
+
+Gdy ustawione, zadne wejscie odebrane na conn nie bedzie traktowane jako polecenie; zamiast tego wszystkie wejscie pozostaje w kolejce, dopoki nie zostanie pobrane wywolaniami read() lub dopoki ta opcja polaczenia nie zostanie wylaczona, w ktorym to momencie przetwarzanie polecen zostaje wznowione. Ta opcja nie wplywa na przetwarzanie linii wejscia poza pasmem (out-of-band).
+
+`"disable-oob"`
+
+Gdy ustawione, wylacza wszelkie przetwarzanie poza pasmem (zobacz sekcje o przetwarzaniu poza pasmem). Wszystkie kolejne linie wejscia, az do nastepnego polecenia wylaczajacego te opcje, beda dostepne dla zadan odczytu lub normalnego parsowania polecen dokladnie tak, jakby prefiks poza pasmem i prefiks cytowania poza pasmem nie byly zdefiniowane dla tego serwera.
+
+`"client-echo"`
+Ustawienie tej opcji nie ma znaczenia dla serwera. Jednak wywolanie set_connection_option() dla tej opcji wysyla komende protokolu Telnet `WONT ECHO` lub `WILL ECHO`, odpowiednio do tego, czy value jest prawdziwe czy falszywe. Dla klientow wspierajacych protokol Telnet powinno to przelaczac, czy klient lokalnie echouje znaki wpisywane przez uzytkownika. Zauwaz, ze sam serwer nigdy w zadnych okolicznosciach nie echouje znakow wejscia. (Ta opcja jest dostepna wylacznie w konfiguracjach sieciowych TCP/IP.)
+
+`"flush-command"`
+Ta opcja przyjmuje wartosc typu string. Jesli string jest niepusty, jest to polecenie flush dla tego polaczenia, ktorym gracz moze wyczyscic wszystkie zakolejkowane wejscie jeszcze nie przetworzone przez serwer. Jesli string jest pusty, conn w ogole nie ma polecenia flush. set_connection_option pozwala tez podac wartosc niebedaca stringiem, co jest rownowazne podaniu pustego stringa. Domyslna wartosc tej opcji mozna ustawic przez wlasciwosc `$server_options.default_flush_command`; zobacz sekcje o czyszczeniu nieprzetworzonego wejscia po szczegoly.
+
+`"intrinsic-commands"`
+
+Wartoscia tej opcji jest lista stringow, z ktorych kazdy jest nazwa jednego z dostepnych wewnetrznych (intrinsic) polecen serwera (zobacz sekcje o liniach polecen otrzymujacych specjalne traktowanie). Polecenia spoza tej listy sa wylaczone, tj. traktowane jak zwykle polecenia MOO obslugiwane przez $do_command i/lub wbudowany parser polecen
+
+set_connection_option pozwala tez podac wartosc calkowitoliczbowa, ktora, jesli wynosi zero, jest rownowazna podaniu pustej listy, a w przeciwnym razie jest traktowana jako lista wszystkich dostepnych polecen wewnetrznych (ustawienie domyslne).
+
+Tak wiec jednym ze sposobow udostepnienia nazwy czasownika `PREFIX` jako zwyklego polecenia jest:
+
+```
+set_connection_option(
+  player, "intrinsic-commands",
+  setremove(connection_options(player, "intrinsic-commands"),
+            "PREFIX"));
+```
+
+Zauwaz, ze connection_options() bez drugiego argumentu zwroci liste, natomiast podanie drugiego argumentu zwroci wartosc zadanego klucza.
+
+```
+save = connection_options(player,"intrinsic-commands");
+set_connection_option(player, "intrinsic-commands", 1);
+full_list = connection_options(player,"intrinsic-commands");
+set_connection_option(player,"intrinsic-commands", save);
+return full_list;
+```
+
+to sposob na uzyskanie pelnej listy polecen wewnetrznych dostepnych w serwerze bez wplywu na biezace polaczenie.
+
+Od wersji 2.7.1 kazde polaczenie ma teraz opcje wlaczenia TCP keep-alive. Mozna je skonfigurowac przez set_connection_option, podajac albo 1 (by wlaczyc i uzyc wartosci domyslnych), albo mape opcji. Klucze opcji to: idle, interval i count. Wiecej informacji o tym, co robia, oraz wartosci domyslne, znajdziesz w options.h.
+
+Nic nie zepsuto w kwestii kompatybilnosci. Stary sposob ustawiania opcji nadal istnieje. Keep-alive jest opcja:
+```
+set_connection_option(player, "keep-alive", 1);
+```
+
+Lub:
+
+```
+set_connection_option(player, "keep-alive", ["idle" -> 90, "interval" -> 60]);
+```
+
+Uwaga: jesli nie podasz jednej z 3 opcji w mapie, przyjmie ona wartosc domyslna zgodnie z options.h.
+
+**Funkcja: `connection_options`**
+
+connection_options -- zwraca liste par `{name, value}` opisujacych biezace ustawienia wszystkich dozwolonych opcji dla polaczenia conn, albo wartosc, jesli podano `name`
+
+ANY `connection_options` (obj conn [, STR name])
+
+Zglasza `E_INVARG`, jesli conn nie okresla biezacego polaczenia, i `E_PERM`, jesli programista nie jest ani conn, ani czarodziejem.
+
+Wywolanie connection_options bez nazwy zwroci LISTE. Podanie name zwroci wylacznie wartosc zadanej opcji `name`.
+
+**Funkcja: `open_network_connection`**
+
+open_network_connection -- nawiazuje polaczenie sieciowe z miejscem okreslonym przez argumenty i mniej wiecej udaje, ze zostalo stamtad nawiazane nowe, normalne polaczenie gracza
+
+obj `open_network_connection` (STR host, INT port [, MAP options])
+
+Nawiazuje polaczenie sieciowe z miejscem okreslonym przez argumenty i mniej wiecej udaje, ze zostalo stamtad nawiazane nowe, normalne polaczenie gracza. Nowe polaczenie, jak zwykle, nie bedzie poczatkowo zalogowane i bedzie mialo powiazany z nim ujemny numer obiektu do uzytku z `read()`, `notify()` i `boot_player()`. Ten numer obiektu jest wartoscia zwracana przez te funkcje.
+
+Jesli programista nie jest czarodziejem lub jesli opcja kompilacji `OUTBOUND_NETWORK` nie byla uzyta przy budowaniu serwera, zglaszany jest `E_PERM`. Jesli wsparcie dla sieci wychodzacej jest obecne, ale wylaczone w czasie dzialania, `E_PERM` jest zglaszany z wartoscia wskazujaca, ze polaczenia sieciowe wychodzace sa wylaczone.
+
+`host` odnosi sie do stringa nazywajacego host (mozliwe, ze numeryczny adres IP), a `port` to liczba calkowita odnoszaca sie do numeru portu TCP. Jesli polaczenia nie mozna nawiazac, poniewaz host nie istnieje, port nie istnieje, host jest nieosiagalny lub odrzucil polaczenie, zglaszany jest `E_INVARG`. Jesli polaczenia nie mozna nawiazac z innych powodow, wliczajac ograniczenia zasobow, zglaszany jest `E_QUOTA`. Gdy te bledy zostana przechwycone, wartosc bledu moze zawierac bardziej szczegolowe informacje diagnostyczne, takie jak szczegoly niepowodzenia wyszukiwania adresu, gniazda, polaczenia lub TLS.
+
+Opcjonalnie mozesz podac mape z dowolnymi lub wszystkimi z nastepujacych opcji:
+
+  listener: Obiekt, ktorego czasowniki nasluchujace beda wywolywane w odpowiednich momentach. (Zobacz HELP LISTEN() po wiecej szczegolow.)
+
+  tls: Jesli prawdziwe, nawiazuje bezpieczne polaczenie TLS.
+
+  ipv6: Jesli prawdziwe, wykorzystuje protokol IPv6 zamiast IPv4.
+
+  tls_verify: Jesli prawdziwe, weryfikuje zdalnego partnera TLS. Ta opcja jest dostepna wylacznie, gdy ToastStunt zbudowano ze wsparciem TLS.
+
+Przy otwieraniu wychodzacego polaczenia TLS, ToastStunt wysyla Server Name Indication (SNI), uzywajac podanej nazwy hosta.
+
+Proces nawiazywania polaczenia wychodzacego obejmuje pewne kroki, ktore moga zajac dosc duzo czasu, w trakcie ktorych serwer nie robi nic innego, wliczajac odpowiadanie na polecenia uzytkownikow i wykonywanie zadan MOO. Zobacz rozdzial o zalozeniach serwera wobec bazy danych po szczegoly tego, jak serwer ogranicza czas oczekiwania na pomyslne zakonczenie tych krokow.
+
+Warto wspomniec o jednym trudnym aspekcie zwiazanym z uzyciem tej funkcji. Poniewaz serwer traktuje nowe polaczenie niemal tak samo jak kazde normalne polaczenie gracza, w naturalny sposob bedzie probowal parsowac dowolne wejscie z tego polaczenia jako polecenia w zwykly sposob. By temu zapobiec, powinienes uzyc `set_connection_option()`, by ustawic opcje `hold-input` na prawde dla tego polaczenia.
+
+Przyklad:
+
+```
+open_network_connection("2607:5300:60:4be0::", 1234, ["ipv6" -> 1, "listener" -> #6, "tls" -> 1])
+```
+
+Otworz nowe polaczenie z adresem IPv6 2607:5300:60:4be0:: na porcie 1234, uzywajac TLS. Odpowiednie czasowniki zostana wywolane na #6.
+
+**Funkcja: `curl`**
+
+str `curl` (STR url [, INT include_headers [, INT timeout]])
+
+Wbudowana funkcja curl pobierze strone internetowa i zwroci ja jako string. Jesli include_headers jest prawdziwe, naglowki HTTP zostana wlaczone do zwracanego stringa.
+
+Programista musi byc czarodziejem, w przeciwnym razie zglaszany jest `E_PERM`. Jesli sieciowe polaczenia wychodzace sa wylaczone w czasie dzialania, `curl()` zglasza `E_PERM` z wartoscia wskazujaca, ze polaczenia sieciowe wychodzace sa wylaczone.
+
+Warto zauwazyc, ze otrzymane dane beda zakodowane binarnie. W szczegolnosci zauwazysz, ze znaki nowej linii pojawiaja sie jako ~0A. Mozesz latwo przeksztalcic strone w liste, przekazujac zwrocony string do funkcji decode_binary().
+
+CURL_TIMEOUT jest zdefiniowany w options.h i okresla maksymalny czas, jaki moze zajac zadanie CURL, zanim zawiedzie. Dla szczegolnych przypadkow mozesz okreslic dluzszy lub krotszy limit czasu za pomoca trzeciego argumentu curl().
+
+Od wersji ToastStunt 2.7.3 curl wspiera protokol Dictionary Server (DICT).
+
+**Funkcja: `url_encode`**
+
+url_encode -- koduje string w formacie URL.
+
+str `url_encode` (STR string)
+
+Zwraca string ze znakami zakodowanymi (escaped) do uzytku w URL. Jesli sieciowe polaczenia wychodzace sa wylaczone w czasie dzialania, zglaszany jest `E_PERM`. Jesli ToastStunt zbudowano bez wsparcia dla curl, ta funkcja jest niedostepna.
+
+**Funkcja: `url_decode`**
+
+url_decode -- dekoduje string zakodowany w formacie URL.
+
+str `url_decode` (STR string)
+
+Zwraca zdekodowana kopie string. Jesli sieciowe polaczenia wychodzace sa wylaczone w czasie dzialania, zglaszany jest `E_PERM`. Jesli ToastStunt zbudowano bez wsparcia dla curl, ta funkcja jest niedostepna.
+
+**Funkcja: `read_http`**
+
+map `read_http` (request-or-response [, OBJ conn])
+
+Odczytuje linie z polaczenia conn (lub, jesli nie podano, od gracza, ktory wpisal polecenie inicjujace biezace zadanie) i probuje sparsowac te linie tak, jakby byly zadaniem (request) lub odpowiedzia (response) HTTP. request-or-response musi byc albo stringiem "request", albo "response". Okresla to rodzaj parsowania, jakie zostanie wykonane.
+
+Jesli parsowanie zawiedzie, poniewaz zadanie lub odpowiedz sa skladniowo niepoprawne, `read_http()` zwraca mape z pojedynczym kluczem `"error"` i lista wartosci opisujacych powod bledu. Jesli zakolejkowanego wejscia nie mozna zdekodowac jako prawidlowego stringa binarnego MOO, `read_http()` zwraca 0.
+
+Podobnie jak read(), jesli podano conn, programista musi byc albo czarodziejem, albo wlascicielem conn; jesli conn nie podano, read_http() moze byc wywolana wylacznie przez czarodzieja i wylacznie w zadaniu, ktore zostalo ostatnio zapoczatkowane poleceniem z danego polaczenia. W przeciwnym razie zglaszany jest E_PERM. Podobnie, jesli conn nie jest aktualnie polaczony i nie ma oczekujacych linii wejscia, lub jesli polaczenie zostanie zamkniete, gdy zadanie czeka na wejscie, ale zanim odebrano jakiekolwiek linie wejscia, read_http() zglasza E_INVARG.
+
+Jesli parsowanie zawiedzie, poniewaz zadanie lub odpowiedz sa skladniowo niepoprawne, read_http() zwroci mape z pojedynczym kluczem "error" i lista wartosci opisujacych powod bledu. Jesli parsowanie sie powiedzie, read_http() zwroci mape z odpowiednim podzbiorem nastepujacych kluczy, z wartosciami sparsowanymi z zadania lub odpowiedzi HTTP: "method", "uri", "headers", "body", "status" i "upgrade".
+
+> Subtelny szczegol: read_http() zaklada, ze stringi wejsciowe sa stringami binarnymi. Gdy wywolywana interaktywnie, jak w przykladzie ponizej, programista musi wstawic doslowne terminatory linii, w przeciwnym razie parsowanie zawiedzie.
+
+Nastepujacy przyklad interaktywnie odczytuje zadanie HTTP z polaczenia gracza.
+
+```
+read_http("request", player)
+GET /path HTTP/1.1~0D~0A
+Host: example.com~0D~0A
+~0D~0A
+```
+
+W tym przykladzie string ~0D~0A konczy zadanie. Wywolanie zwraca nastepujace (zadanie nie ma ciala):
+
+```
+["headers" -> ["Host" -> "example.com"], "method" -> "GET", "uri" -> "/path"]
+```
+
+Nastepujacy przyklad interaktywnie odczytuje odpowiedz HTTP z polaczenia gracza.
+
+```
+read_http("response", player)
+HTTP/1.1 200 Ok~0D~0A
+Content-Length: 10~0D~0A
+~0D~0A
+1234567890
+```
+
+Wywolanie zwraca nastepujace:
+
+```
+["body" -> "1234567890", "headers" -> ["Content-Length" -> "10"], "status" -> 200]
+```
+
+**Funkcja: `listen`**
+
+listen -- tworzy nowy punkt, w ktorym serwer bedzie nasluchiwal polaczen sieciowych, dokladnie tak jak robi to normalnie
+
+value `listen` (obj object, port [, MAP options])
+
+Tworzy nowy punkt, w ktorym serwer bedzie nasluchiwal polaczen sieciowych, dokladnie tak jak robi to normalnie. `Object` to obiekt, ktorego czasowniki `do_login_command`, `do_command`, `do_out_of_band_command`, `user_connected`, `user_created`, `user_reconnected`, `user_disconnected` i `user_client_disconnected` beda wywolywane w odpowiednich momentach, tak jak te czasowniki sa wywolywane na #0 dla normalnych polaczen. (Zobacz rozdzial w Podreczniku Programisty LambdaMOO o zalozeniach serwera wobec bazy danych po pelna historie, kiedy te funkcje sa wywolywane.) `Port` to numer portu TCP, na ktorym nalezy nasluchiwac. Funkcja listen() zwroci `port`, chyba ze `port` wynosi zero, w takim przypadku wartoscia zwracana jest numer portu przydzielony przez system operacyjny.
+
+Opcjonalny trzeci argument pozwala ustawic rozne dodatkowe opcje dla punktu nasluchu. Sa to:
+
+  print-messages: Jesli prawdziwe, rozne konfigurowalne z poziomu bazy danych komunikaty (rowniez opisane w rozdziale o zalozeniach serwera) beda wypisywane na polaczeniach odebranych na nowym punkcie nasluchu.
+
+  ipv6: Uzyj protokolu IPv6 zamiast IPv4.
+
+  tls: Akceptuj wylacznie prawidlowe, bezpieczne polaczenia TLS.
+
+  certificate: Pelna sciezka do certyfikatu TLS. UWAGA: wymaga, by opcja TLS byla rowniez podana i prawdziwa. Ta opcja jest potrzebna wylacznie, gdy certyfikat rozni sie od tego okreslonego w options.h.
+
+  key: Pelna sciezka do klucza prywatnego TLS. UWAGA: wymaga, by opcja TLS byla rowniez podana i prawdziwa. Ta opcja jest potrzebna wylacznie, gdy klucz rozni sie od tego okreslonego w options.h.
+
+  interface: Pozwala okreslic interfejs, na ktorym nalezy nasluchiwac. (Podobnie do argumentow linii polecen --ipv4 lub --ipv6.)
+
+listen() zglasza E_PERM, jesli programista nie jest czarodziejem, E_INVARG, jesli `object` jest niepoprawne lub juz istnieje punkt nasluchu opisany przez `point`, oraz E_QUOTA, jesli wystapil jakis blad specyficzny dla konfiguracji sieciowej.
+
+Przyklad:
+
+```
+listen(#0, 1234, ["ipv6" -> 1, "tls" -> 1, "certificate" -> "/etc/certs/something.pem", "key" -> "/etc/certs/privkey.pem", "print-messages" -> 1])
+```
+
+Nasluchuj polaczen IPv6 na porcie 1234 i wypisuj komunikaty w stosownych przypadkach. Te polaczenia musza byc TLS i beda uzywac klucza prywatnego i certyfikatu znalezionych w /etc/certs.
+
+**Funkcja: `unlisten`**
+
+unlisten -- przestaje nasluchiwac polaczen na punkcie opisanym przez canon, ktory powinien odpowiadac wartosci `port` z elementu listy zwracanej przez `listeners()`
+
+none `unlisten` (canon [, INT ipv6])
+
+Zglasza `E_PERM`, jesli programista nie jest czarodziejem, i `E_INVARG`, jesli nie istnieje punkt nasluchu o takim opisie. Jesli podano `ipv6` i jest ono prawdziwe, ToastStunt szuka punktu nasluchu IPv6 o takim opisie.
+
+**Funkcja: `listeners`**
+
+listeners -- zwraca liste opisujaca istniejace punkty nasluchu, wliczajac domyslny, tworzony automatycznie przez serwer przy starcie (chyba ze zostal on od tego czasu zniszczony wywolaniem `unlisten()`)
+
+list `listeners` ([obj-or-port])
+
+Jesli podano obiekt lub port, zwracane sa wylacznie pasujace punkty nasluchu. Kazdy element zwracanej listy jest mapa z nastepujacymi kluczami:
+
+| Klucz | Wartosc |
+| --- | --- |
+| object | Obiekt, ktorego czasowniki nasluchujace sa wywolywane. |
+| port | Port lub deskryptor punktu nasluchu. |
+| print-messages | Prawda, jesli dla tego punktu nasluchu wypisywane sa komunikaty konfigurowalne z poziomu bazy danych. |
+| ipv6 | Prawda, jesli ten punkt nasluchu uzywa IPv6. |
+| interface | Interfejs, na ktorym prowadzony jest nasluch. |
+| tls | Prawda, jesli ten punkt nasluchu uzywa TLS. Ten klucz jest obecny wylacznie, gdy ToastStunt ma wsparcie TLS. |
+
+Dla poczatkowego punktu nasluchu, object to `#0`, port jest okreslany przez argumenty linii polecen lub domyslna wartosc specyficzna dla konfiguracji sieciowej, a print-messages jest prawdziwe.
+
+Zauwaz, ze poczatkowy punkt nasluchu tworzony przez serwer przy starcie nie ma w sobie nic specjalnego; mozesz uzyc na nim `unlisten()` dokladnie tak, jakby zostal utworzony przez `listen()`. Moze to byc przydatne; na przyklad, w jednej z konfiguracji TCP/IP, mozesz uruchomic swoj serwer na jakims malo znanym porcie, powiedzmy 12345, polaczyc sie z nim samemu na jakis czas, a nastepnie otworzyc go dla normalnych uzytkownikow, wykonujac instrukcje:
+
+```
+unlisten(12345); listen(#0, 7777, ["print-messages" -> 1])
+```
