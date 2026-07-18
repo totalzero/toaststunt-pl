@@ -64,7 +64,7 @@ ToastStunt to fork [Stunt](https://github.com/toddsundsted/stunt), ktory z kolei
 * [MOO FAQ](http://www.moo.mud.org/moo-faq/)
 * [Arch Wizard FAQ](https://lisdude.com/moo/new-archwiz-faq.html) -- patrz takze nasze [polskie tlumaczenie](FAQ-ARCYCZARODZIEJA.md)
 * [Budowa pliku bazy danych LambdaMOO](https://lisdude.com/moo/lmdb.html) -- patrz takze nasze [polskie tlumaczenie](BUDOWA-PLIKU-LMDB.md)
-* [Podstawy dla Czarodziei (Wizard Basics)](https://lisdude.com/moo/wizbasics.html)
+* [Podstawy dla Czarodziei (Wizard Basics)](https://lisdude.com/moo/wizbasics.html) -- patrz takze nasze [polskie tlumaczenie](PODSTAWY-DLA-CZARODZIEI.md)
 * [Whitepaper o garbage collection](https://researcher.watson.ibm.com/researcher/files/us-bacon/Bacon01Concurrent.pdf) (dokument, do ktorego odwolywano sie przy tworzeniu garbage collectora, z ktorego opcjonalnie moze korzystac Toast)
 * [Budowa bazy danych ToastStunt](https://lisdude.com/moo/toaststunt_anatomy/) -- patrz takze nasze [polskie tlumaczenie](BUDOWA-BAZY-DANYCH-TOASTSTUNT.md)
 
