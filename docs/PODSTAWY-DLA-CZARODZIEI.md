@@ -208,3 +208,301 @@ Klienci MOO oferuja najwiecej funkcji i elastycznosci podczas laczenia sie z MOO
 Zwroc uwage, ze zadne z ponizszych oprogramowan nie zostalo przetestowane. Jesli ich uzywasz, robisz to na wlasne ryzyko.
 
 Oprogramowanie niekomercyjne i komercyjne jest wymieniane bez rozroznienia. Popytaj o opinie na temat takiego czy innego oprogramowania i wyprobuj je. Twoje preferencje moga zalezec od tego, co chcesz z nimi robic (programowanie czy cos innego).
+
+### Jestem polaczony z moim MOO, co powinienem zrobic najpierw?
+
+Pierwsza rzecza, jaka powinienes zrobic, jest zmiana hasla czarodzieja.
+
+Jak zauwazyles, nie potrzebowales go przy pierwszym polaczeniu. Jesli go nie zmienisz, kazdy moze polaczyc sie z tym loginem, a to moze sprowadzic klopoty...
+
+```
+;#2.password=crypt("nowe_haslo")
+```
+
+Jako ogolna zasada dla hasel, zwlaszcza tych dotyczacych postaci czarodziejow, wybierz takie, ktore nie jest slowem ze slownika i ma co najmniej osiem znakow, uzywajac wielkich liter i znakow takich jak !@#$%^&*() na przyklad. Bezpieczenstwo twojego MOO w duzej mierze zalezy od wyboru hasel.
+
+Nadaj nazwe swojemu MOO!
+
+```
+@set $network.MOO_name to "Moje_MOO"
+```
+
+Ustaw poprawna nazwe domeny lub adres IP, z ktorego dziala twoje MOO:
+
+```
+@set $network.site to "moja_nazwa_domeny"
+```
+
+Jesli zdecydowales sie uzyc innego portu niz 7777 (zdefiniowanego w pliku options.h podczas kompilacji), dobrym pomyslem jest zaktualizowanie tego rowniez tutaj.
+
+```
+@set $network.port to twoj_numer
+```
+
+(nie uzywaj cudzyslowow dla powyzszego ustawienia portu).
+
+To tez dobry moment, by sprawdzic:
+
+```
+help $login
+```
+
+Informacje tam zawarte beda przydatne, a takze omowione w kolejnych sekcjach.
+
+### Chce zmienic ekran logowania... domyslny jest nudny.
+
+Edytuj wlasciwosc $login.welcome_message:
+
+```
+@set $login.welcome_message to <twoja_wiadomosc>
+```
+
+<twoja_wiadomosc> musi byc lista:
+
+```
+{"Witamy w moim nowym MOO", "", "Wpisz connect guest, by polaczyc sie jako
+gosc, albo uzyj: connect nazwa_gracza haslo", "", "Milej zabawy!"}
+```
+
+Jesli twoja wiadomosc jest dosc dluga i czujesz, ze powyzsza metoda jest barbarzynska, uzyj edytora notatek:
+
+```
+@notedit $login.welcome_message
+```
+
+(Upewnij sie, ze wiesz, jak uzywac @notedit! Za pierwszym razem, gdy go uzylem, utknalem w edytorze na wiele godzin...)
+
+### Chce stworzyc goscie.
+
+By stworzyc goscia, uzyj: @make-guest
+
+```
+@make-guest Poirot
+```
+
+Jak sugeruje pomoc @make-guest, dodaj alias guest do swojego pierwszego goscia (lub dowolnego innego).
+
+Jesli numer obiektu twojego pierwszego goscia to #95, uzyj:
+
+```
+@add-alias guest to #95
+```
+
+### Jak dziala tworzenie graczy?
+
+Domyslnie kazdy moze stworzyc gracza z ekranu logowania. Skladnia jest nastepujaca:
+
+```
+create <nazwa_gracza> <haslo>
+```
+
+Problemem z ta opcja jest to, ze wlasciwosc .email_address pozostaje pusta. Sugerowalbym wylaczenie tej opcji i zmuszenie goscinnych graczy do uzycia @request lub innego systemu, ktory wolisz i ktory ustawisz na swoim MOO.
+
+```
+@set $login.create_enabled to 0
+```
+
+Wylaczajac te opcje, uzytkownik otrzyma zawartosc $login.registration_string przy probie stworzenia postaci z ekranu logowania. Dlatego mozesz zechciec zedytowac ten lancuch, wskazujac uzytkownikowi procedure, jaka wybierzesz do tworzenia konta:
+
+```
+@set $login.registration_enable to "jakakolwiek metoda jest lepsza, uzyj
+jej!"
+```
+
+Mozliwe jest jeszcze bardziej dostosowanie wiadomosci $login.registration_enable, ustawiajac $login.registration_address. Ta wlasciwosc bedzie zawierac adres e-mail do kontaktu w celu uzyskania konta gracza (jesli zdecydujesz sie uzyc tej opcji do tworzenia graczy). Dlatego zedytuj ja najpierw:
+
+```
+@set $login.registration_address to "ktos@tworzeniegraczy.edu"
+```
+
+I zedytuj $login.registration_enable odpowiednio:
+
+```
+@set $login.registration_enable to "Prosze skontaktowac sie z %e, by
+uzyskac gracza, albo polacz sie jako gosc i uzyj @request (lub inaczej!)"
+```
+
+(%e zostanie zastapione przez $login.registration_address).
+
+Dobrym pomyslem jest zdefiniowanie $login.registration_address tak czy inaczej, poniewaz to ten adres e-mail zostanie zaproponowany przez @request, jesli wystapia problemy w trakcie procesu.
+
+Teraz @request jest wciaz opcja dla goscia, by poprosic o konto gracza.
+
+Ta procedura bedzie uzywac wielu wlasciwosci na $network, a takze opcji uzycia mozliwej funkcji OUTBOUNDED.
+
+Zalozmy, ze ja wlaczyles (jak wiekszosc ludzi zwykle robi); jesli nie, nie ma sie czym martwic i nie dotyczy cie to, co nastepuje.
+
+Pierwsza rzecza do wlaczenia jest $network.active. Domyslnie jej wartosc to 0. By ja wlaczyc, wpisz:
+
+```
+@set $network.active to 1
+```
+
+W tym momencie MOO uzyje serwera SMTP maszyny, na ktorej dziala serwer. Dlatego musisz sie upewnic, ze uzytkownik, pod ktorym dziala serwer MOO, ma dostep do tej uslugi.
+
+Jesli wolisz uzyc SMTP innego serwera, zedytuj $network.maildrop
+
+```
+@set $network.maildrop to "serwer_SMTP"
+```
+
+Ta wlasciwosc moze zawierac albo nazwe domeny, albo adres IP. Musisz sie jednak upewnic, ze SMTP przekazuje dalej (relay) e-maile pochodzace z twojej maszyny. Dzisiaj, przy calym biznesie odbywajacym sie przez e-mail, wiekszosc serwerow SMTP domyslnie NIE przekazuje dalej.
+
+Dobrym pomyslem byloby teraz ustawienie adresow e-mail uzywanych w przypadku zwracanych wiadomosci lub innych problemow, jakie moga wystapic:
+
+Nie znam szczegolow wszystkich tych roznych wlasciwosci, wiec po prostu ustawilem je wszystkie. Wpisz prawidlowy adres e-mail w nastepujacych wlasciwosciach:
+
+```
+$network.postmaster
+$network.errors_to_address
+$network.envelope_from
+$network.usual_postmaster
+$network.password_postmaster
+```
+
+Teraz, gdy mozesz juz tworzyc graczy, musisz sie zastanowic, ilu z nich zaakceptujesz jednoczesnie? Czy chcesz ustawic limit liczby polaczen? Rodzaj sprzetu, jaki masz (RAM), moze narzucac limit.
+
+Domyslny limit jest ustawiony na 99999. Innymi slowy, nie ma limitu. Jesli czujesz, ze go potrzebujesz, zedytuj:
+
+```
+$login.max_connections
+```
+
+By powiadomic osoby, ktore chca sie polaczyc, ale zostana wyrzucone z powodu tego limitu, zedytuj:
+
+```
+$login.connection_limit_msg
+```
+
+Zauwaz, ze konta czarodziejow nie podlegaja temu ograniczeniu, a $login.lag_exemptions pozwala dodac graczy niebedacych czarodziejami do listy.
+
+### E-maile nie sa wysylane przy tworzeniu graczy!!
+
+Kilka rzeczy, ktore mozesz sprawdzic:
+
+Czy usunales /* i */ wokol
+
+```
+#define OUTBOUND_NETWORK
+```
+
+gdy edytowales options.h przed kompilacja serwera?
+
+Czy poprawnie ustawiles $network.active?
+
+```
+@set $network.active to 1
+```
+
+Czy sprawdziles, ze masz dzialajaca usluge SMTP na serwerze, na ktorym zainstalowane jest twoje MOO?
+
+Jesli nie i musisz polegac na innym serwerze, by uzyc SMTP, zedytuj odpowiednio $network.maildrop i odwolaj sie do drugiej czesci powyzszej sekcji po wiecej informacji.
+
+### Jak powinienem uruchamiac baze danych? restart? moo?
+
+Po skompilowaniu serwera MOO w katalogu roboczym powinny znajdowac sie 2 pliki wykonywalne:
+
+```
+moo
+restart
+```
+
+Oba moga byc uzyte do uruchomienia bazy danych MOO, choc moo jest tak naprawde plikiem wykonywalnym, a restart to tylko skrypt. Zdecydowanie sugerowalbym przeczytanie pliku README dolaczonego do pakietu serwera, by uzyskac pelne wyjasnienie, jak mozna uzywac obu tych plikow.
+
+Wierze, ze to naprawde od ciebie zalezy, jak chcesz to robic, ale zasadniczo skladnia wyglada tak:
+
+```
+./restart twojemoo
+./restart twojemoo port
+```
+
+Port jest opcjonalny, ale sugerowalbym, by go i tak dodac. Jesli go nie podasz, uzyty zostanie ten z $network.port (czyli ten, ktory wybrales w options.h przed kompilacja). Jest wiec oczywiste, ze dzieki tej opcji mozesz nadpisac domyslny port, podajac inny, jesli przyjdzie ci na to ochota. Jesli to zrobisz, nie zapomnij odpowiednio zmodyfikowac #72.port przy polaczeniu, w przeciwnym razie moga sie zdarzyc dziwne rzeczy -- nie wiem...
+
+```
+./moo twojemoo.db twojenowemoo.db
+./moo twojemoo.db twojenowemoo.db port
+```
+
+Tu ta sama historia z portem.
+
+Zauwaz, ze uzywajac ./restart NIE potrzebujesz rozszerzenia .db, podczas gdy uzywajac ./moo -- POTRZEBUJESZ go.
+
+Teraz z pewnoscia zechcesz miec zwiazany z tym plik logu; by to zrobic, dodaj -l:
+
+```
+./moo -l plik_logu.log twojemoo.db twojenowemoo.db port
+```
+
+-l moze byc uzyte zarowno z ./moo, jak i ./restart
+
+ZDECYDOWANIE sugeruje sie, by NIE uzywac tej samej nazwy dla swojej bazy danych przy uzyciu ./moo!!!
+
+twojemoo.db to twoja oryginalna baza danych, a twojenowemoo.db to ta, do ktorej checkpoint zrzuci kopie zapasowa.
+
+Zauwaz tez, ze gdy uzywasz ./restart, zadanie jest automatycznie forkowane, a identyfikator zadania zostaje ci podany w prezencie (eeeh..:). Jednak jesli uzyjesz ./moo, twoja konsola utknie w tym miejscu (yyyargh!). To wlasnie chcesz, jesli jestes w trybie awaryjnym (uzywajac -e), ale przez wiekszosc czasu wolelibysmy miec wolne rece po uruchomieniu serwera MOO. By to osiagnac, dodaj & do swojej linii polecen.
+
+```
+./moo -l plik_logu.log twojemoo.db twojenowemoo.db port &
+```
+
+Zobacz nastepna sekcje o robieniu kopii zapasowej bazy danych po wiecej informacji o checkpointowaniu.
+
+### Jak zapisywane jest moje MOO? jak zrobic jego kopie zapasowa?
+
+Odwolaj sie do Podrecznika Programisty w sekcji o checkpointowaniu po pelny opis.
+
+Glowna idea jest nastepujaca:
+
+Co jakis czas serwer MOO zrobi kopie zapasowa twojego pliku bazy danych i zapisze ja do innego pliku.
+
+Jesli uzyles ./restart, nowy plik bedzie mial te sama nazwe co twoja oryginalna baza danych, z dodanym rozszerzeniem .new (podobnie dla pliku logu).
+
+Jesli uzyles ./moo, nowy plik zostanie zrzucony do tego, ktory podales; w przypadku poprzedniej sekcji byl to twojenowemoo.db
+
+To dlatego chcesz uzywac innej nazwy, by jesli stanie sie cos dziwnego, wciaz miec pod reka swoj oryginalny plik.
+
+Jak czesto to "co jakis czas" oznacza wystapienie zrzutu?
+
+Mozesz to zrobic recznie w dowolnym momencie (z uprawnieniami czarodzieja), wpisujac:
+
+```
+@dump-database
+```
+
+Gdy wykonujesz @shutdown serwera, robi sie to automatycznie.
+
+Zrzut wystepuje domyslnie co 3600 sekund (czyli co godzine); ale mozesz zmienic te wartosc, ktora jest przechowywana w #0.dump_interval
+
+Zauwaz, ze proces zrzucania jest domyslnie forkowany, co jest dobra rzecza, jesli masz duza baze danych (mozesz to jednak zmienic w pliku options.h).
+
+Jest tez mila, mala funkcja, ktora mozesz wlaczyc w pliku options.h, zwana
+
+```
+/* #define LOG_COMMANDS */
+```
+
+Jesli ja odkomentujesz, bedzie logowac wszystko, co jest wpisywane od ostatniego checkpointu. Gdy nastapi nowy checkpoint i zostanie zakonczony, ta czesc logu znika. Moze to byc przydatne, jesli twoj serwer ulegnie awarii z nieznanych powodow.
+
+Teraz, jesli jestes neurotykiem kopii zapasowych (co jest dobra rzecza....;), mozesz tez uzyc cron, by zautomatyzowac wiecej kopii zapasowych. Upewnij sie tylko, ze uzytkownik, pod ktorym dzialasz, ma prawo uruchamiac crontab (niektore zapory sieciowe moga to ograniczac do roota)
+
+### FUP nie kompiluje sie poprawnie, co jest grane?
+
+W dokumentacji pakietu FUP pominieto pewien szczegol, co spowoduje blad podczas kompilacji serwera MOO. Jesli plik FUP.README nie zostal zaktualizowany, oto poprawka:
+
+Zedytuj plik version.h i dodaj nastepujaca linie:
+
+```
+extern const char *FUP_version;
+```
+
+Podziekowania dla Billa Garretta i Gavina Lamberta za ich pomoc w tej sprawie.
+
+Dostepna jest teraz kolejna wersja FUP (v 1.9). Pozwala na opcje fileinsert() i filecut() i mozna ja znalezc tutaj.
+
+Kazdy zainteresowany napisaniem dla niej fup.dll jest bardzo mile widziany.
+
+### Uzywam Mac OS X, czy kompiluje sie to tak samo jak dla UNIX-a?
+
+Mozna znalezc wersje serwera na MAC-a na stronie zasobow MOO Fringe'a, jesli chodzi o MAC OS 8 lub 9.
+
+Istnieje dobra dokumentacja napisana przez Jerry'ego o tym, jak skompilowac serwer MOO na OS X, ktora zostala zaktualizowana dla OS X 10.4.
