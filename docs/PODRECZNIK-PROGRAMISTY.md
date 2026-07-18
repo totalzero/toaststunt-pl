@@ -66,7 +66,7 @@ ToastStunt to fork [Stunt](https://github.com/toddsundsted/stunt), ktory z kolei
 * [Budowa pliku bazy danych LambdaMOO](https://lisdude.com/moo/lmdb.html) -- patrz takze nasze [polskie tlumaczenie](BUDOWA-PLIKU-LMDB.md)
 * [Podstawy dla Czarodziei (Wizard Basics)](https://lisdude.com/moo/wizbasics.html)
 * [Whitepaper o garbage collection](https://researcher.watson.ibm.com/researcher/files/us-bacon/Bacon01Concurrent.pdf) (dokument, do ktorego odwolywano sie przy tworzeniu garbage collectora, z ktorego opcjonalnie moze korzystac Toast)
-* [Budowa bazy danych ToastStunt](https://lisdude.com/moo/toaststunt_anatomy/)
+* [Budowa bazy danych ToastStunt](https://lisdude.com/moo/toaststunt_anatomy/) -- patrz takze nasze [polskie tlumaczenie](BUDOWA-BAZY-DANYCH-TOASTSTUNT.md)
 
 > Uwaga tlumacza: pozycje oznaczone powyzej jako polskie tlumaczenia zostaly lub zostana pobrane, przetlumaczone i zapisane jako osobne pliki w tym repozytorium w ramach tego samego przedsiewziecia tlumaczeniowego -- pozostale linki prowadza na razie do oryginalnych, angielskich zrodel zewnetrznych.
 
