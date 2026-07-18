@@ -3655,3 +3655,288 @@ maphaskey -- Zwraca 1, jesli key istnieje w map. Gdy nie mamy do czynienia z set
 int `maphaskey` (MAP map, ANY key [, INT case-matters])
 
 Jesli `case-matters` jest prawda, porownanie klucza-stringa rozroznia wielkosc liter. Wartosci kolekcji nie moga byc uzyte jako klucze do tego wyszukiwania; jesli key jest lista, mapa lub inna wartoscia kolekcji, zglaszany jest `E_TYPE`.
+
+#### Manipulowanie obiektami
+
+Obiekty sa, oczywiscie, glownym punktem zainteresowania wiekszosci programowania MOO i, w duzej mierze z tego powodu, istnieje wiele funkcji wbudowanych do ich manipulowania.
+
+##### Podstawowe operacje na obiektach
+
+**Funkcja: `create`**
+
+create -- Tworzy i zwraca nowy obiekt, ktorego rodzicem (lub rodzicami) jest parent (lub parents) i ktorego wlasciciel jest jak opisano nizej.
+
+obj `create` (obj parent [, obj owner] [, int anon-flag] [, list init-args])
+
+obj `create` (list parents [, obj owner] [, int anon-flag] [, list init-args])
+
+Tworzy i zwraca nowy obiekt, ktorego rodzicami sa parents (lub ktorego rodzicem jest parent) i ktorego wlasciciel jest jak opisano nizej. Jesli ktorykolwiek z podanych parents nie jest poprawny, lub jesli podany parent nie jest ani poprawny, ani #-1, zglaszany jest E_INVARG. Podane obiekty parents musza byc poprawne i musza byc uzywalne jako rodzic (tzn. ich bit `a` lub `f` musi byc prawda), albo programista musi byc wlascicielem parents lub czarodziejem; w przeciwnym razie zglaszany jest E_PERM. Ponadto, jesli anon-flag jest prawda, `a` musi byc prawda; a jesli anon-flag jest falszem lub nie podano go, `f` musi byc prawda. W przeciwnym razie zglaszany jest E_PERM, o ile programista nie jest wlascicielem parents lub czarodziejem. E_PERM jest rowniez zglaszany, jesli owner jest podany i nie jest taki sam jak programista, o ile programista nie jest czarodziejem.
+
+Po utworzeniu nowego obiektu wywolywany jest jego czasownik initialize, jesli istnieje. Jesli podano init-args, sa one przekazywane jako args do initialize. Nowemu obiektowi przypisywany jest najmniejszy nieujemny numer obiektu, ktory nie zostal jeszcze uzyty dla utworzonego obiektu. Zauwaz, ze zaden numer obiektu nigdy nie jest uzyty ponownie, nawet jesli obiekt o tym numerze zostanie poddany recyklingowi.
+
+> Uwaga: to nie jest do konca prawda, zwlaszcza jesli uzywasz ToastCore i `$recycler`, co jest swietnym pomyslem. Jesli nie, skonczysz z bardzo wysokimi numerami obiektow. Jednak jesli planujesz ponowne uzywanie numerow obiektow, musisz to uwazne rozwazyc w swoim kodzie. Nie chcesz umieszczac numerow obiektow w swoim kodzie w takim przypadku, poniewaz numery obiektow mogly sie zmienic. Uzywaj zamiast tego skorifikowanych referencji. Na przyklad mozesz uzyc `@corify #numerobiektu as $moj_obiekt`, a nastepnie odwolywac sie do $moj_obiekt w swoim kodzie. Alternatywnie mozesz zrobic ` @prop $sysobj.moj_obiekt #numerobiektu`. Jesli numer obiektu kiedykolwiek sie zmieni, mozesz zmienic referencje bez aktualizowania calego swojego kodu.)
+
+> Uwaga: $sysobj to typowo #0. Choc technicznie moze zostac zmienione na cos innego, autor nie zna zadnego powodu, by odejsc tutaj od konwencji.
+
+Jesli anon-flag jest falszem lub nie podano go, nowy obiekt jest obiektem permanentnym i otrzymuje najmniejszy nieujemny numer obiektu, ktory nie zostal jeszcze uzyty dla utworzonego obiektu. Zauwaz, ze zaden numer obiektu nigdy nie jest uzyty ponownie, nawet jesli obiekt o tym numerze zostanie poddany recyklingowi.
+
+Jesli anon-flag jest prawda, nowy obiekt jest obiektem anonimowym i nie otrzymuje numeru obiektu. Obiekty anonimowe sa automatycznie poddawane recyklingowi, gdy nie sa juz uzywane.
+
+Wlascicielem nowego obiektu jest albo programista (jesli owner nie zostal podany), sam nowy obiekt (jesli owner zostal podany i jest niepoprawny), albo owner (w przeciwnym razie).
+
+Inne wbudowane wlasciwosci nowego obiektu sa inicjowane w nastepujacy sposob:
+
+```
+name         ""
+location     #-1
+contents     {}
+programmer   0
+wizard       0
+r            0
+w            0
+f            0
+```
+
+Funkcja `is_player()` zwraca falsz dla nowo utworzonych obiektow.
+
+Dodatkowo nowy obiekt dziedziczy wszystkie inne wlasciwosci swoich rodzicow. Te wlasciwosci maja te same bity uprawnien, co na rodzicach. Jesli bit uprawnien `c` jest ustawiony, wlascicielem wlasciwosci na nowym obiekcie jest ten sam, co wlasciciel samego nowego obiektu; w przeciwnym razie wlascicielem wlasciwosci na nowym obiekcie jest ten sam, co na rodzicu. Poczatkowa wartosc kazdej dziedziczonej wlasciwosci jest czysta (clear); zobacz opis funkcji wbudowanej clear_property() po szczegoly.
+
+Jesli zamierzony wlasciciel nowego obiektu ma wlasciwosc o nazwie `ownership_quota`, a wartosc tej wlasciwosci jest liczba calkowita, `create()` traktuje te wartosc jako quota (limit). Jesli quota jest mniejsza lub rowna zeru, quota jest uznawana za wyczerpana i `create()` zglasza E_QUOTA zamiast tworzyc obiekt. W przeciwnym razie quota jest zmniejszana i zapisywana z powrotem do wlasciwosci `ownership_quota` jako czesc tworzenia nowego obiektu.
+
+> Uwaga: w ToastStunt to jest domyslnie wylaczone za pomoca opcji "OWNERSHIP_QUOTA" w options.h
+
+**Funkcja: `owned_objects`**
+
+owned_objects -- Zwraca liste wszystkich obiektow w bazie danych, ktorych wlascicielem jest `owner`. Wlasnosc jest okreslana przez wartosc .owner na obiekcie.
+
+list `owned_objects`(OBJ owner)
+
+Zglasza `E_INVIND`, jesli owner nie jest poprawnym obiektem.
+
+**Funkcja: `chparent`**
+
+**Funkcja: `chparents`**
+
+chparent -- Zmienia rodzica object na new-parent.
+
+chparents -- Zmienia rodzica object na new-parents.
+
+none `chparent` (obj object, obj new-parent)
+
+none `chparents` (obj object, list new-parents)
+
+Jesli object jest niepoprawny, lub jesli new-parent nie jest ani poprawny, ani rowny `#-1`, zglaszany jest `E_INVARG`. Jesli programista nie jest ani czarodziejem, ani wlascicielem object, lub jesli new-parent nie jest plodny (tzn. jego bit `f` nie jest ustawiony) i programista nie jest ani wlascicielem new-parent, ani czarodziejem, zglaszany jest `E_PERM`. Jesli new-parent jest rowny `object` lub jednemu z jego biezacych przodkow, zglaszany jest `E_RECMOVE`. Jesli object lub jeden z jego potomkow definiuje wlasciwosc o tej samej nazwie, co ta zdefiniowana albo na new-parent, albo na jednym z jego przodkow, zglaszany jest `E_INVARG`.
+
+Zmiana rodzica obiektu moze miec efekt usuniecia pewnych wlasciwosci z i dodania innych wlasciwosci do tego obiektu i wszystkich jego potomkow (tzn. jego dzieci i dzieci jego dzieci itd.). Niech common bedzie najblizszym przodkiem, ktorego object i new-parent maja wspolnego, przed zmiana rodzica object. Wtedy wszystkie wlasciwosci zdefiniowane przez przodkow object ponizej common (to znaczy, tych przodkow object, ktorzy z kolei sa potomkami common) sa usuwane z object i wszystkich jego potomkow. Wszystkie wlasciwosci zdefiniowane przez new-parent lub jego przodkow ponizej common sa dodawane do object i wszystkich jego potomkow. Podobnie jak w `create()`, nowo dodanym wlasciwosciom przypisywane sa te same bity uprawnien, jakie maja na new-parent, wlascicielem kazdej dodanej wlasciwosci jest albo wlasciciel obiektu, do ktorego jest dodawana (jesli bit uprawnien `c` jest ustawiony), albo wlasciciel tej wlasciwosci na new-parent, a wartosc kazdej dodanej wlasciwosci jest _czysta_ (clear); zobacz opis funkcji wbudowanej `clear_property()` po szczegoly. Wszystkie wlasciwosci, ktore nie sa usuwane ani dodawane w procesie zmiany rodzica, pozostaja calkowicie niezmienione.
+
+Jesli new-parent jest rowny `#-1`, object nie otrzymuje zadnego rodzica; staje sie nowym korzeniem hierarchii rodzic/dziecko. W tym przypadku wszystkie wczesniej dziedziczone wlasciwosci na object sa po prostu usuwane.
+
+Jesli new-parents jest rowny {}, object nie otrzymuje zadnego rodzica; staje sie nowym korzeniem hierarchii rodzic/dziecko. W tym przypadku wszystkie wczesniej dziedziczone wlasciwosci na object sa po prostu usuwane.
+
+> Ostrzezenie: w temacie dziedziczenia wielokrotnego, autor (Slither) uwaza, ze powinienes calkowicie go unikac. Preferuj [kompozycje nad dziedziczeniem](https://en.wikipedia.org/wiki/Composition_over_inheritance).
+
+**Funkcja: `valid`**
+
+valid -- Zwraca niezerowa liczbe calkowita, jesli object jest poprawny i nie zostal jeszcze poddany recyklingowi.
+
+int `valid` (obj object)
+
+Zwraca niezerowa liczbe calkowita (tzn. wartosc prawdziwa), jesli object jest poprawnym obiektem (takim, ktory zostal utworzony i nie jest jeszcze poddany recyklingowi), a zero (tzn. wartosc falszywa) w przeciwnym razie.
+
+```
+valid(#0)    =>   1
+valid(#-1)   =>   0
+```
+
+**Funkcja: `parent`**
+
+**Funkcja: `parents`**
+
+parent -- zwraca rodzica object
+
+parents -- zwraca rodzicow object
+
+obj `parent` (obj object)
+
+list `parents` (obj object)
+
+**Funkcja: `children`**
+
+children -- zwraca liste dzieci object.
+
+list `children` (obj object)
+
+**Funkcja: `isa`**
+
+int isa(OBJ object, OBJ parent)
+
+obj isa(OBJ object, LIST parent list [, INT return_parent])
+
+Zwraca prawde, jesli object jest potomkiem parent, w przeciwnym razie falsz.
+
+Jesli podano trzeci argument i jest on prawda, wartoscia zwracana bedzie pierwszy rodzic, od ktorego object1 pochodzi w `parent list`.
+
+```
+isa(#2, $wiz)                           => 1
+isa(#2, {$thing, $wiz, $container})     => 1
+isa(#2, {$thing, $wiz, $container}, 1)  => #57 (generic wizard)
+isa(#2, {$thing, $room, $container}, 1) => #-1 
+```
+
+**Funkcja: `locate_by_name`**
+
+locate_by_name -- Ta funkcja wyszukuje w kazdym obiekcie bazy danych te zawierajace `object name` w swojej wlasciwosci .name.
+
+list `locate_by_name` (STR object name [, INT case-matters])
+
+Jesli `case-matters` jest prawda, dopasowywanie stringow rozroznia wielkosc liter. Programista musi byc czarodziejem, w przeciwnym razie zglaszany jest `E_PERM`.
+
+Od ToastStunt 2.8.0 to nie jest funkcja watkowana.
+
+**Funkcja: `locations`**
+
+list `locations`(OBJ object [, OBJ stop [, INT is-parent]])
+
+Rekurencyjnie budowana jest lista lokalizacji obiektu, lokalizacji jego lokalizacji i tak dalej, az wreszcie trafi na $nothing.
+
+Zglasza `E_INVIND`, jesli object jest niepoprawny.
+
+Przyklad:
+
+```
+locations(me) => {#20381, #443, #104735}
+
+$string_utils:title_list(locations(me)) => "\"Butterknife Ballet\" Control Room FelElk, the one-person celestial birther \"Butterknife Ballet\", and Uncharted Space: Empty Space"
+```
+
+Jesli `stop` jest w znalezionych lokalizacjach, zatrzyma sie przed nia i zwroci liste (bez obiektu stop).
+
+Jesli trzeci argument jest prawda, zaklada sie, ze `stop` jest RODZICEM. I jesli ktorakolwiek z Twoich lokalizacji jest dzieckiem tego rodzica, zatrzymuje sie tam.
+
+**Funkcja: `occupants`**
+
+list `occupants`(LIST objects [, OBJ | LIST parent, INT player flag set, INT inverse-match])
+
+Iteruje przez liste objects i zwraca te dopasowujace okreslony zestaw kryteriow:
+
+1. Jesli podano wylacznie objects, funkcja occupants zwroci liste obiektow z ustawiona flaga player.
+
+2. Jesli podano argument parent, zwrocona zostanie lista obiektow pochodzacych od parent. Jesli parent jest lista, obiekt musi pochodzic od co najmniej jednego obiektu z tej listy.
+
+3. Jesli podano oba, parent i flage player, occupants sprawdzi zarowno, czy obiekt pochodzi od parent, jak i to, czy ma ustawiona flage player.
+
+4. Jesli inverse-match wynosi 0 (domyslne zachowanie). Jesli wynosi 1, odwraca dopasowanie na 'elementy z listy, ktore NIE dopasowuja parent(s)'
+
+Od ToastStunt 2.8.0 to nie jest funkcja watkowana.
+
+Zglasza `E_TYPE`, jesli podano parent i nie jest on obiektem lub lista obiektow. Zglasza `E_INVARG`, jesli objects nie jest poprawna lista obiektow.
+
+**Funkcja: `recycle`**
+
+recycle -- niszczy obiekt lub obiekt anonimowy nieodwolalnie.
+
+none `recycle` (OBJ|ANON object)
+
+Podany obiekt jest niszczony, nieodwolalnie. Programista musi albo byc wlascicielem object, albo byc czarodziejem; w przeciwnym razie zglaszany jest `E_PERM`. Jesli object nie jest ani poprawnym obiektem permanentnym, ani obiektem anonimowym, zglaszany jest `E_INVARG`. Dla obiektow permanentnych dzieci object otrzymuja jako nowego rodzica rodzica object. Przed poddaniem object recyklingowi, kazdy obiekt w jego zawartosci jest przenoszony do `#-1` (co implikuje wywolanie czasownika `exitfunc` obiektu, jesli istnieje), a nastepnie wywolywany jest czasownik `recycle` object, jesli istnieje, bez argumentow.
+
+Obiekty anonimowe moga rowniez zostac poddane recyklingowi explicite. Sa oznaczane jako niepoprawne i czyszczone, gdy nie zostaje zadna aktywna referencja.
+
+Po poddaniu obiektu permanentnego recyklingowi, jesli wlasciciel bylego obiektu ma wlasciwosc o nazwie `ownership_quota`, a wartosc tej wlasciwosci jest liczba calkowita, `recycle()` traktuje te wartosc jako _quota_ i zwieksza ja o jeden, zapisujac wynik z powrotem do wlasciwosci `ownership_quota`.
+
+**Funkcja: `recreate`**
+
+recreate -- Odtwarza niepoprawny obiekt old (taki, ktory zostal wczesniej poddany recycle()) jako parent, opcjonalnie z wlascicielem owner.
+
+obj `recreate`(OBJ old, OBJ parent [, OBJ owner])
+
+To ma efekt wypelniania dziur stworzonych przez recycle(), co normalnie wymagaloby przenumerowania i zresetowania maksymalnego obiektu.
+
+Normalne reguly stosuja sie do parent i owner. Musisz albo byc wlascicielem parent, parent musi byc plodny, albo musisz byc czarodziejem. Podobnie, by zmienic owner, powinienes byc czarodziejem. W przeciwnym razie jest to zbedne.
+
+**Funkcja: `next_recycled_object`**
+
+next_recycled_object -- Zwraca najnizszy niepoprawny obiekt. Jesli podano start, zaden obiekt nizszy niz start nie zostanie wziety pod uwage. Jesli nie ma niepoprawnych obiektow, ta funkcja zwroci 0.
+
+obj | int `next_recycled_object`([OBJ start])
+
+Zglasza `E_INVARG`, jesli start jest ujemny lub wiekszy niz ostatni kiedykolwiek uzyty numer obiektu.
+
+**Funkcja: `recycled_objects`**
+
+recycled_objects -- Zwraca liste wszystkich niepoprawnych obiektow w bazie danych. Niepoprawny obiekt to taki, ktory zostal zniszczony za pomoca funkcji recycle().
+
+list `recycled_objects`()
+
+**Funkcja: `ancestors`**
+
+ancestors -- Zwraca liste wszystkich przodkow `object` w porzadku wznoszacym sie w hierarchii dziedziczenia. Jesli `full` jest prawda, `object` zostanie wliczony do listy.
+
+list `ancestors`(OBJ object [, INT full])
+
+**Funkcja: `descendants`**
+
+list `descendants`(OBJ object [, INT full])
+
+Zwraca liste wszystkich zagniezdzonych dzieci object. Jesli full jest prawda, object zostanie wliczony do listy.
+
+**Funkcja: `object_bytes`**
+
+object_bytes -- Zwraca liczbe bajtow pamieci serwera wymaganych do przechowania podanego obiektu.
+
+int `object_bytes` (obj object)
+
+Obliczenie miejsca wlicza miejsce uzywane przez wartosci wszystkich nieczystych wlasciwosci obiektu oraz przez czasowniki i wlasciwosci zdefiniowane bezposrednio na obiekcie.
+
+Zglasza `E_TYPE`, jesli object nie jest obiektem, `E_INVIND`, jesli object jest niepoprawny, i `E_PERM`, jesli programista nie jest czarodziejem.
+
+**Funkcja: `respond_to`**
+
+int | list respond_to(OBJ object, STR verb)
+
+Zwraca prawde, jesli verb jest wywolywalny na object, biorac pod uwage dziedziczenie, wieloznaczniki (czasowniki z gwiazdka) itd. W przeciwnym razie zwraca falsz. Jesli wywolujacy ma uprawnienia do odczytu obiektu (poniewaz flaga `r` obiektu jest prawda, lub wywolujacy jest wlascicielem albo czarodziejem), wartoscia prawdziwa jest lista zawierajaca numer obiektu definiujacego dany czasownik oraz pelna nazwe (nazwy) czasownika. W przeciwnym razie zwracana jest wartosc numeryczna `1`.
+
+**Funkcja: `max_object`**
+
+max_object -- Zwraca najwiekszy numer obiektu, jaki zostal kiedykolwiek przypisany utworzonemu obiektowi.
+
+obj `max_object`()
+
+Zauwaz, ze obiekt o tym numerze moze juz nie istniec; moze zostac poddany recyklingowi. Nastepny obiekt utworzony przez wbudowana funkcje `create()` normalnie otrzyma numer obiektu o jeden wiekszy niz wartosc `max_object()`, o ile numery obiektow nie sa ponownie uzywane przez `recreate()`, lub `reset_max_object()` nie zmniejszyl maksymalnego numeru obiektu serwera. To nie dotyczy narzedzi recyklingu na poziomie bazy danych, takich jak `$recycler`, ktore moga explicite wybrac ponowne uzycie numerow obiektow.
+
+##### Przemieszczanie obiektow
+
+**Funkcja: `move`**
+
+move -- Zmienia lokalizacje what na where.
+
+none `move` (obj what, obj where [, INT position])
+
+To skomplikowany proces, poniewaz musi zostac wykonana pewna liczba sprawdzen uprawnien i powiadomien. Faktyczne przemieszczenie zachodzi jak opisano w nastepujacych paragrafach.
+
+what powinien byc poprawnym obiektem, a where powinno byc albo poprawnym obiektem, albo `#-1` (oznaczajacym lokalizacje 'nigdzie'); w przeciwnym razie zglaszany jest `E_INVARG`. Programista musi byc albo wlascicielem what, albo czarodziejem; w przeciwnym razie zglaszany jest `E_PERM`.
+
+Jesli where jest poprawnym obiektem, wywolywany jest czasownik
+
+```
+where:accept(what)
+```
+
+jest wykonywany, przed jakimkolwiek przemieszczeniem. Jesli czasownik zwroci wartosc falszywa i programista nie jest czarodziejem, where jest uznawane za odmawiajace wejscia what; `move()` zglasza `E_NACC`. Jesli where nie definiuje czasownika `accept`, jest traktowane, jakby zdefiniowalo taki, ktory zawsze zwraca falsz.
+
+Jesli przeniesienie what do where stworzyloby petle w hierarchii zawierania (tzn. what zawieraloby samo siebie, nawet niebezposrednio), zamiast tego zglaszany jest `E_RECMOVE`.
+
+Wlasciwosc `location` what jest zmieniana na where, a wlasciwosci `contents` starej i nowej lokalizacji sa odpowiednio modyfikowane. Niech old-where bedzie lokalizacja what przed przeniesieniem. Jesli old-where jest poprawnym obiektem, wywolywany jest czasownik
+
+```
+old-where:exitfunc(what)
+```
+
+jest wykonywany, a jego wynik jest ignorowany; to nie jest blad, jesli old-where nie definiuje czasownika o nazwie `exitfunc`. Wreszcie, jesli where i what sa wciaz poprawnymi obiektami, a where jest wciaz lokalizacja what, wywolywany jest czasownik
+
+```
+where:enterfunc(what)
+```
+
+jest wykonywany, a jego wynik jest ignorowany; ponownie, to nie jest blad, jesli where nie definiuje czasownika o nazwie `enterfunc`.
+
+Przekazanie `position` do move efektywnie wykona listinsert() obiektu na tej pozycji na liscie .contents.
