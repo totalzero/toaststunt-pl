@@ -3940,3 +3940,242 @@ where:enterfunc(what)
 jest wykonywany, a jego wynik jest ignorowany; ponownie, to nie jest blad, jesli where nie definiuje czasownika o nazwie `enterfunc`.
 
 Przekazanie `position` do move efektywnie wykona listinsert() obiektu na tej pozycji na liscie .contents.
+
+##### Operacje na wlasciwosciach
+
+**Funkcja: `properties`**
+
+properties -- Zwraca liste nazw wlasciwosci zdefiniowanych bezposrednio na podanym obiekcie, nie dziedziczonych z jego rodzica.
+
+list `properties` (obj object)
+
+Jesli object jest niepoprawny, zglaszany jest `E_INVARG`. Jesli programista nie ma uprawnien do odczytu object, zglaszany jest `E_PERM`.
+
+**Funkcja: `property_info`**
+
+property_info -- Pobiera wlasciciela i bity uprawnien dla wlasciwosci o nazwie prop-name na podanym obiekcie.
+
+list `property_info` (obj object, str prop-name)
+
+Jesli object jest niepoprawny, zglaszany jest `E_INVARG`. Jesli object nie ma niewbudowanej wlasciwosci o nazwie prop-name, zglaszany jest `E_PROPNF`. Jesli programista nie ma uprawnien do odczytu (zapisu) danej wlasciwosci, `property_info()` zglasza `E_PERM`.
+
+**Funkcja: `set_property_info`**
+
+set_property_info -- Ustawia wlasciciela i bity uprawnien dla wlasciwosci o nazwie prop-name na podanym obiekcie.
+
+none `set_property_info` (obj object, str prop-name, list info)
+
+Jesli object jest niepoprawny, zglaszany jest `E_INVARG`. Jesli object nie ma niewbudowanej wlasciwosci o nazwie prop-name, zglaszany jest `E_PROPNF`. Jesli programista nie ma uprawnien do odczytu (zapisu) danej wlasciwosci, `set_property_info()` zglasza `E_PERM`. Property info ma nastepujaca postac:
+
+```
+{owner, perms [, new-name]}
+```
+
+gdzie owner jest obiektem, perms jest stringiem zawierajacym wylacznie znaki ze zbioru `r`, `w` i `c`, a new-name jest stringiem; new-name nigdy nie jest czescia wartosci zwracanej przez `property_info()`, ale moze opcjonalnie zostac podane jako czesc wartosci przekazywanej do `set_property_info()`. Ta lista jest rodzajem wartosci zwracanej przez property_info() i oczekiwanej jako trzeci argument do `set_property_info()`; ta druga funkcja zglasza `E_INVARG`, jesli owner jest niepoprawny, jesli perms zawiera jakiekolwiek niedozwolone znaki, lub, gdy podano new-name, jesli prop-name nie jest zdefiniowany bezposrednio na object, albo new-name nazywa istniejaca wlasciwosc zdefiniowana na object lub jakimkolwiek z jego przodkow lub potomkow.
+
+**Funkcja: `add_property`**
+
+add_property -- Definiuje nowa wlasciwosc na podanym obiekcie.
+
+none `add_property` (obj object, str prop-name, value, list info)
+
+Wlasciwosc jest dziedziczona przez wszystkich jego potomkow; wlasciwosc nazywa sie prop-name, jej poczatkowa wartosc to value, a jej wlasciciel i poczatkowe bity uprawnien sa podane przez info w tym samym formacie, jaki jest zwracany przez `property_info()`, opisany wyzej. Argument object musi byc obiektem permanentnym; obiekty anonimowe nie moga miec nowych wlasciwosci dodawanych do nich bezposrednio.
+
+Jesli object nie jest obiektem permanentnym, zglaszany jest `E_TYPE`. Jesli object jest niepoprawny, lub info nie okresla poprawnego wlasciciela i dobrze sformowanych bitow uprawnien, lub object albo jego przodkowie lub potomkowie juz definiuja wlasciwosc o nazwie prop-name, zglaszany jest `E_INVARG`. Jesli programista nie ma uprawnien do zapisu object, lub jesli wlasciciel okreslony przez info nie jest programista i programista nie jest czarodziejem, zglaszany jest `E_PERM`.
+
+**Funkcja: `delete_property`**
+
+delete_property -- Usuwa wlasciwosc o nazwie prop-name z podanego obiektu i wszystkich jego potomkow.
+
+none `delete_property` (obj object, str prop-name)
+
+Jesli object jest niepoprawny, zglaszany jest `E_INVARG`. Jesli programista nie ma uprawnien do zapisu object, zglaszany jest `E_PERM`. Jesli object nie definiuje bezposrednio wlasciwosci o nazwie prop-name (w przeciwienstwie do dziedziczenia jej z rodzica), zglaszany jest `E_PROPNF`.
+
+**Funkcja: `is_clear_property`**
+
+is_clear_property -- Sprawdza, czy podana wlasciwosc jest czysta.
+
+int `is_clear_property` (obj object, str prop-name)
+
+**Funkcja: `clear_property`**
+
+clear_property -- Ustawia podana wlasciwosc jako czysta.
+
+none `clear_property` (obj object, str prop-name)
+
+Te dwie funkcje sprawdzaja odpowiednio, czy wlasciwosc o nazwie prop-name na podanym obiekcie jest czysta, oraz ustawiaja ja jako czysta. Jesli object jest niepoprawny, zglaszany jest `E_INVARG`. Jesli object nie ma niewbudowanej wlasciwosci o nazwie prop-name, zglaszany jest `E_PROPNF`. Jesli programista nie ma uprawnien do odczytu (zapisu) danej wlasciwosci, `is_clear_property()` (`clear_property()`) zglasza `E_PERM`.
+
+Jesli wlasciwosc jest czysta, to gdy wartosc tej wlasciwosci jest odpytywana, zwracana jest wartosc wlasciwosci rodzica o tej samej nazwie. Jesli wlasciwosc rodzica jest czysta, sprawdzana jest wartosc rodzica rodzica, i tak dalej. Jesli object jest definiujacym wlasciwosc prop-name, w przeciwienstwie do dziedziczacego te wlasciwosc, `clear_property()` zglasza `E_INVARG`.
+
+##### Operacje na czasownikach
+
+**Funkcja: `verbs`**
+
+verbs -- Zwraca liste nazw czasownikow zdefiniowanych bezposrednio na podanym obiekcie, nie dziedziczonych z jego rodzica.
+
+list verbs (obj object)
+
+Jesli object jest niepoprawny, zglaszany jest `E_INVARG`. Jesli programista nie ma uprawnien do odczytu object, zglaszany jest `E_PERM`.
+
+Wiekszosc pozostalych operacji na czasownikach przyjmuje string zawierajacy nazwe czasownika, by zidentyfikowac dany czasownik. Poniewaz czasowniki moga miec wiele nazw i poniewaz obiekt moze miec wiele czasownikow o tej samej nazwie, ta praktyka moze prowadzic do trudnosci. By najbardziej jednoznacznie odniesc sie do konkretnego czasownika, mozna zamiast tego uzyc liczby calkowitej dodatniej, indeksu czasownika na liscie zwracanej przez `verbs()`, opisanej wyzej.
+
+Na przyklad, zalozmy, ze `verbs(#34)` zwraca te liste:
+
+```
+{"foo", "bar", "baz", "foo"}
+```
+
+Obiekt `#34` ma zdefiniowane na nim dwa czasowniki o nazwie `foo` (to moze nie byc bledem, jesli te dwa czasowniki maja rozna skladnie polecen). By jednoznacznie odniesc sie do pierwszego z listy, uzywa sie liczby calkowitej 1; by odniesc sie do drugiego, uzywa sie 4.
+
+W opisach funkcji nizej argument o nazwie verb-desc jest albo stringiem zawierajacym nazwe czasownika, albo liczba calkowita dodatnia podajaca indeks tego czasownika na liscie `verbs()` obiektu go definiujacego.
+Z powodow historycznych istnieje rowniez drugi, gorszy mechanizm odnoszenia sie do czasownikow za pomoca liczb, ale jego uzycie jest silnie odradzane. Jesli wlasciwosc `$server_options.support_numeric_verbname_strings` istnieje z wartoscia prawdziwa, funkcje na czasownikach beda rowniez akceptowac numeryczny string (np. `"4"`) jako deskryptor czasownika. Liczba dziesietna w stringu dziala mniej wiecej tak jak liczby calkowite dodatnie opisane wyzej, ale z dwoma istotnymi roznicami:
+
+Numeryczny string jest indeksem _liczonym od zera_ w `verbs()`; to znaczy, w przypadku stringa uzylbys liczby o jeden mniejszej niz ta, ktorej uzylbys w przypadku liczby calkowitej dodatniej.
+
+Gdy istnieje czasownik, ktorego faktyczna nazwa wyglada jak liczba dziesietna, ta notacja numeryczno-stringowa jest niejednoznaczna; serwer we wszystkich przypadkach zalozy, ze odniesienie dotyczy pierwszego czasownika na liscie, dla ktorego podany string mogl byc nazwa, albo w zwyklym sensie, albo jako indeks numeryczny.
+
+Ewidentnie, ten starszy mechanizm jest trudniejszy i bardziej ryzykowny w uzyciu; nowy kod powinien byc pisany wylacznie z uzyciem obecnego mechanizmu, a stary kod uzywajacy numerycznych stringow powinien zostac zmodyfikowany, by tego nie robic.
+
+**Funkcja: `verb_info`**
+
+verb_info -- Pobiera wlasciciela, bity uprawnien i nazwe (nazwy) czasownika okreslonego przez verb-desc na podanym obiekcie.
+
+list `verb_info` (obj object, str|int verb-desc) 
+
+**Funkcja: `set_verb_info`**
+
+set_verb_info -- Ustawia wlasciciela, bity uprawnien i nazwe (nazwy) czasownika okreslonego przez verb-desc na podanym obiekcie.
+
+none `set_verb_info` (obj object, str|int verb-desc, list info)
+
+Jesli object jest niepoprawny, zglaszany jest `E_INVARG`. Jesli object nie definiuje czasownika okreslonego przez verb-desc, zglaszany jest `E_VERBNF`. Jesli programista nie ma uprawnien do odczytu (zapisu) danego czasownika, `verb_info()` (`set_verb_info()`) zglasza `E_PERM`.
+
+Verb info ma nastepujaca postac:
+
+```
+{owner, perms, names}
+```
+
+gdzie owner jest obiektem, perms jest stringiem zawierajacym wylacznie znaki ze zbioru `r`, `w`, `x` i `d`, a names jest stringiem. To rodzaj wartosci zwracanej przez `verb_info()` i oczekiwanej jako trzeci argument do `set_verb_info()`. `set_verb_info()` zglasza `E_INVARG`, jesli owner jest niepoprawny, jesli perms zawiera jakiekolwiek niedozwolone znaki, lub jesli names jest pustym stringiem albo sklada sie wylacznie ze spacji; zglasza `E_PERM`, jesli owner nie jest programista i programista nie jest czarodziejem.
+
+**Funkcja: `verb_args`**
+
+verb_args -- pobiera specyfikacje dopelnienia blizszego, przyimka i dopelnienia dalszego dla czasownika okreslonego przez verb-desc na podanym obiekcie.
+
+list `verb_args` (obj object, str|int verb-desc) 
+
+**Funkcja: `set_verb_args`**
+
+verb_args -- ustawia specyfikacje dopelnienia blizszego, przyimka i dopelnienia dalszego dla czasownika okreslonego przez verb-desc na podanym obiekcie.
+
+none `set_verb_args` (obj object, str|int verb-desc, list args)
+
+Jesli object jest niepoprawny, zglaszany jest `E_INVARG`. Jesli object nie definiuje czasownika okreslonego przez verb-desc, zglaszany jest `E_VERBNF`. Jesli programista nie ma uprawnien do odczytu (zapisu) danego czasownika, funkcja zglasza `E_PERM`.
+
+Specyfikacje verb args maja nastepujaca postac:
+
+```
+{dobj, prep, iobj}
+```
+
+gdzie dobj i iobj sa stringami ze zbioru `"this"`, `"none"` i `"any"`, a prep jest stringiem, ktory jest albo `"none"`, `"any"`, albo jedna z fraz przyimkowych wymienionych dawno wczesniej w opisie czasownikow w pierwszym rozdziale. To rodzaj wartosci zwracanej przez `verb_args()` i oczekiwanej jako trzeci argument do `set_verb_args()`. Zauwaz, ze dla `set_verb_args()`, prep musi byc tylko jedna z fraz przyimkowych, nie (jak pokazano w tamtej tabeli) zbiorem takich fraz rozdzielonych znakami `/`. `set_verb_args` zglasza `E_INVARG`, jesli jakikolwiek ze stringow dobj, prep lub iobj jest niedozwolony.
+
+```
+verb_args($container, "take")
+                    =>   {"any", "out of/from inside/from", "this"}
+set_verb_args($container, "take", {"any", "from", "this"})
+```
+
+**Funkcja: `add_verb`**
+
+add_verb -- definiuje nowy czasownik na podanym obiekcie.
+
+int `add_verb` (obj object, list info, list args)
+
+Wlasciciel, bity uprawnien i nazwa (nazwy) nowego czasownika sa podane przez info w tym samym formacie, jaki jest zwracany przez `verb_info()`, opisany wyzej. Specyfikacje dopelnienia blizszego, przyimka i dopelnienia dalszego nowego czasownika sa podane przez args w tym samym formacie, jaki jest zwracany przez `verb_args`, opisany wyzej. Nowy czasownik ma poczatkowo skojarzony z nim pusty program; ten program nic nie robi, tylko zwraca nieokreslona wartosc. Argument object musi byc obiektem permanentnym; obiekty anonimowe nie moga miec nowych czasownikow dodawanych do nich bezposrednio. Przy powodzeniu zwrocona liczba calkowita to numer nowego czasownika na object, liczony od jednego.
+
+Jesli object nie jest obiektem permanentnym, zglaszany jest `E_TYPE`. Jesli object jest niepoprawny, lub info nie okresla poprawnego wlasciciela i dobrze sformowanych bitow uprawnien i nazw czasownika, lub args nie jest prawomocna specyfikacja skladni, zglaszany jest `E_INVARG`. Jesli programista nie ma uprawnien do zapisu object, lub jesli wlasciciel okreslony przez info nie jest programista i programista nie jest czarodziejem, zglaszany jest `E_PERM`.
+
+**Funkcja: `delete_verb`**
+
+delete_verb -- usuwa czasownik okreslony przez verb-desc z podanego obiektu.
+
+none `delete_verb` (obj object, str|int verb-desc)
+
+Jesli object jest niepoprawny, zglaszany jest `E_INVARG`. Jesli programista nie ma uprawnien do zapisu object, zglaszany jest `E_PERM`. Jesli object nie definiuje czasownika okreslonego przez verb-desc, zglaszany jest `E_VERBNF`.
+
+**Funkcja: `verb_code`**
+
+verb_code -- pobiera program w kodzie MOO skojarzony z czasownikiem okreslonym przez verb-desc na object.
+
+list `verb_code` (obj object, str|int verb-desc [, fully-paren [, indent]]) 
+
+**Funkcja: `set_verb_code`**
+
+set_verb_code -- ustawia program w kodzie MOO skojarzony z czasownikiem okreslonym przez verb-desc na object.
+
+list `set_verb_code` (obj object, str|int verb-desc, list code)
+
+Program jest reprezentowany jako lista stringow, jeden dla kazdej linii programu; to rodzaj wartosci zwracanej przez `verb_code()` i oczekiwanej jako trzeci argument do `set_verb_code()`. Dla `verb_code()`, wyrazenia w zwroconym kodzie sa zwykle pisane z minimalnie niezbedna liczba nawiasow; jesli full-paren jest prawda, wszystkie wyrazenia sa w pelni ujete w nawiasy.
+
+Rowniez dla `verb_code()`, linie w zwroconym kodzie sa zwykle wcale nie wciete; jesli indent jest prawda, kazda linia jest wcieta, by lepiej pokazac zagniezdzenie instrukcji.
+
+Jesli object jest niepoprawny, zglaszany jest `E_INVARG`. Jesli object nie definiuje czasownika okreslonego przez verb-desc, zglaszany jest `E_VERBNF`. Jesli programista nie ma uprawnien do odczytu (zapisu) danego czasownika, `verb_code()` (`set_verb_code()`) zglasza `E_PERM`. Jesli programista w rzeczywistosci nie jest programista, zglaszany jest `E_PERM`.
+
+Dla `set_verb_code()`, wynikiem jest lista stringow, komunikaty bledow wygenerowane przez kompilator kodu MOO podczas przetwarzania code. Jesli lista nie jest pusta, `set_verb_code()` nie zainstalowal code; program skojarzony z danym czasownikiem pozostaje niezmieniony.
+
+**Funkcja: `disassemble`**
+
+disassemble -- zwraca (dosc dluga) liste stringow podajacych wykaz wewnetrznej, "skompilowanej" formy serwera dla czasownika okreslonego przez verb-desc na object.
+
+list `disassemble` (obj object, str|int verb-desc)
+
+Ten format nie jest udokumentowany i moze wrecz zmieniac sie z wydania na wydanie, ale niektorzy programisci moga wciaz uznac wynik `disassemble()` za interesujacy do przegladania, jako sposob na zdobycie glebszego zrozumienia, jak dziala serwer.
+
+Jesli object jest niepoprawny, zglaszany jest `E_INVARG`. Jesli object nie definiuje czasownika okreslonego przez verb-desc, zglaszany jest `E_VERBNF`. Jesli programista nie ma uprawnien do odczytu danego czasownika, `disassemble()` zglasza `E_PERM`.
+
+##### Operacje na WAIF-ach
+
+**Funkcja: `new_waif`**
+
+new_waif -- Wbudowana funkcja `new_waif()` tworzy nowy WAIF, ktorego klasa jest wywolujacy obiekt, a wlascicielem sa uprawnienia wywolujacego czasownika.
+
+waif `new_waif`()
+
+Klasa jest obiektem, ktory wywolal biezacy czasownik, a wlascicielem jest programista, z ktorego uprawnieniami dziala zadanie. Nie istnieje alternatywna forma wywolania wylacznie dla czarodziejow.
+
+**Funkcja: `waif_stats`**
+
+waif_stats -- Zwraca MAPE statystyk o zainstancjonowanych waifach.
+
+map `waif_stats`()
+
+Kazda klasa waif bedzie kluczem w MAPIE, a jej wartoscia bedzie liczba waifow tej klasy obecnie zainstancjonowanych. Dodatkowo istnieje klucz `total`, ktory zwroci calkowita liczbe zainstancjonowanych waifow, oraz klucz `pending_recycle`, ktory zwroci liczbe waifow, ktore zostaly zniszczone i oczekuja na wywolanie ich czasownika :recycle.
+
+##### Operacje na obiektach gracza
+
+**Funkcja: `players`**
+
+players -- zwraca liste numerow obiektow wszystkich obiektow-graczy w bazie danych.
+
+list `players` ()
+
+**Funkcja: `is_player`**
+
+is_player -- zwraca wartosc prawdziwa, jesli podany obiekt jest obiektem-graczem, a falszywa w przeciwnym razie.
+
+int `is_player` (obj object)
+
+Jesli object jest niepoprawny, zglaszany jest `E_INVARG`.
+
+**Funkcja: `set_player_flag`**
+
+set_player_flag -- przyznaje lub usuwa status "obiektu-gracza" podanego obiektu, w zaleznosci od wartosci logicznej value.
+
+none `set_player_flag` (obj object, value)
+
+Jesli object jest niepoprawny, zglaszany jest `E_INVARG`. Jesli programista nie jest czarodziejem, zglaszany jest `E_PERM`.
+
+Jesli value jest prawda, object otrzymuje (lub zachowuje) status "obiektu-gracza": bedzie elementem listy zwracanej przez `players()`, wyrazenie `is_player(object)` zwroci prawde, a serwer bedzie traktowac wywolanie `$do_login_command()`, ktore zwraca object, jako logowanie biezacego polaczenia.
+
+Jesli value jest falszem, obiekt traci (lub dalej nie ma) status "obiektu-gracza": nie bedzie elementem listy zwracanej przez `players()`, wyrazenie `is_player(object)` zwroci falsz, a uzytkownicy nie beda mogli polaczyc sie z object po nazwie podczas logowania do serwera. Dodatkowo, jesli uzytkownik jest polaczony z object w momencie, gdy ten traci status "obiektu-gracza", to polaczenie jest natychmiast zrywane, tak jakby wywolano `boot_player(object)` (zobacz opis `boot_player()` nizej).
