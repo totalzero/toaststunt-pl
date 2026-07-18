@@ -5915,3 +5915,193 @@ say Hello, there.
 ```
 
 przed parsowaniem.
+
+### Zalozenia serwera wobec bazy danych
+
+Istnieje niewielka liczba okolicznosci, w ktorych serwer bezposrednio i w konkretny sposob odwoluje sie do okreslonego czasownika lub wlasciwosci w bazie danych. Ta sekcja podaje pelna liste takich okolicznosci.
+
+#### Opcje serwera ustawiane z poziomu bazy danych
+
+Wiele opcjonalnych zachowan serwera mozna kontrolowac z poziomu bazy danych, tworzac wlasciwosc `#0.server_options` (znana tez jako `$server_options`), przypisujac jej jako wartosc prawidlowy numer obiektu, a nastepnie definiujac rozne wlasciwosci na tym obiekcie. Wielokrotnie serwer sprawdza, czy wlasciwosc `$server_options` istnieje i ma jako wartosc numer obiektu. Jesli tak, serwer szuka na tym obiekcie `$server_options` rozmaitych innych wlasciwosci i, jesli istnieja, uzywa ich wartosci do kontrolowania sposobu dzialania serwera.
+
+Kazda z konkretnych poszukiwanych wlasciwosci jest opisana w odpowiedniej sekcji ponizej, ale oto krotka lista wszystkich odpowiednich wlasciwosci dla latwiejszego odniesienia:
+
+| Wlasciwosc | Opis |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| bg_seconds                       | Liczba sekund przydzielanych zadaniom w tle.                                                                                                        |
+| bg_ticks                         | Liczba tickow przydzielanych zadaniom w tle.                                                                                                          |
+| connect_timeout                  | Maksymalna liczba sekund, przez jaka niezalogowane polaczenie przychodzace moze pozostac otwarte.                                                                 |
+| default_flush_command            | Poczatkowe ustawienie polecenia flush kazdego nowego polaczenia.                                                                                           |
+| fg_seconds                       | Liczba sekund przydzielanych zadaniom pierwszoplanowym.                                                                                                        |
+| fg_ticks                         | Liczba tickow przydzielanych zadaniom pierwszoplanowym.                                                                                                          |
+| max_stack_depth                  | Maksymalna liczba poziomow zagniezdzonych wywolan czasownikow. Uzywane wylacznie, jesli jest wyzsza niz domyslna                                                                  |
+| outbound_connect_timeout         | Maksymalna liczba sekund oczekiwania na pomyslne otwarcie wychodzacego polaczenia sieciowego.                                                             |
+| protect_`property`               | Ogranicza odczyt/zapis wbudowanej wlasciwosci `property` wylacznie do czarodziei.                                                                                                                |
+| protect_`function`               | Ogranicza uzycie wbudowanej funkcji `function` wylacznie do czarodziei.                                                                                                                            |
+| queued_task_limit                | Maksymalna liczba sforkowanych lub zawieszonych zadan, jakie dowolny gracz moze miec zakolejkowane w danym momencie.                                                                |
+| support_numeric_verbname_strings | Wlacza uzycie przestarzalego mechanizmu nazywania czasownikow.                                                                                                          |
+| max_queued_output                | Maksymalna liczba znakow wyjscia, jaka serwer jest gotow buforowac dla danego polaczenia sieciowego, zanim zacznie odrzucac stare wyjscie, by zrobic miejsce na nowe. |
+| dump_interval                    | Liczba calkowita w sekundach okreslajaca, jak czesto wykonywac checkpoint bazy danych.                                                                                                                |
+| proxy_rewrite (usunieta w 2.7.2) | Dawniej kontrolowala, czy adresy IP z proxy byly przepisywane. Przepisywanie proxy nie jest juz domyslnie wlaczone. |
+| trusted_proxies                  | Lista zaufanych stringow adresow IP proxy. Kazdy laczacy sie adres IP znaleziony na tej liscie bedzie mial pominiety ekran logowania i bedzie akceptowal przekazywane adresy IP przez protokol HAProxy Proxy protocol, po czym zostanie wypisany ekran powitalny. Ta wlasciwosc moze byc zdefiniowana na `$server_options` lub na samym obiekcie nasluchujacym. By przywrocic dawne zachowanie proxy dla localhost, ustaw `$server_options.trusted_proxies` na `{"127.0.0.1", "::1"}`. |
+| file_io_max_files                | Pozwala na zmienialne z poziomu bazy danych limity tego, ile plikow moze byc otwartych naraz.                                                                                                        |
+| sqlite_max_handles               | Pozwala na zmienialne z poziomu bazy danych limity tego, ile polaczen SQLite moze byc otwartych naraz.                                                                           |
+| task_lag_threshold               | Nadpisuje domyslny task_lag_threshold do obslugi lagujacych zadan.                                                                                                             |
+| finished_tasks_limit             | Nadpisuje domyslny finished_tasks_limit (wlacza funkcje finished_tasks i okresla, ile zadan jest domyslnie zapisywanych).                                 |
+| no_name_lookup                   | Nadpisuje domyslny no_name_lookup (wylacza automatyczne rozwiazywanie nazw DNS na nowych polaczeniach).                                                |
+| max_list_value_bytes             | Ogranicza rozmiar, w bajtach, list konstruowanych przez uzytkownika.                                                                                                        |
+| max_string_concat                | Ogranicza rozmiar stringow konstruowanych przez uzytkownika.                                                                                                 |
+| max_concat_catchable | Okresla, czy przekroczenie limitow rozmiaru konkatenacji powoduje blad braku sekund (out-of-seconds) czy E_QUOTA. |
+| include_rt_vars                  | Gdy wlaczone, dolacza dane zmiennych czasu wykonania do tracebackow.                                                                                                   |
+
+> Uwaga: jesli nadpisujesz wartosc domyslna zdefiniowana w options.h (taka jak no_name_lookup lub finished_tasks_limit i wiele innych), musisz wywolac `load_server_options()`, by Twoje zmiany zaczely obowiazywac.
+
+> Uwaga: czasowniki zdefiniowane na #0 nie podlegaja juz sprawdzaniu uprawnien wylacznie-dla-czarodziei dla funkcji wbudowanych, generowanemu przez zdefiniowanie $server_options.protect_FOO z wartoscia prawdziwa. Dzieki temu mozesz teraz napisac "wrapper" dla funkcji wbudowanej bez koniecznosci ponownego implementowania wszystkich wbudowanych sprawdzen uprawnien serwera dla tej funkcji.
+
+> Uwaga: jesli funkcja wbudowana FOO zostala uczyniona wylacznie-dla-czarodziei (przez zdefiniowanie $server_options.protect_FOO z wartoscia prawdziwa), a wywolanie tej funkcji nastepuje z nieczarodziejskiego czasownika niezdefiniowanego na #0 (tj. gdy serwer wlasnie ma zglosic E_PERM), serwer najpierw sprawdza, czy istnieje czasownik #0:bf_FOO. Jesli tak, wywoluje go zamiast zglaszac E_PERM i zwraca lub zglasza to, co ten czasownik zwroci lub zglosi.
+
+> Uwaga: options.h domyslnie definiuje IGNORE_PROP_PROTECTED (#define). Jesli jest zdefiniowane, serwer ignoruje wszelkie proby ochrony wlasciwosci wbudowanych (takich jak $server_options.protect_location). Ochrona wlasciwosci jest znaczacym obciazeniem wydajnosci, a wiekszosc MOO nie korzysta z tej funkcjonalnosci.
+
+#### Komunikaty serwera ustawiane z poziomu bazy danych
+
+Istnieje szereg okolicznosci, w ktorych sam serwer generuje komunikaty na polaczeniach sieciowych. Wiekszosc z nich mozna dostosowac lub nawet wyeliminowac z poziomu bazy danych. W kazdym takim przypadku, w momencie, gdy komunikat mialby zostac wypisany, sprawdzana jest wlasciwosc na `$server_options`. Jesli wlasciwosc nie istnieje, wypisywany jest komunikat domyslny. Jesli wlasciwosc istnieje, a jej wartosc nie jest stringiem ani lista zawierajaca stringi, wtedy w ogole nie jest wypisywany zaden komunikat. W przeciwnym razie, string(i) sa wypisywane w miejsce domyslnego komunikatu, po jednym stringu na linie. Zaden z tych komunikatow nigdy nie jest wypisywany na wychodzacym polaczeniu sieciowym utworzonym przez funkcje `open_network_connection()`.
+
+Nastepujaca lista obejmuje wszystkie konfigurowalne komunikaty, pokazujac dla kazdego z nich nazwe odpowiedniej wlasciwosci na `$server_options`, domyslny komunikat oraz okolicznosci, w ktorych ten komunikat jest wypisywany:
+
+| Domyslny komunikat                                                                                                                   | Opis                                                                                                                                           |
+| --------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| boot_msg = &quot;*** Disconnected ***&quot;                                                                                       | Wywolano funkcje boot_player() na tym polaczeniu.                                                                                             |
+| connect_msg = &quot;*** Connected ***&quot;                                                                                       | Obiekt uzytkownika, ktory wlasnie zalogowal sie na tym polaczeniu, istnial przed wywolaniem $do_login_command().                                                 |
+| create_msg = &quot;*** Created ***&quot;                                                                                          | Obiekt uzytkownika, ktory wlasnie zalogowal sie na tym polaczeniu, nie istnial przed wywolaniem $do_login_command().                                           |
+| recycle_msg = &quot;*** Recycled ***&quot;                                                                                        | Zalogowany uzytkownik tego polaczenia zostal zrecyklingowany lub przenumerowany (przez funkcje renumber()).                                                  |
+| redirect_from_msg = &quot;*** Redirecting connection to new port ***&quot;                                                        | Zalogowany uzytkownik tego polaczenia wlasnie zalogowal sie na innym polaczeniu.                                                                    |
+| redirect_to_msg = &quot;*** Redirecting old connection to this port ***&quot;                                                     | Uzytkownik, ktory wlasnie zalogowal sie na tym polaczeniu, byl juz zalogowany na innym polaczeniu.                                                        |
+| server_full_msg Domyslnie:  *** Sorry, but the server cannot accept any more connections right now.<br> *** Please try again later. | To polaczenie przybylo w momencie, gdy serwer faktycznie nie mogl przyjac wiecej polaczen z powodu wyczerpania krytycznego zasobu systemu operacyjnego. |
+| timeout_msg = &quot;*** Timed-out waiting for login. ***&quot; | To przychodzace polaczenie sieciowe bylo bezczynne i niezalogowane przez co najmniej CONNECT_TIMEOUT sekund (zgodnie z definicja w pliku options.h w momencie kompilacji serwera). |
+
+> Subtelny szczegol: jesli dane polaczenie sieciowe zostalo odebrane w punkcie nasluchu (utworzonym przez funkcje `listen()`) obslugiwanym przez obiekt obj inny niz `#0`, komunikaty systemowe dla tego polaczenia sa szukane na `obj.server_options`; jesli ta wlasciwosc nie istnieje, uzywana jest w to miejsce `$server_options`.
+
+#### Checkpointowanie bazy danych
+
+Serwer utrzymuje cala baze danych MOO w pamieci glownej, a nie na dysku. Dlatego konieczne jest zrzucenie bazy danych na dysk, jesli ma ona przetrwac dluzej niz czas dzialania konkretnego uruchomienia serwera. Serwer oczywiscie dba o to, by zrzucic baze danych tuz przed wylaczeniem, ale rozsadne jest tez robienie tego w regularnych odstepach, na wypadek, gdyby stalo sie cos niepomyslnego.
+
+By okreslic, jak czesto wykonywac te _checkpointy_ bazy danych, serwer sprawdza wartosc `$server_options.dump_interval`. Jesli istnieje i jej wartosc jest liczba calkowita wieksza lub rowna 60, jest ona przyjmowana jako liczba sekund oczekiwania miedzy checkpointami; w przeciwnym razie serwer wykonuje nowy checkpoint co 3600 sekund (godzine). Jesli wartosc `$server_options.dump_interval` zaplanowalaby nastepny checkpoint poza obslugiwanym przez platforme zakresem czasu, serwer zamiast tego uzywa domyslnej wartosci 3600 sekund w przyszlosci.
+
+Decyzja o tym, jak dlugo czekac miedzy checkpointami, jest podejmowana ponownie natychmiast po rozpoczeciu kazdego z nich. Dlatego zmiany w `$server_options.dump_interval` zaczna obowiazywac po nastepnym checkpoincie.
+
+Za kazdym razem, gdy serwer zaczyna wykonywac checkpoint, wykonuje nastepujace wywolanie czasownika:
+
+```
+$checkpoint_started()
+```
+
+Gdy proces checkpointowania jest zakonczony, serwer wykonuje nastepujace wywolanie czasownika:
+
+```
+$checkpoint_finished(success)
+```
+
+gdzie success jest prawdziwe wtedy i tylko wtedy, gdy checkpoint zostal pomyslnie zapisany na dysku. Checkpointowanie moze zawiesc z wielu powodow, zwykle z powodu wyczerpania roznych zasobow systemu operacyjnego, takich jak pamiec wirtualna lub miejsce na dysku. To nie jest bledem, jesli ktorys z tych czasownikow nie istnieje; odpowiadajace wywolanie jest po prostu pomijane.
+
+### Komunikacja sieciowa
+
+#### Akceptowanie i inicjowanie polaczen sieciowych
+
+Gdy serwer po raz pierwszy akceptuje nowe, przychodzace polaczenie sieciowe, otrzymuje niskopoziomowy adres sieciowy komputera po drugiej stronie. Natychmiast probuje przeksztalcic ten adres w czytelna dla czlowieka nazwe hosta, ktora zostanie wpisana do logu serwera i zwrocona przez funkcje `connection_name()`. To przeksztalcenie moze, dla konfiguracji sieciowych TCP/IP, wymagac pewnej komunikacji ze zdalnymi serwerami nazw, co moze zajac dosc duzo czasu i/lub calkowicie zawiesc. Podczas wykonywania tego przeksztalcenia serwer nie robi w ogole nic innego; w szczegolnosci nie odpowiada na polecenia uzytkownikow ani nie wykonuje zadan MOO.
+
+Domyslnie serwer probuje wykonac to wyszukiwanie nazwy dla nowych polaczen. Jesli `$server_options.no_name_lookup` jest prawdziwe, automatyczne rozwiazywanie nazw DNS jest wylaczone, a serwer uzywa w to miejsce drukowalnej reprezentacji niskopoziomowego adresu.
+
+Gdy uzywana jest funkcja `open_network_connection()`, serwer musi ponownie wykonac przeksztalcenie, tym razem z nazwy hosta podanej jako argument na niskopoziomowy adres niezbedny do faktycznego otwarcia polaczenia. Jesli wyszukiwanie adresu zawiedzie, proba polaczenia zostaje przerwana, a `open_network_connection()` zglasza `E_INVARG` z informacjami diagnostycznymi.
+
+Jednak nawet po pomyslnym przeksztalceniu serwer nadal musi czekac, az faktyczne polaczenie zostanie zaakceptowane przez zdalny komputer. Podobnie jak wczesniej, moze to zajac duzo czasu, w trakcie ktorego serwer znow nie robi nic innego. Domyslnie serwer bedzie czekal nie dluzej niz 5 sekund na powodzenie proby polaczenia; jesli limit czasu uplynie, `open_network_connection()` zglasza `E_QUOTA`. Ten domyslny limit czasu mozna nadpisac z poziomu bazy danych, definiujac wlasciwosc `outbound_connect_timeout` na `$server_options` z liczba calkowita jako wartoscia.
+
+#### Kojarzenie polaczen sieciowych z graczami
+
+Gdy polaczenie sieciowe zostaje po raz pierwszy nawiazane z MOO, jest identyfikowane unikalnym, ujemnym numerem obiektu. O takim polaczeniu mowi sie, ze jest _niezalogowane_ i nie jest jeszcze powiazane z zadnym obiektem-graczem MOO.
+
+Kazda linia wejscia na niezalogowanym polaczeniu jest najpierw parsowana na slowa w zwykly sposob (zobacz rozdzial o parsowaniu polecen po szczegoly), a nastepnie te slowa sa przekazywane jako argumenty w wywolaniu czasownika `$do_login_command()`. Na przyklad linia wejscia
+
+```
+connect Munchkin frebblebit
+```
+
+skutkowalaby nastepujacym wywolaniem:
+
+```
+$do_login_command("connect", "Munchkin", "frebblebit")
+```
+
+W tym wywolaniu zmienna `player` bedzie miala jako wartosc ujemny numer obiektu powiazany z odpowiednim polaczeniem sieciowym. Funkcje `notify()` i `boot_player()` moga byc uzyte z takimi numerami obiektow, by wysylac wyjscie do niezalogowanych polaczen i je rozlaczac. Ponadto zmienna `argstr` bedzie miala jako wartosc niesparsowana linie polecenia, tak jak zostala odebrana na polaczeniu sieciowym.
+
+Jesli `$do_login_command()` zwroci prawidlowy obiekt gracza, a polaczenie jest nadal otwarte, uznaje sie, ze polaczenie _zalogowalo sie_ na tego gracza. Serwer nastepnie wykonuje jedno z nastepujacych wywolan czasownika, w zaleznosci od zwroconego obiektu gracza:
+
+```
+$user_created(player)
+$user_connected(player)
+$user_reconnected(player)
+```
+
+Pierwsze z nich jest uzywane, jesli zwrocony numer obiektu jest wiekszy niz wartosc zwrocona przez funkcje `max_object()` przed wywolaniem `$do_login_command()`, czyli jest wywolywane, jesli zwrocony obiekt wyglada na swiezo utworzony. Jesli tak nie jest, uzywane jest jedno z pozostalych dwoch wywolan czasownika. Wywolanie `$user_connected()` jest uzywane, jesli nie bylo istniejacego aktywnego polaczenia dla zwroconego obiektu gracza. W przeciwnym razie uzywane jest zamiast tego wywolanie `$user_reconnected()`.
+
+> Subtelny szczegol: jesli uzytkownik ponownie sie laczy, a stare i nowe polaczenie uzytkownika sa na dwoch roznych punktach nasluchu obslugiwanych przez rozne obiekty (zobacz opis funkcji `listen()` po wiecej szczegolow), wtedy `user_client_disconnected` jest wywolywane dla starego polaczenia, a `user_connected` dla nowego.
+
+> Uwaga: jesli jakis kod zawiesi sie w do_login_command() lub w czasowniku wywolanym przez do_login_command() (read(), suspend() lub dowolna funkcja watkowana), nie mozesz juz polaczyc obiektu, zwracajac go. To dziwna, starozytna pozostalosc po MOO. Najlepszym sposobem na zalogowanie gracza po zawieszeniu jest uzycie funkcji `switch_player()`, by przelaczyc jego niezalogowany ujemny obiekt na jego obiekt gracza.
+
+Jesli przychodzace polaczenie sieciowe nie zaloguje sie pomyslnie w ciagu pewnego okresu czasu, serwer automatycznie zamknie to polaczenie, zwalniajac tym samym zasoby zwiazane z jego utrzymywaniem. Niech L bedzie obiektem obslugujacym punkt nasluchu, na ktorym odebrano polaczenie (lub `#0`, jesli polaczenie przyszlo na poczatkowym punkcie nasluchu). By odkryc okres limitu czasu, serwer sprawdza na `L.server_options` lub, jesli nie istnieje, na `$server_options` wlasciwosc `connect_timeout`. Jesli zostanie znaleziona, a jej wartosc jest dodatnia liczba calkowita, to jest to liczba sekund, ktorej serwer uzyje jako okresu limitu czasu. Jesli wlasciwosc `connect_timeout` istnieje, ale jej wartosc nie jest dodatnia liczba calkowita, wtedy w ogole nie ma limitu czasu. Jesli ta wlasciwosc nie istnieje, domyslny limit czasu wynosi 300 sekund.
+
+Gdy dowolne polaczenie sieciowe (nawet niezalogowane lub wychodzace) zostaje zakonczone, przez serwer lub przez klienta, wykonywane jest jedno z nastepujacych dwoch wywolan czasownika:
+
+```
+$user_disconnected(player)
+$user_client_disconnected(player)
+```
+
+Pierwsze jest uzywane, jesli rozlaczenie wynika z dzialan podjetych przez serwer (np. uzycia funkcji `boot_player()` lub opisanego wyzej limitu czasu dla niezalogowanych), a drugie, jesli rozlaczenie zostalo zainicjowane po stronie klienta.
+
+To nie jest bledem, jesli ktorykolwiek z tych pieciu czasownikow nie istnieje; odpowiadajace wywolanie jest po prostu pomijane.
+
+> Uwaga: tylko jedno polaczenie sieciowe moze kontrolowac dany obiekt gracza w danym momencie; jesli drugie polaczenie sprobuje zalogowac sie jako ten sam gracz, pierwsze polaczenie zostaje bezceremonialnie zamkniete (i wywolane zostaje `$user_reconnected()`, jak opisano wyzej). Ulatwia to odzyskiwanie sprawnosci po roznego rodzaju problemach sieciowych, ktore pozostawiaja polaczenia otwarte, ale niedostepne.
+
+Gdy polaczenie sieciowe zostaje po raz pierwszy nawiazane, serwer automatycznie wprowadza puste polecenie, co skutkuje poczatkowym wywolaniem `$do_login_command()` bez argumentow. Ten sygnal moze zostac uzyty przez czasownik na przyklad do wypisania wiadomosci powitalnej.
+
+> Ostrzezenie: jesli nie zdefiniowano czasownika `$do_login_command()`, linie wejscia z niezalogowanych polaczen sa po prostu odrzucane. Dlatego _koniecznie_ kazda baza danych musi zawierac odpowiednia definicje tego czasownika.
+
+> Zauwaz, ze baza danych z brakujacym lub zepsutym $do_login_command nadal moze zostac wykorzystana (i byc moze naprawiona), uruchamiajac serwer z opcja linii polecen -e. Zobacz sekcje o trybie awaryjnym czarodzieja (Emergency Wizard Mode).
+
+Mozliwe jest skompilowanie serwera z opcja definiujaca `prefiks poza pasmem` dla polecen. Jest to string, ktorego obecnosci na poczatku kazdej linii wejscia od graczy serwer bedzie sprawdzal, niezaleznie od tego, czy ci gracze sa zalogowani, i niezaleznie od tego, czy jakies zadania odczytu oczekuja na wejscie od tych graczy. Jesli dana linia wejscia zaczyna sie od zdefiniowanego prefiksu poza pasmem (wiodace spacje, jesli sa, _nie_ sa usuwane przed sprawdzeniem), nie jest traktowana jako normalne polecenie ani jako wejscie dla zadnego zadania odczytu. Zamiast tego linia jest parsowana na liste slow w zwykly sposob, a te slowa sa przekazywane jako argumenty w wywolaniu `$do_out_of_band_command()`. Na przyklad, jesli prefiks poza pasmem zostal zdefiniowany jako `#$#`, linia wejscia
+
+```
+#$# client-type fancy
+```
+
+skutkowalaby nastepujacym wywolaniem wykonanym w nowym zadaniu serwera:
+
+```
+$do_out_of_band_command("#$#", "client-type", "fancy")
+```
+
+Podczas wywolania `$do_out_of_band_command()` zmienna `player` jest ustawiona na numer obiektu reprezentujacy gracza powiazanego z polaczeniem, z ktorego pochodzi linia wejscia. Oczywiscie, jesli to polaczenie nie jest jeszcze zalogowane, numer obiektu bedzie ujemny. Ponadto zmienna `argstr` bedzie miala jako wartosc niesparsowana linie wejscia, tak jak zostala odebrana na polaczeniu sieciowym.
+
+Polecenia poza pasmem sa przeznaczone do uzytku przez wyszukane programy-klienty, ktore moga generowac asynchroniczne _zdarzenia_, o ktorych serwer musi zostac powiadomiony. Poniewaz klient generalnie nie moze znac stanu polaczenia gracza (zalogowany czy nie, zadanie odczytu czy nie), polecenia poza pasmem stanowia jedyny niezawodny kanal komunikacji klient-serwer.
+
+#### Obsluga wejscia gracza
+
+**$do_out_of_band_command**
+
+Na dowolnym polaczeniu, dla ktorego nie ustawiono opcji polaczenia disable-oob, wszelkie niewyczyszczone przychodzace linie zaczynajace sie od prefiksu poza pasmem beda traktowane jako polecenia poza pasmem, co oznacza, ze jesli czasownik $do_out_of_band_command() istnieje i jest wykonywalny, zostanie wywolany dla kazdej takiej linii. Wiecej na ten temat w sekcji o przetwarzaniu poza pasmem.
+
+**$do_command**
+
+Jak opisalismy wczesniej w rozdziale o wbudowanym parserze polecen, na dowolnym zalogowanym polaczeniu, ktore
+
+* nie jest przedmiotem wywolania read(),
+* nie ma w toku polecenia .program, i
+* nie ma ustawionej opcji polaczenia hold-input,
+
+dowolna przychodzaca linia, ktora
+
+* nie zostala wyczyszczona,
+* jest w pasmie (tj. nie zostala skonsumowana przez przetwarzanie poza pasmem), i
+* sama nie jest .program ani jednym z pozostalych czterech wewnetrznych polecen,
+
+skutkuje wywolaniem $do_command(), pod warunkiem, ze ten czasownik istnieje i jest wykonywalny. Jesli ten czasownik zawiesi sie lub zwroci wartosc prawdziwa, przetwarzanie tej linii konczy sie w tym miejscu; w przeciwnym razie, niezaleznie od tego, czy czasownik zwrocil falsz, czy w ogole nie istnial, wywolywana jest reszta wbudowanego procesu parsowania.
