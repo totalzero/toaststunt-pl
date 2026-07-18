@@ -5175,3 +5175,400 @@ Zauwaz, ze poczatkowy punkt nasluchu tworzony przez serwer przy starcie nie ma w
 ```
 unlisten(12345); listen(#0, 7777, ["print-messages" -> 1])
 ```
+
+##### Operacje zwiazane z czasem i datami
+
+**Funkcja: `time`**
+
+time -- zwraca biezacy czas, reprezentowany jako liczba sekund, ktore uplynely od polnocy 1 stycznia 1970 czasu Greenwich (GMT)
+
+int `time` ()
+
+**Funkcja: `ftime`**
+
+ftime -- Zwraca biezacy czas reprezentowany jako liczba sekund i nanosekund, ktore uplynely od polnocy 1 stycznia 1970 czasu Greenwich (GMT).
+
+float `ftime` ([INT monotonic])
+
+Jesli podano argument `monotonic` i ustawiono go na 1, zwrocony czas bedzie monotoniczny. Oznacza to, ze zawsze otrzymasz informacje o tym, ile czasu uplynelo od dowolnego, ustalonego punktu w przeszlosci, niezaleznie od dryfu zegara lub innych zmian czasu systemowego. Jest to przydatne przy mierzeniu, ile trwa jakas operacja, poniewaz nie zalezy to od aktualnego czasu systemowego.
+
+Ogolna zasada jest taka, by uzywac ftime() bez argumentow do podawania czasu, a ftime() z argumentem zegara monotonicznego do mierzenia uplywu czasu.
+
+**Funkcja: `ctime`**
+
+ctime -- interpretuje time jako czas, uzywajac tej samej reprezentacji, co podana w opisie `time()` powyzej, i przeksztalca go w 28-znakowy, czytelny dla czlowieka string
+
+str `ctime` ([int time])
+
+String bedzie mial nastepujacy format:
+
+```
+Mon Aug 13 19:13:20 1990 PDT
+```
+
+Jesli biezacy dzien miesiaca jest mniejszy niz 10, pomiedzy miesiacem a dniem pojawia sie dodatkowa spacja:
+
+```
+Mon Apr  1 14:10:43 1991 PST
+```
+
+Jesli nie podano time, uzywany jest czas biezacy.
+
+Zauwaz, ze `ctime()` interpretuje czas wedlug lokalnej strefy czasowej komputera, na ktorym dziala serwer MOO.
+
+##### Ewaluacja kodu MOO i manipulacja zadaniami
+
+**Funkcja: `raise`**
+
+raise -- zglasza code jako blad, w taki sam sposob jak robia to inne wyrazenia, instrukcje i funkcje MOO
+
+none `raise` (code [, str message [, value]])
+
+Message, ktore domyslnie przyjmuje wartosc `tostr(code)`, oraz value, ktore domyslnie wynosi zero, sa udostepniane dowolnym instrukcjom `try`-`except` przechwytujacym ten blad. Jesli blad nie zostanie przechwycony, message pojawi sie w pierwszej linii tracebacku wypisanego uzytkownikowi.
+
+**Funkcja: `call_function`**
+
+call_function -- wywoluje funkcje wbudowana o nazwie func-name, przekazujac podane argumenty, i zwraca to, co zwroci ta funkcja
+
+value `call_function` (str func-name, arg, ...)
+
+Zglasza `E_INVARG`, jesli func-name nie zostanie rozpoznane jako nazwa znanej funkcji wbudowanej. Pozwala to obliczyc nazwe funkcji do wywolania i, w szczegolnosci, pozwala napisac wywolanie funkcji wbudowanej, ktora moze, ale nie musi, istniec w konkretnej wersji uzywanego przez Ciebie serwera.
+
+**Funkcja: `function_info`**
+
+function_info -- zwraca opisy funkcji wbudowanych dostepnych na serwerze
+
+list `function_info` ([str name])
+
+Jesli podano name, zwracany jest wylacznie opis funkcji o tej nazwie. Jesli pominieto name, zwracana jest lista opisow, po jednym dla kazdej funkcji dostepnej na serwerze. Zglaszany jest `E_INVARG`, jesli podano name, ale zadna funkcja o tej nazwie nie jest dostepna na serwerze.
+
+Kazdy opis funkcji jest lista w nastepujacej postaci:
+
+```
+{name, min-args, max-args, types}
+```
+
+gdzie name to nazwa funkcji wbudowanej, min-args to minimalna liczba argumentow, jaka musi zostac podana funkcji, max-args to maksymalna liczba argumentow, jaka moze zostac podana funkcji, lub `-1`, jesli nie ma maksimum, a types to lista max-args liczb calkowitych (lub min-args, jesli max-args wynosi `-1`), z ktorych kazda reprezentuje typ argumentu wymagany na odpowiadajacej pozycji. Kazdy numer typu jest taki, jaki zwrocilaby funkcja wbudowana `typeof()`, z wyjatkiem tego, ze `-1` oznacza, ze akceptowana jest wartosc dowolnego typu, a `-2` oznacza, ze mozna podac albo liczby calkowite, albo zmiennoprzecinkowe. Dla przykladu, oto kilka wpisow z tej listy:
+
+```
+{"listdelete", 2, 2, {4, 0}}
+{"suspend", 0, 1, {0}}
+{"server_log", 1, 2, {2, -1}}
+{"max", 1, -1, {-2}}
+{"tostr", 0, -1, {}}
+```
+
+`listdelete()` przyjmuje dokladnie 2 argumenty, z ktorych pierwszy musi byc lista (`LIST == 4`), a drugi musi byc liczba calkowita (`INT == 0`). `suspend()` ma jeden opcjonalny argument, ktory, jesli podany, musi byc liczba (calkowita lub zmiennoprzecinkowa). `server_log()` ma jeden wymagany argument, ktory musi byc stringiem (`STR == 2`), i jeden opcjonalny argument, ktory, jesli podany, moze byc dowolnego typu. `max()` wymaga co najmniej jednego argumentu, ale moze przyjac dowolna liczbe powyzej tego, a pierwszy argument musi byc albo liczba calkowita, albo zmiennoprzecinkowa; typ(y) wymagane dla pozostalych argumentow nie moga zostac okreslone na podstawie tego opisu. Wreszcie, `tostr()` przyjmuje dowolna liczbe argumentow, ale nie mozna na podstawie tego opisu okreslic, jakie typy argumentow bylyby akceptowane na jakich pozycjach.
+
+**Funkcja: `eval`**
+
+eval -- kompilator kodu MOO przetwarza string tak, jakby mial byc programem powiazanym z jakims czasownikiem, i, jesli nie znaleziono bledow, ten fikcyjny czasownik zostaje wywolany
+
+list `eval` (str string)
+
+Jesli programista faktycznie nie jest programista, zglaszany jest `E_PERM`. Normalnym wynikiem wywolania `eval()` jest dwuelementowa lista. Pierwszy element jest prawdziwy, jesli nie bylo bledow kompilacji, a falszywy w przeciwnym razie. Drugi element to albo wynik zwrocony przez fikcyjny czasownik (jesli nie bylo bledow kompilacji), albo lista komunikatow bledow kompilatora (w przeciwnym razie).
+
+Gdy fikcyjny czasownik zostaje wywolany, rozne zmienne wbudowane maja wartosci pokazane ponizej:
+
+player    takie samo jak w wywolujacym czasowniku
+this      #-1
+caller    takie samo jak poczatkowa wartosc this w wywolujacym czasowniku
+
+args      {}
+argstr    ""
+
+verb      ""
+dobjstr   ""
+dobj      #-1
+prepstr   ""
+iobjstr   ""
+iobj      #-1
+
+Fikcyjny czasownik dziala z uprawnieniami programisty i tak, jakby jego bit uprawnien `d` byl wlaczony.
+
+```
+eval("return 3 + 4;")   =>   {1, 7}
+```
+
+**Funkcja: `set_task_perms`**
+
+set_task_perms -- zmienia uprawnienia, z jakimi dziala aktualnie wykonywany czasownik, na uprawnienia who
+
+none `set_task_perms` (obj who)
+
+Jesli programista nie jest ani who, ani czarodziejem, zglaszany jest `E_PERM`.
+> Uwaga: to nie zmienia wlasciciela aktualnie dzialajacego czasownika, wylacznie uprawnienia tego konkretnego wywolania. Uzywa sie tego w czasownikach nalezacych do czarodziei, by sprawic, ze dzialaja z nizszymi (zwykle nieczarodziejskimi) uprawnieniami.
+
+**Funkcja: `caller_perms`**
+
+caller_perms -- zwraca uprawnienia uzywane przez czasownik, ktory wywolal aktualnie wykonywany czasownik
+
+obj `caller_perms` ()
+
+Jesli aktualnie wykonywany czasownik nie zostal wywolany przez inny czasownik (tj. jest pierwszym czasownikiem wywolanym w zadaniu polecenia lub zadaniu serwera), `caller_perms()` zwraca `#-1`.
+
+**Funkcja: `task_perms`**
+
+task_perms -- zwraca uprawnienia uzywane przez aktualnie wykonywane zadanie
+
+obj `task_perms` ()
+
+**Funkcja: `set_task_local`**
+
+set_task_local -- Ustawia wartosc, ktora zostaje powiazana z biezacym dzialajacym zadaniem.
+
+void `set_task_local`(ANY value)
+
+Ta wartosc przetrwa wywolania miedzy czasownikami i zostaje zresetowana, gdy zadanie zostanie zabite, co czyni ja odpowiednia do bezpiecznego przekazywania wrazliwych danych posrednich miedzy czasownikami. Wartosc mozna nastepnie odczytac za pomoca funkcji `task_local`.
+
+Programista musi byc czarodziejem, w przeciwnym razie zglaszany jest `E_PERM`.
+
+```
+set_task_local("arbitrary data")
+set_task_local({"list", "of", "arbitrary", "data"})
+```
+
+**Funkcja: `task_local`**
+
+task_local -- Zwraca wartosc powiazana z biezacym zadaniem. Wartosc ustawia sie funkcja `set_task_local`.
+
+mixed `task_local` ()
+
+Programista musi byc czarodziejem, w przeciwnym razie zglaszany jest `E_PERM`.
+
+**Funkcja: `threads`**
+
+threads -- Gdy jeden lub wiecej procesow MOO jest zawieszonych i pracuje w osobnym watku, ta funkcja zwraca liste uchwytow do tych watkow.
+
+list `threads`()
+
+**Funkcja: `set_thread_mode`**
+
+int `set_thread_mode`()
+
+none `set_thread_mode`(INT mode)
+
+Bez podanych argumentow, set_thread_mode zwroci biezacy tryb watkowania dla czasownika. Wartosc 1 oznacza, ze watkowanie jest wlaczone dla funkcji, ktore je wspieraja. Wartosc 0 oznacza, ze watkowanie jest wylaczone i wszystkie funkcje beda wykonywane w glownym watku MOO, tak jak robily to funkcje w domyslnym LambdaMOO od wersji 1.
+
+Jesli podasz argument, mozesz kontrolowac tryb watkowania biezacego czasownika. Tryb 1 wlaczy watkowanie, a tryb 0 je wylaczy. Ta forma nie zwraca zadnej wartosci. Mozesz wywolac te funkcje wielokrotnie, jesli chcesz wylaczyc watkowanie dla pojedynczego wywolania funkcji, a wlaczyc je dla reszty.
+
+Kiedy nalezy wylaczyc watkowanie? Ogolnie rzecz biorac, watkowanie powinno byc wylaczone w czasownikach, w ktorych niepozadane byloby wywolanie suspend(). Kazda funkcja watkowana natychmiast zawiesi czasownik, podczas gdy watek wykonuje swoja prace. Moze to miec negatywny efekt, gdy chcesz uzyc tych funkcji w czasownikach, ktore nie moga lub nie powinny sie zawieszac, jak $sysobj:do_command lub $sysobj:do_login_command.
+
+Zauwaz, ze tryb watkowania wplywa wylacznie na biezacy czasownik i NIE wplywa na czasowniki wywolywane z jego wnetrza.
+
+**Funkcja: `thread_pool`**
+
+void `thread_pool`(STR function, STR pool [, INT value])
+
+Ta funkcja pozwala kontrolowac dowolne pule watkow utworzone przez serwer przy starcie. Nalezy jej uzywac ostroznie, poniewaz uzyta niepoprawnie moze wywolac katastrofalne skutki.
+
+Parametr function to funkcja, ktora chcesz wykonac na puli watkow. Dostepne funkcje to:
+
+INIT: Kontroluje inicjalizacje puli watkow.
+
+Parametr pool kontroluje, do ktorej puli watkow chcesz zastosowac wskazana funkcje. W chwili pisania tego tekstu serwer tworzy nastepujaca pule watkow:
+
+MAIN: Glowna pula watkow, w ktorej odbywa sie praca watkowanych funkcji wbudowanych.
+
+Wreszcie, value to wartosc, ktora chcesz przekazac funkcji dla pool. Nastepujace funkcje akceptuja nastepujace wartosci:
+
+INIT: Liczba watkow do utworzenia. UWAGA: przy wykonywaniu tej funkcji istniejaca pula zostanie zniszczona, a w jej miejsce utworzona nowa.
+
+Przyklady:
+
+```
+thread_pool("INIT", "MAIN", 1)     => Zastap istniejaca glowna pule watkow nowa pula skladajaca sie z pojedynczego watku.
+```
+
+**Funkcja: `ticks_left`**
+
+ticks_left -- zwraca liczbe tickow pozostalych biezacemu zadaniu, zanim zostanie ono przymusowo zakonczone
+
+int `ticks_left` ()
+
+**Funkcja: `seconds_left`**
+
+seconds_left -- zwraca liczbe sekund pozostalych biezacemu zadaniu, zanim zostanie ono przymusowo zakonczone
+
+int `seconds_left` ()
+
+Sa one przydatne na przyklad przy decydowaniu, kiedy wywolac `suspend()`, by kontynuowac dlugotrwale obliczenia.
+
+**Funkcja: `task_id`**
+
+task_id -- zwraca niezerowy, nieujemny identyfikator calkowitoliczbowy dla aktualnie wykonywanego zadania
+
+int `task_id` ()
+
+Takie liczby sa losowane dla kazdego zadania i dlatego moga byc bezpiecznie uzywane w sytuacjach, gdzie wymagana jest nieprzewidywalnosc.
+
+**Funkcja: `suspend`**
+
+suspend -- zawiesza biezace zadanie i wznawia je po co najmniej seconds sekundach
+
+value `suspend` ([int|float seconds])
+
+Zawieszenie na czesc sekundy (np. 0.1) jest mozliwe. Jesli nie podano seconds, zadanie jest zawieszane na czas nieokreslony; takie zadanie moze zostac wznowione wylacznie za pomoca funkcji `resume()`.
+
+Gdy zadanie zostaje wznowione, otrzymuje pelna pule tickow i sekund. Ta funkcja jest przydatna dla programow dzialajacych dlugo lub wymagajacych duzej liczby tickow. Jesli seconds jest ujemne, zglaszany jest `E_INVARG`. `Suspend()` zwraca zero, chyba ze zostalo wznowione przez `resume()`, w takim przypadku zwraca drugi argument podany tej funkcji.
+
+W pewnym sensie ta funkcja forkuje "reszte" wykonywanego zadania. Jest jednak istotna roznica pomiedzy uzyciem `suspend(seconds)` a uzyciem `fork (seconds)`. Instrukcja `fork` tworzy nowe zadanie (_zadanie sforkowane_), podczas gdy aktualnie dzialajace zadanie nadal kontynuuje do zakonczenia, natomiast `suspend()` zawiesza aktualnie dzialajace zadanie (czyniac je tym samym _zadaniem zawieszonym_). Ta roznica moze zostac najlepiej wyjasniona nastepujacymi przykladami, w ktorych jeden czasownik wywoluje drugi:
+
+```
+.program   #0:caller_A
+#0.prop = 1;
+#0:callee_A();
+#0.prop = 2;
+.
+
+.program   #0:callee_A
+fork(5)
+  #0.prop = 3;
+endfork
+.
+
+.program   #0:caller_B
+#0.prop = 1;
+#0:callee_B();
+#0.prop = 2;
+.
+
+.program   #0:callee_B
+suspend(5);
+#0.prop = 3;
+.
+```
+
+Rozwaz `#0:caller_A`, ktory wywoluje `#0:callee_A`. Takie zadanie przypisze 1 do `#0.prop`, wywola `#0:callee_A`, sforkuje nowe zadanie, wroci do `#0:caller_A` i przypisze 2 do `#0.prop`, konczac to zadanie. Piec sekund pozniej, jesli sforkowane zadanie nie zostalo zabite, zacznie sie ono wykonywac; przypisze 3 do `#0.prop`, a nastepnie sie zatrzyma. Tak wiec ostateczna wartosc `#0.prop` (tj. wartosc po ponad 5 sekundach) wyniesie 3.
+
+Rozwaz teraz `#0:caller_B`, ktory wywoluje `#0:callee_B` zamiast `#0:callee_A`. To zadanie przypisze 1 do `#0.prop`, wywola `#0:callee_B` i zawiesi sie. Piec sekund pozniej, jesli zawieszone zadanie nie zostalo zabite, zostanie ono wznowione; przypisze 3 do `#0.prop`, wroci do `#0:caller_B` i przypisze 2 do `#0.prop`, konczac zadanie. Tak wiec ostateczna wartosc `#0.prop` (tj. wartosc po ponad 5 sekundach) wyniesie 2.
+
+Zadanie zawieszone, podobnie jak zadanie sforkowane, moze zostac opisane przez funkcje `queued_tasks()` i zabite przez funkcje `kill_task()`. Zawieszenie zadania nie zmienia jego identyfikatora zadania. Zadanie moze byc zawieszane wielokrotnie, kolejnymi wywolaniami `suspend()`.
+
+Domyslnie nie ma limitu liczby zadan, jakie moze zawiesic dowolny gracz, ale taki limit mozna narzucic z poziomu bazy danych. Zobacz rozdzial o zalozeniach serwera wobec bazy danych po szczegoly.
+
+**Funkcja: `resume`**
+
+resume -- natychmiast konczy zawieszenie zawieszonego zadania o podanym task-id; wywolanie `suspend()` w tym zadaniu zwroci value, ktore domyslnie wynosi zero
+
+none `resume` (int task-id [, value])
+
+Jesli value jest typu `ERR`, zostanie ono zglaszane jako blad, a nie zwrocone, w zawieszonym zadaniu. `Resume()` zglasza `E_INVARG`, jesli task-id nie okresla istniejacego zawieszonego zadania, i `E_PERM`, jesli programista nie jest ani czarodziejem, ani wlascicielem wskazanego zadania.
+
+**Funkcja: `yin`**
+
+yin -- Zawiesza biezace zadanie, jesli konczy mu sie limit tickow lub sekund.
+
+int `yin`([INT time, INT minimum ticks, INT minimum seconds] )
+
+`yin` to skrot od "yield if needed" (wykonaj yield, jesli potrzeba).
+
+Ma to zapewnic podobna funkcjonalnosc do czasownika suspend_if_needed z LambdaCore lub recznego okreslania czegos w rodzaju: ticks_left() < 2000 && suspend(0)
+
+Time: Jak dlugo zawiesic zadanie. Domyslnie: 0
+
+Minimum ticks: Minimalna liczba tickow, jaka musi pozostac zadaniu, zanim nastapi zawieszenie.
+
+Minimum seconds: Minimalna liczba sekund, jaka musi pozostac zadaniu, zanim nastapi zawieszenie.
+
+**Funkcja: `queue_info`**
+
+queue_info -- jesli pominieto player, zwraca liste numerow obiektow nazywajacych wszystkich graczy, ktorzy aktualnie maja aktywne kolejki zadan wewnatrz serwera
+
+list `queue_info` ([obj player])
+map `queue_info` ([obj player])
+
+Jesli podano player, zwraca liczbe zadan w tle aktualnie zakolejkowanych dla tego uzytkownika. Gwarantowane jest, ze `queue_info(X)` zwroci zero dla dowolnego X nieobecnego w wyniku `queue_info()`.
+
+Jesli wywolujacy jest czarodziejem, zwrocona zostanie mapa informacji diagnostycznych o kolejkach zadan.
+
+**Funkcja: `queued_tasks`**
+
+queued_tasks -- zwraca informacje o kazdym z zadan w tle (tj. sforkowanych, zawieszonych lub odczytu) nalezacych do programisty (lub, jesli programista jest czarodziejem, o wszystkich zakolejkowanych zadaniach)
+
+list|int `queued_tasks` ([INT show-runtime-or-count-only [, INT count-only]])
+
+Zwracana wartosc to lista list, z ktorych kazda koduje pewne informacje o konkretnym zakolejkowanym zadaniu w nastepujacym formacie:
+
+```
+{task-id, start-time, x, y, programmer, verb-loc, verb-name, line, this, task-size}
+```
+
+gdzie task-id to identyfikator calkowitoliczbowy tego zakolejkowanego zadania, start-time to czas, po ktorym to zadanie zacznie sie wykonywac (w formacie time()), x i y to przestarzale wartosci, ktore nie sa juz interesujace, programmer to uprawnienia, z jakimi to zadanie zacznie sie wykonywac (a takze gracz, do ktorego to zadanie nalezy), verb-loc to obiekt, na ktorym byl w danym momencie zdefiniowany czasownik, ktory sforkowal to zadanie, verb-name to nazwa tego czasownika, line to numer pierwszej linii kodu w tym czasowniku, ktora to zadanie wykona, this to wartosc zmiennej `this` w tym czasowniku, a task-size to rozmiar zadania w bajtach. Dla zadan odczytu, start-time wynosi -1.
+
+Pola x i y sa teraz przestarzale i sa zachowywane wylacznie ze wzgledow kompatybilnosci wstecznej. Moga zostac ponownie wykorzystane do nowych celow w jakiejs przyszlej wersji serwera.
+
+Jesli podano dokladnie jeden argument i jest on prawdziwy, wszystkie zmienne obecne w zadaniu sa przedstawiane w mapie, gdzie kluczem jest nazwa zmiennej, a wartoscia jej wartosc. Wywolanie `queued_tasks(1)` wlacza zmienne czasu wykonania; wywolanie `queued_tasks(0)` ich nie wlacza.
+
+Jesli podano dwa argumenty i drugi z nich jest prawdziwy, zwracana jest wylacznie liczba zadan. Jest to znaczaco wydajniejsze niz length(queued_tasks()). Zmienne czasu wykonania nie sa wlaczane, gdy podano dwa argumenty, wiec `queued_tasks(1, 0)` zwraca normalna liste zadan bez zmiennych czasu wykonania.
+
+> Ostrzezenie: jesli aktualizujesz do ToastStunt z wersji LambdaMOO starszej niz 1.8.1, musisz zrzucic swoja baze danych, zrestartowac w trybie awaryjnym LambdaMOO i zabic wszystkie swoje queued_tasks() przed ponownym zrzuceniem bazy danych. W przeciwnym razie Twoja baza danych nie uruchomi sie w ToastStunt.
+
+**Funkcja: `kill_task`**
+
+kill_task -- usuwa zadanie o podanym task-id z kolejki oczekujacych zadan
+
+none `kill_task` (int task-id)
+
+Jesli programista nie jest wlascicielem tego zadania i nie jest czarodziejem, zglaszany jest `E_PERM`. Jesli w kolejce nie ma zadania o podanym task-id, zglaszany jest `E_INVARG`.
+
+**Funkcja: `finished_tasks`**
+
+finished_tasks -- zwraca liste ostatnich X zadan, ktore zakonczyly wykonanie, wliczajac ich calkowity czas wykonania
+
+list `finished_tasks`()
+
+Gdy wlaczone (przez `SAVE_FINISHED_TASKS` w options.h), serwer bedzie sledzil czas wykonania kazdego zadania przechodzacego przez interpreter. Funkcja wbudowana `finished_tasks()` jest rejestrowana wylacznie w kompilacjach z wlaczonym `SAVE_FINISHED_TASKS`. Jesli programista nie jest czarodziejem, zglaszany jest `E_PERM`. Te dane sa nastepnie udostepniane bazie danych na dwa sposoby.
+
+Pierwszym jest funkcja finished_tasks(). Ta funkcja zwroci liste map ostatnich kilku zakonczonych zadan (konfigurowalna przez $server_options.finished_tasks_limit) z nastepujacymi informacjami:
+
+| Wartosc | Opis |
+| --- | --- |
+| foreground | 1, jesli zadanie bylo zadaniem pierwszoplanowym, 0, jesli bylo zadaniem w tle |
+| fullverb | pelna nazwa czasownika, wliczajac aliasy |
+| object | obiekt definiujacy czasownik |
+| player | gracz, ktory zainicjowal zadanie |
+| programmer | programista bedacy wlascicielem czasownika |
+| receiver | zwykle takie samo jak 'this', ale w przypadku wartosci prymitywnych moze byc uchwytem (handlerem) |
+| suspended | czy zadanie bylo zawieszone, czy nie |
+| this | faktyczny obiekt, na ktorym wywolano czasownik |
+| time | calkowity czas, jaki zajelo wykonanie czasownika wewnatrz interpretera |
+| verb | nazwa wywolania czasownika lub wpisanego polecenia |
+
+Drugim sposobem jest czasownik $handle_lagging_task. Gdy przekroczony zostanie prog wykonania zdefiniowany w $server_options.task_lag_threshold, serwer zapisze wpis do pliku logu i wywola czasownik $handle_lagging_task ze stosem wywolan zadania oraz czasem wykonania.
+
+> Uwaga: ta funkcja wbudowana musi zostac wlaczona w options.h, by moc jej uzywac.
+
+**Funkcja: `callers`**
+
+callers -- zwraca informacje o kazdym z czasownikow i funkcji wbudowanych aktualnie oczekujacych na wznowienie wykonania w biezacym zadaniu
+
+list `callers` ([include-line-numbers])
+
+Gdy jeden czasownik lub funkcja wywoluje inny czasownik lub funkcje, wykonanie wywolujacego jest tymczasowo zawieszone, w oczekiwaniu na zwrocenie wartosci przez wywolywany czasownik lub funkcje. W danym momencie moze byc kilka takich oczekujacych czasownikow i funkcji: ten, ktory wywolal aktualnie wykonywany czasownik, czasownik lub funkcja, ktora wywolala tamten, i tak dalej. Wynikiem `callers()` jest lista, ktorej kazdy element podaje informacje o jednym oczekujacym czasowniku lub funkcji w nastepujacym formacie:
+
+```
+{this, verb-name, programmer, verb-loc, player, line-number}
+```
+
+Dla czasownikow, this to poczatkowa wartosc zmiennej `this` w tym czasowniku, verb-name to nazwa uzyta do wywolania tego czasownika, programmer to gracz, z ktorego uprawnieniami dziala ten czasownik, verb-loc to obiekt, na ktorym zdefiniowano ten czasownik, player to poczatkowa wartosc zmiennej `player` w tym czasowniku, a line-number wskazuje, ktora linia kodu czasownika jest wykonywana. Element line-number jest wlaczany wylacznie, jesli podano argument include-line-numbers i jest on prawdziwy.
+
+Dla funkcji, this, programmer i verb-loc sa wszystkie rowne `#-1`, verb-name to nazwa funkcji, a line-number to indeks uzywany wewnetrznie do okreslenia biezacego stanu funkcji wbudowanej. Najprostszym poprawnym testem na wpis funkcji wbudowanej jest
+
+```
+(VERB-LOC == #-1  &&  PROGRAMMER == #-1  &&  VERB-name != "")
+```
+
+Pierwszy element listy zwracanej przez `callers()` podaje informacje o czasowniku, ktory wywolal aktualnie wykonywany czasownik, drugi element opisuje czasownik, ktory wywolal tamten, i tak dalej. Ostatni element listy opisuje pierwszy czasownik wywolany w tym zadaniu.
+
+**Funkcja: `task_stack`**
+
+task_stack -- zwraca informacje podobne do tych zwracanych przez funkcje `callers()`, ale dla zawieszonego zadania o podanym task-id; argument include-line-numbers ma takie samo znaczenie, jak w `callers()`
+
+list `task_stack` (int task-id [, INT include-line-numbers [, INT include-variables]])
+
+Zglasza `E_INVARG`, jesli task-id nie okresla istniejacego zawieszonego zadania, i `E_PERM`, jesli programista nie jest ani czarodziejem, ani wlascicielem wskazanego zadania.
+
+Jesli podano include-line-numbers i jest ono prawdziwe, wlaczone zostana numery linii.
+
+Jesli podano include-variables i jest ono prawdziwe, do kazdej ramki podanego zadania wlaczone zostana zmienne.
