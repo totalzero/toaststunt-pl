@@ -158,7 +158,7 @@ ToastStunt to dostepny przez siec, wieloosobowy, programowalny, interaktywny sys
   * [macOS](#macos-1)
 * [Dokumentacja funkcji](https://github.com/lisdude/toaststunt-documentation)
 * [Przewodnik dla poczatkujacych](PRZEWODNIK-DLA-POCZATKUJACYCH.md)
-* [ToastCore](https://github.com/lisdude/toastcore)
+* [ToastCore](https://github.com/lisdude/toastcore) ([polskie tlumaczenie README](README.ToastCore.md))
 * [Informacje o Stunt](Legacy/README/README.Stunt)
 * [**Tworzenie tresci po polsku**](TWORZENIE-TRESCI-PO-POLSKU.md) -- przewodnik dla programistow/budowniczych: system rodzaju, zaimki, odmiana czasownikow, zasada ASCII i jej ograniczenia
 
