@@ -156,7 +156,7 @@ ToastStunt to dostepny przez siec, wieloosobowy, programowalny, interaktywny sys
   * [Gentoo](#gentoo-1)
   * [FreeBSD](#freebsd-1)
   * [macOS](#macos-1)
-* [Dokumentacja funkcji](https://github.com/lisdude/toaststunt-documentation)
+* [Dokumentacja funkcji](https://github.com/lisdude/toaststunt-documentation) ([polskie tlumaczenie: Podrecznik Programisty](PODRECZNIK-PROGRAMISTY.md))
 * [Przewodnik dla poczatkujacych](PRZEWODNIK-DLA-POCZATKUJACYCH.md)
 * [ToastCore](https://github.com/lisdude/toastcore) ([polskie tlumaczenie README](README.ToastCore.md))
 * [Informacje o Stunt](Legacy/README/README.Stunt)

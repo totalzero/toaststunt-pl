@@ -4,7 +4,9 @@
 
 Witaj w ToastStunt! Ten przewodnik zaklada, ze masz niewielka lub zadna znajomosc linii polecen i jest przeznaczony dla zupelnych poczatkujacych. Gdy zobaczysz linie zaczynajaca sie od znaku wiekszosci (`>`), oznacza to polecenie do wpisania. Jesli linia zaczyna sie od znaku rownosci i znaku wiekszosci (`=>`), oznacza to wyjscie, ktore otrzymano z polecenia jako przyklad. W pozostalych przypadkach caly tekst to po prostu wyjasnienia.
 
-Ten przewodnik nalezy traktowac jako uzupelnienie Archwizard FAQ ([https://lisdude.com/moo/archwizard_faq.html](https://lisdude.com/moo/archwizard_faq.html)), README ToastStunt ([README.md](README.md)) oraz README ToastCore ([polskie tlumaczenie](README.ToastCore.md), [oryginal](https://github.com/lisdude/toastcore/blob/master/README.md)).
+Ten przewodnik nalezy traktowac jako uzupelnienie Archwizard FAQ ([https://lisdude.com/moo/archwizard_faq.html](https://lisdude.com/moo/archwizard_faq.html), [polskie tlumaczenie](FAQ-ARCYCZARODZIEJA.md)), README ToastStunt ([README.md](README.md)) oraz README ToastCore ([polskie tlumaczenie](README.ToastCore.md), [oryginal](https://github.com/lisdude/toastcore/blob/master/README.md)).
+
+Gdy juz uruchomisz swoj serwer i chcesz nauczyc sie faktycznie programowac w MOO -- pisac czasowniki, tworzyc wlasciwosci, obslugiwac WAIF-y i funkcje wbudowane -- pelny, szczegolowy opis jezyka i wszystkich funkcji wbudowanych ToastStunt znajdziesz w [Podreczniku Programisty ToastStunt](PODRECZNIK-PROGRAMISTY.md) (polskie tlumaczenie oficjalnego podrecznika). Dodatkowe materialy praktyczne (jak utrzymywac baze danych, odzyskiwac dostep czarodzieja, dodawac wpisy do pomocy itd.) znajdziesz w [Podstawach dla Czarodziei](PODSTAWY-DLA-CZARODZIEI.md).
 
 Po pierwsze, wazne jest, by zrozumiec, gdzie umieszczasz swoj serwer i baze danych. (Nie znasz roznicy miedzy serwerem a baza danych? Sprawdz Archwizard FAQ! [https://lisdude.com/moo/archwizard_faq.html#toc_3](https://lisdude.com/moo/archwizard_faq.html#toc_3)). Domyslnie powinienes byc w swoim katalogu domowym:
 
