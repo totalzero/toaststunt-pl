@@ -5768,3 +5768,150 @@ Serwer buforuje wyszukiwania nazwa-czasownika-na-program, by poprawic wydajnosc.
 ```
 
 choc moze sie to zmienic w przyszlych wydaniach serwera. Cache jest uniewazniany przez dowolne wywolanie funkcji wbudowanej, ktore moze wplynac na wyszukiwania czasownikow (np. delete_verb()).
+
+### Polecenia serwera i zalozenia bazy danych
+
+Ten rozdzial opisuje wszystkie polecenia wbudowane w serwer oraz kazda wlasciwosc i czasownik w bazie danych, do ktorych serwer odwoluje sie w sposob szczegolny. Poza tym, co zostalo tu wymienione, serwer nie czyni zadnych zalozen co do zawartosci bazy danych.
+
+#### Linie polecen otrzymujace specjalne traktowanie
+
+Jak wspomniano w rozdziale o parsowaniu polecen, istnieje szereg polecen i specjalnych prefiksow, ktorych interpretacja jest ustalona przez serwer. Przyklady to polecenie flush oraz piec wewnetrznych (intrinsic) polecen (PREFIX, OUTPUTPREFIX, SUFFIX, OUTPUTSUFFIX i .program).
+
+Ta sekcja omawia wszystkie te wbudowane elementy procesu interpretacji polecen, w kolejnosci, w jakiej wystepuja.
+
+##### Czyszczenie nieprzetworzonego wejscia
+
+Czasem zdarza sie, ze uzytkownik zmienia zdanie co do jednej lub wiecej wpisanych linii wejscia i chcialby je "cofnac", zanim serwer faktycznie zabierze sie za ich przetwarzanie. Jesli zareaguje wystarczajaco szybko, moze wpisac zdefiniowane dla swojego polaczenia polecenie flush; gdy serwer po raz pierwszy odczyta to polecenie z sieci, natychmiast i calkowicie czysci wszelkie jeszcze nieprzetworzone wejscie od tego uzytkownika, wypisujac uzytkownikowi komunikat opisujacy dokladnie, ktore linie wejscia zostaly odrzucone, jesli byly jakies.
+
+> Subtelny szczegol: polecenie flush jest obslugiwane bardzo wczesnie w procesie przetwarzania linii wejscia przez serwer, zanim linia zostanie wprowadzona do kolejki zadan dla polaczenia i na dlugo przed sparsowaniem jej na slowa, tak jak inne polecenia. Z tego powodu musi zostac wpisane dokladnie tak, jak zostalo zdefiniowane, samodzielnie w linii, bez cudzyslowow i bez zadnych spacji przed ani po nim.
+
+Gdy polaczenie zostaje po raz pierwszy zaakceptowane przez serwer, otrzymuje poczatkowe ustawienie polecenia flush, pobrane z biezacej wartosci domyslnej. To poczatkowe ustawienie mozna pozniej zmienic za pomoca funkcji set_connection_option().
+
+Domyslnie kazde polaczenie otrzymuje poczatkowo `.flush` jako swoje polecenie flush. Jesli istnieje wlasciwosc $server_options.default_flush_command, jej wartosc nadpisuje ta wartosc domyslna. Jesli $server_options.default_flush_command jest niepustym stringiem, ten string staje sie poleceniem flush dla wszystkich nowych polaczen; w przeciwnym razie nowe polaczenia poczatkowo w ogole nie otrzymuja polecenia flush.
+
+##### Przetwarzanie poza pasmem
+
+Mozliwe jest skompilowanie serwera tak, by rozpoznawal prefiks poza pasmem oraz prefiks cytowania poza pasmem dla linii wejscia. Sa to stringi, ktorych obecnosci na poczatku kazdej niewyczyszczonej linii wejscia z polaczenia niebinarnego serwer bedzie sprawdzal, niezaleznie od tego, czy gracz jest zalogowany, i niezaleznie od tego, czy jakies zadania odczytu oczekuja na wejscie na tym polaczeniu.
+
+To sprawdzanie mozna calkowicie wylaczyc, ustawiajac opcje polaczenia "disable-oob"; w takim przypadku nic z reszty tej sekcji nie ma zastosowania, tj. wszystkie kolejne niewyczyszczone linie na tym polaczeniu beda dostepne bez zmian dla zadan odczytu lub normalnego parsowania polecen.
+
+##### Linie cytowane
+
+Najpierw opiszemy, jak zapewnic, ze dana linia wejscia nie zostanie przetworzona jako polecenie poza pasmem.
+
+Jesli dana linia wejscia zaczyna sie od zdefiniowanego prefiksu cytowania poza pasmem (domyslnie `#$"`), ten prefiks zostaje usuniety. Wynikowa linia jest wtedy dostepna dla zadan odczytu lub normalnego parsowania polecen w zwykly sposob, nawet jesli ta wynikowa linia zaczyna sie teraz od prefiksu poza pasmem lub prefiksu cytowania poza pasmem.
+
+Na przyklad, jesli gracz wpisze
+
+```
+#$"#$#mcp-client-set-type fancy
+```
+
+serwer zachowa sie dokladnie tak, jakby opcja polaczenia "disable-oob" byla ustawiona na prawde, a gracz wpisal zamiast tego
+
+```
+#$#mcp-client-set-type fancy
+```
+
+##### Polecenia
+
+Jesli dana linia wejscia zaczyna sie od zdefiniowanego prefiksu poza pasmem (domyslnie `#$#`), nie jest traktowana jako normalne polecenie ani przekazywana jako wejscie zadnemu zadaniu odczytu. Zamiast tego linia jest parsowana na liste slow w zwykly sposob, a te slowa sa przekazywane jako argumenty w wywolaniu $do_out_of_band_command().
+
+Jesli ten czasownik nie istnieje lub nie jest wykonywalny, dana linia zostanie calkowicie zignorowana.
+
+Na przyklad, przy domyslnym prefiksie poza pasmem, linia wejscia
+
+```
+#$#mcp-client-set-type fancy
+```
+
+skutkowalaby nastepujacym wywolaniem wykonanym w nowym zadaniu serwera:
+
+```
+$do_out_of_band_command("#$#mcp-client-set-type", "fancy")
+```
+
+Podczas wywolania $do_out_of_band_command() zmienna player jest ustawiona na numer obiektu reprezentujacy gracza powiazanego z polaczeniem, z ktorego pochodzi linia wejscia. Oczywiscie, jesli to polaczenie nie jest jeszcze zalogowane, numer obiektu bedzie ujemny. Ponadto zmienna argstr bedzie miala jako swoja wartosc niesparsowana linie wejscia, tak jak zostala odebrana na polaczeniu sieciowym.
+
+Polecenia poza pasmem sa przeznaczone do uzytku przez zaawansowane programy-klienty, ktore moga generowac zdarzenia asynchroniczne, o ktorych serwer musi zostac powiadomiony. Poniewaz klient generalnie nie moze znac stanu polaczenia gracza (zalogowany czy nie, zadanie odczytu czy nie), polecenia poza pasmem stanowia jedyny niezawodny kanal komunikacji klient-serwer.
+
+Polecenia [Telnet IAC](http://www.faqs.org/rfcs/rfc854.html) rowniez zostana przechwycone i przekazane, jako stringi binarne, do czasownika `do_out_of_band_command` na obiekcie nasluchujacym.
+
+##### Ograniczniki wyjscia polecenia
+
+> Ostrzezenie: to funkcja przestarzala (deprecated)
+
+Kazde polaczenie sieciowe MOO ma powiazane z soba dwa stringi: `prefiks wyjscia` i `sufiks wyjscia`. Tuz przed wykonaniem polecenia wpisanego na tym polaczeniu, serwer wypisuje graczowi prefiks wyjscia, jesli jest zdefiniowany. Podobnie, tuz po zakonczeniu polecenia, graczowi wypisywany jest sufiks wyjscia, jesli jest zdefiniowany. Poczatkowo te stringi nie sa zdefiniowane, wiec nie zachodzi zadne dodatkowe wypisywanie.
+
+Polecenia `PREFIX` i `SUFFIX` sluza do ustawiania i czyszczenia tych stringow. Maja nastepujaca prosta skladnie:
+
+```
+PREFIX  output-prefix
+SUFFIX  output-suffix
+```
+
+To znaczy, ze caly tekst po nazwie polecenia i wszelkich nastepujacych po niej spacjach jest uzywany jako nowa wartosc odpowiedniego stringa. Jesli po stringu polecenia nie ma zadnego niepustego tekstu, odpowiadajacy string zostaje wyczyszczony. Dla kompatybilnosci z niektorymi ogolnymi programami-klientami MUD, serwer rozpoznaje tez `OUTPUTPREFIX` jako synonim `PREFIX` i `OUTPUTSUFFIX` jako synonim `SUFFIX`.
+
+Te polecenia sa przeznaczone do uzytku przez programy polaczone z MOO, tak by mogly wydawac polecenia MOO i niezawodnie okreslac poczatek i koniec wynikowego wyjscia. Na przyklad, pewien program-klient oparty na edytorze wysyla od czasu do czasu nastepujaca sekwencje polecen:
+
+```
+PREFIX >>MOO-Prefix<<
+SUFFIX >>MOO-Suffix<<
+@list object:verb without numbers
+PREFIX
+SUFFIX
+```
+
+Efektem tego, w bazie danych pochodzacej od ToastCore, jest wypisanie kodu nazwanego czasownika, poprzedzonego linia zawierajaca wylacznie `>>MOO-Prefix<<` i zakonczonego linia zawierajaca wylacznie `>>MOO-Suffix<<`. Pozwala to edytorowi niezawodnie wyodrebnic tekst programu z wyjscia MOO i pokazac go uzytkownikowi w osobnym oknie edytora. Istnieje wiele innych mozliwych zastosowan.
+
+> Ostrzezenie: jesli tak oskrzydlone polecenie wywoluje suspend(), jego wyjscie zostanie uznane za "zakonczone" wlasnie w tym momencie; sufiks pojawia sie wiec w tym punkcie, a nie, jak mozna by oczekiwac, pozniej, gdy wynikowe zadanie w tle w koncu zwroci wynik ze swojego wywolania czasownika najwyzszego poziomu. Dlatego uzycie tej funkcji (ktora zostala zaprojektowana, zanim istnialo suspend()) nie jest juz zalecane.
+
+Funkcja wbudowana `output_delimiters()` moze byc uzyta przez kod MOO, by dowiedziec sie, jaki prefiks i sufiks wyjscia sa aktualnie w mocy dla danego polaczenia sieciowego.
+
+#### Polecenie .program
+
+Polecenie `.program` to popularny sposob, w jaki programisci wiaza konkretny program w kodzie MOO z konkretnym czasownikiem. Ma nastepujaca skladnie:
+
+```
+.program object:verb
+...kilka linii kodu MOO...
+.
+```
+
+To znaczy, ze po wpisaniu polecenia `.program` wszystkie kolejne linie wejscia od gracza sa uznawane za czesc definiowanego programu MOO. Konczy sie to, gdy tylko gracz wpisze linie zawierajaca wylacznie kropke (`.`). Gdy ta linia zostanie odebrana, zgromadzony program MOO jest sprawdzany pod katem poprawnej skladni MOO i, jesli jest poprawny, wiazany z nazwanym czasownikiem.
+
+Jesli w momencie przetwarzania linii zawierajacej wylacznie kropke (a) gracz nie jest programista, (b) gracz nie ma uprawnien zapisu do nazwanego czasownika, lub (c) wlasciwosc `$server_options.protect_set_verb_code` istnieje i ma wartosc prawdziwa, a gracz nie jest czarodziejem, wtedy wypisywany jest komunikat bledu, a program nazwanego czasownika nie zostaje zmieniony.
+
+W poleceniu `.program`, object moze miec jedna z trzech form:
+
+* Nazwe jakiegos obiektu widocznego dla gracza. Jest to dokladnie taki rodzaj dopasowania, jaki serwer wykonuje dla dopelnien blizszych i dalszych zwyklych polecen. Zobacz rozdzial o parsowaniu polecen po szczegoly. Zauwaz, ze mozna uzyc specjalnych nazw `me` i `here`.
+* Numer obiektu, w postaci `#number`.
+* _Wlasciwosc systemowa_ (tj. wlasciwosc na `#0`), w postaci `$name`. W tym przypadku biezaca wartosc `#0.name` musi byc prawidlowym obiektem.
+
+#### Poczatkowa interpunkcja w poleceniach
+
+Serwer w specjalny sposob interpretuje linie polecen zaczynajace sie od ktoregokolwiek z nastepujacych znakow:
+
+```
+"        :        ;
+```
+
+Zanim polecenie zostanie przetworzone, poczatkowy znak interpunkcyjny jest zastepowany odpowiadajacym mu ponizej slowem, po ktorym nastepuje spacja:
+
+```
+say      emote    eval
+```
+
+Na przyklad linia polecenia
+
+```
+"Hello, there.
+```
+
+zostaje przeksztalcona w
+
+```
+say Hello, there.
+```
+
+przed parsowaniem.
