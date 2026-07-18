@@ -3119,3 +3119,275 @@ Lista replacements ma zawsze dziewiec elementow, kazdy element sam jest lista dw
 ```
 rmatch("foobar", "o*b")      =>  {4, 4, {{0, -1}, ...}, "foobar"}
 ```
+
+##### Wyrazenia regularne kompatybilne z Perlem (PCRE)
+
+ToastStunt ma dwie metody operowania na wyrazeniach regularnych. Klasyczny styl (przestarzaly, trudniejszy w uzyciu, opisany w nastepnej sekcji) oraz preferowana biblioteka wyrazen regularnych kompatybilnych z Perlem. Nauczenie wyrazen regularnych wykracza poza zakres tego dokumentu, ale wyszukiwanie w internecie powinno dostarczyc wszystkich informacji potrzebnych do rozpoczecia tego, co z pewnoscia stanie sie podroza na cale zycie, pelna albo milosci, albo frustracji.
+
+ToastCore udostepnia dwie podstawowe metody interakcji z wyrazeniami regularnymi.
+
+**Funkcja: `pcre_match`**
+
+pcre_match -- Funkcja `pcre_match()` wyszukuje `pattern` w `subject`, uzywajac biblioteki wyrazen regularnych kompatybilnych z Perlem. ToastStunt uzywa PCRE2 do tej funkcjonalnosci.
+
+LIST `pcre_match`(STR subject, STR pattern [, ?case matters=0] [, ?repeat until no matches=1])
+
+Wartoscia zwracana jest lista map zawierajacych kazde dopasowanie. Kazda zwrocona mapa bedzie miala klucz odpowiadajacy albo nazwanej grupie przechwytujacej, albo numerowi dopasowywanej grupy przechwytujacej. Pelne dopasowanie zawsze znajduje sie pod kluczem "0". Wartoscia kazdego klucza bedzie kolejna mapa zawierajaca klucze 'match' i 'position'. Match odpowiada tekstowi, ktory zostal dopasowany, a position zwroci indeksy podstringu w `subject`.
+
+Jesli `repeat until no matches` wynosi 1, wyrazenie bedzie nadal ewaluowane, dopoki nie mozna znalezc kolejnych dopasowan albo dopoki nie wyczerpie limitu iteracji. Domyslnie wynosi 1.
+
+Puste wzorce (pattern) zglaszaja `E_INVARG`. Puste subject sa poprawne, ale obecna implementacja zwraca pusta liste bez podejmowania proby dopasowania o dlugosci zero.
+
+Dodatkowo czarodzieje moga kontrolowac, ile iteracji petli jest mozliwych, dodajac wlasciwosc do $server_options. $server_options.pcre_match_max_iterations to maksymalna liczba petli dozwolonych, przed poddaniem sie i pozwoleniem innym zadaniom na dzialanie. UWAGA: zaleca sie utrzymywanie tej wartosci na dosc niskim poziomie. Domyslna wartoscia jest 1000. Minimalna wartosc to 100.
+
+Przyklady:
+
+Wyodrebnienie dat ze stringa:
+
+```
+pcre_match("09/12/1999 other random text 01/21/1952", "([0-9]{2})/([0-9]{2})/([0-9]{4})")
+
+=> {["0" -> ["match" -> "09/12/1999", "position" -> {1, 10}], "1" -> ["match" -> "09", "position" -> {1, 2}], "2" -> ["match" -> "12", "position" -> {4, 5}], "3" -> ["match" -> "1999", "position" -> {7, 10}]], ["0" -> ["match" -> "01/21/1952", "position" -> {30, 39}], "1" -> ["match" -> "01", "position" -> {30, 31}], "2" -> ["match" -> "21", "position" -> {33, 34}], "3" -> ["match" -> "1952", "position" -> {36, 39}]]}
+```
+
+Podzielenie stringa (choc to naciagany przyklad):
+
+```
+;;ret = {}; for x in (pcre_match("This is a string of words, with punctuation, that should be exploded. By space. --zippy--", "[a-zA-Z]+", 0, 1)) ret = {@ret, x["0"]["match"]}; endfor return ret;
+
+=> {"This", "is", "a", "string", "of", "words", "with", "punctuation", "that", "should", "be", "exploded", "By", "space", "zippy"}
+```
+
+**Funkcja: `pcre_replace`**
+
+pcre_replace -- Funkcja `pcre_replace()` zamienia `subject` na zamienniki znalezione w `pattern`, uzywajac biblioteki wyrazen regularnych kompatybilnych z Perlem. ToastStunt uzywa PCRE2 do tej funkcjonalnosci.
+
+STR `pcre_replace` (STR `subject`, STR `pattern`)
+
+String pattern ma okreslony format, ktorego trzeba sie trzymac, co powinno byc znajome, jesli uzywales czegos takiego jak Vim, Perl czy sed. String sklada sie z czterech elementow, kazdy rozdzielony delimiterem (typowo ukosnikiem (/) lub wykrzyknikiem (!)), ktore mowia silnikowi wyrazen regularnych, jak parsowac Twoj zamiennik. Rozlozymy string na czesci i wspomnimy o odpowiednich opcjach nizej:
+
+1. Typ wyszukiwania do wykonania. W MOO poprawne jest wylacznie 's'. Ten parametr jest zachowany dla zachowania spojnosci.
+
+2. Wzorzec wyrazenia regularnego do dopasowania.
+
+3. Tekst zamiennika do podstawienia dla kazdego dopasowania.
+
+4. Opcjonalne modyfikatory:
+    * Global. To zastapi wszystkie wystapienia w Twoim stringu, zamiast zatrzymywac sie na pierwszym.
+    * Case-insensitive (nierozroznianie wielkosci liter). Wielkie, male litery, to nie ma znaczenia. Wszystkie zostana zastapione.
+
+Przyklady:
+
+Zastapienie jednego slowa innym:
+
+```
+pcre_replace("I like banana pie. Do you like banana pie?", "s/banana/apple/g")
+
+=> "I like apple pie. Do you like apple pie?"
+```
+
+Jesli chcesz zastapic string zawierajacy ukosniki, moze byc przydatne zmienic swoj delimiter na wykrzyknik:
+
+```
+pcre_replace("Unix, wow! /bin/bash is a thing.", "s!/bin/bash!/bin/fish!g")
+
+=> "Unix, wow! /bin/fish is a thing."
+```
+
+**Funkcja: `pcre_cache_stats`**
+
+pcre_cache_stats -- Zwraca statystyki cache wzorcow PCRE.
+
+list `pcre_cache_stats` ()
+
+Programista musi byc czarodziejem, w przeciwnym razie zglaszany jest `E_PERM`. Zwrocona lista zawiera wpisy w formie `{pattern, cache-hits}`.
+
+##### Starsze wyrazenia regularne MOO (Legacy)
+
+Dopasowywanie _wyrazen regularnych_ pozwala sprawdzic, czy string wpisuje sie w okreslony ksztalt skladniowy. Mozesz rowniez wyszukac w stringu podstring, ktory wpisuje sie we wzorzec.
+
+Wyrazenie regularne opisuje zbior stringow. Najprostszy przypadek to takie, ktore opisuje konkretny string; na przyklad string `foo`, traktowany jako wyrazenie regularne, dopasowuje `foo` i nic wiecej. Nietrywialne wyrazenia regularne uzywaja pewnych specjalnych konstrukcji, by moc dopasowac wiecej niz jeden string. Na przyklad wyrazenie regularne `foo%|bar` dopasowuje albo string `foo`, albo string `bar`; wyrazenie regularne `c[ad]*r` dopasowuje ktorykolwiek ze stringow `cr`, `car`, `cdr`, `caar`, `cadddar` i wszystkie inne takie stringi z jakakolwiek liczba `a` i `d`.
+
+Wyrazenia regularne maja skladnie, w ktorej kilka znakow to specjalne konstrukcje, a reszta to znaki _zwykle_. Znak zwykly to proste wyrazenie regularne, ktore dopasowuje ten znak i nic wiecej. Znakami specjalnymi sa `$`, `^`, `.`, `*`, `+`, `?`, `[`, `]` i `%`. Jakikolwiek inny znak wystepujacy w wyrazeniu regularnym jest zwykly, o ile nie jest poprzedzony przez `%`.
+
+Na przyklad `f` nie jest znakiem specjalnym, jest wiec zwykly, a zatem `f` jest wyrazeniem regularnym, ktore dopasowuje string `f` i zaden inny string. (Nie dopasowuje, na przyklad, stringa `ff`.) Podobnie `o` jest wyrazeniem regularnym, ktore dopasowuje wylacznie `o`.
+
+Jakiekolwiek dwa wyrazenia regularne a i b moga zostac skonkatenowane. Wynikiem jest wyrazenie regularne, ktore dopasowuje string, jesli a dopasowuje jakas czesc poczatku tego stringa, a b dopasowuje reszte stringa.
+
+Jako prosty przyklad, mozemy skonkatenowac wyrazenia regularne `f` i `o`, by otrzymac wyrazenie regularne `fo`, ktore dopasowuje wylacznie string `fo`. Wciaz trywialne.
+
+Nastepujace sa znaki i sekwencje znakow, ktore maja specjalne znaczenie w wyrazeniach regularnych. Jakikolwiek znak niewspomniany tutaj nie jest specjalny; reprezentuje dokladnie samego siebie dla celow wyszukiwania i dopasowywania.
+
+| Sekwencje znakow      | Specjalne znaczenie                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |                                                                                                                 |                                                                                     |
+| --------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| <code>.</code>        | jest znakiem specjalnym, ktory dopasowuje jakikolwiek pojedynczy znak. Uzywajac konkatenacji, mozemy stworzyc wyrazenia regularne takie jak <code>a.b</code>, ktore dopasowuje jakikolwiek trzyznakowy string zaczynajacy sie od <code>a</code> i konczacy sie na <code>b</code>.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |                                                                                                                 |                                                                                     |
+| <code>*</code>        | nie jest samodzielna konstrukcja; jest sufiksem, ktory oznacza, ze poprzedzajace wyrazenie regularne ma zostac powtorzone tyle razy, ile mozliwe. W <code>fo*</code>, <code>*</code> odnosi sie do <code>o</code>, wiec <code>fo*</code> dopasowuje <code>f</code> nastepowane przez jakakolwiek liczbe <code>o</code>. Przypadek zera <code>o</code> jest dozwolony: <code>fo*</code> dopasowuje rowniez <code>f</code>.  <code>*</code> zawsze odnosi sie do <em>najmniejszego</em> mozliwego poprzedzajacego wyrazenia.  Tak wiec <code>fo*</code> ma powtarzajace sie <code>o</code>, nie powtarzajace sie <code>fo</code>.  Dopasowujacy przetwarza konstrukcje <code>*</code>, dopasowujac natychmiast tyle powtorzen, ile mozna znalezc. Nastepnie kontynuuje z reszta wzorca.  Jesli to sie nie powiedzie, wycofuje sie (backtracking), odrzucajac niektore z dopasowan konstrukcji z <code>*</code>, na wypadek gdyby to umozliwilo dopasowanie reszty wzorca. Na przyklad, dopasowujac <code>c[ad]*ar</code> do stringa <code>caddaar</code>, <code>[ad]*</code> najpierw dopasowuje <code>addaa</code>, ale to nie pozwala nastepnemu <code>a</code> we wzorcu zostac dopasowanym. Wiec ostatnie z dopasowan <code>[ad]</code> jest wycofywane, a nastepujace <code>a</code> jest probowane ponownie. Teraz to sie udaje.                                                                                                     |                                                                                                                 |                                                                                     |
+| <code>+</code>        | <code>+</code> jest jak <code>*</code>, z tym ze wymagane jest co najmniej jedno dopasowanie poprzedzajacego wzorca dla <code>+</code>. Tak wiec <code>c[ad]+r</code> nie dopasowuje <code>cr</code>, ale dopasowuje wszystko inne, co dopasowalby <code>c[ad]*r</code>.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |                                                                                                                 |                                                                                     |
+| <code>?</code>        | <code>?</code> jest jak <code>*</code>, z tym ze pozwala na zero lub jedno dopasowanie poprzedzajacego wzorca. Tak wiec <code>c[ad]?r</code> dopasowuje <code>cr</code>, <code>car</code> lub <code>cdr</code>, i nic wiecej.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |                                                                                                                 |                                                                                     |
+| <code>[ ... ]</code>  | <code>[</code> zaczyna <em>zestaw znakow</em>, ktory jest zakonczony przez <code>]</code>. W najprostszym przypadku znaki miedzy dwoma nawiasami kwadratowymi tworza ten zestaw. Tak wiec <code>[ad]</code> dopasowuje albo <code>a</code>, albo <code>d</code>, a <code>[ad]*</code> dopasowuje jakikolwiek string z <code>a</code> i <code>d</code> (wliczajac string pusty), z czego wynika, ze <code>c[ad]*r</code> dopasowuje <code>car</code> itd.<br>Zakresy znakow moga rowniez zostac wliczone do zestawu znakow, poprzez napisanie dwoch znakow z <code>-</code> pomiedzy nimi. Tak wiec <code>[a-z]</code> dopasowuje jakakolwiek mala litere. Zakresy moga byc swobodnie przemieszane z pojedynczymi znakami, jak w <code>[a-z$%.]</code>, ktory dopasowuje jakakolwiek mala litere lub <code>$</code>, <code>%</code> lub kropke.<br> Zauwaz, ze zwykle znaki specjalne nie sa juz specjalne wewnatrz zestawu znakow. Zupelnie inny zestaw znakow specjalnych istnieje wewnatrz zestawow znakow: <code>]</code>, <code>-</code> i <code>^</code>.<br> By wliczyc <code>]</code> do zestawu znakow, musisz uczynic go pierwszym znakiem.  Na przyklad <code>[]a]</code> dopasowuje <code>]</code> lub <code>a</code>. By wliczyc <code>-</code>, musisz go uzyc w kontekscie, w ktorym nie moze on wskazywac zakresu: to znaczy, jako pierwszy znak, lub bezposrednio po zakresie. |                                                                                                                 |                                                                                     |
+| <code>[^ ... ]</code> | <code>[^</code> zaczyna <em>dopelniajacy zestaw znakow</em>, ktory dopasowuje jakikolwiek znak, oprocz tych podanych. Tak wiec <code>[^a-z0-9A-Z]</code> dopasowuje wszystkie znaki <em>oprocz</em> liter i cyfr.<br><code>^</code> nie jest specjalny w zestawie znakow, chyba ze jest pierwszym znakiem.  Znak nastepujacy po <code>^</code> jest traktowany, jakby byl pierwszy (moze to byc <code>-</code> lub <code>]</code>).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |                                                                                                                 |                                                                                     |
+| <code>^</code>        | jest znakiem specjalnym, ktory dopasowuje string pusty -- ale tylko jesli jest na poczatku dopasowywanego stringa. W przeciwnym razie nie udaje mu sie dopasowac niczego.  Tak wiec <code>^foo</code> dopasowuje <code>foo</code>, ktore wystepuje na poczatku stringa.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |                                                                                                                 |                                                                                     |
+| <code>$</code>        | jest podobny do <code>^</code>, ale dopasowuje wylacznie <em>koniec</em> stringa. Tak wiec <code>xx*$</code> dopasowuje string jednego lub wiecej <code>x</code> na koncu stringa.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |                                                                                                                 |                                                                                     |
+| <code>%</code>        | ma dwie funkcje: cytuje powyzsze znaki specjalne (wliczajac <code>%</code>) oraz wprowadza dodatkowe specjalne konstrukcje.<br> Poniewaz <code>%</code> cytuje znaki specjalne, <code>%$</code> jest wyrazeniem regularnym, ktore dopasowuje wylacznie <code>$</code>, a <code>%[</code> jest wyrazeniem regularnym, ktore dopasowuje wylacznie <code>[</code>, i tak dalej.<br> W wiekszosci przypadkow <code>%</code> nastepowane jakimkolwiek znakiem dopasowuje wylacznie ten znak. Jednak istnieje kilka wyjatkow: znaki, ktore, gdy poprzedzone <code>%</code>, sa specjalnymi konstrukcjami. Takie znaki sa zawsze zwykle, gdy napotkane samodzielnie.<br>  Zadne nowe znaki specjalne nigdy nie zostana zdefiniowane. Wszystkie rozszerzenia skladni wyrazen regularnych sa tworzone poprzez definiowanie nowych dwuznakowych konstrukcji, ktore zaczynaja sie od <code>%</code>.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |                                                                                                                 |                                                                                     |
+| <code>%\|</code>      | okresla alternatywe. Dwa wyrazenia regularne a i b z <code>%                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | </code> pomiedzy tworza wyrazenie, ktore dopasowuje wszystko, co dopasuje albo a, albo b.<br> Tak wiec <code>foo% | bar</code> dopasowuje albo <code>foo</code>, albo <code>bar</code>, ale zaden inny string. |
+<code>%|</code> odnosi sie do najwiekszego mozliwego otaczajacego wyrazenia. Tylko otaczajace grupowanie <code>%( ... %)</code> moze ograniczyc sile grupowania <code>%|</code>.<br> Istnieje pelna mozliwosc wycofywania (backtracking) na wypadek uzycia wielu <code>%|</code>. |
+| <code>%( ... %)</code> | jest konstrukcja grupujaca, ktora sluzy trzem celom:<br> * By zamknac zestaw alternatyw <code>%\|</code> dla innych operacji. Tak wiec <code>%(foo%\|bar%)x</code> dopasowuje albo <code>foox</code>, albo <code>barx</code>.<br> * By zamknac skomplikowane wyrazenie, na ktorym ma operowac nastepujace <code>*</code>, <code>+</code> lub <code>?</code>. Tak wiec <code>ba%(na%)*</code> dopasowuje <code>bananana</code> itd., z jakakolwiek liczba <code>na</code>, wliczajac brak.<br> * By oznaczyc dopasowany podstring do przyszlego uzycia.<br> Ta ostatnia funkcja nie jest konsekwencja idei grupowania w nawiasach; jest to odrebna funkcjonalnosc, ktora akurat zostala przypisana jako drugie znaczenie tej samej konstrukcji <code>%( ... %)</code>, poniewaz w praktyce nie ma konfliktu miedzy tymi dwoma znaczeniami. Tutaj jest wyjasnienie tej funkcjonalnosci: |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <code>%digit</code>    | Po zakonczeniu konstrukcji <code>%( ... %)</code>, dopasowujacy pamieta poczatek i koniec tekstu dopasowanego przez te konstrukcje. Nastepnie, dalej w wyrazeniu regularnym, mozesz uzyc <code>%</code> nastepowanego cyfra, by oznaczyc &quot;dopasuj ten sam tekst dopasowany przez digit-ta konstrukcje <code>%( ... %)</code> we wzorcu.&quot;  Konstrukcje <code>%( ... %)</code> sa numerowane w porzadku, w jakim ich <code>%(</code> wystepuja we wzorcu.<br> Stringi dopasowujace pierwszych dziewiec konstrukcji <code>%( ... %)</code> wystepujacych w wyrazeniu regularnym otrzymuja numery od 1 do 9 w porzadku swoich poczatkow. <code>%1</code> do <code>%9</code> moga byc uzyte, by odniesc sie do tekstu dopasowanego przez odpowiadajaca konstrukcje <code>%( ... %)</code>.<br> Na przyklad <code>%(.*%)%1</code> dopasowuje jakikolwiek string, ktory sklada sie z dwoch identycznych polowek. <code>%(.*%)</code> dopasowuje pierwsza polowe, ktora moze byc czymkolwiek, ale nastepujace <code>%1</code> musi dopasowac ten sam, dokladny tekst. |                                                                                                                 |
+| <code>%b</code>        | dopasowuje string pusty, ale tylko jesli jest na poczatku lub koncu slowa. Tak wiec <code>%bfoo%b</code> dopasowuje jakiekolwiek wystapienie <code>foo</code> jako odrebne slowo. <code>%bball%(s%                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | %)%b</code> dopasowuje <code>ball</code> lub <code>balls</code> jako odrebne slowo.<br> Dla celow tej konstrukcji i pieciu nastepujacych, slowo jest zdefiniowane jako sekwencja liter i/lub cyfr. |
+| <code>%B</code>        | dopasowuje string pusty, o ile <em>nie</em> jest na poczatku lub koncu slowa.                                                                                                                                                                                                                                                                                                                                                                                                                                                          |                                                                                                                 |
+| <code>%&lt;</code>     | dopasowuje string pusty, ale tylko jesli jest na poczatku slowa.                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |                                                                                                                 |
+| <code>%&gt;</code>     | dopasowuje string pusty, ale tylko jesli jest na koncu slowa.                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |                                                                                                                 |
+| <code>%w</code>        | dopasowuje jakikolwiek znak skladajacy sie na slowo (tzn. jakakolwiek litere lub cyfre).                                                                                                                                                                                                                                                                                                                                                                                                                                          |                                                                                                                 |
+| <code>%W</code>        | dopasowuje jakikolwiek znak, ktory nie jest czescia slowa.                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |                                                                                                                 |
+
+**Funkcja: `substitute`**
+
+substitute -- Wykonuje standardowy zestaw substytucji na stringu template, uzywajac informacji zawartych w subs, zwracajac wynikowy, przeksztalcony template.
+
+str `substitute` (str template, list subs)
+
+Subs powinien byc lista taka, jak te zwracane przez `match()` lub `rmatch()`, gdy dopasowanie sie powiedzie; w przeciwnym razie zglaszany jest `E_INVARG`.
+
+W template stringi `%1` do `%9` zostana zastapione tekstem dopasowanym przez pierwszy do dziewiatego podwzorzec w nawiasach, gdy wywolano `match()` lub `rmatch()`. String `%0` w template zostanie zastapiony tekstem dopasowanym przez caly wzorzec, gdy wywolano `match()` lub `rmatch()`. String `%%` zostanie zastapiony pojedynczym znakiem `%`. Jesli `%` wystepuje w template, nastepowany jakimkolwiek innym znakiem, zglaszany jest `E_INVARG`.
+
+```
+subs = match("*** Welcome to ToastStunt!!!", "%(%w*%) to %(%w*%)");
+substitute("I thank you for your %1 here in %2.", subs)
+        =>   "I thank you for your Welcome here in ToastStunt."
+```
+
+**Funkcja: `salt`**
+
+salt -- Generuje string salt kompatybilny z crypt() dla podanego formatu salt, uzywajac podanego binarnego losowego wejscia.
+
+str `salt` (str format, str input)
+
+Konkretny zestaw wspieranych formatow zalezy od bibliotek uzytych do zbudowania serwera, ale zawsze bedzie zawieral standardowy format salt, wskazywany przez string formatu "" (string pusty), oraz format salt BCrypt, wskazywany przez string formatu "$2a$NN$" (gdzie "NN" to wspolczynnik pracy). Inne mozliwe formaty obejmuja MD5 ("$1$"), SHA256 ("$5$") i SHA512 ("$6$"). Oba formaty, SHA256 i SHA512, wspieraja opcjonalne rundy.
+
+```
+salt("", ".M")                                           =>    "iB"
+salt("$1$", "~183~1E~C6/~D1")                            =>    "$1$MAX54zGo"
+salt("$5$", "x~F2~1Fv~ADj~92Y~9E~D4l~C3")                =>    "$5$s7z5qpeOGaZb"
+salt("$5$rounds=2000$", "G~7E~A7~F5Q5~B7~0Aa~80T")       =>    "$5$rounds=2000$5trdp5JBreEM"
+salt("$6$", "U7~EC!~E8~85~AB~CD~B5+~E1?")                =>    "$6$JR1vVUSVfqQhf2yD"
+salt("$6$rounds=5000$", "~ED'~B0~BD~B9~DB^,\\~BD~E7")    =>    "$6$rounds=5000$hT0gxavqSl0L"
+salt("$2a$08$", "|~99~86~DEq~94_~F3-~1A~D2#~8C~B5sx")    =>    "$2a$08$dHkE1lESV9KrErGhhJTxc."
+```
+
+> Uwaga: by zapewnic wlasciwe bezpieczenstwo, losowe wejscie musi pochodzic z wystarczajaco losowego zrodla.
+
+**Funkcja: `crypt`**
+
+crypt -- Szyfruje podany text, uzywajac standardowej metody szyfrowania UNIX.
+
+str `crypt` (str text [, str salt])
+
+Szyfruje (hashuje) podany text, uzywajac standardowej metody szyfrowania UNIX. Jesli podano, salt powinien byc stringiem o dlugosci co najmniej dwoch znakow i moze dyktowac konkretny algorytm do uzycia. Domyslnie crypt uzywa oryginalnego, obecnie niebezpiecznego algorytmu DES. ToastStunt konkretnie zawiera algorytm BCrypt (identyfikowany przez salt zaczynajace sie od "$2a$") i moze zawierac algorytmy MD5, SHA256 i SHA512, w zaleznosci od bibliotek uzytych do zbudowania serwera. Uzyty salt jest zwracany jako pierwsza czesc wynikowego zaszyfrowanego stringa.
+
+Poza mozliwie losowym wejsciem w salt, algorytmy szyfrujace sa calkowicie deterministyczne. W szczegolnosci mozesz sprawdzic, czy podany string jest taki sam jak ten uzyty do wytworzenia danego fragmentu zaszyfrowanego tekstu; po prostu wyodrebnij salt z przodu zaszyfrowanego tekstu i podaj kandydujacy string oraz salt do crypt(). Jesli wynik jest identyczny z podanym zaszyfrowanym tekstem, masz dopasowanie.
+
+```
+crypt("foobar", "iB")                               =>    "iBhNpg2tYbVjw"
+crypt("foobar", "$1$MAX54zGo")                      =>    "$1$MAX54zGo$UKU7XRUEEiKlB.qScC1SX0"
+crypt("foobar", "$5$s7z5qpeOGaZb")                  =>    "$5$s7z5qpeOGaZb$xkxjnDdRGlPaP7Z ... .pgk/pXcdLpeVCYh0uL9"
+crypt("foobar", "$5$rounds=2000$5trdp5JBreEM")      =>    "$5$rounds=2000$5trdp5JBreEM$Imi ... ckZPoh7APC0Mo6nPeCZ3"
+crypt("foobar", "$6$JR1vVUSVfqQhf2yD")              =>    "$6$JR1vVUSVfqQhf2yD$/4vyLFcuPTz ... qI0w8m8az076yMTdl0h."
+crypt("foobar", "$6$rounds=5000$hT0gxavqSl0L")      =>    "$6$rounds=5000$hT0gxavqSl0L$9/Y ... zpCATppeiBaDxqIbAN7/"
+crypt("foobar", "$2a$08$dHkE1lESV9KrErGhhJTxc.")    =>    "$2a$08$dHkE1lESV9KrErGhhJTxc.QnrW/bHp8mmBl5vxGVUcsbjo3gcKlf6"
+```
+
+> Uwaga: konkretny zestaw wspieranych algorytmow zalezy od bibliotek uzytych do zbudowania serwera. Gwarantowana jest wylacznie dostepnosc algorytmu BCrypt, ktory jest dystrybuowany z kodem zrodlowym serwera. BCrypt jest obecnie dojrzaly i dobrze przetestowany i jest zalecany dla nowych projektow, gdy biblioteka Argon2 jest niedostepna. (Zobacz nastepna sekcje).
+
+> Ostrzezenie: caly salt (jakiejkolwiek dlugosci) jest przekazywany do niskopoziomowej funkcji crypt systemu operacyjnego. Jest jednak malo prawdopodobne, ze wszystkie systemy operacyjne zwroca ten sam string, gdy otrzymaja dluzszy salt. W zwiazku z tym identyczne wywolania crypt() moga generowac rozne wyniki na roznych platformach, a Twoje systemy weryfikacji hasel zawiodlyby. Uzywanie salt dluzszego niz dwa znaki jest na wlasne ryzyko.
+
+**Funkcja: `argon2`**
+
+argon2 -- Hashuje haslo, uzywajac algorytmu hashowania hasel Argon2id.
+
+Funkcja `argon2()` hashuje haslo, uzywajac algorytmu hashowania hasel Argon2id. Jest parametryzowana trzema opcjonalnymi argumentami:
+
+str `argon2` (STR password, STR salt [, iterations = 3] [, memory usage in KB = 4096] [, CPU threads = 1])
+
+ * Time (czas): to liczba razy, jaka hash zostanie wykonany. To okresla ilosc wymaganych obliczen i, w efekcie, jak dlugo funkcja bedzie potrzebowala, by sie zakonczyc.
+ * Memory (pamiec): to, jak duzo RAM jest zarezerwowane do hashowania.
+ * Parallelism (rownoleglosc): to liczba watkow CPU, ktore beda dzialac rownolegle.
+
+Salt do hasla powinien miec co najmniej 16 bajtow do hashowania hasel. Zaleca sie uzycie funkcji random_bytes().
+
+Programista musi byc czarodziejem, w przeciwnym razie zglaszany jest `E_PERM`.
+
+```
+salt = random_bytes(20);
+return argon2(password, salt, 3, 4096, 1);
+```
+
+> Ostrzezenie: MOO jest w wiekszosci przypadkow jednowatkowe, a ta funkcja moze zajac znaczaco duzo czasu, w zaleznosci od tego, jak ja wywolasz. Podczas gdy dziala, nic innego nie bedzie sie dzialo na Twoim MOO. Mozliwe jest zbudowanie serwera z opcja `THREAD_ARGON2`, ktora zminimalizuje lag. To ma jednak istotne zastrzezenia, zobacz sekcje nizej o `argon2_verify` po wiecej informacji.
+
+**Funkcja: `argon2_verify`**
+
+argon2_verify -- Porownuje password do wczesniej zahashowanego hash.
+
+int argon2_verify (STR hash, STR password)
+
+Zwraca 1, jesli te dwa sie zgadzaja, lub 0, jesli nie.
+
+Programista musi byc czarodziejem, w przeciwnym razie zglaszany jest `E_PERM`.
+
+To bezpieczniejszy sposob hashowania hasel niz wbudowana funkcja `crypt()`.
+
+> Uwaga: ToastCore definiuje pewne rozsadne wartosci domyslne dla sposobu uzycia `argon2` i `argon2_verify`. Mozesz uzyc `@grep argon2` w ToastCore, by je znalezc.
+
+> Ostrzezenie: mozliwe jest zbudowanie serwera z opcja `THREAD_ARGON2`. To umozliwi tej funkcji wbudowanej dzialanie w watku w tle i zminimalizuje lag, jaki te funkcje moga powodowac. Jednak to niesie ze soba pewne istotne zastrzezenia. `do_login_command` (gdzie typowo bedziesz weryfikowac hasla) nie moze zostac zawieszony. Poniewaz watkowanie niejawnie zawiesza zadanie MOO, nie bedziesz mogl uzyc Argon2 bezposrednio w do_login_command. Zamiast tego bedziesz musial opracowac nowe rozwiazanie dla logowania, ktore nie wymaga bezposredniego wywolania Argon2 w do_login_command.
+
+> Uwaga: wiecej informacji o Argon2 mozna znalezc na [Argon2 Github](https://github.com/P-H-C/phc-winner-argon2).
+
+**Funkcja: `string_hash`**
+
+**Funkcja: `binary_hash`**
+
+string_hash -- Zwraca string kodujacy wynik zastosowania kryptograficznie bezpiecznej funkcji hashujacej SHA256 do zawartosci stringa text lub binarnego stringa bin-string.
+
+binary_hash -- Zwraca string kodujacy wynik zastosowania kryptograficznie bezpiecznej funkcji hashujacej SHA256 do zawartosci stringa text lub binarnego stringa bin-string.
+
+str `string_hash` (str string [, str algo [, any binary]])
+
+str `binary_hash` (str bin-string [, str algo [, any binary]])
+
+Jesli podano algo, okresla ono algorytm hashowania do uzycia. Wspierane sa "MD5", "SHA1", "SHA224", "SHA256", "SHA384", "SHA512" i "RIPEMD160". Jesli binary jest podane i jest prawda, wynik jest w formacie binarnego stringa MOO; domyslnie wynik jest stringiem szesnastkowym.
+
+Zauwaz, ze algorytm hashujacy MD5 jest zlamany z kryptograficznego punktu widzenia, podobnie jak SHA1. Oba sa wliczone dla interoperacyjnosci z istniejacymi aplikacjami (oba sa wciaz popularne).
+
+Wszystkie wspierane funkcje hashujace maja te wlasciwosc, ze jesli
+
+`string_hash(x) == string_hash(y)`
+
+to, prawie na pewno,
+
+`equal(x, y)`
+
+To moze byc przydatne, na przyklad, w pewnych aplikacjach sieciowych: po wyslaniu duzego fragmentu tekstu przez polaczenie, wyslij rowniez wynik zastosowania string_hash() do tego tekstu; jesli strona docelowa rowniez zastosuje string_hash() do tekstu i otrzyma ten sam wynik, mozesz byc calkiem przekonany, ze duzy tekst dotarl bez zmian.
+
+**Funkcja: `string_hmac`**
+
+**Funkcja: `binary_hmac`**
+
+str `string_hmac` (str text, str key [, str algo [, binary]])
+
+str binary_hmac (str bin-string, str key [, str algo [, binary]])
+
+Zwraca string kodujacy wynik zastosowania kryptograficznie bezpiecznej funkcji HMAC-SHA256 do zawartosci stringa text lub binarnego stringa bin-string z podanym tajnym kluczem. Jesli podano algo, okresla ono algorytm hashowania do uzycia. Obecnie wspierane sa wylacznie "SHA1" i "SHA256". Jesli binary jest podane i jest prawda, wynik jest w formacie binarnego stringa MOO; domyslnie wynik jest stringiem szesnastkowym.
+
+Wszystkie kryptograficznie bezpieczne HMAC-i maja te wlasciwosc, ze jesli
+
+`string_hmac(x, a) == string_hmac(y, b)`
+
+to, prawie na pewno,
+
+`equal(x, y)`
+
+a ponadto,
+
+`equal(a, b)`
+
+To moze byc przydatne, na przyklad, w aplikacjach, ktore musza zweryfikowac zarowno integralnosc wiadomosci (tekstu), jak i autentycznosc nadawcy (wykazywana przez posiadanie tajnego klucza).
