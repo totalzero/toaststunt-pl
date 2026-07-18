@@ -506,3 +506,247 @@ Kazdy zainteresowany napisaniem dla niej fup.dll jest bardzo mile widziany.
 Mozna znalezc wersje serwera na MAC-a na stronie zasobow MOO Fringe'a, jesli chodzi o MAC OS 8 lub 9.
 
 Istnieje dobra dokumentacja napisana przez Jerry'ego o tym, jak skompilowac serwer MOO na OS X, ktora zostala zaktualizowana dla OS X 10.4.
+
+## Utrzymywanie bazy danych
+
+### Jak sledzic tworzenie graczy?
+
+Za kazdym razem, gdy gracz zostaje stworzony, aktualizowany jest PCL (Player-Creation-Log, dziennik tworzenia graczy), ktory powiadomi czarodzieja przy polaczeniu.
+
+Podobnie Site-Locks jest aktualizowany za kazdym razem, gdy gracz zostaje "@toaded" (zbanowany/usuniety), i dziala tak samo jak PCL, powiadamiajac czarodzieja.
+
+Jesli zdecydujesz sie ograniczyc tworzenie graczy tylko do czarodziei, mozesz zechciec zalozyc baze danych w arkuszu kalkulacyjnym, by sledzic, ilu graczy istnieje. To, jak utrzymywac baze danych graczy, naprawde zalezy od ciebie.
+
+W kazdym razie mozesz tez uzyc:
+
+```
+;players()
+```
+
+To polecenie zwraca liste wszystkich graczy w bazie danych (a raczej ich obiektow); dzieki temu latwo napisac kilka linii kodu, by wyswietlic te informacje w bardziej czytelny dla czlowieka sposob.
+
+By uzyskac statystyki polaczen graczy, uzyj:
+
+```
+@players
+```
+
+### Jak sprawdzic, czy ludzie naprawde uzywaja swoich postaci?
+
+Mozesz uzyc polecenia:
+
+```
+@lastlog
+```
+
+To poda ci czas ostatniego polaczenia kazdego gracza w bazie danych. Moze to byc dluga lista...
+
+Istnieja procedury, ktore ludzie napisali, by automatycznie to sprawdzac, i jesli ktos nie laczyl sie przez okreslony czas, wysylany jest e-mail przypominajacy uzytkownikowi, ze konto jest wciaz wazne. Jesli nie ma odpowiedzi, konto jest albo usuwane automatycznie, albo opiekun MOO zostaje powiadomiony i moze podjac dzialanie.
+
+Jesli ktos napisal taki kod i chce go tu udostepnic, jest mile widziany.
+
+### Jak tworzyc czarodziei?
+
+Zaleca sie tworzenie postaci czarodziejow od zera, poniewaz istniejacy programisci moga miec czasowniki, ktore moglyby spowodowac problemy.
+
+Najpierw stworz nowego gracza, zrob go programista, a nastepnie zmien go w czarodzieja:
+
+```
+@make-player <nazwa_gracza> for <adres_email>
+```
+
+W tym momencie serwer przypisze numer obiektu twojemu <nazwa_gracza>. Zalozmy, ze otrzymalismy numer obiektu: #1234.
+
+```
+@programmer  #1234
+@chparent  #1234 to $wiz
+@set  #1234.wizard to 1
+```
+
+Nie wysylaj hasel czarodzieja przez e-mail... i zresetuj je na nowe, jak tylko nastapi pierwsze polaczenie.
+
+### Jak tworzyc programistow?
+
+Uzyj polecenia:
+
+```
+@programmer <nazwa_gracza>
+```
+
+Jesli uzyjesz @chparent, dziennik New-Prog-Log nie zostanie zaktualizowany, ani czarodzieje, ani sam gracz, ktory wlasnie stal sie programista, nie zostana o tym poinformowani...
+
+Oczywiscie mozesz tez odebrac komus bit programisty, uzywajac:
+
+```
+@deprogrammer <nazwa_gracza>
+```
+
+### Limit czego, i jak nim zarzadzac?
+
+Gdy rodzic gracza zostaje przelaczony na $programmer, przypisywany jest domyslny limit (quota) rowny 7. Oznacza to, ze programista moze stworzyc do 7 obiektow. Jest to zapisane jako ostatni argument wlasciwosci size_quota na obiekcie gracza.
+
+Zauwaz, ze ta liczba 7 nie obejmuje samego gracza.
+
+Jesli pojawi sie potrzeba i/lub uzasadnienie, mozesz zwiekszyc limit programisty, uzywajac:
+
+```
+@quota <nazwa_gracza> nowa_liczba
+```
+
+Twoj wybor zwiekszenia limitu naprawde zalezy od tego, jak bardzo chcesz ograniczyc swoja baze danych, co z kolei zalezy od ilosci pamieci RAM w twoim systemie (jeden z parametrow wplywajacych na lag).
+
+Zauwaz, ze istnieje limit na obiekty niezmierzone (unmeasured). Ten limit wynosi 10. Dlatego mozliwe jest, ze nawet jesli twoj limit quota nie zostal osiagniety, napotkasz powyzszy limit (10). By to naprawic, uzyj polecenia @measure.
+
+```
+@measure new me
+```
+
+Zawsze mozesz sprawdzic:
+
+```
+help $quota_utils
+```
+
+po wiecej informacji.
+
+### Musze zmienic haslo gracza...
+
+Uzyj polecenia:
+
+```
+@new-password <nazwa_gracza> is nowe_haslo
+```
+
+Nowe haslo, ktore wlasnie przypisales, zostanie wyslane na .email_address gracza po twoim potwierdzeniu. Jesli nie pozwalasz swojemu MOO wysylac zwyklych e-maili, bedziesz musial znalezc inny sposob przekazania hasla danemu graczowi. W kazdym razie madrze jest wybrac tymczasowe haslo, ktore uzytkownik moze zmienic po polaczeniu, uzywajac:
+
+```
+@password <stare_haslo> <nowe_haslo>
+```
+
+Ponownie, jak zawsze z haslami, uczyn je tak dlugim, jak to mozliwe (8 znakow dla systemow opartych na UNIX -- kazdy znak po 8. nie bedzie brany pod uwage przez serwer MOO), wlacz wielkie litery, jedna lub kilka z tych bestii !@#$%^&* oraz cyfry. Wszystko, co wydluzy czas potrzebny na zlamanie hasla, jest lepsze. Unikaj tez slow ze slownika; te mozna zlamac zbyt latwo...
+
+### Jak tworzyc listy mailingowe?
+
+* Najpierw stworz obiekt:
+
+```
+@create $mail_recipient named <nazwa_listy_mailingowej>
+```
+
+Przyklad:
+
+```
+@create $mail_recipient named general
+```
+
+* Nastepnie przenies go do obiektu $mail_agent:
+
+```
+@move <twoja_lista_mailingowa> to $mail_agent
+```
+
+Przyklad:
+
+```
+@move general to $mail_agent
+```
+
+Gotowe do dzialania. Teraz musisz naprawde zdecydowac, co chcesz z nia zrobic: uczynic ja publiczna, ograniczona, moderowana itd... W zaleznosci od potrzeb, skonfiguruj obiekt wedlug wlasnego uznania.
+
+### Jak ustawic domyslny pokoj polaczenia?
+
+Pokoj, w ktorym gracz sie polaczy, jest zazwyczaj definiowany przy uzyciu @sethome i przechowywany we wlasciwosci home (#numer_obiektu.home). Mozna jednak nadpisac to ustawienie dla WSZYSTKICH graczy i gosci, jesli @sethome nie zostalo jeszcze uzyte. By to osiagnac, uzyj:
+
+```
+@set #0.player_start to #cokolwiek
+```
+
+Gdzie #cokolwiek to #numer_obiektu wybranego przez ciebie pokoju.
+
+Domyslna wartoscia jest #62.
+
+### Ojej, moja baza danych juz sie nie wczytuje przy restarcie... co teraz?
+
+To troche problematyczne, ale na szczescie jest wyjscie.
+
+Gdy to sie zdarzy, serwer powinien powiedziec ci, ktory czasownik ma problem. Dla ponizszej dyskusji zalozmy, ze #1234:czasownik to ten, ktory tworzy problem.
+
+Po pierwsze, zrob kopie zapasowa swojej bazy danych (cp moo.db moo-backp.db lub cos podobnego).
+
+Nastepnie uruchom baze danych w trybie awaryjnym (uzywajac -e). Gdy to robisz, NIE uzywaj ./restart, ani ./moo z &, poniewaz nadal chcesz miec kontrole, gdy baza sie wczytuje.
+
+```
+./moo -e twojadb.db twojanowadb.db twojport
+```
+
+Zobaczysz cos takiego jak ponizej:
+
+```
+LambdaMOO Emergency Holographic Wizard Mode
+-------------------------------------------
+"Please state the nature of the wizardly emergency..."
+(Type `help' for assistance.)
+** Now running emergency commands as #2 ...
+MOO (#2):
+```
+
+Teraz masz kontrole. Mozesz wpisac help, by zobaczyc dostepne narzedzia. Oto co sugeruje:
+
+Pobierz czasownik, ktory tworzy problem, skopiuj go i wklej do innej aplikacji i zapisz, by nadal miec dostepny kod gdzies u siebie.
+
+```
+list #1234:czasownik
+```
+
+Nastepnie usun czasownik. Miejmy nadzieje, ze mimo iz problem nie zostal jeszcze rozwiazany, uda ci sie w pelni wczytac baze danych.
+
+```
+program #1234:czasownik
+.
+```
+
+Wlasnie przeprogramowalismy czasownik na pusty. Mozesz to sprawdzic, wpisujac: list #1234:czasownik, ze czasownik zostal wyczyszczony.
+
+Teraz dokonczmy wczytywania tego bydlaka...
+
+```
+continue
+```
+
+Miejmy nadzieje, ze teraz baza danych jest w pelni wczytana; mozesz sie z nia polaczyc, uzywajac ulubionego klienta MOO, i rozwiazac problem, majac pod reka kod #1234:czasownik.
+
+Sugerowalbym, by jak tylko polaczysz sie ze swoim MOO, wykonac @dump-database, @shutdown i uruchomic je ponownie z nowa baza danych (twojanowadb.db) w zwykly sposob. Teraz masz robote do wykonania...;)
+
+Inna alternatywa to uzycie ulubionego edytora tekstu, upewnienie sie, ze zawijanie (wrap) nie jest WLACZONE, i reczna edycja pliku .db, by naprawic problem.
+
+Tutaj rowniez zdecydowanie zaleca sie pracowac na kopii bazy danych, na wypadek gdyby cos poszlo nie tak podczas pierwszych x prob naprawy.
+
+### Zgubilem haslo czarodzieja, jak je zmienic?
+
+Najpierw musisz wylaczyc baze danych poleceniem @shutdown.
+
+Nastepnie zrob kopie zapasowa swojej bazy danych.
+
+Teraz sprobujmy odzyskac haslo.
+
+By odzyskac dowolne haslo, mozna uruchomic serwer MOO w trybie awaryjnym, dokladnie tak samo jak w sekcji "Ojej, moja baza danych juz sie nie wczytuje przy restarcie... co teraz?"; czyli uzywajac argumentu -e:
+
+```
+./moo -e twojadb.db twojanowadb.db twojport
+```
+
+Podobnie, znajdziesz sie w wierszu polecen; to tutaj mozesz przekazac informacje, zanim cala baza danych zostanie w pelni wczytana:
+
+```
+;#2.password=crypt("moje_nowe_haslo")
+```
+
+nastepnie dokoncz proces poprzez:
+
+```
+continue
+```
+
+Teraz powinienes byc w stanie zalogowac sie za pomoca: co wizard moje_nowe_haslo
+
+Sugerowalbym, byc wykonal @shutdown swojego serwera ponownie, od razu, i uruchomil MOO ponownie ze zrzucona baza danych, po prostu dla spokoju ducha.
