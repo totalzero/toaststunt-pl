@@ -750,3 +750,180 @@ continue
 Teraz powinienes byc w stanie zalogowac sie za pomoca: co wizard moje_nowe_haslo
 
 Sugerowalbym, byc wykonal @shutdown swojego serwera ponownie, od razu, i uruchomil MOO ponownie ze zrzucona baza danych, po prostu dla spokoju ducha.
+
+## Rozne wskazowki
+
+### Modyfikowanie wlasciwosci obiektow rdzennych.
+
+Gdy modyfikujesz wlasciwosc, szanuj jej typ!
+
+Wiec jesli jest to STRING, upewnij sie, ze nadal masz STRING po zakonczeniu edycji. Jesli masz do czynienia z LISTA, zostaw wlasciwosc w formacie LISTY po zakonczeniu zmian.
+
+Wlasciwosci sa odczytywane przez czasowniki, ktore zazwyczaj oczekuja okreslonego typu. W zaleznosci od niego, przetworza wlasciwosc w konkretny sposob. Zmiana typu moze spowodowac problemy...
+
+### Pulapka @set (kontra @grant).
+
+Przy zmianie uprawnien wlasciciela zaleca sie uzywanie @grant (lub @chown), zamiast @set. Zrobienie tego zapewni, ze wszystkie wlasciwosci i czasowniki obiektu, na ktorym wykonano @grant, beda miec poprawne uprawnienia.
+
+### Jak zablokowac moj pokoj dla kilku osob?
+
+By zablokowac dowolny obiekt, do tego celu odpowiednie jest polecenie @lock.
+
+Spojrzmy na przypadek, gdy chcemy zablokowac pokoj nie tylko dla siebie, ale takze dla innych graczy.
+
+```
+@lock here with me || you || him || her || Poirot
+```
+
+W niektorych przypadkach lepiej moze zadzialac uzycie numerow obiektow zamiast imion. Wiec jesli numer pokoju to #1234, ja jestem #111, ty jestes #222, on jest #333, a ona jest #444, bedziemy mieli:
+
+```
+@lock #1234 with #111 || #222 || #333 || #444
+```
+
+Pelniejszy opis tego polecenia mozna uzyskac, wpisujac:
+
+```
+help keys
+help key-representation
+```
+
+### Jak szybko uzyskac informacje o obiekcie?
+
+Metoda "brutalnej sily", by sprawdzic wnetrznosci obiektu, to uzycie (zakladajac, ze #1234 to obiekt docelowy):
+
+```
+@show #1234
+@dump #1234
+```
+
+Pierwsze da ci wszystkie wlasciwosci, a drugie dolaczy takze czasowniki.
+
+Moze byc czas, kiedy po prostu chcesz taniego i szybkiego sposobu na osiagniecie tego samego. W takim przypadku bardziej odpowiednie jest @d. Oto jak to dziala:
+
+```
+@d #1234
+=> Zwraca nazwe, numer obiektu, rodzica
+i lokalizacje obiektu.
+
+@d #1234.
+=> Zwraca wszystkie jego wlasciwosci
+
+@d #1234,
+=> Zwraca wszystkie jego wlasciwosci, wliczajac
+te z obiektu rodzica.
+
+@d #1234:
+=> Zwraca wszystkie jego czasowniki.
+
+@d #1234;
+=> Zwraca wszystkie jego czasowniki, wliczajac
+te z obiektu rodzica.
+```
+
+### Jak ponownie uzyc zrecyklingowanego obiektu?
+
+Wyobraz sobie, ze chcesz ponownie uzyc numeru obiektu #1234, ktory odpowiada obiektowi zrecyklingowanemu jakis czas temu (albo 2 sekundy temu, ups..)
+
+```
+request #1234 from $recycler
+```
+
+W niektorych przypadkach moze byc konieczne zastapienie $recycler jego faktycznym numerem obiektu.
+
+Jest tez inny sposob:
+
+```
+@create obiekt_rodzic named cokolwiek with=#1234
+```
+
+gdzie zastapisz obiekt_rodzic rodzicem, jakiego chcesz nadac swojemu obiektowi, a cokolwiek nazwa, jaka dla niego wybrales.
+
+Odniesienie: help $recycler
+
+### Jak poznac numer obiektu ostatnio stworzonego obiektu?
+
+```
+;max_object()
+```
+
+To powie ci, ze nie istnieje zaden numer obiektu wyzszy niz ten wyswietlony po tym poleceniu.
+
+### Jak stworzyc nowa pomoc (Help)?
+
+Dzieki uprzejmosci Alexandre'a Borgii
+
+Jest wiele sposobow na dodanie wpisow pomocy "opartych na tekscie".
+
+1) "Ogolny" sposob (tj. niezwiazany z konkretnym obiektem), by to zrobic, to dodac wlasciwosc do obiektu $help, ktorej nazwa bedzie tematem pomocy.
+
+Na przyklad:
+
+```
+@prop $help."polityka moo" ""
+@notedit $help."polityka moo" (albo uzyj edytora webowego)
+```
+
+Uzytkownik otrzyma wtedy wiadomosc pomocy, gdy wpisze "help polityka moo".
+
+2) Jesli chcesz, by uzytkownik otrzymal pomoc dla konkretnego obiektu, mozesz po prostu stworzyc i zedytowac wlasciwosc "help_msg" na tym obiekcie.
+
+3) Dla polecen/akcji/funkcji itd. komentarze (tekst w cudzyslowie) umieszczone nad pierwsza linia kodu sa uznawane za wiadomosc pomocy dla czasownika.
+
+Wiec zakladajac, ze masz obiekt "car" (samochod) i czasownik "drive" (jedz) na nim, jesli wstawisz nastepujace linie na poczatku czasownika:
+
+```
+"Type: drive car to ";
+"to get there.  You can also type 'drive faster/slower'";
+```
+
+...zostana one wyswietlone uzytkownikowi, gdy wpisze: help car:drive
+
+Zauwaz, ze dla (1) i (2) mozesz tez uzyc CZASOWNIKA zamiast wlasciwosci.
+
+To umozliwia dynamiczne wpisy pomocy ("help wizard-list" jest dobrym przykladem -- ta lista nie musi byc edytowana recznie, jest zawsze aktualna:)
+
+By zrobic taki dynamiczny temat, stworz czasownik, uzywajac nazwy, jaka mialaby wlasciwosc, jak wyjasniono powyzej. Upewnij sie, ze dodales uprawnienie "x", by mogl byc wykonany z procesu. Uzyj dowolnego fantazyjnego kodu, jaki chcesz, ale upewnij sie, ze zwracasz STR lub liste STR. Zostana one wyswietlone uzytkownikowi.
+
+### Problem match() ze znakami akcentowanymi
+
+Dzieki uprzejmosci Alexandre'a Borgii
+
+match() i podobne funkcje nie traktuja znakow akcentowanych (e, c, o z akcentami itp.) jako znakow "skladajacych sie na slowo" (word-constituent), dlatego niektore schematy dopasowywania moga dawac bledne wyniki na MOO obslugujacych jezyki inne niz angielski.
+
+Dla tych, ktorzy mogli natknac sie na przypadkowe problemy (jak jeden z moich graczy), proponuje nastepujaca poprawke do regexpr.c.
+
+=====
+
+ZASTAP nastepujace (w poblizu linii 150):
+
+```
+for (a = 'a'; a <= 'z'; a++)
+re_syntax_table[a] = Sword;
+for (a = 'A'; a <= 'Z'; a++)
+re_syntax_table[a] = Sword;
+for (a = '0'; a <= '9'; a++)
+re_syntax_table[a] = Sword;
+```
+
+TYM:
+
+```
+for (a = 0; a < 256; a++)
+if (isalnum (a))
+re_syntax_table[a] = Sword;
+```
+
+I DODAJ (razem z innymi include na poczatku):
+
+```
+#include "ctype.h"
+```
+
+=====
+
+Zauwaz, ze nie przetestowalem tego dokladnie i w zaden sposob nie moge stwierdzic, ze jest to bezpieczna/stabilna zamiana, ale jak na razie wydaje sie dzialac swietnie u mnie (z francuskimi znakami akcentowanymi). Wszelkie sugestie lub komentarze na ten temat beda mile widziane:)
+
+---
+
+*Utrzymywane przez hErVe. Ostatnia aktualizacja: 16 stycznia 2007.*
