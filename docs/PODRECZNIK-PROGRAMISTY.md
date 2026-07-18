@@ -5572,3 +5572,199 @@ Zglasza `E_INVARG`, jesli task-id nie okresla istniejacego zawieszonego zadania,
 Jesli podano include-line-numbers i jest ono prawdziwe, wlaczone zostana numery linii.
 
 Jesli podano include-variables i jest ono prawdziwe, do kazdej ramki podanego zadania wlaczone zostana zmienne.
+
+##### Operacje administracyjne
+
+**Funkcja: `server_version`**
+
+server_version -- zwraca informacje o wersji dzialajacego serwera MOO
+
+str `server_version` ()
+
+list `server_version` (value details)
+
+value `server_version` (str detail-path)
+
+Bez argumentow zwraca zwykly string wersji serwera. Z argumentem niebedacym stringiem lub pustym stringiem zwraca pelna szczegolowa liste wersji, wliczajac numer wersji, ustawienia z czasu kompilacji i informacje o zrodlach; na przyklad `server_version(1)` zwraca pelna szczegolowa liste. Z niepustym argumentem-stringiem zwraca pasujacy wpis detail-path (rozdzielany ukosnikami) z tej listy wersji. Jesli zadana sciezka szczegolow nie istnieje, zglaszany jest `E_INVARG`.
+
+**Funkcja: `load_server_options`**
+
+load_server_options -- Powoduje, ze serwer sprawdza biezace wartosci wlasciwosci na $server_options, aktualizujac odpowiadajace im ustawienia opcji serwera
+
+none `load_server_options` ()
+
+Wiecej informacji znajdziesz w sekcji o opcjach serwera ustawianych z poziomu bazy danych. Jesli programista nie jest czarodziejem, zglaszany jest E_PERM.
+
+**Funkcja: `server_log`**
+
+server_log -- Tekst w message jest wysylany do logu serwera z charakterystycznym prefiksem (by mozna go bylo odroznic od komunikatow generowanych przez sam serwer)
+
+none server_log (str message [, int level])
+
+Jesli programista nie jest czarodziejem, zglaszany jest E_PERM.
+
+Jesli podano level i jest to liczba calkowita z zakresu od 0 do 7 wlacznie, message jest oznaczane w logu serwera jako jeden z osmiu predefiniowanych typow, od zwyklego komunikatu logu po komunikat bledu. W przeciwnym razie, jesli podano level i jest ono prawdziwe, message jest oznaczane w logu serwera jako blad.
+
+**Funkcja: `renumber`**
+
+renumber -- numer obiektu aktualnie ponumerowanego jako object zostaje zmieniony na najmniejszy nieujemny numer obiektu aktualnie nieuzywany, a nowy numer obiektu zostaje zwrocony
+
+obj `renumber` (obj object)
+
+Jesli object jest niepoprawne, zglaszany jest `E_INVARG`. Jesli programista nie jest czarodziejem, zglaszany jest `E_PERM`. Jesli nie ma nieuzywanych nieujemnych numerow obiektow mniejszych niz object, zwracane jest object i zadne zmiany nie zachodza.
+
+Odniesienia do object w hierarchiach rodzic/dzieci oraz lokalizacja/zawartosc zostaja zaktualizowane, by uzywac nowego numeru obiektu, a wszelkie czasowniki, wlasciwosci i/lub obiekty nalezace do object rowniez zostaja zmienione, by nalezec do nowego numeru obiektu. Ta ostatnia operacja moze byc dosc czasochlonna, jesli baza danych jest duza. Nie sa wykonywane zadne inne zmiany w bazie danych; w szczegolnosci nie sa aktualizowane zadne odniesienia do obiektow w wartosciach wlasciwosci ani w kodzie czasownikow.
+
+Ta operacja jest przeznaczona do uzytku przy tworzeniu nowych wersji bazy danych ToastCore z owczesnej biezacej bazy danych ToastStunt oraz w innych podobnych sytuacjach. Jej uzycie wymaga wielkiej ostroznosci.
+
+**Funkcja: `reset_max_object`**
+
+reset_max_object -- wyobrazenie serwera o najwyzszym kiedykolwiek uzytym numerze obiektu zostaje zmienione na najwyzszy numer obiektu aktualnie istniejacego obiektu, co pozwala na ponowne uzycie dowolnych wyzszych numerow odnoszacych sie teraz do zrecyklingowanych obiektow
+
+none `reset_max_object` ()
+
+Jesli programista nie jest czarodziejem, zglaszany jest `E_PERM`.
+
+Ta operacja jest przeznaczona do uzytku przy tworzeniu nowych wersji bazy danych ToastCore z owczesnej biezacej bazy danych ToastStunt oraz w innych podobnych sytuacjach. Jej uzycie wymaga wielkiej ostroznosci.
+
+**Funkcja: `memory_usage`**
+
+memory_usage -- Zwraca statystyki dotyczace zuzycia pamieci systemowej przez serwer.
+
+list `memory_usage` ()
+
+Wynikiem jest lista w nastepujacym formacie:
+
+{calkowita uzyta pamiec, rozmiar zestawu rezydentnego, strony wspoldzielone, segment kodu, dane + stos}
+
+**Funkcja: `malloc_stats`**
+
+malloc_stats -- Zwraca statystyki alokatora, gdy ToastStunt zbudowano ze wsparciem dla jemalloc.
+
+list `malloc_stats` ()
+
+Ta funkcja jest dostepna wylacznie, gdy ToastStunt zbudowano z jemalloc. Zwrocona lista ma postac `{allocated, active, resident, metadata, mapped, allocated-large, active-large}`.
+
+**Funkcja: `usage`**
+
+usage -- Zwraca statystyki dotyczace serwera, na ktorym dziala MOO.
+
+list `usage` ()
+
+Jesli programista nie jest czarodziejem, zglaszany jest `E_PERM`.
+
+Wynikiem jest lista w nastepujacym formacie:
+
+```
+{{srednie obciazenie}, czas uzytkownika, czas systemu, odzyskania stron, bledy stron, operacje wejscia blokowego, operacje wyjscia blokowego, dobrowolne przelaczenia kontekstu, niedobrowolne przelaczenia kontekstu, odebrane sygnaly}
+```
+
+**Funkcja: `run_gc`**
+
+run_gc -- Zada wykonania przebiegu garbage collection.
+
+none `run_gc` ()
+
+Ta funkcja jest dostepna wylacznie, gdy ToastStunt zbudowano z wlaczonym garbage collection. Jesli programista nie jest czarodziejem, zglaszany jest `E_PERM`.
+
+**Funkcja: `gc_stats`**
+
+gc_stats -- Zwraca liczniki kolorow garbage collectora.
+
+map `gc_stats` ()
+
+Ta funkcja jest dostepna wylacznie, gdy ToastStunt zbudowano z wlaczonym garbage collection. Jesli programista nie jest czarodziejem, zglaszany jest `E_PERM`. Zwrocona mapa zawiera klucze "green", "yellow", "black", "gray", "white", "purple" i "pink".
+
+**Funkcja: `dump_database`**
+
+dump_database -- zada, by serwer wykonal checkpoint bazy danych przy najblizszej okazji
+
+none `dump_database` ()
+
+Zwykle wywolywanie tej funkcji nie jest konieczne; serwer automatycznie wykonuje checkpointy bazy danych w regularnych odstepach; zobacz rozdzial o zalozeniach serwera wobec bazy danych po szczegoly. Jesli programista nie jest czarodziejem, zglaszany jest `E_PERM`.
+
+**Funkcja: `db_disk_size`**
+
+db_disk_size -- zwraca calkowity rozmiar, w bajtach, najnowszej pelnej reprezentacji bazy danych jako jednego lub wiecej plikow dyskowych
+
+int `db_disk_size` ()
+
+Zglasza `E_QUOTA`, jesli z jakiegos powodu taka reprezentacja na dysku aktualnie nie jest dostepna.
+
+**Funkcja: `exec`**
+
+exec -- Asynchronicznie wykonuje podany zewnetrzny plik wykonywalny, opcjonalnie wysylajac dane wejsciowe.
+
+list `exec` (LIST command [, STR input] [, LIST environment variables])
+
+Zwraca kod powrotu procesu, wyjscie i blad. Jesli programista nie jest czarodziejem, zglaszany jest E_PERM.
+
+Pierwszy argument musi byc lista stringow, w przeciwnym razie zglaszany jest E_INVARG. Pierwszy string to sciezka do pliku wykonywalnego i jest wymagany. Reszta to argumenty linii polecen przekazywane plikowi wykonywalnemu.
+
+Sciezka do pliku wykonywalnego nie moze zaczynac sie od ukosnika (/) ani kropka-kropka (..), i nie moze zawierac ukosnik-kropka (/.) ani kropka-ukosnik (./), w przeciwnym razie zglaszany jest E_INVARG. Jesli wskazany plik wykonywalny nie istnieje lub nie jest zwyklym plikiem, zglaszany jest E_INVARG.
+
+Jesli podano string input, jest on zapisywany na standardowe wejscie wykonywanego procesu.
+
+Dodatkowo mozesz podac liste zmiennych srodowiskowych do ustawienia w powloce.
+
+Gdy proces sie zakonczy, zwraca liste w postaci:
+
+```
+{code, output, error}
+```
+
+code to calkowitoliczbowy status wyjscia lub kod powrotu procesu. output i error to stringi danych zapisanych na standardowe wyjscie i standardowe wyjscie bledow procesu.
+
+Podane polecenie jest wykonywane asynchronicznie. Funkcja zawiesza biezace zadanie i pozwala innym zadaniom dzialac, dopoki polecenie sie nie zakonczy. Zadania zawieszone w ten sposob moga zostac zabite przez kill_task().
+
+Stringi input, output i error sa wszystkie stringami binarnymi MOO.
+
+Wszystkie zewnetrzne pliki wykonywalne musza znajdowac sie w katalogu executables.
+
+```
+exec({"cat", "-?"})          =>   {1, "", "cat: illegal option -- ?~0Ausage: cat [-benstuv] [file ...]~0A"}
+exec({"cat"}, "foo")         =>   {0, "foo", ""}
+exec({"echo", "one", "two"}) =>   {0, "one two~0A", ""}
+```
+
+Na przyklad, jesli `vars.sh` w katalogu executables zawiera:
+
+```
+#!/bin/bash
+echo "pizza = ${pizza}"
+```
+
+to zmienne srodowiskowe mozna podac trzecim argumentem:
+
+```
+exec({"vars.sh"}, "", {"pizza=tasty"}) => {0, "pizza = tasty~0A", ""}
+exec({"vars.sh"})                      => {0, "pizza = ~0A", ""}
+```
+
+**Funkcja: `shutdown`**
+
+shutdown -- zada, by serwer wylaczyl sie przy najblizszej okazji
+
+none `shutdown` ([str message [, any unclean_shutdown]])
+
+Zanim to zrobi, wszystkim polaczonym graczom wypisywane jest powiadomienie (wlaczajace message, jesli podano). Jesli programista nie jest czarodziejem, zglaszany jest `E_PERM`.
+
+Jesli unclean_shutdown jest falszywe lub nie podano go, serwer wykonuje normalne, czyste wylaczenie i zapisuje baze danych jak zwykle.
+
+Jesli unclean_shutdown jest prawdziwe, serwer wykonuje nieczyste wylaczenie, nasladujac zachowanie bledu krytycznego. Baza danych nie jest zrzucana do normalnego wyjsciowego pliku bazy danych; zamiast tego tworzony jest plik bazy danych paniki (panic). Komunikat wylaczenia jest tez zapisywany do logu serwera.
+
+**Funkcja: `verb_cache_stats`**
+
+**Funkcja: `log_cache_stats`**
+
+list verb_cache_stats ()
+
+none log_cache_stats ()
+
+Serwer buforuje wyszukiwania nazwa-czasownika-na-program, by poprawic wydajnosc. Te funkcje odpowiednio zwracaja lub zapisuja do pliku logu serwera biezace statystyki cache'a. Dla verb_cache_stats zwracana wartosc bedzie lista w postaci
+
+```
+{hits, negative_hits, misses, table_clears, histogram},
+```
+
+choc moze sie to zmienic w przyszlych wydaniach serwera. Cache jest uniewazniany przez dowolne wywolanie funkcji wbudowanej, ktore moze wplynac na wyszukiwania czasownikow (np. delete_verb()).
