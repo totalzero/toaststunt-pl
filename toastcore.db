@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784348980 567763848 0
+1784349714 567763848 0
 0
 10
 0
@@ -797,7 +797,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784348834
+1784349669
 2
 name
 2
@@ -1389,7 +1389,7 @@ source
 2
 time
 0
-1784348964
+1784349702
 4
 0
 1
@@ -1645,7 +1645,7 @@ expire
 4
 2
 0
-1784348947
+1784349689
 2
 localhost
 2
@@ -1654,7 +1654,7 @@ localhost
 2
 0
 0
-1784348964
+1784349702
 2
 1
 0
@@ -1849,7 +1849,7 @@ localhost
 2
 5
 0
-1784348962
+1784349699
 2
 1
 0
@@ -4431,7 +4431,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--8
+-4
 0
 2
 2
@@ -4445,7 +4445,19 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-55
+57
+4
+2
+0
+1784349669
+0
+0
+4
+2
+0
+1784349054
+0
+0
 4
 2
 0
@@ -27909,23 +27921,21 @@ feature_task
 4
 9
 0
-1581783900
+1914094273
 2
-PST,
+|Haakon
 4
-3
 2
-by
 2
-Roebare
+has
 2
-(#109000).";});
+disconnected.
 2
-by Roebare (#109000).\";"});
+has disconnected.
 1
 -3
 2
-by Roebare (#109000).";});
+has disconnected.
 2
 
 1
@@ -44626,7 +44636,7 @@ stage <*
 4
 1
 2
-This feature contains various verbs used in stage talk, which allows players to describe their actions in terms of stage directions instead of prose.
+Ta cecha zawiera rozne czasowniki uzywane w "stage talk" -- systemie pozwalajacym graczom opisywac swoje dzialania w formie wskazowek scenicznych zamiast prozy.
 36
 5
 4
@@ -44682,7 +44692,7 @@ Stage-Talk Feature
 4
 1
 2
-This feature contains various verbs used in stage talk, which allows players to describe their actions in terms of stage directions instead of prose.
+Ta cecha zawiera rozne czasowniki uzywane w "stage talk" -- systemie pozwalajacym graczom opisywac swoje dzialania w formie wskazowek scenicznych zamiast prozy.
 36
 5
 4
@@ -44726,7 +44736,7 @@ Pasting Feature
 36
 1
 2
-The Pasting Feature is mostly useful to people with fancy clients (such as Emacs) or who connect using a windowing system that allows them to copy text they've already seen.  It's intended to give people a way to quote verbatim text at other people in the room.
+Cecha Wklejania jest przydatna glownie dla osob z zaawansowanymi klientami (jak Emacs) lub laczacych sie przez system okienkowy, ktory pozwala kopiowac juz wyswietlony tekst.  Ma dawac ludziom sposob na doslowne zacytowanie tekstu innym osobom w pokoju.
 36
 5
 4
@@ -54520,9 +54530,9 @@ no_line_notifies
 1
 2
 0
-1803624067
+472318810
 9
-1784299133.508375406
+1784349419.972716331
 2
 4
 4
@@ -88122,7 +88132,7 @@ endfor
 return exits;
 .
 #88:15
-"This verb returns messages that go only to you. You don't need to have your name tacked on to the beginning of these. Heh.";
+"Ten czasownik zwraca wiadomosci widoczne tylko dla ciebie. Nie trzeba doklejac twojego imienia na poczatku tych wiadomosci. Heh.";
 msg = this.(verb);
 if (msg && (length(args) >= 3))
 msg = this:msg_sub(msg, @args);
@@ -88130,7 +88140,7 @@ endif
 return msg;
 .
 #88:16
-"This verb returns messages that go to other players. It does pronoun substitutions; if your name is not included in the final string, it adds the name in front.";
+"Ten czasownik zwraca wiadomosci widoczne dla innych graczy. Wykonuje podstawienia zaimkow; jesli twoje imie nie znajduje sie w koncowym stringu, zostaje dodane na poczatku.";
 msg = this.(verb);
 if (!msg)
 msg = $frand_class.(verb);
@@ -88144,9 +88154,9 @@ endif
 return msg;
 .
 #88:17
-"Do pronoun and other substitutions on the teleport messages. The arguments are: 1. The original message, before any substitutions; 2. object being teleported; 3. from location; 4. to location. The return value is the final message.";
+"Wykonuje podstawienia zaimkow i inne na komunikatach teleportacji. Argumenty to: 1. oryginalna wiadomosc, przed jakimikolwiek podstawieniami; 2. teleportowany obiekt; 3. lokalizacja zrodlowa; 4. lokalizacja docelowa. Wartoscia zwracana jest koncowa wiadomosc.";
 {msg, thing, from, to} = args;
-msg = $string_utils:substitute(msg, $string_utils:pronoun_quote({{"%<from room>", valid(from) ? from.name | "Nowhere"}, {"%<to room>", valid(to) ? to.name | "Nowhere"}}));
+msg = $string_utils:substitute(msg, $string_utils:pronoun_quote({{"%<from room>", valid(from) ? from.name | "Nigdzie"}, {"%<to room>", valid(to) ? to.name | "Nigdzie"}}));
 msg = $string_utils:pronoun_sub(msg, thing);
 return msg;
 .
@@ -89175,41 +89185,41 @@ this.spurned_objects = spurned_objects;
 endif
 .
 #89:0
-"Say something out loud, directed at someone or something.";
-"Usage:";
-"  `target message";
-"Example:";
-"  Munchkin is talking to Kenneth, who's in the same room with him.  He types:";
-"      `kenneth What is the frequency?";
-"  The room sees:";
-"       Munchkin [to Kenneth]: What is the frequency?";
+"Mow cos na glos, kierujac to do kogos lub czegos.";
+"Skladnia:";
+"  `cel wiadomosc";
+"Przyklad:";
+"  Munchkin rozmawia z Kennethem, ktory jest z nim w tym samym pokoju.  Wpisuje:";
+"      `kenneth Jaka to czestotliwosc?";
+"  Pokoj widzi:";
+"       Munchkin [do Kenneth]: Jaka to czestotliwosc?";
 name = verb[2..$];
 who = player.location:match_object(name);
 if ($command_utils:object_match_failed(who, name))
 return;
 endif
-player.location:announce_all(player.name, " [to ", who.name, "]: ", argstr);
+player.location:announce_all(player.name, " [do ", who.name, "]: ", argstr);
 .
 #89:1
-"Say something out loud, in some specific way.";
-"Usage:";
-"  [how]: message";
-"Example:";
-"  Munchkin decideds to sing some lyrics.  He types:";
-"      [sings]: I am the eggman";
-"  The room sees:";
-"      Munchkin [sings]: I am the eggman";
+"Mow cos na glos, w okreslony sposob.";
+"Skladnia:";
+"  [jak]: wiadomosc";
+"Przyklad:";
+"  Munchkin postanawia zaspiewac jakis tekst.  Wpisuje:";
+"      [spiewa]: Jestem szczesliwym czlowiekiem";
+"  Pokoj widzi:";
+"      Munchkin [spiewa]: Jestem szczesliwym czlowiekiem";
 player.location:announce_all((((player.name + " ") + verb) + " ") + argstr);
 .
 #89:2
-"Perform some physical, non-verbal, action.";
-"Usage:";
-"  ]third person action";
-"Example:";
-"  Munchkin has annoyed some would-be tough guy.  He types:";
-"      ]hides behind the reactor.";
-"  The room sees:";
-"      [Munchkin hides behind the reactor.]";
+"Wykonaj jakas fizyczna, niewerbalna akcje.";
+"Skladnia:";
+"  ]akcja w trzeciej osobie";
+"Przyklad:";
+"  Munchkin zdenerwowal jakiegos twardziela.  Wpisuje:";
+"      ]chowa sie za reaktorem.";
+"  Pokoj widzi:";
+"      [Munchkin chowa sie za reaktorem.]";
 player.location:announce_all("[", (((player.name + " ") + verb[2..$]) + (argstr ? " " + argstr | "")) + "]");
 .
 #89:3
@@ -89218,30 +89228,30 @@ argstr = $code_utils:argstr(verb, args, argstr);
 player.location:announce_all(player.name, " [", name, "]: ", argstr);
 .
 #89:4
-"Point to yourself.";
-"Usage:";
-"  <message";
-"Example:";
-"  Muchkin decides he's being strange. He types:";
-"    <being strange.";
-"  The room sees:";
-"    Munchkin <- being strange.";
+"Wskaz na siebie.";
+"Skladnia:";
+"  <wiadomosc";
+"Przyklad:";
+"  Munchkin postanawia byc dziwny. Wpisuje:";
+"    <jest dziwny.";
+"  Pokoj widzi:";
+"    Munchkin <- jest dziwny.";
 player.location:announce_all((((player.name + " <- ") + verb[2..$]) + " ") + argstr);
 .
 #90:0
-"Usage: @paste <prefix> <suffix>";
-"Announce a series of entered lines to the room the player is in.";
-"Before the lines are quoted, player.paste_header is run through";
-"$string_utils:pronoun_sub(), and if the result contains the player's";
-"name, it is used as a header.  Otherwise player.name centered in a";
-"line of dashes is used.";
-"A footer comes afterwards, likewise derived from player.paste_footer.";
-"<prefix> and <suffix> are placed before and after each line.";
+"Skladnia: @paste <prefiks> <sufiks>";
+"Obwieszcza serie wprowadzonych linii w pokoju, w ktorym jest gracz.";
+"Zanim linie zostana zacytowane, player.paste_header jest przepuszczane przez";
+"$string_utils:pronoun_sub(), i jesli wynik zawiera imie gracza,";
+"jest uzywane jako naglowek.  W przeciwnym razie uzywane jest player.name";
+"wysrodkowane w linii kresek.";
+"Potem nastepuje stopka, podobnie wyprowadzona z player.paste_footer.";
+"<prefiks> i <sufiks> sa umieszczane przed i po kazdej linii.";
 "";
-"This verb is, as one might guess, designed for pasting text to MOO using";
-"GnuEmacs or a windowing system.  You should remember that after you";
-"have pasted the lines in, you must type . on a line by itself, or you'll";
-"sit around waiting for $command_utils:read_lines() to finish _forever_.";
+"Ten czasownik jest, jak mozna sie domyslic, przeznaczony do wklejania tekstu do MOO za pomoca";
+"GnuEmacs lub systemu okienkowego.  Pamietaj, ze po wklejeniu";
+"linii musisz wpisac samo . w osobnej linii, w przeciwnym razie";
+"bedziesz czekac na zakonczenie $command_utils:read_lines() _wiecznie_.";
 {?prefix = "", ?suffix = ""} = args;
 lines = $command_utils:read_lines();
 header = $string_utils:pronoun_sub_secure($code_utils:verb_or_property(player, "paste_header"), "") || $string_utils:center(player.name, 75, "-");
@@ -89254,23 +89264,23 @@ for thing in (player.location.contents)
 $command_utils:suspend_if_needed(0);
 thing:tell_lines(to_tell);
 endfor
-player:tell("Done @pasting.");
+player:tell("Zakonczono @paste.");
 .
 #90:1
-"Echo a line prefaced by a vertical bar.";
-"Usage:";
-"  |message";
-"Example:";
-"  Hacker wants to echo to the room what he just saw. He enters (either by hand, or with Emacs or a windowing system):";
-"      |Haakon has disconnected.";
-"  The room sees:";
-"      Hacker | Haakon has disconnected.";
+"Powtarza linie poprzedzona pionowa kreska.";
+"Skladnia:";
+"  |wiadomosc";
+"Przyklad:";
+"  Hacker chce powtorzyc w pokoju to, co wlasnie zobaczyl. Wpisuje (recznie albo za pomoca Emacsa lub systemu okienkowego):";
+"      |Haakon sie rozlaczyl.";
+"  Pokoj widzi:";
+"      Hacker | Haakon sie rozlaczyl.";
 player.location:announce_all((((player.name + " | ") + verb[2..$]) + " ") + argstr);
 .
 #90:2
-"Syntax: @paste-to <player>";
+"Skladnia: @paste-to <gracz>";
 "";
-"Which will then prompt you for the lines to privately send to <player>. The lines will be surrounded by a default footer and header.";
+"Nastepnie poprosi cie o linie do prywatnego wyslania do <gracza>. Linie zostana otoczone domyslna stopka i naglowkiem.";
 target = $string_utils:match_player(dobjstr);
 $command_utils:player_match_result(target, dobjstr);
 if (!valid(target))
@@ -89279,13 +89289,13 @@ endif
 prefix = "";
 suffix = "";
 lines = $command_utils:read_lines();
-to_tell = {$string_utils:center("Private message from " + player.name, 75, "-")};
+to_tell = {$string_utils:center("Prywatna wiadomosc od " + player.name, 75, "-")};
 for line in (lines)
 to_tell = listappend(to_tell, (prefix + line) + suffix);
 endfor
-to_tell = listappend(to_tell, $string_utils:center("end message", 75, "-"));
+to_tell = listappend(to_tell, $string_utils:center("koniec wiadomosci", 75, "-"));
 target:tell_lines(to_tell);
-player:tell("Done @pasting.");
+player:tell("Zakonczono @paste.");
 .
 #91:0
 ":vector_add(V1 [,V2 ...]) => VN such that VN[n] = V1[n] + V2[n]...";
