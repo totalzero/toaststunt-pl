@@ -2350,3 +2350,282 @@ player:tell();
 player:tell("Total: ", total, " ", total == 1 ? "property" | "properties", tasks > 0 ? tostr(" and ", tasks, " ", tasks == 1 ? "task" | "tasks") | "", " in ", ftime(1) - start, " seconds.");
 .
 ```
+
+### Funkcje wbudowane
+
+Istnieje duza liczba funkcji wbudowanych dostepnych do uzycia przez programistow MOO. Kazda z nich jest szczegolowo opisana w tej sekcji. Prezentacja jest podzielona na podsekcje, grupujace funkcje o podobnym lub powiazanym zastosowaniu.
+
+Dla wiekszosci funkcji podane sa oczekiwane typy argumentow; jesli rzeczywiste argumenty nie sa tych typow, zglaszany jest `E_TYPE`. Niektore argumenty moga byc jakiegokolwiek typu; w takich przypadkach nie podaje sie specyfikacji typu dla argumentu. Rowniez dla wiekszosci funkcji podany jest typ wyniku funkcji. Niektore funkcje nie zwracaja uzytecznego wyniku; w takich przypadkach uzywana jest specyfikacja `none`. Kilka funkcji moze potencjalnie zwrocic jakikolwiek typ wartosci; w takich przypadkach uzywana jest specyfikacja `value`.
+
+Wiekszosc funkcji przyjmuje pewna okreslona liczbe wymaganych argumentow, a w niektorych przypadkach jeden lub dwa opcjonalne argumenty. Jesli funkcja jest wywolana z za duza lub za mala liczba argumentow, zglaszany jest `E_ARGS`.
+
+Funkcje sa zawsze wywolywane przez program pewnego czasownika; ten program dziala z uprawnieniami pewnego gracza, zwykle wlasciciela danego czasownika (choc nie zawsze jest to wlasciciel; czarodzieje moga uzyc `set_task_perms()`, by zmienic uprawnienia _na biezaco_). W opisach funkcji nizej odnosimy sie do gracza, czyich uprawnien sie uzywa, jako do _programisty_.
+
+Wiele funkcji wbudowanych opisanych nizej zglasza `E_PERM`, jesli programista nie spelnia pewnych okreslonych kryteriow. Mozliwe jest jednak ograniczenie uzycia dowolnej funkcji tak, by mogli jej uzywac wylacznie czarodzieje; zobacz rozdzial o zalozeniach serwera wobec bazy danych po szczegoly.
+
+#### Programowanie obiektowe
+
+Jedna z najwazniejszych mozliwosci jezyka programowania obiektowego jest zdolnosc obiektu-dziecka do skorzystania z implementacji rodzica dla pewnej operacji, nawet gdy dziecko dostarcza wlasna definicje tej operacji. Funkcja `pass()` udostepnia te mozliwosc w MOO.
+
+**Funkcja: `pass`**
+
+pass -- wywoluje czasownik o tej samej nazwie co biezacy czasownik, ale zdefiniowany na rodzicu obiektu definiujacego biezacy czasownik.
+
+value `pass` (arg, ...)
+
+Czesto przydatne jest, by obiekt-dziecko zdefiniowal czasownik, ktory _rozszerza_ zachowanie czasownika na jego obiekcie-rodzicu. Na przyklad w bazie danych ToastCore obiekt root (bedacy przodkiem kazdego innego obiektu) definiuje czasownik `description`, ktory po prostu zwraca wartosc `this.description`; ten czasownik jest uzywany przez implementacje polecenia `look`. W wielu przypadkach programista chcialby, by opis pewnego obiektu zawieral pewna niestala czesc; na przyklad zdanie o tym, czy obiekt jest "przebudzony" czy "spi". To zdanie powinno zostac dodane na koniec normalnego opisu. Programista chcialby miec sposob wywolania normalnego czasownika `description`, a nastepnie dolaczenia tego zdania na koniec tego opisu. Funkcja `pass()` jest przeznaczona wlasnie do takich sytuacji.
+
+`pass` wywoluje czasownik o tej samej nazwie co biezacy czasownik, ale zdefiniowany na rodzicu obiektu definiujacego biezacy czasownik. Argumenty podane do `pass` sa tymi podanymi do wywolanego czasownika, a zwrocona wartosc wywolanego czasownika jest zwracana z wywolania `pass`. Poczatkowa wartosc `this` w wywolanym czasowniku jest taka sama, jak w wywolujacym czasowniku.
+
+Tak wiec w przykladzie powyzej czasownik `description` obiektu-dziecka moglby miec nastepujaca implementacje:
+
+```
+return pass() + "  It is " + (this.awake ? "awake." | "sleeping.");
+```
+
+To znaczy, wywoluje czasownik `description` swojego rodzica, a nastepnie dolacza do wyniku zdanie, ktorego zawartosc jest obliczana na podstawie wartosci wlasciwosci obiektu.
+
+W prawie wszystkich przypadkach bedziesz chcial wywolac `pass()` z tymi samymi argumentami, jakie podano do biezacego czasownika. Latwo to napisac w MOO; wystarczy wywolac `pass(@args)`.
+
+#### Operacje na wartosciach MOO
+
+Istnieje kilka funkcji do wykonywania podstawowych operacji na wartosciach MOO i moga one zostac czysto podzielone na dwa rodzaje: te, ktore wykonuja rozne bardzo ogolne operacje, stosowane do wszystkich typow wartosci, oraz te, ktore sa specyficzne dla jednego konkretnego typu. Istnieje tak wiele operacji dotyczacych obiektow, ze nie wymieniamy ich w tej sekcji, lecz dajemy im wlasna sekcje, nastepujaca po tej.
+
+##### Ogolne operacje stosowane do wszystkich wartosci
+
+**Funkcja: `typeof`**
+
+typeof -- Bierze jakakolwiek wartosc MOO i zwraca liczbe calkowita reprezentujaca typ tej wartosci.
+
+int `typeof` (value)
+
+Wynik jest taki sam jak poczatkowa wartosc jednej z tych wbudowanych zmiennych: `INT`, `FLOAT`, `STR`, `LIST`, `OBJ`, lub `ERR`, `BOOL`, `MAP`, `WAIF`, `ANON`. Zwykle pisze sie wiec kod taki jak ten:
+
+```
+if (typeof(x) == LIST) ...
+```
+
+a nie taki:
+
+```
+if (typeof(x) == 3) ...
+```
+
+poniewaz pierwszy jest znacznie bardziej czytelny niz drugi.
+
+**Funkcja: `tostr`**
+
+tostr -- Konwertuje wszystkie podane wartosci MOO na stringi i zwraca konkatenacje wynikow.
+
+str `tostr` (value, ...)
+
+```
+tostr(17)                  =>   "17"
+tostr(1.0/3.0)             =>   "0.333333333333333"
+tostr(#17)                 =>   "#17"
+tostr("foo")               =>   "foo"
+tostr({1, 2})              =>   "{list}"
+tostr([1 -> 2])            =>   "[map]"
+tostr(E_PERM)              =>   "Permission denied"
+tostr("3 + 4 = ", 3 + 4)   =>   "3 + 4 = 7"
+```
+
+Ostrzezenie: `tostr()` nie radzi sobie dobrze z konwertowaniem list i map na stringi; wszystkie listy, wliczajac liste pusta, sa konwertowane na string `"{list}"`, a wszystkie mapy sa konwertowane na string `"[map]"`. Funkcja `toliteral()`, opisana nizej, jest lepsza do tego celu.
+
+**Funkcja: `toliteral`**
+
+Zwraca string zawierajacy literal wyrazenia MOO, ktory, gdy zewaluowany, bylby rowny value.
+
+str `toliteral` (value)
+
+```
+toliteral(17)         =>   "17"
+toliteral(1.0/3.0)    =>   "0.333333333333333"
+toliteral(#17)        =>   "#17"
+toliteral("foo")      =>   "\"foo\""
+toliteral({1, 2})     =>   "{1, 2}"
+toliteral([1 -> 2])   =>   "[1 -> 2]"
+toliteral(E_PERM)     =>   "E_PERM"
+```
+
+**Funkcja: `toint`**
+
+toint -- Konwertuje podana wartosc MOO na liczbe calkowita i zwraca te liczbe calkowita.
+
+int `toint` (value)
+
+Liczby zmiennoprzecinkowe sa zaokraglane w strone zera, obcinajac ich czesc dziesietna. Numery obiektow sa konwertowane na rownowazne liczby calkowite. Stringi sa parsowane jako dziesietny zapis liczby rzeczywistej, ktora jest nastepnie konwertowana na liczbe calkowita. Bledy sa konwertowane na liczby calkowite, zachowujac ten sam porzadek (wzgledem `<=`) jak same bledy. `toint()` zglasza `E_TYPE`, jesli value jest lista. Jesli value jest stringiem, ale ten string nie zawiera skladniowo poprawnej liczby, `toint()` zwraca 0.
+
+```
+toint(34.7)        =>   34
+toint(-34.7)       =>   -34
+toint(#34)         =>   34
+toint("34")        =>   34
+toint("34.7")      =>   34
+toint(" - 34  ")   =>   -34
+toint(E_TYPE)      =>   1
+```
+
+**Funkcja: `toobj`**
+
+toobj -- Konwertuje podana wartosc MOO na numer obiektu i zwraca ten numer obiektu.
+
+obj `toobj` (value)
+
+Konwersje sa bardzo podobne do tych dla `toint()`, z tym ze dla stringow liczba _moze_ byc poprzedzona `#`.
+
+```
+toobj("34")       =>   #34
+toobj("#34")      =>   #34
+toobj("foo")      =>   #0
+toobj({1, 2})     =>   E_TYPE (error)
+```
+
+**Funkcja: `tofloat`**
+
+tofloat -- Konwertuje podana wartosc MOO na liczbe zmiennoprzecinkowa i zwraca te liczbe.
+
+float `tofloat` (value)
+
+Liczby calkowite i numery obiektow sa konwertowane na odpowiadajace im calkowite liczby zmiennoprzecinkowe. Stringi sa parsowane jako dziesietny zapis liczby rzeczywistej, ktora jest nastepnie reprezentowana jak najbardziej precyzyjnie jako liczba zmiennoprzecinkowa. Bledy sa najpierw konwertowane na liczby calkowite jak w `toint()`, a nastepnie konwertowane jak liczby calkowite. `tofloat()` zglasza `E_TYPE`, jesli value jest lista. Jesli value jest stringiem, ale ten string nie zawiera skladniowo poprawnej liczby, `tofloat()` zwraca 0.
+
+```
+tofloat(34)          =>   34.0
+tofloat(#34)         =>   34.0
+tofloat("34")        =>   34.0
+tofloat("34.7")      =>   34.7
+tofloat(E_TYPE)      =>   1.0
+```
+
+**Funkcja: `equal`**
+
+equal -- Zwraca prawde, jesli value1 jest calkowicie nieodroznialna od value2.
+
+int `equal` (value, value2)
+
+To w duzej mierze ta sama operacja co `value1 == value2`, z tym ze, w przeciwienstwie do `==`, funkcja `equal()` nie traktuje wielkich i malych liter w stringach jako rownych i tak wiec rozroznia wielkosc liter.
+
+```
+"Foo" == "foo"         =>   1
+equal("Foo", "foo")    =>   0
+equal("Foo", "Foo")    =>   1
+```
+
+**Funkcja: `value_bytes`**
+
+value_bytes -- Zwraca liczbe bajtow pamieci serwera wymaganych do przechowania podanej wartosci.
+
+int `value_bytes` (value)
+
+**Funkcja: `value_hash`**
+
+value_hash -- Zwraca ten sam string co `string_hash(toliteral(value))`.
+
+str `value_hash` (value, [, str algo] [, binary])
+
+Zobacz opis `string_hash()` po szczegoly.
+
+**Funkcja: `value_hmac`**
+
+value_hmac -- Zwraca ten sam string co string_hmac(toliteral(value), key)
+
+str `value_hmac` (value, STR key [, STR algo [, binary]])
+
+Zobacz opis string_hmac() po szczegoly.
+
+**Funkcja: `generate_json`**
+
+generate_json -- Zwraca reprezentacje JSON wartosci MOO.
+
+str generate_json (value [, str mode [, any disable_binary_escapes]])
+
+Zwraca reprezentacje JSON wartosci MOO.
+
+MOO wspiera bogatszy zestaw wartosci, niz pozwala na to JSON. Opcjonalny mode okresla, jak ta funkcja obsluguje konwersje wartosci MOO na ich reprezentacje JSON.
+
+Tryb wspolnego podzbioru (common subset), okreslony przez literalowy string mode "common-subset", jest domyslnym trybem konwersji. W tym trybie stringi, liczby i wartosci logiczne sa tlumaczone z pelna wiernoscia miedzy typami MOO i typami JSON. Wszystkie inne typy sa traktowane jako alternatywne reprezentacje typu string. Ten tryb jest przydatny do integracji z aplikacjami nie-MOO.
+
+Tryb wbudowanych typow (embedded types), okreslony przez literalowy string mode "embedded-types", dodaje informacje o typie. Konkretnie, wartosci inne niz stringi, liczby i wartosci logiczne, ktore niosa ze soba niejawna informacje o typie, sa konwertowane na stringi z dolaczona informacja o typie. Skonwertowany string sklada sie z reprezentacji tekstowej wartosci (jak gdyby zastosowano tostr()), po ktorej nastepuje znak potoku (|) i typ. Ten tryb jest przydatny do serializacji/deserializacji obiektow i kolekcji wartosci MOO.
+
+Opcjonalny argument disable_binary_escapes kontroluje, czy binarne sekwencje stringow MOO (takie jak ~08 czy ~1F) sa konwertowane na sekwencje ucieczki JSON. Domyslnie te sekwencje sa konwertowane (np. ~08 staje sie \b). Jesli disable_binary_escapes jest prawda, te sekwencje przechodza bez zmian. To jest przydatne przy pracy z literalowymi stringami, ktore zawieraja ~0 lub ~1 nastepowane cyframi szesnastkowymi.
+
+```
+generate_json([])                                           =>  "{}"
+generate_json(["foo" -> "bar"])                             =>  "{\"foo\":\"bar\"}"
+generate_json(["foo" -> "bar"], "common-subset")            =>  "{\"foo\":\"bar\"}"
+generate_json(["foo" -> "bar"], "embedded-types")           =>  "{\"foo\":\"bar\"}"
+generate_json(["foo" -> 1.1])                               =>  "{\"foo\":1.1}"
+generate_json(["foo" -> 1.1], "common-subset")              =>  "{\"foo\":1.1}"
+generate_json(["foo" -> 1.1], "embedded-types")             =>  "{\"foo\":1.1}"
+generate_json(["foo" -> true, "bar" -> false])              =>  "{\"bar\":false,\"foo\":true}"
+generate_json(["foo" -> #1])                                =>  "{\"foo\":\"#1\"}"
+generate_json(["foo" -> #1], "common-subset")               =>  "{\"foo\":\"#1\"}"
+generate_json(["foo" -> #1], "embedded-types")              =>  "{\"foo\":\"#1|obj\"}"
+generate_json(["foo" -> E_PERM])                            =>  "{\"foo\":\"E_PERM\"}"
+generate_json(["foo" -> E_PERM], "common-subset")           =>  "{\"foo\":\"E_PERM\"}"
+generate_json(["foo" -> E_PERM], "embedded-types")          =>  "{\"foo\":\"E_PERM|err\"}"
+```
+
+Klucze JSON musza byc stringami, wiec niezaleznie od trybu, klucz zostanie skonwertowany na wartosc string.
+
+```
+generate_json([1 -> 2])                                     =>  "{\"1\":2}"
+generate_json([1 -> 2], "common-subset")                    =>  "{\"1\":2}"
+generate_json([1 -> 2], "embedded-types")                   =>  "{\"1|int\":2}"
+generate_json([#1 -> 2], "embedded-types")                  =>  "{\"#1|obj\":2}"
+```
+
+Przyklady przetwarzania sekwencji ucieczki binarnych:
+
+```
+generate_json(["foo" -> "bar~08baz"])                       =>  "{\"foo\":\"bar\\bbaz\"}"
+generate_json(["foo" -> "bar~08baz"], "common-subset", 0)   =>  "{\"foo\":\"bar\\bbaz\"}"
+generate_json(["foo" -> "bar~08baz"], "common-subset", 1)   =>  "{\"foo\":\"bar~08baz\"}"
+generate_json(["foo" -> "Hoodie (~1.5k)"])                  =>  "{\"foo\":\"Hoodie (~1.5k)\"}"
+```
+
+> Ostrzezenie: generate_json nie wspiera typow WAIF ani ANON.
+
+**Funkcja: `parse_json`**
+
+parse_json -- Zwraca reprezentacje wartosci MOO stringa JSON.
+
+value parse_json (str json [, str mode])
+
+Jesli podany string nie jest poprawnym JSON-em, zglaszany jest E_INVARG.
+
+Opcjonalny mode okresla, jak ta funkcja obsluguje konwersje wartosci MOO na ich reprezentacje JSON. Opcje sa takie same jak dla generate_json().
+
+```
+parse_json("{}")                                            =>  []
+parse_json("{\"foo\":\"bar\"}")                             =>  ["foo" -> "bar"]
+parse_json("{\"foo\":\"bar\"}", "common-subset")            =>  ["foo" -> "bar"]
+parse_json("{\"foo\":\"bar\"}", "embedded-types")           =>  ["foo" -> "bar"]
+parse_json("{\"foo\":1.1}")                                 =>  ["foo" -> 1.1]
+parse_json("{\"foo\":1.1}", "common-subset")                =>  ["foo" -> 1.1]
+parse_json("{\"foo\":1.1}", "embedded-types")               =>  ["foo" -> 1.1]
+parse_json("{\"foo\":true,\"bar\":false,\"baz\":null}")      =>  ["bar" -> false, "baz" -> E_NONE, "foo" -> true]
+parse_json("{\"foo\":\"#1\"}")                              =>  ["foo" -> "#1"]
+parse_json("{\"foo\":\"#1\"}", "common-subset")             =>  ["foo" -> "#1"]
+parse_json("{\"foo\":\"#1|obj\"}", "embedded-types")        =>  ["foo" -> #1]
+parse_json("{\"foo\":\"E_PERM\"}")                          =>  ["foo" -> "E_PERM"]
+parse_json("{\"foo\":\"E_PERM\"}", "common-subset")         =>  ["foo" -> "E_PERM"]
+parse_json("{\"foo\":\"E_PERM|err\"}", "embedded-types")    =>  ["foo" -> E_PERM]
+```
+
+W trybie wbudowanych typow, wartosci kluczy moga zostac skonwertowane na typy MOO poprzez dolaczenie informacji o typie. Pelny zestaw wspieranych typow to obj, str, err, float i int.
+
+```
+parse_json("{\"1\":2}")                                     =>   ["1" -> 2]
+parse_json("{\"1\":2}", "common-subset")                    =>   ["1" -> 2]
+parse_json("{\"1|int\":2}", "embedded-types")               =>   [1 -> 2]
+parse_json("{\"#1|obj\":2}", "embedded-types")              =>   [#1 -> 2]
+```
+
+Wartosci logiczne JSON sa konwertowane na wartosci BOOL MOO. Wartosci `null` JSON sa konwertowane na `E_NONE`.
+
+```
+parse_json("{\"foo\":null}")                                =>   ["foo" -> E_NONE]
+```
+
+> Ostrzezenie: typy WAIF i ANON nie sa wspierane.
