@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784347658 567763848 0
+1784348254 567763848 0
 0
 10
 0
@@ -144,8 +144,7 @@ continuous
 6
 67 0 65
 0 interrupted tasks
-1 active connections with listeners
-2 0
+0 active connections with listeners
 148
 #0
 The System Object
@@ -798,7 +797,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784347617
+1784348198
 2
 name
 2
@@ -1380,17 +1379,17 @@ Wizard
 7
 2
 1
-62
+15
 10
 2
 2
 source
 1
-15
+62
 2
 time
 0
-1784347647
+1784348241
 4
 0
 1
@@ -1646,7 +1645,7 @@ expire
 4
 2
 0
-1784347634
+1784348208
 2
 localhost
 2
@@ -1655,7 +1654,7 @@ localhost
 2
 0
 0
-1784347639
+1784348241
 2
 1
 0
@@ -1850,7 +1849,7 @@ localhost
 2
 5
 0
-1784347647
+1784348232
 2
 1
 0
@@ -1899,8 +1898,8 @@ localhost
 5
 2
 0
-12
-148
+1
+-1
 2
 1
 5
@@ -4446,7 +4445,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-53
+54
+4
+2
+0
+1784348198
+0
+0
 4
 2
 0
@@ -4816,7 +4821,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 36
 0
 0
-1
+0
 2
 5
 0
@@ -5704,7 +5709,9 @@ Limbo
 0
 0
 4
-0
+1
+1
+2
 1
 1
 4
@@ -33076,9 +33083,7 @@ Pierwszy Pokoj
 0
 0
 4
-1
-1
-2
+0
 1
 3
 4
@@ -36186,7 +36191,7 @@ Programmer Options
 4
 1
 2
-Option package for $prog commands.  See `help @prog-options'.
+Pakiet opcji dla polecen $prog.  Zobacz `help @prog-options'.
 36
 5
 4
@@ -36315,7 +36320,7 @@ Builder Options
 4
 1
 2
-Option package for $builder commands.  See `help @build-options'.
+Pakiet opcji dla polecen $builder.  Zobacz `help @build-options'.
 36
 5
 4
@@ -36395,7 +36400,7 @@ help_msg
 4
 1
 2
-This is the Generic Utility Object.  One presumes it should have text in it explaining the use of the utility object in question.
+To jest Ogolny Obiekt Uzytkowy.  Zaklada sie, ze powinien zawierac tekst wyjasniajacy zastosowanie danego obiektu uzytkowego.
 2
 5
 0
@@ -36811,7 +36816,7 @@ Byte Quota Utilities
 4
 1
 2
-This is the Byte Quota Utilities utility package.  See `help $quota_utils' for more details.
+To jest pakiet Byte Quota Utilities.  Zobacz `help $quota_utils' po wiecej szczegolow.
 36
 5
 4
@@ -37028,7 +37033,7 @@ byte_based
 36
 5
 2
-This is the default package that interfaces to the $player/$prog quota manipulation verbs.
+To jest domyslny pakiet laczacy sie z czasownikami manipulacji limitem (quota) $player/$prog.
 36
 5
 0
@@ -37044,7 +37049,7 @@ Object Quota Utilities
 4
 1
 2
-This is the Object Quota Utilities utility package.  See `help $object_quota_utils' for more details.
+To jest pakiet Object Quota Utilities.  Zobacz `help $object_quota_utils' po wiecej szczegolow.
 36
 5
 4
@@ -55744,46 +55749,6 @@ diag
 0
 0
 36
-1
-1
-#148
-
-0
-98
-1
--1
-0
-0
-4
-0
-1
-108
-4
-0
-0
-0
-7
-1
-2
-98
-1
-5
-98
-0
-5
-98
-1
-5
-98
-0
-5
-98
-1
-5
-98
-0
-5
-98
 1
 0
 1954
@@ -85945,7 +85910,7 @@ endif
 endif
 endfor
 if (helpless)
-all_help = {@all_help, "", ("No help found on " + $string_utils:english_list(helpless, "nothing", " or ")) + "."};
+all_help = {@all_help, "", ("Nie znaleziono pomocy dla " + $string_utils:english_list(helpless, "nic", " lub ")) + "."};
 endif
 return {@all_help, "----"};
 .
@@ -87628,24 +87593,24 @@ return $perm_utils:controls(args[1], args[2]);
 return args[1].wizard;
 .
 #82:0
-output = {"On $server_options, the following settings have been established by the wizards:", ""};
+output = {"W $server_options ustawiono nastepujace opcje przez wizardow:", ""};
 wizonly = {};
 etc = {};
 mentioned = {};
 for x in (setremove(properties(this), "help_msg"))
 if (index(x, "protect_") == 1)
 mentioned = {@mentioned, x[9..$]};
-wizonly = {@wizonly, tostr(x[9..$], "() is ", this.(x) ? "" | "not ", "wizonly.")};
+wizonly = {@wizonly, tostr(x[9..$], "() jest ", this.(x) ? "" | "nie ", "tylko-dla-wizardow.")};
 else
 etc = {@etc, tostr("$server_options.", x, " = ", $string_utils:print(this.(x)))};
 endif
 endfor
 if ("set_verb_code" in wizonly)
-wizonly = {@wizonly, "", "Note: since the 'set_verb_code' built-in function is wiz-only, then the '.program' built-in command is wiz-only too."};
+wizonly = {@wizonly, "", "Uwaga: skoro funkcja wbudowana 'set_verb_code' jest tylko dla wizardow, to polecenie '.program' rowniez jest tylko dla wizardow."};
 endif
 if (bf = $set_utils:intersection(verbs(#0), mentioned))
 bf = $list_utils:sort(bf);
-etc = {@etc, "", "In your code, #0:(built-in)(@args) should be called rather than built-in(@args) when you would use one of the following built-in functions:", $string_utils:english_list(bf) + ".", ((("Example: #0:" + bf[1]) + "(@args) should be used instead of ") + bf[1]) + "(@args)"};
+etc = {@etc, "", "W swoim kodzie powinienes wywolywac #0:(wbudowana)(@args) zamiast wbudowana(@args), gdy chcesz uzyc jednej z nastepujacych funkcji wbudowanych:", $string_utils:english_list(bf) + ".", ((("Przyklad: #0:" + bf[1]) + "(@args) powinno byc uzyte zamiast ") + bf[1]) + "(@args)"};
 endif
 return {@this.help_msg, @output, @wizonly, "", @etc};
 .
