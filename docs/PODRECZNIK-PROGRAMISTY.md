@@ -4179,3 +4179,364 @@ Jesli object jest niepoprawny, zglaszany jest `E_INVARG`. Jesli programista nie 
 Jesli value jest prawda, object otrzymuje (lub zachowuje) status "obiektu-gracza": bedzie elementem listy zwracanej przez `players()`, wyrazenie `is_player(object)` zwroci prawde, a serwer bedzie traktowac wywolanie `$do_login_command()`, ktore zwraca object, jako logowanie biezacego polaczenia.
 
 Jesli value jest falszem, obiekt traci (lub dalej nie ma) status "obiektu-gracza": nie bedzie elementem listy zwracanej przez `players()`, wyrazenie `is_player(object)` zwroci falsz, a uzytkownicy nie beda mogli polaczyc sie z object po nazwie podczas logowania do serwera. Dodatkowo, jesli uzytkownik jest polaczony z object w momencie, gdy ten traci status "obiektu-gracza", to polaczenie jest natychmiast zrywane, tak jakby wywolano `boot_player(object)` (zobacz opis `boot_player()` nizej).
+
+#### Operacje na plikach
+
+Istnieje kilka funkcji wbudowanych, dostepnych wylacznie dla administratorow, do manipulowania plikami z wewnatrz MOO. Bezpieczenstwo jest zapewniane przez umozliwienie wykonywania tych funkcji wbudowanych wylacznie z uprawnieniami czarodzieja, a takze przez zezwalanie na dostep wylacznie do katalogu pod biezacym katalogiem (tym, w ktorym dziala serwer). Nowe funkcje wbudowane sa skonstruowane podobnie do biblioteki stdio jezyka C. To pozwala kodowi MOO wykonywac zorientowane na strumienie operacje we/wy na plikach.
+
+Danie kodowi MOO bezposredniego dostepu do plikow otwiera dziure w skad inad dosc dobrym murze, ktory serwer ToastStunt wznosi miedzy systemem operacyjnym a baza danych. Bezpieczenstwo jest dosc dobrze ograniczane przez restrykcje co do miejsc, w ktorych mozna otwierac pliki, oraz przez zezwalanie na wywolywanie funkcji wbudowanych wylacznie z uprawnieniami czarodzieja. Wciaz mozliwe jest wykonanie roznych form atakow typu odmowa uslugi (denial of service), ale serwer MOO umozliwia rowniez ten rodzaj ataku.
+
+> Ostrzezenie: w zaleznosci od uzywanego Core (ToastCore, LambdaMOO itd.) moze byc dostepne narzedzie sluzace jako wrapper na kod FileIO. To preferowana metoda obslugi plikow, a bezposrednie uzywanie funkcji wbudowanych jest odradzane. W ToastCore moze byc dostepny WAIF $file, ktorego mozesz uzyc do tego celu.
+
+> Ostrzezenie: FileIO uzywa skonfigurowanego katalogu plikow, domyslnie `files/` pod katalogiem roboczym serwera, o ile nie zostanie to nadpisane przez `-i` lub `--file-dir`. Ten katalog musi istniec, by funkcje wbudowane FileIO dzialaly.
+
+> Uwaga: bardziej szczegolowe informacje o kodzie FileIO mozna znalezc w pliku docs/FileioDocs.txt repozytorium ToastStunt.
+
+System FileIO zostal zaktualizowany w ToastCore i zawiera wiele usprawnien wzgledem wczesniejszych wersji LambdaMOO i Stunt.
+* Szybsze odczytywanie
+* Otwieraj tyle plikow, ile chcesz, konfigurowalne za pomoca FILE_IO_MAX_FILES lub $server_options.file_io_max_files
+
+**Obsluga bledow FileIO**
+
+Bledy sa zawsze obslugiwane poprzez zglaszanie jakiegos rodzaju wyjatku. Zdefiniowane sa nastepujace wyjatki:
+
+`E_FILE`
+
+Jest zglaszany, gdy wywolanie stdio zwrocilo wartosc bledu. CODE jest ustawiane na E_FILE, MSG jest ustawiane na wynik strerror() (ktory moze rozniec sie miedzy systemami), a VALUE zalezy od tego, ktora funkcja zglosila blad. Gdy funkcja zawodzi, poniewaz funkcja stdio zwrocila EOF, MSG i VALUE sa ustawiane na "End of file".
+
+`E_INVARG`
+
+Jest zglaszany z wielu przyczyn. Powszednymi przyczynami sa przekazanie do funkcji niepoprawnego FHANDLE oraz niepoprawna specyfikacja pathname. W kazdym z tych przypadkow MSG zostanie ustawione na przyczyne, a VALUE bedzie problematyczna wartoscia.
+
+`E_PERM`
+
+Jest zglaszany, gdy jakakolwiek z tych funkcji zostaje wywolana z uprawnieniami innymi niz czarodziejskie.
+
+**Otwieranie i zamykanie plikow oraz funkcje powiazane**
+
+Strumienie plikow sa skojarzone z FHANDLE. FHANDLE sa podobne do FILE\* uzywanego w stdio. FHANDLE otrzymujesz z file_open. Nie powinienes zalezec od faktycznego typu FHANDLE (obecnie TYPE_INT). FHANDLE nie przetrwaja restartow serwera. To znaczy, pliki otwarte, gdy serwer jest wylaczany, sa zamykane, gdy wraca, a zadna informacja o otwartych plikach nie jest zapisywana w bazie danych.
+
+**Funkcja: `file_open`**
+
+file_open -- Otwiera plik.
+
+FHANDLE `file_open`(STR pathname, STR mode)
+
+Zglasza: E_INVARG, jesli mode nie jest poprawnym mode, E_QUOTA, jesli otwartych jest za wiele plikow.
+
+To otwiera plik okreslony przez pathname i zwraca dla niego FHANDLE. Zapewnia, ze pathname jest dozwolony. Mode jest stringiem znakow wskazujacym, w jakim mode plik jest otwierany. String mode ma cztery znaki.
+
+Pierwszy znak musi byc (r)ead (odczyt), (w)rite (zapis) lub (a)ppend (dopisywanie). Drugi musi byc '+' lub '-'. To modyfikuje poprzedni argument.
+
+* r- otwiera plik do odczytu i zawodzi, jesli plik nie istnieje.
+* r+ otwiera plik do odczytu i zapisu i zawodzi, jesli plik nie istnieje.
+* w- otwiera plik do zapisu, obcinajac go, jesli istnieje, i tworzac, jesli nie.
+* w+ otwiera plik do odczytu i zapisu, obcinajac go, jesli istnieje, i tworzac, jesli nie.
+* a- otwiera plik do zapisu, tworzy go, jesli nie istnieje, i ustawia strumien na koniec pliku.
+* a+ otwiera plik do odczytu i zapisu, tworzy go, jesli nie istnieje, i ustawia strumien na koniec pliku.
+
+Trzeci znak to albo (t)ext (tekst), albo (b)inary (binarny). W trybie tekstowym dane sa zapisywane tak, jak sa z MOO, a dane odczytywane przez MOO sa oczyszczane z niewypisywalnych znakow. W trybie binarnym dane sa zapisywane filtrowane przez konwersje binarny-string->surowe-bajty, a dane sa odczytywane filtrowane przez konwersje surowe-bajty->binarny-string. Na przyklad w trybie tekstowym zapisanie " 1B" znaczy, ze zapisywane sa trzy bajty: ' ' Podobnie, w trybie tekstowym odczytanie " 1B" znaczy, ze w pliku byly obecne znaki ' ' '1' 'B'. W trybie binarnym odczytanie " 1B" znaczy, ze w pliku byl ASCII ESC. W trybie tekstowym odczytanie ESC z pliku powoduje usuniecie ESC.
+
+Nie zaleca sie odczytywania w trybie tekstowym plikow zawierajacych niewypisywalne dane ASCII, z oczywistych powodow.
+
+Ostatni znak to albo 'n', albo 'f'. Jesli ten znak to 'f', kiedy dane sa zapisywane do pliku, MOO wymusi zakonczenie zapisu na fizyczny dysk przed powrotem. Jesli to 'n', to sie nie stanie.
+
+To zaimplementowane za pomoca fopen().
+
+**Funkcja: `file_close`**
+
+file_close -- Zamyka plik.
+
+void `file_close`(FHANDLE fh)
+
+Zamyka plik skojarzony z fh.
+
+To zaimplementowane za pomoca fclose().
+
+**Funkcja: `file_name`**
+
+file_name -- Zwraca pathname oryginalnie skojarzony z fh przez file_open(). To niekoniecznie jest biezaca nazwa pliku, jesli zostal przemianowany lub odlinkowany po otwarciu fh.
+
+STR `file_name`(FHANDLE fh)
+
+**Funkcja: `file_openmode`**
+
+file_openmode -- Zwraca znormalizowany mode pliku skojarzonego z fh.
+
+str `file_openmode`(FHANDLE fh)
+
+To odzwierciedla biezace flagi odczytu/zapisu, tekst/binarny i flush uchwytu pliku. Nie jest gwarantowane, ze bedzie to dokladnie ten sam string mode, jaki oryginalnie przekazano do `file_open()`, poniewaz mode dopisywania sa przechowywane jako mode zapisu.
+
+**Funkcja: `file_handles`**
+
+file_handles -- Zwraca liste otwartych plikow.
+
+LIST `file_handles` ()
+
+**Operacje wejscia i wyjscia**
+
+**Funkcja: `file_readline`**
+
+file_readline -- Odczytuje nastepna linie w pliku i zwraca ja (bez znaku nowej linii).
+
+str `file_readline`(FHANDLE fh)
+
+Nie zalecane do uzycia na plikach w trybie binarnym.
+
+To zaimplementowane za pomoca fgetc().
+
+**Funkcja: `file_readlines`**
+
+file_readlines -- Przewija plik, a nastepnie odczytuje podane linie z pliku, zwracajac je jako liste stringow. Po tej operacji strumien jest ustawiony na poczatku pierwszej zwroconej linii.
+
+list `file_readlines`(FHANDLE fh, INT start, INT end)
+
+Nie zalecane do uzycia na plikach w trybie binarnym.
+
+To zaimplementowane za pomoca fgetc().
+
+**Funkcja: `file_writeline`**
+
+file_writeline -- Zapisuje podana linie do pliku (dodajac znak nowej linii).
+
+void `file_writeline`(FHANDLE fh, STR line)
+
+Nie zalecane do uzycia na plikach w trybie binarnym.
+
+To zaimplementowane za pomoca fputs()
+
+**Funkcja: `file_read`**
+
+file_read -- Odczytuje do podanej liczby bajtow z pliku i zwraca je.
+
+str `file_read`(FHANDLE fh, INT bytes)
+
+Nie zalecane do uzycia na plikach w trybie tekstowym.
+
+To zaimplementowane za pomoca fread().
+
+**Funkcja: `file_write`**
+
+file_write -- Zapisuje podane data do pliku. Zwraca liczbe zapisanych bajtow.
+
+int `file_write`(FHANDLE fh, STR data)
+
+Nie zalecane do uzycia na plikach w trybie tekstowym.
+
+To zaimplementowane za pomoca fwrite().
+
+**Funkcja: `file_flush`**
+
+file_flush -- Zrzuca (flush) zbuforowane zapisy dla pliku.
+
+void `file_flush`(FHANDLE fh)
+
+To zaimplementowane za pomoca fflush().
+
+**Funkcja: `file_count_lines`**
+
+file_count_lines -- liczy linie w pliku.
+
+INT `file_count_lines` (FHANDLE fh)
+
+To przewija plik i czyta do EOF, liczac przy tym, pozostawiajac strumien ustawiony na EOF.
+
+**Funkcja: `file_grep`**
+
+file_grep -- wyszukuje string w pliku.
+
+LIST `file_grep`(FHANDLE fh, STR search [,?match_all = 0])
+
+Zalozmy, ze mamy plik `test.txt` z zawartoscia:
+
+```
+asdf asdf 11
+11
+112
+```
+
+I mamy otwarty uchwyt pliku z wywolania:
+
+```
+;file_open("test.txt", "r-tn")
+```
+
+Jesli wykonalibysmy file grep:
+
+```
+;file_grep(1, "11")
+```
+
+Otrzymalibysmy pierwszy wynik:
+
+```
+{{"asdf asdf 11", 1}}
+```
+
+Wynikowa LISTA jest w formie {{STR match, INT line-number}}
+
+Jesli podasz opcjonalny trzeci argument
+
+```
+;file_grep(1, "11", 1)
+```
+
+otrzymamy wszystkie dopasowane wyniki:
+
+```
+{{"asdf asdf 11", 1}, {"11", 2}, {"112", 3}}
+```
+
+**Pobieranie i ustawianie pozycji strumienia**
+
+**Funkcja: `file_tell`**
+
+file_tell -- Zwraca pozycje w pliku.
+
+INT `file_tell`(FHANDLE fh)
+
+To zaimplementowane za pomoca ftell().
+
+**Funkcja: `file_seek`**
+
+file_seek -- Przeszukuje do konkretnej lokalizacji w pliku.
+
+void `file_seek`(FHANDLE fh, INT loc, STR whence)
+
+whence jest jednym ze stringow:
+
+* "SEEK_SET" - przejdz do lokalizacji wzgledem poczatku
+* "SEEK_CUR" - przejdz do lokalizacji wzgledem biezacej pozycji
+* "SEEK_END" - przejdz do lokalizacji wzgledem konca
+
+To zaimplementowane za pomoca fseek().
+
+**Funkcja: `file_eof`**
+
+file_eof -- Zwraca prawde wtedy i tylko wtedy, gdy strumien fh jest ustawiony na EOF.
+
+int `file_eof`(FHANDLE fh)
+
+To zaimplementowane za pomoca feof().
+
+**Operacje porzadkowe**
+
+**Funkcja: `file_size`**
+
+**Funkcja: `file_last_access`**
+
+**Funkcja: `file_last_modify`**
+
+**Funkcja: `file_last_change`**
+
+int `file_size`(STR pathname)
+
+int `file_last_access`(STR pathname)
+
+int `file_last_modify`(STR pathname)
+
+int `file_last_change`(STR pathname)
+
+int `file_size`(FHANDLE filehandle)
+
+int `file_last_access`(FHANDLE filehandle)
+
+int `file_last_modify`(FHANDLE filehandle)
+
+int `file_last_change`(FHANDLE filehandle)
+
+Te funkcje zwracaja rozmiar, czas ostatniego dostepu, czas ostatniej modyfikacji lub czas ostatniej zmiany statusu podanego pliku. Wszystkie z nich przyjmuja rowniez argumenty FHANDLE i wtedy operuja na otwartym pliku. Sa zaimplementowane za pomoca `stat()` lub `fstat()`.
+
+**Funkcja: `file_mode`**
+
+str `file_mode`(STR filename)
+
+str `file_mode`(FHANDLE fh)
+
+Zwraca oktalny mode pliku (np. "644").
+
+To zaimplementowane za pomoca stat() lub fstat().
+
+**Funkcja: `file_stat`**
+
+list `file_stat`(STR pathname)
+
+list `file_stat`(FHANDLE fh)
+
+Zwraca wynik stat() (lub fstat()) na podanym pliku.
+
+Konkretnie liste w nastepujacej postaci:
+
+`{rozmiar pliku w bajtach, typ pliku, mode dostepu do pliku, wlasciciel, grupa, ostatni dostep, ostatnia modyfikacja i ostatnia zmiana}`
+
+owner i group sa zawsze pustym stringiem.
+
+Zaleca sie uzywanie zamiast tego konkretnych funkcji informacyjnych file_size, file_type, file_mode, file_last_access, file_last_modify i file_last_change. W wiekszosci przypadkow pozadany jest tylko jeden z tych elementow i w takich przypadkach nie ma powodu tworzyc i zwalniac listy.
+
+**Funkcja: `file_rename`**
+
+file_rename -- Probuje przemianowac oldpath na newpath.
+
+void `file_rename`(STR oldpath, STR newpath)
+
+To zaimplementowane za pomoca rename().
+
+**Funkcja: `file_remove`**
+
+file_remove -- Probuje usunac podany plik.
+
+void `file_remove`(STR pathname)
+
+To zaimplementowane za pomoca remove().
+
+**Funkcja: `file_mkdir`**
+
+file_mkdir -- Probuje utworzyc podany katalog.
+
+void `file_mkdir`(STR pathname)
+
+To zaimplementowane za pomoca mkdir().
+
+**Funkcja: `file_rmdir`**
+
+file_rmdir -- Probuje usunac podany katalog.
+
+void `file_rmdir`(STR pathname)
+
+To zaimplementowane za pomoca rmdir().
+
+**Funkcja: `file_list`**
+
+file_list -- Probuje wypisac zawartosc podanego katalogu.
+
+LIST `file_list`(STR pathname, [ANY detailed])
+
+Zwraca liste plikow w katalogu. Jesli podano argument detailed i jest on prawda, lista zawiera szczegolowe wpisy, w przeciwnym razie zawiera prosta liste nazw.
+
+szczegolowy wpis:
+
+`{STR nazwa pliku, STR typ pliku, STR mode pliku, INT rozmiar pliku}`
+
+normalny wpis:
+
+STR nazwa pliku
+
+To zaimplementowane za pomoca `opendir()` i `readdir()`; porzadek wyniku nie jest gwarantowany.
+
+**Funkcja: `file_type`**
+
+file_type -- Zwraca typ podanego pathname lub uchwytu, jeden z "reg", "dir", "fifo", "block", "socket" lub "unknown".
+
+STR `file_type`(STR pathname)
+
+STR `file_type`(FHANDLE fh)
+
+To zaimplementowane za pomoca stat() lub fstat().
+
+**Funkcja: `file_chmod`**
+
+file_chmod -- Probuje ustawic mode pliku, uzywajac mode jako oktalnego stringa o dokladnie trzech znakach.
+
+void `file_chmod`(STR filename, STR mode)
+
+To zaimplementowane za pomoca chmod().
