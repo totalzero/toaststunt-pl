@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784349714 567763848 0
+1784350192 567763848 0
 0
 10
 0
@@ -797,7 +797,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784349669
+1784350076
 2
 name
 2
@@ -1389,7 +1389,7 @@ source
 2
 time
 0
-1784349702
+1784350182
 4
 0
 1
@@ -1645,7 +1645,7 @@ expire
 4
 2
 0
-1784349689
+1784350162
 2
 localhost
 2
@@ -1654,7 +1654,7 @@ localhost
 2
 0
 0
-1784349702
+1784350182
 2
 1
 0
@@ -1849,7 +1849,7 @@ localhost
 2
 5
 0
-1784349699
+1784350180
 2
 1
 0
@@ -4431,7 +4431,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--4
+-7
 0
 2
 2
@@ -4445,7 +4445,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-57
+58
+4
+2
+0
+1784350076
+0
+0
 4
 2
 0
@@ -49003,23 +49009,23 @@ HTTP Server
 2
 
 2
-To use this device, all you need to do is put a .html property on your object. It will then serve a web page at http://SITE:PORT/OBJID where OBJID is the object's ID number without the # sign, SITE is your MOO's address, and PORT is your MOO's port.
+By uzyc tego urzadzenia, wystarczy ustawic wlasciwosc .html na swoim obiekcie. Bedzie ona wtedy serwowana jako strona WWW pod adresem http://SITE:PORT/OBJID, gdzie OBJID to numer obiektu bez znaku #, SITE to adres twojego MOO, a PORT to port twojego MOO.
 2
-If it starts with the line <HTML>, the server will automatically serve it up as HTML code.
+Jesli zaczyna sie od linii <HTML>, serwer automatycznie potraktuje ja jako kod HTML.
 2
-Otherwise, you will need to use your own HTTP headers (for example, if you want to serve plain text instead of HTML).
-2
-
-2
-If you want to have more functionality than this, you can make a verb :html(args), that does the same thing. The args are a list of anything after the OBJID divided by /.
-2
-For example, the URL http://SITE:PORT/123/foo/10 will result in a call to #123:html("foo","10"). This call should return a list of strings that is HTML, or HTTP stuff with the appropriate headers.
+W przeciwnym razie musisz uzyc wlasnych naglowkow HTTP (na przyklad, jesli chcesz serwowac zwykly tekst zamiast HTML).
 2
 
 2
-Additionally, your object can call http:tell_key(player). This will generate a special keyed URL for that player, so when your :html() verb is called, the built-in variable PLAYER will be set to the person who was issued the key.
+Jesli chcesz miec wiecej mozliwosci niz to, mozesz napisac czasownik :html(args), ktory robi to samo. args to lista wszystkiego, co jest po OBJID, podzielonego przez /.
 2
-This verb tells the player their custom key directly.
+Na przyklad URL http://SITE:PORT/123/foo/10 spowoduje wywolanie #123:html("foo","10"). To wywolanie powinno zwrocic liste stringow, ktora jest HTML-em albo danymi HTTP z odpowiednimi naglowkami.
+2
+
+2
+Dodatkowo twoj obiekt moze wywolac http:tell_key(player). Wygeneruje to specjalny kluczowany URL dla tego gracza, wiec gdy twoj czasownik :html() zostanie wywolany, wbudowana zmienna PLAYER bedzie ustawiona na osobe, ktorej wydano ten klucz.
+2
+Ten czasownik mowi graczowi jego wlasny klucz bezposrednio.
 2
 5
 5
@@ -90144,9 +90150,9 @@ return tofloat(args[1]) - 459.67;
 return top ? (value * tofloat(numer)) / tofloat(denom) | ((value * tofloat(denom)) / tofloat(numer));
 .
 #94:0
-"set_gender(newgender) attempts to change this.gender to newgender";
-"  => E_PERM   if you don't own this or aren't its parent";
-"  => Other return values as from $gender_utils:set.";
+"set_gender(newgender) probuje zmienic this.gender na newgender";
+"  => E_PERM   jesli nie posiadasz tego obiektu ani nie jestes jego rodzicem";
+"  => Inne wartosci zwracane jak z $gender_utils:set.";
 if (!($perm_utils:controls(caller_perms(), this) || (this == caller)))
 return E_PERM;
 else
@@ -90451,10 +90457,10 @@ endif
 return 0;
 .
 #97:0
-"HTTP Server";
+"Serwer HTTP";
 "";
-"This gets called by the #0:do_login_command";
-"It keeps track of web browser guests, and it feeds them HTTP instead of Telnet.";
+"Ten czasownik jest wywolywany przez #0:do_login_command";
+"Sledzi gosci przegladarek internetowych i podaje im HTTP zamiast Telnetu.";
 if ((caller != #0) && (caller != this))
 return E_PERM;
 endif
@@ -90464,20 +90470,20 @@ if (!args)
 if ((guestnum = $list_utils:iassoc(guest, this.guests)) > 0)
 guestinfo = this.guests[guestnum];
 if (guestinfo[3] > 1)
-"Three blank requests means this is not a guest anymore.";
+"Trzy puste zadania oznaczaja, ze to juz nie jest gosc.";
 this.guests = listdelete(this.guests, guestnum);
 return not_http;
 endif
 guestinfo[3] = guestinfo[3] + 1;
 this.guests[guestnum] = guestinfo;
 else
-"Don't know who this is. Do the regular welcome.";
+"Nie wiadomo kto to jest. Zrob zwykle powitanie.";
 return not_http;
 endif
 elseif ((guestnum = $list_utils:iassoc(guest, this.guests)) > 0)
-"Previously registered HTTP guest.";
+"Wczesniej zarejestrowany gosc HTTP.";
 if (args && (args[1] == "GET"))
-"Registered guest does a GET.";
+"Zarejestrowany gosc robi GET.";
 guestinfo = {guest, time(), 0};
 this.guests[guestnum] = guestinfo;
 html = {};
@@ -90507,7 +90513,7 @@ endif
 else
 html = {"HTTP/1.1 404 NOT FOUND", "Content-Type: text/plain", "", "", "Nie znaleziono obiektu."};
 endif
-"Default header is HTML";
+"Domyslny naglowek to HTML";
 html_header = {"HTTP/1.1 200 OK", "Content-Type: text/html", "", ""};
 if (typeof(html) == STR)
 html = {html};
@@ -90525,22 +90531,22 @@ notify(player, h);
 endif
 endfor
 endif
-"Server options need a suspend before they take effect.";
+"Opcje serwera potrzebuja suspend, zanim zaczna dzialac.";
 old_boot = $server_options.boot_msg;
 $server_options.boot_msg = "";
 suspend(0);
 boot_player(player);
 $server_options.boot_msg = old_boot;
 elseif (args[1][$] == ":")
-"Client is telling us some HTTP header info.";
+"Klient mowi nam jakies informacje z naglowka HTTP.";
 boot_player(player);
 else
-"They stopped doing GETs, so remove them as HTTP.";
+"Przestali robic GET-y, wiec usun ich jako HTTP.";
 this.guests = listdelete(this.guests, guestnum);
 return not_http;
 endif
 elseif (args && (args[1] == "GET"))
-"First visit. Register them as a guest and ask them to refresh.";
+"Pierwsza wizyta. Zarejestruj ich jako gosci i popros o odswiezenie.";
 guestinfo = {guest, time(), 0};
 this.guests = {@this.guests, guestinfo};
 html = {"HTTP/1.1 200 OK", "Content-Type: text/html", "", "", "<meta http-equiv=\"refresh\" content=\"0\"><br><b>", "", "", "", "Usluga WWW zainicjowana. Prosze odswiezyc te strone.", "</b>"};
@@ -90549,15 +90555,15 @@ notify(player, h);
 endfor
 boot_player(player);
 else
-"Regular telnet client.";
+"Zwykly klient telnet.";
 return not_http;
 endif
-"HTTP Session successful";
+"Sesja HTTP zakonczona sukcesem";
 return;
 .
 #97:1
-"This makes a URL key for a specific object and player.";
-"With the keyed URL, the PLAYER will be set correctly when :HTML() is called";
+"Tworzy klucz URL dla konkretnego obiektu i gracza.";
+"Dzieki kluczowanemu URL zmienna PLAYER bedzie poprawnie ustawiona, gdy wywolane zostanie :HTML()";
 key = this:gen_key(player, caller);
 notify(player, ("To jest twoj prywatny klucz, " + player.name) + ". Nie udostepniaj go nikomu.");
 notify(player, ((((((((("http://" + $network.site) + ":") + $network.port) + "/") + tostr(caller)[2..$]) + "/") + tostr(player)[2..$]) + "/") + key) + "/");
