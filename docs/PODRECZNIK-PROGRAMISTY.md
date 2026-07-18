@@ -4540,3 +4540,181 @@ file_chmod -- Probuje ustawic mode pliku, uzywajac mode jako oktalnego stringa o
 void `file_chmod`(STR filename, STR mode)
 
 To zaimplementowane za pomoca chmod().
+
+##### Operacje na SQLite
+
+SQLite pozwala przechowywac informacje w lokalnie hostowanych bazach danych SQLite. Te funkcje wbudowane sa dostepne wylacznie, gdy ToastStunt jest zbudowany ze wsparciem SQLite.
+
+Wszystkie funkcje wbudowane SQLite wymagaja uprawnien czarodzieja. Jesli programista nie jest czarodziejem, zglaszany jest `E_PERM`.
+
+**Funkcja: `sqlite_open`**
+
+sqlite_open -- Funkcja `sqlite_open` bedzie probowac otworzyc baze danych w path do uzycia z SQLite.
+
+int `sqlite_open`(STR path to database, [INT options])
+
+Drugi argument to bitmaska opcji. Opcje to:
+
+SQLITE_PARSE_OBJECTS [4]: okresla, czy stringi zaczynajace sie od symbolu hasha (#) sa interpretowane jako numery obiektow MOO, czy nie. Domyslnie jest to prawda, co znaczy, ze wszystkie zapytania, ktore zwrocilyby string (taki jak "#123"), zostana zwrocone jako obiekty.
+
+SQLITE_PARSE_TYPES [2]: jesli nieustawione, nie zachodzi zadne parsowanie wierszy i zwracane sa wylacznie stringi.
+
+SQLITE_SANITIZE_STRINGS [8]: jesli ustawione, znaki nowej linii (\n) sa konwertowane na taby (\t), by uniknac uszkodzenia bazy danych MOO. Domyslnie nieustawione.
+
+> Uwaga: dla opcji SQLITE_PARSE_TYPES, typami, ktore beda parsowane przez te opcje, sa INT i FLOAT. LISTY/MAPY/WAIF-y/ANON-y trafia do bazy danych jako "NULL"
+
+> Uwaga: jesli MOO nie wspiera bitmaskowania, wciaz mozesz okreslac opcje. Bedziesz musial jedynie samodzielnie zmanipulowac liczbe calkowita. Np. jesli chcesz parsowac obiekty i typy, arg[2] bedzie 6. Jesli chcesz parsowac wylacznie typy, arg[2] bedzie 2.
+
+Jesli sie powiedzie, funkcja zwroci numeryczny uchwyt otwartej bazy danych.
+
+Jesli za wiele uchwytow baz danych jest juz otwartych, zglaszany jest `E_QUOTA`. Jesli path jest niepoprawny, zglaszany jest `E_INVARG`. Jesli baza danych jest juz otwarta, zglaszany jest `E_INVARG` z istniejacym uchwytem bazy danych jako wartoscia bledu. Jesli SQLite nie moze otworzyc bazy danych, zglaszany jest `E_NONE` z komunikatem bledu SQLite.
+
+**Funkcja: `sqlite_close`**
+
+sqlite_close -- Ta funkcja zamknie otwarta baze danych.
+
+none `sqlite_close`(INT database handle)
+
+Jesli database handle jest niepoprawny, zglaszany jest `E_INVARG`. Jesli uchwyt jest wciaz uzywany przez watki robocze, zglaszany jest `E_PERM`.
+
+**Funkcja: `sqlite_execute`**
+
+sqlite_execute -- Ta funkcja bedzie probowac utworzyc i wykonac przygotowane zapytanie (prepared statement) podane w query, na bazie danych, do ktorej odnosi sie handle, z wartosciami values.
+
+list | str `sqlite_execute`(INT database handle, STR SQL prepared statement query, LIST values)
+
+Przy powodzeniu ta funkcja zwroci liste identyfikujaca zwrocone wiersze. Jesli zapytanie nie zwrocilo wierszy, ale bylo pomyslne, zwracana jest pusta lista.
+
+Jesli zapytanie zawiedzie, zwrocony zostanie string identyfikujacy komunikat bledu SQLite.
+
+Jesli database handle jest niepoprawny, zwracany jest `E_INVARG`.
+
+`sqlite_execute` uzywa przygotowanych zapytan (prepared statements), wiec jest to preferowana funkcja do uzycia z powodow bezpieczenstwa i wydajnosci.
+
+Przyklad:
+
+```
+sqlite_execute(0, "INSERT INTO users VALUES (?, ?, ?);", {#7, "lisdude", "Albori Sninvel"})
+```
+
+Gdy ToastStunt jest zbudowany ze wsparciem PCRE2, zapytania SQLite wspieraja operator dopasowywania wzorcow REGEXP:
+
+```
+sqlite_execute(4, "SELECT rowid FROM notes WHERE body REGEXP ?;", {"albori (sninvel)?"})
+```
+
+> Uwaga: to funkcja watkowana.
+
+**Funkcja: `sqlite_query`**
+
+sqlite_query -- Ta funkcja bedzie probowac wykonac zapytanie podane w query na bazie danych, do ktorej odnosi sie handle.
+
+list | str `sqlite_query`(INT database handle, STR database query[, INT show columns])
+
+Przy powodzeniu ta funkcja zwroci liste identyfikujaca zwrocone wiersze. Jesli zapytanie nie zwrocilo wierszy, ale bylo pomyslne, zwracana jest pusta lista.
+
+Jesli zapytanie zawiedzie, zwrocony zostanie string identyfikujacy komunikat bledu SQLite.
+
+Jesli database handle jest niepoprawny, zwracany jest `E_INVARG`.
+
+Jesli show columns jest prawda, lista wynikowa bedzie wliczac nazwe kolumny przed jej wynikami.
+
+> Ostrzezenie: sqlite_query NIE uzywa przygotowanych zapytan (prepared statements) i NIE powinien byc uzywany do zapytan zawierajacych dane wprowadzone przez uzytkownika.
+
+> Uwaga: to funkcja watkowana.
+
+**Funkcja: `sqlite_limit`**
+
+sqlite_limit -- Ta funkcja pozwala okreslic rozne limity konstrukcji, osobno dla kazdej bazy danych.
+
+int `sqlite_limit`(INT database handle, STR|INT category, INT new value)
+
+Jesli new value jest liczba ujemna, limit jest niezmieniony. Kazda kategoria limitu ma zakodowana na stale gorna granice. Proby zwiekszenia limitu powyzej jego twardej gornej granicy sa po cichu obcinane do tej twardej gornej granicy.
+
+Niezaleznie od tego, czy limit zostal zmieniony, funkcja sqlite_limit() zwraca poprzednia wartosc limitu. Tak wiec, by znalezc biezaca wartosc limitu bez jej zmieniania, po prostu wywolaj ten interfejs z trzecim parametrem ustawionym na -1.
+
+Category moze byc albo jedna z nazw limitow-stringow nizej, albo odpowiadajaca liczba calkowita kategorii limitu SQLite. Jesli database handle jest niepoprawny lub category nie jest rozpoznana, zglaszany jest `E_INVARG`.
+
+W momencie pisania tego istnieja nastepujace limity:
+
+| Limit                     | Opis                                                                                                                                                                                                                                                              |
+| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| LIMIT_LENGTH              | Maksymalny rozmiar jakiegokolwiek stringa, BLOB-a lub wiersza tabeli, w bajtach.                                                                                                                                                                                                           |
+| LIMIT_SQL_LENGTH          | Maksymalna dlugosc instrukcji SQL, w bajtach.                                                                                                                                                                                                                        |
+| LIMIT_COLUMN              | Maksymalna liczba kolumn w definicji tabeli lub w zbiorze wynikow SELECT, albo maksymalna liczba kolumn w indeksie lub w klauzuli ORDER BY lub GROUP BY.                                                                                                  |
+| LIMIT_EXPR_DEPTH          | Maksymalna glebokosc drzewa parsowania dla jakiegokolwiek wyrazenia.                                                                                                                                                                                                                   |
+| LIMIT_COMPOUND_SELECT     | Maksymalna liczba terminow w zlozonej instrukcji SELECT.                                                                                                                                                                                                              |
+| LIMIT_VDBE_OP             | Maksymalna liczba instrukcji w programie maszyny wirtualnej uzywanym do zaimplementowania instrukcji SQL. Jesli sqlite3_prepare_v2() lub odpowiednik probuje przydzielic miejsce na wiecej niz te liczbe opkodow w jednym przygotowanym zapytaniu, zwracany jest blad SQLITE_NOMEM. |
+| LIMIT_FUNCTION_ARG        | Maksymalna liczba argumentow funkcji.                                                                                                                                                                                                                           |
+| LIMIT_ATTACHED            | Maksymalna liczba przylaczonych baz danych.                                                                                                                                                                                                                                |
+| LIMIT_LIKE_PATTERN_LENGTH | Maksymalna dlugosc argumentu wzorca dla operatorow LIKE lub GLOB.                                                                                                                                                                                                |
+| LIMIT_VARIABLE_NUMBER     | Maksymalny numer indeksu jakiegokolwiek parametru w instrukcji SQL.                                                                                                                                                                                                           |
+| LIMIT_TRIGGER_DEPTH       | Maksymalna glebokosc rekursji dla triggerow.                                                                                                                                                                                                                             |
+| LIMIT_WORKER_THREADS | Maksymalna liczba pomocniczych watkow roboczych, ktore jedno przygotowane zapytanie moze uruchomic. |
+
+Po aktualna liste limitow, zobacz [dokumentacje SQLite](https://www.sqlite.org/c3ref/c_limit_attached.html).
+
+**Funkcja: `sqlite_last_insert_row_id`**
+
+sqlite_last_insert_row_id -- Ta funkcja identyfikuje ID wiersza ostatniej komendy insert wykonanej na bazie danych.
+
+int `sqlite_last_insert_row_id`(INT database handle)
+
+Jesli database handle jest niepoprawny, zglaszany jest `E_INVARG`.
+
+**Funkcja: `sqlite_interrupt`**
+
+sqlite_interrupt -- Ta funkcja powoduje przerwanie jakiejkolwiek oczekujacej operacji na bazie danych przy najblizszej mozliwej okazji.
+
+none `sqlite_interrupt`(INT database handle)
+
+Jesli operacja jest juz prawie zakonczona, gdy wywolywane jest sqlite_interrupt, moze nie miec okazji zostac przerwana i moze kontynuowac do zakonczenia.
+
+To moze byc przydatne, gdy wykonujesz dlugo trwajace zapytanie i chcesz je przerwac.
+
+Jesli database handle jest niepoprawny, zglaszany jest `E_INVARG`.
+
+> UWAGA: w momencie pisania tego (wersja serwera 2.7.0) polecenie @kill NIE przerwie operacji zachodzacych w watku pomocniczym. Jesli chcesz przerwac zapytanie SQLite, musisz uzyc sqlite_interrupt, a NIE polecenia @kill.
+
+**Funkcja: `sqlite_info`**
+
+sqlite_info -- Ta funkcja zwraca mape informacji o bazie danych przy handle.
+
+map `sqlite_info`(INT database handle)
+
+Zwrocona mapa zawiera te klucze:
+
+| Klucz | Wartosc |
+| --- | --- |
+| path | Sciezka bazy danych |
+| parse_types | Prawda, jesli wartosci wynikowe sa parsowane na wartosci MOO |
+| parse_objects | Prawda, jesli stringi takie jak "#123" sa parsowane jako referencje do obiektow |
+| sanitize_strings | Prawda, jesli znaki nowej linii w stringach sa konwertowane na taby |
+| locks | Liczba aktywnych operacji watkow roboczych uzywajacych tego uchwytu |
+
+Jesli database handle jest niepoprawny, zglaszany jest `E_INVARG`.
+
+**Funkcja: `sqlite_handles`**
+
+sqlite_handles -- Zwraca liste otwartych uchwytow baz danych SQLite.
+
+list `sqlite_handles()`
+
+##### Operacje na srodowisku serwera
+
+**Funkcja: `exec`**
+
+Zobacz sekcje operacji administracyjnych po pelna dokumentacje `exec()`, wliczajac wsparcie dla zmiennych srodowiskowych.
+
+**Funkcja: `getenv`**
+
+getenv -- Zwraca wartosc podanej nazwanej zmiennej srodowiskowej.
+
+str `getenv` (str name)
+
+Jesli taka zmienna srodowiskowa nie istnieje, zwracane jest 0. Jesli programista nie jest czarodziejem, zglaszany jest E_PERM.
+
+```
+getenv("HOME")                                          =>   "/home/foobar"
+getenv("XYZZY")                                         =>   0
+```
