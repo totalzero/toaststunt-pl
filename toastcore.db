@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784305009 567763848 0
+1784347420 567763848 0
 0
 10
 0
@@ -798,7 +798,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784304629
+1784347294
 2
 name
 2
@@ -1390,7 +1390,7 @@ source
 2
 time
 0
-1784305005
+1784347414
 4
 0
 1
@@ -1646,7 +1646,7 @@ expire
 4
 2
 0
-1784304993
+1784347404
 2
 localhost
 2
@@ -1655,7 +1655,7 @@ localhost
 2
 0
 0
-1784304995
+1784347407
 2
 1
 0
@@ -1810,7 +1810,7 @@ localhost
 2
 1
 0
-120
+80
 36
 1
 1
@@ -1850,7 +1850,7 @@ localhost
 2
 5
 0
-1784305005
+1784347414
 2
 1
 0
@@ -4430,7 +4430,11 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 0
 10
+1
+1
+-7
 0
+2
 2
 5
 0
@@ -4442,7 +4446,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-51
+52
+4
+2
+0
+1784347294
+0
+0
 4
 2
 0
@@ -30052,7 +30062,7 @@ Skladnia:  @uptime
 2
 *index*
 2
-General Help Topics
+Ogolne Tematy Pomocy
 36
 5
 4
@@ -32488,23 +32498,23 @@ gen-index
 4
 9
 2
-The object $help is the main help database.  For every help topic there is a corresponding property on $help, interpreted as follows:
+Obiekt $help to glowna baza pomocy.  Dla kazdego tematu pomocy istnieje odpowiadajaca mu wlasciwosc na $help, interpretowana nastepujaco:
 2
 
 2
-$help.(topic) = string           - one-line help text.
+$help.(temat) = string           - jednoliniowy tekst pomocy.
 2
-$help.(topic) = {"*verb*",@args} - call this:verb(args,{}) to get text
+$help.(temat) = {"*verb*",@args} - wywolaj this:verb(args,{}) po tekst
 2
-$help.(topic) = any other list   - multi-line help text
-2
-
-2
-There is also a "" property which applies in the case of `help' typed without any arguments.
+$help.(temat) = dowolna inna lista   - wieloliniowy tekst pomocy.
 2
 
 2
-See the description of $generic_help for more detail.
+Istnieje takze wlasciwosc "", ktora ma zastosowanie w przypadku, gdy `help' zostanie wpisane bez zadnych argumentow.
+2
+
+2
+Zobacz opis $generic_help po wiecej szczegolow.
 36
 5
 4
@@ -43649,7 +43659,7 @@ Minimum seconds: minimalna liczba sekund, jaka zadanie ma pozostawiona przed zaw
 4
 1
 2
-toaststunt-index
+toaststunt-index()
 36
 1
 0
@@ -83586,7 +83596,7 @@ elseif (ohelp = `object:help_msg() ! ANY' || `object.help_msg ! ANY')
 return {tostr(object.name, " (", object, "):"), "----", @(typeof(ohelp) == LIST) ? ohelp | {ohelp}};
 else
 about = $object_utils:has_verb(object, "about");
-return {tostr("Sorry, but no help is available on ", object.name, " (", object, ")."), tostr("Try `examine ", what, "'", @about ? {" or `about ", what, "'"} | {}, ".")};
+return {tostr("Przykro mi, ale nie ma dostepnej pomocy dla ", object.name, " (", object, ")."), tostr("Sprobuj `examine ", what, "'", @about ? {" lub `about ", what, "'"} | {}, ".")};
 endif
 .
 #60:3
@@ -83609,7 +83619,7 @@ endfor
 return text;
 .
 #60:5
-hdr = "Available Help Indices";
+hdr = "Dostepne Indeksy Pomocy";
 text = {"", hdr, $string_utils:space(hdr, "-")};
 for db in ($code_utils:help_db_list())
 try
@@ -83617,12 +83627,12 @@ for p in (db:find_index_topics())
 text = {@text, tostr($string_utils:left(p, 14), " -- ", `db.(p)[2] ! ANY' || db.name, " (", db, ")")};
 endfor
 except (ANY)
-"generally it will be E_TYPE when :find_index_topics returns an ERR. Just skip";
+"generalnie bedzie to E_TYPE, gdy :find_index_topics zwroci ERR. Po prostu pomin.";
 continue db;
 endtry
 endfor
 if (full = this:find_full_index_topic())
-text = {@text, "", tostr($string_utils:left(full, 14), " -- ", "EVERYTHING")};
+text = {@text, "", tostr($string_utils:left(full, 14), " -- ", "WSZYSTKO")};
 endif
 return text;
 .
@@ -83635,12 +83645,12 @@ endif
 endfor
 wizzes = {#2, @$list_utils:randomly_permute(setremove(wizzes, #2))};
 numwiz = length(wizzes);
-hlist = {"ArchWizard:", "Wizard" + ((numwiz == 2) ? ":" | "s:"), @$list_utils:make(max(0, numwiz - 2), "")};
+hlist = {"ArcyWizard:", "Wizard" + ((numwiz == 2) ? ":" | "dzi:"), @$list_utils:make(max(0, numwiz - 2), "")};
 slist = {};
 su = $string_utils;
 for i in [1..numwiz]
 wiz = wizzes[i];
-slist = {@slist, tostr(su:left(hlist[i], 13), su:left(wiz.name, 16), (wpi = `wiz.public_identity.name ! ANY') ? (" (a.k.a. " + wpi) + ")" | "")};
+slist = {@slist, tostr(su:left(hlist[i], 13), su:left(wiz.name, 16), (wpi = `wiz.public_identity.name ! ANY') ? (" (znany takze jako " + wpi) + ")" | "")};
 endfor
 return slist;
 .
@@ -83977,9 +83987,9 @@ endfor
 for p in ($object_utils:all_properties($room))
 clear_property($player_start, p);
 endfor
-$player_start.name = "The First Room";
+$player_start.name = "Pierwszy Pokoj";
 $player_start.aliases = {};
-$player_start.description = "This is all there is right now.";
+$player_start.description = "To na razie wszystko, co tutaj jest.";
 $player_start.exits = $player_start.entrances = {};
 "... at the end since $room:init_for_core moves stuff in";
 pass(@args);
