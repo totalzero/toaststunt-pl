@@ -6236,3 +6236,143 @@ endif
 ```
 
 Teraz mozesz zasygnalizowac MOO poleceniem kill: `kill -USR2 <MOO process ID`
+
+### Konfiguracja serwera
+
+Ta sekcja omawia opcje kompilacji i uruchamiania serwera, ktore moga wplywac na baze danych i sposob dzialania kodu w niej zawartego.
+
+#### Opcje kompilacji serwera
+
+Nastepujace wartosci opcji sa okreslane (przez #define) w pliku `options.h` w zrodlach serwera. Poza przypadkami, w ktorych pierwszenstwo maja wartosci wlasciwosci na $server_options, tych ustawien nie mozna zmienic w czasie dzialania serwera.
+
+Ta lista nie jest wyczerpujaca.
+Opcje sieciowe
+
+| Opcja                    | Opis                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| NETWORK_PROTOCOL         | Okresla podstawowy protokol uzywany przez serwer dla wszystkich polaczen; bedzie to jeden z nastepujacych:<br>`NP_TCP` Serwer uzywa protokolow TCP/IP. <br> `NP_LOCAL` Serwer uzywa lokalnych mechanizmow komunikacji miedzyprocesowej (obecnie gniazd domeny UNIX BSD lub nazwanych potokow SYSV).<br>`NP_SINGLE` Serwer akceptuje tylko jedno "polaczenie" przez standardowe strumienie wejscia i wyjscia samego serwera. Proby posiadania wielu jednoczesnych punktow nasluchu (przez listen()) rowniez zakoncza sie niepowodzeniem. |
+| DEFAULT_PORT             | (dla NP_TCP) numer portu TCP, na ktorym serwer nasluchuje, gdy w linii polecen nie podano numeru portu.                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| DEFAULT_CONNECT_FILE     | (dla NP_LOCAL) lokalna nazwa pliku, przez ktora serwer bedzie nasluchiwal polaczen, gdy w linii polecen nie podano nazwy pliku polaczenia.                                                                                                                                                                                                                                                                                                                                                                                          |
+| OUTBOUND_NETWORK         | Serwer bedzie zawieral obsluge open_network_connection(), jesli ta stala jest zdefiniowana. Jesli podano wartosc zero, funkcja bedzie domyslnie wylaczona i konieczne bedzie podanie `-o` w linii polecen, by ja wlaczyc; w przeciwnym razie (wartosc niezerowa lub pusta) funkcja jest domyslnie wlaczona i konieczne bedzie podanie `-O`, by ja wylaczyc. Gdy jest wylaczona lub nieobslugiwana, open_network_connection() zawsze zglasza `E_PERM`. NETWORK_PROTOCOL musi miec wartosc NP_TCP.                                       |
+| MAX_QUEUED_OUTPUT        | Maksymalna liczba znakow wyjsciowych, jaka serwer jest gotow buforowac dla danego polaczenia sieciowego, zanim zacznie odrzucac stare dane wyjsciowe, by zrobic miejsce na nowe. Mozna to nadpisac z poziomu bazy danych, dodajac wlasciwosc `$server_options.max_queued_output` i wywolujac load_server_options().                                                                                                                                                                                                                     |
+| MAX_QUEUED_INPUT         | Maksymalna liczba znakow wejsciowych, jaka serwer jest gotow buforowac z danego polaczenia sieciowego, zanim calkowicie przestanie czytac z tego polaczenia.                                                                                                                                                                                                                                                                                                                                                                        |
+| IGNORE_PROP_PROTECTED    | Wylacza ochrone wbudowanych wlasciwosci przez $server_options.protect_property, gdy jest ustawiona. Zobacz sekcje o Chronionych Wlasciwosciach.                                                                                                                                                                                                                                                                                                                                                                                     |
+| OUT_OF_BAND_PREFIX       | Okresla prefiks poza-pasmowy. Jesli zdefiniowano to jako niepusty lancuch znakow, wowczas jakiekolwiek linie wejsciowe od dowolnego gracza rozpoczynajace sie od tego prefiksu nie beda konsumowane przez zadania czytajace i nie beda przechodzic normalnego parsowania polecen. Zobacz sekcje o Przetwarzaniu Poza Pasmem.                                                                                                                                                                                                              |
+| OUT_OF_BAND_QUOTE_PREFIX | Okresla prefiks cytowania poza-pasmowego. Jesli zdefiniowano to jako niepusty lancuch znakow, wowczas jakiekolwiek linie wejsciowe od dowolnego gracza rozpoczynajace sie od tego prefiksu beda mialy ten prefiks usuniety, a wynikowy lancuch ominie Przetwarzanie Poza Pasmem.                                                                                                                                                                                                                                                          |
+| DEFAULT_MAX_STACK_DEPTH  | Domyslna wartosc dla $server_options.max_stack_depth.                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| DEFAULT_FG_TICKS         | Liczba tickow przydzielana zadaniom pierwszoplanowym. Domyslna wartosc dla $server_options.fg_ticks.                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| DEFAULT_BG_TICKS         | Liczba tickow przydzielana zadaniom w tle. Domyslna wartosc dla $server_options.bg_ticks.                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| DEFAULT_FG_SECONDS       | Liczba sekund przydzielana zadaniom pierwszoplanowym. Domyslna wartosc dla $server_options.fg_seconds.                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| DEFAULT_BG_SECONDS       | Liczba sekund przydzielana zadaniom w tle. Domyslna wartosc dla $server_options.bg_seconds.                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| DEFAULT_CONNECT_TIMEOUT  | Domyslna wartosc dla $server_options.connect_timeout.                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| LOG_CODE_CHANGES         | Zapisuje w pliku logu, kto zmienil kod ktorego czasownika.                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| USE_ANCESTOR_CACHE       | Okresla, czy serwer powinien buforowac przodkow obiektow, by poprawic wydajnosc wyszukiwania wlasciwosci.                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| OWNERSHIP_QUOTA          | Kontroluje, czy domyslne zarzadzanie limitami wlasnosci przez serwer jest wlaczone. Domyslnie wylaczone, by pozostawic obsluge limitow bazie danych.                                                                                                                                                                                                                                                                                                                                                                                |
+| UNSAFE_FIO               | Pozwala pominac weryfikacje linii znak-po-znaku, co daje niewielki wzrost wydajnosci. Nalezy koniecznie przeczytac zastrzezenie znajdujace sie nad ta opcja w options.h.                                                                                                                                                                                                                                                                                                                                                            |
+| LOG_EVALS                | Pozwala zapisywac wszystkie evale do logu serwera.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| MEMO_STRLEN              | Poprawia wydajnosc porownan lancuchow znakow, uzywajac wczesniej obliczonej dlugosci lancucha, by wykluczyc rownosc przed porownaniem znak-po-znaku.                                                                                                                                                                                                                                                                                                                                                                                |
+| NO_NAME_LOOKUP           | Gdy wlaczone, serwer nie bedzie probowal wykonywac wyszukiwania nazwy DNS dla nowych polaczen.                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| INCLUDE_RT_VARS          | Pozwala na pobieranie zmiennych srodowiska wykonawczego z dzialajacego zadania, nieobslugiwanych wyjatkow lub przekroczen czasu oraz lagujacych zadan odpowiednio przez `handle_uncaught_error`, `handle_task_timeout` i `handle_lagging_task`. By kontrolowac automatyczne dolaczanie zmiennych srodowiska wykonawczego, ustaw opcje serwera INCLUDE_RT_VARS. Zmienne zostana dodane na koniec ramki stosu jako mapa.                                                                                                                    |
+| PCRE_PATTERN_CACHE_SIZE  | Okresla, ile wzorcow PCRE2 jest buforowanych dla pcre_match() i powiazanych operacji na wyrazeniach regularnych.                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| SAFE_RECYCLE             | Zmienia wlasciciela wszystkiego, co posiada dany obiekt, przed jego zrecyklingowaniem.                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| DEFAULT_THREAD_MODE      | Ustawia domyslny tryb watkowania dla funkcji watkowanych.                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| TOTAL_BACKGROUND_THREADS | Liczba watkow tworzonych przy starcie serwera.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| SAVE_FINISHED_TASKS      | Wlacza funkcje `finished_tasks` i okresla, ile zadan jest domyslnie zapisywanych.                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| DEFAULT_LAG_THRESHOLD    | Liczba sekund dopuszczalna, zanim zadanie zostanie uznane za lagujace i wywola `#0:handle_lagging_task`.                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| MAX_LINE_BYTES           | Bezceremonialnie zamyka polaczenia, ktore wysylaja linie przekraczajace te wartosc, by zapobiec panikom przy alokacji pamieci.                                                                                                                                                                                                                                                                                                                                                                                                      |
+| ONLY_32_BITS             | Przelacza z 64 bitow z powrotem na 32 bity.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| CURL_TIMEOUT | Okresla maksymalny czas, jaki moze zajac zadanie CURL, zanim zostanie uznane za nieudane. |
+
+#### Uruchamianie serwera
+
+Linia polecen serwera ma nastepujaca ogolna postac:
+ 	
+`./moo [-e] [-f script-file] [-c script-line] [-l log-file] [-m] [-w waif-type] [-O|-o] [-4 ipv4-address] [-6 ipv6-address] [-r certificate-path] [-k key-path] [-i files-path] [-x executables-path] input-db-file output-db-file [-t|-p port-number]`
+
+| Opcja               | Opis                                                                                     |
+| ------------------- | ----------------------------------------------------------------------------------------- |
+| -v, --version        | biezaca wersja                                                                            |
+| -h, --help           | pokazuje informacje o uzyciu i opcjach linii polecen                                       |
+| -e, --emergency      | awaryjny tryb czarodzieja                                                                 |
+| -l, --log            | przekierowuje standardowe wyjscie do pliku logu                                           |
+| -m, --clear-move     | czysci wbudowana wlasciwosc `last_move` na wszystkich obiektach                            |
+| -w, --waif-type      | konwertuje waify z podanego typu (sprawdz przez typeof(waif) w starym MOO)                 |
+| -f, --start-script   | plik do wczytania i przekazania do `#0:do_start_script()`                                 |
+| -c, --start-line     | linia do przekazania do `#0:do_start_script()`                                            |
+| -i, --file-dir       | katalog, w ktorym szuka sie plikow do uzycia z funkcjami FileIO                            |
+| -x, --exec-dir       | katalog, w ktorym szuka sie plikow wykonywalnych do uzycia z funkcja exec()                |
+| -o, --outbound       | wlacza wychodzace polaczenia sieciowe                                                     |
+| -O, --no-outbound    | wylacza wychodzace polaczenia sieciowe                                                    |
+| -4, --ipv4           | ogranicza nasluchiwanie IPv4 do konkretnego adresu                                        |
+| -6, --ipv6           | ogranicza nasluchiwanie IPv6 do konkretnego adresu                                        |
+| -r, --tls-cert       | certyfikat TLS do uzycia                                                                  |
+| -k, --tls-key        | klucz TLS do uzycia                                                                       |
+| -t, --tls-port       | port do nasluchiwania polaczen TLS (moze byc uzyty wielokrotnie)                           |
+| -p, --port           | port do nasluchiwania polaczen (moze byc uzyty wielokrotnie)                              |
+| --no-ipv6            | wylacza poczatkowy nasluch IPv6                                                           |
+
+Przelacznik trybu awaryjnego (-e) nie moze byc uzyty razem z opcja pliku (-f) ani opcja linii (-c).
+
+Zarowno opcja pliku, jak i opcja linii moga byc podane jednoczesnie. Ich kolejnosc w linii polecen okresla kolejnosc ich wywolania.
+
+Przyklady:
+./moo -c '$enable_debugging();' -f development.moo Minimal.db Minimal.db.new 7777
+./moo Minimal.db Minimal.db.new
+
+> Uwaga: pelna lista argumentow jest teraz dostepna po podaniu `--help`.
+
+> Uwaga: zarowno dla argumentu -c, jak i -f, tresc skryptu jest przekazywana w wbudowanej zmiennej args. Serwer nie przyjmuje zadnych zalozen co do semantyki skryptu; interpretacja skryptu nalezy do czasownika. Podobnie jak w Awaryjnym Trybie Czarodzieja, czasownik jest wywolywany przed uruchomieniem jakichkolwiek zadan lub rozpoczeciem poczatkowego nasluchu w celu akceptowania polaczen.
+
+#### Awaryjny Tryb Czarodzieja
+
+To tryb pozwalajacy wprowadzac polecenia na standardowym wejsciu, by badac obiekty lub ewaluowac dowolny kod z uprawnieniami czarodzieja, np. by wyzerowac zapomniane haslo czarodzieja lub naprawic baze danych z uszkodzonym czasownikiem $do_login_command, ktory w przeciwnym razie nie pozwolilby nikomu sie polaczyc.
+
+Gdy uruchomisz serwer i podasz opcje linii polecen -e, baza danych zostanie wczytana, a nastepnie zobaczysz zachete (prompt) wskazujaca tozsamosc czarodzieja, ktorego uprawnien uzywasz, oraz biezacy stan flagi debug, np. jedna z:
+
+
+MOO (#2):
+MOO (#2)[!d]:
+
+przy czym ta druga wersja zachety wskazuje, ze flaga debug jest niewlaczona, a wiec ze bledy beda zwracane, a nie zglaszane, tak jak przy wylaczeniu flagi d na czasowniku.
+
+Nastepujace polecenia sa dostepne w Trybie Awaryjnym:
+
+;expression
+;;statements
+
+Ewaluuje wyrazenie (expression) lub instrukcje (statements), wypisuje wynik wyrazenia lub wartosc zwracana przez instrukcje.
+
+Zauwaz, ze wyrazenie lub instrukcja moga zostac pominiete, w takim wypadku zostaniesz poproszony o wielolinijkowe wejscie, tak jak przy poleceniu .program. Wpisz kropke w osobnej linii, by zakonczyc.
+
+Zauwaz rowniez, ze zaden kod dzialajacy w tle, czy to wynikajacy z instrukcji fork, czy z wywolan suspend(), nie zostanie uruchomiony az do wyjscia z Trybu Awaryjnego.
+program obiekt:czasownik
+
+Ustawia kod istniejacego czasownika.
+list obiekt:czasownik
+
+Wypisuje kod istniejacego czasownika.
+disassemble obiekt:czasownik
+
+Wypisuje wewnetrzna forme istniejacego czasownika.
+debug
+
+Przelacza flage debug.
+wizard #idobiektu
+
+Wykonuje kolejne polecenia jako czarodziej #idobiektu, ktory musi byc istniejacym obiektem gracza z `.wizard==1`.
+continue
+
+Wychodzi z trybu awaryjnego, kontynuujac normalny rozruch. To znaczy, ze serwer wykona poczatkowy nasluch i zacznie akceptowac polaczenia.
+quit
+
+Wychodzi z trybu awaryjnego, zapisuje baze danych i wylacza serwer.
+abort
+
+Wychodzi z trybu awaryjnego i wylacza serwer bez zapisywania bazy danych. Przydatne, gdy popelnisz blad.
+help
+
+Wypisuje liste polecen.
+
+Zauwaz, ze wyjscie z polecen trybu awaryjnego pojawia sie na standardowym strumieniu wyjsciowym serwera (stdout), a wiec moze byc przekierowywane niezaleznie od komunikatow logu, jesli te sa zapisywane na standardowym strumieniu bledow (stderr, tzn. jesli -l nie zostalo podane w linii polecen).
+
+Zauwaz rowniez, ze o ile serwer nie zostal skompilowany do uzycia wariantu sieciowego NP_SINGLE, Awaryjny Tryb Czarodzieja jest jedynym zastosowaniem standardowych strumieni wejscia i wyjscia serwera.
