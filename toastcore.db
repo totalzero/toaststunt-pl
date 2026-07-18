@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784350685 567763848 0
+1784350981 567763848 0
 0
 10
 0
@@ -797,7 +797,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784350600
+1784350836
 2
 name
 2
@@ -1389,7 +1389,7 @@ source
 2
 time
 0
-1784350677
+1784350970
 4
 0
 1
@@ -1645,7 +1645,7 @@ expire
 4
 2
 0
-1784350666
+1784350955
 2
 localhost
 2
@@ -1654,7 +1654,7 @@ localhost
 2
 0
 0
-1784350677
+1784350970
 2
 1
 0
@@ -1849,7 +1849,7 @@ localhost
 2
 5
 0
-1784350674
+1784350967
 2
 1
 0
@@ -4431,7 +4431,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--6
+-10
 0
 2
 2
@@ -4445,7 +4445,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-60
+61
+4
+2
+0
+1784350836
+0
+0
 4
 2
 0
@@ -54712,11 +54718,11 @@ Informacje o dzialaniu podstawien PCRE znajdziesz na https://www.regular-express
 4
 8
 2
-The inline editor is a vastly improved version of the current prompt that accepts multiple lines. It allows for insert and delete operations, text pasting or auto-formatting, as well as spell checking and other functions. 
+Edytor liniowy (inline editor) to znacznie ulepszona wersja zwyklego promptu, ktora akceptuje wiele linii. Pozwala na operacje wstawiania i usuwania, wklejanie tekstu lub automatyczne formatowanie, a takze sprawdzanie pisowni i inne funkcje. 
 2
 
 2
-The editor is highly customizable. To change different aspects of editing, type EDIT-OPTIONS (or simply EDIT-O). For help on the different commands available to you while editing, you can use the HELP command inside the editor. This is accessible by typing your command character, which is a forward slash (/) by default, followed by the word HELP.
+Edytor jest w duzym stopniu konfigurowalny. By zmienic rozne aspekty edycji, wpisz EDIT-OPTIONS (albo po prostu EDIT-O). By uzyskac pomoc dotyczaca roznych polecen dostepnych podczas edycji, mozesz uzyc polecenia HELP wewnatrz edytora. Jest ono dostepne przez wpisanie twojego znaku polecenia, ktorym domyslnie jest ukosnik (/), a nastepnie slowa HELP.
 2
 
 2
@@ -93661,7 +93667,7 @@ break;
 endif
 endfor
 if (length(expl) > 2)
-return tostr("Junk at end of command: ", $string_utils:from_list(expl[3..$], " "), ".");
+return tostr("Smieci na koncu polecenia: ", $string_utils:from_list(expl[3..$], " "), ".");
 elseif (length(expl) == 1)
 if ((single = expl[1]) == "$")
 range = {maxrange, maxrange};
@@ -93677,9 +93683,9 @@ line = maxrange;
 elseif (x == "^")
 line = insertion;
 elseif (!$string_utils:is_numeric(x))
-return tostr("Garbled Range: ", arg, " - should be integers");
+return tostr("Nieprawidlowy zakres: ", arg, " - powinny byc liczbami calkowitymi");
 elseif ((toint(x) <= 0) || (toint(x) > maxrange))
-return tostr("Lines range from 1 to ", maxrange, ".");
+return tostr("Linie sa numerowane od 1 do ", maxrange, ".");
 else
 line = toint(x);
 endif
@@ -93691,9 +93697,9 @@ increment_line = range[1] + range[2];
 range = {increment_line, increment_line};
 endif
 if (range[1] > range[2])
-return tostr("Garbled Range: ", range[1], " greater than ", range[2], ". Put smallest index first.");
+return tostr("Nieprawidlowy zakres: ", range[1], " jest wieksze niz ", range[2], ". Podaj najpierw mniejszy indeks.");
 elseif (0 in range)
-return tostr("Garbled Range: ", arg);
+return tostr("Nieprawidlowy zakres: ", arg);
 endif
 return range;
 .
