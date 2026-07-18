@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784350192 567763848 0
+1784350453 567763848 0
 0
 10
 0
@@ -797,7 +797,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784350076
+1784350332
 2
 name
 2
@@ -1389,7 +1389,7 @@ source
 2
 time
 0
-1784350182
+1784350446
 4
 0
 1
@@ -1645,7 +1645,7 @@ expire
 4
 2
 0
-1784350162
+1784350437
 2
 localhost
 2
@@ -1654,7 +1654,7 @@ localhost
 2
 0
 0
-1784350182
+1784350446
 2
 1
 0
@@ -1849,7 +1849,7 @@ localhost
 2
 5
 0
-1784350180
+1784350443
 2
 1
 0
@@ -4431,7 +4431,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--7
+-8
 0
 2
 2
@@ -4445,7 +4445,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-58
+59
+4
+2
+0
+1784350332
+0
+0
 4
 2
 0
@@ -50513,10 +50519,8 @@ e[9m
 e[3m
 98
 1
-4
-1
 2
-A utility package for controlling ANSI sequences from within the MOO.  See 'help ansi-intro' for more info.
+Narzedzie do sterowania sekwencjami ANSI z poziomu MOO. Zobacz 'help ansi-intro', by uzyskac wiecej informacji.
 98
 5
 0
@@ -91607,7 +91611,7 @@ return ret;
 "Last modified 11/01/18 1:38 a.m. by Sinistral (#2)";
 .
 #100:0
-":ansi_option(name) => returns the value of the specified @ansi option";
+":ansi_option(name) => zwraca wartosc podanej opcji @ansi";
 if ((a = args[1]) == "escape")
 return (i = $list_utils:assoc(a, this.ansi_options)) ? i[2] | 0;
 else
@@ -91642,8 +91646,8 @@ endif
 .
 #100:2
 ":set_ansi_option(oname,value)";
-"Changes the value of the named option.";
-"Returns a string error if something goes wrong.";
+"Zmienia wartosc podanej opcji.";
+"Zwraca string bledu, jesli cos pojdzie nie tak.";
 if (!((caller == this) || $perm_utils:controls(caller_perms(), this)))
 return tostr(E_PERM);
 endif
@@ -91788,12 +91792,12 @@ plyrs = args ? listdelete($command_utils:player_match_result($string_utils:match
 au:show_who_listing(plyrs);
 .
 #100:9
-"'at_item (<location>, <party>)' - Given a location and a list of the people there, return a string displaying the information. Override this if you want to change the format of each line of @at's output.";
+"'at_item (<lokalizacja>, <grupa>)' - Dla danej lokalizacji i listy osob tam obecnych, zwraca string z informacja. Przeciaz to, jesli chcesz zmienic format kazdej linii wyjscia @at.";
 loc = args[1];
 party = args[2];
 su = $string_utils;
 number = this.at_number ? su:right(tostr(loc), 7) + " " | "";
-room = su:left(valid(loc) ? loc.name | "[Nowhere]", this.at_room_width);
+room = su:left(valid(loc) ? loc.name | "[Nigdzie]", this.at_room_width);
 ($ansi_utils:length(room) > this.at_room_width) && (room = $ansi_utils:cutoff(room, 1, this.at_room_width));
 text = (number + room) + " ";
 if (party)
@@ -91801,7 +91805,7 @@ filler = su:space(length(text) - 2);
 line = text;
 text = {};
 for who in (party)
-name = " " + (valid(who) ? who.name | "[Nobody]");
+name = " " + (valid(who) ? who.name | "[Nikt]");
 if (($ansi_utils:length(line) + $ansi_utils:length(name)) > this:linelen())
 text = {@text, line};
 line = filler + name;
@@ -91811,7 +91815,7 @@ endif
 endfor
 text = {@text, line};
 else
-text = text + " [deserted]";
+text = text + " [opuszczony]";
 endif
 return text;
 .
