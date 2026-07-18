@@ -199,3 +199,353 @@ Dziewiec liczb oddzielonych spacjami:
 * Slowo `Infos`
 * Lancuch znakow wskazujacy nazwe czasownika, pod jaka zostal wywolany przez gracza. To to samo, co zmienna verb. (np. `shr`, jesli wpisales to, by wywolac czasownik `shr*iek`)
 * Lancuch znakow wskazujacy pelna nazwe czasownika. (np. `shr*iek`)
+
+## Flagi obiektu
+
+Liczba calkowita flag obiektu jest uzyskiwana przez zsumowanie jednej lub wiecej wartosci z tej tabeli:
+
+| # | Wartosc | Flaga |
+| - | ------- | ----- |
+| 0 | 1 | Player |
+| 1 | 2 | Programmer |
+| 2 | 4 | Wizard |
+| 3 | 8 | Obsolete |
+| 4 | 16 | Read |
+| 5 | 32 | Write |
+| 6 | 64 | Obsolete |
+| 7 | 128 | Fertile |
+| 8 | 256 | Anonymous |
+| 9 | 512 | Invalid |
+| 10 | 1024 | Recycled |
+
+Na przyklad: jesli chcesz, by obiekt byl graczem, programista i czarodziejem, sumujesz wartosci z kolumny "Wartosc" dla kazdej z nich: 1 + 2 + 4, co daje w sumie 7.
+
+Jesli probujesz rozszyfrowac flage, jest to nieco bardziej skomplikowane. Bez wchodzenia zbyt gleboko w bity, mozesz to osiagnac za pomoca evala MOO. Zamiast patrzec na kolumne "Wartosc", spojrz na kolumne "#". Nasz eval bedzie brzmial: `FLAG &. (1 << #) != 0`
+
+Powiedzmy, ze mamy obiekt z flaga 7. By sprawdzic, czy ten obiekt jest czarodziejem (# 2 w tabeli), podstawiamy do naszego evala: `7 &. (1 << 2) != 0`
+
+Jesli zwroci 1, obiekt ma te flage. W naszym przypadku, tak, jest czarodziejem! Pamietaj tylko, by uzywac liczby z kolumny "#", a nie "Wartosc".
+
+## Flagi uprawnien czasownika
+
+Uprawnienia czasownika sa uzyskiwane przez zsumowanie jednej lub wiecej wartosci z tej tabeli:
+
+| # | Wartosc | Flaga |
+| - | ------- | ----- |
+| 0 | 1 | Readable (+r) |
+| 1 | 2 | Writable (+w) |
+| 2 | 4 | Executable (+x) |
+| 3 | 8 | Debug (+d) |
+
+Co dosc dziwne, dobj i iobj sa rowniez czescia flag uprawnien czasownika:
+
+| # | Wartosc | Flaga |
+| - | ------- | ----- |
+| 4 | 16 | dobj = any |
+| 5 | 32 | dobj = this |
+| 6 | 64 | iobj = any |
+| 7 | 128 | iobj = this |
+
+Na przyklad: jesli chcesz, by czasownik byl czytelny (+r) i debug (+d) z argumentami {"any", "out of/from inside/from", "this"}, sumujesz wartosci z kolumny "Wartosc" dla kazdej z nich: 1 + 8 + 16 + 128, co daje w sumie 153.
+
+Jesli probujesz rozszyfrowac flage, jest to nieco bardziej skomplikowane. Bez wchodzenia zbyt gleboko w bity, mozesz to osiagnac za pomoca evala MOO. Zamiast patrzec na kolumne "Wartosc", spojrz na kolumne "#". Nasz eval bedzie brzmial: `FLAG &. (1 << #) != 0`
+
+Wiec jesli masz flagi uprawnien o wartosci 9, mozesz sprawdzic, czy jest zapisywalny (writable), podstawiajac do naszego evala: `9 &. (1 << 1) != 0`
+
+Jesli zwroci 1, dany bit uprawnien jest ustawiony. W tym przypadku, nie, nie jest zapisywalny!
+
+## Flagi przyimkow czasownika
+
+Flaga przyimka to po prostu liczba odpowiadajaca wartosci. Standardowe przyimki sa wymienione tutaj. Jesli twoj serwer jest osobliwy i dodaje wiecej, znajdziesz je w `db_verbs.cc`
+
+| Wartosc | Przyimek |
+| ------- | -------- |
+| -2 | any |
+| -1 | none |
+| 0 | with/using |
+| 1 | at/to |
+| 2 | in front of |
+| 3 | in/inside/into |
+| 4 | on top of/on/onto/upon |
+| 5 | out of/from inside/from |
+| 6 | over |
+| 7 | through |
+| 8 | under/underneath/beneath |
+| 9 | behind |
+| 10 | beside |
+| 11 | for/about |
+| 12 | is |
+| 13 | as |
+| 14 | off/off of |
+
+## Flagi uprawnien wlasciwosci
+
+| # | Wartosc | Flaga |
+| - | ------- | ----- |
+| 0 | 1 | Readable (+r) |
+| 1 | 2 | Writable (+w) |
+| 2 | 4 | Chown (+c) |
+
+Na przyklad: jesli chcesz, by wlasciwosc byla czytelna (+r) i zapisywalna (+w), sumujesz wartosci z kolumny "Wartosc" dla kazdej z nich: 1 + 2, co daje w sumie 3.
+
+Jesli probujesz rozszyfrowac flage, jest to nieco bardziej skomplikowane. Bez wchodzenia zbyt gleboko w bity, mozesz to osiagnac za pomoca evala MOO. Zamiast patrzec na kolumne "Wartosc", spojrz na kolumne "#". Nasz eval bedzie brzmial: `FLAG &. (1 << #) != 0`
+
+Powiedzmy, ze mamy wlasciwosc z flaga 7. By sprawdzic, czy ta wlasciwosc jest zapisywalna, podstawiamy do naszego evala: `7 &. (1 << 1) != 0`
+
+Jesli zwroci 1, wlasciwosc ma te flage. W naszym przypadku, tak, jest zapisywalna! Pamietaj tylko, by uzywac liczby z kolumny "#", a nie "Wartosc".
+
+## Interpretowanie typow
+
+### CLEAR
+
+Liczbowa wartosc typu: 5
+
+### NONE
+
+Liczbowa wartosc typu: 6
+
+### STRING
+
+Liczbowa wartosc typu: 2
+
+Lancuch znakow.
+
+Przyklad:
+
+```
+"Hello world!"
+
+2
+Hello world!
+```
+
+### OBJECT
+
+Liczbowa wartosc typu: 1
+
+Numer obiektu jako liczba calkowita. (UWAGA: nie zawiera znaku funta.)
+
+Przyklad:
+
+```
+#2
+
+1
+2
+```
+
+### ERROR
+
+Liczbowa wartosc typu: 3
+
+Liczba calkowita reprezentujaca wartosc bledu. Zobacz tabele ponizej.
+
+| Liczba calkowita | Blad |
+| ----------------- | ---- |
+| 0 | E_NONE |
+| 1 | E_TYPE |
+| 2 | E_DIV |
+| 3 | E_PERM |
+| 4 | E_PROPNF |
+| 5 | E_VERBNF |
+| 6 | E_VARNF |
+| 7 | E_INVIND |
+| 8 | E_RECMOVE |
+| 9 | E_MAXREC |
+| 10 | E_RANGE |
+| 11 | E_ARGS |
+| 12 | E_NACC |
+| 13 | E_INVARG |
+| 14 | E_QUOTA |
+| 15 | E_FLOAT |
+| 16 | E_FILE |
+| 17 | E_EXEC |
+| 18 | E_INTRPT |
+
+Przyklad:
+
+```
+E_ARGS
+
+3
+11
+```
+
+### INTEGER
+
+Liczbowa wartosc typu: 0
+
+Liczba calkowita.
+
+Przyklad:
+
+```
+123
+
+0
+123
+```
+
+### BOOL
+
+Liczbowa wartosc typu: 14
+
+1, jesli prawda, 0, jesli falsz.
+
+### CATCH
+
+Liczbowa wartosc typu: 7
+
+Liczba calkowita.
+
+### FINALLY
+
+Liczbowa wartosc typu: 8
+
+Liczba calkowita.
+
+### FLOAT
+
+Liczbowa wartosc typu: 9
+
+Liczba zmiennoprzecinkowa.
+
+Przyklad:
+
+```
+123.45
+
+9
+123.45
+```
+
+### MAP
+
+Liczbowa wartosc typu: 10
+
+Liczba kluczy w mapie.
+
+Dla kazdego klucza w mapie...
+
+* Klucz mapy
+* Wartosc mapy. UWAGA: to moze byc dowolny typ, wiec musisz ustalic typ na podstawie pierwszej liczby, a nastepnie odwolac sie do sekcji "Interpretowanie typow".
+
+Przyklad:
+
+```
+["source" -> #123, "time" -> 1670634392]
+
+10
+2
+2
+source
+1
+123
+2
+time
+0
+1670634392
+```
+
+### LIST
+
+Liczbowa wartosc typu: 4
+
+Liczba elementow na liscie.
+
+Jesli lista nie jest pusta, wartosci kazdego elementu listy. UWAGA: te elementy moga byc dowolnego typu, wiec musisz ustalic typ kazdego elementu na podstawie pierwszej liczby i odwolac sie do sekcji "Interpretowanie typow".
+
+Przyklad:
+
+```
+{#2, "Hey, that's wizard!", 2, 2.22, {"A list in a list, oh NO!"}}
+
+4
+5
+1
+2
+2
+Hey, that's wizard!
+0
+2
+9
+2.22
+4
+1
+2
+A list in a list, oh NO!
+```
+
+### ANON
+
+Liczbowa wartosc typu: 12
+
+Referencja liczbowa.
+
+Jesli obiekt anonimowy nie zostal jeszcze zapisany, otrzymuje nowy numer obiektu. Numery obiektow anonimowych moga byc przypisywane obiektom zrecyklingowanym lub, jesli zaden nie jest dostepny, sa tworzone po ostatnim rzeczywistym obiekcie (`max_object()` + 1).
+
+Jesli obiekt anonimowy odwoluje sie do obiektu anonimowego, ktory zostal juz zapisany, numer bedzie zgodny z oryginalnym anonem.
+
+Podczas szukania wartosci wlasciwosci na obiektach anonimowych musisz szukac obiektu utworzonego w tym kroku. Pojawi sie on na standardowej liscie obiektow jak kazdy inny obiekt.
+
+Przyklad:
+
+```
+*anonymous*
+
+12
+5
+```
+
+### WAIF
+
+Liczbowa wartosc typu: 13
+
+Jesli waif jest referencja do istniejacego waifa:
+
+* Lancuch znakow zaczynajacy sie od r i konczacy liczbowa referencja do waifa w indeksie waifow.
+* Pojedyncza kropka (.)
+
+Jesli waif jest nowy:
+
+* Lancuch znakow zaczynajacy sie od c i konczacy liczbowa referencja do waifa w indeksie waifow.
+* Klasa waifa (liczba calkowita)
+* Wlasciciel waifa (liczba calkowita)
+* Liczba wlasciwosci, ktore mozna ustawic na tym waifie. To calkowita liczba wlasciwosci instancji (tych zaczynajacych sie od :) na klasie waifa i wszystkich przodkach tej klasy.
+* Wartosci kazdej niepustej wlasciwosci ustawionej na instancji waifa. Dla kazdej wlasciwosci:
+
+  * Liczba calkowita definiujaca indeks wlasciwosci w mapie wlasciwosci. Wlasciwosci sa liczone od 0, zaczynajac od wlasciwosci na klasie i schodzac w dol drzewa rodowego.
+  * Wartosc wlasciwosci. UWAGA: to moze byc dowolny typ MOO. Musisz uzyc pierwszej liczby, by ustalic typ, a nastepnie odwolac sie do sekcji "Interpretowanie typow".
+
+* Liczba -1
+* Pojedyncza kropka (.)
+
+Przyklad:
+
+Mamy dwie klasy waif:
+
+* #4: Waifilicious z jedna wlasciwoscia: :flavor
+* #5: Waiftastic z jedna wlasciwoscia: :activity
+
+Waif #5 jest dzieckiem waifa #4. Nasz waif jest instancja #5 z wlasciwoscia .flavor ustawiona na "toast":
+
+```
+[[class = #5, owner = #2]]
+
+13
+c 0
+5
+2
+2
+1
+2
+toast
+-1
+.
+```
+
+---
+
+Ostatnia aktualizacja: 2022-12-15 dla wersji bazy danych 17.
+
+Poprawki? Komentarze? Wybuchy irracjonalnej nienawisci? Skontaktuj sie ze mna: lisdude@lisdude.com
