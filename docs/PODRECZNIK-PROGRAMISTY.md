@@ -24,7 +24,7 @@ Copyright (C) 2021-2025 [lisdude](http://github.com/lisdude)
 
 Fragmenty zaadaptowane z [Podrecznika Programisty Stunt](https://lisdude.com/moo/ProgrammersManual.html) autorstwa Todda Sundsteda, Copyright (C) 2011, 2012, 2013, 2014 Todd Sundsted.
 
-Fragmenty zaadaptowane z [dokumentacji WAIF](http://ben.com/MOO/waif.html) oraz [Podrecznika Programisty WAIF](http://ben.com/MOO/waif-progman.html) autorstwa Bena Jacksona.
+Fragmenty zaadaptowane z [dokumentacji WAIF](http://ben.com/MOO/waif.html) (patrz takze nasze [polskie tlumaczenie](WAIF-DATATYPE.md)) oraz [Podrecznika Programisty WAIF](http://ben.com/MOO/waif-progman.html) (patrz takze nasze [polskie tlumaczenie](WAIF-PODRECZNIK-PROGRAMISTY.md)) autorstwa Bena Jacksona.
 
 ([DZIENNIK ZMIAN](https://github.com/lisdude/toaststunt-documentation/blob/master/CHANGELOG.md)) -- w jezyku angielskim, nietlumaczony (konwencja tego projektu wobec wszystkich changelogow).
 
