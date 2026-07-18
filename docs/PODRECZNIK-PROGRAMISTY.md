@@ -2056,3 +2056,297 @@ Poniewaz zadania w kolejce moga istniec przez dlugie okresy czasu przed rozpocze
 Niektore funkcje serwera, gdy otrzymaja duze lub skomplikowane ilosci danych, moga potrzebowac znaczacej ilosci czasu, by zakonczyc swoja prace. Gdy to sie zdarza, MOO nie moze przetwarzac zadnych innych danych wejsciowych od graczy ani zadan w tle, a uzytkownicy doswiadczaja lagu. By pomoc w diagnozowaniu przyczyn lagu, ToastStunt udostepnia opcje `DEFAULT_LAG_THRESHOLD` w options.h (ktora moze zostac nadpisana z poziomu bazy danych. Zobacz sekcje o zalozeniach serwera wobec bazy danych). Gdy dzialajace zadanie przekroczy te liczbe sekund, serwer odnotuje to w logu serwera i wywola czasownik `#0:handle_lagging_task()` z argumentami: `{callers, czas wykonania}`. Callers bedzie lista w stylu `callers()` kazdego wywolania czasownika prowadzacego do lagujacego czasownika, a czas wykonania bedzie calkowitym czasem, jaki zajelo zakonczenie wykonania czasownika. Moze to pomoc dokladnie okreslic, ktory czasownik powoduje problem.
 
 > Uwaga: w zaleznosci od konfiguracji Twojego systemu, FG_SECONDS i BG_SECONDS moga niekoniecznie odpowiadac rzeczywistym sekundom w czasie rzeczywistym. Czesto mierza czas CPU. To jest powod, dla ktorego Twoje czasowniki moga lagowac przez kilka sekund w rzeczywistosci i wciaz nie zglosic bledu "out of seconds".
+
+### Praca z obiektami anonimowymi
+
+Obiekty anonimowe sa zwykle tymczasowe i sa poddawane garbage collection, gdy nie sa juz potrzebne (to znaczy, gdy nic do nich sie nie odwoluje).
+
+Referencja do obiektu anonimowego jest zwracana, gdy obiekt anonimowy zostaje utworzony za pomoca create(). Referencje moga byc udostepniane, ale nie moga zostac podrobione. To znaczy, nie istnieje literalowa reprezentacja referencji do obiektu anonimowego (to wlasnie dlatego sa "anonimowe").
+
+Obiekty anonimowe tworzy sie za pomoca wbudowanej funkcji `create`, przekazujac opcjonalny trzeci argument jako `1`. Na przyklad:
+
+```
+anonimowy = create($thing, #2, 1);
+```
+
+Poniewaz nie istnieje literalowa reprezentacja obiektu anonimowego, jesli sprobowalbys go wypisac:
+
+```
+player:tell(toliteral(anonimowy));
+```
+
+Zobaczylbys: `\*anonymous\*`
+
+Mozesz przechowac referencje do obiektu anonimowego w zmiennej, tak jak zrobilismy powyzej, albo mozesz przechowac ja we wlasciwosci.
+
+```
+player.test = create($thing, player, 1)
+player:tell(player.test);
+```
+
+To rowniez wypisze: `\*anonymous\*`
+
+Jesli przechowasz swoj obiekt anonimowy we wlasciwosci, ten obiekt anonimowy bedzie istniec, dopoki istnieje w tej wlasciwosci. Jesli obiekt posiadajacy te wlasciwosc zostalby poddany recyklingowi, albo wlasciwosc zostalaby usunieta lub nadpisana inna wartoscia, obiekt anonimowy zostalby poddany garbage collection.
+
+Obiekty anonimowe moga byc przechowywane na listach:
+
+```
+moja_lista = {create($thing, player, 1)};
+player.test = moja_lista;
+```
+
+Powyzszy kod skutkowalby:
+
+```
+{\*anonymous\*}
+```
+
+Obiekty anonimowe moga byc przechowywane w mapach, jako klucz lub jako wartosc:
+
+```
+[1 -> create($thing, player, 1)] => [1 -> \*anonymous\*]
+[create($thing, player, 1) -> 1] => [\*anonymous\* -> 1]
+```
+
+> Ostrzezenie: \*anonymous\* nie jest faktycznym kluczem, nie istnieje literalowa reprezentacja referencji do obiektu anonimowego. To znaczy, ze choc obiekt bedzie istniec, dopoki jest kluczem mapy, jedynym sposobem odwolania sie do tego klucza bedzie referencja, ktora musialbys przechowac gdzies w zmiennej lub wlasciwosci. To NIE jest zalecana praktyka, poniewaz musialbys przechowywac referencje do klucza gdzies indziej, by miec do niego dostep (poza iterowaniem po wszystkich kluczach).
+
+Obiekty anonimowe technicznie posiadaja flage gracza i listy dzieci, ale nie mozesz z nimi faktycznie nic zrobic. Podobnie z wiekszoscia wbudowanych wlasciwosci. Istnieja, ale sa bez znaczenia. Nie mozesz rowniez dodawac nowych wlasciwosci ani czasownikow bezposrednio do obiektu anonimowego. Ogolnie rzecz biorac, to sprawia, ze WAIF-y sa lepszym wyborem w wiekszosci sytuacji, poniewaz sa lzejsze.
+
+Od wersji ToastStunt 2.8.0 obiekty anonimowe dziedziczace po rodzicu nie sa juz uniewazniane tylko dlatego, ze wlasciwosci tego rodzica sie zmienily.
+
+> Ostrzezenie: podobnie jak z WAIF-ami, nalezy uwazac, jak tworzysz obiekty anonimowe, poniewaz gdy juz zostana utworzone, jesli nadal odwolujesz sie do nich we wlasciwosci, moze byc Ci trudno je pozniej znalezc, gdyz nie ma sposobu, by wyswietlic liste wszystkich obiektow anonimowych.
+
+> Uwaga: sekcja [Dodatkowe szczegoly o WAIF-ach](#dodatkowe-szczegoly-o-waifach) zawiera przykladowe czasowniki, ktore mozna uzyc do wykrywania obiektow anonimowych, do ktorych odwoluje sie Twoj system.
+
+**Funkcja: `anon`**
+
+anon -- Zwraca informacje diagnostyczne o obiektach anonimowych.
+
+lista `anon`([LISTA polecenie [, wartosc]])
+
+Ta funkcja jest zarejestrowana wylacznie w kompilacjach bez `NDEBUG` i jest przeznaczona do rozwoju/diagnostyki. Programista musi byc czarodziejem, w przeciwnym razie zglaszany jest `E_PERM`. Wywolana bez argumentow, zwraca dostepne polecenia diagnostyczne dla obiektow anonimowych. Kod produkcyjny powinien tworzyc obiekty anonimowe za pomoca `create(rodzic, wlasciciel, 1)` lub `create(rodzice, wlasciciel, 1)`.
+
+### Praca z WAIF-ami
+
+Struktura obiektow MOO jest unikalna w tym, ze wszystkie klasy sa instancjami, a wszystkie instancje sa (potencjalnie) klasami. To znaczy, ze instancje niosa ze soba duzo bagazu, ktory jest przydatny wylacznie w sytuacji, gdyby stawaly sie klasami. Ponadto kazdy obiekt przychodzi z zestawem wbudowanych wlasciwosci i atrybutow, ktore sa przydatne przede wszystkim do budowania rzeczy VR. Moj pomysl na lekki obiekt to cos, co jest wylacznie instancja. Brakuje mu wielu rzeczy, ktore "prawdziwe obiekty MOO" maja dla swoich rol jako klasy i obiekty VR:
+
+- nazwy
+- informacje o lokalizacji/zawartosci
+- dzieci
+- flagi
+- definicje czasownikow
+- definicje wlasciwosci
+- jawne niszczenie
+
+Sprowadzony do samego jadra, WAIF ma nastepujace atrybuty:
+
+- klase (jak rodzic)
+- wlasciciela (dla informacji o uprawnieniach)
+- wartosci wlasciwosci
+
+Wlasciwosci i zachowanie WAIF-a sa hybryda kilku istniejacych typow MOO. Warto je porownac:
+
+- WAIF-y sa wartosciami zliczanymi przez referencje, jak LISTY. Po utworzeniu istnieja, dopoki sa przechowywane gdzies w zmiennej lub wlasciwosci. Gdy ostatnia referencja przepada, WAIF zostaje zniszczony bez powiadomienia.
+- Nie istnieje skladnia do tworzenia literalowego WAIF-a. Moga byc tworzone wylacznie za pomoca wbudowanej funkcji.
+- Nie istnieje skladnia do odwolywania sie do istniejacego WAIF-a. Mozesz uzyc go wylacznie poprzez odczyt wlasciwosci lub zmiennej, w ktorej zostal przechowany.
+- WAIF-y moga sie zmieniac, jak obiekty. Gdy zmieniasz WAIF-a, wszystkie referencje do tego WAIF-a widza te zmiane (jak OBJ, w przeciwienstwie do LISTY).
+- Mozesz wywolywac czasowniki i odwolywac sie do wlasciwosci na WAIF-ach. Sa one dziedziczone z jego obiektu klasy (z mapowaniem opisanym nizej).
+- WAIF-y sa tanie w tworzeniu, w przyblizeniu tak jak LISTY.
+- WAIF-y sa male. WAIF z wszystkimi czystymi wlasciwosciami (jak zaraz po utworzeniu) jest tylko o kilka bajtow wiekszy niz LISTA wystarczajaco duza, by przechowac {klasa, wlasciciel}. Jesli przypiszesz wartosc do wlasciwosci, rosnie o tyle samo, o ile roslaby LISTA, gdybys dolaczyl do niej wartosc.
+- Dostep do wlasciwosci WAIF-a jest kontrolowany tak samo, jak dostep do wlasciwosci OBJ. Posiadanie referencji do WAIF-a nie oznacza, ze widzisz, co jest w jego wnetrzu.
+- WAIF-y nigdy nie moga definiowac nowych czasownikow ani wlasciwosci.
+- WAIF-y nigdy nie moga miec zadnych dzieci.
+- WAIF-y nie moga zmienic klasy ani wlasciciela.
+- Jedynymi wbudowanymi wlasciwosciami WAIF-a sa .owner i .class.
+- WAIF-y nie uczestnicza w hierarchii .location/.contents, manipulowanej przez move(). Klasa WAIF-a moze jednak zdefiniowac te wlasciwosci (jak opisano nizej).
+- WAIF-y nie posiadaja flag OBJ, takich jak .r czy .wizard.
+- WAIF-y moga byc przechowywane w MAPACH
+- WAIF-y nie moga rekurencyjnie odwolywac sie do siebie nawzajem, ale jeden WAIF moze odwolywac sie do innego WAIF-a, jesli ten drugi nie odwoluje sie zwrotnie do niego.
+
+> Uwaga: podczas wczytywania bazy danych LambdaMOO z waifami do ToastStunt po raz pierwszy, mozesz otrzymac bledy. Dzieje sie tak, poniewaz typ WAIF w LambdaMOO nie zgadza sie z typem WAIF w ToastStunt. By naprawic ten blad, musisz zrobic dwie proste rzeczy:
+> 1. Uruchom swoja baze danych w LambdaMOO tak jak zawsze i zewaluuj to: `;typeof($waif:new())`
+> 2. Uruchom swoja baze danych w ToastStunt z opcja linii komend `-w <wynik poprzedniej ewaluacji>`. Na przyklad, jesli `typeof($waif:new())` w LambdaMOO wynioslo 42, uruchomilbys swoje MOO czyms takim jak: `./moo -w 42 moja_baza.db moja_przekonwertowana_baza.db`
+> Po tym gotowe! Twoja baza danych przekonwertuje wszystkie istniejace waify i zapisze je w nowym formacie ToastStunt. Musisz uzyc opcji `-w` tylko raz.
+
+#### Przestrzen nazw czasownikow i wlasciwosci WAIF-a
+
+W celu odseparowania czasownikow i wlasciwosci zdefiniowanych dla WAIF-ow danego obiektu, WAIF-y dziedzicza wylacznie czasowniki i wlasciwosci, ktorych nazwy zaczynaja sie od : (dwukropka). Innymi slowy, zastosowane jest nastepujace mapowanie:
+
+`waif:czasownik(@argumenty)` staje sie `waif.class:(":"+czasownik)(@argumenty)`
+
+Wewnatrz czasownika WAIF-a (nazywanego dalej _metoda_) lokalna zmienna `verb` nie ma dodatkowego dwukropka. Wartoscia `this` jest sam WAIF (moze okreslic, na jakim obiekcie jest, za pomoca `this.class`). Jesli metoda wywoluje inny czasownik na WAIF-ie lub OBJ-cie, `caller` bedzie WAIF-em.
+
+`waif.wlasciwosc` jest zdefiniowana przez `waif.class.(":"+wlasciwosc)`
+
+Definicja wlasciwosci zapewnia informacje o wlascicielu i flagach uprawnien dla tej wlasciwosci, a takze jej domyslna wartosc, tak jak dla kazdego OBJ-a. Oczywiscie faktyczna wartosc wlasciwosci jest czescia samego WAIF-a i moze byc zmieniana w trakcie zycia WAIF-a.
+
+W przypadku wlasciwosci +c, wlasciciel WAIF-a jest uznawany za wlasciciela wlasciwosci.
+
+W ToastCore znajdziesz skorifikowana referencje `$waif`, ktora jest wstepnie skonfigurowana, by pozwolic Ci zaczac tworzenie WAIF-ow albo Generycznych OBJ-ow, ktore mozesz nastepnie uzyc do tworzenia WAIF-ow. Tu jest wynik @display dla szkieletowego $waif:
+
+```
+Generic Waif (#118) [ ]
+  Child of Root Class (#1).
+  Size: 7,311 bytes at Sun Jan  2 10:37:09 2022 PST
+```
+
+Ten OBJ MOO `$waif` definiuje czasownik `new`, ktory jest zupelnie taki jak czasowniki, ktore juz znasz. W tym przypadku tworzy nowy WAIF:
+
+```
+set_task_perms(caller_perms());
+w = new_waif();
+w:initialize(@args);
+return w;
+```
+
+Gdy WAIF zostal juz utworzony, mozesz wywolywac na nim czasowniki. Zauwaz, jak WAIF dziedziczy `$waif::initialize`. Zauwaz, ze nie moze dziedziczyc `$waif:new`, poniewaz nazwa tego czasownika nie zaczyna sie od dwukropka.
+
+Generyczny waif jest plodny (`$waif.f == 1`), tak by nowe klasy waifow moglyby byc z niego wyprowadzone. Plodnosc OBJ-a jest nieistotna przy tworzeniu WAIF-a. Mozliwosc jej wykonania jest ograniczona do samego obiektu (poniewaz `new_waif()` zawsze zwraca WAIF-a klasy=caller).
+
+Nie istnieje format tekstowy dla WAIF-a. `tostr()` po prostu zwraca {waif}. `toliteral()` obecnie zwraca troche wiecej informacji, ale to wylacznie do celow diagnostycznych. Nie istnieje towaif(). Jesli chcesz odwolac sie do WAIF-a, musisz odczytac go bezposrednio ze zmiennej lub wlasciwosci gdzies. Jesli nie mozesz odczytac go z wlasciwosci (lub wywolac czasownika, ktory go zwraca), nie masz do niego dostepu. Nie ma sposobu, by skonstruowac referencje do WAIF-a z innego typu.
+
+**Dostep do WAIF-a w stylu mapy**
+
+;me.waif["cheese"]
+To wywola czasownik :_index na klasie waifa z {"cheese"} jako argumentami.
+
+;me.waif["cheese"] = 17
+To wywola czasownik :_set_index na klasie waifa z {"cheese", 17} jako argumentami.
+
+Pierwotnie ulatwialo to zaimplementowanie map w LambdaMOO, poniewaz moglbys po prostu miec swojego "waifa-mape" przechowujacego liste kluczy i wartosci oraz czasowniki index ustawiajace i odczytujace dane w odpowiedni sposob. Nastepnie mozesz uzywac ich zupelnie jak natywnego typu mapa, ktory ToastCore ma dzisiaj.
+
+Istnieja jednak inne zastosowania, ktore wciaz czynia to przydatnym dzisiaj. Na przyklad WAIF abstrakcji pliku. Jedna z rzeczy, ktore mozesz zrobic to:
+
+```
+file = $file:open("thing.txt");
+return file[5..19];
+```
+
+To uzywa :_index, by sparsowac '5..19' i ostatecznie przekazac to do file_readlines(), by zwrocic te linie. Bardzo wygodne.
+
+#### Dodatkowe szczegoly o WAIF-ach
+
+* Gdy WAIF zostaje zniszczony, MOO wywola czasownik `recycle` na tym WAIF-ie, jesli istnieje.
+* WAIF ma swoj wlasny typ, tak wiec mozesz zrobic: `typeof(jakis_waif) == WAIF)``
+* Wbudowana funkcja waif_stats() pokaze, ile instancji kazdej klasy WAIF istnieje, ile WAIF-ow oczekuje na recykling i ile WAIF-ow istnieje w sumie
+* Mozesz uzyskac dostep do wlasciwosci WAIF-a za pomoca `mywaif.:nazwa_wlasciwosci_waifa`
+
+> Ostrzezenie: podobnie jak z obiektami anonimowymi, nalezy uwazac, jak tworzysz WAIF-y, poniewaz moze byc trudno znalezc WAIF-y, ktore istnieja w Twoim systemie, i gdzie sa uzyte.
+
+Nastepujacy kod moze zostac uzyty, by znalezc WAIF-y i obiekty anonimowe istniejace w Twojej bazie danych.
+
+```
+@verb $waif_utils:"find_waif_types find_anon_types" this none this
+@program $waif_utils:find_waif_types
+if (!caller_perms().wizard)
+  return E_PERM;
+endif
+{data, ?class = 0} = args;
+ret = {};
+TYPE = verb == "find_anon_types" ? ANON | WAIF;
+if (typeof(data) in {LIST, MAP})
+  "Rather than wasting time iterating through the entire list, we can find if it contains any waifs with a relatively quicker index().";
+  if (index(toliteral(data), "[[class = #") != 0)
+    for x in (data)
+      yin(0, 1000);
+      ret = {@ret, @this:(verb)(x, class)};
+    endfor
+  endif
+elseif (typeof(data) == TYPE)
+  if (class == 0 || (class != 0 && (TYPE == WAIF && data.class == class || (TYPE == ANON && `parent(data) ! E_INVARG' == class))))
+    ret = {@ret, data};
+  endif
+endif
+return ret;
+.
+
+
+@verb me:"@find-waifs @find-anons" any any any
+@program me:@find-waifs
+"Provide a summary of all properties and running verb programs that contain instantiated waifs.";
+"Usage: @find-waifs [<class>] [on <object>]";
+"       @find-anons [<parent>] [on <object>]";
+"  e.g. @find-waifs $some_waif on #123 => Find waifs of class $some_waif on #123 only.";
+"       @find-waifs on #123            => Find all waifs on #123.";
+"       @find-waifs $some_waif         => Find all waifs of class $some_waif.";
+"The above examples also apply to @find-anons.";
+if (!player.wizard)
+  return E_PERM;
+endif
+total = class = tasks = 0;
+exclude = {$spell};
+find_anon = index(verb, "anon");
+search_verb = tostr("find_", find_anon ? "anon" | "waif", "_types");
+{min, max} = {#0, max_object()};
+if (args)
+  if ((match = $string_utils:match_string(argstr, "* on *")) != 0)
+    class = player:my_match_object(match[1]);
+    min = max = player:my_match_object(match[2]);
+  elseif ((match = $string_utils:match_string(argstr, "on *")) != 0)
+    min = max = player:my_match_object(match[1]);
+  else
+    class = player:my_match_object(argstr);
+  endif
+  if (!valid(max))
+    return player:tell("That object doesn't exist.");
+  endif
+  if (class != 0 && (class == $failed_match || !valid(class) || (!find_anon && !isa(class, $waif))))
+    return player:tell("That's not a valid ", find_anon ? "object parent." | "waif class.");
+  endif
+endif
+" -- Constants (avoid #0 property lookups on each iteration of loops) -- ";
+WAIF_UTILS = $waif_utils;
+STRING_UTILS = $string_utils;
+OBJECT_UTILS = $object_utils;
+LIST_UTILS = $list_utils;
+" -- ";
+player:tell("Searching for ", find_anon ? "ANON" | "WAIF", " instances. This may take some time...");
+start = ftime(1);
+for x in [min..max]
+  yin(0, 1000);
+  if (!valid(x))
+    continue;
+  endif
+  if (toint(x) % 100 == 0 && player:is_listening() == 0)
+    "No point in carrying on if the player isn't even listening.";
+    return;
+  elseif (x in exclude)
+    continue;
+  endif
+  for y in (OBJECT_UTILS:all_properties(x))
+    yin(0, 1000);
+    if (is_clear_property(x, y))
+      continue y;
+    endif
+    match = WAIF_UTILS:(search_verb)(x.(y), class);
+    if (match != {})
+      total = total + 1;
+      player:tell(STRING_UTILS:nn(x), "[bold][yellow].[normal](", y, ")");
+      for z in (match)
+        yin(0, 1000);
+        player:tell("    ", `STRING_UTILS:nn(find_anon ? parent(z) | z.class) ! E_INVARG => "*INVALID*"');
+      endfor
+    endif
+  endfor
+endfor
+"Search for running verb programs containing waifs / anons. But only do this when a specific object wasn't specified.";
+if (min == #0 && max == max_object())
+  for x in (queued_tasks(1))
+    if (length(x) < 11 || x[11] == {})
+      continue;
+    endif
+    match = WAIF_UTILS:(search_verb)(x[11], class);
+    if (match != {})
+      tasks = tasks + 1;
+      player:tell(x[6], ":", x[7], " (task ID ", x[1], ")");
+      for z in (match)
+        yin(0, 1000);
+        player:tell("    ", find_anon ? parent(z) | STRING_UTILS:nn(z.class));
+      endfor
+    endif
+  endfor
+endif
+player:tell();
+player:tell("Total: ", total, " ", total == 1 ? "property" | "properties", tasks > 0 ? tostr(" and ", tasks, " ", tasks == 1 ? "task" | "tasks") | "", " in ", ftime(1) - start, " seconds.");
+.
+```
