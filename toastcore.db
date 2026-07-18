@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784350981 567763848 0
+1784363674 567763848 0
 0
 10
 0
@@ -797,7 +797,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784350836
+1784363629
 2
 name
 2
@@ -1389,7 +1389,7 @@ source
 2
 time
 0
-1784350970
+1784363666
 4
 0
 1
@@ -1645,7 +1645,7 @@ expire
 4
 2
 0
-1784350955
+1784363654
 2
 localhost
 2
@@ -1654,7 +1654,7 @@ localhost
 2
 0
 0
-1784350970
+1784363666
 2
 1
 0
@@ -1849,7 +1849,7 @@ localhost
 2
 5
 0
-1784350967
+1784363663
 2
 1
 0
@@ -4431,7 +4431,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--10
+-3
 0
 2
 2
@@ -4445,7 +4445,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-61
+62
+4
+2
+0
+1784363629
+0
+0
 4
 2
 0
@@ -58291,7 +58297,7 @@ endif
 "domyslnie klucz zostanie ujawniony tylko wizardowi lub wlascicielowi tego obiektu.";
 who = args[1];
 if (((caller == this) && $perm_utils:controls(who, this)) && (this.key != 0))
-return {tostr(this:title(), " moze zostac przeniesiony tylko do lokacji pasujacych do nastepujacego klucza:"), tostr("  ", $lock_utils:unparse_key(this.key))};
+return {tostr(this:title(), " moze zostac przeniesione tylko do lokacji pasujacych do nastepujacego klucza:"), tostr("  ", $lock_utils:unparse_key(this.key))};
 endif
 .
 #6:0
@@ -73556,7 +73562,7 @@ endwhile
 return tostr(name, " (", what, ")");
 .
 #46:14
-return $string_utils:english_list($list_utils:map_arg(this, "name", args), "no one");
+return $string_utils:english_list($list_utils:map_arg(this, "name", args), "nikogo");
 .
 #46:15
 ":parse_address_field(string) => list of objects";
