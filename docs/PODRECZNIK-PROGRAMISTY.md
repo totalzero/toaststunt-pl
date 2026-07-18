@@ -2629,3 +2629,493 @@ parse_json("{\"foo\":null}")                                =>   ["foo" -> E_NON
 ```
 
 > Ostrzezenie: typy WAIF i ANON nie sa wspierane.
+
+##### Operacje na liczbach
+
+**Funkcja: `random`**
+
+random -- Zwraca losowa liczbe calkowita.
+
+int `random` ([int mod, [int range]])
+
+mod musi byc liczba calkowita dodatnia; w przeciwnym razie zglaszany jest `E_INVARG`. Jesli mod nie jest podany, domyslnie przyjmuje wartosc najwiekszej liczby calkowitej MOO, ktora zalezy od tego, czy uruchamiasz wersje 32- czy 64-bitowa.
+
+Jesli podano range, zwracana jest liczba calkowita z zakresu od mod do range (wlacznie).
+
+```
+random(10)                  => integer between 1-10
+random()                    => integer between 1 and maximum integer supported
+random(1, 5000)             => integer between 1 and 5000
+```
+
+**Funkcja: `frandom`**
+
+float `frandom` (FLOAT mod1 [, FLOAT mod2])
+
+Jesli podano tylko jeden argument, liczba zmiennoprzecinkowa jest wybierana losowo z zakresu `[1.0..mod1]` i zwracana. Jesli podano dwa argumenty, liczba zmiennoprzecinkowa jest wybierana losowo z zakresu `[mod1..mod2]`.
+
+**Funkcja: `random_bytes`**
+
+str `random_bytes` (int count)
+
+Zwraca binarny string skladajacy sie z od jednego do 10000 losowych bajtow. count okresla liczbe bajtow i musi byc liczba calkowita dodatnia; w przeciwnym razie zglaszany jest E_INVARG.
+
+**Funkcja: `reseed_random`**
+
+reseed_random -- Podaje nowe ziarno (seed) generatorowi pseudolosowych liczb.
+
+void `reseed_random`()
+
+**Funkcja: `min`**
+
+min -- Zwraca najmniejszy ze swoich argumentow.
+
+int|float `min` (int|float x, ...)
+
+Wszystkie argumenty musza byc liczbami tego samego rodzaju (tzn. albo liczbami calkowitymi, albo zmiennoprzecinkowymi); w przeciwnym razie zglaszany jest `E_TYPE`.
+
+**Funkcja: `max`**
+
+max -- Zwraca najwiekszy ze swoich argumentow.
+
+int|float `max` (int|float x, ...)
+
+Wszystkie argumenty musza byc liczbami tego samego rodzaju (tzn. albo liczbami calkowitymi, albo zmiennoprzecinkowymi); w przeciwnym razie zglaszany jest `E_TYPE`.
+
+**Funkcja: `abs`**
+
+abs -- Zwraca wartosc absolutna x.
+
+int|float `abs` (int|float x)
+
+Jesli x jest ujemne, wynikiem jest `-x`; w przeciwnym razie wynikiem jest x. Liczba x moze byc liczba calkowita lub zmiennoprzecinkowa; wynik jest tego samego rodzaju.
+
+**Funkcja: `floatstr`**
+
+floatstr -- Konwertuje x na string z wieksza kontrola, niz zapewniaja `tostr()` czy `toliteral()`.
+
+str `floatstr` (float x, int precision [, scientific])
+
+Precision to liczba cyfr, jakie maja pojawic sie po prawej stronie przecinka dziesietnego, ograniczona do maksymalnie 4 wiecej niz maksymalna dostepna precyzja, w sumie 19 na wiekszosci maszyn; to umozliwia unikniecie bledow zaokraglenia, jesli wynikowy string zostanie pozniej odczytany jako wartosc zmiennoprzecinkowa. Jesli scientific jest falszem lub nie podano go, wynikiem jest string w formie `"MMMMMMM.DDDDDD"`, poprzedzony znakiem minus wtedy i tylko wtedy, gdy x jest ujemne. Jesli scientific jest podane i jest prawda, wynikiem jest string w formie `"M.DDDDDDe+EEE"`, ponownie poprzedzony znakiem minus wtedy i tylko wtedy, gdy x jest ujemne.
+
+**Funkcja: `sqrt`**
+
+sqrt -- Zwraca pierwiastek kwadratowy z x.
+
+float `sqrt` (float x)
+
+Zglasza `E_INVARG`, jesli x jest ujemne.
+
+**Funkcja: `sin`**
+
+sin -- Zwraca sinus x.
+
+float `sin` (float x)
+
+**Funkcja: `cos`**
+
+cos -- Zwraca kosinus x.
+
+float `cos` (float x)
+
+**Funkcja: `tan`**
+
+tan -- Zwraca tangens x.
+
+float `tan` (float x)
+
+**Funkcja: `asin`**
+
+asin -- Zwraca arcus sinus (odwrotny sinus) x, w zakresie `[-pi/2..pi/2]`
+
+float `asin` (float x)
+
+Zglasza `E_INVARG`, jesli x jest poza zakresem `[-1.0..1.0]`.
+
+**Funkcja: `acos`**
+
+acos -- Zwraca arcus kosinus (odwrotny kosinus) x, w zakresie `[0..pi]`
+
+float `acos` (float x)
+
+Zglasza `E_INVARG`, jesli x jest poza zakresem `[-1.0..1.0]`.
+
+**Funkcja: `atan`**
+
+atan -- Zwraca arcus tangens (odwrotny tangens) y, w zakresie `[-pi/2..pi/2]`.
+
+float `atan` (float y [, float x])
+
+jesli x nie jest podane, lub `y/x` w zakresie `[-pi..pi]`, jesli x jest podane.
+
+**Funkcja: `atan2`**
+
+atan2 -- Zwraca arcus tangens y/x w zakresie `[-pi..pi]`.
+
+float `atan2` (float y, float x)
+
+**Funkcja: `sinh`**
+
+sinh -- Zwraca sinus hiperboliczny x.
+
+float `sinh` (float x)
+
+**Funkcja: `cosh`**
+
+cosh -- Zwraca kosinus hiperboliczny x.
+
+float `cosh` (float x)
+
+**Funkcja: `tanh`**
+
+tanh -- Zwraca tangens hiperboliczny x.
+
+float `tanh` (float x)
+
+**Funkcja: `asinh`**
+
+asinh -- Zwraca odwrotny sinus hiperboliczny x.
+
+float `asinh` (float x)
+
+**Funkcja: `acosh`**
+
+acosh -- Zwraca odwrotny kosinus hiperboliczny x.
+
+float `acosh` (float x)
+
+Zglasza `E_INVARG`, jesli x jest mniejsze niz 1.0.
+
+**Funkcja: `atanh`**
+
+atanh -- Zwraca odwrotny tangens hiperboliczny x.
+
+float `atanh` (float x)
+
+Zglasza `E_INVARG`, jesli x jest poza zakresem `[-1.0..1.0]`.
+
+**Funkcja: `exp`**
+
+exp -- Zwraca e podniesione do potegi x.
+
+float `exp` (float x)
+
+**Funkcja: `log`**
+
+log -- Zwraca logarytm naturalny x.
+
+float `log` (float x)
+
+Zglasza `E_INVARG`, jesli x nie jest dodatnie.
+
+**Funkcja: `log10`**
+
+log10 -- Zwraca logarytm dziesietny (o podstawie 10) x.
+
+float `log10` (float x)
+
+Zglasza `E_INVARG`, jesli x nie jest dodatnie.
+
+**Funkcja: `ceil`**
+
+ceil -- Zwraca najmniejsza liczbe calkowita nie mniejsza niz x, jako liczbe zmiennoprzecinkowa.
+
+float `ceil` (float x)
+
+**Funkcja: `floor`**
+
+floor -- Zwraca najwieksza liczbe calkowita nie wieksza niz x, jako liczbe zmiennoprzecinkowa.
+
+float `floor` (float x)
+
+**Funkcja: `round`**
+
+round -- Zwraca x zaokraglone do najblizszej wartosci calkowitej, jako liczbe zmiennoprzecinkowa.
+
+float `round` (float x)
+
+**Funkcja: `trunc`**
+
+trunc -- Zwraca liczbe calkowita uzyskana przez obciecie x przy przecinku dziesietnym, jako liczbe zmiennoprzecinkowa.
+
+float `trunc` (float x)
+
+Dla ujemnego x jest to rownowazne `ceil()`; w przeciwnym razie jest to rownowazne `floor()`.
+
+**Funkcja: `cbrt`**
+
+cbrt -- Zwraca pierwiastek trzeciego stopnia (szescienny) z x.
+
+float `cbrt` (float x)
+
+**Funkcja: `distance`**
+
+distance -- Zwraca odleglosc euklidesowa miedzy dwiema listami wspolrzednych.
+
+float `distance` (LIST from, LIST to)
+
+Obliczenie paruje wpisy wedlug indeksu, wiec wywolujacy powinni podawac listy wspolrzednych tej samej dlugosci. Kazdy element uzyty w obliczeniu musi byc liczba calkowita lub zmiennoprzecinkowa. Jesli ktoras z list zawiera element nienumeryczny, zglaszany jest `E_TYPE`.
+
+**Funkcja: `relative_heading`**
+
+relative_heading -- Zwraca kierunek horyzontalny i wertykalny od jednego trojwymiarowego punktu do drugiego.
+
+list `relative_heading` (LIST from, LIST to)
+
+Obie listy musza zawierac trzy liczby zmiennoprzecinkowe. Zwrocona lista zawiera dwie liczby calkowite: kierunek horyzontalny w stopniach i kierunek wertykalny w stopniach. Jesli ktoras z list zawiera elementy niebedace liczbami zmiennoprzecinkowymi, zglaszany jest `E_TYPE`.
+
+**Funkcja: `simplex_noise`**
+
+simplex_noise -- Zwraca szum simplex dla jednego do czterech wymiarow.
+
+float `simplex_noise` (LIST coordinates)
+
+Lista wspolrzednych musi zawierac jedna, dwie, trzy lub cztery liczby zmiennoprzecinkowe. Jesli jakakolwiek wspolrzedna nie jest liczba zmiennoprzecinkowa, zglaszany jest `E_TYPE`. Niewspierana liczba wymiarow zwraca `E_TYPE`.
+
+##### Operacje na stringach
+
+**Funkcja: `length`**
+
+length -- Zwraca liczbe znakow w string.
+
+int `length` (str string)
+
+Mozliwe jest rowniez przekazanie listy lub mapy do `length()`; zobacz opis w nastepnej sekcji.
+
+```
+length("foo")   =>   3
+length("")      =>   0
+```
+
+**Funkcja: `strsub`**
+
+strsub -- Zastepuje wszystkie wystapienia what w subject przez with, wykonujac substytucje stringow.
+
+str `strsub` (str subject, str what, str with [, int case-matters])
+
+Wystapienia sa znajdowane od lewej do prawej, a wszystkie substytucje zachodza jednoczesnie. Domyslnie wystapienia what sa wyszukiwane, ignorujac rozroznienie wielkich i malych liter. Jesli case-matters jest podane i jest prawda, wielkosc liter jest traktowana jako istotna we wszystkich porownaniach.
+
+```
+strsub("%n is a fink.", "%n", "Fred")   =>   "Fred is a fink."
+strsub("foobar", "OB", "b")             =>   "fobar"
+strsub("foobar", "OB", "b", 1)          =>   "foobar"
+```
+
+**Funkcja: `index`**
+
+**Funkcja: `rindex`**
+
+index -- Zwraca indeks pierwszego znaku pierwszego wystapienia str2 w str1.
+
+rindex -- Zwraca indeks pierwszego znaku ostatniego wystapienia str2 w str1.
+
+int `index` (str str1, str str2 [, int case-matters [, int skip]])
+int `rindex` (str str1, str str2 [, int case-matters [, int skip]])
+
+Te funkcje zwroca zero, jesli str2 wogole nie wystepuje w str1.
+
+Domyslnie wyszukiwanie wystapienia str2 odbywa sie, ignorujac rozroznienie wielkich i malych liter. Jesli case-matters jest podane i jest prawda, wielkosc liter jest traktowana jako istotna we wszystkich porownaniach.
+
+Domyslnie wyszukiwanie zaczyna sie od poczatku (konca) str1. Jesli podano skip, wyszukiwanie pomija pierwsze (ostatnie) skip znakow i zaczyna sie od przesuniecia wzgledem poczatku (konca) str1. skip musi byc liczba calkowita dodatnia dla index() i liczba calkowita ujemna dla rindex(). Domyslna wartoscia skip jest 0 (nie pomijaj zadnych znakow).
+
+```
+index("foobar", "o")            =>   2
+index("foobar", "o", 0, 0)      =>   2
+index("foobar", "o", 0, 2)      =>   1
+rindex("foobar", "o")           =>   3
+rindex("foobar", "o", 0, 0)     =>   3
+rindex("foobar", "o", 0, -4)    =>   2
+index("foobar", "x")            =>   0
+index("foobar", "oba")          =>   3
+index("Foobar", "foo", 1)       =>   0
+```
+
+**Funkcja: `strtr`**
+
+strtr -- Przeksztalca string source, zastepujac znaki podane w str1 odpowiadajacymi znakami podanymi w str2.
+
+str `strtr` (str source, str str1, str str2 [, case-matters])
+
+Wszystkie inne znaki nie sa przeksztalcane. Jesli str2 ma mniej znakow niz str1, niesparowane znaki sa po prostu usuwane z source. Domyslnie przeksztalcenie jest wykonywane na znakach wielkich i malych, niezaleznie od wielkosci liter. Jesli case-matters jest podane i jest prawda, wielkosc liter jest traktowana jako istotna.
+
+```
+strtr("foobar", "o", "i")           =>    "fiibar"
+strtr("foobar", "ob", "bo")         =>    "fbboar"
+strtr("foobar", "", "")             =>    "foobar"
+strtr("foobar", "foba", "")         =>    "r"
+strtr("5xX", "135x", "0aBB", 0)     =>    "BbB"
+strtr("5xX", "135x", "0aBB", 1)     =>    "BBX"
+strtr("xXxX", "xXxX", "1234", 0)    =>    "4444"
+strtr("xXxX", "xXxX", "1234", 1)    =>    "3434"
+```
+
+**Funkcja: `strcmp`**
+
+strcmp -- Wykonuje rozroznajace wielkosc liter porownanie dwoch stringow-argumentow.
+
+int `strcmp` (str str1, str str2)
+
+Jesli str1 jest [leksykograficznie](https://en.wikipedia.org/wiki/Lexicographical_order) mniejsze niz str2, `strcmp()` zwraca liczbe calkowita ujemna. Jesli oba stringi sa identyczne, `strcmp()` zwraca zero. W przeciwnym razie `strcmp()` zwraca liczbe calkowita dodatnia. Do porownania uzywane jest uporzadkowanie znakow ASCII.
+
+**Funkcja: `explode`**
+
+explode -- Zwraca liste podstringow subject, rozdzielonych przez break. break domyslnie przyjmuje wartosc spacji.
+
+list  `explode`(STR subject [, STR break [, INT include-sequential-occurrences]])
+
+Tylko pierwszy znak `break` jest brany pod uwage:
+
+```
+explode("slither%is%wiz", "%")      => {"slither", "is", "wiz"}
+explode("slither%is%%wiz", "%%")    => {"slither", "is", "wiz"}
+```
+
+Mozesz uzyc include-sequential-occurrences, by otrzymac z powrotem pusty string jako czesc swojej listy, jesli `break` wystepuje wielokrotnie z niczym pomiedzy, albo jesli w Twoim stringu jest wiodacy/koncowy `break`:
+
+```
+explode("slither%is%%wiz", "%%", 1)  => {"slither", "is", "", "wiz"}
+explode("slither%is%%wiz%", "%", 1)  => {"slither", "is", "", "wiz", ""}
+explode("%slither%is%%wiz%", "%", 1) => {"", "slither", "is", "", "wiz", ""}
+```
+
+> Uwaga: to moze zostac uzyte jako zamiennik dla `$string_utils:explode`.
+
+**Funkcja: `parse_ansi`**
+
+parse_ansi -- Zastepuje tagi ANSI ToastStunt w string sekwencjami ucieczki ANSI.
+
+str `parse_ansi` (STR string)
+
+Rozpoznawane tagi obejmuja kolory pierwszego planu, takie jak `[red]`, `[green]`, `[yellow]`, `[blue]`, `[purple]`, `[cyan]`, `[white]`, `[gray]`, `[grey]` i `[black]`; kolory tla, takie jak `[b:red]`; tagi stylu, takie jak `[bold]`, `[underline]`, `[inverse]`, `[blink]`, `[normal]`, `[unbold]`, `[unblink]` i `[unbright]`; oraz tagi uzytkowe, takie jak `[beep]`, `[random]` i `[null]`.
+
+**Funkcja: `remove_ansi`**
+
+remove_ansi -- Usuwa tagi ANSI ToastStunt ze string.
+
+str `remove_ansi` (STR string)
+
+To usuwa te same tagi w nawiasach kwadratowych, rozpoznawane przez `parse_ansi()`, bez zastepowania ich sekwencjami ucieczki ANSI.
+
+**Funkcja: `decode_binary`**
+
+decode_binary -- Zwraca liste stringow i/lub liczb calkowitych reprezentujacych bajty w binarnym stringu bin_string, w porzadku.
+
+list `decode_binary` (str bin-string [, int fully])
+
+Jesli fully jest falszem lub pominiete, lista zawiera liczbe calkowita wylacznie dla kazdego niewypisywalnego, nie-spacjowego bajtu; wszystkie inne znaki sa grupowane w najdluzsze mozliwe ciagle podstringi. Jesli fully jest podane i jest prawda, lista zawiera wylacznie liczby calkowite, jedna dla kazdego bajtu reprezentowanego w bin_string. Zglasza `E_INVARG`, jesli bin_string nie jest poprawnie sformowanym stringiem binarnym. (Zobacz wczesniejsza sekcje o typach wartosci MOO po pelny opis stringow binarnych.)
+
+```
+decode_binary("foo")               =>   {"foo"}
+decode_binary("~~foo")             =>   {"~foo"}
+decode_binary("foo~0D~0A")         =>   {"foo", 13, 10}
+decode_binary("foo~0Abar~0Abaz")   =>   {"foo", 10, "bar", 10, "baz"}
+decode_binary("foo~0D~0A", 1)      =>   {102, 111, 111, 13, 10}
+```
+
+**Funkcja: `encode_binary`**
+
+encode_binary -- Tlumaczy kazda liczbe calkowita i string po kolei na jej binarny odpowiednik string, zwracajac konkatenacje wszystkich tych podstringow w jeden binarny string.
+
+str `encode_binary` (arg, ...)
+
+Kazdy argument musi byc liczba calkowita od 0 do 255, stringiem lub lista zawierajaca wylacznie legalne argumenty dla tej funkcji. (Zobacz wczesniejsza sekcje o typach wartosci MOO po pelny opis stringow binarnych.)
+
+```
+encode_binary("~foo")                     =>   "~7Efoo"
+encode_binary({"foo", 10}, {"bar", 13})   =>   "foo~0Abar~0D"
+encode_binary("foo", 10, "bar", 13)       =>   "foo~0Abar~0D"
+```
+
+**Funkcja: `decode_base64`**
+
+decode_base64 -- Zwraca binarna reprezentacje stringa podanego zakodowanego argumentu string Base64.
+
+str `decode_base64` (str base64 [, int safe])
+
+Zglasza E_INVARG, jesli base64 nie jest poprawnie sformowanym stringiem Base64. Jesli safe jest podane i jest prawda, uzywana jest wersja Base64 bezpieczna dla URL (zobacz RFC4648).
+
+```
+decode_base64("AAEC")      =>    "~00~01~02"
+decode_base64("AAE", 1)    =>    "~00~01"
+```
+
+**Funkcja: `encode_base64`**
+
+encode_base64 -- Zwraca zakodowana w Base64 reprezentacje stringa podanego binarnego argumentu string.
+
+str `encode_base64` (str binary [, int safe])
+
+Zglasza E_INVARG, jesli binary nie jest poprawnie sformowanym stringiem binarnym. Jesli safe jest podane i jest prawda, uzywana jest wersja Base64 bezpieczna dla URL (zobacz [RFC4648](https://datatracker.ietf.org/doc/html/rfc4648)).
+
+```
+encode_base64("~00~01~02")    =>    "AAEC"
+encode_base64("~00~01", 1)    =>    "AAE"
+```
+
+**Funkcja: `spellcheck`**
+
+spellcheck -- Ta funkcja sprawdza angielska ortografie word.
+
+int | list `spellcheck`(STR word)
+
+Jesli pisownia jest poprawna, funkcja zwroci 1. Jesli pisownia jest niepoprawna, zamiast tego zwrocona zostanie LISTA sugestii poprawnej pisowni. Jesli pisownia jest niepoprawna i nie mozna znalezc sugestii, zwracana jest pusta LISTA.
+
+**Funkcja: `chr`**
+
+chr -- Ta funkcja tlumaczy wartosci bajtowe na znaki ASCII. Argumentami moga byc liczby calkowite, stringi lub listy wartosci, ktore moga byc zakodowane jako bajty.
+
+str `chr`(INT|STR|LIST arg, ...)
+
+Dla programistow-czarodziejow calkowite wartosci bajtowe moga byc od 0 do 255. Jesli programista nie jest czarodziejem, calkowite wartosci bajtowe musza byc od 32 do 254; w przeciwnym razie zglaszany jest `E_INVARG`. To zapobiega zapisywaniu znakow kontrolnych, znakow nowej linii i niewlasciwych wartosci bajtowych do pliku bazy danych przez niezaufane osoby.
+
+**Funkcja: `match`**
+
+match -- Wyszukuje pierwsze wystapienie wyrazenia regularnego pattern w stringu subject
+
+list `match` (str subject, str pattern [, int case-matters])
+
+Jesli pattern jest skladniowo niepoprawny, zglaszany jest `E_INVARG`. Proces dopasowywania moze w niektorych przypadkach zajac duzo pamieci serwera; jesli to zuzycie pamieci stanie sie nadmierne, proces dopasowywania jest przerywany i zglaszany jest `E_QUOTA`.
+
+Jesli nie znaleziono dopasowania, zwracana jest pusta lista; w przeciwnym razie te funkcje zwracaja liste zawierajaca informacje o dopasowaniu (zobacz nizej). Domyslnie wyszukiwanie ignoruje rozroznienie wielkich i malych liter. Jesli case-matters jest podane i jest prawda, wielkosc liter jest traktowana jako istotna we wszystkich porownaniach.
+
+Lista, ktora zwraca `match()`, zawiera szczegoly o wykonanym dopasowaniu. Lista ma postac:
+
+```
+{start, end, replacements, subject}
+```
+
+gdzie start to indeks w subject poczatku dopasowania, end to indeks konca dopasowania, replacements to lista opisana nizej, a subject to ten sam string, ktory podano jako pierwszy argument do `match()`.
+
+Lista replacements ma zawsze dziewiec elementow, kazdy element sam jest lista dwoch liczb calkowitych, indeksow poczatku i konca w string dopasowanego przez pewien wzorzec-podwyrazenie w nawiasach z pattern. Pierwszy element w replacements niesie indeksy dla pierwszego podwyrazenia w nawiasach, drugi element niesie te dla drugiego podwyrazenia, i tak dalej. Jesli w pattern jest mniej niz dziewiec podwyrazen w nawiasach, albo jesli jakies podwyrazenie nie zostalo uzyte w dopasowaniu, odpowiadajacy element w replacements to lista {0, -1}. Zobacz dyskusje o `%)` nizej, po wiecej informacji o podwyrazeniach w nawiasach.
+
+```
+match("foo", "^f*o$")        =>  {}
+match("foo", "^fo*$")        =>  {1, 3, {{0, -1}, ...}, "foo"}
+match("foobar", "o*b")       =>  {2, 4, {{0, -1}, ...}, "foobar"}
+match("foobar", "f%(o*%)b")
+        =>  {1, 4, {{2, 3}, {0, -1}, ...}, "foobar"}
+```
+
+**Funkcja: `rmatch`**
+
+rmatch -- Wyszukuje ostatnie wystapienie wyrazenia regularnego pattern w stringu subject
+
+list `rmatch` (str subject, str pattern [, int case-matters])
+
+Jesli pattern jest skladniowo niepoprawny, zglaszany jest `E_INVARG`. Proces dopasowywania moze w niektorych przypadkach zajac duzo pamieci serwera; jesli to zuzycie pamieci stanie sie nadmierne, proces dopasowywania jest przerywany i zglaszany jest `E_QUOTA`.
+
+Jesli nie znaleziono dopasowania, zwracana jest pusta lista; w przeciwnym razie te funkcje zwracaja liste zawierajaca informacje o dopasowaniu (zobacz nizej). Domyslnie wyszukiwanie ignoruje rozroznienie wielkich i malych liter. Jesli case-matters jest podane i jest prawda, wielkosc liter jest traktowana jako istotna we wszystkich porownaniach.
+
+Lista, ktora zwraca `match()`, zawiera szczegoly o wykonanym dopasowaniu. Lista ma postac:
+
+```
+{start, end, replacements, subject}
+```
+
+gdzie start to indeks w subject poczatku dopasowania, end to indeks konca dopasowania, replacements to lista opisana nizej, a subject to ten sam string, ktory podano jako pierwszy argument do `match()`.
+
+Lista replacements ma zawsze dziewiec elementow, kazdy element sam jest lista dwoch liczb calkowitych, indeksow poczatku i konca w string dopasowanego przez pewien wzorzec-podwyrazenie w nawiasach z pattern. Pierwszy element w replacements niesie indeksy dla pierwszego podwyrazenia w nawiasach, drugi element niesie te dla drugiego podwyrazenia, i tak dalej. Jesli w pattern jest mniej niz dziewiec podwyrazen w nawiasach, albo jesli jakies podwyrazenie nie zostalo uzyte w dopasowaniu, odpowiadajacy element w replacements to lista {0, -1}. Zobacz dyskusje o `%)` nizej, po wiecej informacji o podwyrazeniach w nawiasach.
+
+```
+rmatch("foobar", "o*b")      =>  {4, 4, {{0, -1}, ...}, "foobar"}
+```
