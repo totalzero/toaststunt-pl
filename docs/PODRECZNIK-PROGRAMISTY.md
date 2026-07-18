@@ -3391,3 +3391,267 @@ a ponadto,
 `equal(a, b)`
 
 To moze byc przydatne, na przyklad, w aplikacjach, ktore musza zweryfikowac zarowno integralnosc wiadomosci (tekstu), jak i autentycznosc nadawcy (wykazywana przez posiadanie tajnego klucza).
+
+##### Operacje na listach
+
+**Funkcja: `length`**
+
+length -- Zwraca liczbe elementow w list lub map.
+
+int `length` (list|map value)
+
+Mozliwe jest rowniez przekazanie stringa do `length()`; zobacz opis w poprzedniej sekcji.
+
+```
+length({1, 2, 3})   =>   3
+length({})          =>   0
+length(["a" -> 1])  =>   1
+```
+
+**Funkcja: `is_member`**
+
+is_member -- Zwraca prawde, jesli istnieje element list, ktory jest calkowicie nieodroznialny od value.
+
+int `is_member` (ANY value, LIST list [, INT case-sensitive])
+
+To w duzej mierze ta sama operacja co " `value in list`", z tym ze, w przeciwienstwie do `in`, funkcja `is_member()` nie traktuje wielkich i malych liter w stringach jako rownych. Ten sposob traktowania stringow moze byc kontrolowany za pomoca argumentu `case-sensitive`; ustawienie `case-sensitive` na falsz efektywnie wylacza to zachowanie.
+
+Zglasza E_ARGS, jesli podano dwie wartosci lub jesli podano wiecej niz trzy argumenty. Zglasza E_TYPE, jesli drugi argument nie jest lista. W przeciwnym razie zwraca indeks `value` w `list`, lub 0, jesli go tam nie ma.
+
+```
+is_member(3, {3, 10, 11})                  => 1
+is_member("a", {"A", "B", "C"})            => 0
+is_member("XyZ", {"XYZ", "xyz", "XyZ"})    => 3
+is_member("def", {"ABC", "DEF", "GHI"}, 0) => 2 
+```
+
+**Funkcja: `all_members`**
+
+all_members -- Zwraca indeksy kazdego wystapienia `value` w `alist`.
+
+LIST `all_members`(ANY `value`, LIST `alist`)
+
+Przyklad:
+
+```
+all_members("a", {"a", "b", "a", "c", "a", "d"}) => {1, 3, 5}
+```
+
+**Funkcja: `listinsert`**
+
+**Funkcja: `listappend`**
+
+listinsert -- Ta funkcja zwraca kopie list z value dodanym jako nowy element.
+
+listappend -- Ta funkcja zwraca kopie list z value dodanym jako nowy element.
+
+list `listinsert` (list list, value [, int index])
+
+list `listappend` (list list, value [, int index])
+
+`listinsert()` i `listappend()` dodaja value przed i po (odpowiednio) istniejacym elemencie o podanym index, jesli podano.
+
+Nastepujace trzy wyrazenia zawsze maja te sama wartosc:
+
+```
+listinsert(list, element, index)
+listappend(list, element, index - 1)
+{@list[1..index - 1], element, @list[index..length(list)]}
+```
+
+Jesli index nie jest podany, `listappend()` dodaje value na koniec listy, a `listinsert()` dodaje go na poczatek; to uzycie jest jednak odradzane, poniewaz ta sama intencja moze zostac wyrazona jasniej za pomoca wyrazenia konstrukcji listy, jak pokazano w przykladach nizej.
+
+```
+x = {1, 2, 3};
+listappend(x, 4, 2)   =>   {1, 2, 4, 3}
+listinsert(x, 4, 2)   =>   {1, 4, 2, 3}
+listappend(x, 4)      =>   {1, 2, 3, 4}
+listinsert(x, 4)      =>   {4, 1, 2, 3}
+{@x, 4}               =>   {1, 2, 3, 4}
+{4, @x}               =>   {4, 1, 2, 3}
+```
+
+**Funkcja: `listdelete`**
+
+listdelete -- Zwraca kopie list z usunietym elementem o pozycji index.
+
+list `listdelete` (list list, int index)
+
+Jesli index nie jest w zakresie `[1..length(list)]`, zglaszany jest `E_RANGE`.
+
+```
+x = {"foo", "bar", "baz"};
+listdelete(x, 2)   =>   {"foo", "baz"}
+```
+
+**Funkcja: `listset`**
+
+listset -- Zwraca kopie list z elementem o pozycji index zastapionym przez value.
+
+list `listset` (list list, value, int index)
+
+Jesli index nie jest w zakresie `[1..length(list)]`, zglaszany jest `E_RANGE`.
+
+```
+x = {"foo", "bar", "baz"};
+listset(x, "mumble", 2)   =>   {"foo", "mumble", "baz"}
+```
+
+Ta funkcja istnieje przede wszystkim z powodow historycznych; byla intensywnie uzywana, zanim serwer zaczal wspierac przypisania indeksowane takie jak `x[i] = v`. Nowy kod powinien zawsze uzywac przypisania indeksowanego zamiast `listset()`, gdziekolwiek to mozliwe.
+
+**Funkcja: `setadd`**
+
+**Funkcja: `setremove`**
+
+setadd -- Zwraca kopie list z dodana podana value.
+
+setremove -- Zwraca kopie list z usunieta podana value.
+
+list `setadd` (list list, value)
+
+list `setremove` (list list, value)
+
+`setadd()` dodaje value tylko jesli nie jest ono juz elementem list; list jest wiec traktowana jako zbior matematyczny. value jest dodawane na koniec wynikowej listy, jesli w ogole. Podobnie `setremove()` zwraca liste identyczna z list, jesli value nie jest jej elementem. Jesli value wystepuje w list wiecej niz raz, w zwroconej kopii usuwane jest tylko pierwsze wystapienie.
+
+```
+setadd({1, 2, 3}, 3)         =>   {1, 2, 3}
+setadd({1, 2, 3}, 4)         =>   {1, 2, 3, 4}
+setremove({1, 2, 3}, 3)      =>   {1, 2}
+setremove({1, 2, 3}, 4)      =>   {1, 2, 3}
+setremove({1, 2, 3, 2}, 2)   =>   {1, 3, 2}
+```
+
+**Funkcja: `reverse`**
+
+reverse -- Zwraca odwrocona liste lub string.
+
+str | list `reverse`(LIST|STR value)
+
+Jesli value nie jest ani lista, ani stringiem, zglaszany jest `E_INVARG`.
+
+Przyklady:
+
+```
+reverse({1,2,3,4}) => {4,3,2,1}
+reverse("asdf") => "fdsa"
+```
+
+**Funkcja: `slice`**
+
+list `slice`(LIST alist [, INT | LIST | STR index, ANY default map value])
+
+Zwraca elementy alist o pozycji index. Domyslnie index bedzie wynosic 1. Jesli index jest lista liczb calkowitych, zwrocona lista bedzie miala te elementy z alist. To wbudowany rownowaznik czasownika $list_utils:slice z LambdaCore.
+
+Jesli alist jest lista map, index moze byc stringiem wskazujacym klucz do zwrocenia z kazdej mapy w alist.
+
+Jesli podano default map value, kazda mapa nieposiadajaca klucza index bedzie miala zwrocone default map value w jej miejsce. To przydatne w sytuacjach, gdy musisz zachowac zgodnosc z indeksem listy i nie mozesz miec dziur w swojej zwracanej liscie.
+
+Przyklady:
+
+```
+slice({{"z", 1}, {"y", 2}, {"x",5}}, 2)                                 => {1, 2, 5}
+slice({{"z", 1, 3}, {"y", 2, 4}}, {2, 1})                               => {{1, "z"}, {2, "y"}}
+slice({["a" -> 1, "b" -> 2], ["a" -> 5, "b" -> 6]}, "a")                => {1, 5}
+slice({["a" -> 1, "b" -> 2], ["a" -> 5, "b" -> 6], ["b" -> 8]}, "a", 0) => {1, 5, 0}
+```
+**Funkcja: `sort`**
+
+sort -- Sortuje list albo wedlug keys, albo uzywajac samej listy.
+
+list `sort`(LIST list [, LIST keys, INT natural sort order?, INT reverse])
+
+Podczas sortowania list wedlug samej siebie, mozesz uzyc pustej listy ({}) dla keys, by podac dodatkowe opcjonalne argumenty.
+
+Podczas sortowania wedlug niepustej listy keys, lista keys musi miec taka sama dlugosc jak list, w przeciwnym razie zglaszany jest `E_INVARG`. Wartosci uzyte do sortowania musza byc jednorodnymi wartosciami skalarnymi. Listy, mapy, obiekty anonimowe i WAIF-y nie moga zostac zsortowane i zglaszaja `E_TYPE`.
+
+Jesli natural sort order jest prawda, stringi zawierajace wieloznakowe liczby beda traktowac te liczby jako pojedynczy znak. Tak wiec, na przyklad, to znaczy, ze 'x2' bedzie wystepowac przed 'x11' przy naturalnym sortowaniu, poniewaz 2 jest mniejsze niz 11. Ten argument domyslnie wynosi 0.
+
+Jesli reverse jest prawda, porzadek sortowania jest odwrocony. Ten argument domyslnie wynosi 0.
+
+Przyklady:
+
+Sortowanie listy wedlug samej siebie:
+
+```
+sort({"a57", "a5", "a7", "a1", "a2", "a11"}) => {"a1", "a11", "a2", "a5", "a57", "a7"}
+```
+
+Sortowanie listy wedlug samej siebie z naturalnym porzadkiem sortowania:
+
+```
+sort({"a57", "a5", "a7", "a1", "a2", "a11"}, {}, 1) => {"a1", "a2", "a5", "a7", "a11", "a57"}
+```
+
+Sortowanie listy stringow wedlug listy numerycznych kluczy:
+
+```
+sort({"foo", "bar", "baz"}, {123, 5, 8000}) => {"bar", "foo", "baz"}
+```
+
+> Uwaga: to funkcja watkowana.
+
+##### Operacje na mapach
+
+Mapy sa porzadkowane wedlug swoich kluczy, nie wedlug porzadku, w jakim wpisy zostaly wstawione. Funkcje, ktore przechodza przez cala mape, takie jak `mapkeys()` i `mapvalues()`, zwracaja wpisy w tym porzadku kluczy. Klucze tego samego typu sa porzadkowane wedlug ich naturalnego porownania: liczby numerycznie, numery obiektow wedlug id obiektu, bledy wedlug wartosci bledu, a stringi leksykalnie. Klucze-stringi sa zwykle porownywane bez rozroznienia wielkosci liter, wiec klucze rozniace sie wylacznie wielkoscia liter sa traktowane jako ten sam klucz przy zwyklym dostepie do mapy. Klucze roznych typow sa grupowane wedlug wewnetrznego porzadku typow serwera; jest to deterministyczne, ale zwykle nie powinno byc uzywane jako znaczacy porzadek na poziomie aplikacji.
+
+Na przyklad:
+
+```
+x = [3 -> "three", 1 -> "one", "foo" -> 4, "bar" -> 5];
+mapkeys(x)   => {1, 3, "bar", "foo"}
+mapvalues(x) => {"one", "three", 5, 4}
+```
+
+Jesli potrzebujesz porzadku wstawiania, porzadku wyswietlania lub jakiegos innego wlasnego porzadkowania, przechowuj ten porzadek w osobnej liscie lub sortuj klucze explicite.
+
+**Funkcja: `mapkeys`**
+
+mapkeys -- zwraca klucze elementow mapy.
+
+list `mapkeys` (map map)
+
+```
+x = ["foo" -> 1, "bar" -> 2, "baz" -> 3];
+mapkeys(x)   =>  {"bar", "baz", "foo"}
+```
+
+**Funkcja: `mapvalues`**
+
+mapvalues -- zwraca wartosci elementow mapy.
+
+list `mapvalues` (MAP `map` [, ... ANY `key`])
+
+Jesli chcesz wylacznie wartosci konkretnych kluczy w mapie, mozesz je podac jako opcjonalne argumenty. Zobacz przyklady nizej.
+
+Jesli jakikolwiek zadany klucz nie jest obecny w mapie, zglaszany jest `E_RANGE`.
+
+Przyklady:
+
+```
+x = ["foo" -> 1, "bar" -> 2, "baz" -> 3];
+mapvalues(x)               =>  {2, 3, 1}
+mapvalues(x, "foo", "baz") => {1, 3}
+```
+
+**Funkcja: `mapdelete`**
+
+mapdelete -- Zwraca kopie map z wartoscia odpowiadajaca key(s) usunieta.
+
+map `mapdelete` (MAP map, key|LIST keys)
+
+Jesli key jest wartoscia kolekcji, taka jak lista lub mapa, zglaszany jest `E_TYPE`. Jesli key jest poprawny, ale nie jest obecny w mapie, zglaszany jest `E_RANGE`.
+
+```
+x = ["foo" -> 1, "bar" -> 2, "baz" -> 3];
+mapdelete(x, "bar")   =>   ["baz" -> 3, "foo" -> 1]
+```
+
+Gdy jako drugi argument podana zostanie lista, mapdelete() usunie teraz wiele kluczy z mapy w jednej operacji. Jesli jakikolwiek klucz z listy nie zostanie znaleziony, zglaszany jest `E_RANGE` z opisowa wartoscia wskazujaca, ktory klucz byl brakujacy.
+
+**Funkcja: `maphaskey`**
+
+maphaskey -- Zwraca 1, jesli key istnieje w map. Gdy nie mamy do czynienia z setkami kluczy, ta funkcja jest szybsza (i latwiejsza do odczytania) niz cos w rodzaju: !(x in mapkeys(map))
+
+int `maphaskey` (MAP map, ANY key [, INT case-matters])
+
+Jesli `case-matters` jest prawda, porownanie klucza-stringa rozroznia wielkosc liter. Wartosci kolekcji nie moga byc uzyte jako klucze do tego wyszukiwania; jesli key jest lista, mapa lub inna wartoscia kolekcji, zglaszany jest `E_TYPE`.
