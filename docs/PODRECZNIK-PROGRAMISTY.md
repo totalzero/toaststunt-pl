@@ -6105,3 +6105,134 @@ dowolna przychodzaca linia, ktora
 * sama nie jest .program ani jednym z pozostalych czterech wewnetrznych polecen,
 
 skutkuje wywolaniem $do_command(), pod warunkiem, ze ten czasownik istnieje i jest wykonywalny. Jesli ten czasownik zawiesi sie lub zwroci wartosc prawdziwa, przetwarzanie tej linii konczy sie w tym miejscu; w przeciwnym razie, niezaleznie od tego, czy czasownik zwrocil falsz, czy w ogole nie istnial, wywolywana jest reszta wbudowanego procesu parsowania.
+
+### Pierwsze zadania uruchamiane przez serwer
+
+Za kazdym razem, gdy serwer jest uruchamiany, wykonuje na samym poczatku kilka zadan, zanim zacznie akceptowac polaczenia lub pobierze wartosc $server_options.dump_interval, by zaplanowac pierwszy checkpoint (zobacz nizej po wiecej informacji o planowaniu checkpointow).
+
+Najpierw serwer wywoluje $do_start_script() i przekazuje tresc skryptu przez wbudowana zmienna args. Tresc skryptu jest okreslana w linii polecen podczas uruchamiania serwera. Serwer moze wywolac ten czasownik wielokrotnie, po razie dla kazdego z argumentow linii polecen -c i -f.
+
+Nastepnie serwer wywoluje $user_disconnected() raz dla kazdego uzytkownika, ktory byl polaczony w momencie zapisu pliku bazy danych; pozwala to na wszelkie porzadki zwykle wykonywane przy rozlaczaniu uzytkownikow (np. przeniesienie ich obiektow-graczy z powrotem do jakiejs lokalizacji "domowej" itp.).
+
+Nastepnie sprawdza istnienie czasownika $server_started(). Jesli taki czasownik istnieje, serwer uruchamia zadanie wywolujace ten czasownik bez argumentow i z player rownym #-1. Jest to przydatne do starannego planowania checkpointow oraz do ponownej inicjalizacji dowolnego stanu, ktory nie jest prawidlowo reprezentowany w pliku bazy danych (np. ponowne otwarcie pewnych wychodzacych polaczen sieciowych, czyszczenie pewnych tabel itp.).
+
+### Kontrolowanie wykonania zadan
+
+Jak opisano wczesniej w sekcji o zadaniach MOO, serwer naklada limity na liczbe sekund, przez ktore dowolne zadanie moze dzialac nieprzerwanie, oraz na liczbe "tickow", czyli operacji niskopoziomowych, jakie dowolne zadanie moze wykonac w jednym nieprzerwanym okresie. Domyslnie zadania pierwszoplanowe moga zuzyc 60 000 tickow i piec sekund, a zadania w tle moga zuzyc 30 000 tickow i trzy sekundy. Te wartosci domyslne mozna nadpisac z poziomu bazy danych, definiujac dowolne lub wszystkie z nastepujacych wlasciwosci na $server_options i nadajac im wartosci calkowitoliczbowe:
+
+| Wlasciwosc | Opis                                         |
+| ---------- | --------------------------------------------------- |
+| bg_seconds | Liczba sekund przydzielanych zadaniom w tle. |
+| bg_ticks   | Liczba tickow przydzielanych zadaniom w tle.   |
+| fg_seconds | Liczba sekund przydzielanych zadaniom pierwszoplanowym. |
+| fg_ticks | Liczba tickow przydzielanych zadaniom pierwszoplanowym. |
+
+Serwer ignoruje wartosci `fg_ticks` i `bg_ticks`, jesli sa mniejsze niz 100, i podobnie ignoruje `fg_seconds` i `bg_seconds`, jesli ich wartosci sa mniejsze niz 1. Moze to pomoc zapobiec kompletnej katastrofie, gdybys przez przypadek nadal im bezuzytecznie male wartosci.
+
+Przypomnijmy, ze zadania polecen i zadania serwera sa uznawane za zadania _pierwszoplanowe_, podczas gdy zadania sforkowane, zawieszone i odczytu sa definiowane jako zadania _w tle_. Ustawienia tych zmiennych zaczynaja obowiazywac wylacznie na poczatku wykonania lub przy wznowieniu wykonania po zawieszeniu lub odczycie.
+
+Serwer naklada tez limit na liczbe poziomow zagniezdzonych wywolan czasownikow, zglaszajac `E_MAXREC` z wyrazenia wywolania czasownika, jesli limit zostanie przekroczony. Domyslnie limit wynosi 50 poziomow, ale mozna go zwiekszyc z poziomu bazy danych, definiujac wlasciwosc `max_stack_depth` na `$server_options` i nadajac jej wartosc calkowitoliczbowa wieksza niz 50. Maksymalna glebokosc stosu dla dowolnego zadania jest ustalana w momencie utworzenia tego zadania i nie moze zostac pozniej zmieniona. Oznacza to, ze zadania zawieszone, nawet po zapisaniu w bazie danych i przywroceniu z niej, nie sa dotkniete pozniejszymi zmianami $server_options.max_stack_depth.
+
+Wreszcie serwer moze narzucic limit na liczbe sforkowanych lub zawieszonych zadan, jakie dowolny gracz moze miec zakolejkowane w danym momencie. Za kazdym razem, gdy w jakims czasowniku wykonywana jest instrukcja `fork` lub wywolanie `suspend()`, serwer sprawdza na programiscie wlasciwosc o nazwie `queued_task_limit`. Jesli ta wlasciwosc istnieje, a jej wartosc jest nieujemna liczba calkowita, to ta liczba jest limitem. W przeciwnym razie, jesli `$server_options.queued_task_limit` istnieje, a jej wartosc jest nieujemna liczba calkowita, to ona jest limitem. W przeciwnym razie nie ma limitu. Jesli programista ma juz liczbe zakolejkowanych zadan wieksza lub rowna limitowi, zamiast forkowania lub zawieszania zglaszany jest `E_QUOTA`. Zadania odczytu sa objete limitem zakolejkowanych zadan.
+
+### Kontrolowanie obslugi przerwanych zadan
+
+Serwer przerwie wykonanie zadan z jednego z dwoch powodow:
+
+1. w zadaniu zostal zgloszony blad, ktory nie zostal przechwycony
+
+W kazdym przypadku, po przerwaniu zadania, serwer probuje wywolac okreslony _czasownik obslugujacy_ (handler verb) w bazie danych, by pozwolic kodowi tam zawartemu obsluzyc ten wypadek w odpowiedni sposob. Jesli to wywolanie czasownika zawiesi sie lub zwroci wartosc prawdziwa, uznaje sie, ze sytuacja zostala w pelni obsluzona i serwer nie wykonuje dalszego przetwarzania. Z drugiej strony, jesli czasownik obslugujacy nie istnieje, lub jesli wywolanie zwroci falsz bez zawieszenia sie, lub samo zostanie przerwane, serwer bierze sprawy we wlasne rece.
+
+Najpierw graczowi, ktory wpisal polecenie tworzace pierwotne przerwane zadanie, wypisywany jest komunikat bledu wraz z _tracebackiem_ stosu wywolan czasownikow MOO, wyjasniajacy, dlaczego zadanie zostalo przerwane i gdzie w zadaniu wystapil problem. Nastepnie, jesli samo wywolanie czasownika obslugujacego zostalo przerwane, wypisywany jest drugi komunikat bledu i traceback, opisujacy rowniez ten problem. Zauwaz, ze jesli samo wywolanie czasownika obslugujacego zostanie przerwane, nie sa wykonywane zadne dalsze "zagniezdzone" wywolania obslugujace; ta polityka zapobiega temu, co w przeciwnym razie mogloby byc dosc zlosliwym, malym cyklem.
+
+Konkretny czasownik obslugujacy oraz zestaw przekazywanych mu argumentow roznia sie w zaleznosci od dwoch przyczyn przerwania zadania.
+
+Jesli blad zostanie zglaszony i nie przechwycony, wykonywane jest wywolanie czasownika
+
+```
+$handle_uncaught_error(code, msg, value, traceback, formatted)
+```
+
+gdzie code, msg, value i traceback to wartosci, ktore zostalyby przekazane do handlera w instrukcji `try`-`except`, a formatted to lista stringow bedacych liniami wyjscia bledu i tracebacku, ktore zostana wypisane graczowi, jesli `$handle_uncaught_error` zwroci falsz bez zawieszenia sie.
+
+Jesli zadaniu skoncza sie ticki lub sekundy, wykonywane jest wywolanie czasownika
+
+```
+$handle_task_timeout(resource, traceback, formatted)
+```
+
+gdzie `resource` to odpowiedni z stringow `"ticks"` lub `"seconds"`, a `traceback` i `formatted` sa jak powyzej.
+
+### Dopasowywanie w parsowaniu polecen
+
+W procesie dopasowywania stringow dopelnienia blizszego i dalszego w poleceniu do faktycznych obiektow, serwer uzywa wartosci wlasciwosci `aliases`, jesli istnieje, na kazdym obiekcie w zawartosci gracza i lokalizacji gracza. Pelne szczegoly znajdziesz w rozdziale o parsowaniu polecen.
+
+### Ograniczanie dostepu do wbudowanych wlasciwosci i funkcji
+
+**Chronione wlasciwosci**
+
+Wbudowana wlasciwosc prop jest uznawana za chroniona, jesli $server_options.protect_prop istnieje i ma wartosc prawdziwa. Jednak zadne takie ochrony wlasciwosci nie sa rozpoznawane, jesli podczas budowania serwera ustawiono opcje kompilacji IGNORE_PROP_PROTECTED (zobacz sekcje o opcjach kompilacji serwera).
+
+> Uwaga: w poprzednich wersjach serwera wlaczenie tego mialo znaczacy koszt wydajnosciowy, ale zostalo to rozwiazane dzieki buforowaniu wyszukiwan, wiec ta opcja jest domyslnie wlaczona w ToastStunt.
+
+Za kazdym razem, gdy kod czasownika probuje odczytac (na dowolnym obiekcie) wartosc wbudowanej wlasciwosci chronionej w ten sposob, serwer zglasza E_PERM, jesli programista nie jest czarodziejem.
+
+**Chronione funkcje wbudowane**
+
+Funkcja wbudowana func() jest uznawana za chroniona, jesli $server_options.protect_func istnieje i ma wartosc prawdziwa. Jesli dla danej chronionej funkcji wbudowanej istnieje odpowiadajacy czasownik $bf_func() z ustawionym bitem `x`, ta funkcja wbudowana jest tez uznawana za nadpisana, co oznacza, ze dowolne wywolanie func() z dowolnego obiektu innego niz #0 bedzie traktowane jako wywolanie $bf_func() z tymi samymi argumentami, zwracajace lub zglaszajace to, co ten czasownik zwroci lub zglosi.
+
+Wywolanie chronionej funkcji wbudowanej, ktora nie zostala nadpisana, przebiega normalnie, dopoki wywolujacy jest #0 lub ma uprawnienia czarodzieja; w przeciwnym razie serwer zglasza E_PERM.
+
+Zauwaz, ze musisz wywolac load_server_options(), by upewnic sie, ze zmiany dokonane w $server_options zaczna obowiazywac.
+
+### Tworzenie i recyklingowanie obiektow
+
+Za kazdym razem, gdy funkcja `create()` jest uzywana do utworzenia nowego obiektu, wywolywany jest czasownik `initialize` tego obiektu, jesli istnieje, bez argumentow. Jesli taki czasownik nie jest zdefiniowany na obiekcie, wywolanie jest po prostu pomijane.
+
+Symetrycznie, tuz przed tym, jak funkcja `recycle()` faktycznie zniszczy obiekt, wywolywany jest czasownik `recycle` tego obiektu, jesli istnieje, bez argumentow. Ponownie, jesli taki czasownik nie jest zdefiniowany na obiekcie, wywolanie jest po prostu pomijane.
+
+Zarowno `create()`, jak i `recycle()` sprawdzaja istnienie wlasciwosci `ownership_quota` na wlascicielu nowo utworzonego lub zniszczonego obiektu. Jesli taka wlasciwosc istnieje, a jej wartosc jest liczba calkowita, jest ona traktowana jako _limit_ (quota) na wlasnosc obiektow. W przeciwnym razie nastepujace dwa akapity nie maja zastosowania.
+
+Funkcja `create()` sprawdza, czy limit jest dodatni; jesli tak, jest on zmniejszany o jeden i zapisywany z powrotem do wlasciwosci `ownership_quota` na wlascicielu. Jesli limit wynosi zero lub jest ujemny, uznaje sie go za wyczerpany, a `create()` zglasza `E_QUOTA`.
+
+Funkcja `recycle()` zwieksza limit o jeden i zapisuje go z powrotem do wlasciwosci `ownership_quota` na wlascicielu.
+
+### Przemieszczanie obiektow
+
+Podczas ewaluacji wywolania funkcji `move()`, serwer moze wykonywac wywolania czasownikow `accept` i `enterfunc` zdefiniowanych na celu przemieszczenia oraz czasownika `exitfunc` zdefiniowanego na zrodle. Zasady i okolicznosci sa nieco skomplikowane i podane szczegolowo w opisie funkcji `move()`.
+
+### Tymczasowe wlaczanie przestarzalych funkcji serwera
+
+Jesli wlasciwosc `$server_options.support_numeric_verbname_strings` istnieje i ma wartosc prawdziwa, serwer wspiera przestarzaly mechanizm mniej niejednoznacznego odwolywania sie do konkretnych czasownikow w roznych funkcjach wbudowanych. Wiecej szczegolow znajdziesz w omowieniu zamieszczonym zaraz po opisie funkcji `verbs()`.
+
+### Sygnaly do serwera
+
+Serwer jest w stanie przechwytywac [sygnaly](https://en.wikipedia.org/wiki/Signal_(IPC)) z systemu operacyjnego i wykonywac okreslone akcje, ktorych liste mozna znalezc ponizej. Dwa sygnaly, USR1 i USR2, moga byc przetwarzane z poziomu bazy danych MOO. Gdy odebrany zostanie SIGUSR1 lub SIGUSR2, serwer wywola `#0:handle_signal()` z nazwa sygnalu jako jedynym argumentem. Jesli ten czasownik zwroci wartosc prawdziwa, zaklada sie, ze baza danych go obsluzyla i nie sa podejmowane dalsze dzialania. Jesli czasownik zwroci wartosc ujemna, serwer przystapi do wykonania domyslnej akcji dla tego sygnalu. Ponizej znajduje sie lista sygnalow i ich domyslnych akcji:
+
+| Sygnal | Akcja                        |
+| ------ | ----------------------------- |
+| HUP    | Awaria serwera (panic).             |
+| ILL    | Awaria serwera (panic).             |
+| QUIT   | Awaria serwera (panic).             |
+| SEGV   | Awaria serwera (panic).             |
+| BUS    | Awaria serwera (panic).             |
+| INT    | Czyste wylaczenie serwera. |
+| TERM   | Czyste wylaczenie serwera. |
+| USR1   | Ponowne otwarcie pliku logu.          |
+| USR2   | Zaplanowanie checkpointu na najblizsza mozliwa chwile. |
+
+Na przyklad, wyobraz sobie, ze jestes administratorem systemu zalogowanym na maszynie, na ktorej dziala MOO. Chcesz wylaczyc serwer MOO, ale chcialbys dac graczom mozliwosc pozegnania sie ze soba nawzajem, zamiast natychmiast wylaczac serwer. Mozesz to zrobic, przechwytujac sygnal w bazie danych i wywolujac polecenie @shutdown.
+
+```
+@prog #0:handle_signal
+set_task_perms(caller_perms());
+{signal} = args;
+if (signal == "SIGUSR2" && !$code_utils:task_valid($wiz_utils.shutdown_task))
+  force_input(#2, "@shutdown in 1 Shutdown signal received.");
+  force_input(#2, "yes");
+  return 1;
+endif
+.
+```
+
+Teraz mozesz zasygnalizowac MOO poleceniem kill: `kill -USR2 <MOO process ID`
