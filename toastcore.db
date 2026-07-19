@@ -10,7 +10,7 @@
 0 clocks
 0 queued tasks
 1 suspended tasks
-1784363674 567763848 0
+1784443360 567763848 0
 0
 10
 0
@@ -797,7 +797,7 @@ a 2018 LambdaCore
 2
 last_restart_time
 0
-1784363629
+1784443270
 2
 name
 2
@@ -1389,7 +1389,7 @@ source
 2
 time
 0
-1784363666
+1784443351
 4
 0
 1
@@ -1645,7 +1645,7 @@ expire
 4
 2
 0
-1784363654
+1784443329
 2
 localhost
 2
@@ -1654,7 +1654,7 @@ localhost
 2
 0
 0
-1784363666
+1784443351
 2
 1
 0
@@ -1849,7 +1849,7 @@ localhost
 2
 5
 0
-1784363663
+1784443343
 2
 1
 0
@@ -4431,7 +4431,7 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 10
 1
 1
--3
+-6
 0
 2
 2
@@ -4445,7 +4445,13 @@ Przepraszamy, ale nie ma tu jeszcze pomocy. Wpisz `?' aby zobaczyc liste polecen
 2
 4
 4
-62
+63
+4
+2
+0
+1784443270
+0
+0
 4
 2
 0
@@ -56106,7 +56112,7 @@ elseif (!$perm_utils:controls(who = caller_perms(), what))
 retval = E_PERM;
 elseif ((p = `is_player(what) ! E_TYPE => 0') && (!who.wizard))
 for p in ($wiz_utils:connected_wizards_unadvertised())
-p:tell($string_utils:pronoun_sub("%N (%#) is currently trying to destroy %t (%[#t])", who, what));
+p:tell($string_utils:pronoun_sub("%N (%#) probuje wlasnie zniszczyc %t (%[#t])", who, what));
 endfor
 retval = E_PERM;
 else
@@ -59091,9 +59097,9 @@ endif
 .
 #6:38
 set_task_perms(player);
-if (iobjstr == "here")
+if ((iobjstr == "tu") || (iobjstr == "tutaj"))
 iobj = player.location;
-elseif (iobjstr == "me")
+elseif (iobjstr == "ja")
 iobj = player;
 elseif ($command_utils:object_match_failed(iobj, iobjstr))
 return;
@@ -59102,7 +59108,7 @@ if (!$perm_utils:controls(player, iobj))
 player:notify(tostr("Nie jestes wlascicielem ", iobj.name, "."));
 return;
 endif
-if (dobjstr == "me")
+if (dobjstr == "ja")
 dobj = player;
 else
 dobj = $string_utils:literal_object(dobjstr);
@@ -60045,14 +60051,14 @@ pass(@args);
 .
 #6:72
 return this.location:(verb)(@args);
-"temporarily let player:announce be noisy to player";
+"tymczasowo pozwol player:announce byc glosnym wobec gracza";
 if (verb == "announce_all_but")
 if (this in args[1])
 return;
 endif
 args = args[2..$];
 endif
-this:tell("(from within you) ", @args);
+this:tell("(z twojego wnetrza) ", @args);
 .
 #6:73
 "Return a true value if this needs linewrapping.";
@@ -60427,7 +60433,7 @@ if ((prepstr != "do") || (!iobjstr))
 player:tell("Uzycie: @move <obiekt> do <lokalizacja>");
 return;
 endif
-if ((!dobjstr) || (dobjstr == "me"))
+if ((!dobjstr) || (dobjstr == "ja"))
 dobj = this;
 else
 dobj = here:match_object(dobjstr);
@@ -64205,14 +64211,14 @@ endif
 #20:19
 ":match_object(string,location[,someone])";
 "Returns the object matching the given string for someone, on the assumption that s/he is in the given location.  `someone' defaults to player.";
-"This first tries :literal_object(string), \"me\"=>someone,\"here\"=>location, then player:match(string) and finally location:match(string) if location is valid.";
+"This first tries :literal_object(string), \"ja\"=>someone,\"tu\"/\"tutaj\"=>location, then player:match(string) and finally location:match(string) if location is valid.";
 "This is the default algorithm for use by room :match_object() and player :my_match_object() verbs.  Player verbs that are calling this directly should probably be calling :my_match_object instead.";
 {string, here, ?who = player} = args;
 if ($failed_match != (object = this:literal_object(string)))
 return object;
-elseif (string == "me")
+elseif (string == "ja")
 return who;
-elseif (string == "here")
+elseif ((string == "tu") || (string == "tutaj"))
 return here;
 elseif ((valid(pobject = who:match(string)) && (string in {@pobject.aliases, pobject.name})) || (!valid(here)))
 "...exact match in player or room is bogus...";
@@ -70167,7 +70173,7 @@ player:tell(p.name, ":  ", po);
 return;
 elseif (po != p)
 if (valid(po) && is_player(po))
-player:tell("name `", p.name, "' for ", p, " subsumes alias for ", po.name, "(", po, ").");
+player:tell("nazwa `", p.name, "' dla ", p, " przejmuje alias dla ", po.name, "(", po, ").");
 endif
 this:insert(p.name, p);
 endif
@@ -70181,7 +70187,7 @@ return;
 elseif (!(valid(ao) && is_player(ao)))
 this:insert(a, p);
 elseif (ao != p)
-player:tell("alias `", a, "' for ", p.name, "(", p, ") used by ", ao.name, "(", ao, ").");
+player:tell("alias `", a, "' dla ", p.name, "(", p, ") jest juz uzywany przez ", ao.name, "(", ao, ").");
 endif
 endfor
 endif
@@ -75212,7 +75218,7 @@ this:load(who, vcode);
 this.verbnames[who] = vname;
 this.objects[who] = object;
 this.active[who]:tell("Teraz edytujesz ", this:working_on(who), ".");
-"this.active[who]:tell(\"Now editing \", object, \":\", vname, \".\");";
+"this.active[who]:tell(\"Teraz edytujesz \", object, \":\", vname, \".\");";
 endif
 .
 #49:4
@@ -76767,9 +76773,9 @@ endif
 {string, olist} = args;
 if (!string)
 return $nothing;
-elseif (string == "me")
+elseif (string == "ja")
 return player;
-elseif (string == "here")
+elseif ((string == "tu") || (string == "tutaj"))
 return player.location;
 elseif (valid(object = $string_utils:literal_object(string)))
 return object;
@@ -77478,9 +77484,9 @@ endif
 #53:7
 "used by $lock_utils to unparse a key expression so one can use `here' and `me' as well as doing the regular object matching.";
 token = args[1];
-if (token == "me")
+if (token == "ja")
 return this.player;
-elseif (token == "here")
+elseif ((token == "tu") || (token == "tutaj"))
 if (valid(this.player.location))
 return this.player.location;
 else
@@ -79798,13 +79804,13 @@ endif
 target = fw[1];
 if (fw[2] && (parse = this:parse_templist_duration(fw[2]))[1])
 if ((typeof(parse[3]) == ERR) || (!parse[3]))
-player:notify(tostr("Nie udalo sie sparsowac czasu trwania dla @", which, "ing site \"", target, "\""));
+player:notify(tostr("Nie udalo sie sparsowac czasu trwania dla @", which, " \"", target, "\""));
 return;
 endif
 start = parse[2];
 duration = parse[3];
 comment = parse[4] ? {parse[4]} | {};
-comment = {tostr("for ", $time_utils:english_time(duration)), @comment};
+comment = {tostr("na czas ", $time_utils:english_time(duration)), @comment};
 elseif (fw[2])
 comment = {fw[2]};
 else
@@ -79817,16 +79823,16 @@ if (is_literal = $site_db:domain_literal(target))
 if (target[$] == ".")
 target = target[1..$ - 1];
 endif
-fullname = "subnet " + target;
+fullname = "podsiec " + target;
 else
 if (target[1] == ".")
 target[1..1] = "";
 endif
-fullname = ("domain `" + target) + "'";
+fullname = ("witryna `" + target) + "'";
 endif
 entrylist = $login.(which)[1 + (!is_literal)];
 if ((!undo) && (target in entrylist))
-player:notify(tostr(fullname, " juz jest ", which, "ed."));
+player:notify(tostr(fullname, " jest juz ", which, "owany."));
 return;
 endif
 entrylist = setremove(entrylist, target);
@@ -79839,23 +79845,23 @@ downgraded = {};
 if (rm)
 ntries = (length(rm) == 1) ? "ntry" | "ntries";
 if ($command_utils:yes_or_no(tostr((length(rm) == 1) ? "Usunac wpis" | "Usunac wpisy", " dla ", namelist, "?")))
-dg = undo && (downgrade && $command_utils:yes_or_no(downgrade + " ich?"));
+dg = undo && (downgrade && $command_utils:yes_or_no(downgrade + "owac ich?"));
 for s in (rm)
 $login:(which + "_remove")(s);
 dg && ($login:(downgrade + "_add")(s) && (downgraded = {@downgraded, s}));
 endfor
 player:notify(tostr((length(rm) == 1) ? "Wpis usuniety" | "Wpisy usuniete", @dg ? {" i ", downgrade, "owane."} | {"."}));
 else
-player:notify(tostr(namelist, " nadal bedzie ", which, "ed."));
+player:notify(tostr(namelist, " nadal bedzie ", which, "owany."));
 rm = {};
 endif
 endif
 if (downgraded)
-comment[1..0] = {tostr(downgrade, "ed ", $string_utils:english_list(downgraded), ".")};
+comment[1..0] = {tostr(downgrade, "owano ", $string_utils:english_list(downgraded), ".")};
 endif
 tempentrylist = $login.("temporary_" + which)[1 + (!is_literal)];
 if ((!undo) && (target in $list_utils:slice(tempentrylist)))
-player:notify(tostr(fullname, " juz jest tymczasowo ", which, "ed."));
+player:notify(tostr(fullname, " jest juz tymczasowo ", which, "owany."));
 return;
 endif
 if (en = $list_utils:assoc(target, tempentrylist))
@@ -79870,7 +79876,7 @@ tempdowngraded = {};
 if (rmtemp)
 ntries = (length(rmtemp) == 1) ? "ntry" | "ntries";
 if ($command_utils:yes_or_no(tostr((length(rmtemp) == 1) ? "Usunac wpis" | "Usunac wpisy", " dla ", tempnamelist, "?")))
-dg = undo && (downgrade && $command_utils:yes_or_no(downgrade + " ich?"));
+dg = undo && (downgrade && $command_utils:yes_or_no(downgrade + "owac ich?"));
 for s in (rmtemp)
 old = $list_utils:assoc(s, tempentrylist);
 $login:(which + "_remove_temp")(s);
@@ -79878,20 +79884,20 @@ dg && ($login:(downgrade + "_add_temp")(s, old[2], old[3]) && (tempdowngraded = 
 endfor
 player:notify(tostr((length(rmtemp) == 1) ? "Wpis usuniety" | "Wpisy usuniete", @dg ? {" i ", downgrade, "owane, z przeniesionymi czasami trwania."} | {"."}));
 else
-player:notify(tostr(tempnamelist, " nadal bedzie tymczasowo ", which, "ed."));
+player:notify(tostr(tempnamelist, " nadal bedzie tymczasowo ", which, "owany."));
 rmtemp = {};
 endif
 endif
 if (tempdowngraded)
-comment[1..0] = {tostr(downgrade, "ed ", $string_utils:english_list(tempdowngraded), ".")};
+comment[1..0] = {tostr(downgrade, "owano tymczasowo ", $string_utils:english_list(tempdowngraded), ".")};
 endif
 if (!undo)
 if (parse[1])
 $login:(which + "_add_temp")(target, start, duration);
-player:notify(tostr(fullname, " ", which, "ed for ", $time_utils:english_time(duration)));
+player:notify(tostr(fullname, " - ", which, "owany na czas: ", $time_utils:english_time(duration)));
 else
 $login:(which + "_add")(target);
-player:notify(tostr(fullname, " ", which, "ed."));
+player:notify(tostr(fullname, " - ", which, "owany."));
 endif
 if (rm)
 comment[1..0] = {tostr("Obejmuje takze ", which, "owanie dla ", namelist, ".")};
@@ -79900,41 +79906,41 @@ if (rmtemp)
 comment[1..0] = {tostr("Obejmuje takze tymczasowe ", which, "owanie dla ", tempnamelist, ".")};
 endif
 elseif ($login:(which + "_remove")(target))
-player:notify(tostr(fullname, " un", which, "ed."));
+player:notify(tostr(fullname, " - zdjety z listy ", which, "."));
 if (!downgrade)
-elseif ($command_utils:yes_or_no(downgrade + " to?"))
+elseif ($command_utils:yes_or_no(downgrade + "owac to?"))
 $login:(downgrade + "_add")(target) && (downgraded = {target, @downgraded});
-player:notify(tostr(fullname, " ", downgrade, "ed."));
+player:notify(tostr(fullname, " - ", downgrade, "owany."));
 else
-player:notify(tostr(fullname, " nie zostal ", downgrade, "ed."));
+player:notify(tostr(fullname, " nie zostal ", downgrade, "owany."));
 endif
 if (downgraded)
 player:tell("Komentarz obecnie: ", toliteral(comment), " ; downgrade = ", toliteral(downgrade), " ; downgraded = ", toliteral(downgraded));
-comment[1..0] = {tostr(downgrade, "ed ", $string_utils:english_list(downgraded), ".")};
+comment[1..0] = {tostr(downgrade, "owano ", $string_utils:english_list(downgraded), ".")};
 endif
 if (rm)
 comment[1..0] = {tostr("Usunieto takze ", namelist, ".")};
 endif
 elseif ((old = $list_utils:assoc(target, $login.("temporary_" + which)[1 + (!is_literal)])) && $login:(which + "_remove_temp")(target))
-player:notify(tostr(fullname, " un", which, "ed."));
+player:notify(tostr(fullname, " - zdjety z listy ", which, "."));
 if (!downgrade)
-elseif ($command_utils:yes_or_no(downgrade + " to?"))
+elseif ($command_utils:yes_or_no(downgrade + "owac to?"))
 $login:(downgrade + "_add_temp")(target, old[2], old[3]) && (tempdowngraded = {target, @tempdowngraded});
-player:notify(tostr(fullname, " ", downgrade, "ed, obecnie na ", $time_utils:english_time(old[3]), " od ", $time_utils:time_sub("$1/$3", old[2])));
+player:notify(tostr(fullname, " - ", downgrade, "owany, obecnie na ", $time_utils:english_time(old[3]), " od ", $time_utils:time_sub("$1/$3", old[2])));
 else
-player:notify(tostr(fullname, " nie zostal ", downgrade, "ed."));
+player:notify(tostr(fullname, " nie zostal ", downgrade, "owany."));
 endif
 if (tempdowngraded)
-comment[1..0] = {tostr(downgrade, "owane ", $string_utils:english_list(tempdowngraded), ", z przeniesionymi czasami trwania.")};
+comment[1..0] = {tostr(downgrade, "owano tymczasowo ", $string_utils:english_list(tempdowngraded), ".")};
 endif
 if (rmtemp)
 comment[1..0] = {tostr("Usunieto takze ", tempnamelist, ".")};
 endif
 elseif (rm || rmtemp)
-player:notify(tostr(fullname, " sam w sobie nigdy faktycznie nie byl ", which, "ed."));
+player:notify(tostr(fullname, " sam w sobie nigdy faktycznie nie byl ", which, "owany."));
 comment[1..0] = {tostr("Usunieto ", namelist, " z listy stalej i ", tempnamelist, " z listy tymczasowej.")};
 else
-player:notify(tostr(fullname, " nie byl wczesniej ", which, "ed."));
+player:notify(tostr(fullname, " nie byl wczesniej ", which, "owany."));
 return;
 endif
 subject = tostr(undo ? "@un" | "@", which, " ", fullname);
@@ -79948,7 +79954,7 @@ uhoh = {@uhoh, site};
 endif
 endfor
 if (uhoh)
-player:notify(tostr("UWAGA:  ", $string_utils:english_list(uhoh), " sa teraz ", which, "ed!"));
+player:notify(tostr("UWAGA:  ", $string_utils:english_list(uhoh), " sa teraz ", which, "owane!"));
 endif
 .
 #57:28
@@ -87865,9 +87871,9 @@ endif
 room = args[1];
 if (room == "home")
 return player.home;
-elseif (room == "me")
+elseif (room == "ja")
 return player;
-elseif (room == "here")
+elseif ((room == "tu") || (room == "tutaj"))
 return player.location;
 elseif (!room)
 return $failed_match;
@@ -87950,7 +87956,7 @@ if ((prepstr != "do") || (!iobjstr))
 player:tell("Uzycie: @move <obiekt> do <lokalizacja>");
 return;
 endif
-if ((!dobjstr) || (dobjstr == "me"))
+if ((!dobjstr) || (dobjstr == "ja"))
 thing = this;
 else
 thing = `here:match_object(dobjstr) ! E_VERBNF, E_INVIND => $failed_match';
