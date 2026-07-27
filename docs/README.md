@@ -21,6 +21,7 @@ ToastStunt is a network accessible, multi-user, programmable, interactive system
   * [macOS](#macos)
 * [Function Documentation](https://github.com/lisdude/toaststunt-documentation)
 * [Getting Started Guide](https://lisdude.com/moo/toaststunt_newbie.txt)
+* [**Guide: Building Your Own MOO World From Scratch**](WORLD-BUILDING-GUIDE.md) -- hands-on tutorial: from your first `@dig` to 30-40 connected rooms, items, NPCs and special effects, all on one worked example
 * [ToastCore](https://github.com/lisdude/toastcore)
 * [Stunt Information](Legacy/README/README.Stunt)
 
