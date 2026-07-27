@@ -225,3 +225,320 @@ Wypisz w grze `nasluchuj` kilka razy -- za kazdym razem powinienes dostac inny, 
 ### Co dalej
 
 Mamy jeden, w pelni opisany i lekko interaktywny pokoj. W Rozdziale 4 robimy to samo systematycznie dla calej reszty mapy -- tym razem z gotowa tabela lokacji i pelnymi sekwencjami `@dig`, zamiast tlumaczyc kazdy krok od nowa.
+
+## Rozdzial 4: budowa calej mapy
+
+### Konwencja kierunkow
+
+Ten fork rozpoznaje polskie nazwy kierunkow obok angielskich skrotow -- `polnoc`/`n`, `poludnie`/`s`, `wschod`/`e`, `zachod`/`w`, `polnocny-wschod`/`ne`, `poludniowy-wschod`/`se`, `poludniowy-zachod`/`sw`, `polnocny-zachod`/`nw`, `gore`/`u`, `na dol`/`d` (mozesz to zweryfikowac samemu -- to zaszyta w kodzie tabela w `$string_utils` uzywana m.in. do generowania wyjsc). W kazdym `@dig` z tego rozdzialu podaje oba warianty naraz, tak jak w przykladzie z `help @dig` (`west,w|east,e,out`) -- gracz bedzie mogl wpisac dowolny z nich.
+
+### Sposob pracy: kop, potem idz, potem kop dalej
+
+`@dig` **nie przenosi cie** do nowo wykopanego pokoju -- zostajesz tam, gdzie bytes, a nowy pokoj jest tylko polaczony wyjsciem. Zeby kopac dalej *z* nowego pokoju, trzeba do niego normalnie wejsc -- tym samym wyjsciem, ktore sie wlasnie stworzylo. To zreszta dobra rzecz: przy okazji od razu sprawdzasz, ze wyjscie faktycznie dziala tak, jak bedzie dzialac dla gracza.
+
+Ponizej sekwencje polecen zakladaja, ze wykonujesz je jedno po drugim, w podanej kolejnosci, zaczynajac stojac w Rynku (`#1500` w naszym przykladzie z Rozdzialu 3 -- **podstaw swoj wlasny numer**). Po kazdym `@dig` z instrukcja "przejdz" wpisz podany kierunek jako zwykle polecenie ruchu.
+
+### Pelna mapa -- tabela referencyjna
+
+Zanim zaczniemy kopac, oto caly szkielet na raz -- warto skopiowac go do notatnika z Rozdzialu 2 i dopisywac tam rzeczywiste numery obiektow w miare budowy.
+
+**Region 1: Kruczy Brod** (wioska, centrum swiata)
+
+| Lokacja | Polaczenie | Uwaga |
+|---|---|---|
+| Rynek w Kruczym Brodzie | (start, zbudowany w Rozdziale 3) | hub calego regionu |
+| Gospoda "Pod Zlamana Podkowa" | zachod od Rynku | punkt startowy questow, patrz Rozdzial 10 |
+| Kuznia Kowala Borna | polnoc od Rynku | tu pozniej NPC-kowal, Rozdzial 6 |
+| Brama Polnocna Kruczego Brodu | polnoc od Kuzni | wyjscie do Regionu 2 (las) |
+| Uliczka Swiatynna | wschod od Rynku | |
+| Swiatynia Trzech Ksiezycow | wschod od Uliczki Swiatynnej | zrodlo lore o kurhanie |
+| Cmentarzyk przy Swiatyni | poludnie od Swiatyni | |
+| Dom Starosty Wlodzimierza | polnocny-zachod od Rynku | zrodlo pierwszych questow |
+| Chatka Zielarki Jagny | zachod od Domu Starosty | sprzedaje ziola/mikstury, Rozdzial 9 |
+| Brama Poludniowa Kruczego Brodu | poludnie od Rynku | wyjscie do Regionu 3 (rzeka) |
+
+**Region 2: Las Szepczacych Debow**
+
+| Lokacja | Polaczenie | Uwaga |
+|---|---|---|
+| Skraj Lasu | polnoc od Bramy Polnocnej | |
+| Zrodlo Lesne | wschod od Skraju Lasu | slepy zaulek, dobry na detal atmosfery |
+| Gesty Gaszcz | polnoc od Skraju Lasu | |
+| Chata Pustelnika | zachod od Gestego Gaszczu | NPC-pustelnik, Rozdzial 6 |
+| Polana z Kregiem Grzybow | polnoc od Gestego Gaszczu | magiczny detal, Rozdzial 7 |
+| Jaskinia Niedzwiedzia | polnoc od Polany | slepy zaulek/zagrozenie |
+| Stary Dab Piorunem Rozlupany | wschod od Polany | landmark, zaczep pod Rozdzial 8 (sekret) |
+
+**Region 3: Rzeka i Most Kruczy**
+
+| Lokacja | Polaczenie | Uwaga |
+|---|---|---|
+| Brzeg Rzeki | poludnie od Bramy Poludniowej | |
+| Przystan Rybacka | wschod od Brzegu Rzeki | |
+| Wodny Mlyn | zachod od Brzegu Rzeki | |
+| Most Kruczy | poludnie od Brzegu Rzeki | |
+| Drugi Brzeg Rzeki | poludnie od Mostu Kruczego | wyjscie do Regionu 4 (kurhan) |
+
+**Region 4: Kurhan Kruczych Wzgorz** (mini-dungeon)
+
+| Lokacja | Polaczenie | Uwaga |
+|---|---|---|
+| Wejscie do Kurhanu | poludnie od Drugiego Brzegu Rzeki | |
+| Korytarz Kurhanu | na dol od Wejscia do Kurhanu | |
+| Krypta Pierwsza | wschod od Korytarza | |
+| Krypta Druga | zachod od Korytarza | ukryte polaczenie z Regionem 5, Rozdzial 8 |
+| Sala z Pulapka | poludnie od Korytarza | fizyczna pulapka, Rozdzial 8 |
+| Komnata Straznika | poludnie od Sali z Pulapka | NPC-straznik/mini-boss, Rozdzial 6 |
+| Skarbiec | na dol od Komnaty Straznika | zamkniete, Rozdzial 8 |
+| Tajne Przejscie | (ukryty exit z Krypty Drugiej) | prowadzi do Regionu 5 |
+
+**Region 5: Wzgorza i Opuszczona Kopalnia**
+
+| Lokacja | Polaczenie | Uwaga |
+|---|---|---|
+| Podnoze Wzgorz | zachod od Tajnego Przejscia | |
+| Szlak Gorski | polnoc od Podnoza Wzgorz | |
+| Szczyt Wzgorza | polnoc od Szlaku Gorskiego | slepy zaulek, widok/atmosfera |
+| Wejscie do Opuszczonej Kopalni | poludnie od Podnoza Wzgorz | |
+| Kopalnia -- Poziom Pierwszy | na dol od Wejscia do Kopalni | |
+| Grota Krysztalowa | wschod od Poziomu Pierwszego | skarb/ekonomia, Rozdzial 9 |
+| Kopalnia -- Poziom Drugi (Obozowisko Zbojcow) | na dol od Poziomu Pierwszego | siedziba antagonistow, Rozdzial 6 i 8 |
+
+Razem: 10 + 7 + 5 + 8 + 7 = **37 lokacji**, zgodnie z planem z Rozdzialu 1.
+
+### Budujemy Region 1 (reszta wioski)
+
+Zakladamy, ze stoisz w Rynku (`#1500` w przykladzie). Wykonuj po kolei:
+
+```
+@dig zachod,w|wschod,e to "Gospoda \"Pod Zlamana Podkowa\""
+@dig polnoc,n|poludnie,s to "Kuznia Kowala Borna"
+```
+
+Przejdz `polnoc`, zeby wejsc do Kuzni, i wykop z niej dalej brame:
+
+```
+@dig polnoc,n|poludnie,s to "Brama Polnocna Kruczego Brodu"
+```
+
+Wroc do Rynku (`poludnie`, `poludnie`) i wykop wschodnia odnoge:
+
+```
+@dig wschod,e|zachod,w to "Uliczka Swiatynna"
+```
+
+Przejdz `wschod`, wejdz do Uliczki Swiatynnej, i kop dalej:
+
+```
+@dig wschod,e|zachod,w to "Swiatynia Trzech Ksiezycow"
+```
+
+Przejdz `wschod` do Swiatyni i wykop cmentarzyk:
+
+```
+@dig poludnie,s|polnoc,n to "Cmentarzyk przy Swiatyni"
+```
+
+Wroc do Rynku (`polnoc`, `zachod`, `zachod` -- albo po prostu uzyj `@move me do #1500`, jesli wolisz nie liczyc krokow) i wykop pozostale dwie odnogi:
+
+```
+@dig polnocny-zachod,nw|poludniowy-wschod,se to "Dom Starosty Wlodzimierza"
+```
+
+Przejdz `polnocny-zachod` do Domu Starosty i wykop chatke zielarki:
+
+```
+@dig zachod,w|wschod,e to "Chatka Zielarki Jagny"
+```
+
+Wroc do Rynku i wykop brame poludniowa -- nasze wyjscie z wioski w strone rzeki:
+
+```
+@dig poludnie,s|polnoc,n to "Brama Poludniowa Kruczego Brodu"
+```
+
+Region 1 gotowy -- 10 lokacji, wszystkie polaczone. Sprawdz `@count`, powinienes miec teraz okolo 11 obiektow (10 pokoi + wyjscia sa liczone osobno od pokoi, wiec dokladna liczba bedzie wyzsza -- `@audit` pokaze pelna liste).
+
+### Budujemy Region 2 (Las Szepczacych Debow)
+
+Wejdz do Bramy Polnocnej (z Kuzni: `polnoc`) i kop dalej w las:
+
+```
+@dig polnoc,n|poludnie,s to "Skraj Lasu"
+```
+
+Przejdz `polnoc`, i z Skraju Lasu wykop dwie odnogi:
+
+```
+@dig wschod,e|zachod,w to "Zrodlo Lesne"
+```
+
+Wroc (`zachod`) do Skraju Lasu i idz dalej w gab lasu:
+
+```
+@dig polnoc,n|poludnie,s to "Gesty Gaszcz"
+```
+
+Przejdz `polnoc` do Gestego Gaszczu i wykop chate pustelnika oraz dalsza sciezke:
+
+```
+@dig zachod,w|wschod,e to "Chata Pustelnika"
+```
+
+Wroc (`wschod`) do Gestego Gaszczu:
+
+```
+@dig polnoc,n|poludnie,s to "Polana z Kregiem Grzybow"
+```
+
+Przejdz `polnoc` na Polane i wykop ostatnie dwa pokoje regionu:
+
+```
+@dig polnoc,n|poludnie,s to "Jaskinia Niedzwiedzia"
+```
+
+Wroc (`poludnie`) na Polane:
+
+```
+@dig wschod,e|zachod,w to "Stary Dab Piorunem Rozlupany"
+```
+
+Region 2 gotowy -- 7 lokacji.
+
+### Budujemy Region 3 (Rzeka i Most Kruczy)
+
+Wroc do Rynku i wejdz przez Brame Poludniowa (`poludnie`, `poludnie`):
+
+```
+@dig poludnie,s|polnoc,n to "Brzeg Rzeki"
+```
+
+Przejdz `poludnie` na Brzeg Rzeki i wykop trzy odnogi:
+
+```
+@dig wschod,e|zachod,w to "Przystan Rybacka"
+```
+
+Wroc (`zachod`):
+
+```
+@dig zachod,w|wschod,e to "Wodny Mlyn"
+```
+
+Wroc (`wschod`):
+
+```
+@dig poludnie,s|polnoc,n to "Most Kruczy"
+```
+
+Przejdz `poludnie` na Most i wykop drugi brzeg:
+
+```
+@dig poludnie,s|polnoc,n to "Drugi Brzeg Rzeki"
+```
+
+Region 3 gotowy -- 5 lokacji.
+
+### Budujemy Region 4 (Kurhan Kruczych Wzgorz)
+
+Przejdz `poludnie` z Drugiego Brzegu Rzeki i wykop wejscie do kurhanu:
+
+```
+@dig poludnie,s|polnoc,n to "Wejscie do Kurhanu"
+```
+
+Przejdz `poludnie` i zejdz pod ziemie:
+
+```
+@dig gore,u|na dol,d to "Korytarz Kurhanu"
+```
+
+(zauwaz, ze tu wyjscie *w dol* prowadzi do nowego pokoju, wiec para wyjsc to `gore,u|na dol,d` -- z korytarza wraca sie `gore`, nie `polnoc`; kierunki nie musza trzymac sie geografii na powierzchni, gdy budujesz cos podziemnego).
+
+Przejdz `na dol` do Korytarza i wykop trzy odnogi plus komnate straznika w linii prostej:
+
+```
+@dig wschod,e|zachod,w to "Krypta Pierwsza"
+```
+
+Wroc (`zachod`):
+
+```
+@dig zachod,w|wschod,e to "Krypta Druga"
+```
+
+Wroc (`wschod`):
+
+```
+@dig poludnie,s|polnoc,n to "Sala z Pulapka"
+```
+
+Przejdz `poludnie` i kop dalej w glab:
+
+```
+@dig poludnie,s|polnoc,n to "Komnata Straznika"
+```
+
+Przejdz `poludnie` i wykop skarbiec pod komnata:
+
+```
+@dig na dol,d|gore,u to "Skarbiec"
+```
+
+Ostatni pokoj tego regionu -- **Tajne Przejscie** -- celowo nie kopiemy teraz. To ukryte polaczenie miedzy Krypta Druga a Regionem 5, ktore wymaga mechanizmu ukrywania wyjscia (obiekt wyjscia istnieje, ale nie jest widoczny w zwyklym `look`) -- to dokladnie material Rozdzialu 8. Zanotuj sobie tylko w notatniku, ze Krypta Druga bedzie potrzebowac takiego polaczenia, i wroc do tego w Rozdziale 8.
+
+Region 4 gotowy -- 7 z 8 zaplanowanych lokacji (ostatnia doczeka Rozdzialu 8).
+
+### Budujemy Region 5 (Wzgorza i Opuszczona Kopalnia)
+
+Ten region z zalozenia laczy sie z reszta mapy przez Tajne Przejscie z Regionu 4 -- skoro jeszcze go nie ma, na razie zbudujemy Region 5 jako osobna, chwilowo niepolaczona grupe pokoi (`@dig` bez `to`), a po Rozdziale 8 dostanie polaczenie. To dobra okazja, by przypomniec: pokoj bez wyjsc wejsciowych to nie blad -- to normalny, przejsciowy stan podczas budowy.
+
+```
+@dig "Podnoze Wzgorz"
+```
+
+Zapisz numer, ktory zwroci serwer, i przejdz tam recznie: `@move me do <numer>`.
+
+```
+@dig polnoc,n|poludnie,s to "Szlak Gorski"
+```
+
+Przejdz `polnoc`:
+
+```
+@dig polnoc,n|poludnie,s to "Szczyt Wzgorza"
+```
+
+Wroc na Podnoze Wzgorz (`poludnie`, `poludnie` -- albo `@move`):
+
+```
+@dig poludnie,s|polnoc,n to "Wejscie do Opuszczonej Kopalni"
+```
+
+Przejdz `poludnie` i zejdz do kopalni:
+
+```
+@dig na dol,d|gore,u to "Kopalnia -- Poziom Pierwszy"
+```
+
+Przejdz `na dol` i wykop dwie ostatnie lokacje:
+
+```
+@dig wschod,e|zachod,w to "Grota Krysztalowa"
+```
+
+Wroc (`zachod`):
+
+```
+@dig na dol,d|gore,u to "Kopalnia -- Poziom Drugi (Obozowisko Zbojcow)"
+```
+
+Region 5 gotowy -- 7 lokacji, na razie odizolowanych od reszty mapy (celowo, patrz wyzej).
+
+### Opisy
+
+Kazdy z powyzszych pokoi ma teraz nazwe i polaczenia, ale wciaz domyslny (pusty) opis. Wzorzec z Rozdzialu 3 (`@describe here as "..."`) jest identyczny dla kazdego z nich -- zamiast przepisywac 36 kolejnych przykladow, potraktuj to jako cwiczenie: przejdz sie po calej mapie i opisz przynajmniej te lokacje, ktore beda mialy znaczenie w kolejnych rozdzialach (Gospoda, Kuznia, Swiatynia, Chata Pustelnika, Polana z Kregiem Grzybow, Komnata Straznika, Obozowisko Zbojcow -- wszystkie pojawiaja sie ponownie przy przedmiotach, NPC-ach lub efektach). Reszte mozesz dopisac w dowolnym momencie -- pusty opis nie przeszkadza w dalszej pracy nad mechanika.
+
+### Co dalej
+
+Mamy szkielet calego swiata -- 36 zbudowanych lokacji plus jedna (Tajne Przejscie) odlozona do Rozdzialu 8, i caly Region 5 czekajacy na spiecie z reszta mapy. W Rozdziale 5 zaczynamy wypelniac te lokacje trescia: przedmiotami, ktore gracz moze podniesc, uzyc i (czasem) zjesc.
