@@ -151,6 +151,7 @@ Zanim zaczniesz wpisywac polecenia -- ten fork tlumaczy na polski nie tylko tres
 - Specjalne slowa oznaczajace "ja sam" i "moja obecna lokalizacja" to **`ja`** i **`tu`**/**`tutaj`** -- nie angielskie `me`/`here`. Np. `@move ja do #1500` dziala, `@move me to #1500` zwroci `Nie widze tu "me".`.
 - Podstawowe przyimki, ktorych silnik uzywa do dopasowywania polecen (dopelnien czasownikow), sa rowniez polskie: `jako` (nie `as`), `za pomoca`/`przy uzyciu`/`uzywajac` (nie `with`), `w`/`wewnatrz` (nie `in`), `z`/`spod` (nie `from`), `u`/`do` (nie `to`), `o`/`dla` (nie `about`/`for`), oraz `na`, `nad`, `przez`, `pod`, `za`, `obok`, `ze` -- pelna liste pokazuje `help prepositions`. Dotyczy to zarowno polecen wbudowanych (`@describe X jako "..."`, nie `@describe X as "..."`), jak i **czasownikow, ktore sami piszemy** -- np. `@verb obiekt:"cos" any about any` zwroci wprost `"about" is not a valid preposition.` przy probie stworzenia takiego czasownika; trzeba uzyc `any o any`.
 - Slowa-specyfikatory w samym poleceniu `@verb` (`none`, `this`, `any`) **zostaja po angielsku** -- to nie sa przyimki, tylko oddzielna skladnia samego polecenia `@verb`, i dzialaja dokladnie tak, jak pokazuje `help @verb`.
+- Wywolanie czasownika w postaci `obiekt:czasownik()` (np. `kowal:start()`) **nie jest zwyklym poleceniem gracza** -- to wyrazenie jezyka MOO, wiec zawsze wymaga poprzedzenia `;` (skrot na `eval`, patrz `help eval`). Co wiecej, wewnatrz `eval` nazwy takie jak `kowal` **nie sa dopasowywane do obiektow tak jak w zwyklych poleceniach** -- to zwykle zmienne jezyka MOO, wiec `;kowal:start()` zwroci blad "Nie znaleziono zmiennej". W `eval` uzywaj numeru obiektu wprost (`;#1561:start()`) -- wyjatkiem sa odwolania `$nazwa` (jak `$room` czy `$zegar_swiata`), ktore dzialaja w `eval` bezposrednio, bo `$nazwa` to czesc skladni samego jezyka, nie zwykla zmienna.
 - Niektore polecenia administracyjne (`@move`, `@dig`, `@corify`, `@set`) same, w swoim kodzie, jawnie rozpoznaja oba warianty przyimka (`do`/`to`, `jako`/`as`) -- to wyjatek, nie regula; nie zakladaj tego dla innych polecen czy wlasnych czasownikow bez sprawdzenia. Co wiecej, dwa konkretne polecenia -- `@quota` i `@programmer` -- gdy odnosza sie do ciebie samego, wymagaja akurat **angielskiego** `me`, nie `ja` (to najpewniej przeoczenie z wczesniejszego tlumaczenia, nie swiadoma decyzja, ale tak to dzis dziala) -- oba przypadki sa poprawnie napisane w przykladach ponizej, ale to dobry dowod, ze **kazde** polecenie warto zweryfikowac osobno, zamiast zakladac spojnosc w calej bazie.
 
 Kazdy przyklad w reszcie tego poradnika juz uwzglednia te zasade -- ale jesli kiedys kopiujesz skladnie z innego, angielskiego zrodla o MOO, to jest dokladnie ten szczegol, ktory cie zaskoczy.
@@ -726,7 +727,7 @@ player:tell("\"", tekst, "\" -- mowi ", this.name, ".");
 .
 ```
 
-Skladnia polecenia gracza wyglada teraz tak: `zagadnij kowala o kurhan` albo `ask kowal o kurhan` (nazwa czasownika moze byc angielska lub polska -- to tylko alias -- ale przyimek musi byc `o`, nie angielskie `about`; przypomnienie z Rozdzialu 2: przyimki wbudowane w silnik tego forka sa polskie, `help prepositions` pokazuje pelna liste). Jesli chcesz sprawdzic albo rozszerzyc polskie aliasy komend w calej bazie, zajrzyj do [Tworzenia tresci po polsku](TWORZENIE-TRESCI-PO-POLSKU.md).
+Skladnia polecenia gracza wyglada teraz tak: `zagadnij kowal o kurhan` albo `ask kowal o kurhan` (imiona/nazwy obiektow w poleceniach zawsze podajemy w formie podstawowej/mianownikowej, bez odmiany przez przypadki -- ten fork celowo nie wspiera odmiany rzeczownikow w dopasowywaniu obiektow, wiec `kowala` by nie zadzialalo) (nazwa czasownika moze byc angielska lub polska -- to tylko alias -- ale przyimek musi byc `o`, nie angielskie `about`; przypomnienie z Rozdzialu 2: przyimki wbudowane w silnik tego forka sa polskie, `help prepositions` pokazuje pelna liste). Jesli chcesz sprawdzic albo rozszerzyc polskie aliasy komend w calej bazie, zajrzyj do [Tworzenia tresci po polsku](TWORZENIE-TRESCI-PO-POLSKU.md).
 
 ### Losowe kwestie w tle (`fork`)
 
@@ -785,13 +786,19 @@ Kazde wywolanie `:heartbeat` z jednej czwartej szans wygaduje losowa kwestie do 
 @set kowal.odpowiedzi do ["kurhan" -> "Nie chodz tam po zmroku, chlopcze. Kaplani cos wiedza, ale nie mowia.", "_domyslna" -> "Kowal mruczy cos pod nosem i wraca do pracy."]
 ```
 
-Uruchom mu gadanie w tle (wpisujac to jako on -- czyli wywolujac czasownik na obiekcie, ktorego wlasnie stworzyles i ktory wciaz jest w twoim ekwipunku, wiec mozesz uzyc jego nazwy):
+Przejdz do Kuzni (`@move ja do <numer Kuzni z notatnika>`) i tam go upusc -- to jego docelowe miejsce:
 
 ```
-kowal:start()
+drop kowal
 ```
 
-Poczekaj minute w Kuzni i sprobuj `zapytaj kowala o kurhan`.
+Uruchom mu gadanie w tle. Wywolanie czasownika w postaci `obiekt:czasownik()` **nie jest zwyklym poleceniem gracza** -- to wyrazenie jezyka MOO, wiec trzeba je poprzedzic `;` (skrot na `eval`, patrz `help eval`). Co wiecej, w `eval` nazwy takie jak `kowal` nie sa automatycznie dopasowywane do obiektow (tak jak w zwyklych poleceniach) -- to zwykle zmienne, i jesli nie istnieje zmienna `kowal`, dostaniesz blad "Nie znaleziono zmiennej". Dlatego w `eval` uzywamy numeru obiektu wprost (`#1561` w naszym przykladzie -- podstaw swoj):
+
+```
+;#1561:start()
+```
+
+Poczekaj minute w Kuzni i sprobuj `zapytaj kowal o kurhan`.
 
 ### Reszta obsady
 
@@ -885,10 +892,10 @@ Zeby moc odwolywac sie do zegara z dowolnego miejsca w bazie bez pamietania jego
 @corify zegar jako zegar_swiata
 ```
 
-Od teraz `$zegar_swiata` dziala wszedzie, tak samo jak `$room` czy `$thing`. Uruchamiamy zegar:
+Od teraz `$zegar_swiata` dziala wszedzie, tak samo jak `$room` czy `$thing`. Uruchamiamy zegar -- pamietaj o `;` przed wywolaniem czasownika (przypomnienie z Rozdzialu 6: `obiekt:czasownik()` to wyrazenie MOO, nie polecenie gracza, wiec wymaga `eval`/`;`; w przeciwienstwie do `kowal` z Rozdzialu 6, `$zegar_swiata` dziala tu bezposrednio -- skladnia `$nazwa` to czesc samego jezyka MOO, nie zwykla zmienna):
 
 ```
-$zegar_swiata:start()
+;$zegar_swiata:start()
 ```
 
 ### Podpiecie opisow pokoi pod stan zegara
@@ -1198,18 +1205,19 @@ recycle(dobj);
 
 ### Konkretny sklepikarz: Zielarka Jagna
 
-Wracamy do Chatki Zielarki z Rozdzialu 1/4, gdzie od poczatku byla zapowiedziana jako zrodlo handlu:
+Wracamy do Chatki Zielarki z Rozdzialu 1/4 (`@move ja do <numer Chatki z notatnika>`), gdzie od poczatku byla zapowiedziana jako zrodlo handlu:
 
 ```
 @create #<klasa> named "Zielarka Jagna,jagna,zielarka"
 @describe jagna jako "Starsza kobieta o zrecznych palcach, cala obwieszona pekami suszonych ziol."
 @set jagna.towar do [["nazwa" -> "flaszeczka mikstury", "aliasy" -> {"flaszeczka", "mikstura"}, "cena" -> 3, "opis" -> "Metny, zielonkawy plyn o ostrym zapachu."], ["nazwa" -> "peczek suszonych ziol", "aliasy" -> {"peczek", "ziola"}, "cena" -> 1, "opis" -> "Kilka gatunkow ziol, zwiazanych razem sznurkiem."]]
+drop jagna
 ```
 
-Uruchom jej gadanie w tle, tak jak przy Kowalu w Rozdziale 6 (Jagna dziedziczy `:start`/`:stop`/`:heartbeat` po `$npc`, mimo ze jest jednoczesnie sklepikarzem):
+Uruchom jej gadanie w tle, tak jak przy Kowalu w Rozdziale 6 (Jagna dziedziczy `:start`/`:stop`/`:heartbeat` po `$npc`, mimo ze jest jednoczesnie sklepikarzem) -- pamietaj o `;` i numerze obiektu (`#<numer Jagny>`), z tych samych powodow co przy Kowalu:
 
 ```
-jagna:start()
+;#<numer Jagny>:start()
 ```
 
 Sprobuj `cennik z jagna`, potem `kup mikstura z jagna` (majac przynajmniej 3 miedziaki), a na koniec `sprzedaj flaszeczka mikstury do jagna`, zeby zobaczyc pelny cykl handlu w obie strony.
