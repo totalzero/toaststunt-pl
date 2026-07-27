@@ -1298,3 +1298,53 @@ Jako cwiczenie, sprobuj dodac drugi quest wykorzystujacy mechaniki z wczesniejsz
 ### Co dalej
 
 Caly mechaniczny szkielet swiata jest gotowy: mapa, przedmioty, NPC-e, atmosfera, zamki, ekonomia i quest, ktory je wszystkie spina. W Rozdziale 11 dopinamy ostatni, latwy do pominiecia element -- pomoc w grze, zeby gracz, ktory trafi do naszego swiata bez tego poradnika w reku, mial szanse sam sie w nim odnalezc.
+
+## Rozdzial 11: pomoc w grze dla wlasnej zawartosci
+
+### Jak dziala `help` w tym forku
+
+Polecenie `help <temat>` przeszukuje kilka "baz pomocy" po kolei: samego gracza i jego przodkow (az do `$player`), a jesli gracz stoi w pokoju -- rowniez ten pokoj i jego przodkow (az do `$room`), a na koncu zawsze glowna baze `$help`. Kazdy z tych obiektow moze miec wlasciwosc `.help`, ktorej wartoscia jest obiekt-baza-pomocy (albo lista takich obiektow) -- w kazdej takiej bazie temat pomocy to po prostu wlasciwosc o nazwie tematu, a jej wartosc to tekst (string dla jednej linii, lista stringow dla wielu linii).
+
+To znaczy: mozemy dodac pomoc **specyficzna dla naszego swiata**, ktora pojawi sie tylko wtedy, gdy gracz faktycznie w nim jest -- nie musimy niczego dopisywac do glownej, ogolnoswiatowej bazy pomocy.
+
+### Wlasna baza pomocy
+
+Nowa baza pomocy to zwykly obiekt dziedziczacy po Generic Help Database (`#30`):
+
+```
+@create #30 named "Baza Pomocy: Dolina Kruczych Wzgorz,baza pomocy doliny"
+@corify baza pomocy doliny jako pomoc_doliny
+```
+
+Kazdy temat to jedna wlasciwosc -- nazwa wlasciwosci musi byc poprawnym identyfikatorem MOO (bez spacji), wiec gracz bedzie pisal np. `help kurhan`, nie `help stary kurhan`:
+
+```
+@property $pomoc_doliny.dolina {"Dolina Kruczych Wzgorz to niewielka kraina: wioska Kruczy Brod, otaczajacy ja Las Szepczacych Debow, Rzeka z Mostem Kruczym, stary Kurhan na poludniu i Wzgorza z opuszczona kopalnia na zachodzie."} rc
+@property $pomoc_doliny.kurhan {"Stary kopiec grobowy na poludnie od rzeki. Straznik przy wejsciu do wnetrza ostrzega przybyszow -- podobno nie bez powodu. W srodku znajduje sie zamkniety Skarbiec."} rc
+@property $pomoc_doliny.sklep {"Zielarka Jagna w swojej chatce sprzedaje towary. 'cennik from jagna' pokazuje oferte, 'kup <przedmiot> from jagna' kupuje, 'sprzedaj <przedmiot> to jagna' sprzedaje jej cos z twojego ekwipunku."} rc
+@property $pomoc_doliny.zadania {"Zapytaj Starosty Wlodzimierza w Domu Starosty o 'zadanie', jesli szukasz czegos do zrobienia w tej okolicy."} rc
+```
+
+### Podpiecie pod system pomocy
+
+Zeby te tematy byly widoczne przez `help`, dopisujemy nasza baze do wlasciwosci `.help` na `$room` -- podobnie jak `.na_zewnatrz` w Rozdziale 7 i `.miedziaki` w Rozdziale 9, robimy to raz, na wspolnym rodzicu, wiec dziala automatycznie w kazdym pokoju calego swiata (nie tylko naszych 38 lokacjach):
+
+```
+@property $room.help {} rc
+```
+
+(jesli serwer odpowie, ze `$room` juz ma wlasciwosc `.help`, pomin ten krok -- niektore baza moga ja juz definiowac; przechodzimy dalej niezaleznie od wyniku). Nastepnie dopisujemy nasza baze do listy, zamiast ja nadpisywac -- na wypadek, gdyby cos tam juz bylo:
+
+```
+@set $room.help to {@$room.help, $pomoc_doliny}
+```
+
+Stojac w dowolnej lokacji naszej mapy, wpisz `help kurhan` albo `help sklep` -- powinienes zobaczyc tresc odpowiedniej wlasciwosci. Poza naszym swiatem (w innej czesci bazy) te tematy nie beda widoczne -- dokladnie tak, jak powinno byc.
+
+### Alternatywa: dopisanie do glownej bazy pomocy
+
+Jesli wolisz, zeby twoje tematy byly dostepne wszedzie, a nie tylko w twoim swiecie, mozna je zamiast tego dopisac bezposrednio do glownej bazy `$help` (tej samej, ktora obsluguje `help @dig` czy `help movement`) -- to ten sam mechanizm wlasciwosci-per-temat, tylko na obiekcie `$help` zamiast na naszej wlasnej bazie. Dla tresci specyficznej dla jednego, wydzielonego swiata (tak jak nasz) osobna baza podpieta pod `$room` jest zwykle lepszym wyborem -- nie miesza sie z pomoca dotyczaca calego serwera.
+
+### Co dalej
+
+Caly swiat -- mapa, przedmioty, NPC-e, atmosfera, zamki, ekonomia, quest i teraz pomoc -- jest kompletny i gotowy do zwiedzania. W Rozdziale 12, ostatnim, przechodzimy przez checkliste testowa calosci i zbieramy wskazowki, dokad pojsc dalej.
