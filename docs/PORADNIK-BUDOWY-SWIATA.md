@@ -199,10 +199,10 @@ Zanim przejdziemy do budowy reszty mapy, zobaczmy pelny cykl pisania kodu na czy
 Tworzymy nowy czasownik na naszym pokoju:
 
 ```
-@verb #1500:"nasluchuj listen" tnt
+@verb #1500:"nasluchuj listen" none none none
 ```
 
-`tnt` to skrot na `this none this` -- uzywamy go, bo to czasownik-polecenie bez dopelnien (patrz `help @verb`, jesli chcesz przypomniec sobie, co oznaczaja `dobj`/`prep`/`iobj`). Podajemy dwie nazwy na raz (`nasluchuj` i angielskie `listen`), zeby dzialalo niezaleznie od tego, w jakim jezyku gracz wpisuje polecenia -- tak jak reszta bazy ToastCore.
+`none none none` oznacza czasownik-polecenie bez zadnych dopelnien -- gracz wpisuje sam `nasluchuj`, bez podawania jakiegokolwiek obiektu (patrz `help @verb`, jesli chcesz przypomniec sobie, co oznaczaja `dobj`/`prep`/`iobj`; jest tam tez skrot `tnt` na `this none this`, ale to co innego -- oznacza czasownik, ktory **nie jest** wywolywany jako polecenie gracza, tylko wylacznie z kodu, i uzyjemy go pozniej, np. przy NPC-ach w Rozdziale 6). Podajemy dwie nazwy na raz (`nasluchuj` i angielskie `listen`), zeby dzialalo niezaleznie od tego, w jakim jezyku gracz wpisuje polecenia -- tak jak reszta bazy ToastCore.
 
 Teraz wchodzimy w tryb edycji kodu:
 
@@ -1009,7 +1009,7 @@ Wyjscie juz dziala, ale wciaz jest widoczne na liscie `look`/`@exits` jak kazde 
 Zeby gracz mial jakakolwiek szanse je znalezc, dajmy podpowiedz przez prosty czasownik wyszukiwania w tym samym pokoju:
 
 ```
-@verb #<Krypta Druga>:"szukaj search" this none this
+@verb #<Krypta Druga>:"szukaj search" none none none
 ```
 ```
 @program #<Krypta Druga>:szukaj
@@ -1123,7 +1123,7 @@ Sklepikarz to NPC ze specjalnymi czasownikami do handlu -- najprosciej zbudowac 
 `.towar` bedzie lista map, jedna mapa na kazdy towar: nazwa, aliasy, cena i opis. Dwa czasowniki do przegladania i kupowania:
 
 ```
-@verb #<klasa>:"cennik pricelist" this none this
+@verb #<klasa>:"cennik pricelist" none from this
 ```
 ```
 @program #<klasa>:cennik
