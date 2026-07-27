@@ -1205,3 +1205,96 @@ Sprobuj `cennik from jagna`, potem `kup mikstura from jagna` (majac przynajmniej
 ### Co dalej
 
 Mamy przedmioty, NPC-e, atmosfere, zamki i teraz ekonomie -- brakuje juz tylko jednego: powodu, dla ktorego gracz mialby to wszystko odwiedzic w konkretnej kolejnosci. W Rozdziale 10 spinamy kilka z tych mechanik w prosty, sledzony quest.
+
+## Rozdzial 10: prosty system questow
+
+### Stan questu: mapa na graczu
+
+Tak jak waluta w Rozdziale 9, stan questow to wlasciwosc na `$player` -- wspolna dla kazdego gracza, dodana raz:
+
+```
+@property $player.questy [] rc
+```
+
+Pusta mapa domyslnie oznacza "gracz nie zaczal jeszcze zadnego questu". Klucz to nazwa questu (string), wartosc to jego status -- w naszym przykladzie beda to `"aktywny"` i `"ukonczony"`; brak klucza w mapie oznacza "nie zaczety". Ten sam wzorzec sprawdzania klucza co przy `.odpowiedzi` NPC-ow w Rozdziale 6:
+
+```
+if ("kurhan" in mapkeys(player.questy))
+stan = player.questy["kurhan"];
+else
+stan = "nowy";
+endif
+```
+
+### Quest: Sygnet z Kurhanu
+
+Nasz quest laczy trzy mechaniki z poprzednich rozdzialow: dialog z NPC-em (Rozdzial 6), przedmiot ukryty za zamkiem w Skarbcu (Rozdzial 8) i nagrode w walucie (Rozdzial 9). Najpierw przedmiot questowy -- dopisz go obok `garsc starych srebrnych monet` w Skarbcu:
+
+```
+@create $thing named "stary zloty sygnet,sygnet"
+@describe here as "Ciezki sygnet z wygrawerowanym herbem, ktorego nikt we wsi juz nie rozpoznaje."
+drop stary zloty sygnet
+```
+
+Teraz dwa czasowniki na Staroscie Wlodzimierzu (Rozdzial 6) -- to czasowniki **na konkretnej instancji**, nie na calej klasie `$npc`, bo dotycza tylko jego, nie kazdego NPC-a w grze:
+
+```
+@verb starosta:"zadanie quest" this none this
+```
+```
+@program starosta:zadanie
+if ("kurhan" in mapkeys(player.questy))
+stan = player.questy["kurhan"];
+else
+stan = "nowy";
+endif
+if (stan == "nowy")
+player.questy["kurhan"] = "aktywny";
+this:announce_line("W Kurhanie na poludniu spoczywa stary sygnet naszego rodu. Kaplani boja sie tam isc, ale ktos musi go odzyskac. Przynies mi go, a nie pozostaniesz bez nagrody.");
+elseif (stan == "aktywny")
+this:announce_line("Wciaz czekam na ten sygnet z Kurhanu.");
+elseif (stan == "ukonczony")
+this:announce_line("Jeszcze raz dziekuje za sygnet. Dobrze zrobiony.");
+endif
+.
+```
+
+(`this:announce_line` to ten sam pomocniczy czasownik z Rozdzialu 6, odziedziczony po `$npc` -- nie musimy go pisac od nowa).
+
+```
+@verb starosta:"oddaj zwroc" any to this
+```
+```
+@program starosta:oddaj
+if ("kurhan" in mapkeys(player.questy))
+stan = player.questy["kurhan"];
+else
+stan = "nowy";
+endif
+if ((dobj == $failed_match) || !valid(dobj) || (dobj.location != player))
+player:tell("Nie masz przy sobie czegos takiego.");
+elseif (stan != "aktywny")
+this:announce_line("Nie prosilem cie o nic takiego.");
+elseif (!("sygnet" in dobj.aliases))
+this:announce_line("To nie to, czego szukalem.");
+else
+dobj:recycle();
+player.questy["kurhan"] = "ukonczony";
+player.miedziaki = player.miedziaki + 15;
+this:announce_line("Dziekuje ci, wreszcie mozemy odetchnac. Masz -- to dla ciebie 15 miedziakow.");
+this.location:announce(player.name, " oddaje cos Staroscie Wlodzimierzowi.");
+endif
+.
+```
+
+Skladnia dla gracza: `zadanie starosta`, zeby przyjac (albo przypomniec sobie) quest, i `oddaj sygnet to starosta`, zeby go zakonczyc.
+
+### Dlaczego stan questu, a nie tylko posiadanie przedmiotu
+
+Moglibysmy sprawdzac tylko "czy gracz ma sygnet w ekwipunku", bez zadnej wlasciwosci `.questy` -- dla jednego questu to nawet by zadzialalo. Ale wlasciwosc stanu ma dwie przewagi, ktore widac dopiero przy wiekszej liczbie zadan: po pierwsze, quest moze byc "ukonczony" mimo ze przedmiot juz dawno zniknal (zostal zrecyklowany po oddaniu) -- bez osobnego stanu nie dalby sie odroznic "nigdy nie zaczety" od "juz ukonczony". Po drugie, `.questy` to jedna, wspolna mapa, do ktorej mozna z latwoscia dopisac kolejne questy (nowy klucz, nowy para czasownikow) bez zmiany istniejacego kodu -- to ten sam powod, dla ktorego `.towar` sklepikarza z Rozdzialu 9 jest lista, a nie osobna wlasciwoscia na kazdy przedmiot.
+
+Jako cwiczenie, sprobuj dodac drugi quest wykorzystujacy mechaniki z wczesniejszych rozdzialow -- np. Kaplani ze Swiatyni Trzech Ksiezycow (Rozdzial 1) proszacy o pozbycie sie zbojcow z Obozowiska (Rozdzial 6) albo o zbadanie Polany z Kregiem Grzybow (Rozdzial 8).
+
+### Co dalej
+
+Caly mechaniczny szkielet swiata jest gotowy: mapa, przedmioty, NPC-e, atmosfera, zamki, ekonomia i quest, ktory je wszystkie spina. W Rozdziale 11 dopinamy ostatni, latwy do pominiecia element -- pomoc w grze, zeby gracz, ktory trafi do naszego swiata bez tego poradnika w reku, mial szanse sam sie w nim odnalezc.
