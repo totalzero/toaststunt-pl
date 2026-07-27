@@ -147,3 +147,81 @@ Zalecana konwencja na potrzeby tego poradnika:
 - Nazwy czasownikow (verb names) zapisuj po angielsku i w liczbie pojedynczej rdzenia, tak jak reszta bazy ToastCore (`take`, `drop`, `read`) -- to standardowa konwencja calego silnika, a jesli chcesz dodac polskie aliasy obok, zobacz [Tworzenie tresci po polsku](TWORZENIE-TRESCI-PO-POLSKU.md).
 
 Majac uprawnienia, limit i notatnik gotowe, mozemy wykopac pierwszy pokoj -- Rozdzial 3.
+
+## Rozdzial 3: pierwsza lokacja recznie
+
+Zaczynamy od centrum naszego swiata -- rynku w Kruczym Brodzie. To bedzie jedyny pokoj w calym poradniku, ktory budujemy krok po kroku z pelnym komentarzem do kazdego polecenia; od Rozdzialu 4 wiemy juz, co robimy, wiec tempo przyspiesza.
+
+### Kopiemy pokoj
+
+```
+@dig "Rynek w Kruczym Brodzie"
+```
+
+Serwer odpowie czyms w rodzaju:
+
+```
+Rynek w Kruczym Brodzie stworzony jako #1500.
+```
+
+**Twoj numer bedzie inny** -- kazda baza ma inny stan licznika obiektow, wiec u ciebie moze to byc `#88`, `#3502`, cokolwiek. W dalszej czesci tego rozdzialu uzywam `#1500` jako przykladu -- wszedzie, gdzie go widzisz, podstaw swoj wlasny numer. (To zreszta dokladnie po to prowadzimy notatnik z Rozdzialu 2 -- zapisz go tam juz teraz.)
+
+Ta forma `@dig` (bez `to`) tworzy pokoj **niepolaczony z niczym** -- wisi w probni, dokladnie tak jak mowi help @dig (`help @dig`, jesli chcesz przypomniec sobie skladnie). To celowe: polaczenia (exits) budujemy systematycznie dla calej mapy w Rozdziale 4, zeby nie robic tego kawalkami.
+
+### Przenosimy sie tam
+
+Nowy pokoj nie ma jeszcze zadnego wejscia, wiec zwykle chodzenie nic nie da -- teleportujemy sie poleceniem `@move`:
+
+```
+@move me do #1500
+```
+
+Powinienes zobaczyc nazwe pokoju i (na razie) pusty, domyslny opis.
+
+### Opisujemy pokoj
+
+Opis to najwazniejsza pojedyncza rzecz, jaka gracz widzi w kazdej lokacji -- wart czasu. Ustawiamy go przez `@describe`:
+
+```
+@describe here as "Nierowny bruk, wytarty tysiacami stop. Posrodku stoi kamienna studnia z zadaszeniem z poszarzalej dachowki. Wokol niej kilka drewnianych straganow, teraz pustych -- targ zaczyna sie dopiero rano. Z rynku widac gospode, kuznie i sciezki wiodace w strone lasu oraz wzgorz."
+```
+
+Uzylam `here`, bo po `@move` jestesmy juz w tym pokoju -- mozna tez podac numer wprost (`@describe #1500 as "..."`). Wpisz `look`, zeby zobaczyc efekt.
+
+Technicznie `@describe` po prostu ustawia wlasciwosc `.description` na obiekcie -- `@describe here as "..."` to skrot dla `@set here.description to "..."`. Warto to wiedziec, bo w Rozdziale 7 bedziemy ta wlasciwosc odczytywac i modyfikowac z poziomu kodu (np. zeby opis zmienial sie w zaleznosci od pory dnia).
+
+Zauwaz cos waznego w tresci opisu: wspomina "sciezki wiodace w strone lasu oraz wzgorz", mimo ze tych wyjsc jeszcze fizycznie nie ma. To swiadomy zabieg -- opis pokoju to najlepsze miejsce, by *zapowiedziec* graczowi, dokad moze pojsc, zanim jeszcze sprawdzi liste wyjsc. Miej to na uwadze przy pisaniu opisow reszty mapy w Rozdziale 4.
+
+### Pierwszy wlasny czasownik: `nasluchuj`
+
+Zanim przejdziemy do budowy reszty mapy, zobaczmy pelny cykl pisania kodu na czyms malym -- czasownik, ktory dodaje odrobine klimatu, gdy gracz wpisze `nasluchuj` stojac na rynku.
+
+Tworzymy nowy czasownik na naszym pokoju:
+
+```
+@verb #1500:"nasluchuj listen" tnt
+```
+
+`tnt` to skrot na `this none this` -- uzywamy go, bo to czasownik-polecenie bez dopelnien (patrz `help @verb`, jesli chcesz przypomniec sobie, co oznaczaja `dobj`/`prep`/`iobj`). Podajemy dwie nazwy na raz (`nasluchuj` i angielskie `listen`), zeby dzialalo niezaleznie od tego, w jakim jezyku gracz wpisuje polecenia -- tak jak reszta bazy ToastCore.
+
+Teraz wchodzimy w tryb edycji kodu:
+
+```
+@program #1500:nasluchuj
+```
+
+Serwer przelacza sie w tryb wpisywania linii kodu. Wpisz (kazda linia osobno, Enter po kazdej):
+
+```
+dzwieki = {"Skrzypienie szyldu gospody na wietrze.", "Gdzies szczeka pies.", "Kroki kogos, kto przeszedl przez rynek i zniknal w bocznej uliczce.", "Cisza -- nawet studnia nie skrzypi."};
+player:tell(dzwieki[random(length(dzwieki))]);
+.
+```
+
+Ostatnia, samotna kropka konczy tryb programowania i instaluje czasownik (dokladnie tak, jak opisuje `help @program`). Jesli serwer zglosi blad skladni, wroc do `@program #1500:nasluchuj` i popraw.
+
+Wypisz w grze `nasluchuj` kilka razy -- za kazdym razem powinienes dostac inny, losowy komunikat. To najprostszy mozliwy przyklad interaktywnosci: wlasciwosc (tutaj: lokalna zmienna `dzwieki`) plus czasownik reagujacy na polecenie gracza. Dokladnie ten sam wzorzec -- zmienna/wlasciwosc z danymi plus czasownik, ktory je odczytuje -- bedziemy powtarzac przez reszte poradnika, tylko na coraz ciekawszych przykladach: przedmiotach (Rozdzial 5), NPC-ach (Rozdzial 6) i efektach atmosferycznych (Rozdzial 7).
+
+### Co dalej
+
+Mamy jeden, w pelni opisany i lekko interaktywny pokoj. W Rozdziale 4 robimy to samo systematycznie dla calej reszty mapy -- tym razem z gotowa tabela lokacji i pelnymi sekwencjami `@dig`, zamiast tlumaczyc kazdy krok od nowa.
