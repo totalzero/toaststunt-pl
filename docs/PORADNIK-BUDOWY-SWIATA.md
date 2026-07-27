@@ -944,3 +944,152 @@ Wpisz `look` na Rynku o roznych porach (albo po prostu poczekaj kilka cykli `:ti
 Dokladnie ta sama technika -- nadpisanie `:description()`, `pass()` po oryginalny tekst, dopisanie czegos na koncu -- dziala na dowolnym obiekcie, nie tylko na `$room`: NPC moze wygladac inaczej w zaleznosci od tego, czy akurat pracuje (Kowal Born przy dzien moglby miec dopisane "wlasnie pracuje przy palenisku", a noca "spi na sienniku w kacie"). Zostawiam to jako cwiczenie -- masz juz caly potrzebny wzorzec.
 
 W Rozdziale 8 wracamy do rzeczy bardziej namacalnych: zamkow, kluczy i tego niedokonczonego Tajnego Przejscia z Rozdzialu 4.
+
+## Rozdzial 8: zamki, sekrety i pulapki
+
+### Wyrazenia kluczowe -- jak dziala blokowanie w MOO
+
+Zanim zablokujemy pierwszy obiekt, warto zrozumiec mechanizm: kazdy obiekt moze byc "zablokowany" wzgledem pewnego **wyrazenia kluczowego** -- logicznego wyrazenia z obiektow polaczonych operatorami `&&` (i), `||` (lub) i `!` (nie). Wyrazenie jest sprawdzane wzgledem konkretnego gracza (a scislej: gracza i wszystkiego, co niesie) -- jesli wyjdzie prawdziwe, gracz moze uzyc obiektu. `help keys` ma pelny, formalny opis; tu wystarczy nam kilka przykladow:
+
+- `klucz` -- prawda, jesli kandydat jest obiektem `klucz` **lub go niesie**.
+- `me` -- prawda tylko dla ciebie samego.
+- `klucz || straznik` -- prawda dla kogos, kto niesie `klucz`, **lub** dla samego `straznika`.
+- `! trumna` -- prawda dla kazdego, kto NIE niesie `trumna`.
+
+### Zamykamy skrzynie ze Skarbca
+
+W Rozdziale 5 stworzylismy `stara okuta skrzynia` w Skarbcu, otwarta dla kazdego. Czas to naprawic. Najpierw potrzebujemy fizycznego klucza:
+
+```
+@create $thing named "zardzewialy zelazny klucz,klucz"
+@describe here as "Ciezki, mocno zardzewialy klucz. Ktos musial go tu zgubic dawno temu."
+```
+
+Zostaw go w Komnacie Straznika (Rozdzial 4) -- gracz musi minac straznika, zeby go znalezc, co samo w sobie jest juz malym wyzwaniem (a w Rozdziale 6 straznik dostal juz ostrzegawcza kwestie na ten temat).
+
+Teraz blokujemy skrzynie -- dla kontenerow uzywamy **`@lock_for_open`**, nie zwyklego `@lock` (ten drugi kontroluje co innego -- czy kontener w ogole mozna wziac/przeniesc; `help @lock_for_open`, jesli chcesz sprawdzic roznice):
+
+```
+@lock_for_open skrzynia with klucz
+```
+
+Sprobuj teraz `open skrzynia` bez klucza w ekwipunku -- serwer odmowi. Podnies `zardzewialy zelazny klucz` i sprobuj ponownie -- powinno zadzialac. Cofniecie blokady to `@unlock_for_open skrzynia`.
+
+### Zlozone wyrazenie: zamykamy przejscie do Skarbca
+
+Skarbiec (Rozdzial 4) laczy sie z Komnata Straznika wyjsciem "na dol". Zablokujmy samo to wyjscie zlozonym wyrazeniem -- przepuszczamy kogos, kto niesie klucz, **lub** samego straznika (np. gdyby mial tam wracac patrolowac):
+
+```
+@lock #<numer-wyjscia-na-dol> with klucz || straznik
+```
+
+Numer wyjscia znajdziesz poleceniem `@exits`, stojac w Komnacie Straznika -- wypisze ono wszystkie konwencjonalne wyjscia z biezacego pokoju wraz z ich numerami obiektow (`help @exits`).
+
+### Ukryte przejscie miedzy Regionem 4 a Regionem 5
+
+W Rozdziale 4 odlozylismy Tajne Przejscie -- polaczenie miedzy Krypta Druga a Podnozem Wzgorz. Teraz mamy juz oba pokoje wykopane, wiec mozemy uzyc **trzeciej formy** `@dig` -- laczacej dwa juz istniejace pokoje numerem obiektu (`help @dig`, forma z `to <numer>`):
+
+Stojac w Krypcie Drugiej:
+
+```
+@dig zachod,w to <numer Podnoza Wzgorz>
+```
+
+To tworzy wyjscie z Krypty Drugiej do Podnoza Wzgorz (jednokierunkowe -- jesli chcesz przejscia w obie strony, powtorz operacje w drugim kierunku stojac w Podnozu Wzgorz, laczac `to <numer Krypty Drugiej>`).
+
+Wyjscie juz dziala, ale wciaz jest widoczne na liscie `look`/`@exits` jak kazde inne -- nic "tajnego". Zeby je ukryc, korzystamy z wlasciwosci `.obvious`, ktora sprawdza wbudowany mechanizm listowania wyjsc w `$room` (dokladnie ten sam kod, ktory nadpisalismy w Rozdziale 7 przy okazji `.na_zewnatrz` -- tym razem nie musimy nic nadpisywac, `.obvious` jest juz obslugiwane przez baze):
+
+```
+@exits
+@property #<numer-nowego-wyjscia>.obvious 0 rc
+```
+
+(pierwsza komenda to zwykle `@exits`, zeby odczytac numer nowo utworzonego wyjscia). Od teraz wyjscie nie pojawia sie na liscie wyjsc pokoju, ale gracz, ktory wpisze `zachod` stojac w Krypcie Drugiej, wciaz zostanie przeniesiony -- dokladnie tak, jak powinno dzialac tajne przejscie.
+
+Zeby gracz mial jakakolwiek szanse je znalezc, dajmy podpowiedz przez prosty czasownik wyszukiwania w tym samym pokoju:
+
+```
+@verb #<Krypta Druga>:"szukaj search" this none this
+```
+```
+@program #<Krypta Druga>:szukaj
+player:tell("Przeszukujesz sciany... i czujesz przeciag z zachodniej strony, tam gdzie kamienie wygladaja na poluzowane.");
+.
+```
+
+(Uwaga: opis w powyzszym `player:tell` nie zdradza wprost polecenia `zachod` -- to celowe, gracz wciaz musi sam skojarzyc "przeciag z zachodu" z proba wyjscia na zachod. Ile podpowiedziec, a ile zostawic do odkrycia, to decyzja projektowa, nie techniczna).
+
+### Teleport: krag muchomorow na Polanie
+
+Polana z Kregiem Grzybow (Region 2) dostaje teraz swoj "magiczny detal" zapowiedziany w Rozdziale 1 -- przejscie do malej, odosobnionej kieszeni swiata. Najpierw nowa lokacja (mamy na to zapas w budzecie z Rozdzialu 1 -- 38. lokacja, wciaz ponizej 50):
+
+```
+@dig "Druga Strona Kregu"
+```
+
+Teraz wlasna, plodna klasa teleportu -- ten sam wzorzec klasa+instancje co w Rozdzialach 5 i 6:
+
+```
+@create $thing named "Klasa: Teleport,teleport class"
+@chmod #<klasa> +f
+@property #<klasa>.cel #-1 rc
+```
+
+```
+@verb #<klasa>:"wejdz enter" this none none
+```
+```
+@program #<klasa>:wejdz
+if (!valid(this.cel))
+player:tell("Nic sie nie dzieje.");
+return;
+endif
+player:tell("Swiat wiruje na moment...");
+this.location:announce(player.name, " znika w powietrzu!");
+move(player, this.cel);
+player.location:announce(player.name, " pojawia sie znikad!");
+.
+```
+
+Dwie instancje, kazda wskazujaca na druga -- dokladnie tak, jak dwa konce jednego wyjscia, tylko zaimplementowane jako przedmioty zamiast exitow:
+
+```
+@create #<klasa> named "krag muchomorow,krag"
+@set #<krag1>.cel to <numer Drugiej Strony Kregu>
+drop krag muchomorow
+```
+
+Przejdz do "Drugiej Strony Kregu" i powtorz w druga strone:
+
+```
+@create #<klasa> named "krag muchomorow,krag"
+@set #<krag2>.cel to <numer Polany z Kregiem Grzybow>
+drop krag muchomorow
+```
+
+Wpisz `wejdz krag` (albo `enter krag`) w Polanie -- powinienes trafic po drugiej stronie, i z powrotem tym samym poleceniem.
+
+### Pulapka: Sala z Pulapka
+
+Ostatni efekt w tym rozdziale wykorzystuje `:enterfunc()` -- czasownik, ktory `$room` (a scislej caly mechanizm wbudowanej funkcji `move()`) wywoluje automatycznie na kazdym pokoju, do ktorego cos wchodzi, z przybywajacym obiektem jako argumentem. Nadpisujac go (z `pass()`, zeby nie zgubic domyslnych komunikatow przyjscia), mozemy dodac efekt uboczny:
+
+```
+@verb #<Sala z Pulapka>:enterfunc this none this
+```
+```
+@program #<Sala z Pulapka>:enterfunc
+who = args[1];
+pass(who);
+if (is_player(who) && (random(2) == 1))
+who:tell("Klik! Nadeptujesz na luzna plyte -- z sufitu spada siec kamiennych odwazikow i odpycha cie do tylu!");
+this:announce(who.name, " wpada w pulapke i zostaje wypchniety z powrotem!");
+move(who, <numer Korytarza Kurhanu>);
+endif
+.
+```
+
+Polowa szans na aktywacje (`random(2) == 1`) sprawia, ze pulapka nie jest deterministyczna -- gracz moze przejsc bez problemu za pierwszym razem i wpasc za drugim, co jest bardziej przekonujace niz sztywna, zawsze-taka-sama blokada. `is_player(who)` pilnuje, zeby pulapka nie odpalala sie na kazdym rzuconym przedmiocie czy NPC-u, ktory akurat tamtedy przejdzie.
+
+### Co dalej
+
+Mamy juz komplet mechanik "namacalnych": zamki, klucze, sekrety, teleporty, pulapki -- i przy okazji dokonczylismy mape z Rozdzialu 4 (Tajne Przejscie i Druga Strona Kregu). W Rozdziale 9 dodajemy ostatni duzy element brakujacy graczowi do pelnej rozgrywki: sposob, by cos kupic i sprzedac.
