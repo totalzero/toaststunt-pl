@@ -975,14 +975,14 @@ Zanim zablokujemy pierwszy obiekt, warto zrozumiec mechanizm: kazdy obiekt moze 
 
 ### Zamykamy skrzynie ze Skarbca
 
-W Rozdziale 5 stworzylismy `stara okuta skrzynia` w Skarbcu, otwarta dla kazdego. Czas to naprawic. Najpierw potrzebujemy fizycznego klucza:
+W Rozdziale 5 stworzylismy `stara okuta skrzynia` w Skarbcu, otwarta dla kazdego. Czas to naprawic. Najpierw potrzebujemy fizycznego klucza -- stworz go stojac w Skarbcu, obok skrzyni (`@move ja do <numer Skarbca>`, jesli nie jestes juz tam):
 
 ```
 @create $thing named "zardzewialy zelazny klucz,klucz"
 @describe klucz jako "Ciezki, mocno zardzewialy klucz. Ktos musial go tu zgubic dawno temu."
 ```
 
-Zostaw go w Komnacie Straznika (Rozdzial 4) -- gracz musi minac straznika, zeby go znalezc, co samo w sobie jest juz malym wyzwaniem (a w Rozdziale 6 straznik dostal juz ostrzegawcza kwestie na ten temat).
+Nowy klucz jest teraz w twoim ekwipunku -- **zostaw go tam na razie** (nie upuszczaj jeszcze), bo `@lock_for_open` musi go znalezc, a wyrazenia kluczowe dopasowuja obiekty tak samo jak zwykle polecenia: musisz go niesc albo stac z nim w tym samym pokoju (zweryfikowane live: jesli klucz lezy w innym pokoju niz ten, w ktorym wydajesz polecenie, `@lock_for_open` zglosi "Nie mozna znalezc obiektu o nazwie 'klucz'").
 
 Teraz blokujemy skrzynie -- dla kontenerow uzywamy **`@lock_for_open`**, nie zwyklego `@lock` (ten drugi kontroluje co innego -- czy kontener w ogole mozna wziac/przeniesc; `help @lock_for_open`, jesli chcesz sprawdzic roznice):
 
@@ -992,11 +992,32 @@ Teraz blokujemy skrzynie -- dla kontenerow uzywamy **`@lock_for_open`**, nie zwy
 
 (uwaga: tresc `help @lock_for_open` wciaz pokazuje w przykladzie skladni angielskie `with` -- to nieaktualny fragment pomocy, ktory umknal wczesniejszemu audytowi; faktycznie dzialajacy przyimek to `za pomoca` (albo `przy uzyciu`/`uzywajac`), zgodnie z zasada z Rozdzialu 2).
 
-Sprobuj teraz `open skrzynia` bez klucza w ekwipunku -- serwer odmowi. Podnies `zardzewialy zelazny klucz` i sprobuj ponownie -- powinno zadzialac. Cofniecie blokady to `@unlock_for_open skrzynia`.
+Skrzynia zostala otwarta jeszcze w Rozdziale 5 i tak juz zostala -- zamkniecie (`close`) to stan niezalezny od blokady, wiec zamknij ja teraz, zanim odejdziesz z kluczem (inaczej demonstracja ponizej nie zadziala -- skrzynia bedzie caly czas "juz otwarta"):
+
+```
+close skrzynia
+```
+
+Teraz przenies klucz na jego docelowe miejsce -- Komnate Straznika (Rozdzial 4) -- i tam go upusc: gracz musi minac straznika, zeby go znalezc, co samo w sobie jest juz malym wyzwaniem (a w Rozdziale 6 straznik dostal juz ostrzegawcza kwestie na ten temat):
+
+```
+@move ja do <numer Komnaty Straznika>
+drop klucz
+```
+
+Wroc do Skarbca i sprobuj `open skrzynia` bez klucza w ekwipunku -- serwer odmowi. Wroc po klucz, wez go (`take klucz`), przynies z powrotem i sprobuj ponownie -- powinno zadzialac. Cofniecie blokady to `@unlock_for_open skrzynia`.
 
 ### Zlozone wyrazenie: zamykamy przejscie do Skarbca
 
-Skarbiec (Rozdzial 4) laczy sie z Komnata Straznika wyjsciem "dol". Zablokujmy samo to wyjscie zlozonym wyrazeniem -- przepuszczamy kogos, kto niesie klucz, **lub** samego straznika (np. gdyby mial tam wracac patrolowac):
+Skarbiec (Rozdzial 4) laczy sie z Komnata Straznika wyjsciem "dol". Zablokujmy samo to wyjscie zlozonym wyrazeniem -- przepuszczamy kogos, kto niesie klucz, **lub** samego straznika (np. gdyby mial tam wracac patrolowac). Jesli w Rozdziale 6 zbudowales juz Straznika Kurhanu jako cwiczenie z "Reszty obsady", uzyj go -- jesli nie, przejdz do Komnaty Straznika (`@move ja do <numer z notatnika>`) i zbuduj minimalna wersje, wystarczajaca na potrzeby tego przykladu (ten sam wzorzec `$npc` co przy Kowalu, bez `.gadanie`/`:start()`, bo tu chodzi tylko o sam obiekt do wyrazenia kluczowego):
+
+```
+@create #1560 named "Straznik Kurhanu,straznik"
+@describe straznik jako "Milczacy, opancerzony ksztalt, ktory nie spuszcza z ciebie wzroku."
+drop straznik
+```
+
+Stojac w Komnacie Straznika:
 
 ```
 @lock #<numer-wyjscia-na-dol> za pomoca klucz || straznik
@@ -1016,14 +1037,14 @@ Stojac w Krypcie Drugiej:
 
 To tworzy wyjscie z Krypty Drugiej do Podnoza Wzgorz (jednokierunkowe -- jesli chcesz przejscia w obie strony, powtorz operacje w drugim kierunku stojac w Podnozu Wzgorz, laczac `to <numer Krypty Drugiej>`).
 
-Wyjscie juz dziala, ale wciaz jest widoczne na liscie `look`/`@exits` jak kazde inne -- nic "tajnego". Zeby je ukryc, korzystamy z wlasciwosci `.obvious`, ktora sprawdza wbudowany mechanizm listowania wyjsc w `$room` (dokladnie ten sam kod, ktory nadpisalismy w Rozdziale 7 przy okazji `.na_zewnatrz` -- tym razem nie musimy nic nadpisywac, `.obvious` jest juz obslugiwane przez baze):
+Wyjscie juz dziala, ale wciaz jest widoczne dla zwyklego gracza, ktory sprobuje polecenia `@ways` (podpowiedz "jakie sa oczywiste wyjscia stad" -- zwykly `look` w tym forku w ogole nie pokazuje listy wyjsc, wiec to `@ways`, nie `look`, jest tu istotne). Zeby je ukryc, korzystamy z wlasciwosci `.obvious`, ktora sprawdza wbudowany mechanizm `$room:obvious_exits()` (dokladnie ten sam rodzaj mechanizmu, ktory nadpisalismy w Rozdziale 7 przy okazji `.na_zewnatrz` -- tym razem nie musimy nic nadpisywac, `.obvious` jest juz obslugiwane przez baze):
 
 ```
 @exits
-@property #<numer-nowego-wyjscia>.obvious 0 rc
+@set #<numer-nowego-wyjscia>.obvious do 0
 ```
 
-(pierwsza komenda to zwykle `@exits`, zeby odczytac numer nowo utworzonego wyjscia). Od teraz wyjscie nie pojawia sie na liscie wyjsc pokoju, ale gracz, ktory wpisze `zachod` stojac w Krypcie Drugiej, wciaz zostanie przeniesiony -- dokladnie tak, jak powinno dzialac tajne przejscie.
+(pierwsza komenda to zwykle `@exits`, zeby odczytac numer nowo utworzonego wyjscia -- **uwaga**: kazdy nowy exit juz ma wlasciwosc `.obvious` domyslnie ustawiona na prawde, wiec uzywamy `@set`, nie `@property` -- to drugie zwroci blad "juz istnieje", zweryfikowane live). Od teraz zwykly gracz nie zobaczy tego wyjscia przez `@ways`, ale kto wpisze `zachod` stojac w Krypcie Drugiej, wciaz zostanie przeniesiony -- dokladnie tak, jak powinno dzialac tajne przejscie. (Jako wlasciciel/wizard `@exits` i `@ways` wciaz pokazuja ci wszystko, wlacznie z ukrytymi wyjsciami -- to celowe udogodnienie dla budowniczych, nie blad; testujac ukrywanie, sprawdzaj z perspektywy zwyklego gracza albo bezposrednio przez `;pokoj:obvious_exits()`).
 
 Zeby gracz mial jakakolwiek szanse je znalezc, dajmy podpowiedz przez prosty czasownik wyszukiwania w tym samym pokoju:
 
