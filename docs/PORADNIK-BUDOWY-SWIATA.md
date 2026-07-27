@@ -795,3 +795,152 @@ Ten sam trzyczesciowy wzorzec (klasa `$npc` + `@create #1560 named "..."` + usta
 Nie musisz pisac ani linijki nowego kodu dla zadnej z tych postaci -- caly wysilek programistyczny poszedl w klase `$npc`; kazda kolejna postac to tylko dane (opis + dwie listy tekstu). To ten sam dzwig produktywnosci, co przy przedmiotach jadalnych w Rozdziale 5, tylko na wiekszej skali.
 
 W Rozdziale 7 zajmiemy sie czyms innym: efektami, ktore nie naleza do zadnego konkretnego obiektu, tylko do calego swiata -- pora dnia i pogoda.
+
+## Rozdzial 7: efekty atmosferyczne
+
+### Jeden obiekt trzymajacy stan calego swiata
+
+Pora dnia i pogoda to nie wlasciwosci pojedynczego pokoju -- to stan globalny, ktory wiele pokoi powinno moc odczytac. Zamiast duplikowac go wszedzie, tworzymy jeden obiekt-zegar i odwolujemy sie do niego z kazdego miejsca, ktore go potrzebuje:
+
+```
+@create $thing named "Zegar Swiata,zegar,zegar swiata"
+@property #1575.pora_dnia "rano" rc
+@property #1575.pogoda "pogodnie" rc
+@property #1575.tick_task 0 rc
+```
+
+(`#1575` to znowu przykladowy numer -- podstaw swoj). Ten obiekt nigdy nie musi byc "widziany" przez gracza -- to czysto techniczny magazyn stanu, wiec nie przejmuj sie tym, ze wciaz lezy w twoim ekwipunku.
+
+### Samo-planujace sie zadanie: `:tick`
+
+Ten sam wzorzec `fork`/`kill_task` co przy NPC-ach w Rozdziale 6, tylko tym razem zadanie przesuwa cykl dnia i losuje pogode zamiast wygadywac kwestie:
+
+```
+@verb #1575:tick this none this
+```
+
+```
+@program #1575:tick
+this.tick_task = 0;
+cykl = {"rano", "dzien", "wieczor", "noc"};
+teraz = 1;
+for i in [1..length(cykl)]
+if (cykl[i] == this.pora_dnia)
+teraz = i;
+endif
+endfor
+this.pora_dnia = cykl[(teraz % length(cykl)) + 1];
+los = random(10);
+if (los <= 2)
+this.pogoda = "deszcz";
+elseif (los == 3)
+this.pogoda = "mgla";
+else
+this.pogoda = "pogodnie";
+endif
+fork zadanie (300)
+this:tick();
+endfork
+this.tick_task = zadanie;
+.
+```
+
+```
+@verb #1575:start this none this
+```
+```
+@program #1575:start
+if (this.tick_task == 0)
+this:tick();
+endif
+.
+```
+```
+@verb #1575:stop this none this
+```
+```
+@program #1575:stop
+if (this.tick_task != 0)
+kill_task(this.tick_task);
+this.tick_task = 0;
+endif
+.
+```
+
+Kazde wywolanie `:tick` przesuwa `.pora_dnia` o jeden krok w cyklu rano->dzien->wieczor->noc->rano..., losuje nowa `.pogoda` (20% szans na deszcz, 10% na mgle, reszta pogodnie) i planuje sie ponownie za 300 sekund (5 minut) -- wystarczajaco czesto, by gracz zauwazyl zmiane w rozsadnym czasie gry, ale nie na tyle czesto, zeby zasypac serwer zadaniami.
+
+Zeby moc odwolywac sie do zegara z dowolnego miejsca w bazie bez pamietania jego numeru, skorowujemy go (wymaga uprawnien wizarda -- `help @corify`, jesli chcesz przypomniec sobie szczegoly):
+
+```
+@corify zegar jako zegar_swiata
+```
+
+Od teraz `$zegar_swiata` dziala wszedzie, tak samo jak `$room` czy `$thing`. Uruchamiamy zegar:
+
+```
+$zegar_swiata:start()
+```
+
+### Podpiecie opisow pokoi pod stan zegara
+
+To najciekawsza czesc tego rozdzialu: chcemy, zeby `look` w pokoju na zewnatrz doklejal zdanie o porze dnia i pogodzie do opisu, ktory juz napisalismy w Rozdziale 4 -- bez przepisywania tego opisu za kazdym razem. [Podrecznik Programisty](PODRECZNIK-PROGRAMISTY.md#programowanie-obiektowe) opisuje dokladnie ten wzorzec: kazdy obiekt ma czasownik `:description()`, ktory domyslnie zwraca `this.description`, a `look` wywoluje wlasnie ten czasownik (nie czyta wlasciwosci bezposrednio). Jesli nadpiszemy `:description()` na obiekcie-dziecku, mozemy wywolac oryginalna wersje funkcja `pass()` i dopisac cos od siebie.
+
+My nadpisujemy `:description()` nie na jednym pokoju, ale **na samym `$room`** -- czyli rodzicu kompletnie kazdej lokacji w calej bazie, wlaczajac wszystkie 36+ pokoi z Rozdzialu 4. To swiadoma decyzja, nie pomylka: dzieki temu piszemy ten kod raz, a dziala wszedzie. Zeby nie doklejac pogody do wnetrza Kuzni czy Krypty w Kurhanie, dodajemy przelacznik, ktory kazdy pokoj musi jawnie wlaczyc:
+
+```
+@property $room.na_zewnatrz 0 rc
+```
+
+```
+@verb $room:description this none this
+```
+
+```
+@program $room:description
+opis = pass();
+if (!this.na_zewnatrz)
+return opis;
+endif
+if (typeof(opis) == STR)
+opis = {opis};
+endif
+return {@opis, "", this:opis_pogody()};
+.
+```
+
+```
+@verb $room:opis_pogody this none this
+```
+
+```
+@program $room:opis_pogody
+pora = $zegar_swiata.pora_dnia;
+pogoda = $zegar_swiata.pogoda;
+zdania_pory = ["rano" -> "Poranne slonce ledwo wspina sie ponad dachy.", "dzien" -> "Slonce stoi wysoko, dzien jest w pelni.", "wieczor" -> "Niebo barwi sie na pomaranczowo -- zbliza sie wieczor.", "noc" -> "Ciemno, jedynie gwiazdy daja cokolwiek swiatla."];
+linia = zdania_pory[pora];
+if (pogoda == "deszcz")
+linia = linia + " Mzy drobny deszcz.";
+elseif (pogoda == "mgla")
+linia = linia + " Nad ziemia snuje sie gesta mgla.";
+endif
+return linia;
+.
+```
+
+(indeksowanie mapy `zdania_pory[pora]` zaklada, ze `pora` zawsze jest jedna z czterech kluczy tej mapy -- a tak jest, bo sami kontrolujemy mozliwe wartosci `.pora_dnia` w `:tick`, wiec nie musimy tu dodatkowo obslugiwac brakujacego klucza).
+
+Teraz wlacz efekt na kilku lokacjach na zewnatrz -- np.:
+
+```
+@set #1500.na_zewnatrz to 1
+```
+
+(Rynek), a analogicznie dla Skraju Lasu, Brzegu Rzeki, Podnoza Wzgorz i innych lokacji "pod golym niebem" z Rozdzialu 4. Lokacje wewnatrz budynkow i pod ziemia (Gospoda, Kuznia, caly Kurhan, wnetrze kopalni) zostaw z domyslnym `.na_zewnatrz` rownym `0` -- tam pogoda nie ma racji bytu.
+
+Wpisz `look` na Rynku o roznych porach (albo po prostu poczekaj kilka cykli `:tick`) -- opis powinien teraz konczyc sie zmieniajaca sie linia o porze dnia i pogodzie, podczas gdy sam tekst opisu z Rozdzialu 3 pozostaje nietkniety.
+
+### Ten sam wzorzec gdzie indziej
+
+Dokladnie ta sama technika -- nadpisanie `:description()`, `pass()` po oryginalny tekst, dopisanie czegos na koncu -- dziala na dowolnym obiekcie, nie tylko na `$room`: NPC moze wygladac inaczej w zaleznosci od tego, czy akurat pracuje (Kowal Born przy dzien moglby miec dopisane "wlasnie pracuje przy palenisku", a noca "spi na sienniku w kacie"). Zostawiam to jako cwiczenie -- masz juz caly potrzebny wzorzec.
+
+W Rozdziale 8 wracamy do rzeczy bardziej namacalnych: zamkow, kluczy i tego niedokonczonego Tajnego Przejscia z Rozdzialu 4.
