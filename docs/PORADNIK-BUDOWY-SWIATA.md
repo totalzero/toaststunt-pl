@@ -1093,3 +1093,115 @@ Polowa szans na aktywacje (`random(2) == 1`) sprawia, ze pulapka nie jest determ
 ### Co dalej
 
 Mamy juz komplet mechanik "namacalnych": zamki, klucze, sekrety, teleporty, pulapki -- i przy okazji dokonczylismy mape z Rozdzialu 4 (Tajne Przejscie i Druga Strona Kregu). W Rozdziale 9 dodajemy ostatni duzy element brakujacy graczowi do pelnej rozgrywki: sposob, by cos kupic i sprzedac.
+
+## Rozdzial 9: ekonomia
+
+### Waluta: liczba, nie przedmiot
+
+Najprostszy i najbardziej niezawodny sposob na walute w MOO to zwykla liczba we wlasciwosci gracza, a nie fizyczny przedmiot "moneta", ktory trzeba nosic, podnosic i pilnowac, zeby sie nie zdublowal. Dodajemy wlasciwosc do `$player` -- tak jak `.na_zewnatrz` na `$room` w Rozdziale 7, robimy to raz, na wspolnym rodzicu, i **kazdy** gracz w bazie (obecny i przyszly) dostaje ja automatycznie, z domyslna wartoscia 0:
+
+```
+@property $player.miedziaki 0 rc
+```
+
+Na potrzeby testowania daj sobie troche grosza:
+
+```
+@set me.miedziaki to 20
+```
+
+### Wlasna klasa: sklepikarz
+
+Sklepikarz to NPC ze specjalnymi czasownikami do handlu -- najprosciej zbudowac go jako **dziecko klasy `$npc`** z Rozdzialu 6, a nie zaczynac od zera. To pierwszy przypadek w tym poradniku, gdzie wlasna klasa dziedziczy po innej naszej wlasnej klasie, nie bezposrednio po standardowej -- lancuch wyglada tak: `$thing -> $npc -> $sklepikarz -> (konkretni sklepikarze)`.
+
+```
+@create $npc named "Klasa: Sklepikarz,sklepikarz class"
+@chmod #<klasa> +f
+@property #<klasa>.towar {} rc
+```
+
+`.towar` bedzie lista map, jedna mapa na kazdy towar: nazwa, aliasy, cena i opis. Dwa czasowniki do przegladania i kupowania:
+
+```
+@verb #<klasa>:"cennik pricelist" this none this
+```
+```
+@program #<klasa>:cennik
+player:tell(this.name, " ma na sprzedaz:");
+for pozycja in (this.towar)
+player:tell("  ", pozycja["nazwa"], " -- ", pozycja["cena"], " miedziakow");
+endfor
+.
+```
+
+```
+@verb #<klasa>:"kup buy" any from this
+```
+```
+@program #<klasa>:kup
+tekst = dobjstr;
+for pozycja in (this.towar)
+if ((tekst == pozycja["nazwa"]) || (tekst in pozycja["aliasy"]))
+if (player.miedziaki < pozycja["cena"])
+player:tell("Nie stac cie na to -- potrzebujesz ", pozycja["cena"], " miedziakow, a masz ", player.miedziaki, ".");
+else
+player.miedziaki = player.miedziaki - pozycja["cena"];
+nowy = create($thing, player);
+nowy.name = pozycja["nazwa"];
+nowy.aliases = pozycja["aliasy"];
+nowy.description = pozycja["opis"];
+player:tell("Kupujesz ", pozycja["nazwa"], " za ", pozycja["cena"], " miedziakow.");
+this.location:announce(player.name, " kupuje ", pozycja["nazwa"], " u ", this.name, ".");
+endif
+return;
+endif
+endfor
+player:tell("Nie mamy czegos takiego na sprzedaz. Sprobuj 'cennik'.");
+.
+```
+
+Skladnia komendy: `kup mikstura from sklepikarz` -- `from` to standardowy, wbudowany przyimek (`help prepositions`), wiec dziala od razu, nawet zanim dopiszesz do niego polski alias.
+
+I czasownik odwrotny, sprzedawanie -- gracz oddaje przedmiot, ktory faktycznie niesie, sklepikarz placi za niego stala kwote (chyba ze przedmiot ma wlasna wlasciwosc `.wartosc_sprzedazy`):
+
+```
+@verb #<klasa>:"sprzedaj sell" any to this
+```
+```
+@program #<klasa>:sprzedaj
+if ((dobj == $failed_match) || !valid(dobj) || (dobj.location != player))
+player:tell("Nie masz czegos takiego przy sobie.");
+return;
+endif
+if ($object_utils:has_property(dobj, "wartosc_sprzedazy"))
+wartosc = dobj.wartosc_sprzedazy;
+else
+wartosc = 1;
+endif
+player.miedziaki = player.miedziaki + wartosc;
+player:tell("Sprzedajesz ", dobj.name, " za ", wartosc, " miedziakow.");
+dobj:recycle();
+.
+```
+
+### Konkretny sklepikarz: Zielarka Jagna
+
+Wracamy do Chatki Zielarki z Rozdzialu 1/4, gdzie od poczatku byla zapowiedziana jako zrodlo handlu:
+
+```
+@create #<klasa> named "Zielarka Jagna,jagna,zielarka"
+@describe here as "Starsza kobieta o zrecznych palcach, cala obwieszona pekami suszonych ziol."
+@set here.towar to [["nazwa" -> "flaszeczka mikstury", "aliasy" -> {"flaszeczka", "mikstura"}, "cena" -> 3, "opis" -> "Metny, zielonkawy plyn o ostrym zapachu."], ["nazwa" -> "peczek suszonych ziol", "aliasy" -> {"peczek", "ziola"}, "cena" -> 1, "opis" -> "Kilka gatunkow ziol, zwiazanych razem sznurkiem."]]
+```
+
+Uruchom jej gadanie w tle, tak jak przy Kowalu w Rozdziale 6 (Jagna dziedziczy `:start`/`:stop`/`:heartbeat` po `$npc`, mimo ze jest jednoczesnie sklepikarzem):
+
+```
+jagna:start()
+```
+
+Sprobuj `cennik from jagna`, potem `kup mikstura from jagna` (majac przynajmniej 3 miedziaki), a na koniec `sprzedaj flaszeczka mikstury to jagna`, zeby zobaczyc pelny cykl handlu w obie strony.
+
+### Co dalej
+
+Mamy przedmioty, NPC-e, atmosfere, zamki i teraz ekonomie -- brakuje juz tylko jednego: powodu, dla ktorego gracz mialby to wszystko odwiedzic w konkretnej kolejnosci. W Rozdziale 10 spinamy kilka z tych mechanik w prosty, sledzony quest.
