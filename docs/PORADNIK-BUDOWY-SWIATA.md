@@ -1294,10 +1294,22 @@ Nasz quest laczy trzy mechaniki z poprzednich rozdzialow: dialog z NPC-em (Rozdz
 drop stary zloty sygnet
 ```
 
-Teraz dwa czasowniki na Staroscie Wlodzimierzu (Rozdzial 6) -- to czasowniki **na konkretnej instancji**, nie na calej klasie `$npc`, bo dotycza tylko jego, nie kazdego NPC-a w grze:
+Jesli w Rozdziale 6 zbudowales juz Staroste Wlodzimierza jako cwiczenie z "Reszty obsady", przejdz do Domu Starosty i uzyj go -- jesli nie, oto jego budowa (ten sam wzorzec co Kowal Born):
 
 ```
-@verb starosta:"zadanie quest" this none this
+@create #1560 named "Starosta Wlodzimierz,starosta,wlodzimierz"
+@describe starosta jako "Siwiejacy mezczyzna w dobrze skrojonym, choc znoszonym kaftanie. Patrzy na przybyszow z mieszanina nadziei i zmeczenia."
+drop starosta
+```
+
+(bez `.gadanie` `:start()` nie mialoby sensu -- nie musisz go tu wywolywac; jesli chcesz, zeby Starosta tez losowo cos mowil, dopisz mu `.gadanie` i `:start()` tak jak Kowalowi w Rozdziale 6).
+
+Teraz dwa czasowniki na Staroscie Wlodzimierzu -- to czasowniki **na konkretnej instancji**, nie na calej klasie `$npc`, bo dotycza tylko jego, nie kazdego NPC-a w grze:
+
+Skladnia to `this none none` (dobj=starosta, bez przyimka, bez iobj) -- **nie** `this none this`. Bledna wersja byla w tym poradniku przez pomylke i zweryfikowalam live, ze faktycznie nigdy sie nie uruchamia: skoro `prep` to `none`, gracz fizycznie nie moze podac zadnego iobj w poleceniu, wiec wymog "iobj = this" nigdy nie moze byc spelniony -- polecenie zawsze konczy sie "Nie rozumiem tego", niezaleznie od tego, co gracz wpisze. To dokladnie ten sam blad, przed ktorym ostrzegalismy w Rozdziale 3 (tnt/`this none this` jest dla czasownikow NIE-wywolywanych jako polecenie), tylko odwrotnie zastosowany:
+
+```
+@verb starosta:"zadanie quest" this none none
 ```
 ```
 @program starosta:zadanie
