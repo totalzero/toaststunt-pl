@@ -96,7 +96,7 @@ Do wiekszosci tego poradnika (kopanie pokoi, tworzenie przedmiotow z gotowych kl
 Jesli jestes czarodziejem na swoim wlasnym serwerze testowym (najczesciej tak wlasnie bedzie, jesli szedles za Przewodnikiem dla poczatkujacych), nadaj to sobie samemu:
 
 ```
-@programmer ja
+@programmer me
 ```
 
 (albo `@programmer <twoja-nazwa-gracza>`, jesli wolisz podac nazwe wprost). Jesli budujesz na cudzym serwerze, popros czarodzieja o to samo polecenie na twoim koncie -- zobacz [Podstawy dla Czarodziei](PODSTAWY-DLA-CZARODZIEI.md#jak-tworzyc-programistow) po ich stronie procesu.
@@ -108,7 +108,7 @@ Kazdy nowy programista dostaje domyslny limit **7 obiektow** (wlasciwosc `size_q
 Sprawdz swoj aktualny limit:
 
 ```
-@quota ja
+@quota me
 ```
 
 Jesli budujesz jako zwykly programista (nie czarodziej), popros czarodzieja o podniesienie limitu, zanim przejdziesz dalej -- np. do 100, z zapasem na caly przyklad z tego poradnika plus wlasne eksperymenty:
@@ -144,6 +144,17 @@ Zalecana konwencja na potrzeby tego poradnika:
 - Dla wlasnych klas obiektow (custom parenty, ktore zaczniemy tworzyc od Rozdzialu 5) dobrze sprawdza sie prefiks tematyczny w nazwie, np. `"Krucza Kolczuga"` zamiast po prostu `"Kolczuga"` -- ulatwia to pozniej odnalezienie "swoich" obiektow poleceniem `@audit` czy `@find`, zwlaszcza gdy baza rosnie.
 - Nazwy czasownikow (verb names) zapisuj po angielsku i w liczbie pojedynczej rdzenia, tak jak reszta bazy ToastCore (`take`, `drop`, `read`) -- to standardowa konwencja calego silnika, a jesli chcesz dodac polskie aliasy obok, zobacz [Tworzenie tresci po polsku](TWORZENIE-TRESCI-PO-POLSKU.md).
 
+### WAZNE: specjalne slowa i przyimki w tym forku
+
+Zanim zaczniesz wpisywac polecenia -- ten fork tlumaczy na polski nie tylko tresc bazy, ale takze **kilka rzeczy wbudowanych bezposrednio w silnik (C++), nie w baze danych**. To znaczy, ze zwykle angielskie MOO-owe nawyki tu nie zadzialaja, i **zweryfikowalam to live na dzialajacym serwerze**, zeby miec pewnosc, zanim to napisze:
+
+- Specjalne slowa oznaczajace "ja sam" i "moja obecna lokalizacja" to **`ja`** i **`tu`**/**`tutaj`** -- nie angielskie `me`/`here`. Np. `@move ja do #1500` dziala, `@move me to #1500` zwroci `Nie widze tu "me".`.
+- Podstawowe przyimki, ktorych silnik uzywa do dopasowywania polecen (dopelnien czasownikow), sa rowniez polskie: `jako` (nie `as`), `za pomoca`/`przy uzyciu`/`uzywajac` (nie `with`), `w`/`wewnatrz` (nie `in`), `z`/`spod` (nie `from`), `u`/`do` (nie `to`), `o`/`dla` (nie `about`/`for`), oraz `na`, `nad`, `przez`, `pod`, `za`, `obok`, `ze` -- pelna liste pokazuje `help prepositions`. Dotyczy to zarowno polecen wbudowanych (`@describe X jako "..."`, nie `@describe X as "..."`), jak i **czasownikow, ktore sami piszemy** -- np. `@verb obiekt:"cos" any about any` zwroci wprost `"about" is not a valid preposition.` przy probie stworzenia takiego czasownika; trzeba uzyc `any o any`.
+- Slowa-specyfikatory w samym poleceniu `@verb` (`none`, `this`, `any`) **zostaja po angielsku** -- to nie sa przyimki, tylko oddzielna skladnia samego polecenia `@verb`, i dzialaja dokladnie tak, jak pokazuje `help @verb`.
+- Niektore polecenia administracyjne (`@move`, `@dig`, `@corify`, `@set`) same, w swoim kodzie, jawnie rozpoznaja oba warianty przyimka (`do`/`to`, `jako`/`as`) -- to wyjatek, nie regula; nie zakladaj tego dla innych polecen czy wlasnych czasownikow bez sprawdzenia. Co wiecej, dwa konkretne polecenia -- `@quota` i `@programmer` -- gdy odnosza sie do ciebie samego, wymagaja akurat **angielskiego** `me`, nie `ja` (to najpewniej przeoczenie z wczesniejszego tlumaczenia, nie swiadoma decyzja, ale tak to dzis dziala) -- oba przypadki sa poprawnie napisane w przykladach ponizej, ale to dobry dowod, ze **kazde** polecenie warto zweryfikowac osobno, zamiast zakladac spojnosc w calej bazie.
+
+Kazdy przyklad w reszcie tego poradnika juz uwzglednia te zasade -- ale jesli kiedys kopiujesz skladnie z innego, angielskiego zrodla o MOO, to jest dokladnie ten szczegol, ktory cie zaskoczy.
+
 Majac uprawnienia, limit i notatnik gotowe, mozemy wykopac pierwszy pokoj -- Rozdzial 3.
 
 ## Rozdzial 3: pierwsza lokacja recznie
@@ -159,7 +170,7 @@ Zaczynamy od centrum naszego swiata -- rynku w Kruczym Brodzie. To bedzie jedyny
 Serwer odpowie czyms w rodzaju:
 
 ```
-Rynek w Kruczym Brodzie stworzony jako #1500.
+Rynek w Kruczym Brodzie (#1500) utworzony.
 ```
 
 **Twoj numer bedzie inny** -- kazda baza ma inny stan licznika obiektow, wiec u ciebie moze to byc `#88`, `#3502`, cokolwiek. W dalszej czesci tego rozdzialu uzywam `#1500` jako przykladu -- wszedzie, gdzie go widzisz, podstaw swoj wlasny numer. (To zreszta dokladnie po to prowadzimy notatnik z Rozdzialu 2 -- zapisz go tam juz teraz.)
@@ -171,7 +182,7 @@ Ta forma `@dig` (bez `to`) tworzy pokoj **niepolaczony z niczym** -- wisi w prob
 Nowy pokoj nie ma jeszcze zadnego wejscia, wiec zwykle chodzenie nic nie da -- teleportujemy sie poleceniem `@move`:
 
 ```
-@move me do #1500
+@move ja do #1500
 ```
 
 Powinienes zobaczyc nazwe pokoju i (na razie) pusty, domyslny opis.
@@ -181,12 +192,12 @@ Powinienes zobaczyc nazwe pokoju i (na razie) pusty, domyslny opis.
 Opis to najwazniejsza pojedyncza rzecz, jaka gracz widzi w kazdej lokacji -- wart czasu. Ustawiamy go przez `@describe`:
 
 ```
-@describe here as "Nierowny bruk, wytarty tysiacami stop. Posrodku stoi kamienna studnia z zadaszeniem z poszarzalej dachowki. Wokol niej kilka drewnianych straganow, teraz pustych -- targ zaczyna sie dopiero rano. Z rynku widac gospode, kuznie i sciezki wiodace w strone lasu oraz wzgorz."
+@describe tu jako "Nierowny bruk, wytarty tysiacami stop. Posrodku stoi kamienna studnia z zadaszeniem z poszarzalej dachowki. Wokol niej kilka drewnianych straganow, teraz pustych -- targ zaczyna sie dopiero rano. Z rynku widac gospode, kuznie i sciezki wiodace w strone lasu oraz wzgorz."
 ```
 
-Uzylam `here`, bo po `@move` jestesmy juz w tym pokoju -- mozna tez podac numer wprost (`@describe #1500 as "..."`). Wpisz `look`, zeby zobaczyc efekt.
+Uzylam `tu`, bo po `@move` jestesmy juz w tym pokoju -- mozna tez podac numer wprost (`@describe #1500 jako "..."`). Wpisz `look`, zeby zobaczyc efekt.
 
-Technicznie `@describe` po prostu ustawia wlasciwosc `.description` na obiekcie -- `@describe here as "..."` to skrot dla `@set here.description to "..."`. Warto to wiedziec, bo w Rozdziale 7 bedziemy ta wlasciwosc odczytywac i modyfikowac z poziomu kodu (np. zeby opis zmienial sie w zaleznosci od pory dnia).
+Technicznie `@describe` po prostu ustawia wlasciwosc `.description` na obiekcie -- `@describe tu jako "..."` to skrot dla `@set tu.description do "..."`. Warto to wiedziec, bo w Rozdziale 7 bedziemy ta wlasciwosc odczytywac i modyfikowac z poziomu kodu (np. zeby opis zmienial sie w zaleznosci od pory dnia).
 
 Zauwaz cos waznego w tresci opisu: wspomina "sciezki wiodace w strone lasu oraz wzgorz", mimo ze tych wyjsc jeszcze fizycznie nie ma. To swiadomy zabieg -- opis pokoju to najlepsze miejsce, by *zapowiedziec* graczowi, dokad moze pojsc, zanim jeszcze sprawdzi liste wyjsc. Miej to na uwadze przy pisaniu opisow reszty mapy w Rozdziale 4.
 
@@ -228,7 +239,7 @@ Mamy jeden, w pelni opisany i lekko interaktywny pokoj. W Rozdziale 4 robimy to 
 
 ### Konwencja kierunkow
 
-Ten fork rozpoznaje polskie nazwy kierunkow obok angielskich skrotow -- `polnoc`/`n`, `poludnie`/`s`, `wschod`/`e`, `zachod`/`w`, `polnocny-wschod`/`ne`, `poludniowy-wschod`/`se`, `poludniowy-zachod`/`sw`, `polnocny-zachod`/`nw`, `gore`/`u`, `na dol`/`d` (mozesz to zweryfikowac samemu -- to zaszyta w kodzie tabela w `$string_utils` uzywana m.in. do generowania wyjsc). W kazdym `@dig` z tego rozdzialu podaje oba warianty naraz, tak jak w przykladzie z `help @dig` (`west,w|east,e,out`) -- gracz bedzie mogl wpisac dowolny z nich.
+Ten fork rozpoznaje polskie nazwy kierunkow obok angielskich skrotow -- `polnoc`/`n`, `poludnie`/`s`, `wschod`/`e`, `zachod`/`w`, `polnocny-wschod`/`ne`, `poludniowy-wschod`/`se`, `poludniowy-zachod`/`sw`, `polnocny-zachod`/`nw`, `gore`/`u`, `na dol`/`d` (mozesz to zweryfikowac samemu -- to zaszyta w kodzie tabela w `$string_utils` uzywana m.in. do generowania wyjsc). **Uwaga:** `na dol` to dwa slowa, a polecenia w MOO sa dopasowywane po pierwszym slowie -- dwuwyrazowy alias wyjscia nigdy nie zadziala jako wpisywane polecenie (zweryfikowane live: nawet recznie dodany alias `"na dol"` nie reaguje na wpisanie `na dol`). Dlatego w tym poradniku dla kierunku "w dol" uzywamy jednowyrazowego aliasu **`dol`** zamiast `na dol` -- to jedyna zmiana wzgledem tabeli z `$string_utils`. W kazdym `@dig` z tego rozdzialu podaje oba warianty (pelne slowo i skrot) naraz, tak jak w przykladzie z `help @dig` (`west,w|east,e,out`) -- gracz bedzie mogl wpisac dowolny z nich.
 
 ### Sposob pracy: kop, potem idz, potem kop dalej
 
@@ -282,12 +293,12 @@ Zanim zaczniemy kopac, oto caly szkielet na raz -- warto skopiowac go do notatni
 | Lokacja | Polaczenie | Uwaga |
 |---|---|---|
 | Wejscie do Kurhanu | poludnie od Drugiego Brzegu Rzeki | |
-| Korytarz Kurhanu | na dol od Wejscia do Kurhanu | |
+| Korytarz Kurhanu | dol od Wejscia do Kurhanu | |
 | Krypta Pierwsza | wschod od Korytarza | |
 | Krypta Druga | zachod od Korytarza | ukryte polaczenie z Regionem 5, Rozdzial 8 |
 | Sala z Pulapka | poludnie od Korytarza | fizyczna pulapka, Rozdzial 8 |
 | Komnata Straznika | poludnie od Sali z Pulapka | NPC-straznik/mini-boss, Rozdzial 6 |
-| Skarbiec | na dol od Komnaty Straznika | zamkniete, Rozdzial 8 |
+| Skarbiec | dol od Komnaty Straznika | zamkniete, Rozdzial 8 |
 | Tajne Przejscie | (ukryty exit z Krypty Drugiej) | prowadzi do Regionu 5 |
 
 **Region 5: Wzgorza i Opuszczona Kopalnia**
@@ -298,9 +309,9 @@ Zanim zaczniemy kopac, oto caly szkielet na raz -- warto skopiowac go do notatni
 | Szlak Gorski | polnoc od Podnoza Wzgorz | |
 | Szczyt Wzgorza | polnoc od Szlaku Gorskiego | slepy zaulek, widok/atmosfera |
 | Wejscie do Opuszczonej Kopalni | poludnie od Podnoza Wzgorz | |
-| Kopalnia -- Poziom Pierwszy | na dol od Wejscia do Kopalni | |
+| Kopalnia -- Poziom Pierwszy | dol od Wejscia do Kopalni | |
 | Grota Krysztalowa | wschod od Poziomu Pierwszego | skarb/ekonomia, Rozdzial 9 |
-| Kopalnia -- Poziom Drugi (Obozowisko Zbojcow) | na dol od Poziomu Pierwszego | siedziba antagonistow, Rozdzial 6 i 8 |
+| Kopalnia -- Poziom Drugi (Obozowisko Zbojcow) | dol od Poziomu Pierwszego | siedziba antagonistow, Rozdzial 6 i 8 |
 
 Razem: 10 + 7 + 5 + 8 + 7 = **37 lokacji**, zgodnie z planem z Rozdzialu 1.
 
@@ -319,7 +330,7 @@ Przejdz `polnoc`, zeby wejsc do Kuzni, i wykop z niej dalej brame:
 @dig polnoc,n|poludnie,s to "Brama Polnocna Kruczego Brodu"
 ```
 
-Wroc do Rynku (`poludnie`, `poludnie`) i wykop wschodnia odnoge:
+Wroc do Rynku (`poludnie`, albo po prostu `@move ja do #1500`, jesli wolisz nie liczyc krokow) i wykop wschodnia odnoge:
 
 ```
 @dig wschod,e|zachod,w to "Uliczka Swiatynna"
@@ -337,7 +348,7 @@ Przejdz `wschod` do Swiatyni i wykop cmentarzyk:
 @dig poludnie,s|polnoc,n to "Cmentarzyk przy Swiatyni"
 ```
 
-Wroc do Rynku (`polnoc`, `zachod`, `zachod` -- albo po prostu uzyj `@move me do #1500`, jesli wolisz nie liczyc krokow) i wykop pozostale dwie odnogi:
+Wroc do Rynku (`zachod`, `zachod`, albo po prostu `@move ja do #1500`, jesli wolisz nie liczyc krokow) i wykop pozostale dwie odnogi:
 
 ```
 @dig polnocny-zachod,nw|poludniowy-wschod,se to "Dom Starosty Wlodzimierza"
@@ -359,7 +370,7 @@ Region 1 gotowy -- 10 lokacji, wszystkie polaczone. Sprawdz `@count`, powinienes
 
 ### Budujemy Region 2 (Las Szepczacych Debow)
 
-Wejdz do Bramy Polnocnej (z Kuzni: `polnoc`) i kop dalej w las:
+Region 1 zostawil cie w Rynku -- wejdz do Bramy Polnocnej (`polnoc` do Kuzni, potem `polnoc` do Bramy -- albo `@move ja do <numer Bramy Polnocnej z notatnika>`) i kop dalej w las:
 
 ```
 @dig polnoc,n|poludnie,s to "Skraj Lasu"
@@ -371,7 +382,7 @@ Przejdz `polnoc`, i z Skraju Lasu wykop dwie odnogi:
 @dig wschod,e|zachod,w to "Zrodlo Lesne"
 ```
 
-Wroc (`zachod`) do Skraju Lasu i idz dalej w gab lasu:
+Wciaz stojac w Skraju Lasu (nie weszliscie do Zrodla Lesnego, tylko je wykopaliscie z zewnatrz), idz dalej w glab lasu:
 
 ```
 @dig polnoc,n|poludnie,s to "Gesty Gaszcz"
@@ -383,7 +394,7 @@ Przejdz `polnoc` do Gestego Gaszczu i wykop chate pustelnika oraz dalsza sciezke
 @dig zachod,w|wschod,e to "Chata Pustelnika"
 ```
 
-Wroc (`wschod`) do Gestego Gaszczu:
+Wciaz stojac w Gestym Gaszczu (ta sama sytuacja co przy Zrodle Lesnym):
 
 ```
 @dig polnoc,n|poludnie,s to "Polana z Kregiem Grzybow"
@@ -395,7 +406,7 @@ Przejdz `polnoc` na Polane i wykop ostatnie dwa pokoje regionu:
 @dig polnoc,n|poludnie,s to "Jaskinia Niedzwiedzia"
 ```
 
-Wroc (`poludnie`) na Polane:
+Wciaz stojac na Polanie (ta sama sytuacja co poprzednio -- nie weszliscie do Jaskini):
 
 ```
 @dig wschod,e|zachod,w to "Stary Dab Piorunem Rozlupany"
@@ -405,7 +416,7 @@ Region 2 gotowy -- 7 lokacji.
 
 ### Budujemy Region 3 (Rzeka i Most Kruczy)
 
-Wroc do Rynku i wejdz przez Brame Poludniowa (`poludnie`, `poludnie`):
+Wroc do Rynku (`@move ja do #1500` jest najprostsze, bo z Polany do Rynku jest kilka krokow) i wejdz przez Brame Poludniowa (`poludnie`):
 
 ```
 @dig poludnie,s|polnoc,n to "Brzeg Rzeki"
@@ -417,13 +428,13 @@ Przejdz `poludnie` na Brzeg Rzeki i wykop trzy odnogi:
 @dig wschod,e|zachod,w to "Przystan Rybacka"
 ```
 
-Wroc (`zachod`):
+Wciaz stojac nad Brzegiem Rzeki (nie weszliscie do Przystani):
 
 ```
 @dig zachod,w|wschod,e to "Wodny Mlyn"
 ```
 
-Wroc (`wschod`):
+Nadal w tym samym miejscu:
 
 ```
 @dig poludnie,s|polnoc,n to "Most Kruczy"
@@ -439,7 +450,7 @@ Region 3 gotowy -- 5 lokacji.
 
 ### Budujemy Region 4 (Kurhan Kruczych Wzgorz)
 
-Przejdz `poludnie` z Drugiego Brzegu Rzeki i wykop wejscie do kurhanu:
+Jestes wciaz na Moscie Kruczym (nie weszliscie na Drugi Brzeg) -- przejdz `poludnie`, zeby tam wejsc, i wykop wejscie do kurhanu:
 
 ```
 @dig poludnie,s|polnoc,n to "Wejscie do Kurhanu"
@@ -448,24 +459,24 @@ Przejdz `poludnie` z Drugiego Brzegu Rzeki i wykop wejscie do kurhanu:
 Przejdz `poludnie` i zejdz pod ziemie:
 
 ```
-@dig gore,u|na dol,d to "Korytarz Kurhanu"
+@dig dol,d|gore,u to "Korytarz Kurhanu"
 ```
 
-(zauwaz, ze tu wyjscie *w dol* prowadzi do nowego pokoju, wiec para wyjsc to `gore,u|na dol,d` -- z korytarza wraca sie `gore`, nie `polnoc`; kierunki nie musza trzymac sie geografii na powierzchni, gdy budujesz cos podziemnego).
+(zauwaz, ze tu wyjscie *w dol* prowadzi do nowego pokoju, wiec para wyjsc to `dol,d|gore,u` -- z korytarza wraca sie `gore`, nie `polnoc`; kierunki nie musza trzymac sie geografii na powierzchni, gdy budujesz cos podziemnego. Uwaga: uzywamy `dol`, nie `na dol` -- patrz przypomnienie na poczatku tego rozdzialu).
 
-Przejdz `na dol` do Korytarza i wykop trzy odnogi plus komnate straznika w linii prostej:
+Przejdz `dol` do Korytarza i wykop trzy odnogi plus komnate straznika w linii prostej:
 
 ```
 @dig wschod,e|zachod,w to "Krypta Pierwsza"
 ```
 
-Wroc (`zachod`):
+Wciaz stojac w Korytarzu (nie weszliscie do Krypty Pierwszej):
 
 ```
 @dig zachod,w|wschod,e to "Krypta Druga"
 ```
 
-Wroc (`wschod`):
+Nadal w Korytarzu:
 
 ```
 @dig poludnie,s|polnoc,n to "Sala z Pulapka"
@@ -480,7 +491,7 @@ Przejdz `poludnie` i kop dalej w glab:
 Przejdz `poludnie` i wykop skarbiec pod komnata:
 
 ```
-@dig na dol,d|gore,u to "Skarbiec"
+@dig dol,d|gore,u to "Skarbiec"
 ```
 
 Ostatni pokoj tego regionu -- **Tajne Przejscie** -- celowo nie kopiemy teraz. To ukryte polaczenie miedzy Krypta Druga a Regionem 5, ktore wymaga mechanizmu ukrywania wyjscia (obiekt wyjscia istnieje, ale nie jest widoczny w zwyklym `look`) -- to dokladnie material Rozdzialu 8. Zanotuj sobie tylko w notatniku, ze Krypta Druga bedzie potrzebowac takiego polaczenia, i wroc do tego w Rozdziale 8.
@@ -495,7 +506,7 @@ Ten region z zalozenia laczy sie z reszta mapy przez Tajne Przejscie z Regionu 4
 @dig "Podnoze Wzgorz"
 ```
 
-Zapisz numer, ktory zwroci serwer, i przejdz tam recznie: `@move me do <numer>`.
+Zapisz numer, ktory zwroci serwer, i przejdz tam recznie: `@move ja do <numer>`.
 
 ```
 @dig polnoc,n|poludnie,s to "Szlak Gorski"
@@ -507,7 +518,7 @@ Przejdz `polnoc`:
 @dig polnoc,n|poludnie,s to "Szczyt Wzgorza"
 ```
 
-Wroc na Podnoze Wzgorz (`poludnie`, `poludnie` -- albo `@move`):
+Wroc na Podnoze Wzgorz (`poludnie` -- albo `@move`):
 
 ```
 @dig poludnie,s|polnoc,n to "Wejscie do Opuszczonej Kopalni"
@@ -516,26 +527,26 @@ Wroc na Podnoze Wzgorz (`poludnie`, `poludnie` -- albo `@move`):
 Przejdz `poludnie` i zejdz do kopalni:
 
 ```
-@dig na dol,d|gore,u to "Kopalnia -- Poziom Pierwszy"
+@dig dol,d|gore,u to "Kopalnia -- Poziom Pierwszy"
 ```
 
-Przejdz `na dol` i wykop dwie ostatnie lokacje:
+Przejdz `dol` i wykop dwie ostatnie lokacje:
 
 ```
 @dig wschod,e|zachod,w to "Grota Krysztalowa"
 ```
 
-Wroc (`zachod`):
+Wciaz na Poziomie Pierwszym (nie weszliscie do Groty):
 
 ```
-@dig na dol,d|gore,u to "Kopalnia -- Poziom Drugi (Obozowisko Zbojcow)"
+@dig dol,d|gore,u to "Kopalnia -- Poziom Drugi (Obozowisko Zbojcow)"
 ```
 
 Region 5 gotowy -- 7 lokacji, na razie odizolowanych od reszty mapy (celowo, patrz wyzej).
 
 ### Opisy
 
-Kazdy z powyzszych pokoi ma teraz nazwe i polaczenia, ale wciaz domyslny (pusty) opis. Wzorzec z Rozdzialu 3 (`@describe here as "..."`) jest identyczny dla kazdego z nich -- zamiast przepisywac 36 kolejnych przykladow, potraktuj to jako cwiczenie: przejdz sie po calej mapie i opisz przynajmniej te lokacje, ktore beda mialy znaczenie w kolejnych rozdzialach (Gospoda, Kuznia, Swiatynia, Chata Pustelnika, Polana z Kregiem Grzybow, Komnata Straznika, Obozowisko Zbojcow -- wszystkie pojawiaja sie ponownie przy przedmiotach, NPC-ach lub efektach). Reszte mozesz dopisac w dowolnym momencie -- pusty opis nie przeszkadza w dalszej pracy nad mechanika.
+Kazdy z powyzszych pokoi ma teraz nazwe i polaczenia, ale wciaz domyslny (pusty) opis. Wzorzec z Rozdzialu 3 (`@describe tu jako "..."`) jest identyczny dla kazdego z nich -- zamiast przepisywac 36 kolejnych przykladow, potraktuj to jako cwiczenie: przejdz sie po calej mapie i opisz przynajmniej te lokacje, ktore beda mialy znaczenie w kolejnych rozdzialach (Gospoda, Kuznia, Swiatynia, Chata Pustelnika, Polana z Kregiem Grzybow, Komnata Straznika, Obozowisko Zbojcow -- wszystkie pojawiaja sie ponownie przy przedmiotach, NPC-ach lub efektach). Reszte mozesz dopisac w dowolnym momencie -- pusty opis nie przeszkadza w dalszej pracy nad mechanika.
 
 ### Co dalej
 
@@ -563,8 +574,8 @@ Przejdz do Chaty Pustelnika (Rozdzial 4, Region 2) i stworz tam notatke:
 Serwer zwroci numer nowego obiektu (przykladowo `#1540` -- podstaw swoj). Opisz go z zewnatrz i ustaw tresc do przeczytania:
 
 ```
-@describe #1540 as "Kawalek pergaminu, pokryty niewprawnym pismem."
-@set #1540.text to {"Jesli czytasz te slowa, pustelnik chyba pozwolil ci tu zostac.", "Trzy Ksiezyce widza wiecej, niz kaplani chca przyznac -- pytaj o Kurhan.", "-- P."}
+@describe #1540 jako "Kawalek pergaminu, pokryty niewprawnym pismem."
+@set #1540.text do {"Jesli czytasz te slowa, pustelnik chyba pozwolil ci tu zostac.", "Trzy Ksiezyce widza wiecej, niz kaplani chca przyznac -- pytaj o Kurhan.", "-- P."}
 ```
 
 Nowy obiekt wciaz jest w twoim ekwipunku (tworzenie `@create` nie umieszcza go automatycznie w pokoju) -- upusc go tam, gdzie ma lezec:
@@ -581,7 +592,7 @@ Przejdz do Skarbca (Region 4) i stworz tam zamykana (na razie jeszcze nie zamkni
 
 ```
 @create $container named "stara okuta skrzynia,skrzynia,kufer"
-@describe here as "Ciezka, debowa skrzynia okuta zelazem, pociemniala od wilgoci."
+@describe tu jako "Ciezka, debowa skrzynia okuta zelazem, pociemniala od wilgoci."
 drop stara okuta skrzynia
 ```
 
@@ -589,7 +600,7 @@ Do srodka mozesz od razu wlozyc pierwszy "skarb" -- na razie zwykly `$thing`:
 
 ```
 @create $thing named "garsc starych srebrnych monet,monety,srebro"
-@describe here as "Garsc poczernialych ze staroscia monet z profilem wladcy, ktorego nikt juz nie pamieta."
+@describe tu jako "Garsc poczernialych ze staroscia monet z profilem wladcy, ktorego nikt juz nie pamieta."
 put monety in skrzynia
 ```
 
@@ -645,11 +656,11 @@ Teraz tworzymy konkretny przedmiot dziedziczacy po tej klasie -- bochenek chleba
 
 ```
 @create #1550 named "bochenek razowego chleba,chleb,bochenek"
-@describe here as "Jeszcze cieply, razowy bochenek, pachnacy kminkiem."
-@set here.smak_opis to "Chrupiaca skorka i cieply, gesty miekisz -- najlepszy chleb w calej dolinie."
+@describe tu jako "Jeszcze cieply, razowy bochenek, pachnacy kminkiem."
+@set tu.smak_opis do "Chrupiaca skorka i cieply, gesty miekisz -- najlepszy chleb w calej dolinie."
 ```
 
-(uzylam `here`, wiec upewnij sie, ze stoisz przy nowo stworzonym obiekcie -- `@create` zostawia go w twoim ekwipunku, wiec `here` w tym kontekscie nie zadziala tak jak w Rozdziale 3; podaj numer wprost, jesli wolisz: `@describe #1551 as "..."`).
+(uzylam `tu`, wiec upewnij sie, ze stoisz przy nowo stworzonym obiekcie -- `@create` zostawia go w twoim ekwipunku, wiec `tu` w tym kontekscie nie zadziala tak jak w Rozdziale 3; podaj numer wprost, jesli wolisz: `@describe #1551 jako "..."`).
 
 Upusc chleb w Gospodzie, i sprobuj `zjedz chleb` (albo `eat chleb`) -- powinienes zobaczyc opis smaku i znikniecie przedmiotu z ekwipunku.
 
@@ -687,7 +698,7 @@ Dwie wlasciwosci, ktorych bedzie potrzebowac kazdy NPC z tej klasy -- lista kwes
 ### Czasownik dialogowy: `zagadnij`/`zapytaj`
 
 ```
-@verb #1560:"zagadnij ask" any about any
+@verb #1560:"zagadnij zapytaj ask" any o any
 ```
 
 ```
@@ -714,7 +725,7 @@ player:tell("\"", tekst, "\" -- mowi ", this.name, ".");
 .
 ```
 
-Skladnia polecenia gracza wyglada teraz tak: `zagadnij kowala about kurhan` albo `ask kowal about kurhan` (mieszanie jezykow w jednym poleceniu dziala, bo nazwa czasownika, `about` i nazwa dopelnienia to niezalezne od siebie slowa dla parsera -- parser MOO nie wymaga spojnosci jezykowej calego polecenia). `about` to jeden z przyimkow wbudowanych w silnik -- pelna liste rozpoznawanych przyimkow pokazuje `help prepositions`; jesli chcesz sprawdzic albo rozszerzyc polskie aliasy komend w calej bazie, zajrzyj do [Tworzenia tresci po polsku](TWORZENIE-TRESCI-PO-POLSKU.md).
+Skladnia polecenia gracza wyglada teraz tak: `zagadnij kowala o kurhan` albo `ask kowal o kurhan` (nazwa czasownika moze byc angielska lub polska -- to tylko alias -- ale przyimek musi byc `o`, nie angielskie `about`; przypomnienie z Rozdzialu 2: przyimki wbudowane w silnik tego forka sa polskie, `help prepositions` pokazuje pelna liste). Jesli chcesz sprawdzic albo rozszerzyc polskie aliasy komend w calej bazie, zajrzyj do [Tworzenia tresci po polsku](TWORZENIE-TRESCI-PO-POLSKU.md).
 
 ### Losowe kwestie w tle (`fork`)
 
@@ -768,9 +779,9 @@ Kazde wywolanie `:heartbeat` z jednej czwartej szans wygaduje losowa kwestie do 
 
 ```
 @create #1560 named "Kowal Born,kowal,born"
-@describe here as "Postawny mezczyzna o rekach jak balki, w skorzanym fartuchu poznaczonym iskrami. Pilnuje pieca, jakby to bylo najcenniejsze, co ma."
-@set here.gadanie to {"Uwazaj na iskry, jesli podejdziesz blizej.", "Dobra stal wymaga cierpliwosci, tak samo jak dobre zycie."}
-@set here.odpowiedzi to ["kurhan" -> "Nie chodz tam po zmroku, chlopcze. Kaplani cos wiedza, ale nie mowia.", "_domyslna" -> "Kowal mruczy cos pod nosem i wraca do pracy."]
+@describe tu jako "Postawny mezczyzna o rekach jak balki, w skorzanym fartuchu poznaczonym iskrami. Pilnuje pieca, jakby to bylo najcenniejsze, co ma."
+@set tu.gadanie do {"Uwazaj na iskry, jesli podejdziesz blizej.", "Dobra stal wymaga cierpliwosci, tak samo jak dobre zycie."}
+@set tu.odpowiedzi do ["kurhan" -> "Nie chodz tam po zmroku, chlopcze. Kaplani cos wiedza, ale nie mowia.", "_domyslna" -> "Kowal mruczy cos pod nosem i wraca do pracy."]
 ```
 
 Uruchom mu gadanie w tle (wpisujac to jako on -- czyli wywolujac czasownik na obiekcie, ktorego wlasnie stworzyles i ktory wciaz jest w twoim ekwipunku, wiec mozesz uzyc jego nazwy):
@@ -779,7 +790,7 @@ Uruchom mu gadanie w tle (wpisujac to jako on -- czyli wywolujac czasownik na ob
 kowal:start()
 ```
 
-Poczekaj minute w Kuzni i sprobuj `zapytaj kowala about kurhan`.
+Poczekaj minute w Kuzni i sprobuj `zapytaj kowala o kurhan`.
 
 ### Reszta obsady
 
@@ -930,7 +941,7 @@ return linia;
 Teraz wlacz efekt na kilku lokacjach na zewnatrz -- np.:
 
 ```
-@set #1500.na_zewnatrz to 1
+@set #1500.na_zewnatrz do 1
 ```
 
 (Rynek), a analogicznie dla Skraju Lasu, Brzegu Rzeki, Podnoza Wzgorz i innych lokacji "pod golym niebem" z Rozdzialu 4. Lokacje wewnatrz budynkow i pod ziemia (Gospoda, Kuznia, caly Kurhan, wnetrze kopalni) zostaw z domyslnym `.na_zewnatrz` rownym `0` -- tam pogoda nie ma racji bytu.
@@ -960,7 +971,7 @@ W Rozdziale 5 stworzylismy `stara okuta skrzynia` w Skarbcu, otwarta dla kazdego
 
 ```
 @create $thing named "zardzewialy zelazny klucz,klucz"
-@describe here as "Ciezki, mocno zardzewialy klucz. Ktos musial go tu zgubic dawno temu."
+@describe tu jako "Ciezki, mocno zardzewialy klucz. Ktos musial go tu zgubic dawno temu."
 ```
 
 Zostaw go w Komnacie Straznika (Rozdzial 4) -- gracz musi minac straznika, zeby go znalezc, co samo w sobie jest juz malym wyzwaniem (a w Rozdziale 6 straznik dostal juz ostrzegawcza kwestie na ten temat).
@@ -968,17 +979,19 @@ Zostaw go w Komnacie Straznika (Rozdzial 4) -- gracz musi minac straznika, zeby 
 Teraz blokujemy skrzynie -- dla kontenerow uzywamy **`@lock_for_open`**, nie zwyklego `@lock` (ten drugi kontroluje co innego -- czy kontener w ogole mozna wziac/przeniesc; `help @lock_for_open`, jesli chcesz sprawdzic roznice):
 
 ```
-@lock_for_open skrzynia with klucz
+@lock_for_open skrzynia za pomoca klucz
 ```
+
+(uwaga: tresc `help @lock_for_open` wciaz pokazuje w przykladzie skladni angielskie `with` -- to nieaktualny fragment pomocy, ktory umknal wczesniejszemu audytowi; faktycznie dzialajacy przyimek to `za pomoca` (albo `przy uzyciu`/`uzywajac`), zgodnie z zasada z Rozdzialu 2).
 
 Sprobuj teraz `open skrzynia` bez klucza w ekwipunku -- serwer odmowi. Podnies `zardzewialy zelazny klucz` i sprobuj ponownie -- powinno zadzialac. Cofniecie blokady to `@unlock_for_open skrzynia`.
 
 ### Zlozone wyrazenie: zamykamy przejscie do Skarbca
 
-Skarbiec (Rozdzial 4) laczy sie z Komnata Straznika wyjsciem "na dol". Zablokujmy samo to wyjscie zlozonym wyrazeniem -- przepuszczamy kogos, kto niesie klucz, **lub** samego straznika (np. gdyby mial tam wracac patrolowac):
+Skarbiec (Rozdzial 4) laczy sie z Komnata Straznika wyjsciem "dol". Zablokujmy samo to wyjscie zlozonym wyrazeniem -- przepuszczamy kogos, kto niesie klucz, **lub** samego straznika (np. gdyby mial tam wracac patrolowac):
 
 ```
-@lock #<numer-wyjscia-na-dol> with klucz || straznik
+@lock #<numer-wyjscia-na-dol> za pomoca klucz || straznik
 ```
 
 Numer wyjscia znajdziesz poleceniem `@exits`, stojac w Komnacie Straznika -- wypisze ono wszystkie konwencjonalne wyjscia z biezacego pokoju wraz z ich numerami obiektow (`help @exits`).
@@ -1053,7 +1066,7 @@ Dwie instancje, kazda wskazujaca na druga -- dokladnie tak, jak dwa konce jedneg
 
 ```
 @create #<klasa> named "krag muchomorow,krag"
-@set #<krag1>.cel to <numer Drugiej Strony Kregu>
+@set #<krag1>.cel do <numer Drugiej Strony Kregu>
 drop krag muchomorow
 ```
 
@@ -1061,7 +1074,7 @@ Przejdz do "Drugiej Strony Kregu" i powtorz w druga strone:
 
 ```
 @create #<klasa> named "krag muchomorow,krag"
-@set #<krag2>.cel to <numer Polany z Kregiem Grzybow>
+@set #<krag2>.cel do <numer Polany z Kregiem Grzybow>
 drop krag muchomorow
 ```
 
@@ -1105,7 +1118,7 @@ Najprostszy i najbardziej niezawodny sposob na walute w MOO to zwykla liczba we 
 Na potrzeby testowania daj sobie troche grosza:
 
 ```
-@set me.miedziaki to 20
+@set ja.miedziaki do 20
 ```
 
 ### Wlasna klasa: sklepikarz
@@ -1121,7 +1134,7 @@ Sklepikarz to NPC ze specjalnymi czasownikami do handlu -- najprosciej zbudowac 
 `.towar` bedzie lista map, jedna mapa na kazdy towar: nazwa, aliasy, cena i opis. Dwa czasowniki do przegladania i kupowania:
 
 ```
-@verb #<klasa>:"cennik pricelist" none from this
+@verb #<klasa>:"cennik pricelist" none z this
 ```
 ```
 @program #<klasa>:cennik
@@ -1133,7 +1146,7 @@ endfor
 ```
 
 ```
-@verb #<klasa>:"kup buy" any from this
+@verb #<klasa>:"kup buy" any z this
 ```
 ```
 @program #<klasa>:kup
@@ -1158,12 +1171,12 @@ player:tell("Nie mamy czegos takiego na sprzedaz. Sprobuj 'cennik'.");
 .
 ```
 
-Skladnia komendy: `kup mikstura from sklepikarz` -- `from` to standardowy, wbudowany przyimek (`help prepositions`), wiec dziala od razu, nawet zanim dopiszesz do niego polski alias.
+Skladnia komendy: `kup mikstura z sklepikarz` -- `z` to standardowy, wbudowany przyimek tego forka (`help prepositions`; przypomnienie z Rozdzialu 2: silnik rozpoznaje tu polskie przyimki, nie angielskie).
 
 I czasownik odwrotny, sprzedawanie -- gracz oddaje przedmiot, ktory faktycznie niesie, sklepikarz placi za niego stala kwote (chyba ze przedmiot ma wlasna wlasciwosc `.wartosc_sprzedazy`):
 
 ```
-@verb #<klasa>:"sprzedaj sell" any to this
+@verb #<klasa>:"sprzedaj sell" any do this
 ```
 ```
 @program #<klasa>:sprzedaj
@@ -1188,8 +1201,8 @@ Wracamy do Chatki Zielarki z Rozdzialu 1/4, gdzie od poczatku byla zapowiedziana
 
 ```
 @create #<klasa> named "Zielarka Jagna,jagna,zielarka"
-@describe here as "Starsza kobieta o zrecznych palcach, cala obwieszona pekami suszonych ziol."
-@set here.towar to [["nazwa" -> "flaszeczka mikstury", "aliasy" -> {"flaszeczka", "mikstura"}, "cena" -> 3, "opis" -> "Metny, zielonkawy plyn o ostrym zapachu."], ["nazwa" -> "peczek suszonych ziol", "aliasy" -> {"peczek", "ziola"}, "cena" -> 1, "opis" -> "Kilka gatunkow ziol, zwiazanych razem sznurkiem."]]
+@describe tu jako "Starsza kobieta o zrecznych palcach, cala obwieszona pekami suszonych ziol."
+@set tu.towar do [["nazwa" -> "flaszeczka mikstury", "aliasy" -> {"flaszeczka", "mikstura"}, "cena" -> 3, "opis" -> "Metny, zielonkawy plyn o ostrym zapachu."], ["nazwa" -> "peczek suszonych ziol", "aliasy" -> {"peczek", "ziola"}, "cena" -> 1, "opis" -> "Kilka gatunkow ziol, zwiazanych razem sznurkiem."]]
 ```
 
 Uruchom jej gadanie w tle, tak jak przy Kowalu w Rozdziale 6 (Jagna dziedziczy `:start`/`:stop`/`:heartbeat` po `$npc`, mimo ze jest jednoczesnie sklepikarzem):
@@ -1198,7 +1211,7 @@ Uruchom jej gadanie w tle, tak jak przy Kowalu w Rozdziale 6 (Jagna dziedziczy `
 jagna:start()
 ```
 
-Sprobuj `cennik from jagna`, potem `kup mikstura from jagna` (majac przynajmniej 3 miedziaki), a na koniec `sprzedaj flaszeczka mikstury to jagna`, zeby zobaczyc pelny cykl handlu w obie strony.
+Sprobuj `cennik z jagna`, potem `kup mikstura z jagna` (majac przynajmniej 3 miedziaki), a na koniec `sprzedaj flaszeczka mikstury do jagna`, zeby zobaczyc pelny cykl handlu w obie strony.
 
 ### Co dalej
 
@@ -1230,7 +1243,7 @@ Nasz quest laczy trzy mechaniki z poprzednich rozdzialow: dialog z NPC-em (Rozdz
 
 ```
 @create $thing named "stary zloty sygnet,sygnet"
-@describe here as "Ciezki sygnet z wygrawerowanym herbem, ktorego nikt we wsi juz nie rozpoznaje."
+@describe tu jako "Ciezki sygnet z wygrawerowanym herbem, ktorego nikt we wsi juz nie rozpoznaje."
 drop stary zloty sygnet
 ```
 
@@ -1260,7 +1273,7 @@ endif
 (`this:announce_line` to ten sam pomocniczy czasownik z Rozdzialu 6, odziedziczony po `$npc` -- nie musimy go pisac od nowa).
 
 ```
-@verb starosta:"oddaj zwroc" any to this
+@verb starosta:"oddaj zwroc" any do this
 ```
 ```
 @program starosta:oddaj
@@ -1285,7 +1298,7 @@ endif
 .
 ```
 
-Skladnia dla gracza: `zadanie starosta`, zeby przyjac (albo przypomniec sobie) quest, i `oddaj sygnet to starosta`, zeby go zakonczyc.
+Skladnia dla gracza: `zadanie starosta`, zeby przyjac (albo przypomniec sobie) quest, i `oddaj sygnet do starosta`, zeby go zakonczyc.
 
 ### Dlaczego stan questu, a nie tylko posiadanie przedmiotu
 
@@ -1319,7 +1332,7 @@ Kazdy temat to jedna wlasciwosc -- nazwa wlasciwosci musi byc poprawnym identyfi
 ```
 @property $pomoc_doliny.dolina {"Dolina Kruczych Wzgorz to niewielka kraina: wioska Kruczy Brod, otaczajacy ja Las Szepczacych Debow, Rzeka z Mostem Kruczym, stary Kurhan na poludniu i Wzgorza z opuszczona kopalnia na zachodzie."} rc
 @property $pomoc_doliny.kurhan {"Stary kopiec grobowy na poludnie od rzeki. Straznik przy wejsciu do wnetrza ostrzega przybyszow -- podobno nie bez powodu. W srodku znajduje sie zamkniety Skarbiec."} rc
-@property $pomoc_doliny.sklep {"Zielarka Jagna w swojej chatce sprzedaje towary. 'cennik from jagna' pokazuje oferte, 'kup <przedmiot> from jagna' kupuje, 'sprzedaj <przedmiot> to jagna' sprzedaje jej cos z twojego ekwipunku."} rc
+@property $pomoc_doliny.sklep {"Zielarka Jagna w swojej chatce sprzedaje towary. 'cennik z jagna' pokazuje oferte, 'kup <przedmiot> z jagna' kupuje, 'sprzedaj <przedmiot> do jagna' sprzedaje jej cos z twojego ekwipunku."} rc
 @property $pomoc_doliny.zadania {"Zapytaj Starosty Wlodzimierza w Domu Starosty o 'zadanie', jesli szukasz czegos do zrobienia w tej okolicy."} rc
 ```
 
@@ -1334,7 +1347,7 @@ Zeby te tematy byly widoczne przez `help`, dopisujemy nasza baze do wlasciwosci 
 (jesli serwer odpowie, ze `$room` juz ma wlasciwosc `.help`, pomin ten krok -- niektore baza moga ja juz definiowac; przechodzimy dalej niezaleznie od wyniku). Nastepnie dopisujemy nasza baze do listy, zamiast ja nadpisywac -- na wypadek, gdyby cos tam juz bylo:
 
 ```
-@set $room.help to {@$room.help, $pomoc_doliny}
+@set $room.help do {@$room.help, $pomoc_doliny}
 ```
 
 Stojac w dowolnej lokacji naszej mapy, wpisz `help kurhan` albo `help sklep` -- powinienes zobaczyc tresc odpowiedniej wlasciwosci. Poza naszym swiatem (w innej czesci bazy) te tematy nie beda widoczne -- dokladnie tak, jak powinno byc.
@@ -1355,10 +1368,10 @@ Zanim uznasz swiat za gotowy (nawet jesli to tylko twoj wlasny serwer testowy), 
 
 - **Mapa**: przejdz sie po wszystkich 38 lokacjach w obie strony kazdym wyjsciem -- brakujace wyjscie powrotne to najczestszy blad przy recznym `@dig`. `@dig` z Rozdzialu 4 tworzylo oba kierunki naraz, ale jesli cokolwiek poprawiales recznie, latwo zapomniec o drugiej stronie.
 - **Opisy**: sprawdz, czy kazda lokacja wymieniona w Rozdzialach 5-10 (tam, gdzie stoi jakis przedmiot, NPC albo mechanika) ma opis inny niz domyslny pusty.
-- **NPC-e**: dla kazdego, `zagadnij <npc> about <temat>` na przynajmniej jeden temat z jego `.odpowiedzi`, i sprawdz, czy `:start()` faktycznie zostalo wywolane (patrz nizej, jak to sprawdzic bez zgadywania).
+- **NPC-e**: dla kazdego, `zagadnij <npc> o <temat>` na przynajmniej jeden temat z jego `.odpowiedzi`, i sprawdz, czy `:start()` faktycznie zostalo wywolane (patrz nizej, jak to sprawdzic bez zgadywania).
 - **Przedmioty**: `zjedz chleb` (czy cokolwiek zjadlego stworzyles), `open`/`close`/`take from` na skrzyni w Skarbcu (przed i po zdobyciu klucza).
-- **Ekonomia**: pelny cykl `cennik from jagna` -> `kup ... from jagna` -> `sprzedaj ... to jagna`, sprawdzajac, czy `.miedziaki` faktycznie sie zmienia.
-- **Quest**: `zadanie starosta` (nowy), `zadanie starosta` ponownie (aktywny -- inny tekst), zdobycie sygnetu, `oddaj sygnet to starosta` (nagroda), `zadanie starosta` ponownie (ukonczony -- trzeci wariant tekstu).
+- **Ekonomia**: pelny cykl `cennik z jagna` -> `kup ... z jagna` -> `sprzedaj ... do jagna`, sprawdzajac, czy `.miedziaki` faktycznie sie zmienia.
+- **Quest**: `zadanie starosta` (nowy), `zadanie starosta` ponownie (aktywny -- inny tekst), zdobycie sygnetu, `oddaj sygnet do starosta` (nagroda), `zadanie starosta` ponownie (ukonczony -- trzeci wariant tekstu).
 - **Zamki i sekrety**: probuj otworzyc skrzynie bez klucza (ma sie nie udac), z kluczem (ma sie udac); przejdz przez Tajne Przejscie mimo ze nie widac go na liscie wyjsc; wejdz w krag muchomorow i wroc.
 - **Pulapka**: wejdz do Sali z Pulapka kilka razy pod rzad -- powinienes zobaczyc oba warianty (aktywacja i brak aktywacji), bo szansa jest losowa.
 - **Pomoc**: `help dolina`, `help kurhan`, `help sklep`, `help zadania`, stojac gdziekolwiek w naszym swiecie.
