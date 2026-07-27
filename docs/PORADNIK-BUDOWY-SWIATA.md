@@ -1424,7 +1424,7 @@ Zanim uznasz swiat za gotowy (nawet jesli to tylko twoj wlasny serwer testowy), 
 - **Mapa**: przejdz sie po wszystkich 38 lokacjach w obie strony kazdym wyjsciem -- brakujace wyjscie powrotne to najczestszy blad przy recznym `@dig`. `@dig` z Rozdzialu 4 tworzylo oba kierunki naraz, ale jesli cokolwiek poprawiales recznie, latwo zapomniec o drugiej stronie.
 - **Opisy**: sprawdz, czy kazda lokacja wymieniona w Rozdzialach 5-10 (tam, gdzie stoi jakis przedmiot, NPC albo mechanika) ma opis inny niz domyslny pusty.
 - **NPC-e**: dla kazdego, `zagadnij <npc> o <temat>` na przynajmniej jeden temat z jego `.odpowiedzi`, i sprawdz, czy `:start()` faktycznie zostalo wywolane (patrz nizej, jak to sprawdzic bez zgadywania).
-- **Przedmioty**: `zjedz chleb` (czy cokolwiek zjadlego stworzyles), `open`/`close`/`take from` na skrzyni w Skarbcu (przed i po zdobyciu klucza).
+- **Przedmioty**: `zjedz chleb` (czy cokolwiek zjadlego stworzyles), `open`/`close`/`take z` na skrzyni w Skarbcu (przed i po zdobyciu klucza).
 - **Ekonomia**: pelny cykl `cennik z jagna` -> `kup ... z jagna` -> `sprzedaj ... do jagna`, sprawdzajac, czy `.miedziaki` faktycznie sie zmienia.
 - **Quest**: `zadanie starosta` (nowy), `zadanie starosta` ponownie (aktywny -- inny tekst), zdobycie sygnetu, `oddaj sygnet do starosta` (nagroda), `zadanie starosta` ponownie (ukonczony -- trzeci wariant tekstu).
 - **Zamki i sekrety**: probuj otworzyc skrzynie bez klucza (ma sie nie udac), z kluczem (ma sie udac); przejdz przez Tajne Przejscie mimo ze nie widac go na liscie wyjsc; wejdz w krag muchomorow i wroc.
@@ -1433,13 +1433,13 @@ Zanim uznasz swiat za gotowy (nawet jesli to tylko twoj wlasny serwer testowy), 
 
 ### Sprzatanie po sobie: zadania w tle
 
-Kazdy NPC i `$zegar_swiata` maja wlasne, samoplanujace sie zadania (Rozdzialy 6 i 7). Zeby sprawdzic, co aktualnie dziala w tle (przydatne, jesli podejrzewasz, ze cos zapetlilo sie bledne albo ze zapomniales czegos zatrzymac), wpisz:
+Kazdy NPC i `$zegar_swiata` maja wlasne, samoplanujace sie zadania (Rozdzialy 6 i 7). Zeby sprawdzic, co aktualnie dziala w tle (przydatne, jesli podejrzewasz, ze cos zapetlilo sie bledne albo ze zapomniales czegos zatrzymac), wpisz (pamietaj o `;` -- to funkcja wbudowana, nie polecenie gracza, ten sam wzorzec co `obiekt:czasownik()` z Rozdzialu 6):
 
 ```
-queued_tasks()
+;queued_tasks()
 ```
 
-Zwroci liste wszystkich zaplanowanych zadan -- wlacznie z tymi utworzonymi przez `fork` w naszych czasownikach `:heartbeat`/`:tick`. Jesli chcesz gruntownie posprzatac przed dluzsza przerwa (albo zanim zrecyklujesz jakiegos NPC-a -- **zawsze** `<npc>:stop()` przed `@recycle`, jak przypomnielismy w Rozdziale 6), mozesz zatrzymac konkretne zadanie przez `kill_task(<numer-zadania>)`.
+Zwroci liste wszystkich zaplanowanych zadan -- wlacznie z tymi utworzonymi przez `fork` w naszych czasownikach `:heartbeat`/`:tick`. Jesli chcesz gruntownie posprzatac przed dluzsza przerwa (albo zanim zrecyklujesz jakiegos NPC-a -- **zawsze** `<npc>:stop()` przed `@recycle`, jak przypomnielismy w Rozdziale 6), mozesz zatrzymac konkretne zadanie przez `;kill_task(<numer-zadania>)`.
 
 ### Typowe pulapki (tym razem nie te zaprogramowane)
 
@@ -1456,7 +1456,7 @@ Zwroci liste wszystkich zaplanowanych zadan -- wlacznie z tymi utworzonymi przez
 - Szesc rozszerzen wspolnych klas bazowych (`$room`, `$player`) o nowe wlasciwosci i czasowniki, dzialajacych automatycznie w calej bazie: `.na_zewnatrz` + `:description()` (Rozdzial 7), `.miedziaki` (Rozdzial 9), `.questy` (Rozdzial 10), `.help` (Rozdzial 11).
 - Jeden globalny obiekt stanu (`$zegar_swiata`) z samoplanujacym sie zadaniem w tle.
 - Pelny cykl ekonomiczny i jeden quest laczacy dialog, zamek i nagrode.
-- Wlasna baza pomocy widoczna tylko w obrebie naszego swiata.
+- Wlasna baza pomocy podpieta pod `$player.help` (dostepna wszedzie -- `$room.help` okazal sie zablokowany przez juz-istniejaca wlasciwosc na Generic Editor, patrz Rozdzial 11).
 
 Zaden pojedynczy element nie jest skomplikowany -- cala wartosc bierze sie z tego, jak sa ze soba polaczone.
 
