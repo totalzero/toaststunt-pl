@@ -1375,14 +1375,14 @@ Caly mechaniczny szkielet swiata jest gotowy: mapa, przedmioty, NPC-e, atmosfera
 
 Polecenie `help <temat>` przeszukuje kilka "baz pomocy" po kolei: samego gracza i jego przodkow (az do `$player`), a jesli gracz stoi w pokoju -- rowniez ten pokoj i jego przodkow (az do `$room`), a na koncu zawsze glowna baze `$help`. Kazdy z tych obiektow moze miec wlasciwosc `.help`, ktorej wartoscia jest obiekt-baza-pomocy (albo lista takich obiektow) -- w kazdej takiej bazie temat pomocy to po prostu wlasciwosc o nazwie tematu, a jej wartosc to tekst (string dla jednej linii, lista stringow dla wielu linii).
 
-To znaczy: mozemy dodac pomoc **specyficzna dla naszego swiata**, ktora pojawi sie tylko wtedy, gdy gracz faktycznie w nim jest -- nie musimy niczego dopisywac do glownej, ogolnoswiatowej bazy pomocy.
+Docelowo chcielibysmy pomoc **specyficzna dla naszego swiata**, dostepna tylko wtedy, gdy gracz faktycznie w nim jest -- czyli podpieta pod `$room`, tak jak `.na_zewnatrz` w Rozdziale 7. Zweryfikowalam to live i natrafilam na realna przeszkode (patrz nizej), wiec ostatecznie podepniemy ja pod `$player` zamiast -- pomoc bedzie dzialac wszedzie, nie tylko w naszym swiecie, ale mechanizm jest identyczny, a to i tak lepsze niz nic.
 
 ### Wlasna baza pomocy
 
-Nowa baza pomocy to zwykly obiekt dziedziczacy po Generic Help Database (`#30`):
+Nowa baza pomocy to zwykly obiekt dziedziczacy po Generic Help Database (`#30`). Unikamy dwukropka w nazwie -- `@create`/`@rename` maja specjalna, "niepreferowana" skladnie `nazwa:alias`, w ktorej dwukropek jest separatorem, wiec `"Baza Pomocy: Dolina Kruczych Wzgorz,..."` zostalaby przez to pocieta na "Baza Pomocy" jako nazwe i "Dolina Kruczych Wzgorz" jako osobny alias (zweryfikowane live -- nie jest to niebezpieczne, ale efekt jest inny niz zamierzony):
 
 ```
-@create #30 named "Baza Pomocy: Dolina Kruczych Wzgorz,baza pomocy doliny"
+@create #30 named "Baza Pomocy Doliny Kruczych Wzgorz,baza pomocy doliny"
 @corify baza pomocy doliny jako pomoc_doliny
 ```
 
@@ -1397,23 +1397,19 @@ Kazdy temat to jedna wlasciwosc -- nazwa wlasciwosci musi byc poprawnym identyfi
 
 ### Podpiecie pod system pomocy
 
-Zeby te tematy byly widoczne przez `help`, dopisujemy nasza baze do wlasciwosci `.help` na `$room` -- podobnie jak `.na_zewnatrz` w Rozdziale 7 i `.miedziaki` w Rozdziale 9, robimy to raz, na wspolnym rodzicu, wiec dziala automatycznie w kazdym pokoju calego swiata (nie tylko naszych 38 lokacjach):
+Naturalnym miejscem wydaje sie `$room` -- ale okazuje sie, ze **Generic Editor (`#50`) juz ma wlasna, lokalna wlasciwosc `.help`** (uzywa jej do pomocy w trybie edycji), a jest on -- co zaskakujace -- potomkiem `$room`. MOO nie pozwala dodac wlasciwosci na rodzicu, jesli jakis potomek juz ja definiuje lokalnie (`@property $room.help {} rc` zwroci "Wlasciwosc jest juz zdefiniowana na jednym lub wiecej potomkach"). To ograniczenie jest wbudowane w ten fork od zawsze, wiec kazdy, kto poszedlby ta droga, natrafi na to samo.
+
+Na szczescie `$player` juz ma wlasciwosc `.help` (zdefiniowana przez baze -- sprawdzone przez `@check-prop`), wiec wystarczy do niej dopisac nasza baze. Tak jak przy `.towar` Zielarki Jagny w Rozdziale 9, `@set` nie poradzi sobie ze skladnia `{@lista, element}` (rozwiniecie listy) -- potrzebny jest `;` (eval):
 
 ```
-@property $room.help {} rc
+;$player.help = {@$player.help, $pomoc_doliny};
 ```
 
-(jesli serwer odpowie, ze `$room` juz ma wlasciwosc `.help`, pomin ten krok -- niektore baza moga ja juz definiowac; przechodzimy dalej niezaleznie od wyniku). Nastepnie dopisujemy nasza baze do listy, zamiast ja nadpisywac -- na wypadek, gdyby cos tam juz bylo:
-
-```
-@set $room.help do {@$room.help, $pomoc_doliny}
-```
-
-Stojac w dowolnej lokacji naszej mapy, wpisz `help kurhan` albo `help sklep` -- powinienes zobaczyc tresc odpowiedniej wlasciwosci. Poza naszym swiatem (w innej czesci bazy) te tematy nie beda widoczne -- dokladnie tak, jak powinno byc.
+Stojac gdziekolwiek, wpisz `help kurhan` albo `help sklep` -- powinienes zobaczyc tresc odpowiedniej wlasciwosci. W odroznieniu od pierwotnego planu, te tematy sa teraz dostepne dla kazdego gracza wszedzie, nie tylko w naszym swiecie -- w twoim wlasnym projekcie, jesli zaleznie ci na scislejszym zasiegu, rozwiazaniem jest wlasna klasa-posrednik miedzy `$room` a naszymi lokacjami (np. `$lokacja_doliny`), na ktorej mozna bezpiecznie dodac `.help` bez konfliktu z Generic Editor.
 
 ### Alternatywa: dopisanie do glownej bazy pomocy
 
-Jesli wolisz, zeby twoje tematy byly dostepne wszedzie, a nie tylko w twoim swiecie, mozna je zamiast tego dopisac bezposrednio do glownej bazy `$help` (tej samej, ktora obsluguje `help @dig` czy `help movement`) -- to ten sam mechanizm wlasciwosci-per-temat, tylko na obiekcie `$help` zamiast na naszej wlasnej bazie. Dla tresci specyficznej dla jednego, wydzielonego swiata (tak jak nasz) osobna baza podpieta pod `$room` jest zwykle lepszym wyborem -- nie miesza sie z pomoca dotyczaca calego serwera.
+Skoro `$player.help` i tak dziala globalnie, mozna by rownie dobrze dopisac nasze tematy bezposrednio do glownej bazy `$help` (tej samej, ktora obsluguje `help @dig` czy `help movement`) -- to ten sam mechanizm wlasciwosci-per-temat, tylko na obiekcie `$help` zamiast na naszej wlasnej bazie, z tym samym efektem koncowym. Zaleta trzymania wlasnej, osobnej bazy (`$pomoc_doliny`) zamiast dopisywania do `$help` bezposrednio to porzadek -- latwiej znalezc i zarzadzac tematami specyficznymi dla naszego swiata, gdy sa w jednym, wlasnym obiekcie, zamiast wymieszane z setkami tematow pomocy calego serwera.
 
 ### Co dalej
 
