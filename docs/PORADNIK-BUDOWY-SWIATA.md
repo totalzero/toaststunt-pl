@@ -542,3 +542,121 @@ Kazdy z powyzszych pokoi ma teraz nazwe i polaczenia, ale wciaz domyslny (pusty)
 ### Co dalej
 
 Mamy szkielet calego swiata -- 36 zbudowanych lokacji plus jedna (Tajne Przejscie) odlozona do Rozdzialu 8, i caly Region 5 czekajacy na spiecie z reszta mapy. W Rozdziale 5 zaczynamy wypelniac te lokacje trescia: przedmiotami, ktore gracz moze podniesc, uzyc i (czasem) zjesc.
+
+## Rozdzial 5: przedmioty
+
+### Cztery standardowe klasy
+
+`help @create` wymienia cztery gotowe "standardowe klasy", od ktorych mozesz od razu dziedziczyc: `$note`, `$letter`, `$thing` i `$container`. Kazda przydaje sie do czegos innego:
+
+- `$thing` -- najbardziej ogolna klasa. Mozna ja podniesc, upuscic, przeniesc. Baza pod wszystko, co nie pasuje do pozostalych trzech.
+- `$note` -- przedmiot z tekstem do przeczytania (wlasciwosc `.text`, lista linii). Idealny na liscik, zapiski, karteczki.
+- `$letter` -- podobny do `$note`, ale pomyslany pod system pocztowy (adresat, mozliwosc wyslania) -- na potrzeby tego poradnika bedziemy uzywac gownie `$note`.
+- `$container` -- przedmiot, do ktorego mozna wlozyc inne przedmioty (`put X in Y`) i z ktorego mozna je wyjac (`take X from Y`). Ma tez wbudowana obsluge opcjonalnego zamka (wlasciwosc `.key`) -- wykorzystamy to w Rozdziale 8.
+
+### Pierwszy przedmiot: zapiski w Chacie Pustelnika
+
+Przejdz do Chaty Pustelnika (Rozdzial 4, Region 2) i stworz tam notatke:
+
+```
+@create $note named "wyplowiale zapiski,zapiski,notatka"
+```
+
+Serwer zwroci numer nowego obiektu (przykladowo `#1540` -- podstaw swoj). Opisz go z zewnatrz i ustaw tresc do przeczytania:
+
+```
+@describe #1540 as "Kawalek pergaminu, pokryty niewprawnym pismem."
+@set #1540.text to {"Jesli czytasz te slowa, pustelnik chyba pozwolil ci tu zostac.", "Trzy Ksiezyce widza wiecej, niz kaplani chca przyznac -- pytaj o Kurhan.", "-- P."}
+```
+
+Nowy obiekt wciaz jest w twoim ekwipunku (tworzenie `@create` nie umieszcza go automatycznie w pokoju) -- upusc go tam, gdzie ma lezec:
+
+```
+drop wyplowiale zapiski
+```
+
+Kazdy gracz, ktory wejdzie do Chaty Pustelnika, moze teraz podniesc notatke (`take zapiski`) i przeczytac ja (`read zapiski`) -- oba czasowniki sa juz gotowe, odziedziczone z `$note`.
+
+### Kontener: skrzynia w Skarbcu
+
+Przejdz do Skarbca (Region 4) i stworz tam zamykana (na razie jeszcze nie zamknieta -- to Rozdzial 8) skrzynie:
+
+```
+@create $container named "stara okuta skrzynia,skrzynia,kufer"
+@describe here as "Ciezka, debowa skrzynia okuta zelazem, pociemniala od wilgoci."
+drop stara okuta skrzynia
+```
+
+Do srodka mozesz od razu wlozyc pierwszy "skarb" -- na razie zwykly `$thing`:
+
+```
+@create $thing named "garsc starych srebrnych monet,monety,srebro"
+@describe here as "Garsc poczernialych ze staroscia monet z profilem wladcy, ktorego nikt juz nie pamieta."
+put monety in skrzynia
+```
+
+Gracz, ktory dotrze do Skarbca, moze `open skrzynia`, `look in skrzynia` i `take monety from skrzynia` -- znowu, cala ta mechanika jest juz wbudowana w `$container`, nie napisalismy do niej ani linijki kodu.
+
+### Wlasna klasa: przedmioty jadalne
+
+Zadna standardowa klasa nie obsluguje jedzenia -- to dobra okazja, by pokazac, jak stworzyc **wlasna klase-rodzica**, z ktorej pozniej beda dziedziczyc wszystkie podobne przedmioty (tu: kazdy kolejny posilek w grze, bez pisania kodu od nowa za kazdym razem).
+
+Tworzymy klase (nie konkretny przedmiot -- prototyp, po ktorym beda dziedziczyc inne):
+
+```
+@create $thing named "Klasa: Przedmiot Jadalny,edible class"
+```
+
+Zeby mozna bylo tworzyc dzieci tej klasy, musi byc **plodna** (fertile) -- inaczej `@create` z tym rodzicem odmowi dzialania (`help @chmod`, jesli chcesz przypomniec sobie znaczenie bitow uprawnien):
+
+```
+@chmod #1550 +f
+```
+
+(znow: `#1550` to przykladowy numer, u ciebie bedzie inny -- to na tyle wazny obiekt, ze warto zapisac go w notatniku pod nazwa `$edible`, bedziemy go uzywac ponownie).
+
+Teraz dopisujemy czasownik `zjedz`/`eat`, ktory bedzie dzialal na kazdym przedmiocie dziedziczacym po tej klasie:
+
+```
+@verb #1550:"zjedz eat" this none none
+```
+
+```
+@program #1550:zjedz
+if (this.location != player)
+player:tell("Najpierw musisz to podniesc.");
+else
+player:tell("Zjadasz ", this.name, ". ", (this.smak_opis || "Smakuje calkiem niezle."));
+player:notify_others(player.name + " zjada " + this.name + ".");
+this:recycle();
+endif
+.
+```
+
+Kilka nowosci w tym kodzie, wyjasnione: `this` to zawsze obiekt, na ktorym uruchomiono czasownik (tu: konkretny posilek); `player` to gracz, ktory wydal polecenie; `this.location != player` sprawdza, czy przedmiot faktycznie jest w rekach gracza (a nie np. wciaz lezy w pokoju); `this.smak_opis || "..."` to wzorzec "wartosc domyslna, jesli wlasciwosc jest pusta/nieustawiona", ktory bedziemy uzywac wielokrotnie w kolejnych rozdzialach; `this:recycle()` niszczy przedmiot po zjedzeniu -- zjedzony bochenek chleba nie powinien zostac w ekwipunku.
+
+Zauwaz, ze `zjedz` odwoluje sie do wlasciwosci `smak_opis`, ktorej klasa `$edible` jeszcze nie ma -- dodajmy ja, z sensowna domyslna wartoscia pustego stringu:
+
+```
+@property #1550.smak_opis "" rc
+```
+
+(`rc` to uprawnienia wlasciwosci -- readable i "chown-owned", czyli standardowe, patrz `help @property`).
+
+Teraz tworzymy konkretny przedmiot dziedziczacy po tej klasie -- bochenek chleba w Gospodzie:
+
+```
+@create #1550 named "bochenek razowego chleba,chleb,bochenek"
+@describe here as "Jeszcze cieply, razowy bochenek, pachnacy kminkiem."
+@set here.smak_opis to "Chrupiaca skorka i cieply, gesty miekisz -- najlepszy chleb w calej dolinie."
+```
+
+(uzylam `here`, wiec upewnij sie, ze stoisz przy nowo stworzonym obiekcie -- `@create` zostawia go w twoim ekwipunku, wiec `here` w tym kontekscie nie zadziala tak jak w Rozdziale 3; podaj numer wprost, jesli wolisz: `@describe #1551 as "..."`).
+
+Upusc chleb w Gospodzie, i sprobuj `zjedz chleb` (albo `eat chleb`) -- powinienes zobaczyc opis smaku i znikniecie przedmiotu z ekwipunku.
+
+### Dlaczego to sie oplaca
+
+Ten sam wzorzec -- klasa-rodzic z jedna wspolna logika plus wiele lekkich "dzieci" roznia sie tylko wartosciami wlasciwosci -- powtorzymy jeszcze kilka razy: dla kluczy w Rozdziale 8 i dla towaru na sprzedaz w Rozdziale 9. Zamiast pisac czasownik `zjedz` od nowa dla kazdego kolejnego posilku w grze, wystarczy stworzyc kolejny `@create #1550 named "..."` i ustawic dwie-trzy wlasciwosci. To sedno programowania obiektowego w MOO, i najwiekszy dzwig produktywnosci przy budowaniu wiekszego swiata.
+
+Rozstaw po swiecie kilka wlasnych przedmiotow jadalnych jako cwiczenie (np. co widac na Rynku podczas targu, co podaje pustelnik) -- w Rozdziale 6 zaczynamy zaludniac ten swiat postaciami, ktore beda te przedmioty rozdawac, sprzedawac i o nich rozmawiac.
