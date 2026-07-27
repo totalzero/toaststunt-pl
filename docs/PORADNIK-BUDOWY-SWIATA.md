@@ -18,22 +18,20 @@ Nie zakladam nic ponad to. W szczegolnosci nie zakladam, ze budujesz na produkcy
 
 Kazdy rozdzial zaklada, ze poprzednie zostaly przerobione -- swiat budowany jest przyrostowo, tak jak robilbys to naprawde. Kod w blokach jest gotowy do wklejenia do klienta MOO (telnet/klient MUD) w takiej postaci, w jakiej jest -- tam, gdzie musisz podstawic swoj wlasny numer obiektu czy nazwe, jest to jasno opisane w tekscie przed blokiem kodu.
 
-Rozdzialy:
+Spis tresci:
 
-1. Koncepcja swiata (ten rozdzial)
-2. Przygotowanie warsztatu budowniczego
-3. Pierwsza lokacja recznie
-4. Budowa calej mapy
-5. Przedmioty
-6. NPC-e i dialogi
-7. Efekty atmosferyczne
-8. Zamki, sekrety i pulapki
-9. Ekonomia
-10. Proste zadania (questy)
-11. Pomoc w grze dla wlasnej zawartosci
-12. Testowanie i dalsze kierunki
-
-*(Pelny spis tresci z odnosnikami do sekcji pojawi sie na koncu, gdy wszystkie rozdzialy beda gotowe -- na razie powyzsza lista to plan.)*
+1. [Koncepcja swiata](#rozdzial-1-koncepcja-swiata)
+2. [Przygotowanie warsztatu budowniczego](#rozdzial-2-przygotowanie-warsztatu-budowniczego)
+3. [Pierwsza lokacja recznie](#rozdzial-3-pierwsza-lokacja-recznie)
+4. [Budowa calej mapy](#rozdzial-4-budowa-calej-mapy)
+5. [Przedmioty](#rozdzial-5-przedmioty)
+6. [NPC-e i dialogi](#rozdzial-6-npc-e-i-dialogi)
+7. [Efekty atmosferyczne](#rozdzial-7-efekty-atmosferyczne)
+8. [Zamki, sekrety i pulapki](#rozdzial-8-zamki-sekrety-i-pulapki)
+9. [Ekonomia](#rozdzial-9-ekonomia)
+10. [Prosty system questow](#rozdzial-10-prosty-system-questow)
+11. [Pomoc w grze dla wlasnej zawartosci](#rozdzial-11-pomoc-w-grze-dla-wlasnej-zawartosci)
+12. [Testowanie i dalsze kierunki](#rozdzial-12-testowanie-i-dalsze-kierunki)
 
 ## Rozdzial 1: koncepcja swiata
 
@@ -1348,3 +1346,62 @@ Jesli wolisz, zeby twoje tematy byly dostepne wszedzie, a nie tylko w twoim swie
 ### Co dalej
 
 Caly swiat -- mapa, przedmioty, NPC-e, atmosfera, zamki, ekonomia, quest i teraz pomoc -- jest kompletny i gotowy do zwiedzania. W Rozdziale 12, ostatnim, przechodzimy przez checkliste testowa calosci i zbieramy wskazowki, dokad pojsc dalej.
+
+## Rozdzial 12: testowanie i dalsze kierunki
+
+### Checklist -- przejdz sie po calym swiecie
+
+Zanim uznasz swiat za gotowy (nawet jesli to tylko twoj wlasny serwer testowy), warto przejsc systematycznie przez wszystko, co zbudowales -- latwo o literowke w numerze obiektu albo zapomniany krok, ktory wyjdzie dopiero przy faktycznym uzyciu, nie przy samym pisaniu kodu:
+
+- **Mapa**: przejdz sie po wszystkich 38 lokacjach w obie strony kazdym wyjsciem -- brakujace wyjscie powrotne to najczestszy blad przy recznym `@dig`. `@dig` z Rozdzialu 4 tworzylo oba kierunki naraz, ale jesli cokolwiek poprawiales recznie, latwo zapomniec o drugiej stronie.
+- **Opisy**: sprawdz, czy kazda lokacja wymieniona w Rozdzialach 5-10 (tam, gdzie stoi jakis przedmiot, NPC albo mechanika) ma opis inny niz domyslny pusty.
+- **NPC-e**: dla kazdego, `zagadnij <npc> about <temat>` na przynajmniej jeden temat z jego `.odpowiedzi`, i sprawdz, czy `:start()` faktycznie zostalo wywolane (patrz nizej, jak to sprawdzic bez zgadywania).
+- **Przedmioty**: `zjedz chleb` (czy cokolwiek zjadlego stworzyles), `open`/`close`/`take from` na skrzyni w Skarbcu (przed i po zdobyciu klucza).
+- **Ekonomia**: pelny cykl `cennik from jagna` -> `kup ... from jagna` -> `sprzedaj ... to jagna`, sprawdzajac, czy `.miedziaki` faktycznie sie zmienia.
+- **Quest**: `zadanie starosta` (nowy), `zadanie starosta` ponownie (aktywny -- inny tekst), zdobycie sygnetu, `oddaj sygnet to starosta` (nagroda), `zadanie starosta` ponownie (ukonczony -- trzeci wariant tekstu).
+- **Zamki i sekrety**: probuj otworzyc skrzynie bez klucza (ma sie nie udac), z kluczem (ma sie udac); przejdz przez Tajne Przejscie mimo ze nie widac go na liscie wyjsc; wejdz w krag muchomorow i wroc.
+- **Pulapka**: wejdz do Sali z Pulapka kilka razy pod rzad -- powinienes zobaczyc oba warianty (aktywacja i brak aktywacji), bo szansa jest losowa.
+- **Pomoc**: `help dolina`, `help kurhan`, `help sklep`, `help zadania`, stojac gdziekolwiek w naszym swiecie.
+
+### Sprzatanie po sobie: zadania w tle
+
+Kazdy NPC i `$zegar_swiata` maja wlasne, samoplanujace sie zadania (Rozdzialy 6 i 7). Zeby sprawdzic, co aktualnie dziala w tle (przydatne, jesli podejrzewasz, ze cos zapetlilo sie bledne albo ze zapomniales czegos zatrzymac), wpisz:
+
+```
+queued_tasks()
+```
+
+Zwroci liste wszystkich zaplanowanych zadan -- wlacznie z tymi utworzonymi przez `fork` w naszych czasownikach `:heartbeat`/`:tick`. Jesli chcesz gruntownie posprzatac przed dluzsza przerwa (albo zanim zrecyklujesz jakiegos NPC-a -- **zawsze** `<npc>:stop()` przed `@recycle`, jak przypomnielismy w Rozdziale 6), mozesz zatrzymac konkretne zadanie przez `kill_task(<numer-zadania>)`.
+
+### Typowe pulapki (tym razem nie te zaprogramowane)
+
+- **Numery obiektow z tego poradnika sa przykladowe.** Kazdy `#1500`, `#1550`, `#1560`, `#1575` i tak dalej w tekscie to placeholder -- twoje beda inne. Jesli kopiujesz kod blok po bloku, upewnij sie za kazdym razem, ze podstawiles wlasciwy numer (albo, tam gdzie to mozliwe, uzywaj nazw obiektow, ktore akurat niesiesz lub w ktorych stoisz, tak jak w wielu przykladach powyzej).
+- **`this none this` (`tnt`) to nie "polecenie bez argumentow".** To oznaczenie czasownika wywolywanego tylko z kodu, nigdy bezposrednio przez gracza -- prawdziwe polecenie bez zadnych dopelnien to `none none none` (Rozdzial 3 ma pelne wyjasnienie roznicy; poradnik mial ten blad we wczesniejszej wersji trzech czasownikow, wiec jesli porownujesz z jakas zapisana wczesniej kopia, sprawdz, czy jest juz poprawiona).
+- **Zapomniane `:start()`.** Nowo stworzony NPC albo `$zegar_swiata` nie robi nic sam z siebie, dopoki nie wywolasz na nim `:start()` -- latwo o tym zapomniec, bo kod sie kompiluje i wyglada na gotowy.
+- **`@create` nie umieszcza obiektu w pokoju.** Nowy obiekt laduje w twoim ekwipunku -- pamietaj o `drop`, jesli ma lezec w konkretnym miejscu (Rozdzial 5 zwraca na to uwage przy pierwszej notatce).
+- **Limit quota.** Jesli w trakcie budowy serwer zaczyna odmawiac `@create`/`@dig`, wroc do Rozdzialu 2 -- prawdopodobnie przekroczyles `.size_quota`.
+
+### Podsumowanie: co dokladnie zbudowalismy
+
+- 38 lokacji w 5 regionach, w pelni polaczonych (wlacznie z jednym ukrytym i jednym teleportowym polaczeniem).
+- Cztery wlasne, plodne klasy-rodzice: `$edible` (Rozdzial 5), `$npc` (Rozdzial 6), klasa teleportu (Rozdzial 8) i `$sklepikarz` dziedziczacy po `$npc` (Rozdzial 9).
+- Szesc rozszerzen wspolnych klas bazowych (`$room`, `$player`) o nowe wlasciwosci i czasowniki, dzialajacych automatycznie w calej bazie: `.na_zewnatrz` + `:description()` (Rozdzial 7), `.miedziaki` (Rozdzial 9), `.questy` (Rozdzial 10), `.help` (Rozdzial 11).
+- Jeden globalny obiekt stanu (`$zegar_swiata`) z samoplanujacym sie zadaniem w tle.
+- Pelny cykl ekonomiczny i jeden quest laczacy dialog, zamek i nagrode.
+- Wlasna baza pomocy widoczna tylko w obrebie naszego swiata.
+
+Zaden pojedynczy element nie jest skomplikowany -- cala wartosc bierze sie z tego, jak sa ze soba polaczone.
+
+### Dokad dalej
+
+Kilka naturalnych kierunkow rozwoju, kazdy budujacy na czyms, co juz masz:
+
+- **Wiecej questow** -- masz juz caly wzorzec z Rozdzialu 10, kolejne to glownie tresc, nie nowy kod.
+- **System walki** -- ten poradnik celowo go pomija (to osobny, duzy temat), ale `random()`, wlasciwosci na graczu (jak `.miedziaki`/`.questy`) i `:enterfunc()`/czasowniki-akcje z Rozdzialu 8 to dokladnie te same narzedzia, ktorych by wymagal.
+- **Gildie/frakcje** -- Rada Starszych i Zbojcy z Rozdzialu 1 sa gotowym punktem wyjscia; wlasciwosc-mapa podobna do `.questy`, tylko trzymajaca przynaleznosc gracza, poszlaby w te sama strone.
+- **Wiecej NPC-ow z prawdziwa "sztuczna inteligencja"** -- `:heartbeat` z Rozdzialu 6 mozna rozbudowac o patrolowanie miedzy pokojami (`move(this, ...)` zamiast tylko `:announce()`), nie tylko losowe kwestie w miejscu.
+- **Glebsza integracja z pomoca** -- Rozdzial 11 pokazuje minimum; Generic Help Database (`#30`, rodzic naszej `$pomoc_doliny`) obsluguje tez tematy w postaci `{"*forward*", ...}` i `{"*subst*", ...}`, przydatne przy wiekszej ilosci tresci.
+- **WAIF-y zamiast wlasciwosci na obiektach** -- dla struktur danych bardziej zlozonych niz proste mapy/listy (np. rozbudowany ekwipunek questowy), [dokumentacja WAIF-ow](WAIF-PODRECZNIK-PROGRAMISTY.md) pokazuje lzejsza alternatywe dla pelnych obiektow MOO.
+- **Zarzadzanie serwerem produkcyjnym** -- gdy uznasz, ze cos z tego poradnika nadaje sie do pokazania innym graczom, [Podstawy dla Czarodziei](PODSTAWY-DLA-CZARODZIEI.md) i [Przewodnik dla poczatkujacych](PRZEWODNIK-DLA-POCZATKUJACYCH.md) pokrywaja backupy, konta graczy i uruchamianie serwera na stale.
+
+Dla pelnej, formalnej referencji jezyka i wszystkich funkcji wbudowanych, ktorych uzylismy po drodze (`fork`, `pass`, mapy, `random`, `move` i reszta), zajrzyj do [Podrecznika Programisty](PODRECZNIK-PROGRAMISTY.md) -- ten poradnik pokazywal je w dzialaniu, na konkretnym przykladzie, ale to on jest ostatecznym zrodlem prawdy o skladni i semantyce jezyka MOO.
