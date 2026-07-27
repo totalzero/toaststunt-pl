@@ -152,6 +152,7 @@ Zanim zaczniesz wpisywac polecenia -- ten fork tlumaczy na polski nie tylko tres
 - Podstawowe przyimki, ktorych silnik uzywa do dopasowywania polecen (dopelnien czasownikow), sa rowniez polskie: `jako` (nie `as`), `za pomoca`/`przy uzyciu`/`uzywajac` (nie `with`), `w`/`wewnatrz` (nie `in`), `z`/`spod` (nie `from`), `u`/`do` (nie `to`), `o`/`dla` (nie `about`/`for`), oraz `na`, `nad`, `przez`, `pod`, `za`, `obok`, `ze` -- pelna liste pokazuje `help prepositions`. Dotyczy to zarowno polecen wbudowanych (`@describe X jako "..."`, nie `@describe X as "..."`), jak i **czasownikow, ktore sami piszemy** -- np. `@verb obiekt:"cos" any about any` zwroci wprost `"about" is not a valid preposition.` przy probie stworzenia takiego czasownika; trzeba uzyc `any o any`.
 - Slowa-specyfikatory w samym poleceniu `@verb` (`none`, `this`, `any`) **zostaja po angielsku** -- to nie sa przyimki, tylko oddzielna skladnia samego polecenia `@verb`, i dzialaja dokladnie tak, jak pokazuje `help @verb`.
 - Wywolanie czasownika w postaci `obiekt:czasownik()` (np. `kowal:start()`) **nie jest zwyklym poleceniem gracza** -- to wyrazenie jezyka MOO, wiec zawsze wymaga poprzedzenia `;` (skrot na `eval`, patrz `help eval`). Co wiecej, wewnatrz `eval` nazwy takie jak `kowal` **nie sa dopasowywane do obiektow tak jak w zwyklych poleceniach** -- to zwykle zmienne jezyka MOO, wiec `;kowal:start()` zwroci blad "Nie znaleziono zmiennej". W `eval` uzywaj numeru obiektu wprost (`;#1561:start()`) -- wyjatkiem sa odwolania `$nazwa` (jak `$room` czy `$zegar_swiata`), ktore dzialaja w `eval` bezposrednio, bo `$nazwa` to czesc skladni samego jezyka, nie zwykla zmienna.
+- `@set obiekt.wlasciwosc do wartosc` ma **wlasny, uproszczony parser wartosci** -- radzi sobie ze stringami, liczbami i prostymi listami/mapami, ale nie z zagniezdzonymi strukturami (np. lista map, `{[...], [...]}`) -- taka wartosc trzeba ustawic przez `;` (eval), z tych samych powodow jak wyzej (numer obiektu, nie nazwa): `;#numer.wlasciwosc = wartosc;`.
 - Niektore polecenia administracyjne (`@move`, `@dig`, `@corify`, `@set`) same, w swoim kodzie, jawnie rozpoznaja oba warianty przyimka (`do`/`to`, `jako`/`as`) -- to wyjatek, nie regula; nie zakladaj tego dla innych polecen czy wlasnych czasownikow bez sprawdzenia. Co wiecej, dwa konkretne polecenia -- `@quota` i `@programmer` -- gdy odnosza sie do ciebie samego, wymagaja akurat **angielskiego** `me`, nie `ja` (to najpewniej przeoczenie z wczesniejszego tlumaczenia, nie swiadoma decyzja, ale tak to dzis dziala) -- oba przypadki sa poprawnie napisane w przykladach ponizej, ale to dobry dowod, ze **kazde** polecenie warto zweryfikowac osobno, zamiast zakladac spojnosc w calej bazie.
 
 Kazdy przyklad w reszcie tego poradnika juz uwzglednia te zasade -- ale jesli kiedys kopiujesz skladnie z innego, angielskiego zrodla o MOO, to jest dokladnie ten szczegol, ktory cie zaskoczy.
@@ -680,12 +681,20 @@ W MOO nie ma osobnego "typu" postaci niezaleznej (NPC) -- to po prostu zwykly ob
 
 ### Wlasna klasa: $npc
 
-Tak jak w Rozdziale 5, zaczynamy od plodnej klasy-rodzica. Stworz ja gdziekolwiek (np. w Rynku) i zanotuj numer jako `$npc`:
+Tak jak w Rozdziale 5, zaczynamy od plodnej klasy-rodzica. Stworz ja gdziekolwiek (np. w Rynku):
 
 ```
 @create $thing named "Klasa: NPC,npc class"
 @chmod #1560 +f
 ```
+
+Tym razem naprawde ja skorowujemy (nie tylko zapisujemy numer w notatniku jak `$edible` w Rozdziale 5) -- w Rozdziale 9 zbudujemy klase, ktora dziedziczy PO tej klasie przez `@create $npc named ...`, wiec `$npc` musi byc prawdziwym odwolaniem, nie tylko nazwa w naszych glowach:
+
+```
+@corify #1560 jako npc
+```
+
+(dalej w tym rozdziale wciaz uzywamy numeru `#1560` wprost -- dziala identycznie jak `$npc`, to tylko dwa sposoby zapisania tego samego obiektu).
 
 Dwie wlasciwosci, ktorych bedzie potrzebowac kazdy NPC z tej klasy -- lista kwestii do wygadywania od czasu do czasu i "sciaga" odpowiedzi na pytania:
 
@@ -1187,6 +1196,7 @@ player:tell("Nie stac cie na to -- potrzebujesz ", pozycja["cena"], " miedziakow
 else
 player.miedziaki = player.miedziaki - pozycja["cena"];
 nowy = create($thing, player);
+move(nowy, player);
 nowy.name = pozycja["nazwa"];
 nowy.aliases = pozycja["aliasy"];
 nowy.description = pozycja["opis"];
@@ -1201,6 +1211,8 @@ player:tell("Nie mamy czegos takiego na sprzedaz. Sprobuj 'cennik'.");
 ```
 
 Skladnia komendy: `kup mikstura z sklepikarz` -- `z` to standardowy, wbudowany przyimek tego forka (`help prepositions`; przypomnienie z Rozdzialu 2: silnik rozpoznaje tu polskie przyimki, nie angielskie).
+
+Zwroc uwage na `move(nowy, player)` zaraz po `create($thing, player)` -- **drugi argument `create()` to wlasciciel nowego obiektu, nie jego lokacja** (zweryfikowane live: bez tego `move`, kupiony przedmiot istnieje, jest wlasnoscia gracza, ale lezy nigdzie -- `.location` to `#-1`/`$nothing` -- wiec gracz wcale go nie ma w rekach, mimo ze komunikat "Kupujesz..." sugeruje sukces). To latwa pulapka, bo `create()` nie zglasza zadnego bledu, jesli o `move` zapomnisz.
 
 I czasownik odwrotny, sprzedawanie -- gracz oddaje przedmiot, ktory faktycznie niesie, sklepikarz placi za niego stala kwote (chyba ze przedmiot ma wlasna wlasciwosc `.wartosc_sprzedazy`):
 
@@ -1231,7 +1243,12 @@ Wracamy do Chatki Zielarki z Rozdzialu 1/4 (`@move ja do <numer Chatki z notatni
 ```
 @create #<klasa> named "Zielarka Jagna,jagna,zielarka"
 @describe jagna jako "Starsza kobieta o zrecznych palcach, cala obwieszona pekami suszonych ziol."
-@set jagna.towar do [["nazwa" -> "flaszeczka mikstury", "aliasy" -> {"flaszeczka", "mikstura"}, "cena" -> 3, "opis" -> "Metny, zielonkawy plyn o ostrym zapachu."], ["nazwa" -> "peczek suszonych ziol", "aliasy" -> {"peczek", "ziola"}, "cena" -> 1, "opis" -> "Kilka gatunkow ziol, zwiazanych razem sznurkiem."]]
+```
+
+`.towar` to lista map -- w MOO listy to `{...}`, a mapy to `[...]`, wiec "lista map" wyglada jak `{[...], [...]}`. To dosc zlozony literal, a **`@set` ma wlasny, uproszczony parser wartosci, ktory nie radzi sobie z takim zagniezdzeniem** (zweryfikowane live: `@set jagna.towar do {[...], [...]}` zglasza "Nie mozna sparsowac", mimo ze skladnia jest poprawnym MOO). Zamiast tego uzywamy `;` (eval), ktory uruchamia prawdziwy kompilator jezyka -- a w evalu, jak pamietasz z Rozdzialu 7, nazwy typu `jagna` nie dzialaja (to nie zmienne), wiec potrzebny jest numer obiektu:
+
+```
+;#<numer Jagny>.towar = {["nazwa" -> "flaszeczka mikstury", "aliasy" -> {"flaszeczka", "mikstura"}, "cena" -> 3, "opis" -> "Metny, zielonkawy plyn o ostrym zapachu."], ["nazwa" -> "peczek suszonych ziol", "aliasy" -> {"peczek", "ziola"}, "cena" -> 1, "opis" -> "Kilka gatunkow ziol, zwiazanych razem sznurkiem."]};
 drop jagna
 ```
 
