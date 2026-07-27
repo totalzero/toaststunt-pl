@@ -660,3 +660,138 @@ Upusc chleb w Gospodzie, i sprobuj `zjedz chleb` (albo `eat chleb`) -- powiniene
 Ten sam wzorzec -- klasa-rodzic z jedna wspolna logika plus wiele lekkich "dzieci" roznia sie tylko wartosciami wlasciwosci -- powtorzymy jeszcze kilka razy: dla kluczy w Rozdziale 8 i dla towaru na sprzedaz w Rozdziale 9. Zamiast pisac czasownik `zjedz` od nowa dla kazdego kolejnego posilku w grze, wystarczy stworzyc kolejny `@create #1550 named "..."` i ustawic dwie-trzy wlasciwosci. To sedno programowania obiektowego w MOO, i najwiekszy dzwig produktywnosci przy budowaniu wiekszego swiata.
 
 Rozstaw po swiecie kilka wlasnych przedmiotow jadalnych jako cwiczenie (np. co widac na Rynku podczas targu, co podaje pustelnik) -- w Rozdziale 6 zaczynamy zaludniac ten swiat postaciami, ktore beda te przedmioty rozdawac, sprzedawac i o nich rozmawiac.
+
+## Rozdzial 6: NPC-e i dialogi
+
+### Czym jest NPC w MOO
+
+W MOO nie ma osobnego "typu" postaci niezaleznej (NPC) -- to po prostu zwykly obiekt (najczesciej dziedziczacy po `$thing`), ktory wyglada i zachowuje sie jak postac, bo my sami napisalismy mu opis i czasowniki reagujace na polecenia gracza. Nie jest zalogowanym graczem i nic nie robi "sam z siebie", chyba ze zaplanujemy to jawnie -- albo przez czasowniki wywolywane na zadanie (np. `porozmawiaj z kowalem`), albo przez samo-planujace sie zadanie w tle (`fork`), ktore od czasu do czasu cos robi bez udzialu gracza. Zbudujemy oba mechanizmy na jednym przykladzie, a potem powielimy go na reszte postaci.
+
+### Wlasna klasa: $npc
+
+Tak jak w Rozdziale 5, zaczynamy od plodnej klasy-rodzica. Stworz ja gdziekolwiek (np. w Rynku) i zanotuj numer jako `$npc`:
+
+```
+@create $thing named "Klasa: NPC,npc class"
+@chmod #1560 +f
+```
+
+Dwie wlasciwosci, ktorych bedzie potrzebowac kazdy NPC z tej klasy -- lista kwestii do wygadywania od czasu do czasu i "sciaga" odpowiedzi na pytania:
+
+```
+@property #1560.gadanie {} rc
+@property #1560.odpowiedzi [] rc
+@property #1560.heartbeat_task 0 rc
+```
+
+`odpowiedzi` bedzie mapa (typ danych MOO zapisywany `[klucz -> wartosc, ...]`) laczaca slowo-klucz z odpowiedzia -- np. `["kurhan" -> "Nie chodz tam po zmroku, chlopcze."]`. `heartbeat_task` przechowuje numer zaplanowanego zadania w tle, zebysmy mogli je pozniej zatrzymac (`kill_task`) zamiast zostawiac je dzialajace w nieskonczonosc, gdy np. NPC zostanie zrecyklowany.
+
+### Czasownik dialogowy: `zagadnij`/`zapytaj`
+
+```
+@verb #1560:"zagadnij ask" any about any
+```
+
+```
+@program #1560:zagadnij
+temat = strsub(iobjstr, " ", "");
+if (temat in mapkeys(this.odpowiedzi))
+this:announce_line(this.odpowiedzi[temat]);
+else
+this:announce_line(this.odpowiedzi["_domyslna"] || "...wzrusza ramionami.");
+endif
+.
+```
+
+(`this:announce_line` jeszcze nie istnieje -- dopisujemy go od razu, zeby nie powtarzac tego samego `player:tell`/`announce` w kazdym kolejnym czasowniku NPC-a):
+
+```
+@verb #1560:announce_line this none this
+```
+
+```
+@program #1560:announce_line
+tekst = args[1];
+player:tell("\"", tekst, "\" -- mowi ", this.name, ".");
+.
+```
+
+Skladnia polecenia gracza wyglada teraz tak: `zagadnij kowala about kurhan` albo `ask kowal about kurhan` (mieszanie jezykow w jednym poleceniu dziala, bo nazwa czasownika, `about` i nazwa dopelnienia to niezalezne od siebie slowa dla parsera -- parser MOO nie wymaga spojnosci jezykowej calego polecenia). `about` to jeden z przyimkow wbudowanych w silnik -- pelna liste rozpoznawanych przyimkow pokazuje `help prepositions`; jesli chcesz sprawdzic albo rozszerzyc polskie aliasy komend w calej bazie, zajrzyj do [Tworzenia tresci po polsku](TWORZENIE-TRESCI-PO-POLSKU.md).
+
+### Losowe kwestie w tle (`fork`)
+
+Zeby NPC czasem odzywal sie sam z siebie (nie tylko w odpowiedzi na pytanie), potrzebujemy zadania, ktore samo siebie planuje na przyszlosc. To pierwsze uzycie `fork` w tym poradniku -- pelny opis skladni jest w [Podreczniku Programisty](PODRECZNIK-PROGRAMISTY.md), tu pokazuje tylko dzialajacy wzorzec:
+
+```
+@verb #1560:heartbeat this none this
+```
+
+```
+@program #1560:heartbeat
+this.heartbeat_task = 0;
+if ((this.gadanie != {}) && (random(4) == 1))
+this.location:announce(this.name, " mowi: \"", this.gadanie[random(length(this.gadanie))], "\"");
+endif
+fork zadanie (30 + random(60))
+this:heartbeat();
+endfork
+this.heartbeat_task = zadanie;
+.
+```
+
+```
+@verb #1560:start this none this
+```
+
+```
+@program #1560:start
+if (this.heartbeat_task == 0)
+this:heartbeat();
+endif
+.
+```
+
+```
+@verb #1560:stop this none this
+```
+
+```
+@program #1560:stop
+if (this.heartbeat_task != 0)
+kill_task(this.heartbeat_task);
+this.heartbeat_task = 0;
+endif
+.
+```
+
+Kazde wywolanie `:heartbeat` z jednej czwartej szans wygaduje losowa kwestie do calego pokoju (`this.location:announce(...)`, ta sama wbudowana metoda co przy komunikatach polaczenia z Rozdzialu 3), a potem **samo planuje swoje kolejne wywolanie** za 30-90 sekund (`30 + random(60)`) i zapamietuje numer zaplanowanego zadania w `.heartbeat_task`. `:stop` zabija to zaplanowane zadanie -- **zawsze wywolaj `:stop` przed `@recycle` takiego NPC-a**, inaczej zaplanowane zadanie zostanie osierocone (bedzie probowalo wywolac czasownik na juz nieistniejacym obiekcie i zakonczy sie bledem w logu serwera, ale i tak lepiej tego unikac).
+
+### Pierwszy NPC: Kowal Born
+
+```
+@create #1560 named "Kowal Born,kowal,born"
+@describe here as "Postawny mezczyzna o rekach jak balki, w skorzanym fartuchu poznaczonym iskrami. Pilnuje pieca, jakby to bylo najcenniejsze, co ma."
+@set here.gadanie to {"Uwazaj na iskry, jesli podejdziesz blizej.", "Dobra stal wymaga cierpliwosci, tak samo jak dobre zycie."}
+@set here.odpowiedzi to ["kurhan" -> "Nie chodz tam po zmroku, chlopcze. Kaplani cos wiedza, ale nie mowia.", "_domyslna" -> "Kowal mruczy cos pod nosem i wraca do pracy."]
+```
+
+Uruchom mu gadanie w tle (wpisujac to jako on -- czyli wywolujac czasownik na obiekcie, ktorego wlasnie stworzyles i ktory wciaz jest w twoim ekwipunku, wiec mozesz uzyc jego nazwy):
+
+```
+kowal:start()
+```
+
+Poczekaj minute w Kuzni i sprobuj `zapytaj kowala about kurhan`.
+
+### Reszta obsady
+
+Ten sam trzyczesciowy wzorzec (klasa `$npc` + `@create #1560 named "..."` + ustawienie `.gadanie`/`.odpowiedzi` + `:start()`) powtarzamy dla pozostalych postaci z Rozdzialu 1:
+
+- **Starosta Wlodzimierz** (Dom Starosty) -- `.odpowiedzi` zawiera wskazowke o pierwszym zadaniu (rozwijamy je w Rozdziale 10).
+- **Pustelnik** (Chata Pustelnika) -- neutralne, zagadkowe odpowiedzi; zna `zapiski` z Rozdzialu 5, bo sam je napisal.
+- **Straznik Kurhanu** (Komnata Straznika, Region 4) -- zamiast losowych kwestii, `.odpowiedzi["_domyslna"]` moze ostrzegac gracza przed dalsza wedrowka -- w Rozdziale 8 dodamy mu realna mechanike blokowania przejscia.
+- **Zbojcy z Obozowiska** (Region 5) -- kilka instancji tej samej klasy z bardziej wrogim `.gadanie`, np. `"Nie widziales nas."`, `"To nie miejsce dla ciebie."`.
+
+Nie musisz pisac ani linijki nowego kodu dla zadnej z tych postaci -- caly wysilek programistyczny poszedl w klase `$npc`; kazda kolejna postac to tylko dane (opis + dwie listy tekstu). To ten sam dzwig produktywnosci, co przy przedmiotach jadalnych w Rozdziale 5, tylko na wiekszej skali.
+
+W Rozdziale 7 zajmiemy sie czyms innym: efektami, ktore nie naleza do zadnego konkretnego obiektu, tylko do calego swiata -- pora dnia i pogoda.
