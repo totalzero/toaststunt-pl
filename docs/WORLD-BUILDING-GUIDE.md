@@ -14,6 +14,8 @@ I'm assuming:
 
 I'm not assuming anything beyond that. In particular, I'm not assuming you're building on a live, production server -- quite the opposite: in Chapter 2, the very first thing we do is set up a safe place to experiment.
 
+**One important, easy-to-miss fact about this specific fork, verified by actually running every example in this guide on a live server rather than just reading the source:** this is a Polish-localized fork, and the localization goes deeper than the bundled database content -- the *engine itself* (the C++ command parser) only recognizes Polish prepositions and a couple of Polish pronouns. This is true no matter what language you write your own room names, descriptions, or dialogue in. Concretely: the special words for "myself" and "here" are `ja` and `tu` (not `me`/`here`), and the engine's built-in preposition table is Polish-only (`jako` not `as`, `za pomoca` not `with`, `w` not `in`, `z` not `from`, `o`/`dla` not `about`/`for`, `u`/`do` not `to`/`at`). You'll also see the server's own system messages (errors, confirmations) in Polish throughout, regardless of what language your content is in -- that's normal, not a sign anything is broken. Every command shown in this guide already accounts for this and uses the words that actually work; a callout box at the end of Chapter 2 covers the specifics in one place.
+
 ## How to use this guide
 
 Each chapter assumes the previous ones have been worked through -- the world is built incrementally, the same way you'd actually do it. The code in the blocks is meant to be pasted into your MOO client (telnet/MUD client) exactly as written -- anywhere you need to substitute your own object number or name, the text right before the code block says so clearly.
@@ -144,6 +146,19 @@ Recommended convention for this guide:
 - For your own object classes (custom parents, which we start creating from Chapter 5 onward) a thematic prefix in the name works well, e.g. `"Ravenford Chainmail"` instead of just `"Chainmail"` -- makes it easier to find "your" objects later with `@audit` or `@find`, especially as the database grows.
 - Write verb names as single English words, same as the rest of the ToastCore database (`take`, `drop`, `read`) -- that's the engine-wide convention; if you'd also like to add Polish aliases alongside them (this fork supports it), see [TWORZENIE-TRESCI-PO-POLSKU.md](TWORZENIE-TRESCI-PO-POLSKU.md) (in Polish).
 
+### IMPORTANT: special words and prepositions in this fork
+
+Before you start typing commands -- as flagged in the introduction, this fork translates more than just the bundled database content; several things are baked directly into the engine (C++), not the database. That means the usual English MOO habits won't work here, and **I verified this live on a running server** before writing it down:
+
+- The special words meaning "myself" and "my current location" are **`ja`** and **`tu`**/**`tutaj`** -- not the English `me`/`here`. E.g. `@move ja to #1500` works; `@move me to #1500` returns `Nie widze tu "me".` ("I don't see 'me' here.")
+- The basic prepositions the engine uses to match command arguments are also Polish: `jako` (not `as`), `za pomoca`/`przy uzyciu`/`uzywajac` (not `with`), `w`/`wewnatrz` (not `in`), `z`/`spod` (not `from`), `u`/`do` (not `to`), `o`/`dla` (not `about`/`for`), plus `na`, `nad`, `przez`, `pod`, `za`, `obok`, `ze` -- `help prepositions` shows the full list. This applies both to built-in commands (`@describe X jako "..."`, not `@describe X as "..."`) and to **verbs we write ourselves** -- e.g. `@verb object:"thing" any about any` fails outright with `"about" is not a valid preposition.` when you try to create it; you have to use `any o any`.
+- The specifier words inside the `@verb` command itself (`none`, `this`, `any`) **stay in English** -- those aren't prepositions, they're separate `@verb` syntax, and work exactly as `help @verb` describes.
+- Calling a verb in the form `object:verb()` (e.g. `smith:start()`) **is not a normal player command at all** -- it's a MOO language expression, so it always needs to be prefixed with `;` (shorthand for `eval`, see `help eval`). What's more, inside `eval`, names like `smith` **are not matched against objects the way they are in ordinary commands** -- they're treated as plain MOO variables, so `;smith:start()` fails with "variable not found". Inside `eval`, use the object's number directly (`;#1561:start()`) -- the exception is `$name` references (like `$room` or `$world_clock`), which work directly in `eval` because `$name` is part of the language's own syntax, not an ordinary variable.
+- `@set object.property do value` (note: `do`, not `to`) has **its own simplified value parser** -- it handles strings, numbers, and simple lists/maps, but not nested structures (e.g. a list of maps, `{[...], [...]}`) -- those need `;` (eval) with the object's number, for the same reason as above.
+- A handful of admin commands (`@move`, `@dig`, `@corify`) happen to accept **both** `to`/`do` (or `jako`/`as`) in their own code -- that's the exception, not the rule; don't assume it for other commands or your own verbs without checking. `@set` specifically does **not** belong to that group -- it requires `do`, not `to` (verified live), even though it might intuitively seem similar to `@move`. Two commands go the other way and specifically require **English** `me` when referring to yourself -- `@quota` and `@programmer` (most likely an oversight from this fork's original translation pass, not a deliberate choice) -- both are used correctly below, but it's a good demonstration that **every** command is worth checking individually rather than assuming consistency across the whole database.
+
+Every example in the rest of this guide already accounts for all of this -- but if you're ever comparing against an English-language MOO tutorial from somewhere else, this is exactly the kind of detail that will trip you up.
+
 With permissions, a quota, and a notebook ready, we can dig the first room -- Chapter 3.
 
 ## Chapter 3: your first room, by hand
@@ -156,10 +171,10 @@ We start at the heart of our world -- Ravenford Market Square. This will be the 
 @dig "Ravenford Market Square"
 ```
 
-The server will respond with something like:
+The server will respond with something like (remember, per the callout above, actual system messages are in Polish regardless of your content's language -- "utworzony" means "created"):
 
 ```
-Ravenford Market Square created as #1500.
+Ravenford Market Square (#1500) utworzony.
 ```
 
 **Your number will be different** -- every database has a different object counter state, so yours might be `#88`, `#3502`, whatever. For the rest of this chapter I'll use `#1500` as the example -- wherever you see it, substitute your own number. (This is exactly what the notebook from Chapter 2 is for -- write it down now.)
@@ -171,7 +186,7 @@ This form of `@dig` (without `to`) creates a room **connected to nothing** -- it
 The new room doesn't have any entrance yet, so normal walking won't get you there -- we teleport with `@move`:
 
 ```
-@move me to #1500
+@move ja to #1500
 ```
 
 You should see the room's name and (for now) an empty, default description.
@@ -181,12 +196,12 @@ You should see the room's name and (for now) an empty, default description.
 The description is the single most important thing a player sees at every location -- worth spending time on. We set it with `@describe`:
 
 ```
-@describe here as "Uneven cobblestones, worn smooth by a thousand feet. A stone well with a weathered shingle roof stands at the center. A handful of empty wooden stalls stand around it -- the market doesn't start until morning. From the square you can see the inn, the smithy, and paths leading off toward the forest and the hills."
+@describe tu jako "Uneven cobblestones, worn smooth by a thousand feet. A stone well with a weathered shingle roof stands at the center. A handful of empty wooden stalls stand around it -- the market doesn't start until morning. From the square you can see the inn, the smithy, and paths leading off toward the forest and the hills."
 ```
 
-I used `here` because we're already standing in the room after `@move` -- you can also give the number directly (`@describe #1500 as "..."`). Type `look` to see the effect.
+I used `tu` ("here") because we're already standing in the room after `@move` -- you can also give the number directly (`@describe #1500 jako "..."`). Type `look` to see the effect.
 
-Technically, `@describe` just sets the `.description` property on the object -- `@describe here as "..."` is shorthand for `@set here.description to "..."`. Worth knowing, because in Chapter 7 we'll be reading and modifying that property from code (e.g. so the description changes with the time of day).
+Technically, `@describe` just sets the `.description` property on the object -- `@describe tu jako "..."` is shorthand for `@set tu.description do "..."` (note: `do`, not `to` -- `@set` is one of the commands that does *not* accept the English word, see the callout in Chapter 2). Worth knowing, because in Chapter 7 we'll be reading and modifying that property from code (e.g. so the description changes with the time of day).
 
 Notice something important in the description text: it mentions "paths leading off toward the forest and the hills," even though those exits don't physically exist yet. That's deliberate -- a room's description is the best place to *foreshadow* where a player can go, before they even check the exit list. Keep that in mind when writing descriptions for the rest of the map in Chapter 4.
 
@@ -319,7 +334,7 @@ Walk `north` to enter the Forge, and dig the gate onward from there:
 @dig north,n|south,s to "Ravenford North Gate"
 ```
 
-Go back to the Square (`south`, `south`) and dig the eastern branch:
+Go back to the Square (`south`, or just `@move ja to #1500` if you'd rather not count steps) and dig the eastern branch:
 
 ```
 @dig east,e|west,w to "Temple Lane"
@@ -337,7 +352,7 @@ Walk `east` into the Temple and dig the graveyard:
 @dig south,s|north,n to "Temple Graveyard"
 ```
 
-Go back to the Square (`north`, `west`, `west` -- or just use `@move me to #1500` if you'd rather not count steps) and dig the remaining two branches:
+Go back to the Square (`west`, `west`, or just use `@move ja to #1500` if you'd rather not count steps) and dig the remaining two branches:
 
 ```
 @dig northwest,nw|southeast,se to "Elder Bramwell's House"
@@ -359,7 +374,7 @@ Region 1 done -- 10 locations, all connected. Check `@count`, you should now hav
 
 ### Building Region 2 (Whispering Oak Forest)
 
-Walk into the North Gate (from the Forge: `north`) and dig further into the forest:
+Region 1 left you in the Square -- walk into the North Gate (`north` to the Forge, then `north` again to the Gate -- or `@move ja to <the North Gate's number from your notebook>`) and dig further into the forest:
 
 ```
 @dig north,n|south,s to "Forest Edge"
@@ -371,7 +386,7 @@ Walk `north`, and from Forest Edge dig two branches:
 @dig east,e|west,w to "Forest Spring"
 ```
 
-Go back (`west`) to Forest Edge and continue deeper into the forest:
+Still standing in Forest Edge (you dug Forest Spring from the outside, you never walked in), continue deeper into the forest:
 
 ```
 @dig north,n|south,s to "Thicket"
@@ -383,7 +398,7 @@ Walk `north` into the Thicket and dig the hermit's hut plus the path onward:
 @dig west,w|east,e to "Hermit's Hut"
 ```
 
-Go back (`east`) to the Thicket:
+Still standing in the Thicket (same situation as with Forest Spring):
 
 ```
 @dig north,n|south,s to "Clearing of the Mushroom Ring"
@@ -395,7 +410,7 @@ Walk `north` into the Clearing and dig the last two rooms of the region:
 @dig north,n|south,s to "Bear Cave"
 ```
 
-Go back (`south`) to the Clearing:
+Still standing in the Clearing (didn't walk into the Cave):
 
 ```
 @dig east,e|west,w to "Old Lightning-Split Oak"
@@ -405,7 +420,7 @@ Region 2 done -- 7 locations.
 
 ### Building Region 3 (The River and Raven Bridge)
 
-Go back to the Square and walk out through the South Gate (`south`, `south`):
+Go back to the Square (`@move ja to #1500` is simplest, since it's several steps from the Clearing) and walk out through the South Gate (`south`):
 
 ```
 @dig south,s|north,n to "Riverbank"
@@ -417,13 +432,13 @@ Walk `south` to the Riverbank and dig three branches:
 @dig east,e|west,w to "Fisherman's Dock"
 ```
 
-Go back (`west`):
+Still on the Riverbank (didn't walk into the Dock):
 
 ```
 @dig west,w|east,e to "Water Mill"
 ```
 
-Go back (`east`):
+Still in the same spot:
 
 ```
 @dig south,s|north,n to "Raven Bridge"
@@ -439,7 +454,7 @@ Region 3 done -- 5 locations.
 
 ### Building Region 4 (Ravenhill Barrow)
 
-Walk `south` from the Far Riverbank and dig the barrow entrance:
+You're still on Raven Bridge (you never stepped onto the Far Bank) -- walk `south` to get there, and dig the barrow entrance:
 
 ```
 @dig south,s|north,n to "Barrow Entrance"
@@ -459,13 +474,13 @@ Walk `down` into the Passage and dig three branches plus the guardian's chamber 
 @dig east,e|west,w to "First Crypt"
 ```
 
-Go back (`west`):
+Still standing in the Passage (didn't walk into the First Crypt):
 
 ```
 @dig west,w|east,e to "Second Crypt"
 ```
 
-Go back (`east`):
+Still in the Passage:
 
 ```
 @dig south,s|north,n to "Trap Hall"
@@ -495,7 +510,7 @@ By design, this region connects to the rest of the map through the Secret Passag
 @dig "Foot of the Hills"
 ```
 
-Write down the number the server returns, and walk there by hand: `@move me to <number>`.
+Write down the number the server returns, and walk there by hand: `@move ja to <number>`.
 
 ```
 @dig north,n|south,s to "Mountain Trail"
@@ -507,7 +522,7 @@ Walk `north`:
 @dig north,n|south,s to "Hilltop"
 ```
 
-Go back to the Foot of the Hills (`south`, `south` -- or `@move`):
+Go back to the Foot of the Hills (`south` -- or `@move`):
 
 ```
 @dig south,s|north,n to "Abandoned Mine Entrance"
@@ -525,7 +540,7 @@ Walk `down` and dig the last two locations:
 @dig east,e|west,w to "Crystal Cave"
 ```
 
-Go back (`west`):
+Still on the First Level (didn't walk into the Cave):
 
 ```
 @dig down,d|up,u to "Mine -- Second Level (Bandit Camp)"
@@ -535,7 +550,7 @@ Region 5 done -- 7 locations, isolated from the rest of the map for now (deliber
 
 ### Descriptions
 
-Every room above now has a name and connections, but still a default (empty) description. The pattern from Chapter 3 (`@describe here as "..."`) is identical for each of them -- instead of writing out 36 more examples, treat this as an exercise: walk the whole map and describe at least the locations that'll matter in later chapters (the Inn, the Forge, the Temple, the Hermit's Hut, the Clearing of the Mushroom Ring, the Guardian's Chamber, the Bandit Camp -- all of them come back up when we get to items, NPCs, or effects). You can fill in the rest whenever you like -- an empty description doesn't get in the way of further mechanical work.
+Every room above now has a name and connections, but still a default (empty) description. The pattern from Chapter 3 (`@describe tu jako "..."`) is identical for each of them -- instead of writing out 36 more examples, treat this as an exercise: walk the whole map and describe at least the locations that'll matter in later chapters (the Inn, the Forge, the Temple, the Hermit's Hut, the Clearing of the Mushroom Ring, the Guardian's Chamber, the Bandit Camp -- all of them come back up when we get to items, NPCs, or effects). You can fill in the rest whenever you like -- an empty description doesn't get in the way of further mechanical work.
 
 ### What's next
 
@@ -550,7 +565,7 @@ We now have the skeleton of the whole world -- 36 rooms built, plus one (the Sec
 - `$thing` -- the most general class. It can be picked up, dropped, carried. The base for anything that doesn't fit the other three.
 - `$note` -- an item with text to read (the `.text` property, a list of lines). Ideal for notes, scraps of writing, little messages.
 - `$letter` -- similar to `$note`, but intended for the mail system (an addressee, the ability to send it) -- for this guide we'll mostly stick to `$note`.
-- `$container` -- an item you can put other items into (`put X in Y`) and take them out of (`take X from Y`). It also has built-in support for an optional lock (the `.key` property) -- we'll use that in Chapter 8.
+- `$container` -- an item you can put other items into (`put X w Y`) and take them out of (`take X z Y`). It also has built-in support for an optional lock (the `.key` property) -- we'll use that in Chapter 8.
 
 ### First item: a note in the Hermit's Hut
 
@@ -563,8 +578,8 @@ Walk to the Hermit's Hut (Chapter 4, Region 2) and create a note there:
 The server returns the new object's number (say, `#1540` -- substitute your own). Describe it from the outside and set the text to read:
 
 ```
-@describe #1540 as "A scrap of parchment, covered in unpracticed handwriting."
-@set #1540.text to {"If you're reading this, the hermit must have let you stay.", "The Three Moons see more than the priests care to admit -- ask about the Barrow.", "-- H."}
+@describe #1540 jako "A scrap of parchment, covered in unpracticed handwriting."
+@set #1540.text do {"If you're reading this, the hermit must have let you stay.", "The Three Moons see more than the priests care to admit -- ask about the Barrow.", "-- H."}
 ```
 
 The new object is still in your inventory (`@create` doesn't automatically place it in the room) -- drop it wherever it should lie:
@@ -581,19 +596,20 @@ Walk to the Treasure Vault (Region 4) and create a lockable (not locked yet -- t
 
 ```
 @create $container named "old iron-bound chest,chest,coffer"
-@describe here as "A heavy oak chest bound in iron, dark with damp."
+@describe chest jako "A heavy oak chest bound in iron, dark with damp."
 drop old iron-bound chest
 ```
 
-You can put a first "treasure" inside right away -- for now, a plain `$thing`:
+You can put a first "treasure" inside right away -- for now, a plain `$thing`. A freshly created container starts out **closed**, so we open it first (verified live: `put` into a closed container just fails):
 
 ```
 @create $thing named "handful of old silver coins,coins,silver"
-@describe here as "A handful of coins, tarnished black with age, bearing the profile of a ruler nobody remembers anymore."
-put coins in chest
+@describe coins jako "A handful of coins, tarnished black with age, bearing the profile of a ruler nobody remembers anymore."
+open chest
+put coins w chest
 ```
 
-A player who makes it to the Vault can `open chest`, `look in chest` and `take coins from chest` -- again, all of this mechanics is already built into `$container`, we haven't written a single line of code for it.
+A player who makes it to the Vault can `open chest`, `look w chest` and `take coins z chest` -- again, all of this mechanics is already built into `$container`, we haven't written a single line of code for it (remember Chapter 2's rule -- this fork's built-in prepositions are Polish, `w`/`z`, not English `in`/`from`).
 
 ### A custom class: edible items
 
@@ -625,13 +641,13 @@ if (this.location != player)
 player:tell("You need to pick that up first.");
 else
 player:tell("You eat ", this.name, ". ", (this.taste_desc || "It tastes fine enough."));
-player:notify_others(player.name + " eats " + this.name + ".");
-this:recycle();
+this.location:announce_all_but({player}, player.name + " eats " + this.name + ".");
+recycle(this);
 endif
 .
 ```
 
-A few new things in this code, explained: `this` is always the object the verb was invoked on (here: the specific meal); `player` is the player who issued the command; `this.location != player` checks whether the item is actually in the player's hands (and not, say, still lying in the room); `this.taste_desc || "..."` is the "default value if the property is empty/unset" pattern, which we'll use again several times in later chapters; `this:recycle()` destroys the item after it's eaten -- an eaten loaf of bread shouldn't stay in your inventory.
+A few new things in this code, explained: `this` is always the object the verb was invoked on (here: the specific meal); `player` is the player who issued the command; `this.location != player` checks whether the item is actually in the player's hands (and not, say, still lying in the room); `this.taste_desc || "..."` is the "default value if the property is empty/unset" pattern, which we'll use again several times in later chapters; `this.location:announce_all_but({player}, ...)` tells everyone else in the room (but not the player themselves -- they already saw their own `player:tell`) -- `:announce` from Chapter 3 tells *everyone* with no exceptions, `:announce_all_but` lets you skip someone; `recycle(this)` destroys the item after it's eaten -- an eaten loaf of bread shouldn't stay in your inventory. **Note:** it has to be `recycle(this)` (the builtin function), not `this:recycle()` (a verb call) -- the latter is verified live to silently do nothing and just return 0.
 
 Notice that `eat` refers to the property `taste_desc`, which the `$edible` class doesn't have yet -- let's add it, with a sensible default of an empty string:
 
@@ -645,11 +661,11 @@ Now we create a specific item inheriting from this class -- a loaf of bread in t
 
 ```
 @create #1550 named "loaf of dark rye bread,bread,loaf"
-@describe here as "A still-warm loaf of dark rye, smelling faintly of caraway."
-@set here.taste_desc to "A crisp crust and warm, dense crumb -- the best bread in the whole valley."
+@describe bread jako "A still-warm loaf of dark rye, smelling faintly of caraway."
+@set bread.taste_desc do "A crisp crust and warm, dense crumb -- the best bread in the whole valley."
 ```
 
-(I used `here`, so make sure you're standing right where the new object is -- `@create` leaves it in your inventory, so `here` doesn't behave here the way it did in Chapter 3; give the number directly if you'd rather: `@describe #1551 as "..."`).
+(I used the item's own name, `bread`, not `tu` -- **`@create` leaves the new object in your inventory, not in the room, and `tu` always means the room, never an item in your hands, no matter where you're standing** -- verified live: using `tu` here silently describes the room instead of the item, which is easy to miss because `@describe` still reports "Opis ustawiony." either way. For freshly created items in your inventory, use their name or alias instead -- or the number directly, if you'd rather: `@describe #1551 jako "..."`).
 
 Drop the bread in the Inn, and try `eat bread` -- you should see the taste description, and the item vanish from your inventory.
 
@@ -667,12 +683,20 @@ MOO doesn't have a separate "type" for a non-player character (NPC) -- it's just
 
 ### A custom class: $npc
 
-Like in Chapter 5, we start with a fertile parent class. Create it anywhere (e.g. in the Square) and note the number as `$npc`:
+Like in Chapter 5, we start with a fertile parent class. Create it anywhere (e.g. in the Square):
 
 ```
 @create $thing named "Class: NPC,npc class"
 @chmod #1560 +f
 ```
+
+This time we actually corify it (not just jot the number down like `$edible` in Chapter 5) -- in Chapter 9 we'll build a class that inherits from this one via `@create $npc named ...`, so `$npc` needs to be a real reference, not just a name in our heads:
+
+```
+@corify #1560 jako npc
+```
+
+(for the rest of this chapter we still use the number `#1560` directly -- it works identically to `$npc`, just two ways of writing the same object).
 
 Two properties every NPC of this class will need -- a list of lines to say from time to time, and a "cheat sheet" of answers to questions:
 
@@ -687,7 +711,7 @@ Two properties every NPC of this class will need -- a list of lines to say from 
 ### The dialogue verb: `ask`
 
 ```
-@verb #1560:"ask talk" any about any
+@verb #1560:"ask talk" any o any
 ```
 
 ```
@@ -714,7 +738,7 @@ player:tell("\"", text, "\" says ", this.name, ".");
 .
 ```
 
-The command a player types looks like this: `ask smith about barrow` or `talk smith about barrow` (both verb names work the same way, since they're just aliases of the same verb). `about` is one of the prepositions built into the engine -- `help prepositions` shows the full recognized list.
+The command a player types looks like this: `ask smith o barrow` or `talk smith o barrow` (the verb name can be English or Polish -- that's just an alias -- but the preposition has to be `o`, not the English `about`; reminder from the Chapter 2 callout: this fork's built-in prepositions are Polish, `help prepositions` shows the full list).
 
 ### Random background lines (`fork`)
 
@@ -768,18 +792,24 @@ Each call to `:heartbeat` has a one-in-four chance of saying a random line to th
 
 ```
 @create #1560 named "Born the Smith,smith,born"
-@describe here as "A broad-shouldered man with hands like beams, in a leather apron scarred by sparks. He watches the forge as if it were the most precious thing he owns."
-@set here.chatter to {"Mind the sparks if you come closer.", "Good steel takes patience, same as a good life."}
-@set here.responses to ["barrow" -> "Don't go there after dark, lad. The priests know something, but they won't say.", "_default" -> "The smith mutters something under his breath and goes back to work."]
+@describe smith jako "A broad-shouldered man with hands like beams, in a leather apron scarred by sparks. He watches the forge as if it were the most precious thing he owns."
+@set smith.chatter do {"Mind the sparks if you come closer.", "Good steel takes patience, same as a good life."}
+@set smith.responses do ["barrow" -> "Don't go there after dark, lad. The priests know something, but they won't say.", "_default" -> "The smith mutters something under his breath and goes back to work."]
 ```
 
-Start his background chatter (typing this as him -- that is, invoking the verb on the object you just created, which is still in your inventory, so you can refer to it by name):
+Walk to the Forge (`@move ja to <Forge's number from your notebook>`) and drop him there -- that's his intended spot:
 
 ```
-smith:start()
+drop smith
 ```
 
-Wait a minute in the Forge and try `ask smith about barrow`.
+Start his background chatter. Calling a verb in the form `object:verb()` **is not a normal player command** -- per the Chapter 2 callout, it's a MOO expression, so it needs `;` (eval), and inside `eval` a bare name like `smith` doesn't get matched to an object -- you need the object's number instead:
+
+```
+;#1561:start()
+```
+
+Wait a minute in the Forge and try `ask smith o barrow`.
 
 ### The rest of the cast
 
@@ -873,10 +903,10 @@ To be able to refer to the clock from anywhere in the database without rememberi
 @corify clock as world_clock
 ```
 
-From now on `$world_clock` works everywhere, just like `$room` or `$thing`. Let's start the clock:
+From now on `$world_clock` works everywhere, just like `$room` or `$thing`. Let's start the clock -- remember the `;` before the verb call (per the Chapter 2 callout: `object:verb()` needs `eval`); unlike `smith` in Chapter 6, `$world_clock` works here directly, because `$name` syntax is part of the language itself, not an ordinary variable:
 
 ```
-$world_clock:start()
+;$world_clock:start()
 ```
 
 ### Wiring room descriptions to the clock's state
@@ -930,7 +960,7 @@ return line;
 Now turn the effect on for a few outdoor locations -- e.g.:
 
 ```
-@set #1500.outdoors to 1
+@set #1500.outdoors do 1
 ```
 
 (the Square), and likewise for Forest Edge, the Riverbank, the Foot of the Hills, and other "under the open sky" locations from Chapter 4. Leave indoor and underground locations (the Inn, the Forge, the whole Barrow, the mine interior) at the default `.outdoors` of `0` -- weather has no business there.
@@ -956,29 +986,47 @@ Before we lock our first object, it's worth understanding the mechanism: any obj
 
 ### Locking the chest in the Vault
 
-In Chapter 5 we created an `old iron-bound chest` in the Vault, open to anyone. Time to fix that. First we need a physical key:
+In Chapter 5 we created an `old iron-bound chest` in the Vault, open to anyone. Time to fix that. First we need a physical key -- create it standing in the Vault, next to the chest (`@move ja to <the Vault's number>` if you're not already there):
 
 ```
 @create $thing named "rusty iron key,key"
-@describe here as "A heavy, badly rusted key. Someone must have lost it here a long time ago."
+@describe key jako "A heavy, badly rusted key. Someone must have lost it here a long time ago."
 ```
 
-Leave it in the Guardian's Chamber (Chapter 4) -- a player has to get past the guardian to find it, which is already a small challenge on its own (and in Chapter 6 the guardian already got a warning line about it).
+The new key is now in your inventory -- **leave it there for now** (don't drop it yet), because `@lock_for_open` needs to find it, and key expressions match objects the same way ordinary commands do: you have to be carrying it or standing in the same room as it (verified live: if the key is sitting in a different room than the one you run the command in, `@lock_for_open` reports "Nie mozna znalezc obiektu o nazwie 'key'" -- "cannot find an object named 'key'").
 
 Now we lock the chest -- for containers we use **`@lock_for_open`**, not plain `@lock` (that one controls something else -- whether the container can be picked up/moved at all; `help @lock_for_open` if you want to check the difference):
 
 ```
-@lock_for_open chest with key
+@lock_for_open chest za pomoca key
 ```
 
-Try `open chest` now without the key in your inventory -- the server refuses. Pick up the `rusty iron key` and try again -- it should work. Removing the lock is `@unlock_for_open chest`.
+(note: `help @lock_for_open`'s own syntax example still shows the English `with` -- that's a stale bit of help text that slipped through an earlier audit; the word that actually works is `za pomoca`, per the Chapter 2 callout).
+
+Now move the key to its intended home -- the Guardian's Chamber (Chapter 4) -- and drop it there: a player has to get past the guardian to find it, which is already a small challenge on its own (and in Chapter 6 the guardian already got a warning line about it). The chest was opened back in Chapter 5 and has stayed open ever since -- open/closed is separate from locked/unlocked, so close it now before you leave with the key, otherwise the demonstration below won't work (the chest will just be "already open" no matter what):
+
+```
+close chest
+@move ja to <the Guardian's Chamber's number>
+drop key
+```
+
+Go back to the Vault and try `open chest` without the key in your inventory -- the server refuses. Go back for the key, take it, bring it back, and try again -- it should work. Removing the lock is `@unlock_for_open chest`.
 
 ### A compound expression: locking the passage to the Vault
 
-The Vault (Chapter 4) connects to the Guardian's Chamber via a "down" exit. Let's lock that exit itself with a compound expression -- letting through anyone carrying the key, **or** the guardian itself (say, if he needs to go back down there to patrol):
+The Vault (Chapter 4) connects to the Guardian's Chamber via a "down" exit. Let's lock that exit itself with a compound expression -- letting through anyone carrying the key, **or** the guardian itself (say, if he needs to go back down there to patrol). If you already built the Guardian as an exercise from Chapter 6's "rest of the cast," use him -- if not, walk to the Guardian's Chamber and build a minimal version now, just enough for this example (same `$npc` pattern as the smith, without `.chatter`/`:start()`, since all we need here is the object itself for the key expression):
 
 ```
-@lock #<down-exit-number> with key || guardian
+@create #1560 named "Barrow Guardian,guardian"
+@describe guardian jako "A silent, armored shape that doesn't take its eyes off you."
+drop guardian
+```
+
+Standing in the Guardian's Chamber:
+
+```
+@lock #<down-exit-number> za pomoca key || guardian
 ```
 
 You'll find the exit's number with the `@exits` command, standing in the Guardian's Chamber -- it lists all the conventional exits from the current room along with their object numbers (`help @exits`).
@@ -995,14 +1043,14 @@ Standing in the Second Crypt:
 
 This creates an exit from the Second Crypt to the Foot of the Hills (one-way -- if you want passage in both directions, repeat the operation the other way while standing at the Foot of the Hills, linking `to <number of the Second Crypt>`).
 
-The exit already works, but it's still just as visible on `look`/`@exits` as any other -- nothing "secret" about it yet. To hide it, we use the `.obvious` property, which the built-in exit-listing mechanism in `$room` checks (exactly the same code we overrode in Chapter 7 for `.outdoors` -- this time we don't need to override anything, `.obvious` is already handled by the database):
+The exit already works, but an ordinary player trying `@ways` (the "what are the obvious exits from here" hint command) will still see it as plainly as any other -- nothing "secret" about it yet. (Plain `look` in this fork doesn't show an exit list at all, by the way -- it's `@ways`, not `look`, that matters here.) To hide it, we use the `.obvious` property, which the built-in `$room:obvious_exits()` mechanism checks (a similar kind of mechanism to the one we overrode in Chapter 7 for `.outdoors` -- this time we don't need to override anything, `.obvious` is already handled by the database):
 
 ```
 @exits
-@property #<new-exit-number>.obvious 0 rc
+@set #<new-exit-number>.obvious do 0
 ```
 
-(the first command is just `@exits`, to read off the newly created exit's number). From now on the exit won't show up in the room's exit list, but a player who types `west` while standing in the Second Crypt will still be moved -- exactly how a secret passage should work.
+(the first command is just `@exits`, to read off the newly created exit's number -- **note**: every new exit already has an `.obvious` property, defaulting to true, so we use `@set`, not `@property` -- the latter returns "already exists", verified live). From now on an ordinary player won't see this exit via `@ways`, but anyone who types `west` while standing in the Second Crypt will still be moved -- exactly how a secret passage should work. (As the owner/wizard, `@exits`/`@ways` still show you everything, hidden exits included -- that's a deliberate convenience for builders, not a bug; to verify the hiding itself, check from an ordinary player's perspective, or directly via `;room:obvious_exits()`.)
 
 To give the player any chance of finding it, let's add a hint through a simple search verb in the same room:
 
@@ -1053,7 +1101,7 @@ Two instances, each pointing at the other -- exactly like the two ends of one ex
 
 ```
 @create #<class> named "ring of toadstools,ring"
-@set #<ring1>.destination to <number of The Other Side of the Ring>
+@set #<ring1>.destination do <number of The Other Side of the Ring>
 drop ring of toadstools
 ```
 
@@ -1061,7 +1109,7 @@ Walk to "The Other Side of the Ring" and repeat it the other way:
 
 ```
 @create #<class> named "ring of toadstools,ring"
-@set #<ring2>.destination to <number of the Clearing of the Mushroom Ring>
+@set #<ring2>.destination do <number of the Clearing of the Mushroom Ring>
 drop ring of toadstools
 ```
 
@@ -1105,7 +1153,7 @@ The simplest and most reliable way to handle currency in MOO is a plain number i
 For testing purposes, give yourself some money:
 
 ```
-@set me.coppers to 20
+@set ja.coppers do 20
 ```
 
 ### A custom class: shopkeeper
@@ -1121,7 +1169,7 @@ A shopkeeper is an NPC with special trading verbs -- easiest to build as a **chi
 `.stock` will be a list of maps, one map per item for sale: name, aliases, price and description. Two verbs for browsing and buying:
 
 ```
-@verb #<class>:"pricelist" none from this
+@verb #<class>:"pricelist" none z this
 ```
 ```
 @program #<class>:pricelist
@@ -1133,7 +1181,7 @@ endfor
 ```
 
 ```
-@verb #<class>:"buy" any from this
+@verb #<class>:"buy" any z this
 ```
 ```
 @program #<class>:buy
@@ -1145,6 +1193,7 @@ player:tell("You can't afford that -- you need ", item["price"], " coppers, and 
 else
 player.coppers = player.coppers - item["price"];
 new = create($thing, player);
+move(new, player);
 new.name = item["name"];
 new.aliases = item["aliases"];
 new.description = item["description"];
@@ -1158,12 +1207,14 @@ player:tell("We don't have anything like that for sale. Try 'pricelist'.");
 .
 ```
 
-Command syntax: `buy potion from shopkeeper` -- `from` is a standard, built-in preposition (`help prepositions`), so it works right away.
+Command syntax: `buy potion z shopkeeper` -- `z` is this fork's standard, built-in preposition for "from" (`help prepositions`; reminder from Chapter 2: this fork's engine recognizes Polish prepositions, not English ones).
+
+Notice `move(new, player)` right after `create($thing, player)` -- **the second argument to `create()` is the new object's owner, not its location** (verified live: without that `move`, the purchased item exists, is owned by the player, but sits nowhere -- `.location` is `#-1`/`$nothing` -- so the player doesn't actually have it in hand, even though the "You buy..." message implies success). `create()` doesn't raise any error if you forget the `move` -- an easy trap.
 
 And the reverse verb, selling -- the player hands over an item they're actually carrying, the shopkeeper pays a flat amount for it (unless the item has its own `.sale_value` property):
 
 ```
-@verb #<class>:"sell" any to this
+@verb #<class>:"sell" any do this
 ```
 ```
 @program #<class>:sell
@@ -1178,27 +1229,33 @@ value = 1;
 endif
 player.coppers = player.coppers + value;
 player:tell("You sell ", dobj.name, " for ", value, " coppers.");
-dobj:recycle();
+recycle(dobj);
 .
 ```
 
 ### A specific shopkeeper: Old Mara
 
-We come back to the herbalist's cottage from Chapter 1/4, flagged from the start as a source of trade:
+We come back to the herbalist's cottage from Chapter 1/4 (`@move ja to <its number from your notebook>`), flagged from the start as a source of trade:
 
 ```
 @create #<class> named "Old Mara,mara,herbalist"
-@describe here as "An elderly woman with nimble fingers, hung all over with bundles of dried herbs."
-@set here.stock to [["name" -> "small vial of potion", "aliases" -> {"vial", "potion"}, "price" -> 3, "description" -> "A cloudy, greenish liquid with a sharp smell."], ["name" -> "bundle of dried herbs", "aliases" -> {"bundle", "herbs"}, "price" -> 1, "description" -> "A handful of assorted herbs, tied together with string."]]
+@describe mara jako "An elderly woman with nimble fingers, hung all over with bundles of dried herbs."
 ```
 
-Start her background chatter, same as with the smith in Chapter 6 (Mara inherits `:start`/`:stop`/`:heartbeat` from `$npc`, even though she's also a shopkeeper):
+`.stock` is a list of maps -- in MOO, lists are `{...}` and maps are `[...]`, so "a list of maps" looks like `{[...], [...]}`. That's a fairly complex literal, and **`@set` has its own simplified value parser that can't handle this kind of nesting** (verified live: `@set mara.stock do {[...], [...]}` fails with "Nie mozna sparsowac" even though the syntax is valid MOO). Instead we use `;` (eval), which runs the real language compiler -- and in eval, as you'll remember from Chapter 7, names like `mara` don't work (they're not variables), so we need the object's number:
 
 ```
-mara:start()
+;#<Mara's number>.stock = {["name" -> "small vial of potion", "aliases" -> {"vial", "potion"}, "price" -> 3, "description" -> "A cloudy, greenish liquid with a sharp smell."], ["name" -> "bundle of dried herbs", "aliases" -> {"bundle", "herbs"}, "price" -> 1, "description" -> "A handful of assorted herbs, tied together with string."]};
+drop mara
 ```
 
-Try `pricelist from mara`, then `buy potion from mara` (with at least 3 coppers), and finally `sell small vial of potion to mara`, to see the full trade cycle in both directions.
+Start her background chatter, same as with the smith in Chapter 6 (Mara inherits `:start`/`:stop`/`:heartbeat` from `$npc`, even though she's also a shopkeeper) -- remember `;` and the object number, same reasons as with the smith:
+
+```
+;#<Mara's number>:start()
+```
+
+Try `pricelist z mara`, then `buy potion z mara` (with at least 3 coppers), and finally `sell small vial of potion do mara`, to see the full trade cycle in both directions.
 
 ### What's next
 
@@ -1230,14 +1287,14 @@ Our quest ties together three mechanics from earlier chapters: dialogue with an 
 
 ```
 @create $thing named "old gold signet ring,signet"
-@describe here as "A heavy signet ring engraved with a crest nobody in the village recognizes anymore."
+@describe signet jako "A heavy signet ring engraved with a crest nobody in the village recognizes anymore."
 drop old gold signet ring
 ```
 
-Now two verbs on Elder Bramwell (Chapter 6) -- these are verbs **on this one specific instance**, not on the whole `$npc` class, since they only concern him, not every NPC in the game:
+Now two verbs on Elder Bramwell (Chapter 6) -- these are verbs **on this one specific instance**, not on the whole `$npc` class, since they only concern him, not every NPC in the game. The syntax is `this none none` (dobj=elder, no preposition, no iobj) -- **not** `this none this`: since `prep` is `none`, the player can never physically supply an iobj, so an `iobj=this` requirement could never be satisfied -- verified live that this exact mistake makes the command always fail with "I don't understand", no matter what's typed. This is the same mistake Chapter 3 warned about (tnt/`this none this` is for verbs that are **not** called as a command), just applied the wrong way round:
 
 ```
-@verb elder:"quest" this none this
+@verb elder:"quest" this none none
 ```
 ```
 @program elder:quest
@@ -1260,7 +1317,7 @@ endif
 (`this:announce_line` is the same helper verb from Chapter 6, inherited from `$npc` -- we don't need to write it again).
 
 ```
-@verb elder:"return handover" any to this
+@verb elder:"return handover" any do this
 ```
 ```
 @program elder:return
@@ -1276,7 +1333,7 @@ this:announce_line("I never asked you for anything like that.");
 elseif (!("signet" in dobj.aliases))
 this:announce_line("That's not what I was looking for.");
 else
-dobj:recycle();
+recycle(dobj);
 player.quests["barrow"] = "done";
 player.coppers = player.coppers + 15;
 this:announce_line("Thank you, at last we can breathe easy. Here -- 15 coppers for you.");
@@ -1285,7 +1342,7 @@ endif
 .
 ```
 
-Command syntax for the player: `quest elder`, to accept (or be reminded of) the quest, and `return signet to elder`, to finish it.
+Command syntax for the player: `quest elder`, to accept (or be reminded of) the quest, and `return signet do elder`, to finish it.
 
 ### Why quest state, and not just checking whether you're carrying the item
 
@@ -1303,14 +1360,14 @@ The whole mechanical skeleton of the world is done: map, items, NPCs, atmosphere
 
 The `help <topic>` command searches several "help databases" in order: the player themself and their ancestors (up to `$player`), and, if the player is standing in a room, that room and its ancestors too (up to `$room`), and finally, always, the main `$help` database. Each of these objects can have a `.help` property, whose value is a help-database object (or a list of such objects) -- in any such database, a help topic is simply a property named after the topic, whose value is the text (a string for one line, a list of strings for several).
 
-That means we can add help **specific to our world**, which only shows up while the player is actually in it -- we don't need to add anything to the main, server-wide help database at all.
+Ideally we'd want help **specific to our world**, wired to `$room` the way `.outdoors` was in Chapter 7, so it would only show up while the player is actually here. Live-testing that ran into a real obstacle (see below), so we end up wiring it to `$player` instead -- help will work everywhere, not just in our world, but the mechanism is identical, and that's still better than nothing.
 
 ### A help database of our own
 
-A new help database is just a regular object inheriting from Generic Help Database (`#30`):
+A new help database is just a regular object inheriting from Generic Help Database (`#30`). We avoid a colon in the name -- `@create`/`@rename` have a special, "non-preferred" `name:alias` syntax where the colon acts as a separator, so `"Help Database: Ravenhill Vale,..."` would get cut into "Help Database" as the name and "Ravenhill Vale" as a separate alias (verified live -- harmless, but not the intended result):
 
 ```
-@create #30 named "Help Database: Ravenhill Vale,valley help database"
+@create #30 named "Ravenhill Vale Help Database,valley help database"
 @corify valley help database as valley_help
 ```
 
@@ -1319,29 +1376,25 @@ Each topic is one property -- the property name has to be a valid MOO identifier
 ```
 @property $valley_help.valley {"Ravenhill Vale is a small land: the village of Ravenford, the Whispering Oak Forest surrounding it, the River and Raven Bridge, an old Barrow to the south, and the Hills with an abandoned mine to the west."} rc
 @property $valley_help.barrow {"An old burial mound south of the river. The guardian at the entrance warns newcomers away -- apparently not without reason. Inside lies a locked Treasure Vault."} rc
-@property $valley_help.shop {"Old Mara in her cottage sells goods. 'pricelist from mara' shows what's on offer, 'buy <item> from mara' buys it, 'sell <item> to mara' sells her something from your inventory."} rc
+@property $valley_help.shop {"Old Mara in her cottage sells goods. 'pricelist z mara' shows what's on offer, 'buy <item> z mara' buys it, 'sell <item> do mara' sells her something from your inventory."} rc
 @property $valley_help.quests {"Ask Elder Bramwell in the Elder's House about 'quest' if you're looking for something to do around here."} rc
 ```
 
 ### Wiring it into the help system
 
-For these topics to be visible through `help`, we add our database to the `.help` property on `$room` -- same as `.outdoors` in Chapter 7 and `.coppers` in Chapter 9, we do it once, on the shared parent, so it works automatically in every room of the whole world (not just our 38 locations):
+`$room` seems like the natural place -- but it turns out **Generic Editor (`#50`) already has its own, local `.help` property** (it uses it for help within the line editor), and it happens to be -- surprisingly -- a descendant of `$room`. MOO won't let you add a property at a parent if some descendant already defines it locally (`@property $room.help {} rc` returns "Wlasciwosc jest juz zdefiniowana na jednym lub wiecej potomkach" -- "This property is already defined on one or more descendants"). This restriction has been baked into this fork's database from the start, so anyone taking this route hits the exact same wall.
+
+Fortunately, `$player` already has a `.help` property (defined by the base database -- confirmed via `@check-prop`), so we just need to append to it. Same as `.stock` on Old Mara in Chapter 9, `@set` can't handle the `{@list, item}` splice syntax -- that needs `;` (eval):
 
 ```
-@property $room.help {} rc
+;$player.help = {@$player.help, $valley_help};
 ```
 
-(if the server tells you `$room` already has a `.help` property, skip this step -- some database might already define it; we continue regardless of the outcome). Next, we append our database to the list, instead of overwriting it -- in case something was already there:
-
-```
-@set $room.help to {@$room.help, $valley_help}
-```
-
-Standing anywhere in our world, type `help barrow` or `help shop` -- you should see the matching property's content. Outside our world (in another part of the database) these topics won't be visible -- exactly as it should be.
+Standing anywhere, type `help barrow` or `help shop` -- you should see the matching property's content. Unlike the original plan, these topics are now available to every player everywhere, not just in our world -- in your own project, if you care about a tighter scope, the fix is a custom class in between `$room` and your locations (e.g. `$valley_room`), where you can safely add `.help` without the Generic Editor conflict.
 
 ### Alternative: adding to the main help database
 
-If you'd rather your topics be available everywhere, not just in your world, you can instead add them directly to the main `$help` database (the same one behind `help @dig` or `help movement`) -- the same per-topic-property mechanism, just on the `$help` object instead of our own database. For content specific to one self-contained world (like ours), a separate database wired to `$room` is usually the better choice -- it doesn't mix in with server-wide help.
+Since `$player.help` is already global anyway, you could just as easily add our topics directly to the main `$help` database (the same one behind `help @dig` or `help movement`) -- the same per-topic-property mechanism, just on the `$help` object instead of our own database, with the same end result. The advantage of keeping a separate database (`$valley_help`) instead of writing straight into `$help` is organization -- it's easier to find and manage topics specific to our world when they live in one object of their own, instead of mixed in with hundreds of server-wide help topics.
 
 ### What's next
 
@@ -1355,23 +1408,23 @@ Before you call the world done (even if it's only your own test server), it's wo
 
 - **Map**: walk all 38 locations in both directions on every exit -- a missing return exit is the most common mistake with manual `@dig`. The `@dig` in Chapter 4 created both directions at once, but if you tweaked anything by hand afterward, it's easy to forget the other side.
 - **Descriptions**: check that every location mentioned in Chapters 5-10 (anywhere an item, NPC or mechanic lives) has a description other than the empty default.
-- **NPCs**: for each one, `ask <npc> about <topic>` for at least one topic from their `.responses`, and check that `:start()` was actually called (see below for how to check without guessing).
-- **Items**: `eat bread` (or whatever edible item you made), `open`/`close`/`take from` on the chest in the Vault (before and after getting the key).
-- **Economy**: a full cycle of `pricelist from mara` -> `buy ... from mara` -> `sell ... to mara`, checking that `.coppers` actually changes.
-- **Quest**: `quest elder` (new), `quest elder` again (active -- different text), get the signet, `return signet to elder` (reward), `quest elder` again (done -- a third text variant).
+- **NPCs**: for each one, `ask <npc> o <topic>` for at least one topic from their `.responses`, and check that `:start()` was actually called (see below for how to check without guessing).
+- **Items**: `eat bread` (or whatever edible item you made), `open`/`close`/`take z` on the chest in the Vault (before and after getting the key).
+- **Economy**: a full cycle of `pricelist z mara` -> `buy ... z mara` -> `sell ... do mara`, checking that `.coppers` actually changes.
+- **Quest**: `quest elder` (new), `quest elder` again (active -- different text), get the signet, `return signet do elder` (reward), `quest elder` again (done -- a third text variant).
 - **Locks and secrets**: try opening the chest without the key (should fail), with the key (should work); walk through the Secret Passage even though it doesn't show up in the exit list; enter the ring of toadstools and come back.
 - **Trap**: walk into the Trap Hall several times in a row -- you should see both outcomes (triggered and not), since the chance is random.
 - **Help**: `help valley`, `help barrow`, `help shop`, `help quests`, standing anywhere in our world.
 
 ### Cleaning up after yourself: background tasks
 
-Every NPC and `$world_clock` has its own self-rescheduling background task (Chapters 6 and 7). To check what's currently running in the background (useful if you suspect something looped incorrectly, or that you forgot to stop something), type:
+Every NPC and `$world_clock` has its own self-rescheduling background task (Chapters 6 and 7). To check what's currently running in the background (useful if you suspect something looped incorrectly, or that you forgot to stop something), type (remember the `;` -- this is a builtin function, not a player command, same pattern as `object:verb()` in Chapter 6):
 
 ```
-queued_tasks()
+;queued_tasks()
 ```
 
-It returns a list of every scheduled task -- including the ones created by `fork` in our `:heartbeat`/`:tick` verbs. If you want to do a thorough cleanup before a longer break (or before recycling an NPC -- **always** `<npc>:stop()` before `@recycle`, as reminded in Chapter 6), you can stop a specific task with `kill_task(<task-number>)`.
+It returns a list of every scheduled task -- including the ones created by `fork` in our `:heartbeat`/`:tick` verbs. If you want to do a thorough cleanup before a longer break (or before recycling an NPC -- **always** `<npc>:stop()` before `@recycle`, as reminded in Chapter 6), you can stop a specific task with `;kill_task(<task-number>)`.
 
 ### Common pitfalls (not the programmed kind, this time)
 
@@ -1388,7 +1441,7 @@ It returns a list of every scheduled task -- including the ones created by `fork
 - Six extensions of shared base classes (`$room`, `$player`) with new properties and verbs, working automatically across the whole database: `.outdoors` + `:description()` (Chapter 7), `.coppers` (Chapter 9), `.quests` (Chapter 10), `.help` (Chapter 11).
 - One global state object (`$world_clock`) with a self-rescheduling background task.
 - A full economic cycle, and one quest tying together dialogue, a lock, and a reward.
-- A help database of our own, visible only within our world.
+- A help database of our own, wired to `$player.help` (available everywhere -- `$room.help` turned out to be blocked by a property Generic Editor already defines, see Chapter 11).
 
 No single piece of this is complicated -- all the value comes from how they're wired together.
 
