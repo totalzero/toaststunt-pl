@@ -82,3 +82,68 @@ Jesli budujesz cos innego niz wioska fantasy, ten sam szablon dziala tak:
 4. Wypisz 3-5 frakcji/postaci, ktore beda zrodlem NPC-ow i zadan -- gracz zawsze bardziej zapamieta miejsce przez pryzmat postaci niz przez sam opis pokoju.
 
 Majac to na kartce, przechodzimy do Rozdzialu 2 -- przygotowania bezpiecznego miejsca, w ktorym faktycznie to zbudujemy.
+
+## Rozdzial 2: przygotowanie warsztatu budowniczego
+
+### Nie buduj na produkcyjnej bazie
+
+Zanim wpiszesz cokolwiek, upewnij sie, ze polaczyles sie z baza, ktora mozesz bezkarnie zepsuc. Jesli dopiero skonfigurowales serwer wedlug [Przewodnika dla poczatkujacych](PRZEWODNIK-DLA-POCZATKUJACYCH.md), prawdopodobnie uzywasz swiezego `toastcore.db` na wlasnym komputerze -- to idealne miejsce, bo jestes na nim jedynym graczem i jedynym czarodziejem. Jesli natomiast masz dostep do juz dzialajacego, wspoldzielonego MOO (np. jako budowniczy na cudzym serwerze), **nie eksperymentuj tam z technikami z tego poradnika bez zgody adminow** -- poprosic o osobna, testowa baze albo przynajmniej o odizolowany obszar do budowania jest dobra praktyka, a nie przesadna ostroznoscia.
+
+Sposob najprostszy, jesli budujesz sam dla siebie: skopiuj swiezy `toastcore.db` do osobnego katalogu roboczego i uruchom na nim drugi, lokalny serwer na innym porcie, wylacznie do przerabiania tego poradnika. Nic, co tu zbudujesz, nie musi trafic na produkcyjny serwer -- to poligon cwiczebny. Jesli pozniej zechcesz przeniesc gotowy fragment swiata na prawdziwy MOO, `@dump`/`@create ... with create` (patrz `help @dump`) pozwala wyeksportowac obiekty do formatu, ktory da sie wkleic gdzie indziej.
+
+### Uprawnienia: budowniczy albo programista
+
+Do wiekszosci tego poradnika (kopanie pokoi, tworzenie przedmiotow z gotowych klas) wystarczy status **budowniczego** (Generic Builder) -- to on daje dostep do `@dig`, `@create`, `@recycle` i pokrewnych. Do pisania wlasnych czasownikow (a zrobimy to od Rozdzialu 5 w gore) potrzebujesz statusu **programisty** (Generic Programmer), ktory obejmuje uprawnienia budowniczego i doklada mozliwosc pisania kodu.
+
+Jesli jestes czarodziejem na swoim wlasnym serwerze testowym (najczesciej tak wlasnie bedzie, jesli szedles za Przewodnikiem dla poczatkujacych), nadaj to sobie samemu:
+
+```
+@programmer ja
+```
+
+(albo `@programmer <twoja-nazwa-gracza>`, jesli wolisz podac nazwe wprost). Jesli budujesz na cudzym serwerze, popros czarodzieja o to samo polecenie na twoim koncie -- zobacz [Podstawy dla Czarodziei](PODSTAWY-DLA-CZARODZIEI.md#jak-tworzyc-programistow) po ich stronie procesu.
+
+### Limit obiektow (quota) -- sprawdz to, zanim zaczniesz
+
+Kazdy nowy programista dostaje domyslny limit **7 obiektow** (wlasciwosc `size_quota`) -- to znaczy, ze bez podniesienia limitu nie zbudujesz nawet jednego regionu z naszej mapy, nie mowiac o calych ~37 lokacjach plus przedmiotach i NPC-ach. Wyjatkiem sa czarodzieje -- oni nie sa ograniczani limitem quota.
+
+Sprawdz swoj aktualny limit:
+
+```
+@quota ja
+```
+
+Jesli budujesz jako zwykly programista (nie czarodziej), popros czarodzieja o podniesienie limitu, zanim przejdziesz dalej -- np. do 100, z zapasem na caly przyklad z tego poradnika plus wlasne eksperymenty:
+
+```
+@quota <twoja-nazwa-gracza> 100
+```
+
+(to polecenie moze wykonac tylko czarodziej -- zobacz `help @quota`). Jesli jestes czarodziejem budujacym na wlasnym serwerze testowym, mozesz ten krok pominac.
+
+W trakcie budowy warto od czasu do czasu sprawdzic, ile obiektow juz zuzyles:
+
+```
+@count
+```
+
+a pelna liste tego, co juz stworzyles, pokazuje:
+
+```
+@audit
+```
+
+Obie komendy przydadza sie zwlaszcza w Rozdziale 4, gdzie tworzymy dziesiatki obiektow pod rzad.
+
+### Konwencja nazewnictwa
+
+MOO nie ma nazwanych stalych -- kazdy obiekt, ktory stworzysz, dostaje numer (np. `#1503`), a nie nazwe, do ktorej mozesz sie odwolac w kodzie. To oznacza, ze **musisz sam prowadzic notatki**, ktory numer to ktora lokacja, bo inaczej po dwudziestym `@dig` stracisz orientacje.
+
+Zalecana konwencja na potrzeby tego poradnika:
+
+- Kazda lokacja dostaje pelna, opisowa nazwe gracza-widzialna (np. `"Rynek w Kruczym Brodzie"`) -- to trafia do `@dig`/`@rename` i jest tym, co gracze widza.
+- Rownolegle prowadz **poza MOO**, w zwyklym pliku tekstowym, tabele: region / nazwa lokacji / numer obiektu / polaczenia. Dokladnie taka tabele budujemy razem w Rozdziale 4 -- potraktuj ja jako szablon.
+- Dla wlasnych klas obiektow (custom parenty, ktore zaczniemy tworzyc od Rozdzialu 5) dobrze sprawdza sie prefiks tematyczny w nazwie, np. `"Krucza Kolczuga"` zamiast po prostu `"Kolczuga"` -- ulatwia to pozniej odnalezienie "swoich" obiektow poleceniem `@audit` czy `@find`, zwlaszcza gdy baza rosnie.
+- Nazwy czasownikow (verb names) zapisuj po angielsku i w liczbie pojedynczej rdzenia, tak jak reszta bazy ToastCore (`take`, `drop`, `read`) -- to standardowa konwencja calego silnika, a jesli chcesz dodac polskie aliasy obok, zobacz [Tworzenie tresci po polsku](TWORZENIE-TRESCI-PO-POLSKU.md).
+
+Majac uprawnienia, limit i notatnik gotowe, mozemy wykopac pierwszy pokoj -- Rozdzial 3.
