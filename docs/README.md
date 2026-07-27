@@ -158,6 +158,7 @@ ToastStunt to dostepny przez siec, wieloosobowy, programowalny, interaktywny sys
   * [macOS](#macos-1)
 * [Dokumentacja funkcji](https://github.com/lisdude/toaststunt-documentation) ([polskie tlumaczenie: Podrecznik Programisty](PODRECZNIK-PROGRAMISTY.md))
 * [Przewodnik dla poczatkujacych](PRZEWODNIK-DLA-POCZATKUJACYCH.md)
+* [**Poradnik: budowa wlasnego swiata MOO od zera**](PORADNIK-BUDOWY-SWIATA.md) -- praktyczny tutorial: od pierwszego `@dig` do 30-40 polaczonych lokacji, przedmiotow, NPC-ow i efektow specjalnych, na przykladzie jednego spojnego swiata
 * [ToastCore](https://github.com/lisdude/toastcore) ([polskie tlumaczenie README](README.ToastCore.md))
 * [Informacje o Stunt](Legacy/README/README.Stunt)
 * [**Tworzenie tresci po polsku**](TWORZENIE-TRESCI-PO-POLSKU.md) -- przewodnik dla programistow/budowniczych: system rodzaju, zaimki, odmiana czasownikow, zasada ASCII i jej ograniczenia
