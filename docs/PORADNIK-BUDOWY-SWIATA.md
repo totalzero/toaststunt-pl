@@ -561,7 +561,7 @@ Mamy szkielet calego swiata -- 36 zbudowanych lokacji plus jedna (Tajne Przejsci
 - `$thing` -- najbardziej ogolna klasa. Mozna ja podniesc, upuscic, przeniesc. Baza pod wszystko, co nie pasuje do pozostalych trzech.
 - `$note` -- przedmiot z tekstem do przeczytania (wlasciwosc `.text`, lista linii). Idealny na liscik, zapiski, karteczki.
 - `$letter` -- podobny do `$note`, ale pomyslany pod system pocztowy (adresat, mozliwosc wyslania) -- na potrzeby tego poradnika bedziemy uzywac gownie `$note`.
-- `$container` -- przedmiot, do ktorego mozna wlozyc inne przedmioty (`put X in Y`) i z ktorego mozna je wyjac (`take X from Y`). Ma tez wbudowana obsluge opcjonalnego zamka (wlasciwosc `.key`) -- wykorzystamy to w Rozdziale 8.
+- `$container` -- przedmiot, do ktorego mozna wlozyc inne przedmioty (`put X w Y`) i z ktorego mozna je wyjac (`take X z Y`). Ma tez wbudowana obsluge opcjonalnego zamka (wlasciwosc `.key`) -- wykorzystamy to w Rozdziale 8.
 
 ### Pierwszy przedmiot: zapiski w Chacie Pustelnika
 
@@ -592,19 +592,20 @@ Przejdz do Skarbca (Region 4) i stworz tam zamykana (na razie jeszcze nie zamkni
 
 ```
 @create $container named "stara okuta skrzynia,skrzynia,kufer"
-@describe tu jako "Ciezka, debowa skrzynia okuta zelazem, pociemniala od wilgoci."
+@describe skrzynia jako "Ciezka, debowa skrzynia okuta zelazem, pociemniala od wilgoci."
 drop stara okuta skrzynia
 ```
 
-Do srodka mozesz od razu wlozyc pierwszy "skarb" -- na razie zwykly `$thing`:
+Do srodka mozesz od razu wlozyc pierwszy "skarb" -- na razie zwykly `$thing`. Nowo stworzony kontener jest domyslnie **zamkniety**, wiec najpierw go otwieramy (zweryfikowane live: `put` do zamknietego kontenera po prostu sie nie uda):
 
 ```
 @create $thing named "garsc starych srebrnych monet,monety,srebro"
-@describe tu jako "Garsc poczernialych ze staroscia monet z profilem wladcy, ktorego nikt juz nie pamieta."
-put monety in skrzynia
+@describe monety jako "Garsc poczernialych ze staroscia monet z profilem wladcy, ktorego nikt juz nie pamieta."
+open skrzynia
+put monety w skrzynia
 ```
 
-Gracz, ktory dotrze do Skarbca, moze `open skrzynia`, `look in skrzynia` i `take monety from skrzynia` -- znowu, cala ta mechanika jest juz wbudowana w `$container`, nie napisalismy do niej ani linijki kodu.
+Gracz, ktory dotrze do Skarbca, moze `open skrzynia`, `look w skrzynia` i `take monety z skrzynia` -- znowu, cala ta mechanika jest juz wbudowana w `$container`, nie napisalismy do niej ani linijki kodu (pamietaj o zasadzie z Rozdzialu 2: przyimki tego forka sa polskie -- `w`/`z`, nie angielskie `in`/`from`).
 
 ### Wlasna klasa: przedmioty jadalne
 
@@ -636,13 +637,13 @@ if (this.location != player)
 player:tell("Najpierw musisz to podniesc.");
 else
 player:tell("Zjadasz ", this.name, ". ", (this.smak_opis || "Smakuje calkiem niezle."));
-player:notify_others(player.name + " zjada " + this.name + ".");
-this:recycle();
+this.location:announce_all_but({player}, player.name + " zjada " + this.name + ".");
+recycle(this);
 endif
 .
 ```
 
-Kilka nowosci w tym kodzie, wyjasnione: `this` to zawsze obiekt, na ktorym uruchomiono czasownik (tu: konkretny posilek); `player` to gracz, ktory wydal polecenie; `this.location != player` sprawdza, czy przedmiot faktycznie jest w rekach gracza (a nie np. wciaz lezy w pokoju); `this.smak_opis || "..."` to wzorzec "wartosc domyslna, jesli wlasciwosc jest pusta/nieustawiona", ktory bedziemy uzywac wielokrotnie w kolejnych rozdzialach; `this:recycle()` niszczy przedmiot po zjedzeniu -- zjedzony bochenek chleba nie powinien zostac w ekwipunku.
+Kilka nowosci w tym kodzie, wyjasnione: `this` to zawsze obiekt, na ktorym uruchomiono czasownik (tu: konkretny posilek); `player` to gracz, ktory wydal polecenie; `this.location != player` sprawdza, czy przedmiot faktycznie jest w rekach gracza (a nie np. wciaz lezy w pokoju); `this.smak_opis || "..."` to wzorzec "wartosc domyslna, jesli wlasciwosc jest pusta/nieustawiona", ktory bedziemy uzywac wielokrotnie w kolejnych rozdzialach; `this.location:announce_all_but({player}, ...)` informuje wszystkich innych w pokoju (ale nie samego gracza -- on juz widzial swoj wlasny `player:tell`) -- `:announce` z Rozdzialu 3 mowi do wszystkich bez wyjatku, `:announce_all_but` pozwala kogos pominac; `recycle(this)` niszczy przedmiot po zjedzeniu -- zjedzony bochenek chleba nie powinien zostac w ekwipunku. **Uwaga:** to musi byc `recycle(this)` (funkcja wbudowana), nie `this:recycle()` (wywolanie czasownika) -- to drugie zweryfikowane live nie niszczy obiektu, tylko cicho zwraca 0.
 
 Zauwaz, ze `zjedz` odwoluje sie do wlasciwosci `smak_opis`, ktorej klasa `$edible` jeszcze nie ma -- dodajmy ja, z sensowna domyslna wartoscia pustego stringu:
 
@@ -656,13 +657,13 @@ Teraz tworzymy konkretny przedmiot dziedziczacy po tej klasie -- bochenek chleba
 
 ```
 @create #1550 named "bochenek razowego chleba,chleb,bochenek"
-@describe tu jako "Jeszcze cieply, razowy bochenek, pachnacy kminkiem."
-@set tu.smak_opis do "Chrupiaca skorka i cieply, gesty miekisz -- najlepszy chleb w calej dolinie."
+@describe chleb jako "Jeszcze cieply, razowy bochenek, pachnacy kminkiem."
+@set chleb.smak_opis do "Chrupiaca skorka i cieply, gesty miekisz -- najlepszy chleb w calej dolinie."
 ```
 
-(uzylam `tu`, wiec upewnij sie, ze stoisz przy nowo stworzonym obiekcie -- `@create` zostawia go w twoim ekwipunku, wiec `tu` w tym kontekscie nie zadziala tak jak w Rozdziale 3; podaj numer wprost, jesli wolisz: `@describe #1551 jako "..."`).
+(uzylam nazwy `chleb`, nie `tu` jak w Rozdziale 3 -- **`@create` zostawia nowy obiekt w twoim ekwipunku, nie w pokoju, a `tu` zawsze oznacza pokoj, nigdy przedmiot w rekach, bez wzgledu na to, gdzie stoisz** -- zweryfikowane live: uzycie `tu` w tym miejscu po cichu opisuje pokoj zamiast przedmiotu, co latwo przeoczyc, bo `@describe` i tak zglasza "Opis ustawiony." Dla swiezo stworzonych przedmiotow w ekwipunku uzywaj wiec ich nazwy albo aliasu -- albo numeru wprost, jesli wolisz: `@describe #1551 jako "..."`).
 
-Upusc chleb w Gospodzie, i sprobuj `zjedz chleb` (albo `eat chleb`) -- powinienes zobaczyc opis smaku i znikniecie przedmiotu z ekwipunku.
+Przejdz do Gospody (`@move ja do <numer Gospody z notatnika>`) i upusc tam chleb -- zostawiamy go jako element wyposazenia lokacji dla innych graczy. Zeby sprawdzic, czy czasownik dziala (nie musisz tego robic dla kazdego przyszlego przedmiotu, ale warto zobaczyc raz, jak to wyglada), podnies go z powrotem (`take chleb`) i sprobuj `zjedz chleb` (albo `eat chleb`) -- powinienes zobaczyc opis smaku i znikniecie przedmiotu z ekwipunku. (Bez ponownego podniesienia czasownik odpowie "Najpierw musisz to podniesc." -- `this.location != player` w kodzie wyzej dziala dokladnie tak, jak powinno).
 
 ### Dlaczego to sie oplaca
 
@@ -779,9 +780,9 @@ Kazde wywolanie `:heartbeat` z jednej czwartej szans wygaduje losowa kwestie do 
 
 ```
 @create #1560 named "Kowal Born,kowal,born"
-@describe tu jako "Postawny mezczyzna o rekach jak balki, w skorzanym fartuchu poznaczonym iskrami. Pilnuje pieca, jakby to bylo najcenniejsze, co ma."
-@set tu.gadanie do {"Uwazaj na iskry, jesli podejdziesz blizej.", "Dobra stal wymaga cierpliwosci, tak samo jak dobre zycie."}
-@set tu.odpowiedzi do ["kurhan" -> "Nie chodz tam po zmroku, chlopcze. Kaplani cos wiedza, ale nie mowia.", "_domyslna" -> "Kowal mruczy cos pod nosem i wraca do pracy."]
+@describe kowal jako "Postawny mezczyzna o rekach jak balki, w skorzanym fartuchu poznaczonym iskrami. Pilnuje pieca, jakby to bylo najcenniejsze, co ma."
+@set kowal.gadanie do {"Uwazaj na iskry, jesli podejdziesz blizej.", "Dobra stal wymaga cierpliwosci, tak samo jak dobre zycie."}
+@set kowal.odpowiedzi do ["kurhan" -> "Nie chodz tam po zmroku, chlopcze. Kaplani cos wiedza, ale nie mowia.", "_domyslna" -> "Kowal mruczy cos pod nosem i wraca do pracy."]
 ```
 
 Uruchom mu gadanie w tle (wpisujac to jako on -- czyli wywolujac czasownik na obiekcie, ktorego wlasnie stworzyles i ktory wciaz jest w twoim ekwipunku, wiec mozesz uzyc jego nazwy):
@@ -971,7 +972,7 @@ W Rozdziale 5 stworzylismy `stara okuta skrzynia` w Skarbcu, otwarta dla kazdego
 
 ```
 @create $thing named "zardzewialy zelazny klucz,klucz"
-@describe tu jako "Ciezki, mocno zardzewialy klucz. Ktos musial go tu zgubic dawno temu."
+@describe klucz jako "Ciezki, mocno zardzewialy klucz. Ktos musial go tu zgubic dawno temu."
 ```
 
 Zostaw go w Komnacie Straznika (Rozdzial 4) -- gracz musi minac straznika, zeby go znalezc, co samo w sobie jest juz malym wyzwaniem (a w Rozdziale 6 straznik dostal juz ostrzegawcza kwestie na ten temat).
@@ -1191,7 +1192,7 @@ wartosc = 1;
 endif
 player.miedziaki = player.miedziaki + wartosc;
 player:tell("Sprzedajesz ", dobj.name, " za ", wartosc, " miedziakow.");
-dobj:recycle();
+recycle(dobj);
 .
 ```
 
@@ -1201,8 +1202,8 @@ Wracamy do Chatki Zielarki z Rozdzialu 1/4, gdzie od poczatku byla zapowiedziana
 
 ```
 @create #<klasa> named "Zielarka Jagna,jagna,zielarka"
-@describe tu jako "Starsza kobieta o zrecznych palcach, cala obwieszona pekami suszonych ziol."
-@set tu.towar do [["nazwa" -> "flaszeczka mikstury", "aliasy" -> {"flaszeczka", "mikstura"}, "cena" -> 3, "opis" -> "Metny, zielonkawy plyn o ostrym zapachu."], ["nazwa" -> "peczek suszonych ziol", "aliasy" -> {"peczek", "ziola"}, "cena" -> 1, "opis" -> "Kilka gatunkow ziol, zwiazanych razem sznurkiem."]]
+@describe jagna jako "Starsza kobieta o zrecznych palcach, cala obwieszona pekami suszonych ziol."
+@set jagna.towar do [["nazwa" -> "flaszeczka mikstury", "aliasy" -> {"flaszeczka", "mikstura"}, "cena" -> 3, "opis" -> "Metny, zielonkawy plyn o ostrym zapachu."], ["nazwa" -> "peczek suszonych ziol", "aliasy" -> {"peczek", "ziola"}, "cena" -> 1, "opis" -> "Kilka gatunkow ziol, zwiazanych razem sznurkiem."]]
 ```
 
 Uruchom jej gadanie w tle, tak jak przy Kowalu w Rozdziale 6 (Jagna dziedziczy `:start`/`:stop`/`:heartbeat` po `$npc`, mimo ze jest jednoczesnie sklepikarzem):
@@ -1243,7 +1244,7 @@ Nasz quest laczy trzy mechaniki z poprzednich rozdzialow: dialog z NPC-em (Rozdz
 
 ```
 @create $thing named "stary zloty sygnet,sygnet"
-@describe tu jako "Ciezki sygnet z wygrawerowanym herbem, ktorego nikt we wsi juz nie rozpoznaje."
+@describe sygnet jako "Ciezki sygnet z wygrawerowanym herbem, ktorego nikt we wsi juz nie rozpoznaje."
 drop stary zloty sygnet
 ```
 
@@ -1289,7 +1290,7 @@ this:announce_line("Nie prosilem cie o nic takiego.");
 elseif (!("sygnet" in dobj.aliases))
 this:announce_line("To nie to, czego szukalem.");
 else
-dobj:recycle();
+recycle(dobj);
 player.questy["kurhan"] = "ukonczony";
 player.miedziaki = player.miedziaki + 15;
 this:announce_line("Dziekuje ci, wreszcie mozemy odetchnac. Masz -- to dla ciebie 15 miedziakow.");
