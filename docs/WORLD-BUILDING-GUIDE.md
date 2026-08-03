@@ -61,6 +61,8 @@ Total: about 37 rooms -- within the 20-50 bracket we set out to build, with marg
 
 The exact room-by-room list, with connections, is in Chapter 4 -- for now this is just the skeleton we'll refer back to when designing items and NPCs.
 
+**Note**: this five-region split isn't just an organizing device for this guide's prose -- toaststunt-pl now ships a built-in `.region_name` property on every room that maps onto exactly this split in the running game (it groups the built-in `walk`/`idz`/`mapa` commands by area). Details and an example are in Chapter 12.
+
 ### Factions and story hooks
 
 Four groups/characters we'll build the later chapters around (NPCs in Chapter 6, economy in Chapter 9, quests in Chapter 10):
@@ -1415,6 +1417,27 @@ Before you call the world done (even if it's only your own test server), it's wo
 - **Locks and secrets**: try opening the chest without the key (should fail), with the key (should work); walk through the Secret Passage even though it doesn't show up in the exit list; enter the ring of toadstools and come back.
 - **Trap**: walk into the Trap Hall several times in a row -- you should see both outcomes (triggered and not), since the chance is random.
 - **Help**: `help valley`, `help barrow`, `help shop`, `help quests`, standing anywhere in our world.
+
+### Bonus: built-in navigation (`walk`/`idz`, `mapa`)
+
+Every fresh toaststunt-pl now ships four extra player commands by default -- no code required on your part, they already live on `$player`:
+
+- **`walk <place>` / `idz <place>`** -- automatically walks to any previously visited location by name (or part of its name), one exit per second. Typed with no argument, it shows a numbered list of known places -- typing just the number also works as a pick.
+- **`map <place>` / `mapa <place>`** -- same lookup, but instead of walking, it prints the exit sequence to type by hand (e.g. `Droga do "Rynek w Kruczym Brodzie": n e n`).
+- **`stop` / `przerwij`** -- interrupts a walk started by `walk`/`idz`.
+
+These work automatically because every room your character visits registers itself on the player's "known places" list on the way in (a hook in `$room:enterfunc`). You can use this in place of manually walking the **Map** checklist item above -- `idz`-ing to each of the 38 locations in turn is faster than typing individual directions.
+
+To make use of the five regions from Chapter 1 (instead of one long list of all 38 locations at once), set `.region_name` on the rooms of each region, e.g.:
+
+```
+;$string_utils:name_and_number(#1500)
+;#1500.region_name = "Kruczy Brod"
+```
+
+(repeat for a representative room in each of the five Chapter 1 regions -- rooms with no value set simply fall into one shared, unnamed region together, so nothing breaks if you skip some). A player standing in a given region then sees only that region's known places in `walk`/`mapa`, instead of the whole Valley at once.
+
+Note that the command names themselves stay as shown above (`walk`/`idz`, `map`/`mapa`, `stop`/`przerwij`) regardless of which language you're playing in -- same rule as every other bilingual command pair in this fork.
 
 ### Cleaning up after yourself: background tasks
 

@@ -59,6 +59,8 @@ Razem: okolo 37 lokacji -- w widelkach 20-50, ktore mielismy zbudowac, z zapasem
 
 Dokladna lista pokoj-po-pokoju, z ich polaczeniami, jest w Rozdziale 4 -- tutaj chodzi tylko o szkielet, do ktorego bedziemy sie odwolywac przy projektowaniu przedmiotow i NPC-ow.
 
+**Uwaga**: ten piecio-regionowy podzial to nie tylko organizacja tekstu w tym poradniku -- toaststunt-pl ma teraz wbudowana wlasciwosc `.region_name` na kazdej lokacji, ktora odwzorowuje dokladnie ten podzial w samej grze (grupuje wbudowane polecenia `walk`/`idz`/`mapa` po okolicy). Szczegoly i przyklad w Rozdziale 12.
+
 ### Frakcje i punkty zaczepienia fabularnego
 
 Cztery grupy/postacie, na ktorych oprzemy pozniejsze rozdzialy (NPC-e w Rozdziale 6, ekonomia w Rozdziale 9, questy w Rozdziale 10):
@@ -1430,6 +1432,25 @@ Zanim uznasz swiat za gotowy (nawet jesli to tylko twoj wlasny serwer testowy), 
 - **Zamki i sekrety**: probuj otworzyc skrzynie bez klucza (ma sie nie udac), z kluczem (ma sie udac); przejdz przez Tajne Przejscie mimo ze nie widac go na liscie wyjsc; wejdz w krag muchomorow i wroc.
 - **Pulapka**: wejdz do Sali z Pulapka kilka razy pod rzad -- powinienes zobaczyc oba warianty (aktywacja i brak aktywacji), bo szansa jest losowa.
 - **Pomoc**: `help dolina`, `help kurhan`, `help sklep`, `help zadania`, stojac gdziekolwiek w naszym swiecie.
+
+### Bonus: wbudowana nawigacja (`walk`/`idz`, `mapa`)
+
+Kazdy swiezy toaststunt-pl ma teraz domyslnie cztery dodatkowe polecenia gracza, dzialajace bez zadnego kodu z Twojej strony -- nie trzeba ich dopisywac, sa juz na `$player`:
+
+- **`walk <miejsce>` / `idz <miejsce>`** -- idzie automatycznie do dowolnej wczesniej odwiedzonej lokacji po jej nazwie (albo czesci nazwy), krok po kroku, jednym wyjsciem na sekunde. Wpisane bez argumentu, pokazuje numerowana liste znanych miejsc -- sam numer tez dziala jako wybor.
+- **`map <miejsce>` / `mapa <miejsce>`** -- to samo, ale zamiast isc, pokazuje sekwencje wyjsc do wpisania recznie (np. `Droga do "Rynek w Kruczym Brodzie": n e n`).
+- **`stop` / `przerwij`** -- przerywa marsz rozpoczety przez `walk`/`idz`.
+
+Dzialaja automatycznie, bo kazda lokacja, ktora Twoja postac odwiedzi, sama zapisuje sie na liscie "znanych miejsc" gracza (haczyk w `$room:enterfunc`). Mozesz tym zastapic reczne chodzenie z checklisty **Mapa** powyzej -- `idz` po kolei do kazdej z 38 lokacji jest szybsze niz wpisywanie pojedynczych kierunkow.
+
+Zeby wykorzystac piec regionow z Rozdzialu 1 (zamiast jednej wielkiej listy wszystkich 38 lokacji), ustaw `.region_name` na lokacjach kazdego regionu, np.:
+
+```
+;$string_utils:name_and_number(#1500)
+;#1500.region_name = "Kruczy Brod"
+```
+
+(powtorz dla reprezentatywnych lokacji kazdego z pieciu regionow z Rozdzialu 1 -- lokacje bez ustawionej wartosci trafiaja wspolnie do jednego domyslnego, pustego regionu, wiec nic sie nie psuje, jesli pominiesz to w niektorych miejscach). Gracz stojacy w danym regionie zobaczy wtedy w `idz`/`mapa` tylko miejsca z tego samego regionu, zamiast calej Doliny naraz.
 
 ### Sprzatanie po sobie: zadania w tle
 
